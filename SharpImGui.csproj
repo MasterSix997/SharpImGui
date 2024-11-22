@@ -1,10 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <Description>SharpImGui is a C# binding for Dear ImGui, a popular immediate mode GUI library for C++.</Description>
+        <AssemblyVersion>1.91.6.0</AssemblyVersion>
+        <Authors>MasterSix</Authors>
         <TargetFramework>net8.0</TargetFramework>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <DebugType>portable</DebugType>
+        <AssemblyName>SharpImGui</AssemblyName>
+        <PackageId>SharpImGui</PackageId>
+        <PackageVersion>$(AssemblyVersion)</PackageVersion>
+        <PackageTags>ImGui SharpImgui Dear ImGui GUI</PackageTags>
+        <PackageProjectUrl>https://github.com/MasterSix997/SharpImGui</PackageProjectUrl>
         <LangVersion>8</LangVersion>
-        <Nullable>enable</Nullable>
+        <RootNamespace>SharpImGui</RootNamespace>
     </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
+        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
+    </ItemGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
       <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -13,5 +28,36 @@
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
       <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
+
+    <ItemGroup>
+        <Content Include="..\Plugins\dcimgui\win-x86\dcimgui.dll">
+            <PackagePath>runtimes/win-x86/native</PackagePath>
+            <Pack>true</Pack>
+        </Content>
+        <Content Include="..\Plugins\dcimgui\win-x64\dcimgui.dll">
+            <PackagePath>runtimes/win-x64/native</PackagePath>
+            <Pack>true</Pack>
+        </Content>
+        <Content Include="..\Plugins\dcimgui\linux\dcimgui.so">
+            <PackagePath>runtimes/linux-x64/native/libdcimgui.so</PackagePath>
+            <Pack>true</Pack>
+        </Content>
+        <Content Include="..\Plugins\dcimgui\osx\dcimgui.dylib">
+            <PackagePath>runtimes/osx/native/libdcimgui.dylib</PackagePath>
+            <Pack>true</Pack>
+        </Content>
+        <Content Include="..\Plugins\dcimgui\android-arm\dcimgui.so">
+            <PackagePath>runtimes/android-arm/native/dcimgui.so</PackagePath>
+            <Pack>true</Pack>
+        </Content>
+        <Content Include="..\Plugins\dcimgui\android-x86\dcimgui.so">
+            <PackagePath>runtimes/android-x86/native/dcimgui.so</PackagePath>
+            <Pack>true</Pack>
+        </Content>
+        <Content Include="build\net40\SharpImGui.targets">
+            <PackagePath>build/net40/SharpImGui.targets</PackagePath>
+            <Pack>true</Pack>
+        </Content>
+    </ItemGroup>
 
 </Project>

@@ -1,0 +1,12 @@
+C:\Users\zanog\OneDrive\Documentos\C# Projects\SharpImGui-Dev\SharpImGui\bin\Debug\net8.0\SharpImGui.deps.json
+C:\Users\zanog\OneDrive\Documentos\C# Projects\SharpImGui-Dev\SharpImGui\bin\Debug\net8.0\SharpImGui.dll
+C:\Users\zanog\OneDrive\Documentos\C# Projects\SharpImGui-Dev\SharpImGui\bin\Debug\net8.0\SharpImGui.pdb
+C:\Users\zanog\OneDrive\Documentos\C# Projects\SharpImGui-Dev\SharpImGui\obj\Debug\net8.0\SharpImGui.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\zanog\OneDrive\Documentos\C# Projects\SharpImGui-Dev\SharpImGui\obj\Debug\net8.0\SharpImGui.AssemblyInfoInputs.cache
+C:\Users\zanog\OneDrive\Documentos\C# Projects\SharpImGui-Dev\SharpImGui\obj\Debug\net8.0\SharpImGui.AssemblyInfo.cs
+C:\Users\zanog\OneDrive\Documentos\C# Projects\SharpImGui-Dev\SharpImGui\obj\Debug\net8.0\SharpImGui.csproj.CoreCompileInputs.cache
+C:\Users\zanog\OneDrive\Documentos\C# Projects\SharpImGui-Dev\SharpImGui\obj\Debug\net8.0\SharpImGui.sourcelink.json
+C:\Users\zanog\OneDrive\Documentos\C# Projects\SharpImGui-Dev\SharpImGui\obj\Debug\net8.0\SharpImGui.dll
+C:\Users\zanog\OneDrive\Documentos\C# Projects\SharpImGui-Dev\SharpImGui\obj\Debug\net8.0\refint\SharpImGui.dll
+C:\Users\zanog\OneDrive\Documentos\C# Projects\SharpImGui-Dev\SharpImGui\obj\Debug\net8.0\SharpImGui.pdb
+C:\Users\zanog\OneDrive\Documentos\C# Projects\SharpImGui-Dev\SharpImGui\obj\Debug\net8.0\ref\SharpImGui.dll

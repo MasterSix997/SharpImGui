@@ -10,13 +10,15 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("SharpImGui")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("MasterSix")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4ca1dbd53ea4293825f50bebb03d6bdb4cfec5d6")]
+[assembly: System.Reflection.AssemblyDescriptionAttribute("SharpImGui is a C# binding for Dear ImGui, a popular immediate mode GUI library f" +
+    "or C++.")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("1.91.6.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dc451905b9636c35620cd9a7a01305b598f3d0b9")]
 [assembly: System.Reflection.AssemblyProductAttribute("SharpImGui")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SharpImGui")]
-[assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
+[assembly: System.Reflection.AssemblyVersionAttribute("1.91.6.0")]
 
 // Gerado pela classe WriteCodeFragment do MSBuild.
 

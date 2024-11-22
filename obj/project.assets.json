@@ -113,7 +113,7 @@
     "C:\\Users\\zanog\\.nuget\\packages\\": {}
   },
   "project": {
-    "version": "1.0.0",
+    "version": "1.91.6",
     "restore": {
       "projectUniqueName": "C:\\Users\\zanog\\OneDrive\\Documentos\\C# Projects\\SharpImGui-Dev\\SharpImGui\\SharpImGui.csproj",
       "projectName": "SharpImGui",
@@ -142,6 +142,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {

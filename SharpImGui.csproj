@@ -14,6 +14,7 @@
         <PackageProjectUrl>https://github.com/MasterSix997/SharpImGui</PackageProjectUrl>
         <LangVersion>8</LangVersion>
         <RootNamespace>SharpImGui</RootNamespace>
+        <Title>SharpImGui</Title>
     </PropertyGroup>
 
     <ItemGroup>

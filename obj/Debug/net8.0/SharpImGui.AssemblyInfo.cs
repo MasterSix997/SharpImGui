@@ -19,6 +19,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyProductAttribute("SharpImGui")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SharpImGui")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.91.6.0")]
+[assembly: System.Reflection.AssemblyMetadataAttribute("RepositoryUrl", "https://github.com/MasterSix997/SharpImGui")]
 
 // Gerado pela classe WriteCodeFragment do MSBuild.
 

@@ -14,7 +14,9 @@
         <PackageProjectUrl>https://github.com/MasterSix997/SharpImGui</PackageProjectUrl>
         <LangVersion>8</LangVersion>
         <RootNamespace>SharpImGui</RootNamespace>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>SharpImGui</Title>
+        <RepositoryUrl>https://github.com/MasterSix997/SharpImGui</RepositoryUrl>
     </PropertyGroup>
 
     <ItemGroup>
@@ -31,27 +33,27 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Content Include="..\Plugins\dcimgui\win-x86\dcimgui.dll">
+        <Content Include="Plugins\dcimgui\win-x86\dcimgui.dll">
             <PackagePath>runtimes/win-x86/native</PackagePath>
             <Pack>true</Pack>
         </Content>
-        <Content Include="..\Plugins\dcimgui\win-x64\dcimgui.dll">
+        <Content Include="Plugins\dcimgui\win-x64\dcimgui.dll">
             <PackagePath>runtimes/win-x64/native</PackagePath>
             <Pack>true</Pack>
         </Content>
-        <Content Include="..\Plugins\dcimgui\linux\dcimgui.so">
+        <Content Include="Plugins\dcimgui\linux\dcimgui.so">
             <PackagePath>runtimes/linux-x64/native/libdcimgui.so</PackagePath>
             <Pack>true</Pack>
         </Content>
-        <Content Include="..\Plugins\dcimgui\osx\dcimgui.dylib">
+        <Content Include="Plugins\dcimgui\osx\dcimgui.dylib">
             <PackagePath>runtimes/osx/native/libdcimgui.dylib</PackagePath>
             <Pack>true</Pack>
         </Content>
-        <Content Include="..\Plugins\dcimgui\android-arm\dcimgui.so">
+        <Content Include="Plugins\dcimgui\android-arm\dcimgui.so">
             <PackagePath>runtimes/android-arm/native/dcimgui.so</PackagePath>
             <Pack>true</Pack>
         </Content>
-        <Content Include="..\Plugins\dcimgui\android-x86\dcimgui.so">
+        <Content Include="Plugins\dcimgui\android-x86\dcimgui.so">
             <PackagePath>runtimes/android-x86/native/dcimgui.so</PackagePath>
             <Pack>true</Pack>
         </Content>

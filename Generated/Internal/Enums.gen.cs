@@ -1100,9 +1100,6 @@ namespace SharpImGui.Internal
 		COUNT = 13,
 	}
 
-	/// <summary>
-	/// <para>See IMGUI_DEBUG_LOG() and IMGUI_DEBUG_LOG_XXX() macros.</para>
-	/// </summary>
 	[Flags]
 	public enum ImGuiDebugLogFlags
 	{
@@ -1121,11 +1118,10 @@ namespace SharpImGui.Internal
 		EventClipper = 1<<5,
 		EventSelection = 1<<6,
 		EventIO = 1<<7,
-		EventFont = 1<<8,
-		EventInputRouting = 1<<9,
-		EventDocking = 1<<10,
-		EventViewport = 1<<11,
-		EventMask_ = EventError | EventActiveId | EventFocus | EventPopup | EventNav | EventClipper | EventSelection | EventIO | EventFont | EventInputRouting | EventDocking | EventViewport,
+		EventInputRouting = 1<<8,
+		EventDocking = 1<<9,
+		EventViewport = 1<<10,
+		EventMask_ = EventError | EventActiveId | EventFocus | EventPopup | EventNav | EventClipper | EventSelection | EventIO | EventInputRouting | EventDocking | EventViewport,
 		/// <summary>
 		/// Also send output to TTY
 		/// </summary>

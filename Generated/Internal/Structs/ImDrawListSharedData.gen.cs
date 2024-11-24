@@ -8,9 +8,7 @@ namespace SharpImGui.Internal
 {
 	/// <summary>
 	/// <para>Data shared between all ImDrawList instances</para>
-	/// <para>Conceptually this could have been called e.g. ImDrawListSharedContext</para>
-	/// <para>Typically one ImGui context would create and maintain one of this.</para>
-	/// <para>You may want to create your own instance of you try to ImDrawList completely without ImGui. In that case, watch out for future changes to this structure.</para>
+	/// <para>You may want to create your own instance of this if you want to use ImDrawList completely without ImGui. In that case, watch out for future changes to this structure.</para>
 	/// </summary>
 	public unsafe partial struct ImDrawListSharedData
 	{
@@ -18,10 +16,6 @@ namespace SharpImGui.Internal
 		/// UV of white pixel in the atlas
 		/// </summary>
 		public Vector2 TexUvWhitePixel;
-		/// <summary>
-		/// UV of anti-aliased lines in the atlas
-		/// </summary>
-		public Vector4* TexUvLines;
 		/// <summary>
 		/// Current/default font (optional, for simplified AddText overload)
 		/// </summary>
@@ -116,13 +110,15 @@ namespace SharpImGui.Internal
 		/// Precomputed segment count for given radius before we calculate it dynamically (to avoid calculation overhead)
 		/// </summary>
 		public fixed byte CircleSegmentCounts[64];
+		/// <summary>
+		/// UV of anti-aliased lines in the atlas
+		/// </summary>
+		public Vector4* TexUvLines;
 	}
 
 	/// <summary>
 	/// <para>Data shared between all ImDrawList instances</para>
-	/// <para>Conceptually this could have been called e.g. ImDrawListSharedContext</para>
-	/// <para>Typically one ImGui context would create and maintain one of this.</para>
-	/// <para>You may want to create your own instance of you try to ImDrawList completely without ImGui. In that case, watch out for future changes to this structure.</para>
+	/// <para>You may want to create your own instance of this if you want to use ImDrawList completely without ImGui. In that case, watch out for future changes to this structure.</para>
 	/// </summary>
 	public unsafe partial struct ImDrawListSharedDataPtr
 	{
@@ -137,11 +133,6 @@ namespace SharpImGui.Internal
 		/// UV of white pixel in the atlas
 		/// </summary>
 		public ref Vector2 TexUvWhitePixel => ref Unsafe.AsRef<Vector2>(&NativePtr->TexUvWhitePixel);
-
-		/// <summary>
-		/// UV of anti-aliased lines in the atlas
-		/// </summary>
-		public IntPtr TexUvLines { get => (IntPtr)NativePtr->TexUvLines; set => NativePtr->TexUvLines = (Vector4*)value; }
 
 		/// <summary>
 		/// Current/default font (optional, for simplified AddText overload)
@@ -200,6 +191,11 @@ namespace SharpImGui.Internal
 		/// Precomputed segment count for given radius before we calculate it dynamically (to avoid calculation overhead)
 		/// </summary>
 		public RangeAccessor<byte> CircleSegmentCounts => new RangeAccessor<byte>(NativePtr->CircleSegmentCounts, 64);
+
+		/// <summary>
+		/// UV of anti-aliased lines in the atlas
+		/// </summary>
+		public IntPtr TexUvLines { get => (IntPtr)NativePtr->TexUvLines; set => NativePtr->TexUvLines = (Vector4*)value; }
 
 		public void SetCircleTessellationMaxError(float max_error)
 		{

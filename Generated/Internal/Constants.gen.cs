@@ -6,8 +6,8 @@ namespace SharpImGui.Internal
 	{
 		public const string IMGUI_DISABLE_OBSOLETE_FUNCTIONS = "";
 		public const string IMGUI_DISABLE_OBSOLETE_KEYIO = "";
-		public const string IMGUI_VERSION = "\"1.91.6 WIP\"";
-		public const string IMGUI_VERSION_NUM = "19151";
+		public const string IMGUI_VERSION = "\"1.91.5\"";
+		public const string IMGUI_VERSION_NUM = "19150";
 		public const string IMGUI_HAS_TABLE = "";
 		public const string IMGUI_HAS_VIEWPORT = "";
 		public const string IMGUI_HAS_DOCK = "";

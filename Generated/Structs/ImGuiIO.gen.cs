@@ -287,7 +287,6 @@ namespace SharpImGui
 		/// </summary>
 		public byte ConfigDebugIniSettings;
 		/// <summary>
-		/// <para>Nowadays those would be stored in ImGuiPlatformIO but we are leaving them here for legacy reasons.</para>
 		/// <para>Optional: Platform/Renderer backend name (informational only! will be displayed in About Window) + User data for backend/wrappers to store their own stuff.</para>
 		/// </summary>
 		/// <summary>
@@ -1015,7 +1014,6 @@ namespace SharpImGui
 		public ref bool ConfigDebugIniSettings => ref Unsafe.AsRef<bool>(&NativePtr->ConfigDebugIniSettings);
 
 		/// <summary>
-		/// <para>Nowadays those would be stored in ImGuiPlatformIO but we are leaving them here for legacy reasons.</para>
 		/// <para>Optional: Platform/Renderer backend name (informational only! will be displayed in About Window) + User data for backend/wrappers to store their own stuff.</para>
 		/// </summary>
 		/// <summary>

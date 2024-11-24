@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyDescriptionAttribute("SharpImGui is a C# binding for Dear ImGui, a popular immediate mode GUI library f" +
     "or C++.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.91.6.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+112c992231ea2bf73a610061c3b8974efdd123b6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+00d526d87744fba3e0de54396c69751bb8db18ca")]
 [assembly: System.Reflection.AssemblyProductAttribute("SharpImGui")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SharpImGui")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.91.6.0")]

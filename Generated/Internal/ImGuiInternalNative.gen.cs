@@ -597,8 +597,6 @@ namespace SharpImGui.Internal
 		/// </summary>
 		[DllImport("dcimgui", CallingConvention = CallingConvention.Cdecl, EntryPoint = "ImGui_GetIOEx")]
 		public static extern ImGuiIO* ImGui_GetIOEx(ImGuiContext* ctx);
-		[DllImport("dcimgui", CallingConvention = CallingConvention.Cdecl, EntryPoint = "ImGui_GetPlatformIOEx")]
-		public static extern ImGuiPlatformIO* ImGui_GetPlatformIOEx(ImGuiContext* ctx);
 		[DllImport("dcimgui", CallingConvention = CallingConvention.Cdecl, EntryPoint = "ImGui_GetCurrentWindowRead")]
 		public static extern ImGuiWindow* ImGui_GetCurrentWindowRead();
 		[DllImport("dcimgui", CallingConvention = CallingConvention.Cdecl, EntryPoint = "ImGui_GetCurrentWindow")]

@@ -7,8 +7,7 @@ using System.Text;
 namespace SharpImGui.Internal
 {
 	/// <summary>
-	/// <para>This structure is likely to evolve as we add support for incremental atlas updates.</para>
-	/// <para>Conceptually this could be in ImGuiPlatformIO, but we are far from ready to make this public.</para>
+	/// <para>This structure is likely to evolve as we add support for incremental atlas updates</para>
 	/// </summary>
 	public unsafe partial struct ImFontBuilderIO
 	{
@@ -16,8 +15,7 @@ namespace SharpImGui.Internal
 	}
 
 	/// <summary>
-	/// <para>This structure is likely to evolve as we add support for incremental atlas updates.</para>
-	/// <para>Conceptually this could be in ImGuiPlatformIO, but we are far from ready to make this public.</para>
+	/// <para>This structure is likely to evolve as we add support for incremental atlas updates</para>
 	/// </summary>
 	public unsafe partial struct ImFontBuilderIOPtr
 	{

@@ -22,12 +22,6 @@ namespace SharpImGui.Internal
 			return ret;
 		}
 
-		public static ImGuiPlatformIOPtr GetPlatformIO(ImGuiContextPtr ctx)
-		{
-			var ret = ImGuiInternalNative.ImGui_GetPlatformIOEx(ctx);
-			return ret;
-		}
-
 		public static ImGuiWindowPtr GetCurrentWindowRead()
 		{
 			var ret = ImGuiInternalNative.ImGui_GetCurrentWindowRead();

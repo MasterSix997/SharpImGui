@@ -12,6 +12,14 @@ namespace SharpImGui
 	public unsafe partial struct ImFontAtlasCustomRect
 	{
 		/// <summary>
+		/// Input    // Desired rectangle dimension
+		/// </summary>
+		public ushort Width;
+		/// <summary>
+		/// Input    // Desired rectangle dimension
+		/// </summary>
+		public ushort Height;
+		/// <summary>
 		/// Output   // Packed position in Atlas
 		/// </summary>
 		public ushort X;
@@ -19,20 +27,6 @@ namespace SharpImGui
 		/// Output   // Packed position in Atlas
 		/// </summary>
 		public ushort Y;
-		/// <summary>
-		/// <para>[Internal]</para>
-		/// </summary>
-		/// <summary>
-		/// Input    // Desired rectangle dimension
-		/// </summary>
-		public ushort Width;
-		/// <summary>
-		/// <para>[Internal]</para>
-		/// </summary>
-		/// <summary>
-		/// Input    // Desired rectangle dimension
-		/// </summary>
-		public ushort Height;
 		/// <summary>
 		/// Input    // For custom font glyphs only (ID &lt; 0x110000)
 		/// </summary>
@@ -68,6 +62,16 @@ namespace SharpImGui
 		public static implicit operator ImFontAtlasCustomRectPtr(IntPtr nativePtr) => new ImFontAtlasCustomRectPtr(nativePtr);
 
 		/// <summary>
+		/// Input    // Desired rectangle dimension
+		/// </summary>
+		public ref ushort Width => ref Unsafe.AsRef<ushort>(&NativePtr->Width);
+
+		/// <summary>
+		/// Input    // Desired rectangle dimension
+		/// </summary>
+		public ref ushort Height => ref Unsafe.AsRef<ushort>(&NativePtr->Height);
+
+		/// <summary>
 		/// Output   // Packed position in Atlas
 		/// </summary>
 		public ref ushort X => ref Unsafe.AsRef<ushort>(&NativePtr->X);
@@ -76,22 +80,6 @@ namespace SharpImGui
 		/// Output   // Packed position in Atlas
 		/// </summary>
 		public ref ushort Y => ref Unsafe.AsRef<ushort>(&NativePtr->Y);
-
-		/// <summary>
-		/// <para>[Internal]</para>
-		/// </summary>
-		/// <summary>
-		/// Input    // Desired rectangle dimension
-		/// </summary>
-		public ref ushort Width => ref Unsafe.AsRef<ushort>(&NativePtr->Width);
-
-		/// <summary>
-		/// <para>[Internal]</para>
-		/// </summary>
-		/// <summary>
-		/// Input    // Desired rectangle dimension
-		/// </summary>
-		public ref ushort Height => ref Unsafe.AsRef<ushort>(&NativePtr->Height);
 
 		/// <summary>
 		/// Input    // For custom font glyphs only (ID &lt; 0x110000)

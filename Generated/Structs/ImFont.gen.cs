@@ -44,14 +44,13 @@ namespace SharpImGui
 		public ImFontGlyph* FallbackGlyph;
 		/// <summary>
 		/// <para>Members: Cold ~32/40 bytes</para>
-		/// <para>Conceptually ConfigData[] is the list of font sources merged to create this font.</para>
 		/// </summary>
 		/// <summary>
 		/// 4-8   // out //            // What we has been loaded into
 		/// </summary>
 		public ImFontAtlas* ContainerAtlas;
 		/// <summary>
-		/// 4-8   // in  //            // Pointer within ContainerAtlas-&gt;ConfigData to ConfigDataCount instances
+		/// 4-8   // in  //            // Pointer within ContainerAtlas-&gt;ConfigData
 		/// </summary>
 		public ImFontConfig* ConfigData;
 		/// <summary>
@@ -155,7 +154,6 @@ namespace SharpImGui
 
 		/// <summary>
 		/// <para>Members: Cold ~32/40 bytes</para>
-		/// <para>Conceptually ConfigData[] is the list of font sources merged to create this font.</para>
 		/// </summary>
 		/// <summary>
 		/// 4-8   // out //            // What we has been loaded into
@@ -163,7 +161,7 @@ namespace SharpImGui
 		public ImFontAtlasPtr ContainerAtlas => new ImFontAtlasPtr(NativePtr->ContainerAtlas);
 
 		/// <summary>
-		/// 4-8   // in  //            // Pointer within ContainerAtlas-&gt;ConfigData to ConfigDataCount instances
+		/// 4-8   // in  //            // Pointer within ContainerAtlas-&gt;ConfigData
 		/// </summary>
 		public ImFontConfigPtr ConfigData => new ImFontConfigPtr(NativePtr->ConfigData);
 

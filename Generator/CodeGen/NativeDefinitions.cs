@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Generator.CodeGen;
+namespace SharpImGui.Generator.CodeGen;
 
 public record NativeDefinitions(NativeFunctionsOverloads[] Functions, NativeTypes Types, NativeTypedef[] Typedefs)
 {

@@ -1,4 +1,4 @@
-﻿namespace Generator.CodeGen.CSharp;
+﻿namespace SharpImGui.Generator.CodeGen.CSharp;
 
 public interface ICsElement
 {
@@ -63,6 +63,6 @@ public abstract class CsElement : ICsElement
 
     public virtual void WriteTo(CodeWriter writer)
     {
-        
+        writer.Write(ToString());
     }
 }

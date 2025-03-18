@@ -1,4 +1,4 @@
-﻿namespace Generator.CodeGen.CSharp;
+﻿namespace SharpImGui.Generator.CodeGen.CSharp;
 
 /// <summary>
 /// A C# declaration that has a name

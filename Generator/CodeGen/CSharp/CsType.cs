@@ -1,4 +1,4 @@
-﻿namespace Generator.CodeGen.CSharp;
+﻿namespace SharpImGui.Generator.CodeGen.CSharp;
 
 public enum CsTypeKind
 {
@@ -58,6 +58,7 @@ public enum CsTypeKind
     /// An unexposed type.
     /// </summary>
     Unexposed,
+    Unknown
 }
 
 public abstract class CsType : CsElement
@@ -78,4 +79,61 @@ public abstract class CsType : CsElement
     /// </summary>
     /// <returns>A canonical type of this type instance</returns>
     public abstract CsType GetCanonicalType();
+}
+
+public class CsPointerType : CsType
+{
+    public CsType OriginalType { get; }
+    
+    public override int SizeOf => OriginalType.SizeOf;
+
+    public CsPointerType(CsType originalType) : base(CsTypeKind.Pointer)
+    {
+        OriginalType = originalType;
+    }
+
+    public override CsType GetCanonicalType()
+    {
+        return OriginalType;
+    }
+
+    public override void WriteTo(CodeWriter writer)
+    {
+        OriginalType.WriteTo(writer);
+        writer.Write('*');
+    }
+
+    public override string ToString()
+    {
+        return OriginalType + "*";
+    }
+}
+
+public class CsUnresolvedType : CsType
+{
+    public string Name;
+    public int SizeOfType;
+    
+    public override int SizeOf => SizeOfType;
+    
+    public CsUnresolvedType(string name, CsTypeKind kind, int sizeOf = 0) : base(kind)
+    {
+        Name = name;
+        SizeOfType = sizeOf;
+    }
+
+    public override CsType GetCanonicalType()
+    {
+        return this;
+    }
+
+    public override void WriteTo(CodeWriter writer)
+    {
+        writer.Write(Name);
+    }
+    
+    public override string ToString()
+    {
+        return Name;
+    }
 }

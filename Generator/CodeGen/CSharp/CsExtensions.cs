@@ -1,29 +1,7 @@
-﻿namespace Generator.CodeGen.CSharp;
+﻿namespace SharpImGui.Generator.CodeGen.CSharp;
 
 public static class CsExtensions
 {
-    // /// <summary>
-    // /// Gets a boolean indicating whether this token kind is an identifier or keyword
-    // /// </summary>
-    // /// <param name="kind">The token kind</param>
-    // /// <returns><c>true</c> if the token is an identifier or keyword, <c>false</c> otherwise</returns>
-    // public static bool IsIdentifierOrKeyword(this CsTokenKind kind)
-    // {
-    //     return kind == CsTokenKind.Identifier || kind == CsTokenKind.Keyword;
-    // }
-
-    /// <summary>
-    /// Gets the display name of the specified type. If the type is <see cref="ICsMember"/> it will
-    /// only use the name provided by <see cref="ICsMember.Name"/>
-    /// </summary>
-    /// <param name="type">The type</param>
-    /// <returns>The display name</returns>
-    public static string GetDisplayName(this CsType type)
-    {
-        if (type is ICsMember member) return member.Name;
-        return type.ToString();
-    }
-
     /// <summary>
     /// Gets a boolean indicating whether the attribute is a dllexport or visibility("default")
     /// </summary>

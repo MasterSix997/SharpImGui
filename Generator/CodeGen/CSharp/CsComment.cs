@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Generator.CodeGen.CSharp;
+namespace SharpImGui.Generator.CodeGen.CSharp;
 
     /// <summary>
     /// Top level comment container.

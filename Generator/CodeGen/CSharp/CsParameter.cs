@@ -1,4 +1,4 @@
-﻿namespace Generator.CodeGen.CSharp;
+﻿namespace SharpImGui.Generator.CodeGen.CSharp;
 
 /// <summary>
 /// A C# function parameter.
@@ -45,7 +45,8 @@ public sealed class CsParameter : CsDeclaration, ICsMember
 
     public override void WriteTo(CodeWriter writer)
     {
-        writer.Write($"{Type.GetDisplayName()} {Name}");
+        Type.WriteTo(writer);
+        writer.Write($" {Name}");
         if (InitExpression != null)
             writer.Write($" = {InitExpression}");
         else if (InitValue != null)

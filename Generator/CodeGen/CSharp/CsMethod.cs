@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Generator.CodeGen.CSharp
+namespace SharpImGui.Generator.CodeGen.CSharp
 {
     /// <summary>
     /// Represents a type or method with generic parameters.
@@ -173,8 +173,11 @@ namespace Generator.CodeGen.CSharp
             
             if (IsExtern)
                 writer.Write("extern ");
-            
-            writer.Write(ReturnType?.GetDisplayName() ?? "void");
+
+            if (ReturnType is not null) 
+                ReturnType.WriteTo(writer); 
+            else 
+                writer.Write("void");
             writer.Write(' ');
             writer.Write(Name);
             writer.Write('(');

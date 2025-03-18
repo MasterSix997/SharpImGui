@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Generator.CodeGen.CSharp;
+namespace SharpImGui.Generator.CodeGen.CSharp;
 
 /// <summary>
 /// Represents a C# enum.
@@ -61,7 +61,8 @@ public sealed class CsEnum : CsTypeDeclaration, ICsMemberWithVisibility, ICsAttr
 
         if (!Equals(UnderlyingType, CsPrimitiveType.Int))
         {
-            writer.Write(" : ").Write(UnderlyingType.GetDisplayName());
+            writer.Write(" : ");
+            UnderlyingType.WriteTo(writer);
         }
         
         writer.EndLine();

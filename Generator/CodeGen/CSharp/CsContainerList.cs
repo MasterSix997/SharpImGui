@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Diagnostics;
 
-namespace Generator.CodeGen.CSharp;
+namespace SharpImGui.Generator.CodeGen.CSharp;
 
 /// <summary>
 /// A generic list of <see cref="CsElement"/> hold by a <see cref="ICsContainer"/>

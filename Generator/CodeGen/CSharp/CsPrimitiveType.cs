@@ -1,4 +1,4 @@
-﻿namespace Generator.CodeGen.CSharp;
+﻿namespace SharpImGui.Generator.CodeGen.CSharp;
 
 /// <summary>
 /// C# primitive kinds used by <see cref="CsPrimitiveType"/>
@@ -34,6 +34,7 @@ public enum CsPrimitiveKind
     /// C# `long`
     /// </summary>
     Long,
+    UnsignedLong,
 
     /// <summary>
     /// C# `ushort`
@@ -54,6 +55,9 @@ public enum CsPrimitiveKind
     /// C# `double`
     /// </summary>
     Double,
+    
+    Byte,
+    SignedByte,
 }
 
 /// <summary>
@@ -90,6 +94,7 @@ public sealed class CsPrimitiveType : CsType
     /// Singleton instance of the `long` type.
     /// </summary>
     public static readonly CsPrimitiveType Long = new CsPrimitiveType(CsPrimitiveKind.Long);
+    public static readonly CsPrimitiveType UnsignedLong = new CsPrimitiveType(CsPrimitiveKind.UnsignedLong);
 
     /// <summary>
     /// Singleton instance of the `unsigned short` type.
@@ -110,6 +115,8 @@ public sealed class CsPrimitiveType : CsType
     /// Singleton instance of the `float` type.
     /// </summary>
     public static readonly CsPrimitiveType Double = new CsPrimitiveType(CsPrimitiveKind.Double);
+    public static readonly CsPrimitiveType Byte = new CsPrimitiveType(CsPrimitiveKind.Byte);
+    public static readonly CsPrimitiveType SignedByte = new CsPrimitiveType(CsPrimitiveKind.SignedByte);
 
     private readonly int _sizeOf;
 
@@ -141,21 +148,26 @@ public sealed class CsPrimitiveType : CsType
             case CsPrimitiveKind.Char:
                 sizeOf = 1;
                 break;
+            case CsPrimitiveKind.Byte:
+            case CsPrimitiveKind.SignedByte:
+                sizeOf = 1;
+                break;
             case CsPrimitiveKind.Short:
+            case CsPrimitiveKind.UnsignedShort:
                 sizeOf = 2;
                 break;
             case CsPrimitiveKind.Int:
                 sizeOf = 4;
-                break;
-            case CsPrimitiveKind.Long:
-            case CsPrimitiveKind.UnsignedShort:
-                sizeOf = 2;
                 break;
             case CsPrimitiveKind.UnsignedInt:
                 sizeOf = 4;
                 break;
             case CsPrimitiveKind.Float:
                 sizeOf = 4;
+                break;
+            case CsPrimitiveKind.Long:
+            case CsPrimitiveKind.UnsignedLong:
+                sizeOf = 8;
                 break;
             case CsPrimitiveKind.Double:
                 sizeOf = 8;
@@ -180,6 +192,8 @@ public sealed class CsPrimitiveType : CsType
                 return "int";
             case CsPrimitiveKind.Long:
                 return "long";
+            case CsPrimitiveKind.UnsignedLong:
+                return "ulong";
             case CsPrimitiveKind.UnsignedShort:
                 return "ushort";
             case CsPrimitiveKind.UnsignedInt:
@@ -190,6 +204,10 @@ public sealed class CsPrimitiveType : CsType
                 return "double";
             case CsPrimitiveKind.Bool:
                 return "bool";
+            case CsPrimitiveKind.Byte:
+                return "byte";
+            case CsPrimitiveKind.SignedByte:
+                return "sbyte";
             default:
                 throw new InvalidOperationException($"Unhandled PrimitiveKind: {Kind}");
         }

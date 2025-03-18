@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Generator.CodeGen.CSharp
+namespace SharpImGui.Generator.CodeGen.CSharp
 {
     /// <summary>
     /// Defines a C# namespace. This represents only one level of namespace (e.g., `A` in `A.B.C`).

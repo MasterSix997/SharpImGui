@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Generator.CodeGen.CSharp;
+namespace SharpImGui.Generator.CodeGen.CSharp;
 
 /// <summary>
 /// Type of a <see cref="CsClass"/> (class, struct or union)

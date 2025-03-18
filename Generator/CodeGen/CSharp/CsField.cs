@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Generator.CodeGen.CSharp
+namespace SharpImGui.Generator.CodeGen.CSharp
 {
     /// <summary>
     /// Defines the type of storage.
@@ -110,7 +110,7 @@ namespace Generator.CodeGen.CSharp
                 builder.Append(' ');
             }
 
-            builder.Append(Type.GetDisplayName());
+            builder.Append(Type);
             builder.Append(' ');
             builder.Append(Name);
 
@@ -143,7 +143,8 @@ namespace Generator.CodeGen.CSharp
             if (Visibility != CsVisibility.Default)
                 writer.Write(Visibility.ToString().ToLowerInvariant()).Write(' ');
             
-            writer.Write($"{Type.GetDisplayName()} {Name}");
+            Type.WriteTo(writer);
+            writer.Write($" {Name}");
             
             if (InitExpression != null)
             {

@@ -1,9 +1,10 @@
-﻿namespace Generator;
+﻿namespace SharpImGui.Generator;
 
 class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
+        var generator = new CodeGen.Generator();
+        generator.GenerateCImGui();
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Generator.CodeGen;
+namespace SharpImGui.Generator.CodeGen;
 
 public abstract class CodeWriter
 {

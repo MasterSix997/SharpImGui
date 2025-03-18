@@ -1,4 +1,4 @@
-﻿namespace Generator.CodeGen.CSharp;
+﻿namespace SharpImGui.Generator.CodeGen.CSharp;
 
 /// <summary>
 /// Base interface of a <see cref="ICsContainer"/> containing fields, functions, enums, classes.

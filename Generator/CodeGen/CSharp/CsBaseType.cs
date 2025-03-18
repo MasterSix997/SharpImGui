@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Generator.CodeGen.CSharp;
+namespace SharpImGui.Generator.CodeGen.CSharp;
 
 /// <summary>
 /// A C++ base type used by <see cref="CsClass.BaseTypes"/>
@@ -37,7 +37,7 @@ public sealed class CsBaseType : CsElement
         var builder = new StringBuilder();
         if (Visibility != CsVisibility.Default && Visibility != CsVisibility.Public)
         {
-            builder.Append(Visibility.ToString().ToLowerInvariant()).Append(" ");
+            builder.Append(Visibility.ToString().ToLowerInvariant()).Append(' ');
         }
 
         if (IsVirtual)
@@ -45,7 +45,7 @@ public sealed class CsBaseType : CsElement
             builder.Append("virtual ");
         }
 
-        builder.Append(Type.GetDisplayName());
+        builder.Append(Type.ToString());
         return builder.ToString();
     }
 }

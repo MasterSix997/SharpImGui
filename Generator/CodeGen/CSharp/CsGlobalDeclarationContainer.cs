@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Runtime.CompilerServices;
 
-namespace Generator.CodeGen.CSharp;
+namespace SharpImGui.Generator.CodeGen.CSharp;
 
 /// <summary>
 /// A base Cs container for macros, classes, fields, functions, enums, typesdefs.

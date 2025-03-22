@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Diagnostics;
 
-namespace SharpImGui.Generator.CodeGen.CSharp;
+namespace Generator.CodeGen.CSharp;
 
 /// <summary>
 /// A generic list of <see cref="CsElement"/> hold by a <see cref="ICsContainer"/>
@@ -78,6 +78,17 @@ public class CsContainerList<TElement> : IList<TElement> where TElement : CsElem
     public void CopyTo(TElement[] array, int arrayIndex)
     {
         _elements.CopyTo(array, arrayIndex);
+    }
+
+    public void MoveTo(CsContainerList<TElement> destinationList)
+    {
+        foreach (var element in _elements)
+        {
+            element.Parent = destinationList.Container;
+            destinationList._elements.Add(element);
+        }
+
+        _elements.Clear();
     }
 
     /// <inheritdoc />

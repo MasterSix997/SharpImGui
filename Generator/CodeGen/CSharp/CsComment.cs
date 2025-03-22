@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace SharpImGui.Generator.CodeGen.CSharp;
+namespace Generator.CodeGen.CSharp;
 
     /// <summary>
     /// Top level comment container.
@@ -79,29 +79,30 @@ namespace SharpImGui.Generator.CodeGen.CSharp;
 
     public class CsDocComment : CsComment
     {
-        private string? _above;
-        private string? _sameLine;
+        public string? Above;
+        public string? SameLine;
+        
         public CsDocComment(string? above = null, string? sameLine = null) : base(CsCommentKind.Full)
         {
-            _above = above;
-            _sameLine = sameLine;
+            Above = above;
+            SameLine = sameLine;
         }
 
         protected internal override void ToString(StringBuilder builder)
         {
-            if (string.IsNullOrEmpty(_above) && string.IsNullOrEmpty(_sameLine) && Children == null)
+            if (string.IsNullOrEmpty(Above) && string.IsNullOrEmpty(SameLine) && Children == null)
                 return;
             
             builder.AppendLine("/// <summary>");
-            if (!string.IsNullOrEmpty(_above))
+            if (!string.IsNullOrEmpty(Above))
             {
                 builder.Append("/// ");
-                builder.AppendLine(_above);
+                builder.AppendLine(Above);
             }
-            if (!string.IsNullOrEmpty(_sameLine))
+            if (!string.IsNullOrEmpty(SameLine))
             {
                 builder.Append("/// ");
-                builder.AppendLine(_sameLine);
+                builder.AppendLine(SameLine);
             }
             ChildrenToString(builder);
             builder.AppendLine("/// </summary>");
@@ -109,14 +110,14 @@ namespace SharpImGui.Generator.CodeGen.CSharp;
 
         public override void WriteTo(CodeWriter writer)
         {
-            if (string.IsNullOrEmpty(_above) && string.IsNullOrEmpty(_sameLine) && Children == null)
+            if (string.IsNullOrEmpty(Above) && string.IsNullOrEmpty(SameLine) && Children == null)
                 return;
             
             writer.WriteLine("/// <summary>");
-            if (!string.IsNullOrEmpty(_above))
-                WriteCommentLines(writer, _above);
-            if (!string.IsNullOrEmpty(_sameLine))
-                WriteCommentLines(writer, _sameLine);
+            if (!string.IsNullOrEmpty(Above))
+                WriteCommentLines(writer, Above);
+            if (!string.IsNullOrEmpty(SameLine))
+                WriteCommentLines(writer, SameLine);
             writer.WriteLine("/// </summary>");
         }
         

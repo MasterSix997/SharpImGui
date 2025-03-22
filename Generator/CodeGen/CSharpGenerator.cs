@@ -1,15 +1,17 @@
-using SharpImGui.Generator.CodeGen.CSharp;
+using Generator.CodeGen.CSharp;
 
-namespace SharpImGui.Generator.CodeGen;
+namespace Generator.CodeGen;
 
 public class CSharpGenerator
 {
-    private NativeDefinitions _nativeDefinitions;
-    private CSharpGenerated _generated;
-    
-    public CSharpGenerator(NativeDefinitions nativeDefinitions)
+    private readonly NativeDefinitions _nativeDefinitions;
+
+    public CSharpGenerated CSharpGenerated { get; } = new();
+
+    public CSharpGenerator(NativeDefinitions nativeDefinitions, string outputDir)
     {
-        _generated = new CSharpGenerated();
+        CSharpGenerated.Output.RootDirectory = outputDir;
+        
         _nativeDefinitions = nativeDefinitions;
         
         PopulateTypes();
@@ -21,14 +23,21 @@ public class CSharpGenerator
         var structs = GenerateStructs();
         var methods = GenerateMethods();
         
-        _generated.Generated.Enums.AddRange(enums);
-        _generated.Generated.Classes.AddRange(structs);
-        _generated.Generated.Methods.AddRange(methods);
+        CSharpGenerated.Definitions.Enums.AddRange(enums);
+        CSharpGenerated.Definitions.Classes.AddRange(structs);
+        CSharpGenerated.Definitions.Methods.AddRange(methods.methods);
+        
+        //todo: loop typedefs and add them to CSharpGenerated
+    }
+    
+    public void WriteFiles()
+    {
+        CSharpGenerated.Output.WriteAll();
     }
 
     private void PopulateTypes()
     {
-        _generated.AddTypes(new Dictionary<string, CsType>
+        CSharpGenerated.AddTypes(new Dictionary<string, CsType>
         {
             // Primitives
             { "void", CsPrimitiveType.Void },
@@ -56,7 +65,7 @@ public class CSharpGenerator
             { "Rect", new CsUnresolvedType("Rect", CsTypeKind.StructOrClass) },
         });
         
-        _generated.AddTypeMaps(new Dictionary<string, string>
+        CSharpGenerated.AddTypeMaps(new Dictionary<string, string>
         {
             { "bool", "byte" },
             { "unsigned char", "byte" },
@@ -132,7 +141,11 @@ public class CSharpGenerator
             var csEnum = new CsEnum(nativeEnum.Name);
             enums.Add(csEnum);
 
+            csEnum.Metadata = nativeEnum.IsInternal;
             csEnum.Visibility = CsVisibility.Public;
+            if (nativeEnum.IsFlags)
+                csEnum.Attributes.Add(new CsAttribute("Flags"));
+            
             if (nativeEnum.Comment is not null)
                 csEnum.Comment = new CsDocComment(nativeEnum.Comment);
 
@@ -157,7 +170,9 @@ public class CSharpGenerator
             var csStruct = new CsClass(nativeStruct.Name, CsClassKind.Struct);
             structs.Add(csStruct);
 
+            csStruct.Metadata = nativeStruct.IsInternal;
             csStruct.Visibility = CsVisibility.Public;
+            csStruct.IsUnsafe = true;
             if (nativeStruct.Comment is not null)
                 csStruct.Comment = new CsDocComment(nativeStruct.Comment);
 
@@ -176,18 +191,22 @@ public class CSharpGenerator
         return structs;
     }
     
-    private List<CsMethod> GenerateMethods()
+    private (List<CsMethod> methods, List<NativeFunction> nativeFunctions) GenerateMethods()
     {
         var methods = new List<CsMethod>();
+        var nativeFunctions = new List<NativeFunction>();
 
         foreach (var nativeFunctionOverloads in _nativeDefinitions.Functions)
         {
             foreach (var nativeFunction in nativeFunctionOverloads.Functions)
             {
+                nativeFunctions.Add(nativeFunction);
+                
                 var returnType = new CsUnresolvedType(nativeFunction.ReturnType ?? "void", CsTypeKind.Unknown);
                 var csMethod = new CsMethod(nativeFunction.Name ?? "Unknown");
                 methods.Add(csMethod);
-                
+
+                csMethod.Metadata = nativeFunction.IsInternal;
                 csMethod.ReturnType = returnType;
                 csMethod.Visibility = CsVisibility.Public;
                 if (nativeFunction.Comment is not null)
@@ -202,6 +221,6 @@ public class CSharpGenerator
             }
         }
 
-        return methods;
+        return (methods, nativeFunctions);
     }
 }

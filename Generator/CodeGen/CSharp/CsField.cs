@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace SharpImGui.Generator.CodeGen.CSharp
+namespace Generator.CodeGen.CSharp
 {
     /// <summary>
     /// Defines the type of storage.
@@ -138,6 +138,8 @@ namespace SharpImGui.Generator.CodeGen.CSharp
 
         public override void WriteTo(CodeWriter writer)
         {
+            WriteCommentsTo(writer);
+            
             writer.StartLine();
             
             if (Visibility != CsVisibility.Default)

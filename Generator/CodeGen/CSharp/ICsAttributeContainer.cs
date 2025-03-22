@@ -1,4 +1,4 @@
-﻿namespace SharpImGui.Generator.CodeGen.CSharp;
+﻿namespace Generator.CodeGen.CSharp;
 
 /// <summary>
 /// Base interface for all with attribute element.
@@ -9,4 +9,12 @@ public interface ICsAttributeContainer
     /// Gets the attributes from element.
     /// </summary>
     List<CsAttribute> Attributes { get; }
+    
+    public void WriteAttributesTo(CodeWriter writer)
+    {
+        foreach (var attribute in Attributes)
+        {
+            attribute.WriteTo(writer);
+        }
+    }
 }

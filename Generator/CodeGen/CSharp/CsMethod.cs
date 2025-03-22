@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace SharpImGui.Generator.CodeGen.CSharp
+﻿namespace Generator.CodeGen.CSharp
 {
     /// <summary>
     /// Represents a type or method with generic parameters.

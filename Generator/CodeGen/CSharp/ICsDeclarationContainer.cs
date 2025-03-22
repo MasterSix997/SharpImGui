@@ -1,4 +1,4 @@
-﻿namespace SharpImGui.Generator.CodeGen.CSharp;
+﻿namespace Generator.CodeGen.CSharp;
 
 /// <summary>
 /// Base interface of a <see cref="ICsContainer"/> containing fields, functions, enums, classes.
@@ -25,6 +25,16 @@ public interface ICsDeclarationContainer : ICsContainer, ICsAttributeContainer
     /// Gets the classes, structs.
     /// </summary>
     CsContainerList<CsClass> Classes { get; }
+
+    void MoveDeclarationsTo(ICsDeclarationContainer target)
+    {
+        Fields.MoveTo(target.Fields);
+        Methods.MoveTo(target.Methods);
+        Enums.MoveTo(target.Enums);
+        Classes.MoveTo(target.Classes);
+        target.Attributes.AddRange(Attributes);
+        Attributes.Clear();
+    }
 }
 
 /// <summary>
@@ -39,6 +49,17 @@ public interface ICsGlobalDeclarationContainer : ICsDeclarationContainer
     /// Gets the declared namespaces
     /// </summary>
     CsContainerList<CsNamespace> Namespaces { get; }
+
+    void MoveDeclarationsTo(ICsGlobalDeclarationContainer target)
+    {
+        Fields.MoveTo(target.Fields);
+        Methods.MoveTo(target.Methods);
+        Enums.MoveTo(target.Enums);
+        Classes.MoveTo(target.Classes);
+        Namespaces.MoveTo(target.Namespaces);
+        target.Attributes.AddRange(Attributes);
+        Attributes.Clear();
+    }
 }
 
 /// <summary>
@@ -95,5 +116,13 @@ internal static class CsContainerHelper
         {
             yield return item;
         }
+    }
+    
+    public static void MoveDeclarationsTo(this ICsDeclarationContainer source, ICsDeclarationContainer target)
+    {
+        source.Enums.MoveTo(target.Enums);
+        source.Classes.MoveTo(target.Classes);
+        source.Fields.MoveTo(target.Fields);
+        source.Methods.MoveTo(target.Methods);
     }
 }

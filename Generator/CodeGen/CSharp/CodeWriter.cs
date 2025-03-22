@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace SharpImGui.Generator.CodeGen;
+namespace Generator.CodeGen.CSharp;
 
 public abstract class CodeWriter
 {
@@ -68,6 +68,11 @@ public class StreamCodeWriter : CodeWriter, IDisposable, IAsyncDisposable
     public StreamCodeWriter(string outputPath)
     {
         _writer = new StreamWriter(outputPath);
+    }
+    
+    public void Flush()
+    {
+        _writer.Flush();
     }
 
     public override CodeWriter Write(string text)

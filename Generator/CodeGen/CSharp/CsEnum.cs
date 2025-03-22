@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace SharpImGui.Generator.CodeGen.CSharp;
+﻿namespace Generator.CodeGen.CSharp;
 
 /// <summary>
 /// Represents a C# enum.
@@ -53,6 +51,8 @@ public sealed class CsEnum : CsTypeDeclaration, ICsMemberWithVisibility, ICsAttr
     public override void WriteTo(CodeWriter writer)
     {
         WriteCommentsTo(writer);
+        this.WriteAttributesTo(writer);
+        
         writer.StartLine();
         if (Visibility != CsVisibility.Default)
             writer.Write(Visibility.ToString().ToLowerInvariant()).Write(' ');
@@ -109,12 +109,12 @@ public sealed class CsEnumItem : CsDeclaration, ICsAttributeContainer
     /// <inheritdoc />
     public override string ToString()
     {
-        return $"{Name} = {Value}";
+        return $"{Name} = {Value},";
     }
 
     public override void WriteTo(CodeWriter writer)
     {
         WriteCommentsTo(writer);
-        writer.WriteLine($"{Name} = {Value}");
+        writer.WriteLine($"{Name} = {Value},");
     }
 }

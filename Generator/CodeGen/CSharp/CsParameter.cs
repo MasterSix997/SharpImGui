@@ -1,4 +1,4 @@
-﻿namespace SharpImGui.Generator.CodeGen.CSharp;
+﻿namespace Generator.CodeGen.CSharp;
 
 /// <summary>
 /// A C# function parameter.

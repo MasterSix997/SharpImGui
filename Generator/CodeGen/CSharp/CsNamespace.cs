@@ -1,11 +1,9 @@
-﻿using System.Text;
-
-namespace SharpImGui.Generator.CodeGen.CSharp
+﻿namespace Generator.CodeGen.CSharp
 {
     /// <summary>
     /// Defines a C# namespace. This represents only one level of namespace (e.g., `A` in `A.B.C`).
     /// </summary>
-    public class CsNamespace : CsDeclaration, ICsMember, ICsGlobalDeclarationContainer
+    public class CsNamespace : CsDeclaration, ICsMember, ICsDeclarationContainer
     {
         /// <summary>
         /// Creates a namespace with the specified name.
@@ -18,7 +16,6 @@ namespace SharpImGui.Generator.CodeGen.CSharp
             Methods = new CsContainerList<CsMethod>(this);
             Enums = new CsContainerList<CsEnum>(this);
             Classes = new CsContainerList<CsClass>(this);
-            Namespaces = new CsContainerList<CsNamespace>(this);
             Attributes = new List<CsAttribute>();
         }
 
@@ -46,11 +43,6 @@ namespace SharpImGui.Generator.CodeGen.CSharp
         /// The list of classes defined within the namespace.
         /// </summary>
         public CsContainerList<CsClass> Classes { get; }
-
-        /// <summary>
-        /// The list of nested namespaces within this namespace.
-        /// </summary>
-        public CsContainerList<CsNamespace> Namespaces { get; }
 
         /// <summary>
         /// The list of attributes associated with the namespace.

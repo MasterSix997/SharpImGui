@@ -1,4 +1,4 @@
-﻿namespace SharpImGui.Generator.CodeGen.CSharp;
+﻿namespace Generator.CodeGen.CSharp;
 
 public static class CsExtensions
 {
@@ -27,6 +27,11 @@ public static class CsExtensions
             }
         }
         return false;
+    }
+    
+    public static void WriteAttributesTo(this ICsAttributeContainer attributeContainer, CodeWriter writer)
+    {
+        attributeContainer.WriteAttributesTo(writer);
     }
     
     // /// <summary>

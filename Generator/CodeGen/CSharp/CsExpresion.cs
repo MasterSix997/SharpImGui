@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace SharpImGui.Generator.CodeGen.CSharp;
+namespace Generator.CodeGen.CSharp;
 
 public enum CsExpressionKind
 {

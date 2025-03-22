@@ -1,13 +1,20 @@
-using SharpImGui.Generator.CodeGen.CSharp;
+using Generator.CodeGen.CSharp;
 
-namespace SharpImGui.Generator.CodeGen;
+namespace Generator.CodeGen;
 
 public class CSharpGenerated
 {
     public readonly Dictionary<string, CsType> AvailableTypes = new();
     public readonly Dictionary<string, string> TypeMap = new();
 
-    public CsNamespace Generated { get; set; } = new("Generated");
+    public ICsDeclarationContainer Definitions { get; } = new CsGlobalDeclarationContainer();
+    
+    public CsOutput Output { get; set; } = new();
+
+    public CSharpGenerated()
+    {
+        Output.DefinitionsWithoutFiles = Definitions;
+    }
 
     public void AddType(string name, CsType type)
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Runtime.CompilerServices;
 
-namespace SharpImGui.Generator.CodeGen.CSharp;
+namespace Generator.CodeGen.CSharp;
 
 /// <summary>
 /// A base Cs container for macros, classes, fields, functions, enums, typesdefs.
@@ -61,14 +61,7 @@ public class CsGlobalDeclarationContainer : CsElement, ICsGlobalDeclarationConta
     private CsElement? SearchForChild(CsElement parent, string childName)
     {
         ICsDeclarationContainer? container = null;
-        if(parent is CsNamespace ns)
-        {
-            var n = ns.Namespaces.FirstOrDefault(x => x.Name == childName);
-            if (n != null) return n;
-
-            container = ns;
-        }
-        else if(parent is CsClass @class)
+        if(parent is CsClass @class)
         {
             container = @class;
         }

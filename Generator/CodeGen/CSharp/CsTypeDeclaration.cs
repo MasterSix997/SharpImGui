@@ -1,4 +1,4 @@
-namespace SharpImGui.Generator.CodeGen.CSharp;
+namespace Generator.CodeGen.CSharp;
 
 /// <summary>
 /// Base class for a type declaration (<see cref="CsClass"/>, <see cref="CsEnum"/>, <see cref="CsFunctionType"/> or <see cref="CsTypedef"/>)

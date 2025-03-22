@@ -1,4 +1,4 @@
-﻿namespace SharpImGui.Generator.CodeGen.CSharp;
+﻿namespace Generator.CodeGen.CSharp;
 
 public interface ICsElement
 {
@@ -13,6 +13,8 @@ public abstract class CsElement : ICsElement
     /// Gets or sets the parent container of this element. Might be null.
     /// </summary>
     public ICsContainer? Parent { get; internal set; }
+
+    public object Metadata;
 
     /// <summary>
     /// Computes the fully qualified name of the parent container.

@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace SharpImGui.Generator.CodeGen.CSharp;
+namespace Generator.CodeGen.CSharp;
 
 /// <summary>
 /// A C++ base type used by <see cref="CsClass.BaseTypes"/>

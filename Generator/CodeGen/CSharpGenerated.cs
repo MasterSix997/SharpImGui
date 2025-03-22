@@ -16,11 +16,24 @@ public class CSharpGenerated
         Output.DefinitionsWithoutFiles = Definitions;
     }
 
+    public void AddType(CsType type)
+    {
+        AddType(type.FullName, type);
+    }
+    
     public void AddType(string name, CsType type)
     {
         if (!AvailableTypes.TryAdd(name, type))
         {
             AvailableTypes[name] = type;
+        }
+    }
+    
+    public void AddTypes(IEnumerable<CsType> types)
+    {
+        foreach (var type in types)
+        {
+            AddType(type);
         }
     }
     

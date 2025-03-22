@@ -1,21 +1,59 @@
-﻿using System.Text.Json;
-using SharpImGui.Generator.CodeGen.CSharp;
+using System.Text.Json;
 
-namespace SharpImGui.Generator.CodeGen;
+namespace Generator.CodeGen;
 
-public class Generator
+public class CodeGenerator
 {
+    private const string OutputFolder = "../../../../SharpImGui/Generated";
     private const string DockerFolder = "../../../Docker";
     private const string CImGuiFolder = $"{DockerFolder}/cimgui";
     
     private const string DefinitionsFile = "definitions.json";
     private const string TypedefsFile = "typedefs_dict.json";
     private const string StructsAndEnumsFile = "structs_and_enums.json";
+    
+    private readonly List<IPostProcessor> _postProcessors = [];
 
-    public void GenerateCImGui()
+    public void GenerateCSharp()
     {
         var nativeDefinitions = ParseToNativeDefinitions(CImGuiFolder);
-        var csharpDefinitions = NativeToCSharp(nativeDefinitions);
+        
+        var csharpGenerator = new CSharpGenerator(nativeDefinitions, OutputFolder);
+        csharpGenerator.Generate();
+        
+        foreach (var postProcessor in _postProcessors)
+        {
+            postProcessor.Process(csharpGenerator.CSharpGenerated);
+        }
+        
+        DeleteFolderRecursively(OutputFolder);
+        
+        csharpGenerator.WriteFiles();
+    }
+    
+    public void DeleteFolderRecursively(string folder)
+    {
+        if (!Directory.Exists(folder))
+            return;
+        
+        var files = Directory.GetFiles(folder);
+        foreach (var file in files)
+        {
+            File.Delete(file);
+        }
+        
+        var directories = Directory.GetDirectories(folder);
+        foreach (var directory in directories)
+        {
+            DeleteFolderRecursively(directory);
+        }
+        
+        Directory.Delete(folder);
+    }
+    
+    public void AddPostProcessor(in IPostProcessor postProcessor)
+    {
+        _postProcessors.Add(postProcessor);
     }
 
     private NativeDefinitions ParseToNativeDefinitions(string folder)
@@ -42,15 +80,5 @@ public class Generator
     {
         var fileContent = File.ReadAllText(path);
         return JsonDocument.Parse(fileContent);
-    }
-
-    private CsGlobalDeclarationContainer NativeToCSharp(NativeDefinitions definitions)
-    {
-        var globalContainer = new CsGlobalDeclarationContainer();
-        
-        var csharpGenerator = new CSharpGenerator(definitions);
-        csharpGenerator.Generate();
-        
-        return globalContainer;
     }
 }

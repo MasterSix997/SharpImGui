@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace SharpImGui.Generator.CodeGen;
+namespace Generator.CodeGen;
 
 public record NativeDefinitions(NativeFunctionsOverloads[] Functions, NativeTypes Types, NativeTypedef[] Typedefs)
 {
@@ -51,7 +51,8 @@ public record NativeFunction(
     Dictionary<string, string> DefaultValues,
     bool Constructor,
     bool Destructor,
-    string? Comment)
+    string? Comment,
+    bool IsInternal = false)
 {
     private const string NameKey = "funcname";
     private const string StructNameKey = "stname";
@@ -62,6 +63,7 @@ public record NativeFunction(
     private const string DestructorKey = "destructor";
     private const string CommentKey = "comment";
     private const string DefaultValuesKey = "defaults";
+    private const string LocationKey = "location";
     
     public static NativeFunction FromJson(JsonElement element)
     {
@@ -78,6 +80,9 @@ public record NativeFunction(
             defaultValues.Add(defaultValue.Name, defaultValue.Value.GetString()!);
         }
         
+        var location = element.GetProperty(LocationKey).GetString();
+        var isInternal = location?.StartsWith("imgui_internal");
+        
         return new NativeFunction(
             element.TryGetProperty(NameKey, out var name) ? name.GetString() : null,
             element.GetProperty(StructNameKey).GetString()!,
@@ -87,7 +92,8 @@ public record NativeFunction(
             defaultValues,
             element.TryGetProperty(ConstructorKey, out var constructor) && constructor.GetBoolean(),
             element.TryGetProperty(DestructorKey, out var destructor) && destructor.GetBoolean(),
-            element.TryGetProperty(CommentKey, out var comment) && comment.GetString() is not null? comment.GetString() : null
+            element.TryGetProperty(CommentKey, out var comment) && comment.GetString() is not null? comment.GetString() : null,
+            isInternal ?? false
         );
     }
 }
@@ -113,6 +119,7 @@ public record NativeTypes(NativeEnum[] Enums, NativeStruct[] Structs)
     private const string EnumTypesKey = "enumtypes";
     private const string StructsKey = "structs";
     private const string StructCommentsKey = "struct_comments";
+    private const string LocationsKey = "locations";
     
     public static NativeTypes FromJson(JsonElement element)
     {
@@ -121,31 +128,34 @@ public record NativeTypes(NativeEnum[] Enums, NativeStruct[] Structs)
         var enumTypesProperty = element.GetProperty(EnumTypesKey);
         var structsProperty = element.GetProperty(StructsKey);
         var structCommentsProperty = element.GetProperty(StructCommentsKey);
+        var locationsProperty = element.GetProperty(LocationsKey);
         
         var enums = new List<NativeEnum>();
         foreach (var enumProperty in enumsProperty.EnumerateObject())
         {
             var hasComment = enumCommentsProperty.TryGetProperty(enumProperty.Name, out var enumCommentProperty);
-            var hasType = enumTypesProperty.TryGetProperty(enumProperty.Name, out var enumTypeProperty);
-            enums.Add(NativeEnum.FromJson(enumProperty, hasComment ? enumCommentProperty : null, hasType ? enumTypeProperty : null));
+            var hasType = enumTypesProperty.TryGetProperty(enumProperty.Name[..^1], out var enumTypeProperty);
+            var location = locationsProperty.GetProperty(enumProperty.Name).GetString();
+            enums.Add(NativeEnum.FromJson(enumProperty, hasComment ? enumCommentProperty : null, hasType ? enumTypeProperty : null, location));
         }
         
         var structs = new List<NativeStruct>();
         foreach (var structProperty in structsProperty.EnumerateObject())
         {
             var hasComment = structCommentsProperty.TryGetProperty(structProperty.Name, out var structCommentProperty);
-            structs.Add(NativeStruct.FromJson(structProperty, hasComment ? structCommentProperty : null));
+            var location = locationsProperty.GetProperty(structProperty.Name).GetString();
+            structs.Add(NativeStruct.FromJson(structProperty, hasComment ? structCommentProperty : null, location));
         }
 
         return new NativeTypes(enums.ToArray(), structs.ToArray());
     }
 }
 
-public record NativeEnum(string Name, NativeEnumItem[] Items, string? Comment, string? Type)
+public record NativeEnum(string Name, NativeEnumItem[] Items, string? Comment, string? Type, bool IsFlags = false, bool IsInternal = false)
 {
     private const string AboveCommentKey = "above";
     
-    public static NativeEnum FromJson(JsonProperty enumProperty, JsonElement? enumCommentElement, JsonElement? enumTypeElement)
+    public static NativeEnum FromJson(JsonProperty enumProperty, JsonElement? enumCommentElement, JsonElement? enumTypeElement, string? location)
     {
         var nativeEnumItems = new List<NativeEnumItem>();
         foreach (var enumItemElement in enumProperty.Value.EnumerateArray())
@@ -155,8 +165,10 @@ public record NativeEnum(string Name, NativeEnumItem[] Items, string? Comment, s
 
         var comment = enumCommentElement?.GetProperty(AboveCommentKey).ToString();
         var type = enumTypeElement?.ToString();
+        var isFlags = enumProperty.Name.Contains("Flags");
+        var isInternal = location?.StartsWith("imgui_internal") ?? false;
 
-        return new NativeEnum(enumProperty.Name, nativeEnumItems.ToArray(), comment, type);
+        return new NativeEnum(enumProperty.Name, nativeEnumItems.ToArray(), comment, type, isFlags, isInternal);
 
     }
 }
@@ -176,11 +188,11 @@ public record NativeEnumItem(string Name, int Value, string? Comment)
     }
 }
 
-public record NativeStruct(string Name, NativeField[] Fields, string? Comment)
+public record NativeStruct(string Name, NativeField[] Fields, string? Comment, bool IsInternal = false)
 {
     private const string AboveCommentKey = "above";
     
-    public static NativeStruct FromJson(JsonProperty structProperty, JsonElement? structCommentElement)
+    public static NativeStruct FromJson(JsonProperty structProperty, JsonElement? structCommentElement, string? location)
     {
         var nativeFields = new List<NativeField>();
         foreach (var fieldElement in structProperty.Value.EnumerateArray())
@@ -189,8 +201,9 @@ public record NativeStruct(string Name, NativeField[] Fields, string? Comment)
         }
         
         var comment = structCommentElement?.GetProperty(AboveCommentKey).ToString();
+        var isInternal = location?.StartsWith("imgui_internal") ?? false;
         
-        return new NativeStruct(structProperty.Name, nativeFields.ToArray(), comment);
+        return new NativeStruct(structProperty.Name, nativeFields.ToArray(), comment, isInternal);
     }
 }
 

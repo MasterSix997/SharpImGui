@@ -16,17 +16,14 @@ public class CSharpGenerated
         Output.DefinitionsWithoutFiles = Definitions;
     }
 
-    public void AddType(CsType type)
+    public bool AddType(CsType type)
     {
-        AddType(type.FullName, type);
+        return AddType(type.TypeName, type);
     }
     
-    public void AddType(string name, CsType type)
+    public bool AddType(string name, CsType type)
     {
-        if (!AvailableTypes.TryAdd(name, type))
-        {
-            AvailableTypes[name] = type;
-        }
+        return AvailableTypes.TryAdd(name, type);
     }
     
     public void AddTypes(IEnumerable<CsType> types)
@@ -45,12 +42,17 @@ public class CSharpGenerated
         }
     }
     
-    public void AddTypeMap(string originalType, string convertedType)
+    public bool AddTypeMap(string originalType, string convertedType)
     {
-        if (!TypeMap.TryAdd(originalType, convertedType))
+        if (TypeMap.TryGetValue(convertedType, out var value))
+            convertedType = value;
+
+        if (AvailableTypes.ContainsKey(originalType))
         {
-            TypeMap[originalType] = convertedType;
+            
         }
+        
+        return TypeMap.TryAdd(originalType, convertedType);
     }
     
     public void AddTypeMaps(Dictionary<string, string> typeMaps)

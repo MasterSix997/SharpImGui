@@ -58,7 +58,8 @@ public enum CsTypeKind
     /// An unexposed type.
     /// </summary>
     Unexposed,
-    Unknown
+    Unknown,
+    Struct
 }
 
 public abstract class CsType : CsElement
@@ -136,5 +137,47 @@ public class CsUnresolvedType : CsType
     public override string ToString()
     {
         return Name;
+    }
+}
+
+public class CsGenericType : CsType
+{
+    public string Name;
+    public List<CsType> GenericParameters { get; }
+    
+    public override int SizeOf => 0;
+
+    public CsGenericType(string name, params List<CsType> genericParameters) : base(CsTypeKind.TemplateParameterType)
+    {
+        Name = name;
+        GenericParameters = genericParameters;
+    }
+
+    public override CsType GetCanonicalType()
+    {
+        return this;
+    }
+
+    public override void WriteTo(CodeWriter writer)
+    {
+        writer.Write(Name);
+        if (GenericParameters.Count > 0)
+        {
+            writer.Write('<');
+            for (var i = 0; i < GenericParameters.Count; i++)
+            {
+                writer.Write(GenericParameters[i].TypeName);
+                if (i < GenericParameters.Count - 1)
+                    writer.Write(", ");
+            }
+            writer.Write('>');
+        }
+    }
+
+    public override string ToString()
+    {
+        var writer = new StringCodeWriter();
+        WriteTo(writer);
+        return writer.ToString();
     }
 }

@@ -207,11 +207,12 @@ public record NativeStruct(string Name, NativeField[] Fields, string? Comment, b
     }
 }
 
-public record NativeField(string Name, string? TemplateType, string Type, string? SameLineComment, string? AboveComment)
+public record NativeField(string Name, string? TemplateType, string Type, int? Size, string? SameLineComment, string? AboveComment)
 {
     private const string NameKey = "name";
     private const string TemplateTypeKey = "template_type";
     private const string TypeKey = "type";
+    private const string SizeKey = "size";
     private const string CommentKey = "comment";
     private const string SameLineCommentKey = "sameline";
     private const string AboveCommentKey = "above";
@@ -221,6 +222,7 @@ public record NativeField(string Name, string? TemplateType, string Type, string
         var name = element.GetProperty(NameKey).GetString()!;
         var templateType = element.TryGetProperty(TemplateTypeKey, out var templateTypeProperty) ? templateTypeProperty.GetString() : null;
         var type = element.GetProperty(TypeKey).GetString()!;
+        var size = element.TryGetProperty(SizeKey, out var sizeProperty) ? sizeProperty.GetInt32() : (int?)null;
         string? sameLineComment = null;
         string? aboveComment = null;
         if (element.TryGetProperty(CommentKey, out var commentProperty))
@@ -231,7 +233,7 @@ public record NativeField(string Name, string? TemplateType, string Type, string
                 aboveComment = aboveCommentProperty.GetString();
         }
         
-        return new NativeField(name, templateType, type, sameLineComment, aboveComment);
+        return new NativeField(name, templateType, type, size, sameLineComment, aboveComment);
     }
 }
 

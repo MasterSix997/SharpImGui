@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection.Metadata.Ecma335;
 
 namespace Generator.CodeGen.CSharp;
@@ -74,5 +75,11 @@ public class CsOutput
         };
         Files.Add(file);
         return file;
+    }
+    
+    public bool TryGetFile(string fileName, [NotNullWhen(true)] out GeneratedFile? file)
+    {
+        file = Files.FirstOrDefault(f => f.FileName == fileName);
+        return file != null;
     }
 }

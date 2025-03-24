@@ -139,13 +139,17 @@ namespace Generator.CodeGen.CSharp
         public override void WriteTo(CodeWriter writer)
         {
             WriteCommentsTo(writer);
+            this.WriteAttributesTo(writer);
             
             writer.StartLine();
             
             if (Visibility != CsVisibility.Default)
                 writer.Write(Visibility.ToString().ToLowerInvariant()).Write(' ');
-            
-            Type.WriteTo(writer);
+
+            if (Parent is CsClass { IsUnsafe: false } && Type is CsPointerType)
+                writer.Write("unsafe ");
+
+            writer.Write(Type.TypeName);
             writer.Write($" {Name}");
             
             if (InitExpression != null)

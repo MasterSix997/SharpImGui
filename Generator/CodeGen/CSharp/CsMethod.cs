@@ -150,11 +150,7 @@
         public override void WriteTo(CodeWriter writer)
         {
             WriteCommentsTo(writer);
-            foreach (var attribute in Attributes)
-            {
-                attribute.WriteTo(writer);
-                writer.WriteLine();
-            }
+            this.WriteAttributesTo(writer);
 
             writer.StartLine();
             if (Visibility != CsVisibility.Default)

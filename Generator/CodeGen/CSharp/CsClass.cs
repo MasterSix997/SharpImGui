@@ -44,6 +44,7 @@ public sealed class CsClass : CsTypeDeclaration, ICsMemberWithVisibility, ICsDec
         Constructors = new CsContainerList<CsMethod>(this);
         Destructors = new CsContainerList<CsMethod>(this);
         Methods = new CsContainerList<CsMethod>(this);
+        Delegates = new CsContainerList<CsDelegate>(this);
         Enums = new CsContainerList<CsEnum>(this);
         Classes = new CsContainerList<CsClass>(this);
         GenericParameters = new List<CsType>();
@@ -58,23 +59,23 @@ public sealed class CsClass : CsTypeDeclaration, ICsMemberWithVisibility, ICsDec
     /// <inheritdoc />
     public string Name { get; set; }
 
-    public override string FullName
-    {
-        get
-        {
-            StringBuilder sb = new StringBuilder();
-            string fullparent = FullParentName;
-            if (string.IsNullOrEmpty(fullparent))
-            {
-                sb.Append(Name);
-            }
-            else
-            {
-                sb.Append($"{fullparent}.{Name}");
-            }
-            return sb.ToString();
-        }
-    }
+    public override string TypeName => Name;
+    // {
+    //     get
+    //     {
+    //         StringBuilder sb = new StringBuilder();
+    //         string fullparent = FullParentName;
+    //         if (string.IsNullOrEmpty(fullparent))
+    //         {
+    //             sb.Append(Name);
+    //         }
+    //         else
+    //         {
+    //             sb.Append($"{fullparent}.{Name}");
+    //         }
+    //         return sb.ToString();
+    //     }
+    // }
 
     /// <inheritdoc />
     public CsVisibility Visibility { get; set; }
@@ -112,6 +113,8 @@ public sealed class CsClass : CsTypeDeclaration, ICsMemberWithVisibility, ICsDec
 
     /// <inheritdoc />
     public CsContainerList<CsMethod> Methods { get; }
+
+    public CsContainerList<CsDelegate> Delegates { get; }
 
     /// <inheritdoc />
     public CsContainerList<CsEnum> Enums { get; }
@@ -160,8 +163,7 @@ public sealed class CsClass : CsTypeDeclaration, ICsMemberWithVisibility, ICsDec
     public override void WriteTo(CodeWriter writer)
     {
         WriteCommentsTo(writer);
-        foreach (var attribute in Attributes)
-            writer.WriteLine(attribute.ToString());
+        this.WriteAttributesTo(writer);
 
         writer.StartLine();
         

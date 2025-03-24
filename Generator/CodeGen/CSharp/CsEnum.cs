@@ -22,6 +22,8 @@ public sealed class CsEnum : CsTypeDeclaration, ICsMemberWithVisibility, ICsAttr
     /// <inheritdoc />
     public string Name { get; set; }
 
+    public override string TypeName => Name;
+
     /// <summary>
     /// Gets or sets the underlying type of the enum.
     /// Defaults to `int` if not specified.

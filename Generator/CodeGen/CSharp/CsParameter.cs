@@ -3,7 +3,7 @@
 /// <summary>
 /// A C# function parameter.
 /// </summary>
-public sealed class CsParameter : CsDeclaration, ICsMember
+public sealed class CsParameter : CsDeclaration, ICsMember, ICsAttributeContainer
 {
     /// <summary>
     /// Creates a new instance of a C# function parameter.
@@ -15,6 +15,8 @@ public sealed class CsParameter : CsDeclaration, ICsMember
         Type = type ?? throw new ArgumentNullException(nameof(type));
         Name = name ?? throw new ArgumentNullException(nameof(name));
     }
+    
+    public List<CsAttribute> Attributes { get; }
 
     /// <summary>
     /// Gets the type of this parameter.
@@ -45,7 +47,8 @@ public sealed class CsParameter : CsDeclaration, ICsMember
 
     public override void WriteTo(CodeWriter writer)
     {
-        Type.WriteTo(writer);
+        // this.WriteAttributesTo(writer);
+        writer.Write(Type.TypeName);
         writer.Write($" {Name}");
         if (InitExpression != null)
             writer.Write($" = {InitExpression}");

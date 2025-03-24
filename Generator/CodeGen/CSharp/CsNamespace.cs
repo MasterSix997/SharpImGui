@@ -14,6 +14,7 @@
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Fields = new CsContainerList<CsField>(this);
             Methods = new CsContainerList<CsMethod>(this);
+            Delegates = new CsContainerList<CsDelegate>(this);
             Enums = new CsContainerList<CsEnum>(this);
             Classes = new CsContainerList<CsClass>(this);
             Attributes = new List<CsAttribute>();
@@ -33,6 +34,8 @@
         /// The list of methods defined within the namespace.
         /// </summary>
         public CsContainerList<CsMethod> Methods { get; }
+        
+        public CsContainerList<CsDelegate> Delegates { get; }
 
         /// <summary>
         /// The list of enums defined within the namespace.

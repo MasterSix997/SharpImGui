@@ -67,7 +67,7 @@ public abstract class CsType : CsElement
     
     public abstract int SizeOf { get; }
     
-    public virtual string FullName => ToString();
+    public virtual string TypeName => ToString();
 
     protected CsType(CsTypeKind kind)
     {
@@ -87,6 +87,8 @@ public class CsPointerType : CsType
     
     public override int SizeOf => OriginalType.SizeOf;
 
+    public override string TypeName => string.Concat(OriginalType.TypeName, '*');
+
     public CsPointerType(CsType originalType) : base(CsTypeKind.Pointer)
     {
         OriginalType = originalType;
@@ -99,13 +101,12 @@ public class CsPointerType : CsType
 
     public override void WriteTo(CodeWriter writer)
     {
-        OriginalType.WriteTo(writer);
-        writer.Write('*');
+        writer.Write(OriginalType.TypeName).Write('*');
     }
 
     public override string ToString()
     {
-        return OriginalType + "*";
+        return TypeName;
     }
 }
 

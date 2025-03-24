@@ -15,6 +15,8 @@ public interface ICsDeclarationContainer : ICsContainer, ICsAttributeContainer
     /// Gets the functions/methods.
     /// </summary>
     CsContainerList<CsMethod> Methods { get; }
+    
+    CsContainerList<CsDelegate> Delegates { get; }
 
     /// <summary>
     /// Gets the enums.
@@ -32,6 +34,7 @@ public interface ICsDeclarationContainer : ICsContainer, ICsAttributeContainer
         Methods.MoveTo(target.Methods);
         Enums.MoveTo(target.Enums);
         Classes.MoveTo(target.Classes);
+        Delegates.MoveTo(target.Delegates);
         target.Attributes.AddRange(Attributes);
         Attributes.Clear();
     }
@@ -57,6 +60,7 @@ public interface ICsGlobalDeclarationContainer : ICsDeclarationContainer
         Enums.MoveTo(target.Enums);
         Classes.MoveTo(target.Classes);
         Namespaces.MoveTo(target.Namespaces);
+        Delegates.MoveTo(target.Delegates);
         target.Attributes.AddRange(Attributes);
         Attributes.Clear();
     }
@@ -88,6 +92,11 @@ internal static class CsContainerHelper
         {
             yield return item;
         }
+        
+        foreach (var item in container.Delegates)
+        {
+            yield return item;
+        }
 
         foreach (var item in container.Namespaces)
         {
@@ -116,13 +125,10 @@ internal static class CsContainerHelper
         {
             yield return item;
         }
-    }
-    
-    public static void MoveDeclarationsTo(this ICsDeclarationContainer source, ICsDeclarationContainer target)
-    {
-        source.Enums.MoveTo(target.Enums);
-        source.Classes.MoveTo(target.Classes);
-        source.Fields.MoveTo(target.Fields);
-        source.Methods.MoveTo(target.Methods);
+        
+        foreach (var item in container.Delegates)
+        {
+            yield return item;
+        }
     }
 }

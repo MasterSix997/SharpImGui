@@ -18,6 +18,7 @@ public class CsGlobalDeclarationContainer : CsElement, ICsGlobalDeclarationConta
         _multiCacheByName = new Dictionary<ICsContainer, Dictionary<string, CacheByName>>(ReferenceEqualityComparer<ICsContainer>.Default);
         Fields = new CsContainerList<CsField>(this);
         Methods = new CsContainerList<CsMethod>(this);
+        Delegates = new CsContainerList<CsDelegate>(this);
         Enums = new CsContainerList<CsEnum>(this);
         Classes = new CsContainerList<CsClass>(this);
         Namespaces = new CsContainerList<CsNamespace>(this);
@@ -29,6 +30,8 @@ public class CsGlobalDeclarationContainer : CsElement, ICsGlobalDeclarationConta
 
     /// <inheritdoc />
     public CsContainerList<CsMethod> Methods { get; }
+
+    public CsContainerList<CsDelegate> Delegates { get; }
 
     /// <inheritdoc />
     public CsContainerList<CsEnum> Enums { get; }

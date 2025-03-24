@@ -35,9 +35,10 @@ public class GeneratedFile
         
         foreach (var @using in Usings)
         {
-            writer.Write("using ").Write(@using).Write(';').WriteLine();
-            writer.EndLine();
+            writer.StartLine().Write("using ").Write(@using).Write(';').EndLine();
         }
+
+        writer.WriteLine();
     }
 }
 
@@ -53,7 +54,7 @@ public class CsOutput
         if (DefinitionsWithoutFiles.Children().Any())
         {
             Console.WriteLine("Saving global definitions without files...");
-            var globalNamespace = new CsNamespace("SharpImGui.Generated");
+            var globalNamespace = new CsNamespace("SharpImGui");
             DefinitionsWithoutFiles.MoveDeclarationsTo(globalNamespace);
             var globalFile = new GeneratedFile("Global.cs", RootDirectory, globalNamespace);
             globalFile.SaveToFile();

@@ -4,6 +4,8 @@ namespace Generator.CodeGen.PostProcessors;
 
 public struct FileSeparatorProcessor : IPostProcessor
 {
+    private static CsNamespace DefaultNamespace => new("SharpImGui");
+    
     public void Process(CSharpGenerated generated)
     {
         var output = generated.Output;
@@ -12,15 +14,20 @@ public struct FileSeparatorProcessor : IPostProcessor
         output.DefinitionsWithoutFiles.Enums.MoveTo(enumsNamespace.Enums);
         output.AddFile("Enums.cs", enumsNamespace, usings: ["System"]);
 
-        var structsNamespace = new CsNamespace("SharpImGui");
-        output.DefinitionsWithoutFiles.Classes.MoveTo(structsNamespace.Classes);
-        output.AddFile("Structs.cs", structsNamespace);
+        GenerateStructFiles(output, output.DefinitionsWithoutFiles);
+        // var structsNamespace = new CsNamespace("SharpImGui");
+        // output.DefinitionsWithoutFiles.Classes.MoveTo(structsNamespace.Classes);
+        // output.AddFile("Structs.cs", structsNamespace, usings: ["System", "System.Numerics", "System.Runtime.InteropServices"]);
 
         var nativeStruct = new CsClass("ImGuiNative", CsClassKind.Struct);
         output.DefinitionsWithoutFiles.Methods.MoveTo(nativeStruct.Methods);
         var nativeNamespace = new CsNamespace("SharpImGui");
         nativeNamespace.Classes.Add(nativeStruct);
-        output.AddFile("ImGuiNative.cs", nativeNamespace);
+        output.AddFile("ImGuiNative.cs", nativeNamespace, usings: ["System", "System.Numerics", "System.Runtime.InteropServices"]);
+        
+        var delegatesNamespace = new CsNamespace("SharpImGui");
+        output.DefinitionsWithoutFiles.Delegates.MoveTo(delegatesNamespace.Delegates);
+        output.AddFile("Delegates.cs", delegatesNamespace, usings: ["System", "System.Numerics", "System.Runtime.InteropServices"]);
         
         // Internals
         var internalEnumsNamespace = new CsNamespace("SharpImGui");
@@ -35,17 +42,17 @@ public struct FileSeparatorProcessor : IPostProcessor
         }
         output.AddFile("InternalEnums.cs", internalEnumsNamespace, "Internal", ["System"]);
         
-        var internalStructsNamespace = new CsNamespace("SharpImGui");
-        for (var i = structsNamespace.Classes.Count - 1; i > 0 ; i--)
-        {
-            var @struct = structsNamespace.Classes[i];
-            if (@struct.Metadata is true)
-            {
-                structsNamespace.Classes.RemoveAt(i);
-                internalStructsNamespace.Classes.Add(@struct);
-            }
-        }
-        output.AddFile("InternalStructs.cs", internalStructsNamespace, "Internal");
+        // var internalStructsNamespace = new CsNamespace("SharpImGui");
+        // for (var i = structsNamespace.Classes.Count - 1; i > 0 ; i--)
+        // {
+        //     var @struct = structsNamespace.Classes[i];
+        //     if (@struct.Metadata is true)
+        //     {
+        //         structsNamespace.Classes.RemoveAt(i);
+        //         internalStructsNamespace.Classes.Add(@struct);
+        //     }
+        // }
+        // output.AddFile("InternalStructs.cs", internalStructsNamespace, "Internal", ["System", "System.Numerics", "System.Runtime.InteropServices"]);
         
         var internalNativeStruct = new CsClass("InternalImGuiNative", CsClassKind.Struct)
         {
@@ -63,89 +70,33 @@ public struct FileSeparatorProcessor : IPostProcessor
         }
         var internalNativeNamespace = new CsNamespace("SharpImGui");
         internalNativeNamespace.Classes.Add(internalNativeStruct);
-        output.AddFile("InternalImGuiNative.cs", internalNativeNamespace, "Internal");
-    }
-}
-
-public struct EnumsProcessor : IPostProcessor
-{
-    public void Process(CSharpGenerated generated)
-    {
-        CleanupEnums(generated.Definitions);
+        output.AddFile("InternalImGuiNative.cs", internalNativeNamespace, "Internal", ["System", "System.Numerics", "System.Runtime.InteropServices"]);
     }
 
-    private static void CleanupEnums(ICsDeclarationContainer container)
+    private void GenerateStructFiles(CsOutput output, ICsDeclarationContainer container)
     {
-        foreach (var csEnum in container.Enums)
+        var ptrStructs = new Dictionary<string, CsClass>();
+        
+        for (var i = container.Classes.Count - 1; i >= 0; i--)
         {
-            foreach (var item in csEnum.Items)
+            var csStruct = container.Classes[i];
+            container.Classes.RemoveAt(i);
+            
+            if (csStruct.Name.EndsWith("Ptr"))
             {
-                var lenght = csEnum.Name.Length;
-                if (csEnum.Name.EndsWith("Private_"))
-                    lenght -= 7;
-                
-                item.Name = item.Name[lenght..];
-
-                if (!char.IsNumber(item.Name[1]))
-                    item.Name = item.Name.Trim('_');
+                ptrStructs.Add(csStruct.Name[..^3], csStruct);
+                continue;
             }
 
-            csEnum.Name = csEnum.Name.TrimEnd('_');
-        }
-    }
-}
-
-public struct CommentsProcessor : IPostProcessor
-{
-    public void Process(CSharpGenerated generated)
-    {
-        RecursiveCleanupComments(generated.Definitions);
-    }
-
-    private void RecursiveCleanupComments(ICsDeclarationContainer container)
-    {
-        foreach (var child in container.Children())
-        {
-            if (child.Comment is not CsDocComment docComment) continue;
-
-            if (docComment.Above is not null)
+            var structNamespace = DefaultNamespace;
+            structNamespace.Classes.Add(csStruct);
+            if (ptrStructs.TryGetValue(csStruct.Name, out var ptrStruct))
             {
-                CleanupSlashes(ref docComment.Above);
-                AddBreakLineTagXML(ref docComment.Above);
+                structNamespace.Classes.Add(ptrStruct);
+                ptrStructs.Remove(csStruct.Name);
             }
-
-            if (docComment.SameLine is not null)
-            {
-                CleanupSlashes(ref docComment.SameLine);
-                AddBreakLineTagXML(ref docComment.SameLine);
-            }
-
-            if (child is ICsDeclarationContainer childContainer)
-            {
-                RecursiveCleanupComments(childContainer);
-            }
+            var subDir = csStruct.Metadata is true ? "Internal/Structs" : "Structs";
+            output.AddFile($"{csStruct.Name}.cs", structNamespace, subDir, ["System", "System.Numerics", "System.Runtime.InteropServices"]);
         }
-    }
-
-    private void CleanupSlashes(ref string comment)
-    {
-        var splits = comment.Split('\n');
-        for (var i = 0; i < splits.Length; i++)
-        {
-            var split = splits[i];
-            if (split.StartsWith("// "))
-                splits[i] = split[3..];
-        }
-        comment = string.Join('\n', splits);
-    }
-    
-    private void AddBreakLineTagXML(ref string comment)
-    {
-        var splits = comment.Split('\n');
-        for (var i = 0; i < splits.Length; i++)
-        {
-            splits[i] = string.Concat(splits[i], "<br/>");
-        }
-        comment = string.Join('\n', splits);
     }
 }

@@ -70,11 +70,8 @@ public class CSharpGenerated
     
     public CsType? GetCsType(string nativeType)
     {
-        if (nativeType == "")
-        {
-            
-        }
-
+        nativeType = nativeType.Trim();
+        
         nativeType = GetConvertedType(nativeType);
         var availableType = AvailableTypes.GetValueOrDefault(nativeType);
         if (availableType is not null)
@@ -126,6 +123,27 @@ public class CSharpGenerated
             var originalType = GetCsType(nativeType[6..]);
             if (originalType is not null)
                 return originalType;
+        }
+        
+        if (nativeType.EndsWith(" const"))
+        {
+            var originalType = GetCsType(nativeType[..^6]);
+            if (originalType is not null)
+                return originalType;
+        }
+        
+        if (nativeType.EndsWith(" const[]"))
+        {
+            var originalType = GetCsType(nativeType[..^7]);
+            if (originalType is not null)
+                return new CsPointerType(originalType);
+        }
+        
+        if (nativeType.EndsWith(']') && nativeType.Contains('['))
+        {
+            var originalType = GetCsType(nativeType[..^3]);
+            if (originalType is not null)
+                return new CsPointerType(originalType);
         }
         
         if (nativeType.StartsWith("union"))

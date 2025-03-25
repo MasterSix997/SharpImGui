@@ -13,8 +13,8 @@ namespace SharpImGui
 	{
 		/// <summary>
 		/// <br/>
-		///     // Members<br/>
-		/// User data for use by adapter function                                // e.g. selection.UserData = (void*)my_items;<br/>
+		///     Members<br/>
+		/// User data for use by adapter function                                e.g. selection.UserData = (void*)my_items;<br/>
 		/// </summary>
 		public unsafe void* UserData;
 		/// <summary>

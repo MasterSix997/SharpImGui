@@ -16,28 +16,28 @@ namespace SharpImGui
 	{
 		/// <summary>
 		/// <br/>
-		///     //------------------------------------------// BeginMultiSelect / EndMultiSelect<br/>
-		///  ms:w, app:r     /  ms:w  app:r   // Requests to apply to your selection data.<br/>
+		///     //------------------------------------------BeginMultiSelect / EndMultiSelect<br/>
+		///  ms:w, app:r     /  ms:w  app:r   Requests to apply to your selection data.<br/>
 		/// </summary>
 		public ImVector<ImGuiSelectionRequest> Requests;
 		/// <summary>
-		///  ms:w  app:r     /                // (If using clipper) Begin: Source item (often the first selected item) must never be clipped: use clipper.IncludeItemByIndex() to ensure it is submitted.<br/>
+		///  ms:w  app:r     /                (If using clipper) Begin: Source item (often the first selected item) must never be clipped: use clipper.IncludeItemByIndex() to ensure it is submitted.<br/>
 		/// </summary>
 		public long RangeSrcItem;
 		/// <summary>
-		///  ms:w, app:r     /                // (If using deletion) Last known SetNextItemSelectionUserData() value for NavId (if part of submitted items).<br/>
+		///  ms:w, app:r     /                (If using deletion) Last known SetNextItemSelectionUserData() value for NavId (if part of submitted items).<br/>
 		/// </summary>
 		public long NavIdItem;
 		/// <summary>
-		///  ms:w, app:r     /        app:r   // (If using deletion) Last known selection state for NavId (if part of submitted items).<br/>
+		///  ms:w, app:r     /        app:r   (If using deletion) Last known selection state for NavId (if part of submitted items).<br/>
 		/// </summary>
 		public byte NavIdSelected;
 		/// <summary>
-		///        app:w     /  ms:r          // (If using deletion) Set before EndMultiSelect() to reset ResetSrcItem (e.g. if deleted selection).<br/>
+		///        app:w     /  ms:r          (If using deletion) Set before EndMultiSelect() to reset ResetSrcItem (e.g. if deleted selection).<br/>
 		/// </summary>
 		public byte RangeSrcReset;
 		/// <summary>
-		///  ms:w, app:r     /        app:r   // 'int items_count' parameter to BeginMultiSelect() is copied here for convenience, allowing simpler calls to your ApplyRequests handler. Not used internally.<br/>
+		///  ms:w, app:r     /        app:r   'int items_count' parameter to BeginMultiSelect() is copied here for convenience, allowing simpler calls to your ApplyRequests handler. Not used internally.<br/>
 		/// </summary>
 		public int ItemsCount;
 	}

@@ -27,16 +27,16 @@ namespace SharpImGui
 	{
 		/// <summary>
 		/// <br/>
-		///     // Members<br/>
-		///          // Number of selected items, maintained by this helper.<br/>
+		///     Members<br/>
+		///          Number of selected items, maintained by this helper.<br/>
 		/// </summary>
 		public int Size;
 		/// <summary>
-		/// = false  // GetNextSelectedItem() will return ordered selection (currently implemented by two additional sorts of selection. Could be improved)<br/>
+		/// = false  GetNextSelectedItem() will return ordered selection (currently implemented by two additional sorts of selection. Could be improved)<br/>
 		/// </summary>
 		public byte PreserveOrder;
 		/// <summary>
-		/// = NULL   // User data for use by adapter function        // e.g. selection.UserData = (void*)my_items;<br/>
+		/// = NULL   User data for use by adapter function        e.g. selection.UserData = (void*)my_items;<br/>
 		/// </summary>
 		public unsafe void* UserData;
 		/// <summary>

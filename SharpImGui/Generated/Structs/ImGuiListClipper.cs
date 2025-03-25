@@ -14,7 +14,7 @@ namespace SharpImGui
 	///  scale using lists with tens of thousands of items without a problem)<br/>
 	/// Usage:<br/>
 	///   ImGuiListClipper clipper;<br/>
-	///   clipper.Begin(1000);         // We have 1000 elements, evenly spaced.<br/>
+	///   clipper.Begin(1000);         We have 1000 elements, evenly spaced.<br/>
 	///   while (clipper.Step())<br/>
 	///       for (int i = clipper.DisplayStart; i < clipper.DisplayEnd; i++)<br/>
 	///           ImGui::Text("line number %d", i);<br/>

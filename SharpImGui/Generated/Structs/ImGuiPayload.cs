@@ -12,7 +12,7 @@ namespace SharpImGui
 	{
 		/// <summary>
 		/// <br/>
-		///     // Members<br/>
+		///     Members<br/>
 		/// Data (copied and owned by dear imgui)<br/>
 		/// </summary>
 		public unsafe void* Data;
@@ -21,7 +21,7 @@ namespace SharpImGui
 		/// </summary>
 		public int DataSize;
 		/// <summary>
-		///     // [Internal]<br/>
+		///     [Internal]<br/>
 		/// Source item id<br/>
 		/// </summary>
 		public uint SourceId;

@@ -20,7 +20,7 @@ namespace SharpImGui
 	{
 		/// <summary>
 		/// <br/>
-		///     // This is what you have to render<br/>
+		///     This is what you have to render<br/>
 		/// Draw commands. Typically 1 command = 1 GPU draw call, unless the command is a callback.<br/>
 		/// </summary>
 		public ImVector<ImDrawCmd> CmdBuffer;
@@ -37,7 +37,7 @@ namespace SharpImGui
 		/// </summary>
 		public ImDrawListFlags Flags;
 		/// <summary>
-		///     // [Internal, used while building lists]<br/>
+		///     [Internal, used while building lists]<br/>
 		/// [Internal] generally == VtxBuffer.Size unless we are past 64K vertices, in which case this gets reset to 0.<br/>
 		/// </summary>
 		public uint _VtxCurrentIdx;

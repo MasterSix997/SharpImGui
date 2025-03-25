@@ -14,7 +14,7 @@ namespace SharpImGui
 	{
 		/// <summary>
 		/// <br/>
-		///     // Layout<br/>
+		///     Layout<br/>
 		/// Current emitting position, in absolute coordinates.<br/>
 		/// </summary>
 		public Vector2 CursorPos;
@@ -54,7 +54,7 @@ namespace SharpImGui
 		/// </summary>
 		public Vector2 CursorStartPosLossyness;
 		/// <summary>
-		///     // Keyboard/Gamepad navigation<br/>
+		///     Keyboard/Gamepad navigation<br/>
 		/// Current layer, 0..31 (we currently only use 0..1)<br/>
 		/// </summary>
 		public ImGuiNavLayer NavLayerCurrent;
@@ -76,7 +76,7 @@ namespace SharpImGui
 		/// </summary>
 		public byte NavWindowHasScrollY;
 		/// <summary>
-		///     // Miscellaneous<br/>
+		///     Miscellaneous<br/>
 		/// FIXME: Remove this<br/>
 		/// </summary>
 		public byte MenuBarAppending;
@@ -116,15 +116,15 @@ namespace SharpImGui
 		public ImGuiLayoutType ParentLayoutType;
 		public uint ModalDimBgColor;
 		/// <summary>
-		///     // Status flags<br/>
+		///     Status flags<br/>
 		/// </summary>
 		public ImGuiItemStatusFlags WindowItemStatusFlags;
 		public ImGuiItemStatusFlags ChildItemStatusFlags;
 		public ImGuiItemStatusFlags DockTabItemStatusFlags;
 		public ImRect DockTabItemRect;
 		/// <summary>
-		///     // Local parameters stacks<br/>
-		///     // We store the current settings outside of the vectors to increase memory locality (reduce cache misses). The vectors are rarely modified. Also it allows us to not heap allocate for short-lived windows which are not using those settings.<br/>
+		///     Local parameters stacks<br/>
+		///     We store the current settings outside of the vectors to increase memory locality (reduce cache misses). The vectors are rarely modified. Also it allows us to not heap allocate for short-lived windows which are not using those settings.<br/>
 		/// Current item width (>0.0: width in pixels, <0.0: align xx pixels to the right of window).<br/>
 		/// </summary>
 		public float ItemWidth;

@@ -19,7 +19,7 @@ namespace SharpImGui
 	{
 		/// <summary>
 		/// <br/>
-		///     // [Internal]<br/>
+		///     [Internal]<br/>
 		/// </summary>
 		public ImVector<ImGuiStoragePair> Data;
 	}

@@ -47,8 +47,8 @@ namespace SharpImGui
 		/// </summary>
 		public unsafe void* UserData;
 		/// <summary>
-		///     // [Internal]<br/>
-		///     // NB: Access texture data via GetTexData*() calls! Which will setup a default font for you.<br/>
+		///     [Internal]<br/>
+		///     NB: Access texture data via GetTexData*() calls! Which will setup a default font for you.<br/>
 		/// Marked as Locked by ImGui::NewFrame() so attempt to modify the atlas will assert.<br/>
 		/// </summary>
 		public byte Locked;
@@ -133,7 +133,7 @@ namespace SharpImGui
 		public Vector4 TexUvLines_31;
 		public Vector4 TexUvLines_32;
 		/// <summary>
-		///     // [Internal] Font builder<br/>
+		///     [Internal] Font builder<br/>
 		/// Opaque interface to a font builder (default to stb_truetype, can be changed to use FreeType by defining IMGUI_ENABLE_FREETYPE).<br/>
 		/// </summary>
 		public unsafe IntPtr* FontBuilderIO;
@@ -142,7 +142,7 @@ namespace SharpImGui
 		/// </summary>
 		public uint FontBuilderFlags;
 		/// <summary>
-		///     // [Internal] Packing data<br/>
+		///     [Internal] Packing data<br/>
 		/// Custom texture rectangle ID for white pixel and mouse cursors<br/>
 		/// </summary>
 		public int PackIdMouseCursors;

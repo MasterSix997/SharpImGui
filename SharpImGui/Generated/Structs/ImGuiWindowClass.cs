@@ -49,7 +49,7 @@ namespace SharpImGui
 		/// </summary>
 		public byte DockingAlwaysTabBar;
 		/// <summary>
-		/// Set to true to allow windows of this class to be docked/merged with an unclassed window. // FIXME-DOCK: Move to DockNodeFlags override?<br/>
+		/// Set to true to allow windows of this class to be docked/merged with an unclassed window. FIXME-DOCK: Move to DockNodeFlags override?<br/>
 		/// </summary>
 		public byte DockingAllowUnclassed;
 	}

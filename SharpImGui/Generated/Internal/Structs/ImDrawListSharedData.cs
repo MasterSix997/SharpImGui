@@ -54,7 +54,7 @@ namespace SharpImGui
 		/// </summary>
 		public ImVector<Vector2> TempBuffer;
 		/// <summary>
-		///     // Lookup tables<br/>
+		///     Lookup tables<br/>
 		/// Sample points on the quarter of the circle.<br/>
 		/// </summary>
 		public Vector2 ArcFastVtx_0;

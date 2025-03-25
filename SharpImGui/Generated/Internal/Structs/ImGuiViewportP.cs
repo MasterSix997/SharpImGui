@@ -57,10 +57,10 @@ namespace SharpImGui
 		public Vector2 LastPlatformSize;
 		public Vector2 LastRendererSize;
 		/// <summary>
-		///     // Per-viewport work area<br/>
-		///     // - Insets are >= 0.0f values, distance from viewport corners to work area.<br/>
-		///     // - BeginMainMenuBar() and DockspaceOverViewport() tend to use work area to avoid stepping over existing contents.<br/>
-		///     // - Generally 'safeAreaInsets' in iOS land, 'DisplayCutout' in Android land.<br/>
+		///     Per-viewport work area<br/>
+		///     - Insets are >= 0.0f values, distance from viewport corners to work area.<br/>
+		///     - BeginMainMenuBar() and DockspaceOverViewport() tend to use work area to avoid stepping over existing contents.<br/>
+		///     - Generally 'safeAreaInsets' in iOS land, 'DisplayCutout' in Android land.<br/>
 		/// Work Area inset locked for the frame. GetWorkRect() always fits within GetMainRect().<br/>
 		/// </summary>
 		public Vector2 WorkInsetMin;

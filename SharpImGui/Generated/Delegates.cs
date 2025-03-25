@@ -93,4 +93,26 @@ namespace SharpImGui
 	public unsafe delegate void ApplyAllFnDelegate(IntPtr ctx, ImGuiSettingsHandler* handler);
 
 	public unsafe delegate void WriteAllFnDelegate(IntPtr ctx, ImGuiSettingsHandler* handler, ImGuiTextBuffer* out_buf);
+
+	public unsafe delegate void ImGuiFreeType_SetAllocatorFunctions_free_funcDelegate(void* ptr, void* user_data);
+
+	public unsafe delegate void* ImGuiFreeType_SetAllocatorFunctions_alloc_funcDelegate(uint sz, void* user_data);
+
+	public unsafe delegate byte* igCombo_getterDelegate(void* user_data, int idx);
+
+	public unsafe delegate int igImQsort_compare_funcDelegate(void* arg0, void* arg1);
+
+	public unsafe delegate byte* igListBox_getterDelegate(void* user_data, int idx);
+
+	public unsafe delegate float igPlotEx_values_getterDelegate(void* data, int idx);
+
+	public unsafe delegate float igPlotHistogram_values_getterDelegate(void* data, int idx);
+
+	public unsafe delegate float igPlotLines_values_getterDelegate(void* data, int idx);
+
+	public unsafe delegate byte* igTypingSelectFindBestLeadingMatch_get_item_name_funcDelegate(void* arg0, int arg1);
+
+	public unsafe delegate byte* igTypingSelectFindMatch_get_item_name_funcDelegate(void* arg0, int arg1);
+
+	public unsafe delegate byte* igTypingSelectFindNextSingleCharMatch_get_item_name_funcDelegate(void* arg0, int arg1);
 }

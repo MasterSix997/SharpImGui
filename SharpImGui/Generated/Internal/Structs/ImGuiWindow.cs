@@ -289,8 +289,8 @@ namespace SharpImGui
 		/// </summary>
 		public ImGuiWindowTempData DC;
 		/// <summary>
-		///     // The best way to understand what those rectangles are is to use the 'Metrics->Tools->Show Windows Rectangles' viewer.<br/>
-		///     // The main 'OuterRect', omitted as a field, is window->Rect().<br/>
+		///     The best way to understand what those rectangles are is to use the 'Metrics->Tools->Show Windows Rectangles' viewer.<br/>
+		///     The main 'OuterRect', omitted as a field, is window->Rect().<br/>
 		/// == Window->Rect() just after setup in Begin(). == window->Rect() for root window.<br/>
 		/// </summary>
 		public ImRect OuterRectClipped;
@@ -307,7 +307,7 @@ namespace SharpImGui
 		/// </summary>
 		public ImRect WorkRect;
 		/// <summary>
-		/// Backup of WorkRect before entering a container such as columns/tables. Used by e.g. SpanAllColumns functions to easily access. Stacked containers are responsible for maintaining this. // FIXME-WORKRECT: Could be a stack?<br/>
+		/// Backup of WorkRect before entering a container such as columns/tables. Used by e.g. SpanAllColumns functions to easily access. Stacked containers are responsible for maintaining this. FIXME-WORKRECT: Could be a stack?<br/>
 		/// </summary>
 		public ImRect ParentWorkRect;
 		/// <summary>
@@ -419,7 +419,7 @@ namespace SharpImGui
 		/// </summary>
 		public byte MemoryCompacted;
 		/// <summary>
-		///     // Docking<br/>
+		///     Docking<br/>
 		/// When docking artifacts are actually visible. When this is set, DockNode is guaranteed to be != NULL. ~~ (DockNode != NULL) && (DockNode->Windows.Size > 1).<br/>
 		/// </summary>
 		public byte DockIsActive;

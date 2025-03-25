@@ -47,11 +47,11 @@ namespace SharpImGui
 	{
 		None = 0,
 		/// <summary>
-		/// // Backspace to delete character inputs. If using: ensure GetTypingSelectRequest() is not called more than once per frame (filter by e.g. focus state)
+		/// Backspace to delete character inputs. If using: ensure GetTypingSelectRequest() is not called more than once per frame (filter by e.g. focus state)<br/>
 		/// </summary>
 		AllowBackspace = 1,
 		/// <summary>
-		/// // Allow "single char" search mode which is activated when pressing the same character multiple times.
+		/// Allow "single char" search mode which is activated when pressing the same character multiple times.<br/>
 		/// </summary>
 		AllowSingleCharMode = 2,
 	}
@@ -63,11 +63,11 @@ namespace SharpImGui
 	public enum ImGuiTreeNodeFlagsPrivate
 	{
 		/// <summary>
-		/// // FIXME-WIP: Hard-coded for CollapsingHeader()
+		/// FIXME-WIP: Hard-coded for CollapsingHeader()<br/>
 		/// </summary>
 		ClipLabelForTrailingButton = 268435456,
 		/// <summary>
-		/// // FIXME-WIP: Turn Down arrow into an Up arrow, for reversed trees (#6517)
+		/// FIXME-WIP: Turn Down arrow into an Up arrow, for reversed trees (#6517)<br/>
 		/// </summary>
 		UpsideDownArrow = 536870912,
 		OpenOnMask = 192,
@@ -98,19 +98,19 @@ namespace SharpImGui
 	{
 		SectionMask = 192,
 		/// <summary>
-		/// // Track whether p_open was set or not (we'll need this info on the next frame to recompute ContentWidth during layout)
+		/// Track whether p_open was set or not (we'll need this info on the next frame to recompute ContentWidth during layout)<br/>
 		/// </summary>
 		NoCloseButton = 1048576,
 		/// <summary>
-		/// // Used by TabItemButton, change the tab item behavior to mimic a button
+		/// Used by TabItemButton, change the tab item behavior to mimic a button<br/>
 		/// </summary>
 		Button = 2097152,
 		/// <summary>
-		/// // To reserve space e.g. with ImGuiTabItemFlags_Leading
+		/// To reserve space e.g. with ImGuiTabItemFlags_Leading<br/>
 		/// </summary>
 		Invisible = 4194304,
 		/// <summary>
-		/// // [Docking] Trailing tabs with the _Unsorted flag will be sorted based on the DockOrder of their Window.
+		/// [Docking] Trailing tabs with the _Unsorted flag will be sorted based on the DockOrder of their Window.<br/>
 		/// </summary>
 		Unsorted = 8388608,
 	}
@@ -122,12 +122,12 @@ namespace SharpImGui
 	public enum ImGuiTabBarFlagsPrivate
 	{
 		/// <summary>
-		/// // Part of a dock node [we don't use this in the master branch but it facilitate branch syncing to keep this around]
+		/// Part of a dock node [we don't use this in the master branch but it facilitate branch syncing to keep this around]<br/>
 		/// </summary>
 		DockNode = 1048576,
 		IsFocused = 2097152,
 		/// <summary>
-		/// // FIXME: Settings are handled by the docking system, this only request the tab bar to mark settings dirty when reordering tabs
+		/// FIXME: Settings are handled by the docking system, this only request the tab bar to mark settings dirty when reordering tabs<br/>
 		/// </summary>
 		SaveSettings = 4194304,
 	}
@@ -139,11 +139,11 @@ namespace SharpImGui
 	public enum ImGuiSliderFlagsPrivate
 	{
 		/// <summary>
-		/// // Should this slider be orientated vertically?
+		/// Should this slider be orientated vertically?<br/>
 		/// </summary>
 		Vertical = 1048576,
 		/// <summary>
-		/// // Consider using g.NextItemData.ItemFlags |= ImGuiItemFlags_ReadOnly instead.
+		/// Consider using g.NextItemData.ItemFlags |= ImGuiItemFlags_ReadOnly instead.<br/>
 		/// </summary>
 		ReadOnly = 2097152,
 	}
@@ -171,31 +171,31 @@ namespace SharpImGui
 	{
 		NoHoldingActiveID = 1048576,
 		/// <summary>
-		/// // (WIP) Auto-select when moved into. This is not exposed in public API as to handle multi-select and modifiers we will need user to explicitly control focus scope. May be replaced with a BeginSelection() API.
+		/// (WIP) Auto-select when moved into. This is not exposed in public API as to handle multi-select and modifiers we will need user to explicitly control focus scope. May be replaced with a BeginSelection() API.<br/>
 		/// </summary>
 		SelectOnNav = 2097152,
 		/// <summary>
-		/// // Override button behavior to react on Click (default is Click+Release)
+		/// Override button behavior to react on Click (default is Click+Release)<br/>
 		/// </summary>
 		SelectOnClick = 4194304,
 		/// <summary>
-		/// // Override button behavior to react on Release (default is Click+Release)
+		/// Override button behavior to react on Release (default is Click+Release)<br/>
 		/// </summary>
 		SelectOnRelease = 8388608,
 		/// <summary>
-		/// // Span all avail width even if we declared less for layout purpose. FIXME: We may be able to remove this (added in 6251d379, 2bcafc86 for menus)
+		/// Span all avail width even if we declared less for layout purpose. FIXME: We may be able to remove this (added in 6251d379, 2bcafc86 for menus)<br/>
 		/// </summary>
 		SpanAvailWidth = 16777216,
 		/// <summary>
-		/// // Set Nav/Focus ID on mouse hover (used by MenuItem)
+		/// Set Nav/Focus ID on mouse hover (used by MenuItem)<br/>
 		/// </summary>
 		SetNavIdOnHover = 33554432,
 		/// <summary>
-		/// // Disable padding each side with ItemSpacing * 0.5f
+		/// Disable padding each side with ItemSpacing * 0.5f<br/>
 		/// </summary>
 		NoPadWithHalfSpacing = 67108864,
 		/// <summary>
-		/// // Don't set key/input owner on the initial click (note: mouse buttons are keys! often, the key in question will be ImGuiKey_MouseLeft!)
+		/// Don't set key/input owner on the initial click (note: mouse buttons are keys! often, the key in question will be ImGuiKey_MouseLeft!)<br/>
 		/// </summary>
 		NoSetKeyOwner = 134217728,
 	}
@@ -208,31 +208,31 @@ namespace SharpImGui
 	{
 		None = 0,
 		/// <summary>
-		/// // If item is not visible: scroll as little as possible on X axis to bring item back into view [default for X axis]
+		/// If item is not visible: scroll as little as possible on X axis to bring item back into view [default for X axis]<br/>
 		/// </summary>
 		KeepVisibleEdgeX = 1,
 		/// <summary>
-		/// // If item is not visible: scroll as little as possible on Y axis to bring item back into view [default for Y axis for windows that are already visible]
+		/// If item is not visible: scroll as little as possible on Y axis to bring item back into view [default for Y axis for windows that are already visible]<br/>
 		/// </summary>
 		KeepVisibleEdgeY = 2,
 		/// <summary>
-		/// // If item is not visible: scroll to make the item centered on X axis [rarely used]
+		/// If item is not visible: scroll to make the item centered on X axis [rarely used]<br/>
 		/// </summary>
 		KeepVisibleCenterX = 4,
 		/// <summary>
-		/// // If item is not visible: scroll to make the item centered on Y axis
+		/// If item is not visible: scroll to make the item centered on Y axis<br/>
 		/// </summary>
 		KeepVisibleCenterY = 8,
 		/// <summary>
-		/// // Always center the result item on X axis [rarely used]
+		/// Always center the result item on X axis [rarely used]<br/>
 		/// </summary>
 		AlwaysCenterX = 16,
 		/// <summary>
-		/// // Always center the result item on Y axis [default for Y axis for appearing window)
+		/// Always center the result item on Y axis [default for Y axis for appearing window)<br/>
 		/// </summary>
 		AlwaysCenterY = 32,
 		/// <summary>
-		/// // Disable forwarding scrolling to parent window if required to keep item/rect visible (only scroll window the function was applied to).
+		/// Disable forwarding scrolling to parent window if required to keep item/rect visible (only scroll window the function was applied to).<br/>
 		/// </summary>
 		NoScrollParent = 64,
 		MaskX = 21,
@@ -260,23 +260,23 @@ namespace SharpImGui
 	{
 		None = 0,
 		/// <summary>
-		/// // Disable column dividers
+		/// Disable column dividers<br/>
 		/// </summary>
 		NoBorder = 1,
 		/// <summary>
-		/// // Disable resizing columns when clicking on the dividers
+		/// Disable resizing columns when clicking on the dividers<br/>
 		/// </summary>
 		NoResize = 2,
 		/// <summary>
-		/// // Disable column width preservation when adjusting columns
+		/// Disable column width preservation when adjusting columns<br/>
 		/// </summary>
 		NoPreserveWidths = 4,
 		/// <summary>
-		/// // Disable forcing columns to fit within window
+		/// Disable forcing columns to fit within window<br/>
 		/// </summary>
 		NoForceWithinWindow = 8,
 		/// <summary>
-		/// // Restore pre-1.51 behavior of extending the parent window contents size but _without affecting the columns width at all_. Will eventually remove.
+		/// Restore pre-1.51 behavior of extending the parent window contents size but _without affecting the columns width at all_. Will eventually remove.<br/>
 		/// </summary>
 		GrowParentContentsSize = 16,
 	}
@@ -458,47 +458,47 @@ namespace SharpImGui
 	{
 		None = 0,
 		/// <summary>
-		/// // Mouse position is within item rectangle (does NOT mean that the window is in correct z-order and can be hovered!, this is only one part of the most-common IsItemHovered test)
+		/// Mouse position is within item rectangle (does NOT mean that the window is in correct z-order and can be hovered!, this is only one part of the most-common IsItemHovered test)<br/>
 		/// </summary>
 		HoveredRect = 1,
 		/// <summary>
-		/// // g.LastItemData.DisplayRect is valid
+		/// g.LastItemData.DisplayRect is valid<br/>
 		/// </summary>
 		HasDisplayRect = 2,
 		/// <summary>
-		/// // Value exposed by item was edited in the current frame (should match the bool return value of most widgets)
+		/// Value exposed by item was edited in the current frame (should match the bool return value of most widgets)<br/>
 		/// </summary>
 		Edited = 4,
 		/// <summary>
-		/// // Set when Selectable(), TreeNode() reports toggling a selection. We can't report "Selected", only state changes, in order to easily handle clipping with less issues.
+		/// Set when Selectable(), TreeNode() reports toggling a selection. We can't report "Selected", only state changes, in order to easily handle clipping with less issues.<br/>
 		/// </summary>
 		ToggledSelection = 8,
 		/// <summary>
-		/// // Set when TreeNode() reports toggling their open state.
+		/// Set when TreeNode() reports toggling their open state.<br/>
 		/// </summary>
 		ToggledOpen = 16,
 		/// <summary>
-		/// // Set if the widget/group is able to provide data for the ImGuiItemStatusFlags_Deactivated flag.
+		/// Set if the widget/group is able to provide data for the ImGuiItemStatusFlags_Deactivated flag.<br/>
 		/// </summary>
 		HasDeactivated = 32,
 		/// <summary>
-		/// // Only valid if ImGuiItemStatusFlags_HasDeactivated is set.
+		/// Only valid if ImGuiItemStatusFlags_HasDeactivated is set.<br/>
 		/// </summary>
 		Deactivated = 64,
 		/// <summary>
-		/// // Override the HoveredWindow test to allow cross-window hover testing.
+		/// Override the HoveredWindow test to allow cross-window hover testing.<br/>
 		/// </summary>
 		HoveredWindow = 128,
 		/// <summary>
-		/// // [WIP] Set when item is overlapping the current clipping rectangle (Used internally. Please don't use yet: API/system will change as we refactor Itemadd()).
+		/// [WIP] Set when item is overlapping the current clipping rectangle (Used internally. Please don't use yet: API/system will change as we refactor Itemadd()).<br/>
 		/// </summary>
 		Visible = 256,
 		/// <summary>
-		/// // g.LastItemData.ClipRect is valid.
+		/// g.LastItemData.ClipRect is valid.<br/>
 		/// </summary>
 		HasClipRect = 512,
 		/// <summary>
-		/// // g.LastItemData.Shortcut valid. Set by SetNextItemShortcut() -> ItemAdd().
+		/// g.LastItemData.Shortcut valid. Set by SetNextItemShortcut() -> ItemAdd().<br/>
 		/// </summary>
 		HasShortcut = 1024,
 	}
@@ -512,47 +512,47 @@ namespace SharpImGui
 	public enum ImGuiItemFlagsPrivate
 	{
 		/// <summary>
-		/// // false     // Disable interactions (DOES NOT affect visuals. DO NOT mix direct use of this with BeginDisabled(). See BeginDisabled()/EndDisabled() for full disable feature, and github #211).
+		/// false     Disable interactions (DOES NOT affect visuals. DO NOT mix direct use of this with BeginDisabled(). See BeginDisabled()/EndDisabled() for full disable feature, and github #211).<br/>
 		/// </summary>
 		Disabled = 1024,
 		/// <summary>
-		/// // false     // [ALPHA] Allow hovering interactions but underlying value is not changed.
+		/// false     [ALPHA] Allow hovering interactions but underlying value is not changed.<br/>
 		/// </summary>
 		ReadOnly = 2048,
 		/// <summary>
-		/// // false     // [BETA] Represent a mixed/indeterminate value, generally multi-selection where values differ. Currently only supported by Checkbox() (later should support all sorts of widgets)
+		/// false     [BETA] Represent a mixed/indeterminate value, generally multi-selection where values differ. Currently only supported by Checkbox() (later should support all sorts of widgets)<br/>
 		/// </summary>
 		MixedValue = 4096,
 		/// <summary>
-		/// // false     // Disable hoverable check in ItemHoverable()
+		/// false     Disable hoverable check in ItemHoverable()<br/>
 		/// </summary>
 		NoWindowHoverableCheck = 8192,
 		/// <summary>
-		/// // false     // Allow being overlapped by another widget. Not-hovered to Hovered transition deferred by a frame.
+		/// false     Allow being overlapped by another widget. Not-hovered to Hovered transition deferred by a frame.<br/>
 		/// </summary>
 		AllowOverlap = 16384,
 		/// <summary>
-		/// // false     // Nav keyboard/gamepad mode doesn't disable hover highlight (behave as if NavHighlightItemUnderNav==false).
+		/// false     Nav keyboard/gamepad mode doesn't disable hover highlight (behave as if NavHighlightItemUnderNav==false).<br/>
 		/// </summary>
 		NoNavDisableMouseHover = 32768,
 		/// <summary>
-		/// // false     // Skip calling MarkItemEdited()
+		/// false     Skip calling MarkItemEdited()<br/>
 		/// </summary>
 		NoMarkEdited = 65536,
 		/// <summary>
-		/// // false     // [WIP] Auto-activate input mode when tab focused. Currently only used and supported by a few items before it becomes a generic feature.
+		/// false     [WIP] Auto-activate input mode when tab focused. Currently only used and supported by a few items before it becomes a generic feature.<br/>
 		/// </summary>
 		Inputable = 1048576,
 		/// <summary>
-		/// // false     // Set by SetNextItemSelectionUserData()
+		/// false     Set by SetNextItemSelectionUserData()<br/>
 		/// </summary>
 		HasSelectionUserData = 2097152,
 		/// <summary>
-		/// // false     // Set by SetNextItemSelectionUserData()
+		/// false     Set by SetNextItemSelectionUserData()<br/>
 		/// </summary>
 		IsMultiSelect = 4194304,
 		/// <summary>
-		/// // Please don't change, use PushItemFlag() instead.
+		/// Please don't change, use PushItemFlag() instead.<br/>
 		/// </summary>
 		Default = 16,
 	}
@@ -564,15 +564,15 @@ namespace SharpImGui
 	public enum ImGuiInputTextFlagsPrivate
 	{
 		/// <summary>
-		/// // For internal use by InputTextMultiline()
+		/// For internal use by InputTextMultiline()<br/>
 		/// </summary>
 		Multiline = 67108864,
 		/// <summary>
-		/// // For internal use by TempInputText(), will skip calling ItemAdd(). Require bounding-box to strictly match.
+		/// For internal use by TempInputText(), will skip calling ItemAdd(). Require bounding-box to strictly match.<br/>
 		/// </summary>
 		MergedItem = 134217728,
 		/// <summary>
-		/// // For internal use by InputScalar() and TempInputScalar()
+		/// For internal use by InputScalar() and TempInputScalar()<br/>
 		/// </summary>
 		LocalizeDecimalPoint = 268435456,
 	}
@@ -598,47 +598,47 @@ namespace SharpImGui
 	public enum ImGuiInputFlagsPrivate
 	{
 		/// <summary>
-		/// // Repeat rate: Regular (default)
+		/// Repeat rate: Regular (default)<br/>
 		/// </summary>
 		RepeatRateDefault = 2,
 		/// <summary>
-		/// // Repeat rate: Fast
+		/// Repeat rate: Fast<br/>
 		/// </summary>
 		RepeatRateNavMove = 4,
 		/// <summary>
-		/// // Repeat rate: Faster
+		/// Repeat rate: Faster<br/>
 		/// </summary>
 		RepeatRateNavTweak = 8,
 		/// <summary>
-		/// // Stop repeating when released (default for all functions except Shortcut). This only exists to allow overriding Shortcut() default behavior.
+		/// Stop repeating when released (default for all functions except Shortcut). This only exists to allow overriding Shortcut() default behavior.<br/>
 		/// </summary>
 		RepeatUntilRelease = 16,
 		/// <summary>
-		/// // Stop repeating when released OR if keyboard mods are changed (default for Shortcut)
+		/// Stop repeating when released OR if keyboard mods are changed (default for Shortcut)<br/>
 		/// </summary>
 		RepeatUntilKeyModsChange = 32,
 		/// <summary>
-		/// // Stop repeating when released OR if keyboard mods are leaving the None state. Allows going from Mod+Key to Key by releasing Mod.
+		/// Stop repeating when released OR if keyboard mods are leaving the None state. Allows going from Mod+Key to Key by releasing Mod.<br/>
 		/// </summary>
 		RepeatUntilKeyModsChangeFromNone = 64,
 		/// <summary>
-		/// // Stop repeating when released OR if any other keyboard key is pressed during the repeat
+		/// Stop repeating when released OR if any other keyboard key is pressed during the repeat<br/>
 		/// </summary>
 		RepeatUntilOtherKeyPress = 128,
 		/// <summary>
-		/// // Further accesses to key data will require EXPLICIT owner ID (ImGuiKeyOwner_Any/0 will NOT accepted for polling). Cleared at end of frame.
+		/// Further accesses to key data will require EXPLICIT owner ID (ImGuiKeyOwner_Any/0 will NOT accepted for polling). Cleared at end of frame.<br/>
 		/// </summary>
 		LockThisFrame = 1048576,
 		/// <summary>
-		/// // Further accesses to key data will require EXPLICIT owner ID (ImGuiKeyOwner_Any/0 will NOT accepted for polling). Cleared when the key is released or at end of each frame if key is released.
+		/// Further accesses to key data will require EXPLICIT owner ID (ImGuiKeyOwner_Any/0 will NOT accepted for polling). Cleared when the key is released or at end of each frame if key is released.<br/>
 		/// </summary>
 		LockUntilRelease = 2097152,
 		/// <summary>
-		/// // Only set if item is hovered (default to both)
+		/// Only set if item is hovered (default to both)<br/>
 		/// </summary>
 		CondHovered = 4194304,
 		/// <summary>
-		/// // Only set if item is active (default to both)
+		/// Only set if item is active (default to both)<br/>
 		/// </summary>
 		CondActive = 8388608,
 		CondDefault = 12582912,
@@ -694,11 +694,11 @@ namespace SharpImGui
 	{
 		None = 0,
 		/// <summary>
-		/// // Find last focused child (if any) and focus it instead.
+		/// Find last focused child (if any) and focus it instead.<br/>
 		/// </summary>
 		RestoreFocusedChild = 1,
 		/// <summary>
-		/// // Do not set focus if the window is below a modal.
+		/// Do not set focus if the window is below a modal.<br/>
 		/// </summary>
 		UnlessBelowModal = 2,
 	}
@@ -718,55 +718,55 @@ namespace SharpImGui
 	public enum ImGuiDockNodeFlagsPrivate
 	{
 		/// <summary>
-		/// // Saved // A dockspace is a node that occupy space within an existing user window. Otherwise the node is floating and create its own window.
+		/// Saved A dockspace is a node that occupy space within an existing user window. Otherwise the node is floating and create its own window.<br/>
 		/// </summary>
 		DockSpace = 1024,
 		/// <summary>
-		/// // Saved // The central node has 2 main properties: stay visible when empty, only use "remaining" spaces from its neighbor.
+		/// Saved The central node has 2 main properties: stay visible when empty, only use "remaining" spaces from its neighbor.<br/>
 		/// </summary>
 		CentralNode = 2048,
 		/// <summary>
-		/// // Saved // Tab bar is completely unavailable. No triangle in the corner to enable it back.
+		/// Saved Tab bar is completely unavailable. No triangle in the corner to enable it back.<br/>
 		/// </summary>
 		NoTabBar = 4096,
 		/// <summary>
-		/// // Saved // Tab bar is hidden, with a triangle in the corner to show it again (NB: actual tab-bar instance may be destroyed as this is only used for single-window tab bar)
+		/// Saved Tab bar is hidden, with a triangle in the corner to show it again (NB: actual tab-bar instance may be destroyed as this is only used for single-window tab bar)<br/>
 		/// </summary>
 		HiddenTabBar = 8192,
 		/// <summary>
-		/// // Saved // Disable window/docking menu (that one that appears instead of the collapse button)
+		/// Saved Disable window/docking menu (that one that appears instead of the collapse button)<br/>
 		/// </summary>
 		NoWindowMenuButton = 16384,
 		/// <summary>
-		/// // Saved // Disable close button
+		/// Saved Disable close button<br/>
 		/// </summary>
 		NoCloseButton = 32768,
 		/// <summary>
-		/// //       //
+		///       //<br/>
 		/// </summary>
 		NoResizeX = 65536,
 		/// <summary>
-		/// //       //
+		///       //<br/>
 		/// </summary>
 		NoResizeY = 131072,
 		/// <summary>
-		/// //       // Any docked window will be automatically be focus-route chained (window->ParentWindowForFocusRoute set to this) so Shortcut() in this window can run when any docked window is focused.
+		///       Any docked window will be automatically be focus-route chained (window->ParentWindowForFocusRoute set to this) so Shortcut() in this window can run when any docked window is focused.<br/>
 		/// </summary>
 		DockedWindowsInFocusRoute = 262144,
 		/// <summary>
-		/// //       // Disable this node from splitting other windows/nodes.
+		///       Disable this node from splitting other windows/nodes.<br/>
 		/// </summary>
 		NoDockingSplitOther = 524288,
 		/// <summary>
-		/// //       // Disable other windows/nodes from being docked over this node.
+		///       Disable other windows/nodes from being docked over this node.<br/>
 		/// </summary>
 		NoDockingOverMe = 1048576,
 		/// <summary>
-		/// //       // Disable this node from being docked over another window or non-empty node.
+		///       Disable this node from being docked over another window or non-empty node.<br/>
 		/// </summary>
 		NoDockingOverOther = 2097152,
 		/// <summary>
-		/// //       // Disable this node from being docked over an empty node (e.g. DockSpace with no other windows)
+		///       Disable this node from being docked over an empty node (e.g. DockSpace with no other windows)<br/>
 		/// </summary>
 		NoDockingOverEmpty = 4194304,
 		NoDocking = 7864336,
@@ -784,7 +784,7 @@ namespace SharpImGui
 	{
 		None = 0,
 		/// <summary>
-		/// // Error submitted by IM_ASSERT_USER_ERROR()
+		/// Error submitted by IM_ASSERT_USER_ERROR()<br/>
 		/// </summary>
 		EventError = 1,
 		EventActiveId = 2,
@@ -800,11 +800,11 @@ namespace SharpImGui
 		EventViewport = 2048,
 		EventMask = 4095,
 		/// <summary>
-		/// // Also send output to TTY
+		/// Also send output to TTY<br/>
 		/// </summary>
 		OutputToTTY = 1048576,
 		/// <summary>
-		/// // Also send output to Test Engine
+		/// Also send output to Test Engine<br/>
 		/// </summary>
 		OutputToTestEngine = 2097152,
 	}
@@ -847,7 +847,7 @@ namespace SharpImGui
 	public enum ImGuiComboFlagsPrivate
 	{
 		/// <summary>
-		/// // enable BeginComboPreview()
+		/// enable BeginComboPreview()<br/>
 		/// </summary>
 		CustomPreview = 1048576,
 	}
@@ -859,63 +859,63 @@ namespace SharpImGui
 	public enum ImGuiButtonFlagsPrivate
 	{
 		/// <summary>
-		/// // return true on click (mouse down event)
+		/// return true on click (mouse down event)<br/>
 		/// </summary>
 		PressedOnClick = 16,
 		/// <summary>
-		/// // [Default] return true on click + release on same item <-- this is what the majority of Button are using
+		/// [Default] return true on click + release on same item <-- this is what the majority of Button are using<br/>
 		/// </summary>
 		PressedOnClickRelease = 32,
 		/// <summary>
-		/// // return true on click + release even if the release event is not done while hovering the item
+		/// return true on click + release even if the release event is not done while hovering the item<br/>
 		/// </summary>
 		PressedOnClickReleaseAnywhere = 64,
 		/// <summary>
-		/// // return true on release (default requires click+release)
+		/// return true on release (default requires click+release)<br/>
 		/// </summary>
 		PressedOnRelease = 128,
 		/// <summary>
-		/// // return true on double-click (default requires click+release)
+		/// return true on double-click (default requires click+release)<br/>
 		/// </summary>
 		PressedOnDoubleClick = 256,
 		/// <summary>
-		/// // return true when held into while we are drag and dropping another item (used by e.g. tree nodes, collapsing headers)
+		/// return true when held into while we are drag and dropping another item (used by e.g. tree nodes, collapsing headers)<br/>
 		/// </summary>
 		PressedOnDragDropHold = 512,
 		/// <summary>
-		/// // allow interactions even if a child window is overlapping
+		/// allow interactions even if a child window is overlapping<br/>
 		/// </summary>
 		FlattenChildren = 2048,
 		/// <summary>
-		/// // require previous frame HoveredId to either match id or be null before being usable.
+		/// require previous frame HoveredId to either match id or be null before being usable.<br/>
 		/// </summary>
 		AllowOverlap = 4096,
 		/// <summary>
-		/// // vertically align button to match text baseline - ButtonEx() only // FIXME: Should be removed and handled by SmallButton(), not possible currently because of DC.CursorPosPrevLine
+		/// vertically align button to match text baseline - ButtonEx() only FIXME: Should be removed and handled by SmallButton(), not possible currently because of DC.CursorPosPrevLine<br/>
 		/// </summary>
 		AlignTextBaseLine = 32768,
 		/// <summary>
-		/// // disable mouse interaction if a key modifier is held
+		/// disable mouse interaction if a key modifier is held<br/>
 		/// </summary>
 		NoKeyModsAllowed = 65536,
 		/// <summary>
-		/// // don't set ActiveId while holding the mouse (ImGuiButtonFlags_PressedOnClick only)
+		/// don't set ActiveId while holding the mouse (ImGuiButtonFlags_PressedOnClick only)<br/>
 		/// </summary>
 		NoHoldingActiveId = 131072,
 		/// <summary>
-		/// // don't override navigation focus when activated (FIXME: this is essentially used every time an item uses ImGuiItemFlags_NoNav, but because legacy specs don't requires LastItemData to be set ButtonBehavior(), we can't poll g.LastItemData.ItemFlags)
+		/// don't override navigation focus when activated (FIXME: this is essentially used every time an item uses ImGuiItemFlags_NoNav, but because legacy specs don't requires LastItemData to be set ButtonBehavior(), we can't poll g.LastItemData.ItemFlags)<br/>
 		/// </summary>
 		NoNavFocus = 262144,
 		/// <summary>
-		/// // don't report as hovered when nav focus is on this item
+		/// don't report as hovered when nav focus is on this item<br/>
 		/// </summary>
 		NoHoveredOnFocus = 524288,
 		/// <summary>
-		/// // don't set key/input owner on the initial click (note: mouse buttons are keys! often, the key in question will be ImGuiKey_MouseLeft!)
+		/// don't set key/input owner on the initial click (note: mouse buttons are keys! often, the key in question will be ImGuiKey_MouseLeft!)<br/>
 		/// </summary>
 		NoSetKeyOwner = 1048576,
 		/// <summary>
-		/// // don't test key/input owner when polling the key (note: mouse buttons are keys! often, the key in question will be ImGuiKey_MouseLeft!)
+		/// don't test key/input owner when polling the key (note: mouse buttons are keys! often, the key in question will be ImGuiKey_MouseLeft!)<br/>
 		/// </summary>
 		NoTestKeyOwner = 2097152,
 		PressedOnMask = 1008,

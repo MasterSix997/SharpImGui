@@ -53,11 +53,11 @@ namespace SharpImGui
 		/// </summary>
 		public unsafe ImDrawData* DrawData;
 		/// <summary>
-		///     // Platform/Backend Dependent Data<br/>
-		///     // Our design separate the Renderer and Platform backends to facilitate combining default backends with each others.<br/>
-		///     // When our create your own backend for a custom engine, it is possible that both Renderer and Platform will be handled<br/>
-		///     // by the same system and you may not need to use all the UserData/Handle fields.<br/>
-		///     // The library never uses those fields, they are merely storage to facilitate backend implementation.<br/>
+		///     Platform/Backend Dependent Data<br/>
+		///     Our design separate the Renderer and Platform backends to facilitate combining default backends with each others.<br/>
+		///     When our create your own backend for a custom engine, it is possible that both Renderer and Platform will be handled<br/>
+		///     by the same system and you may not need to use all the UserData/Handle fields.<br/>
+		///     The library never uses those fields, they are merely storage to facilitate backend implementation.<br/>
 		/// void* to hold custom data structure for the renderer (e.g. swap chain, framebuffers etc.). generally set by your Renderer_CreateWindow function.<br/>
 		/// </summary>
 		public unsafe void* RendererUserData;

@@ -29,7 +29,7 @@ namespace SharpImGui
 		public ImRect NavRect;
 		/// <summary>
 		/// <br/>
-		///     // Rarely used fields are not explicitly cleared, only valid when the corresponding ImGuiItemStatusFlags are set.<br/>
+		///     Rarely used fields are not explicitly cleared, only valid when the corresponding ImGuiItemStatusFlags are set.<br/>
 		/// Display rectangle. ONLY VALID IF (StatusFlags & ImGuiItemStatusFlags_HasDisplayRect) is set.<br/>
 		/// </summary>
 		public ImRect DisplayRect;

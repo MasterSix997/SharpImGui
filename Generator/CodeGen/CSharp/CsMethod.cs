@@ -162,16 +162,13 @@
             if (IsStatic)
                 writer.Write("static ");
 
-            if (IsUnsafe)
-                writer.Write("unsafe ");
-            
             if (IsExtern)
                 writer.Write("extern ");
+            
+            if (IsUnsafe)
+                writer.Write("unsafe ");
 
-            if (ReturnType is not null) 
-                ReturnType.WriteTo(writer); 
-            else 
-                writer.Write("void");
+            writer.Write(ReturnType is not null ? ReturnType.TypeName : "void");
             writer.Write(' ');
             writer.Write(Name);
             writer.Write('(');

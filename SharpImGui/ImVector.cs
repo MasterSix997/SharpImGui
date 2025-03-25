@@ -82,14 +82,14 @@ namespace SharpImGui
 
                 if (data == null)
                 {
-                    data = (T*)ImGui.MemAlloc((nuint)(value * sizeof(T)));
+                    data = (T*)ImGuiNative.igMemAlloc((uint)(value * sizeof(T)));
                 }
                 else
                 {
                     int newSize = Math.Min(size, value);
-                    T* newData = (T*)ImGui.MemAlloc((nuint)(value * sizeof(T)));
-                    Buffer.MemoryCopy(data, newData, (nuint)(value * sizeof(T)), (nuint)(newSize * sizeof(T)));
-                    ImGui.MemFree(data);
+                    T* newData = (T*)ImGuiNative.igMemAlloc((uint)(value * sizeof(T)));
+                    Buffer.MemoryCopy(data, newData, (uint)(value * sizeof(T)), (uint)(newSize * sizeof(T)));
+                    ImGuiNative.igMemFree(data);
                     data = newData;
                     size = newSize;
                 }
@@ -179,7 +179,7 @@ namespace SharpImGui
         {
             if (data != null)
             {
-                ImGui.MemFree(data);
+                ImGuiNative.igMemFree(data);
                 data = null;
                 size = 0;
                 capacity = 0;

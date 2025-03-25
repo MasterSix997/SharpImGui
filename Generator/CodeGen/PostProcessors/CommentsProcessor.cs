@@ -9,7 +9,7 @@ public struct CommentsProcessor : IPostProcessor
         RecursiveCleanupComments(generated.Definitions);
     }
 
-    private void RecursiveCleanupComments(ICsDeclarationContainer container)
+    private static void RecursiveCleanupComments(ICsContainer container)
     {
         foreach (var child in container.Children())
         {
@@ -18,35 +18,28 @@ public struct CommentsProcessor : IPostProcessor
             if (docComment.Above is not null)
             {
                 CleanupSlashes(ref docComment.Above);
-                AddBreakLineTagXML(ref docComment.Above);
+                AddBreakLineTagXml(ref docComment.Above);
             }
 
             if (docComment.SameLine is not null)
             {
                 CleanupSlashes(ref docComment.SameLine);
-                AddBreakLineTagXML(ref docComment.SameLine);
+                AddBreakLineTagXml(ref docComment.SameLine);
             }
 
-            if (child is ICsDeclarationContainer childContainer)
+            if (child is ICsContainer childContainer)
             {
                 RecursiveCleanupComments(childContainer);
             }
         }
     }
 
-    private void CleanupSlashes(ref string comment)
+    private static void CleanupSlashes(ref string comment)
     {
-        var splits = comment.Split('\n');
-        for (var i = 0; i < splits.Length; i++)
-        {
-            var split = splits[i];
-            if (split.StartsWith("// "))
-                splits[i] = split[3..];
-        }
-        comment = string.Join('\n', splits);
+        comment = comment.Replace("// ", "");
     }
     
-    private void AddBreakLineTagXML(ref string comment)
+    private static void AddBreakLineTagXml(ref string comment)
     {
         var splits = comment.Split('\n');
         for (var i = 0; i < splits.Length; i++)

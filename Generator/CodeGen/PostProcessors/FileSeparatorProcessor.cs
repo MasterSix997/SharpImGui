@@ -15,11 +15,12 @@ public struct FileSeparatorProcessor : IPostProcessor
         output.AddFile("Enums.cs", enumsNamespace, usings: ["System"]);
 
         GenerateStructFiles(output, output.DefinitionsWithoutFiles);
-        // var structsNamespace = new CsNamespace("SharpImGui");
-        // output.DefinitionsWithoutFiles.Classes.MoveTo(structsNamespace.Classes);
-        // output.AddFile("Structs.cs", structsNamespace, usings: ["System", "System.Numerics", "System.Runtime.InteropServices"]);
 
-        var nativeStruct = new CsClass("ImGuiNative", CsClassKind.Struct);
+        var nativeStruct = new CsClass("ImGuiNative", CsClassKind.Class)
+        {
+            Visibility = CsVisibility.Public,
+            IsStatic = true,
+        };
         output.DefinitionsWithoutFiles.Methods.MoveTo(nativeStruct.Methods);
         var nativeNamespace = new CsNamespace("SharpImGui");
         nativeNamespace.Classes.Add(nativeStruct);
@@ -42,22 +43,10 @@ public struct FileSeparatorProcessor : IPostProcessor
         }
         output.AddFile("InternalEnums.cs", internalEnumsNamespace, "Internal", ["System"]);
         
-        // var internalStructsNamespace = new CsNamespace("SharpImGui");
-        // for (var i = structsNamespace.Classes.Count - 1; i > 0 ; i--)
-        // {
-        //     var @struct = structsNamespace.Classes[i];
-        //     if (@struct.Metadata is true)
-        //     {
-        //         structsNamespace.Classes.RemoveAt(i);
-        //         internalStructsNamespace.Classes.Add(@struct);
-        //     }
-        // }
-        // output.AddFile("InternalStructs.cs", internalStructsNamespace, "Internal", ["System", "System.Numerics", "System.Runtime.InteropServices"]);
-        
-        var internalNativeStruct = new CsClass("InternalImGuiNative", CsClassKind.Struct)
+        var internalNativeStruct = new CsClass("InternalImGuiNative", CsClassKind.Class)
         {
             Visibility = CsVisibility.Public,
-            IsUnsafe = true
+            IsStatic = true,
         };
         for (var i = nativeStruct.Methods.Count - 1; i > 0 ; i--)
         {

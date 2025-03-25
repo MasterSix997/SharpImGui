@@ -15,12 +15,9 @@ public struct EnumsProcessor : IPostProcessor
         {
             foreach (var item in csEnum.Items)
             {
-                var lenght = csEnum.Name.Length;
-                if (csEnum.Name.EndsWith("Private_"))
-                    lenght -= 7;
-                
-                item.Name = item.Name[lenght..];
-
+                var toReplace = csEnum.Name;
+                toReplace = toReplace.Replace("Private", "");
+                item.Name = item.Name.Replace(toReplace, "");
                 if (!char.IsNumber(item.Name[1]))
                     item.Name = item.Name.Trim('_');
             }

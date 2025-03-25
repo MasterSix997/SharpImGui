@@ -252,6 +252,8 @@ public class CSharpGenerator
         
         return structs;
     }
+
+    private readonly string[] _cSharpIdentifiers = ["in", "out", "ref", "base"];
     
     private (List<CsMethod> methods, List<NativeFunction> nativeFunctions) GenerateMethods()
     {
@@ -262,10 +264,17 @@ public class CSharpGenerator
         {
             foreach (var nativeFunction in nativeFunctionOverloads.Functions)
             {
+                if (nativeFunction.CImGuiName.StartsWith("ImVector") || 
+                    nativeFunction.CImGuiName.StartsWith("ImPool") ||
+                    nativeFunction.CImGuiName.StartsWith("ImSpan") ||
+                    nativeFunction.CImGuiName.StartsWith("ImChunkStream") ||
+                    nativeFunction.CImGuiName.StartsWith("ImBitArray"))
+                    continue;
+                
                 nativeFunctions.Add(nativeFunction);
                 
                 var returnType = new CsUnresolvedType(nativeFunction.ReturnType ?? "void", CsTypeKind.Unknown);
-                var csMethod = new CsMethod(nativeFunction.Name ?? "Unknown");
+                var csMethod = new CsMethod(nativeFunction.CImGuiName ?? "Unknown");
                 methods.Add(csMethod);
 
                 csMethod.Metadata = nativeFunction.IsInternal;
@@ -279,8 +288,22 @@ public class CSharpGenerator
 
                 foreach (var nativeArgument in nativeFunction.Arguments)
                 {
+                    if (nativeArgument.Type == "...")
+                        continue;
+
+                    if (nativeArgument.Type == "va_list")
+                    {
+                        nativeFunctions.Remove(nativeFunction);
+                        methods.Remove(csMethod);
+                        break;
+                    }
+
+                    var argName = nativeArgument.Name;
+                    if (_cSharpIdentifiers.Contains(argName))
+                        argName = string.Concat("@", argName);
+                    
                     var argumentType = new CsUnresolvedType(nativeArgument.Type, CsTypeKind.Unknown);
-                    var csParam = new CsParameter(argumentType, nativeArgument.Name);
+                    var csParam = new CsParameter(argumentType, argName);
                     csMethod.Parameters.Add(csParam);
                 }
             }

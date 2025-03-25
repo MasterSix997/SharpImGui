@@ -69,6 +69,7 @@ public class CSharpGenerator
             // Needs be generated?
             // { "ImBitArrayPtr", new CsUnresolvedType("ImBitArrayPtr", CsTypeKind.StructOrClass) },
             { "EmptyStruct", new CsUnresolvedType("EmptyStruct", CsTypeKind.StructOrClass) },
+            { "ImVectorPtrIntPtr", new CsUnresolvedType("ImVector<IntPtr>*", CsTypeKind.StructOrClass) },
         });
         
         CSharpGenerated.AddTypeMaps(new Dictionary<string, string>
@@ -138,6 +139,7 @@ public class CSharpGenerator
             {"ImGuiDockNodeSettings", "EmptyStruct"},
             {"ImBitArrayPtr", "IntPtr"},
             {"ImStbTexteditState*", "void*"},
+            {"ImVector_const_charPtr*", "ImVectorPtrIntPtr"},
         });
     }
 
@@ -196,7 +198,6 @@ public class CSharpGenerator
                 var fieldSize = nativeField.Size;
                 if (fieldSize is not null)
                 {
-                    // Console.WriteLine($"Generating array field '{nativeField.Name}' with size '{fieldSize}'");
                     var nameWithoutArray = nativeField.Name.Split('[')[0];
                     for (int i = 0; i < fieldSize; i++)
                     {
@@ -214,15 +215,11 @@ public class CSharpGenerator
                     
                     csField.Visibility = CsVisibility.Public;
                     csField.Comment = new CsDocComment(nativeField.AboveComment, nativeField.SameLineComment);
-                    
-                    if (nativeField.TemplateType is not null)
-                    {
-                        if (templatedTypes.Exists(tuple => tuple.Item1.TemplateType == nativeField.TemplateType))
-                            continue;
+
+                    if (nativeField.TemplateType is null || templatedTypes.Exists(tuple => tuple.Item1.TemplateType == nativeField.TemplateType))
+                        continue;
                         
-                        templatedTypes.Add((nativeField, csField));
-                        Console.WriteLine($"Struct '{nativeStruct.Name}, Field '{nativeField.Name}', 'Type '{nativeField.Type}' has template type '{nativeField.TemplateType}'");
-                    }
+                    templatedTypes.Add((nativeField, csField));
                 }
             }
         }
@@ -366,19 +363,15 @@ public class CSharpGenerator
         
         ResolveStructTypes(structs);
         ResolveDelegateTypes();
-        // ResolveMethodsTypes(methods);
+        ResolveMethodsTypes(methods);
     }
 
     private void ResolveEnumType(CsEnum csEnum)
     {
-        // Find duplicate enum items
-        var duplicates = csEnum.Items.GroupBy(item => item.Name)
-            .Where(group => group.Count() > 1)
-            .Select(group => group.Key);
-        
-        if (duplicates.Any())
-            Console.WriteLine($"Duplicate enum items found in '{csEnum.Name}': {string.Join(", ", duplicates)}");
-
+        if (csEnum.Name == "ImGuiKey")
+        {
+            
+        }
         if (csEnum.UnderlyingType is not CsUnresolvedType unresolvedType) 
             return;
         
@@ -448,25 +441,30 @@ public class CSharpGenerator
     {
         foreach (var csDelegate in CSharpGenerated.Definitions.Delegates)
         {
-            var unresolvedType = csDelegate.ReturnType as CsUnresolvedType;
-            if (unresolvedType is null)
-                continue;
-            
-            var returnType = CSharpGenerated.GetCsType(unresolvedType.Name);
-            if (returnType is null)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"Failed to resolve type: {unresolvedType.Name}");
-                Console.ResetColor();
-                unresolvedType.Name = string.Concat(unresolvedType, "_UNRESOLVED");
-                continue;
-            }
-            csDelegate.ReturnType = returnType;
-            
-            ResolveArgumentsTypes(csDelegate.Parameters);
+            ResolveDelegateType(csDelegate);
         }
     }
-    
+
+    private void ResolveDelegateType(CsDelegate csDelegate)
+    {
+        var unresolvedType = csDelegate.ReturnType as CsUnresolvedType;
+        if (unresolvedType is null)
+            return;
+            
+        var returnType = CSharpGenerated.GetCsType(unresolvedType.Name);
+        if (returnType is null)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"Failed to resolve type: {unresolvedType.Name}");
+            Console.ResetColor();
+            unresolvedType.Name = string.Concat(unresolvedType, "_UNRESOLVED");
+            return;
+        }
+        csDelegate.ReturnType = returnType;
+            
+        ResolveArguments(csDelegate.Parameters, csDelegate.Name);
+    }
+
     private void ResolveMethodsTypes(List<CsMethod> methods)
     {
         foreach (var csMethod in methods)
@@ -486,29 +484,44 @@ public class CSharpGenerator
             }
             csMethod.ReturnType = returnType;
             
-            ResolveArgumentsTypes(csMethod.Parameters);
+            ResolveArguments(csMethod.Parameters, csMethod.Name);
         }
     }
 
-    private void ResolveArgumentsTypes(CsContainerList<CsParameter> csArguments)
+    private void ResolveArguments(CsContainerList<CsParameter> arguments, string baseName)
     {
-        foreach (var csArg in csArguments)
+        for (var i = arguments.Count - 1; i >= 0; i--)
         {
+            var csArg = arguments[i];
             var unresolvedType = csArg.Type as CsUnresolvedType;
             if (unresolvedType is null)
                 continue;
-            
-            var argType = CSharpGenerated.GetCsType(unresolvedType.Name);
-            if (argType is null)
+                
+            if (unresolvedType.Name.Contains("(*)"))
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"Failed to resolve type: {unresolvedType.Name}");
-                Console.ResetColor();
-                unresolvedType.Name = string.Concat(unresolvedType, "_UNRESOLVED");
-                continue;
+                var @delegate = ExtractDelegate($"{baseName}_{csArg.Name}", unresolvedType.Name);
+                ResolveDelegateType(@delegate);
+                CSharpGenerated.Definitions.Delegates.Add(@delegate);
+                CSharpGenerated.AddType(@delegate);
+                CSharpGenerated.AddTypeMap(unresolvedType.Name, "void*");
             }
-            csArg.Type = argType;
+                
+            ResolveArgumentType(unresolvedType, csArg);
         }
+    }
+
+    private void ResolveArgumentType(CsUnresolvedType unresolvedType, CsParameter csArg)
+    {
+        var argType = CSharpGenerated.GetCsType(unresolvedType.Name);
+        if (argType is null)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"Failed to resolve type: {unresolvedType.Name}");
+            Console.ResetColor();
+            unresolvedType.Name = string.Concat(unresolvedType, "_UNRESOLVED");
+            return;
+        }
+        csArg.Type = argType;
     }
 
     private CsDelegate ExtractDelegate(string baseName, string delegateSignature)
@@ -530,22 +543,44 @@ public class CSharpGenerator
 
         var parameters = new List<CsParameter>();
 
+        var unnamedCounter = 0; // contador para parâmetros sem nome
         while (i < delegateSignature.Length && delegateSignature[i] != ')')
         {
             SkipWhitespace();
-            // Se não houver mais parâmetros, sai do loop
             if (i >= delegateSignature.Length || delegateSignature[i] == ')')
                 break;
-            
-            var param = ReadUntil(',', ')').Trim().Split(' ');
+    
+            var paramText = ReadUntil(',', ')').Trim();
+            var tokens = paramText.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-            var paramName = param[^1];
-            var paramType = string.Join(' ', param[..^1]);
-            
+            string paramType;
+            string paramName;
+            if (tokens.Length == 0)
+                continue;
+            else if (tokens.Length == 1)
+            {
+                paramType = tokens[0];
+                paramName = "arg" + unnamedCounter++;
+            }
+            else
+            {
+                // Se o último token contém caracteres não típicos de nome (por exemplo, '*' ou "const"), consideramos que não há nome
+                var possibleName = tokens[tokens.Length - 1];
+                if (possibleName.Contains("*") || possibleName == "const")
+                {
+                    paramType = string.Join(" ", tokens);
+                    paramName = "arg" + unnamedCounter++;
+                }
+                else
+                {
+                    paramName = possibleName;
+                    paramType = string.Join(" ", tokens, 0, tokens.Length - 1);
+                }
+            }
+    
             parameters.Add(new CsParameter(new CsUnresolvedType(paramType, CsTypeKind.Unknown), paramName));
-            
+    
             SkipWhitespace();
-            // Se encontrar vírgula, pula-a
             if (i < delegateSignature.Length && delegateSignature[i] == ',')
                 i++;
         }

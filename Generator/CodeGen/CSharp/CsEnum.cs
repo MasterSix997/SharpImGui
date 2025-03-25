@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a C# enum.
 /// </summary>
-public sealed class CsEnum : CsTypeDeclaration, ICsMemberWithVisibility, ICsAttributeContainer
+public sealed class CsEnum : CsTypeDeclaration, ICsMemberWithVisibility, ICsAttributeContainer, ICsContainer
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="CsEnum"/> class.
@@ -42,7 +42,12 @@ public sealed class CsEnum : CsTypeDeclaration, ICsMemberWithVisibility, ICsAttr
     {
         Items.Add(item);
     }
-    
+
+    public override IEnumerable<ICsDeclaration> Children()
+    {
+        return Items;
+    }
+
     public override string ToString()
     {
         var builder = new StringCodeWriter();

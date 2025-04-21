@@ -4,9 +4,6 @@ using System.Runtime.InteropServices;
 
 namespace SharpImGui
 {
-	/// <summary>
-	/// [Internal] Key+Value for ImGuiStorage<br/>
-	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public partial struct ImGuiStoragePair
 	{

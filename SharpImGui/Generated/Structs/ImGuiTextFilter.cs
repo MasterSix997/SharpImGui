@@ -4,9 +4,6 @@ using System.Runtime.InteropServices;
 
 namespace SharpImGui
 {
-	/// <summary>
-	/// Helper: Parse and apply text filters. In format "aaaaa[,bbbb][,ccccc]"<br/>
-	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public partial struct ImGuiTextFilter
 	{

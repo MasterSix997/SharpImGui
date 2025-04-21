@@ -4,31 +4,31 @@ using System.Runtime.InteropServices;
 
 namespace SharpImGui
 {
-	public unsafe delegate void ImDrawCallbackDelegate(ImDrawList* parent_list, ImDrawCmd* cmd);
-
-	public unsafe delegate void ImGuiContextHookCallbackDelegate(IntPtr ctx, ImGuiContextHook* hook);
-
-	public unsafe delegate void ImGuiErrorCallbackDelegate(IntPtr ctx, void* user_data, byte* msg);
-
 	public unsafe delegate int ImGuiInputTextCallbackDelegate(ImGuiInputTextCallbackData* data);
+
+	public unsafe delegate void ImGuiSizeCallbackDelegate(ImGuiSizeCallbackData* data);
 
 	public unsafe delegate void* ImGuiMemAllocFuncDelegate(uint sz, void* user_data);
 
 	public unsafe delegate void ImGuiMemFreeFuncDelegate(void* ptr, void* user_data);
 
-	public unsafe delegate void ImGuiSizeCallbackDelegate(ImGuiSizeCallbackData* data);
+	public unsafe delegate void ImDrawCallbackDelegate(ImDrawList* parent_list, ImDrawCmd* cmd);
+
+	public unsafe delegate void ImGuiErrorCallbackDelegate(ImGuiContext* ctx, void* user_data, byte* msg);
+
+	public unsafe delegate void ImGuiContextHookCallbackDelegate(ImGuiContext* ctx, ImGuiContextHook* hook);
 
 	public unsafe delegate byte FontBuilder_BuildDelegate(ImFontAtlas* atlas);
 
-	public unsafe delegate void DockNodeWindowMenuHandlerDelegate(IntPtr ctx, ImGuiDockNode* node, ImGuiTabBar* tab_bar);
+	public unsafe delegate void DockNodeWindowMenuHandlerDelegate(ImGuiContext* ctx, ImGuiDockNode* node, ImGuiTabBar* tab_bar);
 
-	public unsafe delegate byte* Platform_GetClipboardTextFnDelegate(IntPtr ctx);
+	public unsafe delegate byte* Platform_GetClipboardTextFnDelegate(ImGuiContext* ctx);
 
-	public unsafe delegate void Platform_SetClipboardTextFnDelegate(IntPtr ctx, byte* text);
+	public unsafe delegate void Platform_SetClipboardTextFnDelegate(ImGuiContext* ctx, byte* text);
 
-	public unsafe delegate byte Platform_OpenInShellFnDelegate(IntPtr ctx, byte* path);
+	public unsafe delegate byte Platform_OpenInShellFnDelegate(ImGuiContext* ctx, byte* path);
 
-	public unsafe delegate void Platform_SetImeDataFnDelegate(IntPtr ctx, ImGuiViewport* viewport, ImGuiPlatformImeData* data);
+	public unsafe delegate void Platform_SetImeDataFnDelegate(ImGuiContext* ctx, ImGuiViewport* viewport, ImGuiPlatformImeData* data);
 
 	public unsafe delegate void Platform_CreateWindowDelegate(ImGuiViewport* vp);
 
@@ -82,37 +82,37 @@ namespace SharpImGui
 
 	public unsafe delegate void AdapterSetItemSelectedDelegate(ImGuiSelectionExternalStorage* self, int idx, byte selected);
 
-	public unsafe delegate void ClearAllFnDelegate(IntPtr ctx, ImGuiSettingsHandler* handler);
+	public unsafe delegate void ClearAllFnDelegate(ImGuiContext* ctx, ImGuiSettingsHandler* handler);
 
-	public unsafe delegate void ReadInitFnDelegate(IntPtr ctx, ImGuiSettingsHandler* handler);
+	public unsafe delegate void ReadInitFnDelegate(ImGuiContext* ctx, ImGuiSettingsHandler* handler);
 
-	public unsafe delegate void* ReadOpenFnDelegate(IntPtr ctx, ImGuiSettingsHandler* handler, byte* name);
+	public unsafe delegate void* ReadOpenFnDelegate(ImGuiContext* ctx, ImGuiSettingsHandler* handler, byte* name);
 
-	public unsafe delegate void ReadLineFnDelegate(IntPtr ctx, ImGuiSettingsHandler* handler, void* entry, byte* line);
+	public unsafe delegate void ReadLineFnDelegate(ImGuiContext* ctx, ImGuiSettingsHandler* handler, void* entry, byte* line);
 
-	public unsafe delegate void ApplyAllFnDelegate(IntPtr ctx, ImGuiSettingsHandler* handler);
+	public unsafe delegate void ApplyAllFnDelegate(ImGuiContext* ctx, ImGuiSettingsHandler* handler);
 
-	public unsafe delegate void WriteAllFnDelegate(IntPtr ctx, ImGuiSettingsHandler* handler, ImGuiTextBuffer* out_buf);
-
-	public unsafe delegate void ImGuiFreeType_SetAllocatorFunctions_free_funcDelegate(void* ptr, void* user_data);
-
-	public unsafe delegate void* ImGuiFreeType_SetAllocatorFunctions_alloc_funcDelegate(uint sz, void* user_data);
+	public unsafe delegate void WriteAllFnDelegate(ImGuiContext* ctx, ImGuiSettingsHandler* handler, ImGuiTextBuffer* out_buf);
 
 	public unsafe delegate byte* igCombo_getterDelegate(void* user_data, int idx);
 
-	public unsafe delegate int igImQsort_compare_funcDelegate(void* arg0, void* arg1);
-
-	public unsafe delegate byte* igListBox_getterDelegate(void* user_data, int idx);
-
-	public unsafe delegate float igPlotEx_values_getterDelegate(void* data, int idx);
-
-	public unsafe delegate float igPlotHistogram_values_getterDelegate(void* data, int idx);
+	public unsafe delegate byte* igListBox_FnStrPtr_getterDelegate(void* user_data, int idx);
 
 	public unsafe delegate float igPlotLines_values_getterDelegate(void* data, int idx);
 
-	public unsafe delegate byte* igTypingSelectFindBestLeadingMatch_get_item_name_funcDelegate(void* arg0, int arg1);
+	public unsafe delegate float igPlotHistogram_values_getterDelegate(void* data, int idx);
+
+	public unsafe delegate int igImQsort_compare_funcDelegate(void* arg0, void* arg1);
 
 	public unsafe delegate byte* igTypingSelectFindMatch_get_item_name_funcDelegate(void* arg0, int arg1);
 
 	public unsafe delegate byte* igTypingSelectFindNextSingleCharMatch_get_item_name_funcDelegate(void* arg0, int arg1);
+
+	public unsafe delegate byte* igTypingSelectFindBestLeadingMatch_get_item_name_funcDelegate(void* arg0, int arg1);
+
+	public unsafe delegate float igPlotEx_values_getterDelegate(void* data, int idx);
+
+	public unsafe delegate void ImGuiPlatformIO_Set_Platform_GetWindowPos_user_callbackDelegate(ImGuiViewport* vp, Vector2* out_pos);
+
+	public unsafe delegate void ImGuiPlatformIO_Set_Platform_GetWindowSize_user_callbackDelegate(ImGuiViewport* vp, Vector2* out_size);
 }

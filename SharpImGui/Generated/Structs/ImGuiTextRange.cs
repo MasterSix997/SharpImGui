@@ -4,9 +4,6 @@ using System.Runtime.InteropServices;
 
 namespace SharpImGui
 {
-	/// <summary>
-	///     [Internal]<br/>
-	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public partial struct ImGuiTextRange
 	{

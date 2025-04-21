@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generator", "Generator\Gene
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpImGui", "SharpImGui\SharpImGui.csproj", "{D657374F-04FA-424F-8D89-9B0F103FA93D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApi", "TestApi\TestApi.csproj", "{3D84B8AC-9ECF-4160-ADE8-04753FBE3A15}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{D657374F-04FA-424F-8D89-9B0F103FA93D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D657374F-04FA-424F-8D89-9B0F103FA93D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D657374F-04FA-424F-8D89-9B0F103FA93D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D84B8AC-9ECF-4160-ADE8-04753FBE3A15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D84B8AC-9ECF-4160-ADE8-04753FBE3A15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D84B8AC-9ECF-4160-ADE8-04753FBE3A15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D84B8AC-9ECF-4160-ADE8-04753FBE3A15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

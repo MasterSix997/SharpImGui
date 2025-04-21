@@ -4,10 +4,20 @@
         <TargetFramework>netstandard2.1</TargetFramework>
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <LangVersion>9</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
       <Compile Remove="Class1.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="bin\Debug\netstandard2.1\cimgui.dll" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="bin\Debug\netstandard2.1\" />
+      <Folder Include="Generated\" />
     </ItemGroup>
 
 </Project>

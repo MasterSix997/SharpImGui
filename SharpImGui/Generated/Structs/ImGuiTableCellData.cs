@@ -1,0 +1,13 @@
+using System;
+using System.Numerics;
+using System.Runtime.InteropServices;
+
+namespace SharpImGui
+{
+	[StructLayout(LayoutKind.Sequential)]
+	public partial struct ImGuiTableCellData
+	{
+		public uint BgColor;
+		public short Column;
+	}
+}

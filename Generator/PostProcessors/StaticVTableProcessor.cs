@@ -122,6 +122,7 @@ public struct StaticVTableProcessor : IPostProcessor
         };
         vTableClass.Fields.Add(funcTableField);
 
+        var methodsOriginalNames = methods.Select(m => m.Name).ToArray();
         var initApiMethod = new CsMethod("InitApi")
         {
             Visibility = CsVisibility.Public,
@@ -132,7 +133,7 @@ public struct StaticVTableProcessor : IPostProcessor
                 writer.WriteLine($"FuncTable = new FunctionTable(context, {methods.Length});");
                 for (var i = 0; i < methods.Length; i++)
                 {
-                    writer.WriteLine($"FuncTable.Load({i}, \"{methods[i].Name}\");");
+                    writer.WriteLine($"FuncTable.Load({i}, \"{methodsOriginalNames[i]}\");");
                 }
             }
         };

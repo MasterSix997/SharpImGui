@@ -12,6 +12,7 @@ class Program
         generator.AddPostProcessor(new EnumsProcessor());
         generator.AddPostProcessor(new StaticVTableProcessor());
         generator.AddPostProcessor(new FileSeparatorProcessor());
+        generator.AddPostProcessor(new CleanupNamesProcessor());
         
         generator.GenerateCSharp();
     }

@@ -17,12 +17,14 @@ public struct CommentsProcessor : IPostProcessor
 
             if (docComment.Above is not null)
             {
+                CleanupXml(ref docComment.Above);
                 CleanupSlashes(ref docComment.Above);
                 AddBreakLineTagXml(ref docComment.Above);
             }
 
             if (docComment.SameLine is not null)
             {
+                CleanupXml(ref docComment.SameLine);
                 CleanupSlashes(ref docComment.SameLine);
                 AddBreakLineTagXml(ref docComment.SameLine);
             }
@@ -47,5 +49,10 @@ public struct CommentsProcessor : IPostProcessor
             splits[i] = string.Concat(splits[i], "<br/>");
         }
         comment = string.Join('\n', splits);
+    }
+    
+    private static void CleanupXml(ref string comment)
+    {
+        comment = comment.Replace("<", "&lt;").Replace(">", "&gt;").Replace("\n", "<br/>");
     }
 }

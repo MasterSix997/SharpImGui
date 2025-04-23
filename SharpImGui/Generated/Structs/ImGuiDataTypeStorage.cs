@@ -7,6 +7,9 @@ namespace SharpImGui
 	[StructLayout(LayoutKind.Sequential)]
 	public partial struct ImGuiDataTypeStorage
 	{
+		/// <summary>
+		/// Opaque storage to fit any data up to ImGuiDataType_COUNT<br/>
+		/// </summary>
 		public byte Data_0;
 		public byte Data_1;
 		public byte Data_2;

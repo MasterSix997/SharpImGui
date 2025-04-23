@@ -8,9 +8,18 @@ namespace SharpImGui
 	public partial struct ImGuiStackLevelInfo
 	{
 		public uint ID;
+		/// <summary>
+		/// >= 1: Query in progress<br/>
+		/// </summary>
 		public sbyte QueryFrameCount;
+		/// <summary>
+		/// Obtained result from DebugHookIdInfo()<br/>
+		/// </summary>
 		public byte QuerySuccess;
 		public ImGuiDataType DataType;
+		/// <summary>
+		/// Arbitrarily sized buffer to hold a result (FIXME: could replace Results[] with a chunk stream?) FIXME: Now that we added CTRL+C this should be fixed.<br/>
+		/// </summary>
 		public byte Desc_0;
 		public byte Desc_1;
 		public byte Desc_2;

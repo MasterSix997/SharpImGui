@@ -13,14 +13,35 @@ namespace SharpImGui
 		public byte IsBeingResized;
 		public int Current;
 		public int Count;
+		/// <summary>
+		/// Offsets from HostWorkRect.Min.x<br/>
+		/// </summary>
 		public float OffMinX;
+		/// <summary>
+		/// Offsets from HostWorkRect.Min.x<br/>
+		/// </summary>
 		public float OffMaxX;
 		public float LineMinY;
 		public float LineMaxY;
+		/// <summary>
+		/// Backup of CursorPos at the time of BeginColumns()<br/>
+		/// </summary>
 		public float HostCursorPosY;
+		/// <summary>
+		/// Backup of CursorMaxPos at the time of BeginColumns()<br/>
+		/// </summary>
 		public float HostCursorMaxPosX;
+		/// <summary>
+		/// Backup of ClipRect at the time of BeginColumns()<br/>
+		/// </summary>
 		public ImRect HostInitialClipRect;
+		/// <summary>
+		/// Backup of ClipRect during PushColumnsBackground()/PopColumnsBackground()<br/>
+		/// </summary>
 		public ImRect HostBackupClipRect;
+		/// <summary>
+		/// //Backup of WorkRect at the time of BeginColumns()<br/>
+		/// </summary>
 		public ImRect HostBackupParentWorkRect;
 		public ImVector<ImGuiOldColumnData> Columns;
 		public ImDrawListSplitter Splitter;

@@ -27,6 +27,9 @@ namespace SharpImGui
 		}
 		public ImGuiInputEventType Type;
 		public ImGuiInputSource Source;
+		/// <summary>
+		/// Unique, sequential increasing integer to identify an event (if you need to correlate them to other data).<br/>
+		/// </summary>
 		public uint EventId;
 		public ImGuiInputEventUnion Union;
 		public byte AddedByTestEngine;

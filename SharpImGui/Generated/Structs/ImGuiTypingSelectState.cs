@@ -4,10 +4,19 @@ using System.Runtime.InteropServices;
 
 namespace SharpImGui
 {
+	/// <summary>
+	/// Storage for GetTypingSelectRequest()<br/>
+	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public partial struct ImGuiTypingSelectState
 	{
+		/// <summary>
+		/// User-facing data<br/>
+		/// </summary>
 		public ImGuiTypingSelectRequest Request;
+		/// <summary>
+		/// Search buffer: no need to make dynamic as this search is very transient.<br/>
+		/// </summary>
 		public byte SearchBuffer_0;
 		public byte SearchBuffer_1;
 		public byte SearchBuffer_2;
@@ -75,6 +84,9 @@ namespace SharpImGui
 		public uint FocusScope;
 		public int LastRequestFrame;
 		public float LastRequestTime;
+		/// <summary>
+		/// After a certain single char repeat count we lock into SingleCharMode. Two benefits: 1) buffer never fill, 2) we can provide an immediate SingleChar mode without timer elapsing.<br/>
+		/// </summary>
 		public byte SingleCharModeLock;
 	}
 }

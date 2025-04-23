@@ -4,20 +4,63 @@ using System.Runtime.InteropServices;
 
 namespace SharpImGui
 {
+	/// <summary>
+	/// Data shared between all ImDrawList instances<br/>
+	/// Conceptually this could have been called e.g. ImDrawListSharedContext<br/>
+	/// Typically one ImGui context would create and maintain one of this.<br/>
+	/// You may want to create your own instance of you try to ImDrawList completely without ImGui. In that case, watch out for future changes to this structure.<br/>
+	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public partial struct ImDrawListSharedData
 	{
+		/// <summary>
+		/// UV of white pixel in the atlas<br/>
+		/// </summary>
 		public Vector2 TexUvWhitePixel;
+		/// <summary>
+		/// UV of anti-aliased lines in the atlas<br/>
+		/// </summary>
 		public unsafe Vector4* TexUvLines;
+		/// <summary>
+		/// Current/default font (optional, for simplified AddText overload)<br/>
+		/// </summary>
 		public unsafe ImFont* Font;
+		/// <summary>
+		/// Current/default font size (optional, for simplified AddText overload)<br/>
+		/// </summary>
 		public float FontSize;
+		/// <summary>
+		/// Current/default font scale (== FontSize / Font->FontSize)<br/>
+		/// </summary>
 		public float FontScale;
+		/// <summary>
+		/// Tessellation tolerance when using PathBezierCurveTo()<br/>
+		/// </summary>
 		public float CurveTessellationTol;
+		/// <summary>
+		/// Number of circle segments to use per pixel of radius for AddCircle() etc<br/>
+		/// </summary>
 		public float CircleSegmentMaxError;
+		/// <summary>
+		/// Initial scale to apply to AA fringe<br/>
+		/// </summary>
 		public float InitialFringeScale;
+		/// <summary>
+		/// Initial flags at the beginning of the frame (it is possible to alter flags on a per-drawlist basis afterwards)<br/>
+		/// </summary>
 		public ImDrawListFlags InitialFlags;
+		/// <summary>
+		/// Value for PushClipRectFullscreen()<br/>
+		/// </summary>
 		public Vector4 ClipRectFullscreen;
+		/// <summary>
+		/// Temporary write buffer<br/>
+		/// </summary>
 		public ImVector<Vector2> TempBuffer;
+		/// <summary>
+		///     Lookup tables<br/>
+		/// Sample points on the quarter of the circle.<br/>
+		/// </summary>
 		public Vector2 ArcFastVtx_0;
 		public Vector2 ArcFastVtx_1;
 		public Vector2 ArcFastVtx_2;
@@ -66,7 +109,13 @@ namespace SharpImGui
 		public Vector2 ArcFastVtx_45;
 		public Vector2 ArcFastVtx_46;
 		public Vector2 ArcFastVtx_47;
+		/// <summary>
+		/// Cutoff radius after which arc drawing will fallback to slower PathArcTo()<br/>
+		/// </summary>
 		public float ArcFastRadiusCutoff;
+		/// <summary>
+		/// Precomputed segment count for given radius before we calculate it dynamically (to avoid calculation overhead)<br/>
+		/// </summary>
 		public byte CircleSegmentCounts_0;
 		public byte CircleSegmentCounts_1;
 		public byte CircleSegmentCounts_2;

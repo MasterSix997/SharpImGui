@@ -4,9 +4,16 @@ using System.Runtime.InteropServices;
 
 namespace SharpImGui
 {
+	/// <summary>
+	/// Routing table: maintain a desired owner for each possible key-chord (key + mods), and setup owner in NewFrame() when mods are matching.<br/>
+	/// Stored in main context (1 instance)<br/>
+	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public partial struct ImGuiKeyRoutingTable
 	{
+		/// <summary>
+		/// Index of first entry in Entries[]<br/>
+		/// </summary>
 		public short Index_0;
 		public short Index_1;
 		public short Index_2;
@@ -163,6 +170,9 @@ namespace SharpImGui
 		public short Index_153;
 		public short Index_154;
 		public ImVector<ImGuiKeyRoutingData> Entries;
+		/// <summary>
+		/// Double-buffer to avoid reallocation (could use a shared buffer)<br/>
+		/// </summary>
 		public ImVector<ImGuiKeyRoutingData> EntriesNext;
 	}
 }

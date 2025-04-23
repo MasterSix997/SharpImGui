@@ -4,6 +4,9 @@ using System.Runtime.InteropServices;
 
 namespace SharpImGui
 {
+	/// <summary>
+	/// Temporary clipper data, buffers shared/reused between instances<br/>
+	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public partial struct ImGuiListClipperData
 	{

@@ -4,6 +4,9 @@ using System.Runtime.InteropServices;
 
 namespace SharpImGui
 {
+	/// <summary>
+	/// Stacked storage data for BeginGroup()/EndGroup()<br/>
+	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public partial struct ImGuiGroupData
 	{

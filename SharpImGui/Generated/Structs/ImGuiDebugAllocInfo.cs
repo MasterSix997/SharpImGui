@@ -7,9 +7,18 @@ namespace SharpImGui
 	[StructLayout(LayoutKind.Sequential)]
 	public partial struct ImGuiDebugAllocInfo
 	{
+		/// <summary>
+		/// Number of call to MemAlloc().<br/>
+		/// </summary>
 		public int TotalAllocCount;
 		public int TotalFreeCount;
+		/// <summary>
+		/// Current index in buffer<br/>
+		/// </summary>
 		public short LastEntriesIdx;
+		/// <summary>
+		/// Track last 6 frames that had allocations<br/>
+		/// </summary>
 		public ImGuiDebugAllocEntry LastEntriesBuf_0;
 		public ImGuiDebugAllocEntry LastEntriesBuf_1;
 		public ImGuiDebugAllocEntry LastEntriesBuf_2;

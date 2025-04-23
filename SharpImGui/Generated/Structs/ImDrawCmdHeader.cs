@@ -4,6 +4,10 @@ using System.Runtime.InteropServices;
 
 namespace SharpImGui
 {
+	/// <summary>
+	/// <br/>
+	/// [Internal] For use by ImDrawList<br/>
+	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public partial struct ImDrawCmdHeader
 	{

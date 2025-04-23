@@ -29516,7 +29516,7 @@
           "type": "..."
         }
       ],
-      "argsoriginal": "(const char* fmt, ...)",
+      "argsoriginal": "(const char* fmt,...)",
       "call_args": "(fmt,...)",
       "cimguiname": "igLogText",
       "comment": "// pass text data straight to log (without being displayed)",
@@ -29524,7 +29524,6 @@
       "funcname": "LogText",
       "isvararg": "...)",
       "location": "imgui:906",
-      "manual": true,
       "namespace": "ImGui",
       "ov_cimguiname": "igLogText",
       "ret": "void",

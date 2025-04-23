@@ -8,7 +8,7 @@ public class CSharpGenerated
     public readonly Dictionary<string, string> TypeMap = new();
 
     public ICsDeclarationContainer Definitions { get; } = new CsGlobalDeclarationContainer();
-    
+    public INativeDefinitionProvider? NativeDefinitionProvider { get; set; }
     public CsOutput Output { get; set; } = new();
 
     public CSharpGenerated()

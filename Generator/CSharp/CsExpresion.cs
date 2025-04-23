@@ -87,15 +87,15 @@ public abstract class CsExpression : CsElement
         Arguments.Add(arg);
     }
 
-    protected void ArgumentsSeparatedByCommaToString(StringBuilder builder)
+    protected void WriteArgumentsSeparatedByComma(CodeWriter writer)
     {
         if (Arguments != null)
         {
             for (var i = 0; i < Arguments.Count; i++)
             {
                 var expression = Arguments[i];
-                if (i > 0) builder.Append(", ");
-                builder.Append(expression);
+                if (i > 0) writer.Write(", ");
+                expression.WriteTo(writer);
             }
         }
     }
@@ -112,11 +112,16 @@ public class CsInitListExpression : CsExpression
 
     public override string ToString()
     {
-        var builder = new StringBuilder();
-        builder.Append("{");
-        ArgumentsSeparatedByCommaToString(builder);
-        builder.Append("}");
-        return builder.ToString();
+        var writer = new StringCodeWriter();
+        WriteTo(writer);
+        return writer.ToString();
+    }
+    
+    public override void WriteTo(CodeWriter writer)
+    {
+        writer.Write("{");
+        WriteArgumentsSeparatedByComma(writer);
+        writer.Write("}");
     }
 }
 
@@ -137,21 +142,26 @@ public class CsBinaryExpression : CsExpression
     /// <inheritdoc />
     public override string ToString()
     {
-        var builder = new StringBuilder();
+        var writer = new StringCodeWriter();
+        WriteTo(writer);
+        return writer.ToString();
+    }
+    
+    public override void WriteTo(CodeWriter writer)
+    {
         if (Arguments != null && Arguments.Count > 0)
         {
-            builder.Append(Arguments[0]);
+            Arguments[0].WriteTo(writer);
         }
 
-        builder.Append(" ");
-        builder.Append(Operator);
-        builder.Append(" ");
+        writer.Write(" ");
+        writer.Write(Operator);
+        writer.Write(" ");
 
         if (Arguments != null && Arguments.Count > 1)
         {
-            builder.Append(Arguments[1]);
+            Arguments[1].WriteTo(writer);
         }
-        return builder.ToString();
     }
 }
 
@@ -172,13 +182,19 @@ public class CsUnaryExpression : CsExpression
     /// <inheritdoc />
     public override string ToString()
     {
-        var builder = new StringBuilder();
-        builder.Append(Operator);
+        var writer = new StringCodeWriter();
+        WriteTo(writer);
+        return writer.ToString();
+    }
+    
+    public override void WriteTo(CodeWriter writer)
+    {
+        writer.Write(Operator);
         if (Arguments != null && Arguments.Count > 0)
         {
-            builder.Append(Arguments[0]);
+            writer.Write(" ");
+            Arguments[0].WriteTo(writer);
         }
-        return builder.ToString();
     }
 }
 
@@ -194,11 +210,16 @@ public class CsParenExpression : CsExpression
     /// <inheritdoc />
     public override string ToString()
     {
-        var builder = new StringBuilder();
-        builder.Append("(");
-        ArgumentsSeparatedByCommaToString(builder);
-        builder.Append(")");
-        return builder.ToString();
+        var writer = new StringCodeWriter();
+        WriteTo(writer);
+        return writer.ToString();
+    }
+
+    public override void WriteTo(CodeWriter writer)
+    {
+        writer.Write("(");
+        WriteArgumentsSeparatedByComma(writer);
+        writer.Write(")");
     }
 }
 
@@ -221,5 +242,10 @@ public class CsLiteralExpression : CsExpression
     public override string ToString()
     {
         return Value;
+    }
+
+    public override void WriteTo(CodeWriter writer)
+    {
+        writer.Write(Value);
     }
 }

@@ -300,12 +300,68 @@ public class CppToCSharp
                 var argumentType = new CsUnresolvedType(cppParameter.Type.FullName);
                 var csParam = new CsParameter(argumentType, argName);
                 csMethod.Parameters.Add(csParam);
+
+                // if (cppParameter.InitExpression != null)
+                // {
+                //     csParam.InitExpression = CppExpressionToCsExpression(cppParameter.InitExpression);
+                // }
             }
         }
 
         return methods;
     }
-    
+
+    public CsExpression CppExpressionToCsExpression(CppExpression cppExpression)
+    {
+        switch (cppExpression)
+        {
+            case CppLiteralExpression cppLiteralExpression:
+                return new CsLiteralExpression(CppExpressionKindToCsExpressionKind(cppLiteralExpression.Kind), cppLiteralExpression.Value)
+                {
+                    Arguments = CppExpressionsToCsExpressions(cppLiteralExpression.Arguments),
+                    Metadata = cppLiteralExpression
+                };
+            case CppUnaryExpression cppUnaryExpression:
+                return new CsUnaryExpression(CppExpressionKindToCsExpressionKind(cppUnaryExpression.Kind))
+                {
+                    Arguments = CppExpressionsToCsExpressions(cppUnaryExpression.Arguments),
+                    Operator = cppUnaryExpression.Operator,
+                    Metadata = cppUnaryExpression
+                };
+            case CppBinaryExpression cppBinaryExpression:
+                return new CsBinaryExpression(CppExpressionKindToCsExpressionKind(cppBinaryExpression.Kind))
+                {
+                    Arguments = CppExpressionsToCsExpressions(cppBinaryExpression.Arguments),
+                    Operator = cppBinaryExpression.Operator,
+                    Metadata = cppBinaryExpression
+                };
+            case CppParenExpression cppParenExpression:
+                return new CsParenExpression
+                {
+                    Arguments = CppExpressionsToCsExpressions(cppParenExpression.Arguments),
+                    Metadata = cppParenExpression
+                };
+            case CppInitListExpression cppInitListExpression:
+                return new CsInitListExpression
+                {
+                    Arguments = CppExpressionsToCsExpressions(cppInitListExpression.Arguments),
+                    Metadata = cppInitListExpression
+                };
+            default:
+                throw new NotImplementedException();
+        }
+    }
+
+    public List<CsExpression>? CppExpressionsToCsExpressions(IEnumerable<CppExpression>? cppExpressions)
+    {
+        return cppExpressions?.Select(CppExpressionToCsExpression).ToList();
+    }
+
+    public CsExpressionKind CppExpressionKindToCsExpressionKind(CppExpressionKind cppExpressionKind)
+    {
+        return (CsExpressionKind)(int)cppExpressionKind;
+    }
+
     private Dictionary<string, string> GenerateTypedefs()
     {
         var typedefs = new Dictionary<string, string>();
@@ -368,7 +424,7 @@ public class CppToCSharp
     {
         // Sufixos comuns de overload no ImGui
         var commonSuffixes = new[] { "Nil", "Str", "StrStr", "Int", "IntInt", "Float", "FloatFloat", 
-            "Bool", "Ptr", "ContextPtr", "Vec2", "Vec4", "ImVec2", "ImVec4" };
+            "Bool", "Ptr", "ContextPtr", "Vec2", "Vec4", "ImVec2", "ImVec4", "FontPtr" };
     
         // Agrupe e filtre os métodos em uma única passagem
         var methodGroups = methods

@@ -16,7 +16,7 @@ namespace SharpImGui
 		/// </summary>
 		public ImGuiBackendFlags BackendFlags;
 		/// <summary>
-		/// <unset>          Main display size, in pixels (generally == GetMainViewport()->Size). May change every frame.<br/>
+		/// &lt;unset&gt;          Main display size, in pixels (generally == GetMainViewport()-&gt;Size). May change every frame.<br/>
 		/// </summary>
 		public Vector2 DisplaySize;
 		/// <summary>
@@ -41,7 +41,7 @@ namespace SharpImGui
 		public unsafe void* UserData;
 		/// <summary>
 		///     Font system<br/>
-		/// <auto>           Font atlas: load, rasterize and pack one or more fonts into a single texture.<br/>
+		/// &lt;auto&gt;           Font atlas: load, rasterize and pack one or more fonts into a single texture.<br/>
 		/// </summary>
 		public unsafe ImFontAtlas* Fonts;
 		/// <summary>
@@ -53,7 +53,7 @@ namespace SharpImGui
 		/// </summary>
 		public byte FontAllowUserScaling;
 		/// <summary>
-		/// = NULL           Font to use on NewFrame(). Use NULL to uses Fonts->Fonts[0].<br/>
+		/// = NULL           Font to use on NewFrame(). Use NULL to uses Fonts-&gt;Fonts[0].<br/>
 		/// </summary>
 		public unsafe ImFont* FontDefault;
 		/// <summary>
@@ -62,7 +62,7 @@ namespace SharpImGui
 		public Vector2 DisplayFramebufferScale;
 		/// <summary>
 		///     Keyboard/Gamepad Navigation options<br/>
-		/// = false          Swap Activate<>Cancel (A<>B) buttons, matching typical "Nintendo/Japanese style" gamepad layout.<br/>
+		/// = false          Swap Activate&lt;&gt;Cancel (A&lt;&gt;B) buttons, matching typical "Nintendo/Japanese style" gamepad layout.<br/>
 		/// </summary>
 		public byte ConfigNavSwapGamepadButtons;
 		/// <summary>
@@ -120,19 +120,18 @@ namespace SharpImGui
 		/// </summary>
 		public byte ConfigViewportsNoDecoration;
 		/// <summary>
-		/// = false          Disable default OS parenting to main viewport for secondary viewports. By default, viewports are marked with ParentViewportId = <main_viewport>, expecting the platform backend to setup a parent/child relationship between the OS windows (some backend may ignore this). Set to true if you want the default to be 0, then all viewports will be top-level OS windows.<br/>
+		/// = false          Disable default OS parenting to main viewport for secondary viewports. By default, viewports are marked with ParentViewportId = &lt;main_viewport&gt;, expecting the platform backend to setup a parent/child relationship between the OS windows (some backend may ignore this). Set to true if you want the default to be 0, then all viewports will be top-level OS windows.<br/>
 		/// </summary>
 		public byte ConfigViewportsNoDefaultParent;
 		/// <summary>
-		///     Miscellaneous options<br/>
-		///     (you can visualize and interact with all options in 'Demo->Configuration')<br/>
+		///     Miscellaneous options<br/>    (you can visualize and interact with all options in 'Demo-&gt;Configuration')<br/>
 		/// = false          Request ImGui to draw a mouse cursor for you (if you are on a platform without a mouse cursor). Cannot be easily renamed to 'io.ConfigXXX' because this is frequently used by backend implementations.<br/>
 		/// </summary>
 		public byte MouseDrawCursor;
 		/// <summary>
-		/// = defined(__APPLE__) Swap Cmd<>Ctrl keys + OS X style text editing cursor movement using Alt instead of Ctrl, Shortcuts using Cmd/Super instead of Ctrl, Line/Text Start and End using Cmd+Arrows instead of Home/End, Double click selects by word instead of selecting whole text, Multi-selection in lists uses Cmd/Super instead of Ctrl.<br/>
+		/// = defined(__APPLE__) Swap Cmd&lt;&gt;Ctrl keys + OS X style text editing cursor movement using Alt instead of Ctrl, Shortcuts using Cmd/Super instead of Ctrl, Line/Text Start and End using Cmd+Arrows instead of Home/End, Double click selects by word instead of selecting whole text, Multi-selection in lists uses Cmd/Super instead of Ctrl.<br/>
 		/// </summary>
-		public byte ConfigMacOSXBehaviors;
+		public byte ConfigMacOsxBehaviors;
 		/// <summary>
 		/// = true           Enable input queue trickling: some types of events submitted during the same frame (e.g. button down + up) will be spread over multiple frames, improving interactions with low framerates.<br/>
 		/// </summary>
@@ -170,8 +169,7 @@ namespace SharpImGui
 		/// </summary>
 		public float ConfigMemoryCompactTimer;
 		/// <summary>
-		///     Inputs Behaviors<br/>
-		///     (other variables, ones which are expected to be tweaked within UI code, are exposed in ImGuiStyle)<br/>
+		///     Inputs Behaviors<br/>    (other variables, ones which are expected to be tweaked within UI code, are exposed in ImGuiStyle)<br/>
 		/// = 0.30f          Time for a double-click, in seconds.<br/>
 		/// </summary>
 		public float MouseDoubleClickTime;
@@ -192,20 +190,7 @@ namespace SharpImGui
 		/// </summary>
 		public float KeyRepeatRate;
 		/// <summary>
-		///     Options to configure Error Handling and how we handle recoverable errors [EXPERIMENTAL]<br/>
-		///     - Error recovery is provided as a way to facilitate:<br/>
-		///        - Recovery after a programming error (native code or scripting language - the later tends to facilitate iterating on code while running).<br/>
-		///        - Recovery after running an exception handler or any error processing which may skip code after an error has been detected.<br/>
-		///     - Error recovery is not perfect nor guaranteed! It is a feature to ease development.<br/>
-		///       You not are not supposed to rely on it in the course of a normal application run.<br/>
-		///     - Functions that support error recovery are using IM_ASSERT_USER_ERROR() instead of IM_ASSERT().<br/>
-		///     - By design, we do NOT allow error recovery to be 100% silent. One of the three options needs to be checked!<br/>
-		///     - Always ensure that on programmers seats you have at minimum Asserts or Tooltips enabled when making direct imgui API calls!<br/>
-		///       Otherwise it would severely hinder your ability to catch and correct mistakes!<br/>
-		///     Read https://github.com/ocornut/imgui/wiki/Error-Handling for details.<br/>
-		///     - Programmer seats: keep asserts (default), or disable asserts and keep error tooltips (new and nice!)<br/>
-		///     - Non-programmer seats: maybe disable asserts, but make sure errors are resurfaced (tooltips, visible log entries, use callback etc.)<br/>
-		///     - Recovery after error/exception: record stack sizes with ErrorRecoveryStoreState(), disable assert, set log callback (to e.g. trigger high-level breakpoint), recover with ErrorRecoveryTryToRecoverState(), restore settings.<br/>
+		///     Options to configure Error Handling and how we handle recoverable errors [EXPERIMENTAL]<br/>    - Error recovery is provided as a way to facilitate:<br/>       - Recovery after a programming error (native code or scripting language - the later tends to facilitate iterating on code while running).<br/>       - Recovery after running an exception handler or any error processing which may skip code after an error has been detected.<br/>    - Error recovery is not perfect nor guaranteed! It is a feature to ease development.<br/>      You not are not supposed to rely on it in the course of a normal application run.<br/>    - Functions that support error recovery are using IM_ASSERT_USER_ERROR() instead of IM_ASSERT().<br/>    - By design, we do NOT allow error recovery to be 100% silent. One of the three options needs to be checked!<br/>    - Always ensure that on programmers seats you have at minimum Asserts or Tooltips enabled when making direct imgui API calls!<br/>      Otherwise it would severely hinder your ability to catch and correct mistakes!<br/>    Read https://github.com/ocornut/imgui/wiki/Error-Handling for details.<br/>    - Programmer seats: keep asserts (default), or disable asserts and keep error tooltips (new and nice!)<br/>    - Non-programmer seats: maybe disable asserts, but make sure errors are resurfaced (tooltips, visible log entries, use callback etc.)<br/>    - Recovery after error/exception: record stack sizes with ErrorRecoveryStoreState(), disable assert, set log callback (to e.g. trigger high-level breakpoint), recover with ErrorRecoveryTryToRecoverState(), restore settings.<br/>
 		/// = true       Enable error recovery support. Some errors won't be detected and lead to direct crashes if recovery is disabled.<br/>
 		/// </summary>
 		public byte ConfigErrorRecovery;
@@ -222,18 +207,12 @@ namespace SharpImGui
 		/// </summary>
 		public byte ConfigErrorRecoveryEnableTooltip;
 		/// <summary>
-		///     Option to enable various debug tools showing buttons that will call the IM_DEBUG_BREAK() macro.<br/>
-		///     - The Item Picker tool will be available regardless of this being enabled, in order to maximize its discoverability.<br/>
-		///     - Requires a debugger being attached, otherwise IM_DEBUG_BREAK() options will appear to crash your application.<br/>
-		///       e.g. io.ConfigDebugIsDebuggerPresent = ::IsDebuggerPresent() on Win32, or refer to ImOsIsDebuggerPresent() imgui_test_engine/imgui_te_utils.cpp for a Unix compatible version).<br/>
+		///     Option to enable various debug tools showing buttons that will call the IM_DEBUG_BREAK() macro.<br/>    - The Item Picker tool will be available regardless of this being enabled, in order to maximize its discoverability.<br/>    - Requires a debugger being attached, otherwise IM_DEBUG_BREAK() options will appear to crash your application.<br/>      e.g. io.ConfigDebugIsDebuggerPresent = ::IsDebuggerPresent() on Win32, or refer to ImOsIsDebuggerPresent() imgui_test_engine/imgui_te_utils.cpp for a Unix compatible version).<br/>
 		/// = false          Enable various tools calling IM_DEBUG_BREAK().<br/>
 		/// </summary>
 		public byte ConfigDebugIsDebuggerPresent;
 		/// <summary>
-		///     Tools to detect code submitting items with conflicting/duplicate IDs<br/>
-		///     - Code should use PushID()/PopID() in loops, or append "##xx" to same-label identifiers.<br/>
-		///     - Empty label e.g. Button("") == same ID as parent widget/node. Use Button("##xx") instead!<br/>
-		///     - See FAQ https://github.com/ocornut/imgui/blob/master/docs/FAQ.md#q-about-the-id-stack-system<br/>
+		///     Tools to detect code submitting items with conflicting/duplicate IDs<br/>    - Code should use PushID()/PopID() in loops, or append "##xx" to same-label identifiers.<br/>    - Empty label e.g. Button("") == same ID as parent widget/node. Use Button("##xx") instead!<br/>    - See FAQ https://github.com/ocornut/imgui/blob/master/docs/FAQ.md#q-about-the-id-stack-system<br/>
 		/// = true           Highlight and show an error message popup when multiple items have conflicting identifiers.<br/>
 		/// </summary>
 		public byte ConfigDebugHighlightIdConflicts;
@@ -242,10 +221,7 @@ namespace SharpImGui
 		/// </summary>
 		public byte ConfigDebugHighlightIdConflictsShowItemPicker;
 		/// <summary>
-		///     Tools to test correct Begin/End and BeginChild/EndChild behaviors.<br/>
-		///     - Presently Begin()/End() and BeginChild()/EndChild() needs to ALWAYS be called in tandem, regardless of return value of BeginXXX()<br/>
-		///     - This is inconsistent with other BeginXXX functions and create confusion for many users.<br/>
-		///     - We expect to update the API eventually. In the meanwhile we provide tools to facilitate checking user-code behavior.<br/>
+		///     Tools to test correct Begin/End and BeginChild/EndChild behaviors.<br/>    - Presently Begin()/End() and BeginChild()/EndChild() needs to ALWAYS be called in tandem, regardless of return value of BeginXXX()<br/>    - This is inconsistent with other BeginXXX functions and create confusion for many users.<br/>    - We expect to update the API eventually. In the meanwhile we provide tools to facilitate checking user-code behavior.<br/>
 		/// = false          First-time calls to Begin()/BeginChild() will return false. NEEDS TO BE SET AT APPLICATION BOOT TIME if you don't want to miss windows.<br/>
 		/// </summary>
 		public byte ConfigDebugBeginReturnValueOnce;
@@ -254,9 +230,7 @@ namespace SharpImGui
 		/// </summary>
 		public byte ConfigDebugBeginReturnValueLoop;
 		/// <summary>
-		///     Option to deactivate io.AddFocusEvent(false) handling.<br/>
-		///     - May facilitate interactions with a debugger when focus loss leads to clearing inputs data.<br/>
-		///     - Backends may have other side-effects on focus loss, so this will reduce side-effects but not necessary remove all of them.<br/>
+		///     Option to deactivate io.AddFocusEvent(false) handling.<br/>    - May facilitate interactions with a debugger when focus loss leads to clearing inputs data.<br/>    - Backends may have other side-effects on focus loss, so this will reduce side-effects but not necessary remove all of them.<br/>
 		/// = false          Ignore io.AddFocusEvent(false), consequently not calling io.ClearInputKeys()/io.ClearInputMouse() in input processing.<br/>
 		/// </summary>
 		public byte ConfigDebugIgnoreFocusLoss;
@@ -266,8 +240,7 @@ namespace SharpImGui
 		/// </summary>
 		public byte ConfigDebugIniSettings;
 		/// <summary>
-		///     Nowadays those would be stored in ImGuiPlatformIO but we are leaving them here for legacy reasons.<br/>
-		///     Optional: Platform/Renderer backend name (informational only! will be displayed in About Window) + User data for backend/wrappers to store their own stuff.<br/>
+		///     Nowadays those would be stored in ImGuiPlatformIO but we are leaving them here for legacy reasons.<br/>    Optional: Platform/Renderer backend name (informational only! will be displayed in About Window) + User data for backend/wrappers to store their own stuff.<br/>
 		/// = NULL<br/>
 		/// </summary>
 		public unsafe byte* BackendPlatformName;
@@ -344,9 +317,7 @@ namespace SharpImGui
 		/// </summary>
 		public unsafe ImGuiContext* Ctx;
 		/// <summary>
-		///     Main Input State<br/>
-		///     (this block used to be written by backend, since 1.87 it is best to NOT write to those directly, call the AddXXX functions above instead)<br/>
-		///     (reading from those variables is fair game, as they are extremely unlikely to be moving anywhere)<br/>
+		///     Main Input State<br/>    (this block used to be written by backend, since 1.87 it is best to NOT write to those directly, call the AddXXX functions above instead)<br/>    (reading from those variables is fair game, as they are extremely unlikely to be moving anywhere)<br/>
 		/// Mouse position, in pixels. Set to ImVec2(-FLT_MAX, -FLT_MAX) if mouse is unavailable (on another screen, etc.)<br/>
 		/// </summary>
 		public Vector2 MousePos;
@@ -359,11 +330,11 @@ namespace SharpImGui
 		public byte MouseDown_3;
 		public byte MouseDown_4;
 		/// <summary>
-		/// Mouse wheel Vertical: 1 unit scrolls about 5 lines text. >0 scrolls Up, <0 scrolls Down. Hold SHIFT to turn vertical scroll into horizontal scroll.<br/>
+		/// Mouse wheel Vertical: 1 unit scrolls about 5 lines text. &gt;0 scrolls Up, &lt;0 scrolls Down. Hold SHIFT to turn vertical scroll into horizontal scroll.<br/>
 		/// </summary>
 		public float MouseWheel;
 		/// <summary>
-		/// Mouse wheel Horizontal. >0 scrolls Left, <0 scrolls Right. Most users don't have a mouse with a horizontal wheel, may not be filled by all backends.<br/>
+		/// Mouse wheel Horizontal. &gt;0 scrolls Left, &lt;0 scrolls Right. Most users don't have a mouse with a horizontal wheel, may not be filled by all backends.<br/>
 		/// </summary>
 		public float MouseWheelH;
 		/// <summary>
@@ -682,7 +653,7 @@ namespace SharpImGui
 		public float MouseDragMaxDistanceSqr_3;
 		public float MouseDragMaxDistanceSqr_4;
 		/// <summary>
-		/// Touch/Pen pressure (0.0f to 1.0f, should be >0.0f only when MouseDown[0] == true). Helper storage currently unused by Dear ImGui.<br/>
+		/// Touch/Pen pressure (0.0f to 1.0f, should be &gt;0.0f only when MouseDown[0] == true). Helper storage currently unused by Dear ImGui.<br/>
 		/// </summary>
 		public float PenPressure;
 		/// <summary>
@@ -701,5 +672,17 @@ namespace SharpImGui
 		/// Queue of _characters_ input (obtained by platform backend). Fill using AddInputCharacter() helper.<br/>
 		/// </summary>
 		public ImVector<ushort> InputQueueCharacters;
+	}
+
+	public unsafe partial struct ImGuiIOPtr
+	{
+		public ImGuiIO* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiIO this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiIOPtr(ImGuiIO* nativePtr) => NativePtr = nativePtr;
+		public ImGuiIOPtr(IntPtr nativePtr) => NativePtr = (ImGuiIO*)nativePtr;
+		public static implicit operator ImGuiIOPtr(ImGuiIO* ptr) => new ImGuiIOPtr(ptr);
+		public static implicit operator ImGuiIOPtr(IntPtr ptr) => new ImGuiIOPtr(ptr);
+		public static implicit operator ImGuiIO*(ImGuiIOPtr nativePtr) => nativePtr.NativePtr;
 	}
 }

@@ -43,4 +43,19 @@ namespace SharpImGui
 		/// </summary>
 		public Vector2 OpenMousePos;
 	}
+
+	/// <summary>
+	/// Storage for popup stacks (g.OpenPopupStack and g.BeginPopupStack)<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiPopupDataPtr
+	{
+		public ImGuiPopupData* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiPopupData this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiPopupDataPtr(ImGuiPopupData* nativePtr) => NativePtr = nativePtr;
+		public ImGuiPopupDataPtr(IntPtr nativePtr) => NativePtr = (ImGuiPopupData*)nativePtr;
+		public static implicit operator ImGuiPopupDataPtr(ImGuiPopupData* ptr) => new ImGuiPopupDataPtr(ptr);
+		public static implicit operator ImGuiPopupDataPtr(IntPtr ptr) => new ImGuiPopupDataPtr(ptr);
+		public static implicit operator ImGuiPopupData*(ImGuiPopupDataPtr nativePtr) => nativePtr.NativePtr;
+	}
 }

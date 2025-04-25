@@ -3,23 +3,21 @@ using CppAst;
 
 namespace Generator;
 
-public class CodeGenerator
+public class CodeGenerator(GeneratorSettings settings)
 {
-    private const string OutputFolder = "../../../../../SharpImGui/Generated";
-    private const string DockerFolder = "../../../../Docker";
-    private const string CImGuiFolder = $"{DockerFolder}/cimgui";
-    private const string ImGuiFolder = $"{CImGuiFolder}/imgui";
-    
-    private const string CImGuiHeaderFile = "cimgui.h";
+    // private const string OutputFolder = "../../../../../SharpImGui/Generated";
+    // private const string DockerFolder = "../../../../Docker";
+    // private const string CImGuiFolder = $"{DockerFolder}/cimgui";
+    //
+    // private const string CImGuiHeaderFile = "cimgui.h";
     
     private readonly List<IPostProcessor> _postProcessors = [];
 
     public void GenerateCSharp()
     {
-        var cppCompilation = CppParser.ParseFile(Path.GetFullPath(Path.Combine(CImGuiFolder, "include", CImGuiHeaderFile)), new CppParserOptions
-        {
-            Defines = { "CIMGUI_DEFINE_ENUMS_AND_STRUCTS" }
-        });
+        settings.CppParserOptions.IncludeFolders.Add(Path.GetFullPath($"{settings.MetadataDirectory}/../cimgui/include"));
+        var cppCompilation = CppParser.ParseFile(settings.CHeaderFilePath, settings.CppParserOptions);
+        
         if (cppCompilation.HasErrors)
         {
             Console.ForegroundColor = ConsoleColor.Red;
@@ -30,23 +28,24 @@ public class CodeGenerator
             Console.ResetColor();
         }
 
-        var cppToCSharp = new CppToCSharp(cppCompilation, OutputFolder);
+        var cppToCSharp = new CppToCSharp(cppCompilation, settings);
         cppToCSharp.Generate();
 
         var definitionProvider = new CImGuiJsonProvider();
-        definitionProvider.Parse(Path.Combine(CImGuiFolder, "definitions"));
-        cppToCSharp.CSharpGenerated.NativeDefinitionProvider = definitionProvider; 
+        definitionProvider.Parse(settings.DefinitionsDirectory);
+        cppToCSharp.CSharpGenerated.NativeDefinitionProvider = definitionProvider;
+        
         foreach (var postProcessor in _postProcessors)
         {
             postProcessor.Process(cppToCSharp.CSharpGenerated);
         }
         
-        DeleteFolderRecursively(OutputFolder);
+        DeleteFolderRecursively(settings.OutputDirectory);
         
         cppToCSharp.WriteFiles();
     }
-    
-    public void DeleteFolderRecursively(string folder)
+
+    private static void DeleteFolderRecursively(string folder)
     {
         if (!Directory.Exists(folder))
             return;

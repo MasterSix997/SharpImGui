@@ -27,4 +27,19 @@ namespace SharpImGui
 		/// </summary>
 		public unsafe byte* ScanFmt;
 	}
+
+	/// <summary>
+	/// Type information associated to one ImGuiDataType. Retrieve with DataTypeGetInfo().<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiDataTypeInfoPtr
+	{
+		public ImGuiDataTypeInfo* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiDataTypeInfo this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiDataTypeInfoPtr(ImGuiDataTypeInfo* nativePtr) => NativePtr = nativePtr;
+		public ImGuiDataTypeInfoPtr(IntPtr nativePtr) => NativePtr = (ImGuiDataTypeInfo*)nativePtr;
+		public static implicit operator ImGuiDataTypeInfoPtr(ImGuiDataTypeInfo* ptr) => new ImGuiDataTypeInfoPtr(ptr);
+		public static implicit operator ImGuiDataTypeInfoPtr(IntPtr ptr) => new ImGuiDataTypeInfoPtr(ptr);
+		public static implicit operator ImGuiDataTypeInfo*(ImGuiDataTypeInfoPtr nativePtr) => nativePtr.NativePtr;
+	}
 }

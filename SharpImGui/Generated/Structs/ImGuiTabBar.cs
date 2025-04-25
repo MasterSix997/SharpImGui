@@ -81,4 +81,19 @@ namespace SharpImGui
 		/// </summary>
 		public ImGuiTextBuffer TabsNames;
 	}
+
+	/// <summary>
+	/// Storage for a tab bar (sizeof() 160 bytes)<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiTabBarPtr
+	{
+		public ImGuiTabBar* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiTabBar this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiTabBarPtr(ImGuiTabBar* nativePtr) => NativePtr = nativePtr;
+		public ImGuiTabBarPtr(IntPtr nativePtr) => NativePtr = (ImGuiTabBar*)nativePtr;
+		public static implicit operator ImGuiTabBarPtr(ImGuiTabBar* ptr) => new ImGuiTabBarPtr(ptr);
+		public static implicit operator ImGuiTabBarPtr(IntPtr ptr) => new ImGuiTabBarPtr(ptr);
+		public static implicit operator ImGuiTabBar*(ImGuiTabBarPtr nativePtr) => nativePtr.NativePtr;
+	}
 }

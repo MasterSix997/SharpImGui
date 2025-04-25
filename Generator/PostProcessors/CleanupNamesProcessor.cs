@@ -10,8 +10,8 @@ public struct CleanupNamesProcessor : IPostProcessor
         foreach (var file in generated.Output.Files)
         {
             ProcessEnums(file.Container);
-            ProcessStructs(file.Container);
-            ProcessMethods(file.Container);
+            ProcessStructs(file.Container, generated.Settings);
+            ProcessMethods(file.Container, generated.Settings);
         }
     }
 
@@ -27,7 +27,7 @@ public struct CleanupNamesProcessor : IPostProcessor
         }
     }
     
-    private static void ProcessStructs(CsNamespace container)
+    private static void ProcessStructs(CsNamespace container, GeneratorSettings settings)
     {
         foreach (var csStruct in container.Classes)
         {
@@ -37,15 +37,15 @@ public struct CleanupNamesProcessor : IPostProcessor
                 csField.Name = ToPascalCase(csField.Name);
             }
             
-            ProcessMethods(csStruct);
+            ProcessMethods(csStruct, settings);
         }
     }
 
-    private static void ProcessMethods(ICsDeclarationContainer container)
+    private static void ProcessMethods(ICsDeclarationContainer container, GeneratorSettings settings)
     {
         foreach (var csMethod in container.Methods)
         {
-            csMethod.Name = csMethod.Name.Replace("ig", "");
+            csMethod.Name = csMethod.Name.Replace(settings.FunctionsPrefix, "");
             csMethod.Name = ToPascalCase(csMethod.Name);
             foreach (var csParameter in csMethod.Parameters)
             {

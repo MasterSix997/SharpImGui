@@ -32,4 +32,19 @@ namespace SharpImGui
 		/// </summary>
 		public sbyte SingleCharSize;
 	}
+
+	/// <summary>
+	/// Returned by GetTypingSelectRequest(), designed to eventually be public.<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiTypingSelectRequestPtr
+	{
+		public ImGuiTypingSelectRequest* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiTypingSelectRequest this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiTypingSelectRequestPtr(ImGuiTypingSelectRequest* nativePtr) => NativePtr = nativePtr;
+		public ImGuiTypingSelectRequestPtr(IntPtr nativePtr) => NativePtr = (ImGuiTypingSelectRequest*)nativePtr;
+		public static implicit operator ImGuiTypingSelectRequestPtr(ImGuiTypingSelectRequest* ptr) => new ImGuiTypingSelectRequestPtr(ptr);
+		public static implicit operator ImGuiTypingSelectRequestPtr(IntPtr ptr) => new ImGuiTypingSelectRequestPtr(ptr);
+		public static implicit operator ImGuiTypingSelectRequest*(ImGuiTypingSelectRequestPtr nativePtr) => nativePtr.NativePtr;
+	}
 }

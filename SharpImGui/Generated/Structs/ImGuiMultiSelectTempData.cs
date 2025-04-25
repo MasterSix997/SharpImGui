@@ -54,4 +54,19 @@ namespace SharpImGui
 		/// </summary>
 		public byte RangeDstPassedBy;
 	}
+
+	/// <summary>
+	/// Temporary storage for multi-select<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiMultiSelectTempDataPtr
+	{
+		public ImGuiMultiSelectTempData* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiMultiSelectTempData this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiMultiSelectTempDataPtr(ImGuiMultiSelectTempData* nativePtr) => NativePtr = nativePtr;
+		public ImGuiMultiSelectTempDataPtr(IntPtr nativePtr) => NativePtr = (ImGuiMultiSelectTempData*)nativePtr;
+		public static implicit operator ImGuiMultiSelectTempDataPtr(ImGuiMultiSelectTempData* ptr) => new ImGuiMultiSelectTempDataPtr(ptr);
+		public static implicit operator ImGuiMultiSelectTempDataPtr(IntPtr ptr) => new ImGuiMultiSelectTempDataPtr(ptr);
+		public static implicit operator ImGuiMultiSelectTempData*(ImGuiMultiSelectTempDataPtr nativePtr) => nativePtr.NativePtr;
+	}
 }

@@ -7,13 +7,12 @@ public class CppToCSharp
 {
     private readonly CppCompilation _cppCompilation;
 
-    public CSharpGenerated CSharpGenerated { get; } = new();
+    public CSharpGenerated CSharpGenerated { get; }
 
-    public CppToCSharp(CppCompilation cppCompilation, string outputDir)
+    public CppToCSharp(CppCompilation cppCompilation, GeneratorSettings generatorSettings)
     {
-        CSharpGenerated.Output.RootDirectory = outputDir;
-        
         _cppCompilation = cppCompilation;
+        CSharpGenerated = new CSharpGenerated(generatorSettings);
         
         PopulateTypes();
     }
@@ -26,17 +25,65 @@ public class CppToCSharp
         var typedefs = GenerateTypedefs();
         
         ResolveTypes(enums, structs, methods, typedefs);
+        CleanupCImGuiTypes(enums, structs, methods);
         
         CSharpGenerated.Definitions.Enums.AddRange(enums);
         CSharpGenerated.Definitions.Classes.AddRange(structs);
         CSharpGenerated.Definitions.Methods.AddRange(methods);
     }
     
+    
     public void WriteFiles()
     {
         CSharpGenerated.Output.WriteAll();
     }
 
+    private void CleanupCImGuiTypes(List<CsEnum> enums, List<CsClass> structs, List<CsMethod> methods)
+    {
+        if (CSharpGenerated.Settings.OriginalLibraryName == "ImGui")
+            return;
+        
+        for (var i = enums.Count - 1; i >= 0; i--)
+        {
+            var csEnum = enums[i];
+            if (csEnum.Metadata is CppElement cppElement && cppElement.SourceFile.Contains("cimgui"))
+            {
+                enums.RemoveAt(i);
+                CSharpGenerated.CImGuiTypes.Enums.Add(csEnum);
+            }
+        }
+
+        for (var i = structs.Count - 1; i >= 0; i--)
+        {
+            var csStruct = structs[i];
+            if (csStruct.Metadata is CppElement cppElement && cppElement.SourceFile.Contains("cimgui"))
+            {
+                structs.RemoveAt(i);
+                CSharpGenerated.CImGuiTypes.Classes.Add(csStruct);
+            }
+        }
+        
+        for (var i = methods.Count - 1; i >= 0; i--)
+        {
+            var csMethod = methods[i];
+            if (csMethod.Metadata is CppElement cppElement && cppElement.SourceFile.Contains("cimgui"))
+            {
+                methods.RemoveAt(i);
+                CSharpGenerated.CImGuiTypes.Methods.Add(csMethod);
+            }
+        }
+
+        for (int i = CSharpGenerated.Definitions.Delegates.Count - 1; i >= 0; i--)
+        {
+            var csDelegate = CSharpGenerated.Definitions.Delegates[i];
+            if (csDelegate.Metadata is CppElement cppElement && cppElement.SourceFile.Contains("cimgui"))
+            {
+                CSharpGenerated.Definitions.Delegates.RemoveAt(i);
+                CSharpGenerated.CImGuiTypes.Delegates.Add(csDelegate);
+            }
+        }
+    }
+    
     private void PopulateTypes()
     {
         CSharpGenerated.AddTypes(new Dictionary<string, CsType>
@@ -362,19 +409,19 @@ public class CppToCSharp
         return (CsExpressionKind)(int)cppExpressionKind;
     }
 
-    private Dictionary<string, string> GenerateTypedefs()
+    private Dictionary<string, (string, CppTypedef)> GenerateTypedefs()
     {
-        var typedefs = new Dictionary<string, string>();
+        var typedefs = new Dictionary<string, (string, CppTypedef)>();
         
         foreach (var cppTypedef in _cppCompilation.Typedefs)
         {
-            typedefs.Add(cppTypedef.Name, cppTypedef.ElementType.FullName);
+            typedefs.Add(cppTypedef.Name, (cppTypedef.ElementType.FullName, cppTypedef));
         }
         
         return typedefs;
     }
 
-    private void ResolveTypes(List<CsEnum> enums, List<CsClass> structs, List<CsMethod> methods, Dictionary<string, string> typedefs)
+    private void ResolveTypes(List<CsEnum> enums, List<CsClass> structs, List<CsMethod> methods, Dictionary<string, (string, CppTypedef)> typedefs)
     {
         RenameMethodsOverloads(methods, structs);
         CSharpGenerated.AddTypes(enums);
@@ -392,10 +439,11 @@ public class CppToCSharp
         var typesDict = new Dictionary<string, string>();
         for (var i = 0; i < typedefs.Count; i++)
         {
-            var (name, type) = typedefs.ElementAt(i);
+            var (name, (type, cppTypedef)) = typedefs.ElementAt(i);
             if (type.Contains("(*)"))
             {
                 var @delegate = ExtractDelegate(name, type.Replace("typedef ", ""));
+                @delegate.Metadata = cppTypedef;
                 CSharpGenerated.AddType(@delegate);
                 CSharpGenerated.AddTypeMap(name, "void*");
                 CSharpGenerated.Definitions.Delegates.Add(@delegate);
@@ -621,6 +669,7 @@ public class CppToCSharp
             if (unresolvedType.Name.Contains("(*)"))
             {
                 var @delegate = ExtractDelegate(csField.Name, unresolvedType.Name);
+                @delegate.Metadata = csField.Metadata;
                 CSharpGenerated.Definitions.Delegates.Add(@delegate);
                 CSharpGenerated.AddType(@delegate);
                 CSharpGenerated.AddTypeMap(unresolvedType.Name, "void*");
@@ -753,6 +802,7 @@ public class CppToCSharp
             if (unresolvedType.Name.Contains("(*)"))
             {
                 var @delegate = ExtractDelegate($"{baseName}_{csArg.Name}", unresolvedType.Name);
+                @delegate.Metadata = csArg.Metadata;
                 ResolveDelegateType(@delegate);
                 CSharpGenerated.Definitions.Delegates.Add(@delegate);
                 CSharpGenerated.AddType(@delegate);

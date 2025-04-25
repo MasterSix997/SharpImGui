@@ -5,13 +5,12 @@ using System.Runtime.InteropServices;
 namespace SharpImGui
 {
 	/// <summary>
-	/// ImGuiViewport Private/Internals fields (cardinal sin: we are using inheritance!)<br/>
-	/// Every instance of ImGuiViewport is in fact a ImGuiViewportP.<br/>
+	/// ImGuiViewport Private/Internals fields (cardinal sin: we are using inheritance!)<br/>Every instance of ImGuiViewport is in fact a ImGuiViewportP.<br/>
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public partial struct ImGuiViewportP
 	{
-		public ImGuiViewport _ImGuiViewport;
+		public ImGuiViewport ImGuiViewport;
 		/// <summary>
 		/// Set when the viewport is owned by a window (and ImGuiViewportFlags_CanHostOtherWindows is NOT set)<br/>
 		/// </summary>
@@ -57,10 +56,7 @@ namespace SharpImGui
 		public Vector2 LastPlatformSize;
 		public Vector2 LastRendererSize;
 		/// <summary>
-		///     Per-viewport work area<br/>
-		///     - Insets are >= 0.0f values, distance from viewport corners to work area.<br/>
-		///     - BeginMainMenuBar() and DockspaceOverViewport() tend to use work area to avoid stepping over existing contents.<br/>
-		///     - Generally 'safeAreaInsets' in iOS land, 'DisplayCutout' in Android land.<br/>
+		///     Per-viewport work area<br/>    - Insets are &gt;= 0.0f values, distance from viewport corners to work area.<br/>    - BeginMainMenuBar() and DockspaceOverViewport() tend to use work area to avoid stepping over existing contents.<br/>    - Generally 'safeAreaInsets' in iOS land, 'DisplayCutout' in Android land.<br/>
 		/// Work Area inset locked for the frame. GetWorkRect() always fits within GetMainRect().<br/>
 		/// </summary>
 		public Vector2 WorkInsetMin;
@@ -78,8 +74,18 @@ namespace SharpImGui
 		public Vector2 BuildWorkInsetMax;
 	}
 
-	public unsafe struct ImGuiViewportPPtr
+	/// <summary>
+	/// ImGuiViewport Private/Internals fields (cardinal sin: we are using inheritance!)<br/>Every instance of ImGuiViewport is in fact a ImGuiViewportP.<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiViewportPPtr
 	{
-		public ImGuiViewportP* NativePtr;
+		public ImGuiViewportP* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiViewportP this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiViewportPPtr(ImGuiViewportP* nativePtr) => NativePtr = nativePtr;
+		public ImGuiViewportPPtr(IntPtr nativePtr) => NativePtr = (ImGuiViewportP*)nativePtr;
+		public static implicit operator ImGuiViewportPPtr(ImGuiViewportP* ptr) => new ImGuiViewportPPtr(ptr);
+		public static implicit operator ImGuiViewportPPtr(IntPtr ptr) => new ImGuiViewportPPtr(ptr);
+		public static implicit operator ImGuiViewportP*(ImGuiViewportPPtr nativePtr) => nativePtr.NativePtr;
 	}
 }

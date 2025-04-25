@@ -29,7 +29,7 @@ namespace SharpImGui
 		/// </summary>
 		public ushort Height;
 		/// <summary>
-		/// Input    For custom font glyphs only (ID < 0x110000)<br/>
+		/// Input    For custom font glyphs only (ID &lt; 0x110000)<br/>
 		/// </summary>
 		public uint GlyphID;
 		/// <summary>
@@ -48,5 +48,20 @@ namespace SharpImGui
 		/// Input    For custom font glyphs only: target font<br/>
 		/// </summary>
 		public unsafe ImFont* Font;
+	}
+
+	/// <summary>
+	/// See ImFontAtlas::AddCustomRectXXX functions.<br/>
+	/// </summary>
+	public unsafe partial struct ImFontAtlasCustomRectPtr
+	{
+		public ImFontAtlasCustomRect* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImFontAtlasCustomRect this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImFontAtlasCustomRectPtr(ImFontAtlasCustomRect* nativePtr) => NativePtr = nativePtr;
+		public ImFontAtlasCustomRectPtr(IntPtr nativePtr) => NativePtr = (ImFontAtlasCustomRect*)nativePtr;
+		public static implicit operator ImFontAtlasCustomRectPtr(ImFontAtlasCustomRect* ptr) => new ImFontAtlasCustomRectPtr(ptr);
+		public static implicit operator ImFontAtlasCustomRectPtr(IntPtr ptr) => new ImFontAtlasCustomRectPtr(ptr);
+		public static implicit operator ImFontAtlasCustomRect*(ImFontAtlasCustomRectPtr nativePtr) => nativePtr.NativePtr;
 	}
 }

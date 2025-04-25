@@ -7,6 +7,7 @@ public struct EnumsProcessor : IPostProcessor
     public void Process(CSharpGenerated generated)
     {
         CleanupEnums(generated.Definitions);
+        CleanupEnums(generated.CImGuiTypes);
     }
 
     private static void CleanupEnums(ICsDeclarationContainer container)
@@ -18,7 +19,8 @@ public struct EnumsProcessor : IPostProcessor
                 var toReplace = csEnum.Name;
                 toReplace = toReplace.Replace("Private", "");
                 item.Name = item.Name.Replace(toReplace, "");
-                if (!char.IsNumber(item.Name[1]))
+
+                if (item.Name.Length > 1 && !char.IsNumber(item.Name[1]))
                     item.Name = item.Name.Trim('_');
             }
 

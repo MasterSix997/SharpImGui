@@ -124,11 +124,11 @@ namespace SharpImGui
 		/// </summary>
 		public int NameBufLen;
 		/// <summary>
-		/// == window->GetID("#MOVE")<br/>
+		/// == window-&gt;GetID("#MOVE")<br/>
 		/// </summary>
 		public uint MoveId;
 		/// <summary>
-		/// == window->GetID("#TAB")<br/>
+		/// == window-&gt;GetID("#TAB")<br/>
 		/// </summary>
 		public uint TabId;
 		/// <summary>
@@ -150,7 +150,7 @@ namespace SharpImGui
 		/// </summary>
 		public Vector2 ScrollTargetCenterRatio;
 		/// <summary>
-		/// 0.0f = no snapping, >0.0f snapping threshold<br/>
+		/// 0.0f = no snapping, &gt;0.0f snapping threshold<br/>
 		/// </summary>
 		public Vector2 ScrollTargetEdgeSnapDist;
 		/// <summary>
@@ -201,7 +201,7 @@ namespace SharpImGui
 		/// </summary>
 		public byte Appearing;
 		/// <summary>
-		/// Do not display (== HiddenFrames*** > 0)<br/>
+		/// Do not display (== HiddenFrames*** &gt; 0)<br/>
 		/// </summary>
 		public byte Hidden;
 		/// <summary>
@@ -291,15 +291,14 @@ namespace SharpImGui
 		/// <summary>
 		/// ID stack. ID are hashes seeded with the value at the top of the stack. (In theory this should be in the TempData structure)<br/>
 		/// </summary>
-		public ImVector<uint> IDStack;
+		public ImVector<uint> IdStack;
 		/// <summary>
 		/// Temporary per-window data, reset at the beginning of the frame. This used to be called ImGuiDrawContext, hence the "DC" variable name.<br/>
 		/// </summary>
 		public ImGuiWindowTempData DC;
 		/// <summary>
-		///     The best way to understand what those rectangles are is to use the 'Metrics->Tools->Show Windows Rectangles' viewer.<br/>
-		///     The main 'OuterRect', omitted as a field, is window->Rect().<br/>
-		/// == Window->Rect() just after setup in Begin(). == window->Rect() for root window.<br/>
+		///     The best way to understand what those rectangles are is to use the 'Metrics-&gt;Tools-&gt;Show Windows Rectangles' viewer.<br/>    The main 'OuterRect', omitted as a field, is window-&gt;Rect().<br/>
+		/// == Window-&gt;Rect() just after setup in Begin(). == window-&gt;Rect() for root window.<br/>
 		/// </summary>
 		public ImRect OuterRectClipped;
 		/// <summary>
@@ -319,7 +318,7 @@ namespace SharpImGui
 		/// </summary>
 		public ImRect ParentWorkRect;
 		/// <summary>
-		/// Current clipping/scissoring rectangle, evolve as we are using PushClipRect(), etc. == DrawList->clip_rect_stack.back().<br/>
+		/// Current clipping/scissoring rectangle, evolve as we are using PushClipRect(), etc. == DrawList-&gt;clip_rect_stack.back().<br/>
 		/// </summary>
 		public ImRect ClipRect;
 		/// <summary>
@@ -329,8 +328,8 @@ namespace SharpImGui
 		/// <summary>
 		/// Define an optional rectangular hole where mouse will pass-through the window.<br/>
 		/// </summary>
-		public ImVec2ih HitTestHoleSize;
-		public ImVec2ih HitTestHoleOffset;
+		public ImVec2Ih HitTestHoleSize;
+		public ImVec2Ih HitTestHoleOffset;
 		/// <summary>
 		/// Last frame number the window was Active.<br/>
 		/// </summary>
@@ -353,7 +352,7 @@ namespace SharpImGui
 		public float FontWindowScaleParents;
 		public float FontDpiScale;
 		/// <summary>
-		/// This is a copy of window->CalcFontSize() at the time of Begin(), trying to phase out CalcFontSize() especially as it may be called on non-current window.<br/>
+		/// This is a copy of window-&gt;CalcFontSize() at the time of Begin(), trying to phase out CalcFontSize() especially as it may be called on non-current window.<br/>
 		/// </summary>
 		public float FontRefSize;
 		/// <summary>
@@ -375,7 +374,7 @@ namespace SharpImGui
 		/// </summary>
 		public unsafe ImGuiWindow* RootWindow;
 		/// <summary>
-		/// Point to ourself or first ancestor that is not a child window. Cross through popups parent<>child.<br/>
+		/// Point to ourself or first ancestor that is not a child window. Cross through popups parent&lt;&gt;child.<br/>
 		/// </summary>
 		public unsafe ImGuiWindow* RootWindowPopupTree;
 		/// <summary>
@@ -428,7 +427,7 @@ namespace SharpImGui
 		public byte MemoryCompacted;
 		/// <summary>
 		///     Docking<br/>
-		/// When docking artifacts are actually visible. When this is set, DockNode is guaranteed to be != NULL. ~~ (DockNode != NULL) && (DockNode->Windows.Size > 1).<br/>
+		/// When docking artifacts are actually visible. When this is set, DockNode is guaranteed to be != NULL. ~~ (DockNode != NULL) && (DockNode-&gt;Windows.Size &gt; 1).<br/>
 		/// </summary>
 		public byte DockIsActive;
 		public byte DockNodeIsVisible;
@@ -451,13 +450,23 @@ namespace SharpImGui
 		/// </summary>
 		public unsafe ImGuiDockNode* DockNodeAsHost;
 		/// <summary>
-		/// Backup of last valid DockNode->ID, so single window remember their dock node id even when they are not bound any more<br/>
+		/// Backup of last valid DockNode-&gt;ID, so single window remember their dock node id even when they are not bound any more<br/>
 		/// </summary>
 		public uint DockId;
 	}
 
-	public unsafe struct ImGuiWindowPtr
+	/// <summary>
+	/// Storage for one window<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiWindowPtr
 	{
-		public ImGuiWindow* NativePtr;
+		public ImGuiWindow* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiWindow this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiWindowPtr(ImGuiWindow* nativePtr) => NativePtr = nativePtr;
+		public ImGuiWindowPtr(IntPtr nativePtr) => NativePtr = (ImGuiWindow*)nativePtr;
+		public static implicit operator ImGuiWindowPtr(ImGuiWindow* ptr) => new ImGuiWindowPtr(ptr);
+		public static implicit operator ImGuiWindowPtr(IntPtr ptr) => new ImGuiWindowPtr(ptr);
+		public static implicit operator ImGuiWindow*(ImGuiWindowPtr nativePtr) => nativePtr.NativePtr;
 	}
 }

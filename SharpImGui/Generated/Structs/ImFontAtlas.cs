@@ -5,23 +5,7 @@ using System.Runtime.InteropServices;
 namespace SharpImGui
 {
 	/// <summary>
-	/// Load and rasterize multiple TTF/OTF fonts into a same texture. The font atlas will build a single texture holding:<br/>
-	///  - One or more fonts.<br/>
-	///  - Custom graphics data needed to render the shapes needed by Dear ImGui.<br/>
-	///  - Mouse cursor shapes for software cursor rendering (unless setting 'Flags |= ImFontAtlasFlags_NoMouseCursors' in the font atlas).<br/>
-	/// It is the user-code responsibility to setup/build the atlas, then upload the pixel data into a texture accessible by your graphics api.<br/>
-	///  - Optionally, call any of the AddFont*** functions. If you don't call any, the default font embedded in the code will be loaded for you.<br/>
-	///  - Call GetTexDataAsAlpha8() or GetTexDataAsRGBA32() to build and retrieve pixels data.<br/>
-	///  - Upload the pixels data into a texture within your graphics system (see imgui_impl_xxxx.cpp examples)<br/>
-	///  - Call SetTexID(my_tex_id); and pass the pointer/identifier to your texture in a format natural to your graphics API.<br/>
-	///    This value will be passed back to you during rendering to identify the texture. Read FAQ entry about ImTextureID for more details.<br/>
-	/// Common pitfalls:<br/>
-	/// - If you pass a 'glyph_ranges' array to AddFont*** functions, you need to make sure that your array persist up until the<br/>
-	///   atlas is build (when calling GetTexData*** or Build()). We only copy the pointer, not the data.<br/>
-	/// - Important: By default, AddFontFromMemoryTTF() takes ownership of the data. Even though we are not writing to it, we will free the pointer on destruction.<br/>
-	///   You can set font_cfg->FontDataOwnedByAtlas=false to keep ownership of your data and it won't be freed,<br/>
-	/// - Even though many functions are suffixed with "TTF", OTF data is supported just as well.<br/>
-	/// - This is an old API and it is currently awkward for those and various other reasons! We will address them in the future!<br/>
+	/// Load and rasterize multiple TTF/OTF fonts into a same texture. The font atlas will build a single texture holding:<br/> - One or more fonts.<br/> - Custom graphics data needed to render the shapes needed by Dear ImGui.<br/> - Mouse cursor shapes for software cursor rendering (unless setting 'Flags |= ImFontAtlasFlags_NoMouseCursors' in the font atlas).<br/>It is the user-code responsibility to setup/build the atlas, then upload the pixel data into a texture accessible by your graphics api.<br/> - Optionally, call any of the AddFont*** functions. If you don't call any, the default font embedded in the code will be loaded for you.<br/> - Call GetTexDataAsAlpha8() or GetTexDataAsRGBA32() to build and retrieve pixels data.<br/> - Upload the pixels data into a texture within your graphics system (see imgui_impl_xxxx.cpp examples)<br/> - Call SetTexID(my_tex_id); and pass the pointer/identifier to your texture in a format natural to your graphics API.<br/>   This value will be passed back to you during rendering to identify the texture. Read FAQ entry about ImTextureID for more details.<br/>Common pitfalls:<br/>- If you pass a 'glyph_ranges' array to AddFont*** functions, you need to make sure that your array persist up until the<br/>  atlas is build (when calling GetTexData*** or Build()). We only copy the pointer, not the data.<br/>- Important: By default, AddFontFromMemoryTTF() takes ownership of the data. Even though we are not writing to it, we will free the pointer on destruction.<br/>  You can set font_cfg-&gt;FontDataOwnedByAtlas=false to keep ownership of your data and it won't be freed,<br/>- Even though many functions are suffixed with "TTF", OTF data is supported just as well.<br/>- This is an old API and it is currently awkward for those and various other reasons! We will address them in the future!<br/>
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public partial struct ImFontAtlas
@@ -48,8 +32,7 @@ namespace SharpImGui
 		/// </summary>
 		public unsafe void* UserData;
 		/// <summary>
-		///     [Internal]<br/>
-		///     NB: Access texture data via GetTexData*() calls! Which will setup a default font for you.<br/>
+		///     [Internal]<br/>    NB: Access texture data via GetTexData*() calls! Which will setup a default font for you.<br/>
 		/// Marked as Locked by ImGui::NewFrame() so attempt to modify the atlas will assert.<br/>
 		/// </summary>
 		public byte Locked;
@@ -68,7 +51,7 @@ namespace SharpImGui
 		/// <summary>
 		/// 4 component per pixel, each component is unsigned 8-bit. Total size = TexWidth * TexHeight * 4<br/>
 		/// </summary>
-		public unsafe uint* TexPixelsRGBA32;
+		public unsafe uint* TexPixelsRgba32;
 		/// <summary>
 		/// Texture width calculated during Build().<br/>
 		/// </summary>
@@ -151,5 +134,20 @@ namespace SharpImGui
 		/// Custom texture rectangle ID for baked anti-aliased lines<br/>
 		/// </summary>
 		public int PackIdLines;
+	}
+
+	/// <summary>
+	/// Load and rasterize multiple TTF/OTF fonts into a same texture. The font atlas will build a single texture holding:<br/> - One or more fonts.<br/> - Custom graphics data needed to render the shapes needed by Dear ImGui.<br/> - Mouse cursor shapes for software cursor rendering (unless setting 'Flags |= ImFontAtlasFlags_NoMouseCursors' in the font atlas).<br/>It is the user-code responsibility to setup/build the atlas, then upload the pixel data into a texture accessible by your graphics api.<br/> - Optionally, call any of the AddFont*** functions. If you don't call any, the default font embedded in the code will be loaded for you.<br/> - Call GetTexDataAsAlpha8() or GetTexDataAsRGBA32() to build and retrieve pixels data.<br/> - Upload the pixels data into a texture within your graphics system (see imgui_impl_xxxx.cpp examples)<br/> - Call SetTexID(my_tex_id); and pass the pointer/identifier to your texture in a format natural to your graphics API.<br/>   This value will be passed back to you during rendering to identify the texture. Read FAQ entry about ImTextureID for more details.<br/>Common pitfalls:<br/>- If you pass a 'glyph_ranges' array to AddFont*** functions, you need to make sure that your array persist up until the<br/>  atlas is build (when calling GetTexData*** or Build()). We only copy the pointer, not the data.<br/>- Important: By default, AddFontFromMemoryTTF() takes ownership of the data. Even though we are not writing to it, we will free the pointer on destruction.<br/>  You can set font_cfg-&gt;FontDataOwnedByAtlas=false to keep ownership of your data and it won't be freed,<br/>- Even though many functions are suffixed with "TTF", OTF data is supported just as well.<br/>- This is an old API and it is currently awkward for those and various other reasons! We will address them in the future!<br/>
+	/// </summary>
+	public unsafe partial struct ImFontAtlasPtr
+	{
+		public ImFontAtlas* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImFontAtlas this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImFontAtlasPtr(ImFontAtlas* nativePtr) => NativePtr = nativePtr;
+		public ImFontAtlasPtr(IntPtr nativePtr) => NativePtr = (ImFontAtlas*)nativePtr;
+		public static implicit operator ImFontAtlasPtr(ImFontAtlas* ptr) => new ImFontAtlasPtr(ptr);
+		public static implicit operator ImFontAtlasPtr(IntPtr ptr) => new ImFontAtlasPtr(ptr);
+		public static implicit operator ImFontAtlas*(ImFontAtlasPtr nativePtr) => nativePtr.NativePtr;
 	}
 }

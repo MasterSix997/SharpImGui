@@ -5,10 +5,7 @@ using System.Runtime.InteropServices;
 namespace SharpImGui
 {
 	/// <summary>
-	/// Data shared between all ImDrawList instances<br/>
-	/// Conceptually this could have been called e.g. ImDrawListSharedContext<br/>
-	/// Typically one ImGui context would create and maintain one of this.<br/>
-	/// You may want to create your own instance of you try to ImDrawList completely without ImGui. In that case, watch out for future changes to this structure.<br/>
+	/// Data shared between all ImDrawList instances<br/>Conceptually this could have been called e.g. ImDrawListSharedContext<br/>Typically one ImGui context would create and maintain one of this.<br/>You may want to create your own instance of you try to ImDrawList completely without ImGui. In that case, watch out for future changes to this structure.<br/>
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public partial struct ImDrawListSharedData
@@ -30,7 +27,7 @@ namespace SharpImGui
 		/// </summary>
 		public float FontSize;
 		/// <summary>
-		/// Current/default font scale (== FontSize / Font->FontSize)<br/>
+		/// Current/default font scale (== FontSize / Font-&gt;FontSize)<br/>
 		/// </summary>
 		public float FontScale;
 		/// <summary>
@@ -180,5 +177,20 @@ namespace SharpImGui
 		public byte CircleSegmentCounts_61;
 		public byte CircleSegmentCounts_62;
 		public byte CircleSegmentCounts_63;
+	}
+
+	/// <summary>
+	/// Data shared between all ImDrawList instances<br/>Conceptually this could have been called e.g. ImDrawListSharedContext<br/>Typically one ImGui context would create and maintain one of this.<br/>You may want to create your own instance of you try to ImDrawList completely without ImGui. In that case, watch out for future changes to this structure.<br/>
+	/// </summary>
+	public unsafe partial struct ImDrawListSharedDataPtr
+	{
+		public ImDrawListSharedData* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImDrawListSharedData this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImDrawListSharedDataPtr(ImDrawListSharedData* nativePtr) => NativePtr = nativePtr;
+		public ImDrawListSharedDataPtr(IntPtr nativePtr) => NativePtr = (ImDrawListSharedData*)nativePtr;
+		public static implicit operator ImDrawListSharedDataPtr(ImDrawListSharedData* ptr) => new ImDrawListSharedDataPtr(ptr);
+		public static implicit operator ImDrawListSharedDataPtr(IntPtr ptr) => new ImDrawListSharedDataPtr(ptr);
+		public static implicit operator ImDrawListSharedData*(ImDrawListSharedDataPtr nativePtr) => nativePtr.NativePtr;
 	}
 }

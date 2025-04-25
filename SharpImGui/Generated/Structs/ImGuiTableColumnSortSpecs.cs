@@ -27,4 +27,19 @@ namespace SharpImGui
 		/// </summary>
 		public ImGuiSortDirection SortDirection;
 	}
+
+	/// <summary>
+	/// Sorting specification for one column of a table (sizeof == 12 bytes)<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiTableColumnSortSpecsPtr
+	{
+		public ImGuiTableColumnSortSpecs* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiTableColumnSortSpecs this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiTableColumnSortSpecsPtr(ImGuiTableColumnSortSpecs* nativePtr) => NativePtr = nativePtr;
+		public ImGuiTableColumnSortSpecsPtr(IntPtr nativePtr) => NativePtr = (ImGuiTableColumnSortSpecs*)nativePtr;
+		public static implicit operator ImGuiTableColumnSortSpecsPtr(ImGuiTableColumnSortSpecs* ptr) => new ImGuiTableColumnSortSpecsPtr(ptr);
+		public static implicit operator ImGuiTableColumnSortSpecsPtr(IntPtr ptr) => new ImGuiTableColumnSortSpecsPtr(ptr);
+		public static implicit operator ImGuiTableColumnSortSpecs*(ImGuiTableColumnSortSpecsPtr nativePtr) => nativePtr.NativePtr;
+	}
 }

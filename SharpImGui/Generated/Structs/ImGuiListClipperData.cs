@@ -16,4 +16,19 @@ namespace SharpImGui
 		public int ItemsFrozen;
 		public ImVector<ImGuiListClipperRange> Ranges;
 	}
+
+	/// <summary>
+	/// Temporary clipper data, buffers shared/reused between instances<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiListClipperDataPtr
+	{
+		public ImGuiListClipperData* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiListClipperData this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiListClipperDataPtr(ImGuiListClipperData* nativePtr) => NativePtr = nativePtr;
+		public ImGuiListClipperDataPtr(IntPtr nativePtr) => NativePtr = (ImGuiListClipperData*)nativePtr;
+		public static implicit operator ImGuiListClipperDataPtr(ImGuiListClipperData* ptr) => new ImGuiListClipperDataPtr(ptr);
+		public static implicit operator ImGuiListClipperDataPtr(IntPtr ptr) => new ImGuiListClipperDataPtr(ptr);
+		public static implicit operator ImGuiListClipperData*(ImGuiListClipperDataPtr nativePtr) => nativePtr.NativePtr;
+	}
 }

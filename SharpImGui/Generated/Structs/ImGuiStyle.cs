@@ -92,7 +92,7 @@ namespace SharpImGui
 		/// </summary>
 		public float IndentSpacing;
 		/// <summary>
-		/// Minimum horizontal spacing between two columns. Preferably > (FramePadding.x + 1).<br/>
+		/// Minimum horizontal spacing between two columns. Preferably &gt; (FramePadding.x + 1).<br/>
 		/// </summary>
 		public float ColumnsMinSpacing;
 		/// <summary>
@@ -128,11 +128,11 @@ namespace SharpImGui
 		/// </summary>
 		public float TabBorderSize;
 		/// <summary>
-		/// -1: always visible. 0.0f: visible when hovered. >0.0f: visible when hovered if minimum width.<br/>
+		/// -1: always visible. 0.0f: visible when hovered. &gt;0.0f: visible when hovered if minimum width.<br/>
 		/// </summary>
 		public float TabCloseButtonMinWidthSelected;
 		/// <summary>
-		/// -1: always visible. 0.0f: visible when hovered. >0.0f: visible when hovered if minimum width. FLT_MAX: never show close button when unselected.<br/>
+		/// -1: always visible. 0.0f: visible when hovered. &gt;0.0f: visible when hovered if minimum width. FLT_MAX: never show close button when unselected.<br/>
 		/// </summary>
 		public float TabCloseButtonMinWidthUnselected;
 		/// <summary>
@@ -273,8 +273,7 @@ namespace SharpImGui
 		public Vector4 Colors_56;
 		public Vector4 Colors_57;
 		/// <summary>
-		///     Behaviors<br/>
-		///     (It is possible to modify those fields mid-frame if specific behavior need it, unlike e.g. configuration fields in ImGuiIO)<br/>
+		///     Behaviors<br/>    (It is possible to modify those fields mid-frame if specific behavior need it, unlike e.g. configuration fields in ImGuiIO)<br/>
 		/// Delay for IsItemHovered(ImGuiHoveredFlags_Stationary). Time required to consider mouse stationary.<br/>
 		/// </summary>
 		public float HoverStationaryDelay;
@@ -294,5 +293,17 @@ namespace SharpImGui
 		/// Default flags when using IsItemHovered(ImGuiHoveredFlags_ForTooltip) or BeginItemTooltip()/SetItemTooltip() while using keyboard/gamepad.<br/>
 		/// </summary>
 		public ImGuiHoveredFlags HoverFlagsForTooltipNav;
+	}
+
+	public unsafe partial struct ImGuiStylePtr
+	{
+		public ImGuiStyle* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiStyle this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiStylePtr(ImGuiStyle* nativePtr) => NativePtr = nativePtr;
+		public ImGuiStylePtr(IntPtr nativePtr) => NativePtr = (ImGuiStyle*)nativePtr;
+		public static implicit operator ImGuiStylePtr(ImGuiStyle* ptr) => new ImGuiStylePtr(ptr);
+		public static implicit operator ImGuiStylePtr(IntPtr ptr) => new ImGuiStylePtr(ptr);
+		public static implicit operator ImGuiStyle*(ImGuiStylePtr nativePtr) => nativePtr.NativePtr;
 	}
 }

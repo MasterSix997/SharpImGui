@@ -5,13 +5,7 @@ using System.Runtime.InteropServices;
 namespace SharpImGui
 {
 	/// <summary>
-	/// - Currently represents the Platform Window created by the application which is hosting our Dear ImGui windows.<br/>
-	/// - With multi-viewport enabled, we extend this concept to have multiple active viewports.<br/>
-	/// - In the future we will extend this concept further to also represent Platform Monitor and support a "no main platform window" operation mode.<br/>
-	/// - About Main Area vs Work Area:<br/>
-	///   - Main Area = entire viewport.<br/>
-	///   - Work Area = entire viewport minus sections used by main menu bars (for platform windows), or by task bar (for platform monitor).<br/>
-	///   - Windows are generally trying to stay within the Work Area of their host viewport.<br/>
+	/// - Currently represents the Platform Window created by the application which is hosting our Dear ImGui windows.<br/>- With multi-viewport enabled, we extend this concept to have multiple active viewports.<br/>- In the future we will extend this concept further to also represent Platform Monitor and support a "no main platform window" operation mode.<br/>- About Main Area vs Work Area:<br/>  - Main Area = entire viewport.<br/>  - Work Area = entire viewport minus sections used by main menu bars (for platform windows), or by task bar (for platform monitor).<br/>  - Windows are generally trying to stay within the Work Area of their host viewport.<br/>
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public partial struct ImGuiViewport
@@ -33,11 +27,11 @@ namespace SharpImGui
 		/// </summary>
 		public Vector2 Size;
 		/// <summary>
-		/// Work Area: Position of the viewport minus task bars, menus bars, status bars (>= Pos)<br/>
+		/// Work Area: Position of the viewport minus task bars, menus bars, status bars (&gt;= Pos)<br/>
 		/// </summary>
 		public Vector2 WorkPos;
 		/// <summary>
-		/// Work Area: Size of the viewport minus task bars, menu bars, status bars (<= Size)<br/>
+		/// Work Area: Size of the viewport minus task bars, menu bars, status bars (&lt;= Size)<br/>
 		/// </summary>
 		public Vector2 WorkSize;
 		/// <summary>
@@ -53,11 +47,7 @@ namespace SharpImGui
 		/// </summary>
 		public unsafe ImDrawData* DrawData;
 		/// <summary>
-		///     Platform/Backend Dependent Data<br/>
-		///     Our design separate the Renderer and Platform backends to facilitate combining default backends with each others.<br/>
-		///     When our create your own backend for a custom engine, it is possible that both Renderer and Platform will be handled<br/>
-		///     by the same system and you may not need to use all the UserData/Handle fields.<br/>
-		///     The library never uses those fields, they are merely storage to facilitate backend implementation.<br/>
+		///     Platform/Backend Dependent Data<br/>    Our design separate the Renderer and Platform backends to facilitate combining default backends with each others.<br/>    When our create your own backend for a custom engine, it is possible that both Renderer and Platform will be handled<br/>    by the same system and you may not need to use all the UserData/Handle fields.<br/>    The library never uses those fields, they are merely storage to facilitate backend implementation.<br/>
 		/// void* to hold custom data structure for the renderer (e.g. swap chain, framebuffers etc.). generally set by your Renderer_CreateWindow function.<br/>
 		/// </summary>
 		public unsafe void* RendererUserData;
@@ -91,8 +81,18 @@ namespace SharpImGui
 		public byte PlatformRequestClose;
 	}
 
-	public unsafe struct ImGuiViewportPtr
+	/// <summary>
+	/// - Currently represents the Platform Window created by the application which is hosting our Dear ImGui windows.<br/>- With multi-viewport enabled, we extend this concept to have multiple active viewports.<br/>- In the future we will extend this concept further to also represent Platform Monitor and support a "no main platform window" operation mode.<br/>- About Main Area vs Work Area:<br/>  - Main Area = entire viewport.<br/>  - Work Area = entire viewport minus sections used by main menu bars (for platform windows), or by task bar (for platform monitor).<br/>  - Windows are generally trying to stay within the Work Area of their host viewport.<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiViewportPtr
 	{
-		public ImGuiViewport* NativePtr;
+		public ImGuiViewport* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiViewport this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiViewportPtr(ImGuiViewport* nativePtr) => NativePtr = nativePtr;
+		public ImGuiViewportPtr(IntPtr nativePtr) => NativePtr = (ImGuiViewport*)nativePtr;
+		public static implicit operator ImGuiViewportPtr(ImGuiViewport* ptr) => new ImGuiViewportPtr(ptr);
+		public static implicit operator ImGuiViewportPtr(IntPtr ptr) => new ImGuiViewportPtr(ptr);
+		public static implicit operator ImGuiViewport*(ImGuiViewportPtr nativePtr) => nativePtr.NativePtr;
 	}
 }

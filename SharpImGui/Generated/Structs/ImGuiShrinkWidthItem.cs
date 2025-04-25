@@ -11,4 +11,16 @@ namespace SharpImGui
 		public float Width;
 		public float InitialWidth;
 	}
+
+	public unsafe partial struct ImGuiShrinkWidthItemPtr
+	{
+		public ImGuiShrinkWidthItem* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiShrinkWidthItem this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiShrinkWidthItemPtr(ImGuiShrinkWidthItem* nativePtr) => NativePtr = nativePtr;
+		public ImGuiShrinkWidthItemPtr(IntPtr nativePtr) => NativePtr = (ImGuiShrinkWidthItem*)nativePtr;
+		public static implicit operator ImGuiShrinkWidthItemPtr(ImGuiShrinkWidthItem* ptr) => new ImGuiShrinkWidthItemPtr(ptr);
+		public static implicit operator ImGuiShrinkWidthItemPtr(IntPtr ptr) => new ImGuiShrinkWidthItemPtr(ptr);
+		public static implicit operator ImGuiShrinkWidthItem*(ImGuiShrinkWidthItemPtr nativePtr) => nativePtr.NativePtr;
+	}
 }

@@ -35,7 +35,7 @@ namespace SharpImGui
 		public unsafe ImGuiDockNode* ChildNodes_0;
 		public unsafe ImGuiDockNode* ChildNodes_1;
 		/// <summary>
-		/// Note: unordered list! Iterate TabBar->Tabs for user-order.<br/>
+		/// Note: unordered list! Iterate TabBar-&gt;Tabs for user-order.<br/>
 		/// </summary>
 		public ImVector<ImGuiWindowPtr> Windows;
 		public unsafe ImGuiTabBar* TabBar;
@@ -131,5 +131,20 @@ namespace SharpImGui
 		public byte WantMouseMove;
 		public byte WantHiddenTabBarUpdate;
 		public byte WantHiddenTabBarToggle;
+	}
+
+	/// <summary>
+	/// sizeof() 156~192<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiDockNodePtr
+	{
+		public ImGuiDockNode* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiDockNode this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiDockNodePtr(ImGuiDockNode* nativePtr) => NativePtr = nativePtr;
+		public ImGuiDockNodePtr(IntPtr nativePtr) => NativePtr = (ImGuiDockNode*)nativePtr;
+		public static implicit operator ImGuiDockNodePtr(ImGuiDockNode* ptr) => new ImGuiDockNodePtr(ptr);
+		public static implicit operator ImGuiDockNodePtr(IntPtr ptr) => new ImGuiDockNodePtr(ptr);
+		public static implicit operator ImGuiDockNode*(ImGuiDockNodePtr nativePtr) => nativePtr.NativePtr;
 	}
 }

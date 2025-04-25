@@ -89,4 +89,19 @@ namespace SharpImGui
 		/// </summary>
 		public byte SingleCharModeLock;
 	}
+
+	/// <summary>
+	/// Storage for GetTypingSelectRequest()<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiTypingSelectStatePtr
+	{
+		public ImGuiTypingSelectState* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiTypingSelectState this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiTypingSelectStatePtr(ImGuiTypingSelectState* nativePtr) => NativePtr = nativePtr;
+		public ImGuiTypingSelectStatePtr(IntPtr nativePtr) => NativePtr = (ImGuiTypingSelectState*)nativePtr;
+		public static implicit operator ImGuiTypingSelectStatePtr(ImGuiTypingSelectState* ptr) => new ImGuiTypingSelectStatePtr(ptr);
+		public static implicit operator ImGuiTypingSelectStatePtr(IntPtr ptr) => new ImGuiTypingSelectStatePtr(ptr);
+		public static implicit operator ImGuiTypingSelectState*(ImGuiTypingSelectStatePtr nativePtr) => nativePtr.NativePtr;
+	}
 }

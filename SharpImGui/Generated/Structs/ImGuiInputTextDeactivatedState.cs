@@ -19,4 +19,19 @@ namespace SharpImGui
 		/// </summary>
 		public ImVector<byte> TextA;
 	}
+
+	/// <summary>
+	/// Internal temporary state for deactivating InputText() instances.<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiInputTextDeactivatedStatePtr
+	{
+		public ImGuiInputTextDeactivatedState* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiInputTextDeactivatedState this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiInputTextDeactivatedStatePtr(ImGuiInputTextDeactivatedState* nativePtr) => NativePtr = nativePtr;
+		public ImGuiInputTextDeactivatedStatePtr(IntPtr nativePtr) => NativePtr = (ImGuiInputTextDeactivatedState*)nativePtr;
+		public static implicit operator ImGuiInputTextDeactivatedStatePtr(ImGuiInputTextDeactivatedState* ptr) => new ImGuiInputTextDeactivatedStatePtr(ptr);
+		public static implicit operator ImGuiInputTextDeactivatedStatePtr(IntPtr ptr) => new ImGuiInputTextDeactivatedStatePtr(ptr);
+		public static implicit operator ImGuiInputTextDeactivatedState*(ImGuiInputTextDeactivatedStatePtr nativePtr) => nativePtr.NativePtr;
+	}
 }

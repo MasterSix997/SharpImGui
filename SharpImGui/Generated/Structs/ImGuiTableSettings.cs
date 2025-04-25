@@ -32,4 +32,19 @@ namespace SharpImGui
 		/// </summary>
 		public byte WantApply;
 	}
+
+	/// <summary>
+	/// This is designed to be stored in a single ImChunkStream (1 header followed by N ImGuiTableColumnSettings, etc.)<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiTableSettingsPtr
+	{
+		public ImGuiTableSettings* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiTableSettings this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiTableSettingsPtr(ImGuiTableSettings* nativePtr) => NativePtr = nativePtr;
+		public ImGuiTableSettingsPtr(IntPtr nativePtr) => NativePtr = (ImGuiTableSettings*)nativePtr;
+		public static implicit operator ImGuiTableSettingsPtr(ImGuiTableSettings* ptr) => new ImGuiTableSettingsPtr(ptr);
+		public static implicit operator ImGuiTableSettingsPtr(IntPtr ptr) => new ImGuiTableSettingsPtr(ptr);
+		public static implicit operator ImGuiTableSettings*(ImGuiTableSettingsPtr nativePtr) => nativePtr.NativePtr;
+	}
 }

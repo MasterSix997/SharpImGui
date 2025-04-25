@@ -5,8 +5,7 @@ using System.Runtime.InteropServices;
 namespace SharpImGui
 {
 	/// <summary>
-	/// Routing table: maintain a desired owner for each possible key-chord (key + mods), and setup owner in NewFrame() when mods are matching.<br/>
-	/// Stored in main context (1 instance)<br/>
+	/// Routing table: maintain a desired owner for each possible key-chord (key + mods), and setup owner in NewFrame() when mods are matching.<br/>Stored in main context (1 instance)<br/>
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public partial struct ImGuiKeyRoutingTable
@@ -174,5 +173,20 @@ namespace SharpImGui
 		/// Double-buffer to avoid reallocation (could use a shared buffer)<br/>
 		/// </summary>
 		public ImVector<ImGuiKeyRoutingData> EntriesNext;
+	}
+
+	/// <summary>
+	/// Routing table: maintain a desired owner for each possible key-chord (key + mods), and setup owner in NewFrame() when mods are matching.<br/>Stored in main context (1 instance)<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiKeyRoutingTablePtr
+	{
+		public ImGuiKeyRoutingTable* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiKeyRoutingTable this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiKeyRoutingTablePtr(ImGuiKeyRoutingTable* nativePtr) => NativePtr = nativePtr;
+		public ImGuiKeyRoutingTablePtr(IntPtr nativePtr) => NativePtr = (ImGuiKeyRoutingTable*)nativePtr;
+		public static implicit operator ImGuiKeyRoutingTablePtr(ImGuiKeyRoutingTable* ptr) => new ImGuiKeyRoutingTablePtr(ptr);
+		public static implicit operator ImGuiKeyRoutingTablePtr(IntPtr ptr) => new ImGuiKeyRoutingTablePtr(ptr);
+		public static implicit operator ImGuiKeyRoutingTable*(ImGuiKeyRoutingTablePtr nativePtr) => nativePtr.NativePtr;
 	}
 }

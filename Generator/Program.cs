@@ -13,6 +13,21 @@ class Program
         generator.AddPostProcessor(new StaticVTableProcessor());
         generator.AddPostProcessor(new FileSeparatorProcessor());
         generator.AddPostProcessor(new CleanupNamesProcessor());
+        GenerateImGui();
+    }
+
+
+    private static void GenerateImGui()
+    {
+        var generator = new CodeGenerator(new GeneratorSettings("ImGui", "SharpImGui", "SharpImGui")
+        {
+            CppParserOptions =
+            {
+                Defines = { "CIMGUI_DEFINE_ENUMS_AND_STRUCTS" },
+            },
+            FunctionsPrefix = "ig"
+        });
+        AddAllPostProcessors(generator);
         
         generator.GenerateCSharp();
     }

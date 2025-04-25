@@ -8,11 +8,11 @@ namespace SharpImGui
 	/// State for ID Stack tool queries<br/>
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
-	public partial struct ImGuiIDStackTool
+	public partial struct ImGuiIdStackTool
 	{
 		public int LastActiveFrame;
 		/// <summary>
-		/// -1: query stack and resize Results, >= 0: individual stack level<br/>
+		/// -1: query stack and resize Results, &gt;= 0: individual stack level<br/>
 		/// </summary>
 		public int StackLevel;
 		/// <summary>
@@ -23,5 +23,20 @@ namespace SharpImGui
 		public byte CopyToClipboardOnCtrlC;
 		public float CopyToClipboardLastTime;
 		public ImGuiTextBuffer ResultPathBuf;
+	}
+
+	/// <summary>
+	/// State for ID Stack tool queries<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiIdStackToolPtr
+	{
+		public ImGuiIdStackTool* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiIdStackTool this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiIdStackToolPtr(ImGuiIdStackTool* nativePtr) => NativePtr = nativePtr;
+		public ImGuiIdStackToolPtr(IntPtr nativePtr) => NativePtr = (ImGuiIdStackTool*)nativePtr;
+		public static implicit operator ImGuiIdStackToolPtr(ImGuiIdStackTool* ptr) => new ImGuiIdStackToolPtr(ptr);
+		public static implicit operator ImGuiIdStackToolPtr(IntPtr ptr) => new ImGuiIdStackToolPtr(ptr);
+		public static implicit operator ImGuiIdStackTool*(ImGuiIdStackToolPtr nativePtr) => nativePtr.NativePtr;
 	}
 }

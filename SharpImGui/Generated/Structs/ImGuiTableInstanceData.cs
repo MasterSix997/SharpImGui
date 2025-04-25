@@ -5,8 +5,7 @@ using System.Runtime.InteropServices;
 namespace SharpImGui
 {
 	/// <summary>
-	/// Per-instance data that needs preserving across frames (seemingly most others do not need to be preserved aside from debug needs. Does that means they could be moved to ImGuiTableTempData?)<br/>
-	/// sizeof() ~ 24 bytes<br/>
+	/// Per-instance data that needs preserving across frames (seemingly most others do not need to be preserved aside from debug needs. Does that means they could be moved to ImGuiTableTempData?)<br/>sizeof() ~ 24 bytes<br/>
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public partial struct ImGuiTableInstanceData
@@ -32,5 +31,20 @@ namespace SharpImGui
 		/// Index of row hovered this frame, set after encountering it.<br/>
 		/// </summary>
 		public int HoveredRowNext;
+	}
+
+	/// <summary>
+	/// Per-instance data that needs preserving across frames (seemingly most others do not need to be preserved aside from debug needs. Does that means they could be moved to ImGuiTableTempData?)<br/>sizeof() ~ 24 bytes<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiTableInstanceDataPtr
+	{
+		public ImGuiTableInstanceData* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiTableInstanceData this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiTableInstanceDataPtr(ImGuiTableInstanceData* nativePtr) => NativePtr = nativePtr;
+		public ImGuiTableInstanceDataPtr(IntPtr nativePtr) => NativePtr = (ImGuiTableInstanceData*)nativePtr;
+		public static implicit operator ImGuiTableInstanceDataPtr(ImGuiTableInstanceData* ptr) => new ImGuiTableInstanceDataPtr(ptr);
+		public static implicit operator ImGuiTableInstanceDataPtr(IntPtr ptr) => new ImGuiTableInstanceDataPtr(ptr);
+		public static implicit operator ImGuiTableInstanceData*(ImGuiTableInstanceDataPtr nativePtr) => nativePtr.NativePtr;
 	}
 }

@@ -5,10 +5,7 @@ using System.Runtime.InteropServices;
 namespace SharpImGui
 {
 	/// <summary>
-	/// [Internal] sizeof() ~ 112<br/>
-	/// We use the terminology "Enabled" to refer to a column that is not Hidden by user/api.<br/>
-	/// We use the terminology "Clipped" to refer to a column that is out of sight because of scrolling/clipping.<br/>
-	/// This is in contrast with some user-facing api such as IsItemVisible() / IsRectVisible() which use "Visible" to mean "not clipped".<br/>
+	/// [Internal] sizeof() ~ 112<br/>We use the terminology "Enabled" to refer to a column that is not Hidden by user/api.<br/>We use the terminology "Clipped" to refer to a column that is out of sight because of scrolling/clipping.<br/>This is in contrast with some user-facing api such as IsItemVisible() / IsRectVisible() which use "Visible" to mean "not clipped".<br/>
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public partial struct ImGuiTableColumn
@@ -18,7 +15,7 @@ namespace SharpImGui
 		/// </summary>
 		public ImGuiTableColumnFlags Flags;
 		/// <summary>
-		/// Final/actual width visible == (MaxX - MinX), locked in TableUpdateLayout(). May be > WidthRequest to honor minimum width, may be < WidthRequest to honor shrinking columns down in tight space.<br/>
+		/// Final/actual width visible == (MaxX - MinX), locked in TableUpdateLayout(). May be &gt; WidthRequest to honor minimum width, may be &lt; WidthRequest to honor shrinking columns down in tight space.<br/>
 		/// </summary>
 		public float WidthGiven;
 		/// <summary>
@@ -85,7 +82,7 @@ namespace SharpImGui
 		/// </summary>
 		public short DisplayOrder;
 		/// <summary>
-		/// Index within enabled/visible set (<= IndexToDisplayOrder)<br/>
+		/// Index within enabled/visible set (&lt;= IndexToDisplayOrder)<br/>
 		/// </summary>
 		public short IndexWithinEnabledSet;
 		/// <summary>
@@ -97,7 +94,7 @@ namespace SharpImGui
 		/// </summary>
 		public short NextEnabledColumn;
 		/// <summary>
-		/// Index of this column within sort specs, -1 if not sorting on this column, 0 for single-sort, may be >0 on multi-sort<br/>
+		/// Index of this column within sort specs, -1 if not sorting on this column, 0 for single-sort, may be &gt;0 on multi-sort<br/>
 		/// </summary>
 		public short SortOrder;
 		/// <summary>
@@ -163,5 +160,20 @@ namespace SharpImGui
 		/// Ordered list of available sort directions (2-bits each, total 8-bits)<br/>
 		/// </summary>
 		public byte SortDirectionsAvailList;
+	}
+
+	/// <summary>
+	/// [Internal] sizeof() ~ 112<br/>We use the terminology "Enabled" to refer to a column that is not Hidden by user/api.<br/>We use the terminology "Clipped" to refer to a column that is out of sight because of scrolling/clipping.<br/>This is in contrast with some user-facing api such as IsItemVisible() / IsRectVisible() which use "Visible" to mean "not clipped".<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiTableColumnPtr
+	{
+		public ImGuiTableColumn* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiTableColumn this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiTableColumnPtr(ImGuiTableColumn* nativePtr) => NativePtr = nativePtr;
+		public ImGuiTableColumnPtr(IntPtr nativePtr) => NativePtr = (ImGuiTableColumn*)nativePtr;
+		public static implicit operator ImGuiTableColumnPtr(ImGuiTableColumn* ptr) => new ImGuiTableColumnPtr(ptr);
+		public static implicit operator ImGuiTableColumnPtr(IntPtr ptr) => new ImGuiTableColumnPtr(ptr);
+		public static implicit operator ImGuiTableColumn*(ImGuiTableColumnPtr nativePtr) => nativePtr.NativePtr;
 	}
 }

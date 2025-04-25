@@ -11,4 +11,16 @@ namespace SharpImGui
 		public short AllocCount;
 		public short FreeCount;
 	}
+
+	public unsafe partial struct ImGuiDebugAllocEntryPtr
+	{
+		public ImGuiDebugAllocEntry* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiDebugAllocEntry this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiDebugAllocEntryPtr(ImGuiDebugAllocEntry* nativePtr) => NativePtr = nativePtr;
+		public ImGuiDebugAllocEntryPtr(IntPtr nativePtr) => NativePtr = (ImGuiDebugAllocEntry*)nativePtr;
+		public static implicit operator ImGuiDebugAllocEntryPtr(ImGuiDebugAllocEntry* ptr) => new ImGuiDebugAllocEntryPtr(ptr);
+		public static implicit operator ImGuiDebugAllocEntryPtr(IntPtr ptr) => new ImGuiDebugAllocEntryPtr(ptr);
+		public static implicit operator ImGuiDebugAllocEntry*(ImGuiDebugAllocEntryPtr nativePtr) => nativePtr.NativePtr;
+	}
 }

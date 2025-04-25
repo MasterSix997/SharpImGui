@@ -269,4 +269,19 @@ namespace SharpImGui
 		public ImVector<ImGuiTextRange> Filters;
 		public int CountGrep;
 	}
+
+	/// <summary>
+	/// Helper: Parse and apply text filters. In format "aaaaa[,bbbb][,ccccc]"<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiTextFilterPtr
+	{
+		public ImGuiTextFilter* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiTextFilter this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiTextFilterPtr(ImGuiTextFilter* nativePtr) => NativePtr = nativePtr;
+		public ImGuiTextFilterPtr(IntPtr nativePtr) => NativePtr = (ImGuiTextFilter*)nativePtr;
+		public static implicit operator ImGuiTextFilterPtr(ImGuiTextFilter* ptr) => new ImGuiTextFilterPtr(ptr);
+		public static implicit operator ImGuiTextFilterPtr(IntPtr ptr) => new ImGuiTextFilterPtr(ptr);
+		public static implicit operator ImGuiTextFilter*(ImGuiTextFilterPtr nativePtr) => nativePtr.NativePtr;
+	}
 }

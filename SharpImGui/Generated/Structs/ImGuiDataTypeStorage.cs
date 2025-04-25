@@ -19,4 +19,16 @@ namespace SharpImGui
 		public byte Data_6;
 		public byte Data_7;
 	}
+
+	public unsafe partial struct ImGuiDataTypeStoragePtr
+	{
+		public ImGuiDataTypeStorage* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiDataTypeStorage this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiDataTypeStoragePtr(ImGuiDataTypeStorage* nativePtr) => NativePtr = nativePtr;
+		public ImGuiDataTypeStoragePtr(IntPtr nativePtr) => NativePtr = (ImGuiDataTypeStorage*)nativePtr;
+		public static implicit operator ImGuiDataTypeStoragePtr(ImGuiDataTypeStorage* ptr) => new ImGuiDataTypeStoragePtr(ptr);
+		public static implicit operator ImGuiDataTypeStoragePtr(IntPtr ptr) => new ImGuiDataTypeStoragePtr(ptr);
+		public static implicit operator ImGuiDataTypeStorage*(ImGuiDataTypeStoragePtr nativePtr) => nativePtr.NativePtr;
+	}
 }

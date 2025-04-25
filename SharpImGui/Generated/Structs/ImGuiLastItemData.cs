@@ -28,8 +28,7 @@ namespace SharpImGui
 		/// </summary>
 		public ImRect NavRect;
 		/// <summary>
-		/// <br/>
-		///     Rarely used fields are not explicitly cleared, only valid when the corresponding ImGuiItemStatusFlags are set.<br/>
+		/// <br/>    Rarely used fields are not explicitly cleared, only valid when the corresponding ImGuiItemStatusFlags are set.<br/>
 		/// Display rectangle. ONLY VALID IF (StatusFlags & ImGuiItemStatusFlags_HasDisplayRect) is set.<br/>
 		/// </summary>
 		public ImRect DisplayRect;
@@ -41,5 +40,20 @@ namespace SharpImGui
 		/// Shortcut at the time of submitting item. ONLY VALID IF (StatusFlags & ImGuiItemStatusFlags_HasShortcut) is set..<br/>
 		/// </summary>
 		public ImGuiKey Shortcut;
+	}
+
+	/// <summary>
+	/// Status storage for the last submitted item<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiLastItemDataPtr
+	{
+		public ImGuiLastItemData* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiLastItemData this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiLastItemDataPtr(ImGuiLastItemData* nativePtr) => NativePtr = nativePtr;
+		public ImGuiLastItemDataPtr(IntPtr nativePtr) => NativePtr = (ImGuiLastItemData*)nativePtr;
+		public static implicit operator ImGuiLastItemDataPtr(ImGuiLastItemData* ptr) => new ImGuiLastItemDataPtr(ptr);
+		public static implicit operator ImGuiLastItemDataPtr(IntPtr ptr) => new ImGuiLastItemDataPtr(ptr);
+		public static implicit operator ImGuiLastItemData*(ImGuiLastItemDataPtr nativePtr) => nativePtr.NativePtr;
 	}
 }

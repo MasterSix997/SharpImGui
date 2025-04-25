@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 namespace SharpImGui
 {
 	/// <summary>
-	/// We don't store style.Alpha: dock_node->LastBgColor embeds it and otherwise it would only affect the docking tab, which intuitively I would say we don't want to.<br/>
+	/// We don't store style.Alpha: dock_node-&gt;LastBgColor embeds it and otherwise it would only affect the docking tab, which intuitively I would say we don't want to.<br/>
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public partial struct ImGuiWindowDockStyle
@@ -18,5 +18,20 @@ namespace SharpImGui
 		public uint Colors_5;
 		public uint Colors_6;
 		public uint Colors_7;
+	}
+
+	/// <summary>
+	/// We don't store style.Alpha: dock_node-&gt;LastBgColor embeds it and otherwise it would only affect the docking tab, which intuitively I would say we don't want to.<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiWindowDockStylePtr
+	{
+		public ImGuiWindowDockStyle* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiWindowDockStyle this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiWindowDockStylePtr(ImGuiWindowDockStyle* nativePtr) => NativePtr = nativePtr;
+		public ImGuiWindowDockStylePtr(IntPtr nativePtr) => NativePtr = (ImGuiWindowDockStyle*)nativePtr;
+		public static implicit operator ImGuiWindowDockStylePtr(ImGuiWindowDockStyle* ptr) => new ImGuiWindowDockStylePtr(ptr);
+		public static implicit operator ImGuiWindowDockStylePtr(IntPtr ptr) => new ImGuiWindowDockStylePtr(ptr);
+		public static implicit operator ImGuiWindowDockStyle*(ImGuiWindowDockStylePtr nativePtr) => nativePtr.NativePtr;
 	}
 }

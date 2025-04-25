@@ -5,9 +5,7 @@ using System.Runtime.InteropServices;
 namespace SharpImGui
 {
 	/// <summary>
-	/// All draw data to render a Dear ImGui frame<br/>
-	/// (NB: the style and the naming convention here is a little inconsistent, we currently preserve them for backward compatibility purpose,<br/>
-	/// as this is one of the oldest structure exposed by the library! Basically, ImDrawList == CmdList)<br/>
+	/// All draw data to render a Dear ImGui frame<br/>(NB: the style and the naming convention here is a little inconsistent, we currently preserve them for backward compatibility purpose,<br/>as this is one of the oldest structure exposed by the library! Basically, ImDrawList == CmdList)<br/>
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public partial struct ImDrawData
@@ -33,11 +31,11 @@ namespace SharpImGui
 		/// </summary>
 		public ImVector<ImDrawListPtr> CmdLists;
 		/// <summary>
-		/// Top-left position of the viewport to render (== top-left of the orthogonal projection matrix to use) (== GetMainViewport()->Pos for the main viewport, == (0.0) in most single-viewport applications)<br/>
+		/// Top-left position of the viewport to render (== top-left of the orthogonal projection matrix to use) (== GetMainViewport()-&gt;Pos for the main viewport, == (0.0) in most single-viewport applications)<br/>
 		/// </summary>
 		public Vector2 DisplayPos;
 		/// <summary>
-		/// Size of the viewport to render (== GetMainViewport()->Size for the main viewport, == io.DisplaySize in most single-viewport applications)<br/>
+		/// Size of the viewport to render (== GetMainViewport()-&gt;Size for the main viewport, == io.DisplaySize in most single-viewport applications)<br/>
 		/// </summary>
 		public Vector2 DisplaySize;
 		/// <summary>
@@ -48,5 +46,20 @@ namespace SharpImGui
 		/// Viewport carrying the ImDrawData instance, might be of use to the renderer (generally not).<br/>
 		/// </summary>
 		public unsafe ImGuiViewport* OwnerViewport;
+	}
+
+	/// <summary>
+	/// All draw data to render a Dear ImGui frame<br/>(NB: the style and the naming convention here is a little inconsistent, we currently preserve them for backward compatibility purpose,<br/>as this is one of the oldest structure exposed by the library! Basically, ImDrawList == CmdList)<br/>
+	/// </summary>
+	public unsafe partial struct ImDrawDataPtr
+	{
+		public ImDrawData* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImDrawData this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImDrawDataPtr(ImDrawData* nativePtr) => NativePtr = nativePtr;
+		public ImDrawDataPtr(IntPtr nativePtr) => NativePtr = (ImDrawData*)nativePtr;
+		public static implicit operator ImDrawDataPtr(ImDrawData* ptr) => new ImDrawDataPtr(ptr);
+		public static implicit operator ImDrawDataPtr(IntPtr ptr) => new ImDrawDataPtr(ptr);
+		public static implicit operator ImDrawData*(ImDrawDataPtr nativePtr) => nativePtr.NativePtr;
 	}
 }

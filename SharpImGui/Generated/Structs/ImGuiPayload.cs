@@ -11,8 +11,7 @@ namespace SharpImGui
 	public partial struct ImGuiPayload
 	{
 		/// <summary>
-		/// <br/>
-		///     Members<br/>
+		/// <br/>    Members<br/>
 		/// Data (copied and owned by dear imgui)<br/>
 		/// </summary>
 		public unsafe void* Data;
@@ -77,5 +76,20 @@ namespace SharpImGui
 		/// Set when AcceptDragDropPayload() was called and mouse button is released over the target item.<br/>
 		/// </summary>
 		public byte Delivery;
+	}
+
+	/// <summary>
+	/// Data payload for Drag and Drop operations: AcceptDragDropPayload(), GetDragDropPayload()<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiPayloadPtr
+	{
+		public ImGuiPayload* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiPayload this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiPayloadPtr(ImGuiPayload* nativePtr) => NativePtr = nativePtr;
+		public ImGuiPayloadPtr(IntPtr nativePtr) => NativePtr = (ImGuiPayload*)nativePtr;
+		public static implicit operator ImGuiPayloadPtr(ImGuiPayload* ptr) => new ImGuiPayloadPtr(ptr);
+		public static implicit operator ImGuiPayloadPtr(IntPtr ptr) => new ImGuiPayloadPtr(ptr);
+		public static implicit operator ImGuiPayload*(ImGuiPayloadPtr nativePtr) => nativePtr.NativePtr;
 	}
 }

@@ -34,4 +34,16 @@ namespace SharpImGui
 		public ImGuiInputEventUnion Union;
 		public byte AddedByTestEngine;
 	}
+
+	public unsafe partial struct ImGuiInputEventPtr
+	{
+		public ImGuiInputEvent* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiInputEvent this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiInputEventPtr(ImGuiInputEvent* nativePtr) => NativePtr = nativePtr;
+		public ImGuiInputEventPtr(IntPtr nativePtr) => NativePtr = (ImGuiInputEvent*)nativePtr;
+		public static implicit operator ImGuiInputEventPtr(ImGuiInputEvent* ptr) => new ImGuiInputEventPtr(ptr);
+		public static implicit operator ImGuiInputEventPtr(IntPtr ptr) => new ImGuiInputEventPtr(ptr);
+		public static implicit operator ImGuiInputEvent*(ImGuiInputEventPtr nativePtr) => nativePtr.NativePtr;
+	}
 }

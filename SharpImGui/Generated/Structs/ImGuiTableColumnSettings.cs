@@ -22,4 +22,19 @@ namespace SharpImGui
 		public sbyte IsEnabled;
 		public byte IsStretch;
 	}
+
+	/// <summary>
+	/// sizeof() ~ 16<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiTableColumnSettingsPtr
+	{
+		public ImGuiTableColumnSettings* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiTableColumnSettings this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiTableColumnSettingsPtr(ImGuiTableColumnSettings* nativePtr) => NativePtr = nativePtr;
+		public ImGuiTableColumnSettingsPtr(IntPtr nativePtr) => NativePtr = (ImGuiTableColumnSettings*)nativePtr;
+		public static implicit operator ImGuiTableColumnSettingsPtr(ImGuiTableColumnSettings* ptr) => new ImGuiTableColumnSettingsPtr(ptr);
+		public static implicit operator ImGuiTableColumnSettingsPtr(IntPtr ptr) => new ImGuiTableColumnSettingsPtr(ptr);
+		public static implicit operator ImGuiTableColumnSettings*(ImGuiTableColumnSettingsPtr nativePtr) => nativePtr.NativePtr;
+	}
 }

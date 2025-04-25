@@ -11,7 +11,7 @@ namespace SharpImGui
 	public partial struct ImGuiNavItemData
 	{
 		/// <summary>
-		/// Init,Move    Best candidate window (result->ItemWindow->RootWindowForNav == request->Window)<br/>
+		/// Init,Move    Best candidate window (result-&gt;ItemWindow-&gt;RootWindowForNav == request-&gt;Window)<br/>
 		/// </summary>
 		public unsafe ImGuiWindow* Window;
 		/// <summary>
@@ -46,5 +46,20 @@ namespace SharpImGui
 		/// //I+Mov    Best candidate SetNextItemSelectionUserData() value. Valid if (ItemFlags & ImGuiItemFlags_HasSelectionUserData)<br/>
 		/// </summary>
 		public long SelectionUserData;
+	}
+
+	/// <summary>
+	/// Storage for navigation query/results<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiNavItemDataPtr
+	{
+		public ImGuiNavItemData* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiNavItemData this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiNavItemDataPtr(ImGuiNavItemData* nativePtr) => NativePtr = nativePtr;
+		public ImGuiNavItemDataPtr(IntPtr nativePtr) => NativePtr = (ImGuiNavItemData*)nativePtr;
+		public static implicit operator ImGuiNavItemDataPtr(ImGuiNavItemData* ptr) => new ImGuiNavItemDataPtr(ptr);
+		public static implicit operator ImGuiNavItemDataPtr(IntPtr ptr) => new ImGuiNavItemDataPtr(ptr);
+		public static implicit operator ImGuiNavItemData*(ImGuiNavItemDataPtr nativePtr) => nativePtr.NativePtr;
 	}
 }

@@ -4,10 +4,23 @@ namespace Generator.CSharp;
 
 public class GeneratedFile
 {
+    public enum FileType
+    {
+        Unknown,
+        NativeFunction,
+        ManagedFunction,
+        Enum,
+        Struct,
+        Constant,
+        Delegate,
+        Internal
+    }
+    
     public string FileName { get; set; }
     public string Directory { get; set; }
     public CsNamespace Container { get; set; }
     public List<string>? Usings { get; set; }
+    public FileType Type { get; set; } = FileType.Unknown;
 
     public GeneratedFile(string fileName, string directory, CsNamespace container)
     {
@@ -42,9 +55,9 @@ public class GeneratedFile
     }
 }
 
-public class CsOutput
+public class CsOutput(GeneratorSettings settings)
 {
-    public string RootDirectory { get; set; } = "SharpImGui/Generated";
+    public string RootDirectory { get; set; } = settings.OutputDirectory;
     public List<GeneratedFile> Files { get; set; } = [];
     
     public ICsDeclarationContainer DefinitionsWithoutFiles { get; set; } = new CsGlobalDeclarationContainer();
@@ -54,9 +67,12 @@ public class CsOutput
         if (DefinitionsWithoutFiles.Children().Any())
         {
             Console.WriteLine("Saving global definitions without files...");
-            var globalNamespace = new CsNamespace("SharpImGui");
+            var globalNamespace = new CsNamespace(settings.Namespace);
             DefinitionsWithoutFiles.MoveDeclarationsTo(globalNamespace);
-            var globalFile = new GeneratedFile("Global.cs", RootDirectory, globalNamespace);
+            var globalFile = new GeneratedFile("Global.cs", RootDirectory, globalNamespace)
+            {
+                Usings = settings.Usings
+            };
             globalFile.SaveToFile();
         }
 

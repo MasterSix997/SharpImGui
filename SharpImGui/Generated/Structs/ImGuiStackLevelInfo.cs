@@ -9,7 +9,7 @@ namespace SharpImGui
 	{
 		public uint ID;
 		/// <summary>
-		/// >= 1: Query in progress<br/>
+		/// &gt;= 1: Query in progress<br/>
 		/// </summary>
 		public sbyte QueryFrameCount;
 		/// <summary>
@@ -77,5 +77,17 @@ namespace SharpImGui
 		public byte Desc_54;
 		public byte Desc_55;
 		public byte Desc_56;
+	}
+
+	public unsafe partial struct ImGuiStackLevelInfoPtr
+	{
+		public ImGuiStackLevelInfo* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiStackLevelInfo this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiStackLevelInfoPtr(ImGuiStackLevelInfo* nativePtr) => NativePtr = nativePtr;
+		public ImGuiStackLevelInfoPtr(IntPtr nativePtr) => NativePtr = (ImGuiStackLevelInfo*)nativePtr;
+		public static implicit operator ImGuiStackLevelInfoPtr(ImGuiStackLevelInfo* ptr) => new ImGuiStackLevelInfoPtr(ptr);
+		public static implicit operator ImGuiStackLevelInfoPtr(IntPtr ptr) => new ImGuiStackLevelInfoPtr(ptr);
+		public static implicit operator ImGuiStackLevelInfo*(ImGuiStackLevelInfoPtr nativePtr) => nativePtr.NativePtr;
 	}
 }

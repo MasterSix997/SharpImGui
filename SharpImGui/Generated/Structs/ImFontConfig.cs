@@ -47,8 +47,7 @@ namespace SharpImGui
 		/// </summary>
 		public float SizePixels;
 		/// <summary>
-		/// <br/>
-		///     //ImVec2        GlyphExtraSpacing;      0, 0     (REMOVED IN 1.91.9: use GlyphExtraAdvanceX)<br/>
+		/// <br/>    //ImVec2        GlyphExtraSpacing;      0, 0     (REMOVED IN 1.91.9: use GlyphExtraAdvanceX)<br/>
 		/// 0, 0     Offset all glyphs from this font input.<br/>
 		/// </summary>
 		public Vector2 GlyphOffset;
@@ -73,7 +72,7 @@ namespace SharpImGui
 		/// </summary>
 		public uint FontBuilderFlags;
 		/// <summary>
-		/// 1.0f     Linearly brighten (>1.0f) or darken (<1.0f) font output. Brightening small fonts may be a good workaround to make them more readable. This is a silly thing we may remove in the future.<br/>
+		/// 1.0f     Linearly brighten (&gt;1.0f) or darken (&lt;1.0f) font output. Brightening small fonts may be a good workaround to make them more readable. This is a silly thing we may remove in the future.<br/>
 		/// </summary>
 		public float RasterizerMultiply;
 		/// <summary>
@@ -129,5 +128,20 @@ namespace SharpImGui
 		public byte Name_38;
 		public byte Name_39;
 		public unsafe ImFont* DstFont;
+	}
+
+	/// <summary>
+	/// A font input/source (we may rename this to ImFontSource in the future)<br/>
+	/// </summary>
+	public unsafe partial struct ImFontConfigPtr
+	{
+		public ImFontConfig* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImFontConfig this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImFontConfigPtr(ImFontConfig* nativePtr) => NativePtr = nativePtr;
+		public ImFontConfigPtr(IntPtr nativePtr) => NativePtr = (ImFontConfig*)nativePtr;
+		public static implicit operator ImFontConfigPtr(ImFontConfig* ptr) => new ImFontConfigPtr(ptr);
+		public static implicit operator ImFontConfigPtr(IntPtr ptr) => new ImFontConfigPtr(ptr);
+		public static implicit operator ImFontConfig*(ImFontConfigPtr nativePtr) => nativePtr.NativePtr;
 	}
 }

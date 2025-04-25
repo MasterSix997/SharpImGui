@@ -16,4 +16,16 @@ namespace SharpImGui
 		public unsafe void* Callback;
 		public unsafe void* UserData;
 	}
+
+	public unsafe partial struct ImGuiContextHookPtr
+	{
+		public ImGuiContextHook* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiContextHook this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiContextHookPtr(ImGuiContextHook* nativePtr) => NativePtr = nativePtr;
+		public ImGuiContextHookPtr(IntPtr nativePtr) => NativePtr = (ImGuiContextHook*)nativePtr;
+		public static implicit operator ImGuiContextHookPtr(ImGuiContextHook* ptr) => new ImGuiContextHookPtr(ptr);
+		public static implicit operator ImGuiContextHookPtr(IntPtr ptr) => new ImGuiContextHookPtr(ptr);
+		public static implicit operator ImGuiContextHook*(ImGuiContextHookPtr nativePtr) => nativePtr.NativePtr;
+	}
 }

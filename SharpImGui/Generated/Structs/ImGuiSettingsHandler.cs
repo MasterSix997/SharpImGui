@@ -41,4 +41,16 @@ namespace SharpImGui
 		public unsafe void* WriteAllFn;
 		public unsafe void* UserData;
 	}
+
+	public unsafe partial struct ImGuiSettingsHandlerPtr
+	{
+		public ImGuiSettingsHandler* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiSettingsHandler this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiSettingsHandlerPtr(ImGuiSettingsHandler* nativePtr) => NativePtr = nativePtr;
+		public ImGuiSettingsHandlerPtr(IntPtr nativePtr) => NativePtr = (ImGuiSettingsHandler*)nativePtr;
+		public static implicit operator ImGuiSettingsHandlerPtr(ImGuiSettingsHandler* ptr) => new ImGuiSettingsHandlerPtr(ptr);
+		public static implicit operator ImGuiSettingsHandlerPtr(IntPtr ptr) => new ImGuiSettingsHandlerPtr(ptr);
+		public static implicit operator ImGuiSettingsHandler*(ImGuiSettingsHandlerPtr nativePtr) => nativePtr.NativePtr;
+	}
 }

@@ -46,4 +46,19 @@ namespace SharpImGui
 		public Vector2 MenuBarOffsetMinVal;
 		public ImGuiWindowRefreshFlags RefreshFlagsVal;
 	}
+
+	/// <summary>
+	/// Storage for SetNexWindow** functions<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiNextWindowDataPtr
+	{
+		public ImGuiNextWindowData* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiNextWindowData this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiNextWindowDataPtr(ImGuiNextWindowData* nativePtr) => NativePtr = nativePtr;
+		public ImGuiNextWindowDataPtr(IntPtr nativePtr) => NativePtr = (ImGuiNextWindowData*)nativePtr;
+		public static implicit operator ImGuiNextWindowDataPtr(ImGuiNextWindowData* ptr) => new ImGuiNextWindowDataPtr(ptr);
+		public static implicit operator ImGuiNextWindowDataPtr(IntPtr ptr) => new ImGuiNextWindowDataPtr(ptr);
+		public static implicit operator ImGuiNextWindowData*(ImGuiNextWindowDataPtr nativePtr) => nativePtr.NativePtr;
+	}
 }

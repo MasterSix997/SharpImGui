@@ -5,20 +5,18 @@ using System.Runtime.InteropServices;
 namespace SharpImGui
 {
 	/// <summary>
-	/// Font runtime data and rendering<br/>
-	/// ImFontAtlas automatically loads a default embedded font for you when you call GetTexDataAsAlpha8() or GetTexDataAsRGBA32().<br/>
+	/// Font runtime data and rendering<br/>ImFontAtlas automatically loads a default embedded font for you when you call GetTexDataAsAlpha8() or GetTexDataAsRGBA32().<br/>
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public partial struct ImFont
 	{
 		/// <summary>
-		/// <br/>
-		///     [Internal] Members: Hot ~20/24 bytes (for CalcTextSize)<br/>
-		/// 12-16 out Sparse. Glyphs->AdvanceX in a directly indexable way (cache-friendly for CalcTextSize functions which only this info, and are often bottleneck in large UI).<br/>
+		/// <br/>    [Internal] Members: Hot ~20/24 bytes (for CalcTextSize)<br/>
+		/// 12-16 out Sparse. Glyphs-&gt;AdvanceX in a directly indexable way (cache-friendly for CalcTextSize functions which only this info, and are often bottleneck in large UI).<br/>
 		/// </summary>
 		public ImVector<float> IndexAdvanceX;
 		/// <summary>
-		/// 4     out = FallbackGlyph->AdvanceX<br/>
+		/// 4     out = FallbackGlyph-&gt;AdvanceX<br/>
 		/// </summary>
 		public float FallbackAdvanceX;
 		/// <summary>
@@ -39,17 +37,16 @@ namespace SharpImGui
 		/// </summary>
 		public unsafe ImFontGlyph* FallbackGlyph;
 		/// <summary>
-		///     [Internal] Members: Cold ~32/40 bytes<br/>
-		///     Conceptually Sources[] is the list of font sources merged to create this font.<br/>
+		///     [Internal] Members: Cold ~32/40 bytes<br/>    Conceptually Sources[] is the list of font sources merged to create this font.<br/>
 		/// 4-8   out What we has been loaded into<br/>
 		/// </summary>
 		public unsafe ImFontAtlas* ContainerAtlas;
 		/// <summary>
-		/// 4-8   in  Pointer within ContainerAtlas->Sources[], to SourcesCount instances<br/>
+		/// 4-8   in  Pointer within ContainerAtlas-&gt;Sources[], to SourcesCount instances<br/>
 		/// </summary>
 		public unsafe ImFontConfig* Sources;
 		/// <summary>
-		/// 2     in  Number of ImFontConfig involved in creating this font. Usually 1, or >1 when merging multiple font sources into one ImFont.<br/>
+		/// 2     in  Number of ImFontConfig involved in creating this font. Usually 1, or &gt;1 when merging multiple font sources into one ImFont.<br/>
 		/// </summary>
 		public short SourcesCount;
 		/// <summary>
@@ -69,7 +66,7 @@ namespace SharpImGui
 		/// </summary>
 		public float EllipsisWidth;
 		/// <summary>
-		/// 4     out Step between characters when EllipsisCount > 0<br/>
+		/// 4     out Step between characters when EllipsisCount &gt; 0<br/>
 		/// </summary>
 		public float EllipsisCharStep;
 		/// <summary>
@@ -95,11 +92,21 @@ namespace SharpImGui
 		/// <summary>
 		/// 1 bytes if ImWchar=ImWchar16, 16 bytes if ImWchar==ImWchar32. Store 1-bit for each block of 4K codepoints that has one active glyph. This is mainly used to facilitate iterations across all used codepoints.<br/>
 		/// </summary>
-		public byte Used8kPagesMap_0;
+		public byte Used8KPagesMap_0;
 	}
 
-	public unsafe struct ImFontPtr
+	/// <summary>
+	/// Font runtime data and rendering<br/>ImFontAtlas automatically loads a default embedded font for you when you call GetTexDataAsAlpha8() or GetTexDataAsRGBA32().<br/>
+	/// </summary>
+	public unsafe partial struct ImFontPtr
 	{
-		public ImFont* NativePtr;
+		public ImFont* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImFont this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImFontPtr(ImFont* nativePtr) => NativePtr = nativePtr;
+		public ImFontPtr(IntPtr nativePtr) => NativePtr = (ImFont*)nativePtr;
+		public static implicit operator ImFontPtr(ImFont* ptr) => new ImFontPtr(ptr);
+		public static implicit operator ImFontPtr(IntPtr ptr) => new ImFontPtr(ptr);
+		public static implicit operator ImFont*(ImFontPtr nativePtr) => nativePtr.NativePtr;
 	}
 }

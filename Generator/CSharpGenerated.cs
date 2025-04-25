@@ -6,14 +6,28 @@ public class CSharpGenerated
 {
     public readonly Dictionary<string, CsType> AvailableTypes = new();
     public readonly Dictionary<string, string> TypeMap = new();
-
+    
+    public ICsDeclarationContainer CImGuiTypes { get; } = new CsGlobalDeclarationContainer();
     public ICsDeclarationContainer Definitions { get; } = new CsGlobalDeclarationContainer();
     public INativeDefinitionProvider? NativeDefinitionProvider { get; set; }
-    public CsOutput Output { get; set; } = new();
+    public CsOutput Output { get; set; }
+    public GeneratorSettings Settings { get; set; }
 
-    public CSharpGenerated()
+    public CSharpGenerated(GeneratorSettings settings)
     {
-        Output.DefinitionsWithoutFiles = Definitions;
+        Settings = settings;
+        Output = new CsOutput(settings)
+        {
+            RootDirectory = settings.OutputDirectory,
+            DefinitionsWithoutFiles = Definitions
+        };
+
+        AddTypeMaps(Settings.TypeMappings);
+
+        foreach (var type in settings.Types)
+        {
+            AddType(new CsUnresolvedType(type));
+        }
     }
 
     public bool AddType(CsType type)

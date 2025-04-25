@@ -8,7 +8,7 @@ namespace SharpImGui
 	public partial struct ImGuiMetricsConfig
 	{
 		public byte ShowDebugLog;
-		public byte ShowIDStackTool;
+		public byte ShowIdStackTool;
 		public byte ShowWindowsRects;
 		public byte ShowWindowsBeginOrder;
 		public byte ShowTablesRects;
@@ -20,5 +20,17 @@ namespace SharpImGui
 		public int ShowTablesRectsType;
 		public int HighlightMonitorIdx;
 		public uint HighlightViewportID;
+	}
+
+	public unsafe partial struct ImGuiMetricsConfigPtr
+	{
+		public ImGuiMetricsConfig* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiMetricsConfig this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiMetricsConfigPtr(ImGuiMetricsConfig* nativePtr) => NativePtr = nativePtr;
+		public ImGuiMetricsConfigPtr(IntPtr nativePtr) => NativePtr = (ImGuiMetricsConfig*)nativePtr;
+		public static implicit operator ImGuiMetricsConfigPtr(ImGuiMetricsConfig* ptr) => new ImGuiMetricsConfigPtr(ptr);
+		public static implicit operator ImGuiMetricsConfigPtr(IntPtr ptr) => new ImGuiMetricsConfigPtr(ptr);
+		public static implicit operator ImGuiMetricsConfig*(ImGuiMetricsConfigPtr nativePtr) => nativePtr.NativePtr;
 	}
 }

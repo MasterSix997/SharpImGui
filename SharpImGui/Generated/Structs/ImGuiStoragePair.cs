@@ -20,7 +20,22 @@ namespace SharpImGui
 			[FieldOffset(0)]
 			public unsafe void* val_p;
 		}
-		public uint key;
+		public uint Key;
 		public ImGuiStoragePairUnion Union;
+	}
+
+	/// <summary>
+	/// [Internal] Key+Value for ImGuiStorage<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiStoragePairPtr
+	{
+		public ImGuiStoragePair* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiStoragePair this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiStoragePairPtr(ImGuiStoragePair* nativePtr) => NativePtr = nativePtr;
+		public ImGuiStoragePairPtr(IntPtr nativePtr) => NativePtr = (ImGuiStoragePair*)nativePtr;
+		public static implicit operator ImGuiStoragePairPtr(ImGuiStoragePair* ptr) => new ImGuiStoragePairPtr(ptr);
+		public static implicit operator ImGuiStoragePairPtr(IntPtr ptr) => new ImGuiStoragePairPtr(ptr);
+		public static implicit operator ImGuiStoragePair*(ImGuiStoragePairPtr nativePtr) => nativePtr.NativePtr;
 	}
 }

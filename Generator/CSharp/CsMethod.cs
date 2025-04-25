@@ -114,6 +114,7 @@
         /// </summary>
         public List<CsType> GenericParameters { get; }
 
+
         /// <summary>
         /// Determines if the method is virtual.
         /// </summary>
@@ -123,6 +124,9 @@
         /// Determines if the method is static.
         /// </summary>
         public bool IsStatic;
+
+        public bool IsImplicit;
+        public bool IsOperator;
         
         /// <summary>
         /// Determines if the method is unsafe.
@@ -167,11 +171,22 @@
             
             if (IsUnsafe)
                 writer.Write("unsafe ");
-
-            if (ReturnType is not null)
-                writer.Write(ReturnType.TypeName).Write(' ');
             
-            writer.Write(Name);
+            if (IsImplicit)
+                writer.Write("implicit ");
+
+            if (IsOperator)
+                writer.Write("operator ");
+            
+            if (ReturnType is not null)
+                writer.Write(ReturnType.TypeName);//.Write(' ');
+            
+
+            if (!string.IsNullOrEmpty(Name))
+            {
+                writer.Write(' ').Write(Name);
+            }
+            
             writer.Write('(');
             if (Parameters.Count > 0)
                 writer.Write(string.Join(", ", Parameters));

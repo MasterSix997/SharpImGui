@@ -5,16 +5,13 @@ using System.Runtime.InteropServices;
 namespace SharpImGui
 {
 	/// <summary>
-	/// Transient per-window data, reset at the beginning of the frame. This used to be called ImGuiDrawContext, hence the DC variable name in ImGuiWindow.<br/>
-	/// (That's theory, in practice the delimitation between ImGuiWindow and ImGuiWindowTempData is quite tenuous and could be reconsidered..)<br/>
-	/// (This doesn't need a constructor because we zero-clear it as part of ImGuiWindow and all frame-temporary data are setup on Begin)<br/>
+	/// Transient per-window data, reset at the beginning of the frame. This used to be called ImGuiDrawContext, hence the DC variable name in ImGuiWindow.<br/>(That's theory, in practice the delimitation between ImGuiWindow and ImGuiWindowTempData is quite tenuous and could be reconsidered..)<br/>(This doesn't need a constructor because we zero-clear it as part of ImGuiWindow and all frame-temporary data are setup on Begin)<br/>
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public partial struct ImGuiWindowTempData
 	{
 		/// <summary>
-		/// <br/>
-		///     Layout<br/>
+		/// <br/>    Layout<br/>
 		/// Current emitting position, in absolute coordinates.<br/>
 		/// </summary>
 		public Vector2 CursorPos;
@@ -45,7 +42,7 @@ namespace SharpImGui
 		/// </summary>
 		public ImVec1 Indent;
 		/// <summary>
-		/// Offset to the current column (if ColumnsCurrent > 0). FIXME: This and the above should be a stack to allow use cases like Tree->Column->Tree. Need revamp columns API.<br/>
+		/// Offset to the current column (if ColumnsCurrent &gt; 0). FIXME: This and the above should be a stack to allow use cases like Tree-&gt;Column-&gt;Tree. Need revamp columns API.<br/>
 		/// </summary>
 		public ImVec1 ColumnsOffset;
 		public ImVec1 GroupOffset;
@@ -72,7 +69,7 @@ namespace SharpImGui
 		public byte NavIsScrollPushableX;
 		public byte NavHideHighlightOneFrame;
 		/// <summary>
-		/// Set per window when scrolling can be used (== ScrollMax.y > 0.0f)<br/>
+		/// Set per window when scrolling can be used (== ScrollMax.y &gt; 0.0f)<br/>
 		/// </summary>
 		public byte NavWindowHasScrollY;
 		/// <summary>
@@ -81,7 +78,7 @@ namespace SharpImGui
 		/// </summary>
 		public byte MenuBarAppending;
 		/// <summary>
-		/// MenuBarOffset.x is sort of equivalent of a per-layer CursorPos.x, saved/restored as we switch to the menu bar. The only situation when MenuBarOffset.y is > 0 if when (SafeAreaPadding.y > FramePadding.y), often used on TVs.<br/>
+		/// MenuBarOffset.x is sort of equivalent of a per-layer CursorPos.x, saved/restored as we switch to the menu bar. The only situation when MenuBarOffset.y is &gt; 0 if when (SafeAreaPadding.y &gt; FramePadding.y), often used on TVs.<br/>
 		/// </summary>
 		public Vector2 MenuBarOffset;
 		/// <summary>
@@ -123,9 +120,8 @@ namespace SharpImGui
 		public ImGuiItemStatusFlags DockTabItemStatusFlags;
 		public ImRect DockTabItemRect;
 		/// <summary>
-		///     Local parameters stacks<br/>
-		///     We store the current settings outside of the vectors to increase memory locality (reduce cache misses). The vectors are rarely modified. Also it allows us to not heap allocate for short-lived windows which are not using those settings.<br/>
-		/// Current item width (>0.0: width in pixels, <0.0: align xx pixels to the right of window).<br/>
+		///     Local parameters stacks<br/>    We store the current settings outside of the vectors to increase memory locality (reduce cache misses). The vectors are rarely modified. Also it allows us to not heap allocate for short-lived windows which are not using those settings.<br/>
+		/// Current item width (&gt;0.0: width in pixels, &lt;0.0: align xx pixels to the right of window).<br/>
 		/// </summary>
 		public float ItemWidth;
 		/// <summary>
@@ -140,5 +136,20 @@ namespace SharpImGui
 		/// Store text wrap pos to restore (attention: .back() is not == TextWrapPos)<br/>
 		/// </summary>
 		public ImVector<float> TextWrapPosStack;
+	}
+
+	/// <summary>
+	/// Transient per-window data, reset at the beginning of the frame. This used to be called ImGuiDrawContext, hence the DC variable name in ImGuiWindow.<br/>(That's theory, in practice the delimitation between ImGuiWindow and ImGuiWindowTempData is quite tenuous and could be reconsidered..)<br/>(This doesn't need a constructor because we zero-clear it as part of ImGuiWindow and all frame-temporary data are setup on Begin)<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiWindowTempDataPtr
+	{
+		public ImGuiWindowTempData* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiWindowTempData this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiWindowTempDataPtr(ImGuiWindowTempData* nativePtr) => NativePtr = nativePtr;
+		public ImGuiWindowTempDataPtr(IntPtr nativePtr) => NativePtr = (ImGuiWindowTempData*)nativePtr;
+		public static implicit operator ImGuiWindowTempDataPtr(ImGuiWindowTempData* ptr) => new ImGuiWindowTempDataPtr(ptr);
+		public static implicit operator ImGuiWindowTempDataPtr(IntPtr ptr) => new ImGuiWindowTempDataPtr(ptr);
+		public static implicit operator ImGuiWindowTempData*(ImGuiWindowTempDataPtr nativePtr) => nativePtr.NativePtr;
 	}
 }

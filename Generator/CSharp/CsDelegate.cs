@@ -51,7 +51,7 @@ public class CsDelegate : CsTypeDeclaration, IGenericParameterContainer, ICsCont
         writer.Write("delegate ");
 
         if (ReturnType is not null)
-            ReturnType.WriteTo(writer);
+            writer.Write(ReturnType.TypeName);
         else
             writer.Write("void");
             

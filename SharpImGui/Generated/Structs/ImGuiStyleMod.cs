@@ -21,4 +21,19 @@ namespace SharpImGui
 		public ImGuiStyleVar VarIdx;
 		public ImGuiStyleModUnion Union;
 	}
+
+	/// <summary>
+	/// Stacked style modifier, backup of modified data so we can restore it. Data type inferred from the variable.<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiStyleModPtr
+	{
+		public ImGuiStyleMod* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiStyleMod this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiStyleModPtr(ImGuiStyleMod* nativePtr) => NativePtr = nativePtr;
+		public ImGuiStyleModPtr(IntPtr nativePtr) => NativePtr = (ImGuiStyleMod*)nativePtr;
+		public static implicit operator ImGuiStyleModPtr(ImGuiStyleMod* ptr) => new ImGuiStyleModPtr(ptr);
+		public static implicit operator ImGuiStyleModPtr(IntPtr ptr) => new ImGuiStyleModPtr(ptr);
+		public static implicit operator ImGuiStyleMod*(ImGuiStyleModPtr nativePtr) => nativePtr.NativePtr;
+	}
 }

@@ -5,15 +5,7 @@ using System.Runtime.InteropServices;
 namespace SharpImGui
 {
 	/// <summary>
-	/// Shared state of InputText(), passed as an argument to your callback when a ImGuiInputTextFlags_Callback* flag is used.<br/>
-	/// The callback function should return 0 by default.<br/>
-	/// Callbacks (follow a flag name and see comments in ImGuiInputTextFlags_ declarations for more details)<br/>
-	/// - ImGuiInputTextFlags_CallbackEdit:        Callback on buffer edit. Note that InputText() already returns true on edit + you can always use IsItemEdited(). The callback is useful to manipulate the underlying buffer while focus is active.<br/>
-	/// - ImGuiInputTextFlags_CallbackAlways:      Callback on each iteration<br/>
-	/// - ImGuiInputTextFlags_CallbackCompletion:  Callback on pressing TAB<br/>
-	/// - ImGuiInputTextFlags_CallbackHistory:     Callback on pressing Up/Down arrows<br/>
-	/// - ImGuiInputTextFlags_CallbackCharFilter:  Callback on character inputs to replace or discard them. Modify 'EventChar' to replace or discard, or return 1 in callback to discard.<br/>
-	/// - ImGuiInputTextFlags_CallbackResize:      Callback on buffer capacity changes request (beyond 'buf_size' parameter value), allowing the string to grow.<br/>
+	/// Shared state of InputText(), passed as an argument to your callback when a ImGuiInputTextFlags_Callback* flag is used.<br/>The callback function should return 0 by default.<br/>Callbacks (follow a flag name and see comments in ImGuiInputTextFlags_ declarations for more details)<br/>- ImGuiInputTextFlags_CallbackEdit:        Callback on buffer edit. Note that InputText() already returns true on edit + you can always use IsItemEdited(). The callback is useful to manipulate the underlying buffer while focus is active.<br/>- ImGuiInputTextFlags_CallbackAlways:      Callback on each iteration<br/>- ImGuiInputTextFlags_CallbackCompletion:  Callback on pressing TAB<br/>- ImGuiInputTextFlags_CallbackHistory:     Callback on pressing Up/Down arrows<br/>- ImGuiInputTextFlags_CallbackCharFilter:  Callback on character inputs to replace or discard them. Modify 'EventChar' to replace or discard, or return 1 in callback to discard.<br/>- ImGuiInputTextFlags_CallbackResize:      Callback on buffer capacity changes request (beyond 'buf_size' parameter value), allowing the string to grow.<br/>
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public partial struct ImGuiInputTextCallbackData
@@ -35,11 +27,7 @@ namespace SharpImGui
 		/// </summary>
 		public unsafe void* UserData;
 		/// <summary>
-		///     Arguments for the different callback events<br/>
-		///     - During Resize callback, Buf will be same as your input buffer.<br/>
-		///     - However, during Completion/History/Always callback, Buf always points to our own internal data (it is not the same as your buffer)! Changes to it will be reflected into your own buffer shortly after the callback.<br/>
-		///     - To modify the text buffer in a callback, prefer using the InsertChars() / DeleteChars() function. InsertChars() will take care of calling the resize callback if necessary.<br/>
-		///     - If you know your edits are not going to resize the underlying buffer allocation, you may modify the contents of 'Buf[]' directly. You need to update 'BufTextLen' accordingly (0 <= BufTextLen < BufSize) and set 'BufDirty'' to true so InputText can update its internal state.<br/>
+		///     Arguments for the different callback events<br/>    - During Resize callback, Buf will be same as your input buffer.<br/>    - However, during Completion/History/Always callback, Buf always points to our own internal data (it is not the same as your buffer)! Changes to it will be reflected into your own buffer shortly after the callback.<br/>    - To modify the text buffer in a callback, prefer using the InsertChars() / DeleteChars() function. InsertChars() will take care of calling the resize callback if necessary.<br/>    - If you know your edits are not going to resize the underlying buffer allocation, you may modify the contents of 'Buf[]' directly. You need to update 'BufTextLen' accordingly (0 &lt;= BufTextLen &lt; BufSize) and set 'BufDirty'' to true so InputText can update its internal state.<br/>
 		/// Character input                      Read-write   [CharFilter] Replace character with another one, or set to zero to drop. return 1 is equivalent to setting EventChar=0;<br/>
 		/// </summary>
 		public ushort EventChar;
@@ -75,5 +63,20 @@ namespace SharpImGui
 		///                                      Read-write   [Completion,History,Always]<br/>
 		/// </summary>
 		public int SelectionEnd;
+	}
+
+	/// <summary>
+	/// Shared state of InputText(), passed as an argument to your callback when a ImGuiInputTextFlags_Callback* flag is used.<br/>The callback function should return 0 by default.<br/>Callbacks (follow a flag name and see comments in ImGuiInputTextFlags_ declarations for more details)<br/>- ImGuiInputTextFlags_CallbackEdit:        Callback on buffer edit. Note that InputText() already returns true on edit + you can always use IsItemEdited(). The callback is useful to manipulate the underlying buffer while focus is active.<br/>- ImGuiInputTextFlags_CallbackAlways:      Callback on each iteration<br/>- ImGuiInputTextFlags_CallbackCompletion:  Callback on pressing TAB<br/>- ImGuiInputTextFlags_CallbackHistory:     Callback on pressing Up/Down arrows<br/>- ImGuiInputTextFlags_CallbackCharFilter:  Callback on character inputs to replace or discard them. Modify 'EventChar' to replace or discard, or return 1 in callback to discard.<br/>- ImGuiInputTextFlags_CallbackResize:      Callback on buffer capacity changes request (beyond 'buf_size' parameter value), allowing the string to grow.<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiInputTextCallbackDataPtr
+	{
+		public ImGuiInputTextCallbackData* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiInputTextCallbackData this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiInputTextCallbackDataPtr(ImGuiInputTextCallbackData* nativePtr) => NativePtr = nativePtr;
+		public ImGuiInputTextCallbackDataPtr(IntPtr nativePtr) => NativePtr = (ImGuiInputTextCallbackData*)nativePtr;
+		public static implicit operator ImGuiInputTextCallbackDataPtr(ImGuiInputTextCallbackData* ptr) => new ImGuiInputTextCallbackDataPtr(ptr);
+		public static implicit operator ImGuiInputTextCallbackDataPtr(IntPtr ptr) => new ImGuiInputTextCallbackDataPtr(ptr);
+		public static implicit operator ImGuiInputTextCallbackData*(ImGuiInputTextCallbackDataPtr nativePtr) => nativePtr.NativePtr;
 	}
 }

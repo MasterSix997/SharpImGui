@@ -5,8 +5,7 @@ using System.Runtime.InteropServices;
 namespace SharpImGui
 {
 	/// <summary>
-	/// Internal state of the currently focused/edited text input box<br/>
-	/// For a given item ID, access with ImGui::GetInputTextState()<br/>
+	/// Internal state of the currently focused/edited text input box<br/>For a given item ID, access with ImGui::GetInputTextState()<br/>
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public partial struct ImGuiInputTextState
@@ -18,7 +17,7 @@ namespace SharpImGui
 		/// <summary>
 		/// State for stb_textedit.h<br/>
 		/// </summary>
-		public unsafe STB_TexteditState* Stb;
+		public unsafe STBTexteditState* Stb;
 		/// <summary>
 		/// copy of InputText() flags. may be used to check if e.g. ImGuiInputTextFlags_Password is set.<br/>
 		/// </summary>
@@ -36,7 +35,7 @@ namespace SharpImGui
 		/// </summary>
 		public unsafe byte* TextSrc;
 		/// <summary>
-		/// main UTF8 buffer. TextA.Size is a buffer size! Should always be >= buf_size passed by user (and of course >= CurLenA + 1).<br/>
+		/// main UTF8 buffer. TextA.Size is a buffer size! Should always be &gt;= buf_size passed by user (and of course &gt;= CurLenA + 1).<br/>
 		/// </summary>
 		public ImVector<byte> TextA;
 		/// <summary>
@@ -77,5 +76,20 @@ namespace SharpImGui
 		public byte WantReloadUserBuf;
 		public int ReloadSelectionStart;
 		public int ReloadSelectionEnd;
+	}
+
+	/// <summary>
+	/// Internal state of the currently focused/edited text input box<br/>For a given item ID, access with ImGui::GetInputTextState()<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiInputTextStatePtr
+	{
+		public ImGuiInputTextState* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiInputTextState this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiInputTextStatePtr(ImGuiInputTextState* nativePtr) => NativePtr = nativePtr;
+		public ImGuiInputTextStatePtr(IntPtr nativePtr) => NativePtr = (ImGuiInputTextState*)nativePtr;
+		public static implicit operator ImGuiInputTextStatePtr(ImGuiInputTextState* ptr) => new ImGuiInputTextStatePtr(ptr);
+		public static implicit operator ImGuiInputTextStatePtr(IntPtr ptr) => new ImGuiInputTextStatePtr(ptr);
+		public static implicit operator ImGuiInputTextState*(ImGuiInputTextStatePtr nativePtr) => nativePtr.NativePtr;
 	}
 }

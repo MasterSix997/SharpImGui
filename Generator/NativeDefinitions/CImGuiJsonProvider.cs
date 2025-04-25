@@ -112,27 +112,30 @@ public class CImGuiJsonProvider : INativeDefinitionProvider
         const string structCommentsKey = "struct_comments";
         const string locationsKey = "locations";
          
-        var enumsProperty = element.GetProperty(enumsKey);
-        var enumCommentsProperty = element.GetProperty(enumCommentsKey);
-        var enumTypesProperty = element.GetProperty(enumTypesKey);
-        var structsProperty = element.GetProperty(structsKey);
-        var structCommentsProperty = element.GetProperty(structCommentsKey);
-        var locationsProperty = element.GetProperty(locationsKey);
+        var enumElements = element.GetProperty(enumsKey);
+        var enumsHasComments = element.TryGetProperty(enumCommentsKey, out var enumCommentsProperty);
+        var enumTypesElement = element.GetProperty(enumTypesKey);
+        var structElements = element.GetProperty(structsKey);
+        var structsHasComments = element.TryGetProperty(structCommentsKey, out var structCommentsProperty);
+        var locationElements = element.GetProperty(locationsKey);
         
         var enums = new List<NativeEnum>();
-        foreach (var enumProperty in enumsProperty.EnumerateObject())
+        foreach (var enumProperty in enumElements.EnumerateObject())
         {
-            var hasComment = enumCommentsProperty.TryGetProperty(enumProperty.Name, out var enumCommentProperty);
-            var hasType = enumTypesProperty.TryGetProperty(enumProperty.Name[..^1], out var enumTypeProperty);
-            var location = locationsProperty.GetProperty(enumProperty.Name).GetString();
-            enums.Add(ExtractEnumFromJson(enumProperty, hasComment ? enumCommentProperty : null, hasType ? enumTypeProperty : null, location));
+            JsonElement enumCommentElement = new();
+            JsonElement enumTypeElement = new();
+            var hasComment = enumsHasComments && enumCommentsProperty.TryGetProperty(enumProperty.Name, out enumCommentElement);
+            var hasType = enumTypesElement.ValueKind == JsonValueKind.Object && enumTypesElement.TryGetProperty(enumProperty.Name[..^1], out enumTypeElement);
+            var location = locationElements.GetProperty(enumProperty.Name).GetString();
+            enums.Add(ExtractEnumFromJson(enumProperty, hasComment ? enumCommentElement : null, hasType ? enumTypeElement : null, location));
         }
         
         var structs = new List<NativeStruct>();
-        foreach (var structProperty in structsProperty.EnumerateObject())
+        foreach (var structProperty in structElements.EnumerateObject())
         {
-            var hasComment = structCommentsProperty.TryGetProperty(structProperty.Name, out var structCommentProperty);
-            var location = locationsProperty.GetProperty(structProperty.Name).GetString();
+            JsonElement structCommentProperty = new();
+            var hasComment = structsHasComments && structCommentsProperty.TryGetProperty(structProperty.Name, out structCommentProperty);
+            var location = locationElements.GetProperty(structProperty.Name).GetString();
             structs.Add(ExtractStructFromJson(structProperty, hasComment ? structCommentProperty : null, location));
         }
 

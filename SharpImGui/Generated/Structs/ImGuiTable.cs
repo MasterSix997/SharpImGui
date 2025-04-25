@@ -33,15 +33,15 @@ namespace SharpImGui
 		/// </summary>
 		public ImSpan<ImGuiTableCellData> RowCellData;
 		/// <summary>
-		/// Column DisplayOrder -> IsEnabled map<br/>
+		/// Column DisplayOrder -&gt; IsEnabled map<br/>
 		/// </summary>
 		public IntPtr EnabledMaskByDisplayOrder;
 		/// <summary>
-		/// Column Index -> IsEnabled map (== not hidden by user/api) in a format adequate for iterating column without touching cold data<br/>
+		/// Column Index -&gt; IsEnabled map (== not hidden by user/api) in a format adequate for iterating column without touching cold data<br/>
 		/// </summary>
 		public IntPtr EnabledMaskByIndex;
 		/// <summary>
-		/// Column Index -> IsVisibleX|IsVisibleY map (== not hidden by user/api && not hidden by scrolling/cliprect)<br/>
+		/// Column Index -&gt; IsVisibleX|IsVisibleY map (== not hidden by user/api && not hidden by scrolling/cliprect)<br/>
 		/// </summary>
 		public IntPtr VisibleMaskByIndex;
 		/// <summary>
@@ -157,7 +157,7 @@ namespace SharpImGui
 		/// </summary>
 		public ImRect BgClipRect;
 		/// <summary>
-		/// Actual ImDrawCmd clip rect for BG0/1 channel. This tends to be == OuterWindow->ClipRect at BeginTable() because output in BG0/BG1 is cpu-clipped<br/>
+		/// Actual ImDrawCmd clip rect for BG0/1 channel. This tends to be == OuterWindow-&gt;ClipRect at BeginTable() because output in BG0/BG1 is cpu-clipped<br/>
 		/// </summary>
 		public ImRect Bg0ClipRectForDrawCmd;
 		/// <summary>
@@ -169,7 +169,7 @@ namespace SharpImGui
 		/// </summary>
 		public ImRect HostClipRect;
 		/// <summary>
-		/// Backup of InnerWindow->ClipRect during PushTableBackground()/PopTableBackground()<br/>
+		/// Backup of InnerWindow-&gt;ClipRect during PushTableBackground()/PopTableBackground()<br/>
 		/// </summary>
 		public ImRect HostBackupInnerClipRect;
 		/// <summary>
@@ -185,7 +185,7 @@ namespace SharpImGui
 		/// </summary>
 		public ImGuiTextBuffer ColumnsNames;
 		/// <summary>
-		/// Shortcut to TempData->DrawSplitter while in table. Isolate draw commands per columns to avoid switching clip rect constantly<br/>
+		/// Shortcut to TempData-&gt;DrawSplitter while in table. Isolate draw commands per columns to avoid switching clip rect constantly<br/>
 		/// </summary>
 		public unsafe ImDrawListSplitter* DrawSplitter;
 		public ImGuiTableInstanceData InstanceDataFirst;
@@ -204,11 +204,11 @@ namespace SharpImGui
 		public ImGuiTableSortSpecs SortSpecs;
 		public short SortSpecsCount;
 		/// <summary>
-		/// Number of enabled columns (<= ColumnsCount)<br/>
+		/// Number of enabled columns (&lt;= ColumnsCount)<br/>
 		/// </summary>
 		public short ColumnsEnabledCount;
 		/// <summary>
-		/// Number of enabled columns using fixed width (<= ColumnsCount)<br/>
+		/// Number of enabled columns using fixed width (&lt;= ColumnsCount)<br/>
 		/// </summary>
 		public short ColumnsEnabledFixedCount;
 		/// <summary>
@@ -361,8 +361,23 @@ namespace SharpImGui
 		public byte HasScrollbarYPrev;
 		public byte MemoryCompacted;
 		/// <summary>
-		/// Backup of InnerWindow->SkipItem at the end of BeginTable(), because we will overwrite InnerWindow->SkipItem on a per-column basis<br/>
+		/// Backup of InnerWindow-&gt;SkipItem at the end of BeginTable(), because we will overwrite InnerWindow-&gt;SkipItem on a per-column basis<br/>
 		/// </summary>
 		public byte HostSkipItems;
+	}
+
+	/// <summary>
+	/// sizeof() ~ 592 bytes + heap allocs described in TableBeginInitMemory()<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiTablePtr
+	{
+		public ImGuiTable* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiTable this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiTablePtr(ImGuiTable* nativePtr) => NativePtr = nativePtr;
+		public ImGuiTablePtr(IntPtr nativePtr) => NativePtr = (ImGuiTable*)nativePtr;
+		public static implicit operator ImGuiTablePtr(ImGuiTable* ptr) => new ImGuiTablePtr(ptr);
+		public static implicit operator ImGuiTablePtr(IntPtr ptr) => new ImGuiTablePtr(ptr);
+		public static implicit operator ImGuiTable*(ImGuiTablePtr nativePtr) => nativePtr.NativePtr;
 	}
 }

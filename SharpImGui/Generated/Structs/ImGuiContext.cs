@@ -9,7 +9,7 @@ namespace SharpImGui
 	{
 		public byte Initialized;
 		/// <summary>
-		/// IO.Fonts-> is owned by the ImGuiContext and will be destructed along with it.<br/>
+		/// IO.Fonts-&gt; is owned by the ImGuiContext and will be destructed along with it.<br/>
 		/// </summary>
 		public byte FontAtlasOwnedByContext;
 		public ImGuiIO IO;
@@ -25,19 +25,19 @@ namespace SharpImGui
 		/// </summary>
 		public unsafe ImFont* Font;
 		/// <summary>
-		/// (Shortcut) == FontBaseSize * g.CurrentWindow->FontWindowScale == window->FontSize(). Text height for current window.<br/>
+		/// (Shortcut) == FontBaseSize * g.CurrentWindow-&gt;FontWindowScale == window-&gt;FontSize(). Text height for current window.<br/>
 		/// </summary>
 		public float FontSize;
 		/// <summary>
-		/// (Shortcut) == IO.FontGlobalScale * Font->Scale * Font->FontSize. Base text height.<br/>
+		/// (Shortcut) == IO.FontGlobalScale * Font-&gt;Scale * Font-&gt;FontSize. Base text height.<br/>
 		/// </summary>
 		public float FontBaseSize;
 		/// <summary>
-		/// == FontSize / Font->FontSize<br/>
+		/// == FontSize / Font-&gt;FontSize<br/>
 		/// </summary>
 		public float FontScale;
 		/// <summary>
-		/// Current window/viewport DpiScale == CurrentViewport->DpiScale<br/>
+		/// Current window/viewport DpiScale == CurrentViewport-&gt;DpiScale<br/>
 		/// </summary>
 		public float CurrentDpiScale;
 		public ImDrawListSharedData DrawListSharedData;
@@ -147,7 +147,7 @@ namespace SharpImGui
 		/// </summary>
 		public unsafe ImGuiWindow* HoveredWindowBeforeClear;
 		/// <summary>
-		/// Track the window we clicked on (in order to preserve focus). The actual window that is moved is generally MovingWindow->RootWindowDockTree.<br/>
+		/// Track the window we clicked on (in order to preserve focus). The actual window that is moved is generally MovingWindow-&gt;RootWindowDockTree.<br/>
 		/// </summary>
 		public unsafe ImGuiWindow* MovingWindow;
 		/// <summary>
@@ -254,10 +254,7 @@ namespace SharpImGui
 		/// </summary>
 		public float LastActiveIdTimer;
 		/// <summary>
-		///     Key/Input Ownership + Shortcut Routing system<br/>
-		///     - The idea is that instead of "eating" a given key, we can link to an owner.<br/>
-		///     - Input query can then read input by specifying ImGuiKeyOwner_Any (== 0), ImGuiKeyOwner_NoOwner (== -1) or a custom ID.<br/>
-		///     - Routing is requested ahead of time for a given chord (Key + Mods) and granted in NewFrame().<br/>
+		///     Key/Input Ownership + Shortcut Routing system<br/>    - The idea is that instead of "eating" a given key, we can link to an owner.<br/>    - Input query can then read input by specifying ImGuiKeyOwner_Any (== 0), ImGuiKeyOwner_NoOwner (== -1) or a custom ID.<br/>    - Routing is requested ahead of time for a given chord (Key + Mods) and granted in NewFrame().<br/>
 		/// Record the last time key mods changed (affect repeat delay when using shortcut logic)<br/>
 		/// </summary>
 		public double LastKeyModsChangeTime;
@@ -553,9 +550,7 @@ namespace SharpImGui
 		/// </summary>
 		public byte NavHighlightItemUnderNav;
 		/// <summary>
-		/// <br/>
-		///     //bool                  NavDisableHighlight;                Old name for !g.NavCursorVisible before 1.91.4 (2024/10/18). OPPOSITE VALUE (g.NavDisableHighlight == !g.NavCursorVisible)<br/>
-		///     //bool                  NavDisableMouseHover;               Old name for g.NavHighlightItemUnderNav before 1.91.1 (2024/10/18) this was called When user starts using keyboard/gamepad, we hide mouse hovering highlight until mouse is touched again.<br/>
+		/// <br/>    //bool                  NavDisableHighlight;                Old name for !g.NavCursorVisible before 1.91.4 (2024/10/18). OPPOSITE VALUE (g.NavDisableHighlight == !g.NavCursorVisible)<br/>    //bool                  NavDisableMouseHover;               Old name for g.NavHighlightItemUnderNav before 1.91.1 (2024/10/18) this was called When user starts using keyboard/gamepad, we hide mouse hovering highlight until mouse is touched again.<br/>
 		/// When set we will update mouse position if io.ConfigNavMoveSetMousePos is set (not enabled by default)<br/>
 		/// </summary>
 		public byte NavMousePosDirty;
@@ -593,7 +588,7 @@ namespace SharpImGui
 		public uint NavActivatePressedId;
 		public ImGuiActivateFlags NavActivateFlags;
 		/// <summary>
-		/// Reversed copy focus scope stack for NavId (should contains NavFocusScopeId). This essentially follow the window->ParentWindowForFocusRoute chain.<br/>
+		/// Reversed copy focus scope stack for NavId (should contains NavFocusScopeId). This essentially follow the window-&gt;ParentWindowForFocusRoute chain.<br/>
 		/// </summary>
 		public ImVector<ImGuiFocusScopeData> NavFocusRoute;
 		public uint NavHighlightActivatedId;
@@ -648,7 +643,7 @@ namespace SharpImGui
 		/// </summary>
 		public ImGuiDir NavMoveClipDir;
 		/// <summary>
-		/// Rectangle used for scoring, in screen space. Based of window->NavRectRel[], modified for directional navigation scoring.<br/>
+		/// Rectangle used for scoring, in screen space. Based of window-&gt;NavRectRel[], modified for directional navigation scoring.<br/>
 		/// </summary>
 		public ImRect NavScoringRect;
 		/// <summary>
@@ -664,7 +659,7 @@ namespace SharpImGui
 		/// </summary>
 		public int NavTabbingDir;
 		/// <summary>
-		/// >0 when counting items for tabbing<br/>
+		/// &gt;0 when counting items for tabbing<br/>
 		/// </summary>
 		public int NavTabbingCounter;
 		/// <summary>
@@ -784,7 +779,7 @@ namespace SharpImGui
 		/// </summary>
 		public uint DragDropHoldJustPressedId;
 		/// <summary>
-		/// We don't expose the ImVector<> directly, ImGuiPayload only holds pointer+size<br/>
+		/// We don't expose the ImVector&lt;&gt; directly, ImGuiPayload only holds pointer+size<br/>
 		/// </summary>
 		public ImVector<byte> DragDropPayloadBufHeap;
 		/// <summary>
@@ -913,11 +908,11 @@ namespace SharpImGui
 		/// </summary>
 		public uint ColorEditSavedID;
 		/// <summary>
-		/// Backup of last Hue associated to LastColor, so we can restore Hue in lossy RGB<>HSV round trips<br/>
+		/// Backup of last Hue associated to LastColor, so we can restore Hue in lossy RGB&lt;&gt;HSV round trips<br/>
 		/// </summary>
 		public float ColorEditSavedHue;
 		/// <summary>
-		/// Backup of last Saturation associated to LastColor, so we can restore Saturation in lossy RGB<>HSV round trips<br/>
+		/// Backup of last Saturation associated to LastColor, so we can restore Saturation in lossy RGB&lt;&gt;HSV round trips<br/>
 		/// </summary>
 		public float ColorEditSavedSat;
 		/// <summary>
@@ -993,8 +988,7 @@ namespace SharpImGui
 		public ImGuiPlatformImeData PlatformImeDataPrev;
 		public uint PlatformImeViewport;
 		/// <summary>
-		///     Extensions<br/>
-		///     FIXME: We could provide an API to register one slot in an array held in ImGuiContext?<br/>
+		///     Extensions<br/>    FIXME: We could provide an API to register one slot in an array held in ImGuiContext?<br/>
 		/// </summary>
 		public ImGuiDockContext DockContext;
 		public unsafe void* DockNodeWindowMenuHandler;
@@ -1098,8 +1092,7 @@ namespace SharpImGui
 		/// </summary>
 		public unsafe ImGuiErrorRecoveryState* StackSizesInBeginForCurrentWindow;
 		/// <summary>
-		///     Debug Tools<br/>
-		///     (some of the highly frequently used data are interleaved in other structures above: DebugBreakXXX fields, DebugHookIdInfo, DebugLocateId etc.)<br/>
+		///     Debug Tools<br/>    (some of the highly frequently used data are interleaved in other structures above: DebugBreakXXX fields, DebugHookIdInfo, DebugLocateId etc.)<br/>
 		/// Locked count (preserved when holding CTRL)<br/>
 		/// </summary>
 		public int DebugDrawIdConflictsCount;
@@ -1137,7 +1130,7 @@ namespace SharpImGui
 		public float DebugFlashStyleColorTime;
 		public Vector4 DebugFlashStyleColorBackup;
 		public ImGuiMetricsConfig DebugMetricsConfig;
-		public ImGuiIDStackTool DebugIDStackTool;
+		public ImGuiIdStackTool DebugIdStackTool;
 		public ImGuiDebugAllocInfo DebugAllocInfo;
 		/// <summary>
 		/// Hovered dock node.<br/>
@@ -1287,5 +1280,17 @@ namespace SharpImGui
 		public byte TempKeychordName_61;
 		public byte TempKeychordName_62;
 		public byte TempKeychordName_63;
+	}
+
+	public unsafe partial struct ImGuiContextPtr
+	{
+		public ImGuiContext* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiContext this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiContextPtr(ImGuiContext* nativePtr) => NativePtr = nativePtr;
+		public ImGuiContextPtr(IntPtr nativePtr) => NativePtr = (ImGuiContext*)nativePtr;
+		public static implicit operator ImGuiContextPtr(ImGuiContext* ptr) => new ImGuiContextPtr(ptr);
+		public static implicit operator ImGuiContextPtr(IntPtr ptr) => new ImGuiContextPtr(ptr);
+		public static implicit operator ImGuiContext*(ImGuiContextPtr nativePtr) => nativePtr.NativePtr;
 	}
 }

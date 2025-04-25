@@ -23,4 +23,19 @@ namespace SharpImGui
 		/// </summary>
 		public float InputLineHeight;
 	}
+
+	/// <summary>
+	/// (Optional) Support for IME (Input Method Editor) via the platform_io.Platform_SetImeDataFn() function.<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiPlatformImeDataPtr
+	{
+		public ImGuiPlatformImeData* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiPlatformImeData this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiPlatformImeDataPtr(ImGuiPlatformImeData* nativePtr) => NativePtr = nativePtr;
+		public ImGuiPlatformImeDataPtr(IntPtr nativePtr) => NativePtr = (ImGuiPlatformImeData*)nativePtr;
+		public static implicit operator ImGuiPlatformImeDataPtr(ImGuiPlatformImeData* ptr) => new ImGuiPlatformImeDataPtr(ptr);
+		public static implicit operator ImGuiPlatformImeDataPtr(IntPtr ptr) => new ImGuiPlatformImeDataPtr(ptr);
+		public static implicit operator ImGuiPlatformImeData*(ImGuiPlatformImeDataPtr nativePtr) => nativePtr.NativePtr;
+	}
 }

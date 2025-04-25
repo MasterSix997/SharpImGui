@@ -37,4 +37,19 @@ namespace SharpImGui
 		/// </summary>
 		public long NavIdItem;
 	}
+
+	/// <summary>
+	/// Persistent storage for multi-select (as long as selection is alive)<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiMultiSelectStatePtr
+	{
+		public ImGuiMultiSelectState* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiMultiSelectState this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiMultiSelectStatePtr(ImGuiMultiSelectState* nativePtr) => NativePtr = nativePtr;
+		public ImGuiMultiSelectStatePtr(IntPtr nativePtr) => NativePtr = (ImGuiMultiSelectState*)nativePtr;
+		public static implicit operator ImGuiMultiSelectStatePtr(ImGuiMultiSelectState* ptr) => new ImGuiMultiSelectStatePtr(ptr);
+		public static implicit operator ImGuiMultiSelectStatePtr(IntPtr ptr) => new ImGuiMultiSelectStatePtr(ptr);
+		public static implicit operator ImGuiMultiSelectState*(ImGuiMultiSelectStatePtr nativePtr) => nativePtr.NativePtr;
+	}
 }

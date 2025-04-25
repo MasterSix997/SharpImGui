@@ -19,6 +19,15 @@
         Static,
     }
     
+    public enum PropertyType
+    {
+        None,
+        Get,
+        GetInline,
+        Set,
+        GetSet,
+    }
+    
     /// <summary>
     /// Represents a field (of a struct or class) or a global variable in C#.
     /// </summary>
@@ -91,6 +100,12 @@
         /// Gets or sets the offset of the field in bytes.
         /// </summary>
         public long Offset { get; set; }
+        public bool IsUnsafe { get; set; }
+        public bool IsRef { get; set; }
+
+        public PropertyType PropertyType;
+        public string? GetProperty;
+        public string? SetProperty;
 
         /// <inheritdoc />
         public override string ToString()
@@ -113,32 +128,73 @@
             if (IsStatic)
                 writer.Write("static ");
             
-            if (Parent is CsClass { IsUnsafe: false } && Type is CsPointerType)
+            if (IsUnsafe || Parent is CsClass { IsUnsafe: false } && Type is CsPointerType)
                 writer.Write("unsafe ");
 
+            if (IsRef)
+                writer.Write("ref ");
+            
             writer.Write(Type.TypeName);
             writer.Write($" {Name}");
-            
-            if (InitExpression != null)
-            {
-                writer.Write(" = ");
-                var initExpressionStr = InitExpression.ToString();
-                if (string.IsNullOrEmpty(initExpressionStr))
-                {
-                    InitValue?.WriteTo(writer);
-                }
-                else
-                {
-                    writer.Write(initExpressionStr);
-                }
-            }
-            else if (InitValue != null)
-            {
-                writer.Write(" = ");
-                InitValue.WriteTo(writer);
-            }
 
-            writer.Write(";");
+            if (PropertyType == PropertyType.GetInline)
+            {
+                writer.Write(" => ").Write(GetProperty).Write(";");
+            }
+            else if (PropertyType != PropertyType.None)
+            {
+                writer.Write(" { ");
+                if (PropertyType == PropertyType.Get)
+                {
+                    writer.Write("get");
+                    if (!string.IsNullOrEmpty(GetProperty))
+                        writer.Write(" => ").Write(GetProperty);
+                    writer.Write(";");
+                }
+                else if (PropertyType == PropertyType.Set)
+                {
+                    writer.Write("set");
+                    if (!string.IsNullOrEmpty(SetProperty))
+                        writer.Write(" => ").Write(SetProperty);
+                    writer.Write(";");
+                }
+                else if (PropertyType == PropertyType.GetSet)
+                {
+                    writer.Write("get");
+                    if (!string.IsNullOrEmpty(GetProperty))
+                        writer.Write(" => ").Write(GetProperty);
+                    writer.Write(";");
+                    writer.Write(" ");
+                    writer.Write("set");
+                    if (!string.IsNullOrEmpty(SetProperty))
+                        writer.Write(" => ").Write(SetProperty);
+                    writer.Write(";");
+                }
+                writer.Write(" }");
+            }
+            else
+            {
+                if (InitExpression != null)
+                {
+                    writer.Write(" = ");
+                    var initExpressionStr = InitExpression.ToString();
+                    if (string.IsNullOrEmpty(initExpressionStr))
+                    {
+                        InitValue?.WriteTo(writer);
+                    }
+                    else
+                    {
+                        writer.Write(initExpressionStr);
+                    }
+                }
+                else if (InitValue != null)
+                {
+                    writer.Write(" = ");
+                    InitValue.WriteTo(writer);
+                }
+
+                writer.Write(";");
+            }
             writer.EndLine();
         }
     }

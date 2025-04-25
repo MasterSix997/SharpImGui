@@ -5,9 +5,7 @@ using System.Runtime.InteropServices;
 namespace SharpImGui
 {
 	/// <summary>
-	/// Windows data saved in imgui.ini file<br/>
-	/// Because we never destroy or rename ImGuiWindowSettings, we can store the names in a separate buffer easily.<br/>
-	/// (this is designed to be stored in a ImChunkStream buffer, with the variable-length Name following our structure)<br/>
+	/// Windows data saved in imgui.ini file<br/>Because we never destroy or rename ImGuiWindowSettings, we can store the names in a separate buffer easily.<br/>(this is designed to be stored in a ImChunkStream buffer, with the variable-length Name following our structure)<br/>
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public partial struct ImGuiWindowSettings
@@ -16,9 +14,9 @@ namespace SharpImGui
 		/// <summary>
 		/// NB: Settings position are stored RELATIVE to the viewport! Whereas runtime ones are absolute positions.<br/>
 		/// </summary>
-		public ImVec2ih Pos;
-		public ImVec2ih Size;
-		public ImVec2ih ViewportPos;
+		public ImVec2Ih Pos;
+		public ImVec2Ih Size;
+		public ImVec2Ih ViewportPos;
 		public uint ViewportId;
 		/// <summary>
 		/// ID of last known DockNode (even if the DockNode is invisible because it has only 1 active window), or 0 if none.<br/>
@@ -42,5 +40,20 @@ namespace SharpImGui
 		/// Set to invalidate/delete the settings entry<br/>
 		/// </summary>
 		public byte WantDelete;
+	}
+
+	/// <summary>
+	/// Windows data saved in imgui.ini file<br/>Because we never destroy or rename ImGuiWindowSettings, we can store the names in a separate buffer easily.<br/>(this is designed to be stored in a ImChunkStream buffer, with the variable-length Name following our structure)<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiWindowSettingsPtr
+	{
+		public ImGuiWindowSettings* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiWindowSettings this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiWindowSettingsPtr(ImGuiWindowSettings* nativePtr) => NativePtr = nativePtr;
+		public ImGuiWindowSettingsPtr(IntPtr nativePtr) => NativePtr = (ImGuiWindowSettings*)nativePtr;
+		public static implicit operator ImGuiWindowSettingsPtr(ImGuiWindowSettings* ptr) => new ImGuiWindowSettingsPtr(ptr);
+		public static implicit operator ImGuiWindowSettingsPtr(IntPtr ptr) => new ImGuiWindowSettingsPtr(ptr);
+		public static implicit operator ImGuiWindowSettings*(ImGuiWindowSettingsPtr nativePtr) => nativePtr.NativePtr;
 	}
 }

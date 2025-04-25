@@ -3,8 +3,7 @@ using System;
 namespace SharpImGui
 {
 	/// <summary>
-	/// Flags for ImGui::Begin()<br/>
-	/// (Those are per-window flags. There are shared flags in ImGuiIO: io.ConfigWindowsResizeFromEdges and io.ConfigWindowsMoveFromTitleBarOnly)<br/>
+	/// Flags for ImGui::Begin()<br/>(Those are per-window flags. There are shared flags in ImGuiIO: io.ConfigWindowsResizeFromEdges and io.ConfigWindowsMoveFromTitleBarOnly)<br/>
 	/// </summary>
 	[Flags]
 	public enum ImGuiWindowFlags
@@ -67,11 +66,11 @@ namespace SharpImGui
 		/// </summary>
 		NoBringToFrontOnFocus = 8192,
 		/// <summary>
-		/// Always show vertical scrollbar (even if ContentSize.y < Size.y)<br/>
+		/// Always show vertical scrollbar (even if ContentSize.y &lt; Size.y)<br/>
 		/// </summary>
 		AlwaysVerticalScrollbar = 16384,
 		/// <summary>
-		/// Always show horizontal scrollbar (even if ContentSize.x < Size.x)<br/>
+		/// Always show horizontal scrollbar (even if ContentSize.x &lt; Size.x)<br/>
 		/// </summary>
 		AlwaysHorizontalScrollbar = 32768,
 		/// <summary>
@@ -120,15 +119,7 @@ namespace SharpImGui
 	}
 
 	/// <summary>
-	/// Flags for ImGui::BeginChild()<br/>
-	/// (Legacy: bit 0 must always correspond to ImGuiChildFlags_Borders to be backward compatible with old API using 'bool border = false'.<br/>
-	/// About using AutoResizeX/AutoResizeY flags:<br/>
-	/// - May be combined with SetNextWindowSizeConstraints() to set a min/max size for each axis (see "Demo->Child->Auto-resize with Constraints").<br/>
-	/// - Size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing.<br/>
-	///   - This allows BeginChild() to return false when not within boundaries (e.g. when scrolling), which is more optimal. BUT it won't update its auto-size while clipped.<br/>
-	///     While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional "resizing after becoming visible again" glitch.<br/>
-	///   - You may also use ImGuiChildFlags_AlwaysAutoResize to force an update even when child window is not in view.<br/>
-	///     HOWEVER PLEASE UNDERSTAND THAT DOING SO WILL PREVENT BeginChild() FROM EVER RETURNING FALSE, disabling benefits of coarse clipping.<br/>
+	/// Flags for ImGui::BeginChild()<br/>(Legacy: bit 0 must always correspond to ImGuiChildFlags_Borders to be backward compatible with old API using 'bool border = false'.<br/>About using AutoResizeX/AutoResizeY flags:<br/>- May be combined with SetNextWindowSizeConstraints() to set a min/max size for each axis (see "Demo-&gt;Child-&gt;Auto-resize with Constraints").<br/>- Size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing.<br/>  - This allows BeginChild() to return false when not within boundaries (e.g. when scrolling), which is more optimal. BUT it won't update its auto-size while clipped.<br/>    While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional "resizing after becoming visible again" glitch.<br/>  - You may also use ImGuiChildFlags_AlwaysAutoResize to force an update even when child window is not in view.<br/>    HOWEVER PLEASE UNDERSTAND THAT DOING SO WILL PREVENT BeginChild() FROM EVER RETURNING FALSE, disabling benefits of coarse clipping.<br/>
 	/// </summary>
 	[Flags]
 	public enum ImGuiChildFlags
@@ -173,8 +164,7 @@ namespace SharpImGui
 	}
 
 	/// <summary>
-	/// Flags for ImGui::PushItemFlag()<br/>
-	/// (Those are shared by all items)<br/>
+	/// Flags for ImGui::PushItemFlag()<br/>(Those are shared by all items)<br/>
 	/// </summary>
 	[Flags]
 	public enum ImGuiItemFlags
@@ -210,8 +200,7 @@ namespace SharpImGui
 	}
 
 	/// <summary>
-	/// Flags for ImGui::InputText()<br/>
-	/// (Those are per-item flags. There are shared flags in ImGuiIO: io.ConfigInputTextCursorBlink and io.ConfigInputTextEnterKeepActive)<br/>
+	/// Flags for ImGui::InputText()<br/>(Those are per-item flags. There are shared flags in ImGuiIO: io.ConfigInputTextCursorBlink and io.ConfigInputTextEnterKeepActive)<br/>
 	/// </summary>
 	[Flags]
 	public enum ImGuiInputTextFlags
@@ -394,14 +383,7 @@ namespace SharpImGui
 	}
 
 	/// <summary>
-	/// Flags for OpenPopup*(), BeginPopupContext*(), IsPopupOpen() functions.<br/>
-	/// - To be backward compatible with older API which took an 'int mouse_button = 1' argument instead of 'ImGuiPopupFlags flags',<br/>
-	///   we need to treat small flags values as a mouse button index, so we encode the mouse button in the first few bits of the flags.<br/>
-	///   It is therefore guaranteed to be legal to pass a mouse button index in ImGuiPopupFlags.<br/>
-	/// - For the same reason, we exceptionally default the ImGuiPopupFlags argument of BeginPopupContextXXX functions to 1 instead of 0.<br/>
-	///   IMPORTANT: because the default parameter is 1 (==ImGuiPopupFlags_MouseButtonRight), if you rely on the default parameter<br/>
-	///   and want to use another flag, you need to pass in the ImGuiPopupFlags_MouseButtonRight flag explicitly.<br/>
-	/// - Multiple buttons currently cannot be combined/or-ed in those functions (we could allow it later).<br/>
+	/// Flags for OpenPopup*(), BeginPopupContext*(), IsPopupOpen() functions.<br/>- To be backward compatible with older API which took an 'int mouse_button = 1' argument instead of 'ImGuiPopupFlags flags',<br/>  we need to treat small flags values as a mouse button index, so we encode the mouse button in the first few bits of the flags.<br/>  It is therefore guaranteed to be legal to pass a mouse button index in ImGuiPopupFlags.<br/>- For the same reason, we exceptionally default the ImGuiPopupFlags argument of BeginPopupContextXXX functions to 1 instead of 0.<br/>  IMPORTANT: because the default parameter is 1 (==ImGuiPopupFlags_MouseButtonRight), if you rely on the default parameter<br/>  and want to use another flag, you need to pass in the ImGuiPopupFlags_MouseButtonRight flag explicitly.<br/>- Multiple buttons currently cannot be combined/or-ed in those functions (we could allow it later).<br/>
 	/// </summary>
 	[Flags]
 	public enum ImGuiPopupFlags
@@ -642,9 +624,7 @@ namespace SharpImGui
 	}
 
 	/// <summary>
-	/// Flags for ImGui::IsItemHovered(), ImGui::IsWindowHovered()<br/>
-	/// Note: if you are trying to check whether your mouse should be dispatched to Dear ImGui or to your app, you should use 'io.WantCaptureMouse' instead! Please read the FAQ!<br/>
-	/// Note: windows with the ImGuiWindowFlags_NoInputs flag are ignored by IsWindowHovered() calls.<br/>
+	/// Flags for ImGui::IsItemHovered(), ImGui::IsWindowHovered()<br/>Note: if you are trying to check whether your mouse should be dispatched to Dear ImGui or to your app, you should use 'io.WantCaptureMouse' instead! Please read the FAQ!<br/>Note: windows with the ImGuiWindowFlags_NoInputs flag are ignored by IsWindowHovered() calls.<br/>
 	/// </summary>
 	[Flags]
 	public enum ImGuiHoveredFlags
@@ -727,9 +707,7 @@ namespace SharpImGui
 	}
 
 	/// <summary>
-	/// Flags for ImGui::DockSpace(), shared/inherited by child nodes.<br/>
-	/// (Some flags can be applied to individual nodes directly)<br/>
-	/// FIXME-DOCK: Also see ImGuiDockNodeFlagsPrivate_ which may involve using the WIP and internal DockBuilder api.<br/>
+	/// Flags for ImGui::DockSpace(), shared/inherited by child nodes.<br/>(Some flags can be applied to individual nodes directly)<br/>FIXME-DOCK: Also see ImGuiDockNodeFlagsPrivate_ which may involve using the WIP and internal DockBuilder api.<br/>
 	/// </summary>
 	[Flags]
 	public enum ImGuiDockNodeFlags
@@ -898,22 +876,17 @@ namespace SharpImGui
 	{
 		None = 0,
 		/// <summary>
-		/// Ascending = 0->9, A->Z etc.<br/>
+		/// Ascending = 0-&gt;9, A-&gt;Z etc.<br/>
 		/// </summary>
 		Ascending = 1,
 		/// <summary>
-		/// Descending = 9->0, Z->A etc.<br/>
+		/// Descending = 9-&gt;0, Z-&gt;A etc.<br/>
 		/// </summary>
 		Descending = 2,
 	}
 
 	/// <summary>
-	/// A key identifier (ImGuiKey_XXX or ImGuiMod_XXX value): can represent Keyboard, Mouse and Gamepad values.<br/>
-	/// All our named keys are >= 512. Keys value 0 to 511 are left unused and were legacy native/opaque key values (< 1.87).<br/>
-	/// Support for legacy keys was completely removed in 1.91.5.<br/>
-	/// Read details about the 1.87+ transition : https://github.com/ocornut/imgui/issues/4921<br/>
-	/// Note that "Keys" related to physical keys and are not the same concept as input "Characters", the later are submitted via io.AddInputCharacter().<br/>
-	/// The keyboard key enum values are named after the keys on a standard US keyboard, and on other keyboard types the keys reported may not match the keycaps.<br/>
+	/// A key identifier (ImGuiKey_XXX or ImGuiMod_XXX value): can represent Keyboard, Mouse and Gamepad values.<br/>All our named keys are &gt;= 512. Keys value 0 to 511 are left unused and were legacy native/opaque key values (&lt; 1.87).<br/>Support for legacy keys was completely removed in 1.91.5.<br/>Read details about the 1.87+ transition : https://github.com/ocornut/imgui/issues/4921<br/>Note that "Keys" related to physical keys and are not the same concept as input "Characters", the later are submitted via io.AddInputCharacter().<br/>The keyboard key enum values are named after the keys on a standard US keyboard, and on other keyboard types the keys reported may not match the keycaps.<br/>
 	/// </summary>
 	public enum ImGuiKey
 	{
@@ -921,7 +894,7 @@ namespace SharpImGui
 		/// <summary>
 		/// First valid key value (other than 0)<br/>
 		/// </summary>
-		NamedKey_BEGIN = 512,
+		NamedKeyBEGIN = 512,
 		/// <summary>
 		/// == ImGuiKey_NamedKey_BEGIN<br/>
 		/// </summary>
@@ -1191,35 +1164,33 @@ namespace SharpImGui
 		ReservedForModShift = 664,
 		ReservedForModAlt = 665,
 		ReservedForModSuper = 666,
-		NamedKey_END = 667,
-		ImGuiMod_None = 0,
+		NamedKeyEND = 667,
+		ImGuiModNone = 0,
 		/// <summary>
 		/// Ctrl (non-macOS), Cmd (macOS)<br/>
 		/// </summary>
-		ImGuiMod_Ctrl = 4096,
+		ImGuiModCtrl = 4096,
 		/// <summary>
 		/// Shift<br/>
 		/// </summary>
-		ImGuiMod_Shift = 8192,
+		ImGuiModShift = 8192,
 		/// <summary>
 		/// Option/Menu<br/>
 		/// </summary>
-		ImGuiMod_Alt = 16384,
+		ImGuiModAlt = 16384,
 		/// <summary>
 		/// Windows/Super (non-macOS), Ctrl (macOS)<br/>
 		/// </summary>
-		ImGuiMod_Super = 32768,
+		ImGuiModSuper = 32768,
 		/// <summary>
 		/// 4-bits<br/>
 		/// </summary>
-		ImGuiMod_Mask = 61440,
-		NamedKey_COUNT = 155,
+		ImGuiModMask = 61440,
+		NamedKeyCOUNT = 155,
 	}
 
 	/// <summary>
-	/// Flags for Shortcut(), SetNextItemShortcut(),<br/>
-	/// (and for upcoming extended versions of IsKeyPressed(), IsMouseClicked(), Shortcut(), SetKeyOwner(), SetItemKeyOwner() that are still in imgui_internal.h)<br/>
-	/// Don't mistake with ImGuiInputTextFlags! (which is for ImGui::InputText() function)<br/>
+	/// Flags for Shortcut(), SetNextItemShortcut(),<br/>(and for upcoming extended versions of IsKeyPressed(), IsMouseClicked(), Shortcut(), SetKeyOwner(), SetItemKeyOwner() that are still in imgui_internal.h)<br/>Don't mistake with ImGuiInputTextFlags! (which is for ImGui::InputText() function)<br/>
 	/// </summary>
 	[Flags]
 	public enum ImGuiInputFlags
@@ -1514,14 +1485,7 @@ namespace SharpImGui
 	}
 
 	/// <summary>
-	/// Enumeration for PushStyleVar() / PopStyleVar() to temporarily modify the ImGuiStyle structure.<br/>
-	/// - The enum only refers to fields of ImGuiStyle which makes sense to be pushed/popped inside UI code.<br/>
-	///   During initialization or between frames, feel free to just poke into ImGuiStyle directly.<br/>
-	/// - Tip: Use your programming IDE navigation facilities on the names in the _second column_ below to find the actual members and their description.<br/>
-	///   - In Visual Studio: CTRL+comma ("Edit.GoToAll") can follow symbols inside comments, whereas CTRL+F12 ("Edit.GoToImplementation") cannot.<br/>
-	///   - In Visual Studio w/ Visual Assist installed: ALT+G ("VAssistX.GoToImplementation") can also follow symbols inside comments.<br/>
-	///   - In VS Code, CLion, etc.: CTRL+click can follow symbols inside comments.<br/>
-	/// - When changing this enum, you need to update the associated internal table GStyleVarInfo[] accordingly. This is where we link enum values to members offset/type.<br/>
+	/// Enumeration for PushStyleVar() / PopStyleVar() to temporarily modify the ImGuiStyle structure.<br/>- The enum only refers to fields of ImGuiStyle which makes sense to be pushed/popped inside UI code.<br/>  During initialization or between frames, feel free to just poke into ImGuiStyle directly.<br/>- Tip: Use your programming IDE navigation facilities on the names in the _second column_ below to find the actual members and their description.<br/>  - In Visual Studio: CTRL+comma ("Edit.GoToAll") can follow symbols inside comments, whereas CTRL+F12 ("Edit.GoToImplementation") cannot.<br/>  - In Visual Studio w/ Visual Assist installed: ALT+G ("VAssistX.GoToImplementation") can also follow symbols inside comments.<br/>  - In VS Code, CLion, etc.: CTRL+click can follow symbols inside comments.<br/>- When changing this enum, you need to update the associated internal table GStyleVarInfo[] accordingly. This is where we link enum values to members offset/type.<br/>
 	/// </summary>
 	public enum ImGuiStyleVar
 	{
@@ -1809,9 +1773,7 @@ namespace SharpImGui
 	}
 
 	/// <summary>
-	/// Flags for DragFloat(), DragInt(), SliderFloat(), SliderInt() etc.<br/>
-	/// We use the same sets of flags for DragXXX() and SliderXXX() functions as the features are the same and it makes it easier to swap them.<br/>
-	/// (Those are per-item flags. There is shared behavior flag too: ImGuiIO: io.ConfigDragClickToInputText)<br/>
+	/// Flags for DragFloat(), DragInt(), SliderFloat(), SliderInt() etc.<br/>We use the same sets of flags for DragXXX() and SliderXXX() functions as the features are the same and it makes it easier to swap them.<br/>(Those are per-item flags. There is shared behavior flag too: ImGuiIO: io.ConfigDragClickToInputText)<br/>
 	/// </summary>
 	[Flags]
 	public enum ImGuiSliderFlags
@@ -1853,8 +1815,7 @@ namespace SharpImGui
 	}
 
 	/// <summary>
-	/// Identify a mouse button.<br/>
-	/// Those values are guaranteed to be stable and we frequently use 0/1 directly. Named enums provided for convenience.<br/>
+	/// Identify a mouse button.<br/>Those values are guaranteed to be stable and we frequently use 0/1 directly. Named enums provided for convenience.<br/>
 	/// </summary>
 	public enum ImGuiMouseButton
 	{
@@ -1865,8 +1826,7 @@ namespace SharpImGui
 	}
 
 	/// <summary>
-	/// Enumeration for GetMouseCursor()<br/>
-	/// User code may request backend to display given cursor by calling SetMouseCursor(), which is why we have some cursors that are marked unused here<br/>
+	/// Enumeration for GetMouseCursor()<br/>User code may request backend to display given cursor by calling SetMouseCursor(), which is why we have some cursors that are marked unused here<br/>
 	/// </summary>
 	public enum ImGuiMouseCursor
 	{
@@ -1916,10 +1876,7 @@ namespace SharpImGui
 	}
 
 	/// <summary>
-	/// Enumeration for AddMouseSourceEvent() actual source of Mouse Input data.<br/>
-	/// Historically we use "Mouse" terminology everywhere to indicate pointer data, e.g. MousePos, IsMousePressed(), io.AddMousePosEvent()<br/>
-	/// But that "Mouse" data can come from different source which occasionally may be useful for application to know about.<br/>
-	/// You can submit a change of pointer type using io.AddMouseSourceEvent().<br/>
+	/// Enumeration for AddMouseSourceEvent() actual source of Mouse Input data.<br/>Historically we use "Mouse" terminology everywhere to indicate pointer data, e.g. MousePos, IsMousePressed(), io.AddMousePosEvent()<br/>But that "Mouse" data can come from different source which occasionally may be useful for application to know about.<br/>You can submit a change of pointer type using io.AddMouseSourceEvent().<br/>
 	/// </summary>
 	public enum ImGuiMouseSource
 	{
@@ -1939,9 +1896,7 @@ namespace SharpImGui
 	}
 
 	/// <summary>
-	/// Enumeration for ImGui::SetNextWindow***(), SetWindow***(), SetNextItem***() functions<br/>
-	/// Represent a condition.<br/>
-	/// Important: Treat as a regular enum! Do NOT combine multiple values using binary operators! All the functions above treat 0 as a shortcut to ImGuiCond_Always.<br/>
+	/// Enumeration for ImGui::SetNextWindow***(), SetWindow***(), SetNextItem***() functions<br/>Represent a condition.<br/>Important: Treat as a regular enum! Do NOT combine multiple values using binary operators! All the functions above treat 0 as a shortcut to ImGuiCond_Always.<br/>
 	/// </summary>
 	public enum ImGuiCond
 	{
@@ -1968,28 +1923,7 @@ namespace SharpImGui
 	}
 
 	/// <summary>
-	/// Flags for ImGui::BeginTable()<br/>
-	/// - Important! Sizing policies have complex and subtle side effects, much more so than you would expect.<br/>
-	///   Read comments/demos carefully + experiment with live demos to get acquainted with them.<br/>
-	/// - The DEFAULT sizing policies are:<br/>
-	///    - Default to ImGuiTableFlags_SizingFixedFit    if ScrollX is on, or if host window has ImGuiWindowFlags_AlwaysAutoResize.<br/>
-	///    - Default to ImGuiTableFlags_SizingStretchSame if ScrollX is off.<br/>
-	/// - When ScrollX is off:<br/>
-	///    - Table defaults to ImGuiTableFlags_SizingStretchSame -> all Columns defaults to ImGuiTableColumnFlags_WidthStretch with same weight.<br/>
-	///    - Columns sizing policy allowed: Stretch (default), Fixed/Auto.<br/>
-	///    - Fixed Columns (if any) will generally obtain their requested width (unless the table cannot fit them all).<br/>
-	///    - Stretch Columns will share the remaining width according to their respective weight.<br/>
-	///    - Mixed Fixed/Stretch columns is possible but has various side-effects on resizing behaviors.<br/>
-	///      The typical use of mixing sizing policies is: any number of LEADING Fixed columns, followed by one or two TRAILING Stretch columns.<br/>
-	///      (this is because the visible order of columns have subtle but necessary effects on how they react to manual resizing).<br/>
-	/// - When ScrollX is on:<br/>
-	///    - Table defaults to ImGuiTableFlags_SizingFixedFit -> all Columns defaults to ImGuiTableColumnFlags_WidthFixed<br/>
-	///    - Columns sizing policy allowed: Fixed/Auto mostly.<br/>
-	///    - Fixed Columns can be enlarged as needed. Table will show a horizontal scrollbar if needed.<br/>
-	///    - When using auto-resizing (non-resizable) fixed columns, querying the content width to use item right-alignment e.g. SetNextItemWidth(-FLT_MIN) doesn't make sense, would create a feedback loop.<br/>
-	///    - Using Stretch columns OFTEN DOES NOT MAKE SENSE if ScrollX is on, UNLESS you have specified a value for 'inner_width' in BeginTable().<br/>
-	///      If you specify a value for 'inner_width' then effectively the scrolling space is known and Stretch or mixed Fixed/Stretch columns become meaningful again.<br/>
-	/// - Read on documentation at the top of imgui_tables.cpp for details.<br/>
+	/// Flags for ImGui::BeginTable()<br/>- Important! Sizing policies have complex and subtle side effects, much more so than you would expect.<br/>  Read comments/demos carefully + experiment with live demos to get acquainted with them.<br/>- The DEFAULT sizing policies are:<br/>   - Default to ImGuiTableFlags_SizingFixedFit    if ScrollX is on, or if host window has ImGuiWindowFlags_AlwaysAutoResize.<br/>   - Default to ImGuiTableFlags_SizingStretchSame if ScrollX is off.<br/>- When ScrollX is off:<br/>   - Table defaults to ImGuiTableFlags_SizingStretchSame -&gt; all Columns defaults to ImGuiTableColumnFlags_WidthStretch with same weight.<br/>   - Columns sizing policy allowed: Stretch (default), Fixed/Auto.<br/>   - Fixed Columns (if any) will generally obtain their requested width (unless the table cannot fit them all).<br/>   - Stretch Columns will share the remaining width according to their respective weight.<br/>   - Mixed Fixed/Stretch columns is possible but has various side-effects on resizing behaviors.<br/>     The typical use of mixing sizing policies is: any number of LEADING Fixed columns, followed by one or two TRAILING Stretch columns.<br/>     (this is because the visible order of columns have subtle but necessary effects on how they react to manual resizing).<br/>- When ScrollX is on:<br/>   - Table defaults to ImGuiTableFlags_SizingFixedFit -&gt; all Columns defaults to ImGuiTableColumnFlags_WidthFixed<br/>   - Columns sizing policy allowed: Fixed/Auto mostly.<br/>   - Fixed Columns can be enlarged as needed. Table will show a horizontal scrollbar if needed.<br/>   - When using auto-resizing (non-resizable) fixed columns, querying the content width to use item right-alignment e.g. SetNextItemWidth(-FLT_MIN) doesn't make sense, would create a feedback loop.<br/>   - Using Stretch columns OFTEN DOES NOT MAKE SENSE if ScrollX is on, UNLESS you have specified a value for 'inner_width' in BeginTable().<br/>     If you specify a value for 'inner_width' then effectively the scrolling space is known and Stretch or mixed Fixed/Stretch columns become meaningful again.<br/>- Read on documentation at the top of imgui_tables.cpp for details.<br/>
 	/// </summary>
 	[Flags]
 	public enum ImGuiTableFlags
@@ -2060,11 +1994,11 @@ namespace SharpImGui
 		/// </summary>
 		Borders = 1920,
 		/// <summary>
-		/// [ALPHA] Disable vertical borders in columns Body (borders will always appear in Headers). -> May move to style<br/>
+		/// [ALPHA] Disable vertical borders in columns Body (borders will always appear in Headers). -&gt; May move to style<br/>
 		/// </summary>
 		NoBordersInBody = 2048,
 		/// <summary>
-		/// [ALPHA] Disable vertical borders in columns Body until hovered for resize (borders will always appear in Headers). -> May move to style<br/>
+		/// [ALPHA] Disable vertical borders in columns Body until hovered for resize (borders will always appear in Headers). -&gt; May move to style<br/>
 		/// </summary>
 		NoBordersInBodyUntilResize = 4096,
 		/// <summary>
@@ -2124,7 +2058,7 @@ namespace SharpImGui
 		/// </summary>
 		ScrollY = 33554432,
 		/// <summary>
-		/// Hold shift when clicking headers to sort on multiple column. TableGetSortSpecs() may return specs where (SpecsCount > 1).<br/>
+		/// Hold shift when clicking headers to sort on multiple column. TableGetSortSpecs() may return specs where (SpecsCount &gt; 1).<br/>
 		/// </summary>
 		SortMulti = 67108864,
 		/// <summary>
@@ -2214,7 +2148,7 @@ namespace SharpImGui
 		/// </summary>
 		IndentEnable = 65536,
 		/// <summary>
-		/// Ignore current Indent value when entering cell (default for columns > 0). Indentation changes _within_ the cell will still be honored.<br/>
+		/// Ignore current Indent value when entering cell (default for columns &gt; 0). Indentation changes _within_ the cell will still be honored.<br/>
 		/// </summary>
 		IndentDisable = 131072,
 		/// <summary>
@@ -2260,15 +2194,7 @@ namespace SharpImGui
 	}
 
 	/// <summary>
-	/// Enum for ImGui::TableSetBgColor()<br/>
-	/// Background colors are rendering in 3 layers:<br/>
-	///  - Layer 0: draw with RowBg0 color if set, otherwise draw with ColumnBg0 if set.<br/>
-	///  - Layer 1: draw with RowBg1 color if set, otherwise draw with ColumnBg1 if set.<br/>
-	///  - Layer 2: draw with CellBg color if set.<br/>
-	/// The purpose of the two row/columns layers is to let you decide if a background color change should override or blend with the existing color.<br/>
-	/// When using ImGuiTableFlags_RowBg on the table, each row has the RowBg0 color automatically set for odd/even rows.<br/>
-	/// If you set the color of RowBg0 target, your color will override the existing RowBg0 color.<br/>
-	/// If you set the color of RowBg1 or ColumnBg1 target, your color will blend over the RowBg0 color.<br/>
+	/// Enum for ImGui::TableSetBgColor()<br/>Background colors are rendering in 3 layers:<br/> - Layer 0: draw with RowBg0 color if set, otherwise draw with ColumnBg0 if set.<br/> - Layer 1: draw with RowBg1 color if set, otherwise draw with ColumnBg1 if set.<br/> - Layer 2: draw with CellBg color if set.<br/>The purpose of the two row/columns layers is to let you decide if a background color change should override or blend with the existing color.<br/>When using ImGuiTableFlags_RowBg on the table, each row has the RowBg0 color automatically set for odd/even rows.<br/>If you set the color of RowBg0 target, your color will override the existing RowBg0 color.<br/>If you set the color of RowBg1 or ColumnBg1 target, your color will blend over the RowBg0 color.<br/>
 	/// </summary>
 	public enum ImGuiTableBgTarget
 	{
@@ -2321,11 +2247,11 @@ namespace SharpImGui
 		/// <summary>
 		/// Enable box-selection with same width and same x pos items (e.g. full row Selectable()). Box-selection works better with little bit of spacing between items hit-box in order to be able to aim at empty space.<br/>
 		/// </summary>
-		BoxSelect1d = 64,
+		BoxSelect1D = 64,
 		/// <summary>
 		/// Enable box-selection with varying width or varying x pos items support (e.g. different width labels, or 2D layout/grid). This is slower: alters clipping logic so that e.g. horizontal movements will update selection of normally clipped items.<br/>
 		/// </summary>
-		BoxSelect2d = 128,
+		BoxSelect2D = 128,
 		/// <summary>
 		/// Disable scrolling when box-selecting near edges of scope.<br/>
 		/// </summary>
@@ -2377,8 +2303,7 @@ namespace SharpImGui
 	}
 
 	/// <summary>
-	/// Flags for ImDrawList functions<br/>
-	/// (Legacy: bit 0 must always correspond to ImDrawFlags_Closed to be backward compatible with old API using a bool. Bits 1..3 must be unused)<br/>
+	/// Flags for ImDrawList functions<br/>(Legacy: bit 0 must always correspond to ImDrawFlags_Closed to be backward compatible with old API using a bool. Bits 1..3 must be unused)<br/>
 	/// </summary>
 	[Flags]
 	public enum ImDrawFlags
@@ -2389,23 +2314,23 @@ namespace SharpImGui
 		/// </summary>
 		Closed = 1,
 		/// <summary>
-		/// AddRect(), AddRectFilled(), PathRect(): enable rounding top-left corner only (when rounding > 0.0f, we default to all corners). Was 0x01.<br/>
+		/// AddRect(), AddRectFilled(), PathRect(): enable rounding top-left corner only (when rounding &gt; 0.0f, we default to all corners). Was 0x01.<br/>
 		/// </summary>
 		RoundCornersTopLeft = 16,
 		/// <summary>
-		/// AddRect(), AddRectFilled(), PathRect(): enable rounding top-right corner only (when rounding > 0.0f, we default to all corners). Was 0x02.<br/>
+		/// AddRect(), AddRectFilled(), PathRect(): enable rounding top-right corner only (when rounding &gt; 0.0f, we default to all corners). Was 0x02.<br/>
 		/// </summary>
 		RoundCornersTopRight = 32,
 		/// <summary>
-		/// AddRect(), AddRectFilled(), PathRect(): enable rounding bottom-left corner only (when rounding > 0.0f, we default to all corners). Was 0x04.<br/>
+		/// AddRect(), AddRectFilled(), PathRect(): enable rounding bottom-left corner only (when rounding &gt; 0.0f, we default to all corners). Was 0x04.<br/>
 		/// </summary>
 		RoundCornersBottomLeft = 64,
 		/// <summary>
-		/// AddRect(), AddRectFilled(), PathRect(): enable rounding bottom-right corner only (when rounding > 0.0f, we default to all corners). Wax 0x08.<br/>
+		/// AddRect(), AddRectFilled(), PathRect(): enable rounding bottom-right corner only (when rounding &gt; 0.0f, we default to all corners). Wax 0x08.<br/>
 		/// </summary>
 		RoundCornersBottomRight = 128,
 		/// <summary>
-		/// AddRect(), AddRectFilled(), PathRect(): disable rounding on all corners (when rounding > 0.0f). This is NOT zero, NOT an implicit flag!<br/>
+		/// AddRect(), AddRectFilled(), PathRect(): disable rounding on all corners (when rounding &gt; 0.0f). This is NOT zero, NOT an implicit flag!<br/>
 		/// </summary>
 		RoundCornersNone = 256,
 		RoundCornersTop = 48,
@@ -2421,8 +2346,7 @@ namespace SharpImGui
 	}
 
 	/// <summary>
-	/// Flags for ImDrawList instance. Those are set automatically by ImGui:: functions from ImGuiIO settings, and generally not manipulated directly.<br/>
-	/// It is however possible to temporarily alter flags between calls to ImDrawList:: functions.<br/>
+	/// Flags for ImDrawList instance. Those are set automatically by ImGui:: functions from ImGuiIO settings, and generally not manipulated directly.<br/>It is however possible to temporarily alter flags between calls to ImDrawList:: functions.<br/>
 	/// </summary>
 	[Flags]
 	public enum ImDrawListFlags
@@ -2441,7 +2365,7 @@ namespace SharpImGui
 		/// </summary>
 		AntiAliasedFill = 4,
 		/// <summary>
-		/// Can emit 'VtxOffset > 0' to allow large meshes. Set when 'ImGuiBackendFlags_RendererHasVtxOffset' is enabled.<br/>
+		/// Can emit 'VtxOffset &gt; 0' to allow large meshes. Set when 'ImGuiBackendFlags_RendererHasVtxOffset' is enabled.<br/>
 		/// </summary>
 		AllowVtxOffset = 8,
 	}
@@ -2542,9 +2466,7 @@ namespace SharpImGui
 	}
 
 	/// <summary>
-	/// Extend ImGuiItemFlags<br/>
-	/// - input: PushItemFlag() manipulates g.CurrentItemFlags, g.NextItemData.ItemFlags, ItemAdd() calls may add extra flags too.<br/>
-	/// - output: stored in g.LastItemData.ItemFlags<br/>
+	/// Extend ImGuiItemFlags<br/>- input: PushItemFlag() manipulates g.CurrentItemFlags, g.NextItemData.ItemFlags, ItemAdd() calls may add extra flags too.<br/>- output: stored in g.LastItemData.ItemFlags<br/>
 	/// </summary>
 	[Flags]
 	public enum ImGuiItemFlagsPrivate
@@ -2596,8 +2518,7 @@ namespace SharpImGui
 	}
 
 	/// <summary>
-	/// Status flags for an already submitted item<br/>
-	/// - output: stored in g.LastItemData.StatusFlags<br/>
+	/// Status flags for an already submitted item<br/>- output: stored in g.LastItemData.StatusFlags<br/>
 	/// </summary>
 	[Flags]
 	public enum ImGuiItemStatusFlags
@@ -2644,7 +2565,7 @@ namespace SharpImGui
 		/// </summary>
 		HasClipRect = 512,
 		/// <summary>
-		/// g.LastItemData.Shortcut valid. Set by SetNextItemShortcut() -> ItemAdd().<br/>
+		/// g.LastItemData.Shortcut valid. Set by SetNextItemShortcut() -&gt; ItemAdd().<br/>
 		/// </summary>
 		HasShortcut = 1024,
 	}
@@ -2691,7 +2612,7 @@ namespace SharpImGui
 		/// </summary>
 		PressedOnClick = 16,
 		/// <summary>
-		/// [Default] return true on click + release on same item <-- this is what the majority of Button are using<br/>
+		/// [Default] return true on click + release on same item &lt;-- this is what the majority of Button are using<br/>
 		/// </summary>
 		PressedOnClickRelease = 32,
 		/// <summary>
@@ -2848,9 +2769,7 @@ namespace SharpImGui
 	}
 
 	/// <summary>
-	/// Flags for FocusWindow(). This is not called ImGuiFocusFlags to avoid confusion with public-facing ImGuiFocusedFlags.<br/>
-	/// FIXME: Once we finishing replacing more uses of GetTopMostPopupModal()+IsWindowWithinBeginStackOf()<br/>
-	/// and FindBlockingModal() with this, we may want to change the flag to be opt-out instead of opt-in.<br/>
+	/// Flags for FocusWindow(). This is not called ImGuiFocusFlags to avoid confusion with public-facing ImGuiFocusedFlags.<br/>FIXME: Once we finishing replacing more uses of GetTopMostPopupModal()+IsWindowWithinBeginStackOf()<br/>and FindBlockingModal() with this, we may want to change the flag to be opt-out instead of opt-in.<br/>
 	/// </summary>
 	[Flags]
 	public enum ImGuiFocusRequestFlags
@@ -2884,8 +2803,7 @@ namespace SharpImGui
 	}
 
 	/// <summary>
-	/// FIXME: this is in development, not exposed/functional as a generic feature yet.<br/>
-	/// Horizontal/Vertical enums are fixed to 0/1 so they may be used to index ImVec2<br/>
+	/// FIXME: this is in development, not exposed/functional as a generic feature yet.<br/>Horizontal/Vertical enums are fixed to 0/1 so they may be used to index ImVec2<br/>
 	/// </summary>
 	public enum ImGuiLayoutType
 	{
@@ -2980,8 +2898,7 @@ namespace SharpImGui
 	}
 
 	/// <summary>
-	/// [Internal] Key ranges<br/>
-	/// [Internal] Named shortcuts for Navigation<br/>
+	/// [Internal] Key ranges<br/>[Internal] Named shortcuts for Navigation<br/>
 	/// </summary>
 	public enum ImGuiInputEventType
 	{
@@ -3009,9 +2926,7 @@ namespace SharpImGui
 	}
 
 	/// <summary>
-	/// Extend ImGuiInputFlags_<br/>
-	/// Flags for extended versions of IsKeyPressed(), IsMouseClicked(), Shortcut(), SetKeyOwner(), SetItemKeyOwner()<br/>
-	/// Don't mistake with ImGuiInputTextFlags! (which is for ImGui::InputText() function)<br/>
+	/// Extend ImGuiInputFlags_<br/>Flags for extended versions of IsKeyPressed(), IsMouseClicked(), Shortcut(), SetKeyOwner(), SetItemKeyOwner()<br/>Don't mistake with ImGuiInputTextFlags! (which is for ImGui::InputText() function)<br/>
 	/// </summary>
 	[Flags]
 	public enum ImGuiInputFlagsPrivate
@@ -3318,7 +3233,7 @@ namespace SharpImGui
 		/// </summary>
 		NoResizeY = 131072,
 		/// <summary>
-		///       Any docked window will be automatically be focus-route chained (window->ParentWindowForFocusRoute set to this) so Shortcut() in this window can run when any docked window is focused.<br/>
+		///       Any docked window will be automatically be focus-route chained (window-&gt;ParentWindowForFocusRoute set to this) so Shortcut() in this window can run when any docked window is focused.<br/>
 		/// </summary>
 		DockedWindowsInFocusRoute = 262144,
 		/// <summary>
@@ -3363,10 +3278,7 @@ namespace SharpImGui
 	}
 
 	/// <summary>
-	/// List of colors that are stored at the time of Begin() into Docked Windows.<br/>
-	/// We currently store the packed colors in a simple array window->DockStyle.Colors[].<br/>
-	/// A better solution may involve appending into a log of colors in ImGuiContext + store offsets into those arrays in ImGuiWindow,<br/>
-	/// but it would be more complex as we'd need to double-buffer both as e.g. drop target may refer to window from last frame.<br/>
+	/// List of colors that are stored at the time of Begin() into Docked Windows.<br/>We currently store the packed colors in a simple array window-&gt;DockStyle.Colors[].<br/>A better solution may involve appending into a log of colors in ImGuiContext + store offsets into those arrays in ImGuiWindow,<br/>but it would be more complex as we'd need to double-buffer both as e.g. drop target may refer to window from last frame.<br/>
 	/// </summary>
 	public enum ImGuiWindowDockStyleCol
 	{
@@ -3394,7 +3306,7 @@ namespace SharpImGui
 		WindowingMainMenuBar = 5,
 		WindowingPopup = 6,
 		WindowingUntitled = 7,
-		OpenLink_s = 8,
+		OpenLinkS = 8,
 		CopyLink = 9,
 		DockingHideTabBar = 10,
 		DockingHoldShiftToDock = 11,

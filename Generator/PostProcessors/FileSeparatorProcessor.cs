@@ -4,24 +4,24 @@ namespace Generator.PostProcessors;
 
 public struct FileSeparatorProcessor : IPostProcessor
 {
-    private static CsNamespace DefaultNamespace => new("SharpImGui");
-    
     public void Process(CSharpGenerated generated)
     {
         var output = generated.Output;
 
-        var enumsNamespace = new CsNamespace("SharpImGui");
+        var enumsNamespace = new CsNamespace(generated.Settings.Namespace);
         output.DefinitionsWithoutFiles.Enums.MoveTo(enumsNamespace.Enums);
-        output.AddFile("Enums.cs", enumsNamespace, usings: ["System"]);
+        output.AddFile("Enums.cs", enumsNamespace, usings: ["System"])
+            .Type = GeneratedFile.FileType.Enum;
 
-        GenerateStructFiles(output, output.DefinitionsWithoutFiles);
+        GenerateStructFiles(output, output.DefinitionsWithoutFiles, generated.Settings);
         
-        var delegatesNamespace = new CsNamespace("SharpImGui");
+        var delegatesNamespace = new CsNamespace(generated.Settings.Namespace);
         output.DefinitionsWithoutFiles.Delegates.MoveTo(delegatesNamespace.Delegates);
-        output.AddFile("Delegates.cs", delegatesNamespace, usings: ["System", "System.Numerics", "System.Runtime.InteropServices"]);
+        output.AddFile("Delegates.cs", delegatesNamespace, usings: ["System", "System.Numerics", "System.Runtime.InteropServices", ..generated.Settings.Usings])
+            .Type = GeneratedFile.FileType.Delegate;
         
         // Internals
-        // var internalEnumsNamespace = new CsNamespace("SharpImGui");
+        // var internalEnumsNamespace = new CsNamespace(generated.Settings.Namespace);
         // for (var i = enumsNamespace.Enums.Count - 1; i > 0 ; i--)
         // {
         //     var @enum = enumsNamespace.Enums[i];
@@ -34,7 +34,7 @@ public struct FileSeparatorProcessor : IPostProcessor
         // output.AddFile("InternalEnums.cs", internalEnumsNamespace, "Internal", ["System"]);
     }
 
-    private void GenerateStructFiles(CsOutput output, ICsDeclarationContainer container)
+    private void GenerateStructFiles(CsOutput output, ICsDeclarationContainer container, GeneratorSettings settings)
     {
         var ptrStructs = new Dictionary<string, CsClass>();
         
@@ -49,7 +49,7 @@ public struct FileSeparatorProcessor : IPostProcessor
                 continue;
             }
 
-            var structNamespace = DefaultNamespace;
+            var structNamespace = new CsNamespace(settings.Namespace);
             structNamespace.Classes.Add(csStruct);
             if (ptrStructs.TryGetValue(csStruct.Name, out var ptrStruct))
             {
@@ -57,7 +57,8 @@ public struct FileSeparatorProcessor : IPostProcessor
                 ptrStructs.Remove(csStruct.Name);
             }
             var subDir = csStruct.Metadata is NativeEnum { IsInternal: true } ? "Internal/Structs" : "Structs";
-            output.AddFile($"{csStruct.Name}.cs", structNamespace, subDir, ["System", "System.Numerics", "System.Runtime.InteropServices"]);
+            output.AddFile($"{csStruct.Name}.cs", structNamespace, subDir, ["System", "System.Numerics", "System.Runtime.InteropServices", ..settings.Usings])
+                .Type = GeneratedFile.FileType.Struct;
         }
     }
 }

@@ -7,12 +7,13 @@ public struct StaticVTableProcessor : IPostProcessor
 {
     public void Process(CSharpGenerated generated)
     {
-        var file = CreateImGuiNativeClass(generated);
+        var file = CreateLibraryNativeClass(generated);
+        file.Type = GeneratedFile.FileType.NativeFunction;
         var methods = file.Container.Classes[0].Methods.Where(m => m.Metadata is CppFunction).ToArray();
         CreateFunctionTableClass(methods, generated);
     }
 
-    private static GeneratedFile CreateImGuiNativeClass(CSharpGenerated generated)
+    private static GeneratedFile CreateLibraryNativeClass(CSharpGenerated generated)
     {
         var methods = generated.Output.DefinitionsWithoutFiles.Methods;
         
@@ -20,23 +21,25 @@ public struct StaticVTableProcessor : IPostProcessor
         {
             ProcessMethod(methods, i);
         }
-        var imGuiNativeClass = new CsClass("ImGuiNative", CsClassKind.Class)
+
+        var nativeName = $"{generated.Settings.OriginalLibraryName}Native";
+        var nativeClass = new CsClass(nativeName, CsClassKind.Class)
         {
             Visibility = CsVisibility.Public,
             IsPartial = true,
             IsUnsafe = true
         };
         
-        var imGuiConstructor = new CsMethod("ImGuiNative")
+        var constructor = new CsMethod("")
         {
             IsStatic = true,
-            ReturnType = null,
+            ReturnType = nativeClass,
             WriteBody = writer =>
             {
                 writer.WriteLine("InitApi(new NativeLibraryContext(LibraryLoader.LoadLibrary(GetLibraryName, null)));");
             }
         };
-        imGuiNativeClass.Constructors.Add(imGuiConstructor);
+        nativeClass.Constructors.Add(constructor);
         
         var getLibraryNameMethod = new CsMethod("GetLibraryName")
         {
@@ -45,16 +48,16 @@ public struct StaticVTableProcessor : IPostProcessor
             ReturnType = new CsUnresolvedType("string", CsTypeKind.Primitive),
             WriteBody = writer =>
             {
-                writer.WriteLine("return \"cimgui\";");
+                writer.WriteLine($"return \"{generated.Settings.CLibraryName}\";");
             }
         };
-        imGuiNativeClass.Methods.Add(getLibraryNameMethod);
-        methods.MoveTo(imGuiNativeClass.Methods);
-        methods = imGuiNativeClass.Methods;
-        var imGuiNamespace = new CsNamespace("SharpImGui");
-        imGuiNamespace.Classes.Add(imGuiNativeClass);
+        nativeClass.Methods.Add(getLibraryNameMethod);
         
-        return generated.Output.AddFile("ImGuiNative.cs", imGuiNamespace, usings: ["System", "System.Numerics", "System.Runtime.InteropServices", "System.Runtime.CompilerServices"]);
+        methods.MoveTo(nativeClass.Methods);
+        var nativeNamespace = new CsNamespace(generated.Settings.Namespace);
+        nativeNamespace.Classes.Add(nativeClass);
+        
+        return generated.Output.AddFile($"{nativeName}.cs", nativeNamespace, usings: ["System", "System.Numerics", "System.Runtime.InteropServices", "System.Runtime.CompilerServices", ..generated.Settings.Usings]);
     }
 
     private static void ProcessMethod(CsContainerList<CsMethod> methods, int i)
@@ -109,7 +112,8 @@ public struct StaticVTableProcessor : IPostProcessor
 
     private static void CreateFunctionTableClass(CsMethod[] methods, CSharpGenerated generated)
     {
-        var vTableClass = new CsClass("ImGuiNative", CsClassKind.Class)
+        var nativeName = $"{generated.Settings.OriginalLibraryName}Native";
+        var vTableClass = new CsClass(nativeName, CsClassKind.Class)
         {
             Visibility = CsVisibility.Public,
             IsPartial = true,
@@ -148,8 +152,9 @@ public struct StaticVTableProcessor : IPostProcessor
             }
         };
         vTableClass.Methods.Add(freeApiMethod);
-        var vTableNamespace = new CsNamespace("SharpImGui");
+        var vTableNamespace = new CsNamespace(generated.Settings.Namespace);
         vTableNamespace.Classes.Add(vTableClass);
-        generated.Output.AddFile("FunctionTable.cs", vTableNamespace, usings: ["System", "System.Numerics", "System.Runtime.InteropServices"]);
+        generated.Output.AddFile("FunctionTable.cs", vTableNamespace, usings: ["System", "System.Numerics", "System.Runtime.InteropServices", ..generated.Settings.Usings])
+            .Type = GeneratedFile.FileType.Internal;
     }
 }

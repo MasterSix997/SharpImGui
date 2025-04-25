@@ -5,8 +5,7 @@ using System.Runtime.InteropServices;
 namespace SharpImGui
 {
 	/// <summary>
-	/// Hold rendering data for one glyph.<br/>
-	/// (Note: some language parsers may fail to convert the 31+1 bitfield members, in this case maybe drop store a single u32 or we can rework this)<br/>
+	/// Hold rendering data for one glyph.<br/>(Note: some language parsers may fail to convert the 31+1 bitfield members, in this case maybe drop store a single u32 or we can rework this)<br/>
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
 	public partial struct ImFontGlyph
@@ -59,5 +58,20 @@ namespace SharpImGui
 		/// Texture coordinates<br/>
 		/// </summary>
 		public float V1;
+	}
+
+	/// <summary>
+	/// Hold rendering data for one glyph.<br/>(Note: some language parsers may fail to convert the 31+1 bitfield members, in this case maybe drop store a single u32 or we can rework this)<br/>
+	/// </summary>
+	public unsafe partial struct ImFontGlyphPtr
+	{
+		public ImFontGlyph* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImFontGlyph this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImFontGlyphPtr(ImFontGlyph* nativePtr) => NativePtr = nativePtr;
+		public ImFontGlyphPtr(IntPtr nativePtr) => NativePtr = (ImFontGlyph*)nativePtr;
+		public static implicit operator ImFontGlyphPtr(ImFontGlyph* ptr) => new ImFontGlyphPtr(ptr);
+		public static implicit operator ImFontGlyphPtr(IntPtr ptr) => new ImFontGlyphPtr(ptr);
+		public static implicit operator ImFontGlyph*(ImFontGlyphPtr nativePtr) => nativePtr.NativePtr;
 	}
 }

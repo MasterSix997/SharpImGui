@@ -8,8 +8,7 @@ namespace SharpImGui
 	public partial struct ImGuiBoxSelectState
 	{
 		/// <summary>
-		/// <br/>
-		///     Active box-selection data (persistent, 1 active at a time)<br/>
+		/// <br/>    Active box-selection data (persistent, 1 active at a time)<br/>
 		/// </summary>
 		public uint ID;
 		public byte IsActive;
@@ -51,5 +50,17 @@ namespace SharpImGui
 		/// </summary>
 		public ImRect BoxSelectRectPrev;
 		public ImRect BoxSelectRectCurr;
+	}
+
+	public unsafe partial struct ImGuiBoxSelectStatePtr
+	{
+		public ImGuiBoxSelectState* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiBoxSelectState this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiBoxSelectStatePtr(ImGuiBoxSelectState* nativePtr) => NativePtr = nativePtr;
+		public ImGuiBoxSelectStatePtr(IntPtr nativePtr) => NativePtr = (ImGuiBoxSelectState*)nativePtr;
+		public static implicit operator ImGuiBoxSelectStatePtr(ImGuiBoxSelectState* ptr) => new ImGuiBoxSelectStatePtr(ptr);
+		public static implicit operator ImGuiBoxSelectStatePtr(IntPtr ptr) => new ImGuiBoxSelectStatePtr(ptr);
+		public static implicit operator ImGuiBoxSelectState*(ImGuiBoxSelectStatePtr nativePtr) => nativePtr.NativePtr;
 	}
 }

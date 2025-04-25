@@ -54,4 +54,19 @@ namespace SharpImGui
 		/// </summary>
 		public byte WantClose;
 	}
+
+	/// <summary>
+	/// Storage for one active tab item (sizeof() 48 bytes)<br/>
+	/// </summary>
+	public unsafe partial struct ImGuiTabItemPtr
+	{
+		public ImGuiTabItem* NativePtr { get; }
+		public bool IsNull => NativePtr == null;
+		public ImGuiTabItem this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ImGuiTabItemPtr(ImGuiTabItem* nativePtr) => NativePtr = nativePtr;
+		public ImGuiTabItemPtr(IntPtr nativePtr) => NativePtr = (ImGuiTabItem*)nativePtr;
+		public static implicit operator ImGuiTabItemPtr(ImGuiTabItem* ptr) => new ImGuiTabItemPtr(ptr);
+		public static implicit operator ImGuiTabItemPtr(IntPtr ptr) => new ImGuiTabItemPtr(ptr);
+		public static implicit operator ImGuiTabItem*(ImGuiTabItemPtr nativePtr) => nativePtr.NativePtr;
+	}
 }

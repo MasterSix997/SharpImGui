@@ -45,7 +45,8 @@ public struct CleanupNamesProcessor : IPostProcessor
     {
         foreach (var csMethod in container.Methods)
         {
-            csMethod.Name = csMethod.Name.Replace(settings.FunctionsPrefix, "");
+            if (!string.IsNullOrEmpty(settings.FunctionsPrefix))
+                csMethod.Name = csMethod.Name.Replace(settings.FunctionsPrefix, "");
             csMethod.Name = ToPascalCase(csMethod.Name);
             foreach (var csParameter in csMethod.Parameters)
             {

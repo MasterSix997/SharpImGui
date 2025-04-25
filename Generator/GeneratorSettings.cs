@@ -17,7 +17,9 @@ public class GeneratorSettings
     public readonly List<string> Types = new();
     public readonly Dictionary<string, string> TypeMappings = new();
     public readonly List<string> Usings = [];
-    public string FunctionsPrefix; 
+    public string FunctionsPrefix = ""; 
+    public bool MergeOverloads;
+    public readonly List<string> OverloadsKnowTypes = [];
     
     public string OriginalLibraryName { get; set; }
     public string GeneratedLibraryName { get; set; }

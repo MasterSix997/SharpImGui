@@ -6,8 +6,11 @@ class Program
 {
     static void Main(string[] args)
     {
-        GenerateImGui();
-        GenerateImPlot();
+        // GenerateImGui();
+        // GenerateImPlot();
+        // GenerateImPlot3D();
+        // GenerateImGuizmo();
+        GenerateImNodes();
     }
 
 
@@ -19,7 +22,8 @@ class Program
             {
                 Defines = { "CIMGUI_DEFINE_ENUMS_AND_STRUCTS" },
             },
-            FunctionsPrefix = "ig"
+            FunctionsPrefix = "ig",
+            MergeOverloads = true
         });
         AddAllPostProcessors(generator);
         
@@ -49,6 +53,82 @@ class Program
                 "SharpImGui",
             },
             FunctionsPrefix = "ImPlot"
+        };
+        var generator = new CodeGenerator(generatorSettings);
+        
+        AddAllPostProcessors(generator);
+        generator.GenerateCSharp();
+    }
+    
+    private static void GenerateImPlot3D()
+    {
+        var generatorSettings = new GeneratorSettings("ImPlot3D", "SharpImPlot3D", "SharpImPlot3D")
+        {
+            CppParserOptions =
+            {
+                Defines = { "CIMGUI_DEFINE_ENUMS_AND_STRUCTS" }
+            },
+            TypeMappings =
+            {
+                ["time_t"] = "long",
+                ["va_list"] = "nuint",
+                ["tm"] = "Tm",
+            },
+            Types =
+            {
+                "Tm"
+            },
+            Usings =
+            {
+                "SharpImGui",
+            },
+            FunctionsPrefix = "ImPlot3D"
+        };
+        var generator = new CodeGenerator(generatorSettings);
+        
+        AddAllPostProcessors(generator);
+        generator.GenerateCSharp();
+    }
+    
+    private static void GenerateImGuizmo()
+    {
+        var generatorSettings = new GeneratorSettings("ImGuizmo", "SharpImGuizmo", "SharpImGuizmo")
+        {
+            CppParserOptions =
+            {
+                Defines = { "CIMGUI_DEFINE_ENUMS_AND_STRUCTS" }
+            },
+            Usings =
+            {
+                "SharpImGui",
+            },
+            FunctionsPrefix = "ImGuizmo"
+        };
+        var generator = new CodeGenerator(generatorSettings);
+        
+        AddAllPostProcessors(generator);
+        generator.GenerateCSharp();
+    }
+    
+    private static void GenerateImNodes()
+    {
+        var generatorSettings = new GeneratorSettings("Imnodes", "SharpImNodes", "SharpImNodes")
+        {
+            CppParserOptions =
+            {
+                Defines = { "CIMGUI_DEFINE_ENUMS_AND_STRUCTS", "DIMNODES_NAMESPACE=imnodes" }
+            },
+            Usings =
+            {
+                "SharpImGui",
+            },
+            FunctionsPrefix = "imnodes",
+            MergeOverloads = true,
+            OverloadsKnowTypes =
+            {
+                "BoolPtr",
+                "IntPtr",
+            }
         };
         var generator = new CodeGenerator(generatorSettings);
         

@@ -46,7 +46,7 @@ public class CppToCSharp
         for (var i = enums.Count - 1; i >= 0; i--)
         {
             var csEnum = enums[i];
-            if (csEnum.Metadata is CppElement cppElement && cppElement.SourceFile.Contains("cimgui"))
+            if (csEnum.Metadata is CppElement cppElement && cppElement.SourceFile.EndsWith("cimgui.h"))
             {
                 enums.RemoveAt(i);
                 CSharpGenerated.CImGuiTypes.Enums.Add(csEnum);
@@ -56,7 +56,7 @@ public class CppToCSharp
         for (var i = structs.Count - 1; i >= 0; i--)
         {
             var csStruct = structs[i];
-            if (csStruct.Metadata is CppElement cppElement && cppElement.SourceFile.Contains("cimgui"))
+            if (csStruct.Metadata is CppElement cppElement && cppElement.SourceFile.EndsWith("cimgui.h"))
             {
                 structs.RemoveAt(i);
                 CSharpGenerated.CImGuiTypes.Classes.Add(csStruct);
@@ -66,7 +66,7 @@ public class CppToCSharp
         for (var i = methods.Count - 1; i >= 0; i--)
         {
             var csMethod = methods[i];
-            if (csMethod.Metadata is CppElement cppElement && cppElement.SourceFile.Contains("cimgui"))
+            if (csMethod.Metadata is CppElement cppElement && cppElement.SourceFile.EndsWith("cimgui.h"))
             {
                 methods.RemoveAt(i);
                 CSharpGenerated.CImGuiTypes.Methods.Add(csMethod);
@@ -76,7 +76,7 @@ public class CppToCSharp
         for (int i = CSharpGenerated.Definitions.Delegates.Count - 1; i >= 0; i--)
         {
             var csDelegate = CSharpGenerated.Definitions.Delegates[i];
-            if (csDelegate.Metadata is CppElement cppElement && cppElement.SourceFile.Contains("cimgui"))
+            if (csDelegate.Metadata is CppElement cppElement && cppElement.SourceFile.EndsWith("cimgui.h"))
             {
                 CSharpGenerated.Definitions.Delegates.RemoveAt(i);
                 CSharpGenerated.CImGuiTypes.Delegates.Add(csDelegate);
@@ -423,7 +423,9 @@ public class CppToCSharp
 
     private void ResolveTypes(List<CsEnum> enums, List<CsClass> structs, List<CsMethod> methods, Dictionary<string, (string, CppTypedef)> typedefs)
     {
-        RenameMethodsOverloads(methods, structs);
+        if (CSharpGenerated.Settings.MergeOverloads)
+            RenameMethodsOverloads(methods, structs);
+        
         CSharpGenerated.AddTypes(enums);
         for (var i = enums.Count - 1; i >= 0; i--)
         {
@@ -470,9 +472,9 @@ public class CppToCSharp
     
     private void RenameMethodsOverloads(List<CsMethod> methods, List<CsClass> structs)
     {
-        // Sufixos comuns de overload no ImGui
-        var commonSuffixes = new[] { "Nil", "Str", "StrStr", "Int", "IntInt", "Float", "FloatFloat", 
-            "Bool", "Ptr", "ContextPtr", "Vec2", "Vec4", "ImVec2", "ImVec4", "FontPtr" };
+        var commonSuffixes = new List<string> { "Nil", "Str", "StrStr", "Int", "IntInt", "Float", "FloatFloat", 
+            "Bool", "Ptr", "ContextPtr", "Vec2", "Vec4", "ImVec2", "ImVec4", "FontPtr",};
+        commonSuffixes.AddRange(CSharpGenerated.Settings.OverloadsKnowTypes);
     
         // Agrupe e filtre os métodos em uma única passagem
         var methodGroups = methods
@@ -511,126 +513,6 @@ public class CppToCSharp
                 method.Name = group.Key;
         }
     }
-    
-    // private void RenameMethodsOverloads(List<CsMethod> methods, List<CsClass> structs)
-    // {
-    //     // Primeiro, agrupe os métodos por possíveis raízes de nome (antes do último '_')
-    //     var methodGroups = new Dictionary<string, List<CsMethod>>();
-    //     
-    //     foreach (var method in methods)
-    //     {
-    //         if (!method.Name.Contains('_'))
-    //             continue;
-    //         
-    //         var lastPart = method.Name.LastIndexOf('_');
-    //         if (lastPart == -1)
-    //             continue;
-    //         
-    //         var possibleBaseName = method.Name[..lastPart];
-    //         
-    //         // Verificamos se o nome base não é um struct
-    //         if (structs.Any(s => s.Name.Equals(possibleBaseName, StringComparison.Ordinal)))
-    //             continue;
-    //         
-    //         // Verificar se o método segue o padrão de overload reconhecido do ImGui
-    //         // Exemplos válidos: igGetIO_Nil, igGetIO_ContextPtr
-    //         // Exemplos inválidos: ImGuiPlatformIO_Set_Platform_GetWindowPos
-    //         
-    //         // Padrão imGui normalmente tem apenas um '_' para separar o nome base do sufixo de overload
-    //         // Ou se tem mais '_', o sufixo após o último '_' deve ser um indicador de tipo
-    //         string suffix = method.Name[(lastPart + 1)..];
-    //         
-    //         // Lista de sufixos comuns de overload no ImGui
-    //         var commonOverloadSuffixes = new[] { 
-    //             "Nil", "Str", "StrStr", "Int", "IntInt", "Float", "FloatFloat", 
-    //             "Bool", "Ptr", "ContextPtr", "Vec2", "Vec4", "ImVec2", "ImVec4"
-    //         };
-    //         
-    //         bool isLikelyOverload = commonOverloadSuffixes.Contains(suffix);
-    //         
-    //         // Os nomes que têm múltiplos '_' e não terminam com um sufixo de tipo comum
-    //         // provavelmente não são overloads (como os exemplos ImGuiPlatformIO_Set_...)
-    //         if (!isLikelyOverload && method.Name.Count(c => c == '_') > 1)
-    //             continue;
-    //         
-    //         if (!methodGroups.ContainsKey(possibleBaseName))
-    //             methodGroups[possibleBaseName] = new List<CsMethod>();
-    //         
-    //         methodGroups[possibleBaseName].Add(method);
-    //     }
-    //     
-    //     // Agora renomeie apenas os verdadeiros overloads
-    //     foreach (var group in methodGroups)
-    //     {
-    //         if (group.Value.Count <= 1)
-    //             continue;
-    //         
-    //         // Verificação adicional: comparar as assinaturas para confirmar que são realmente overloads
-    //         // Overloads devem ter o mesmo nome, mas diferentes parâmetros
-    //         bool areRealOverloads = AreOverloads(group.Value);
-    //         
-    //         if (areRealOverloads)
-    //         {
-    //             foreach (var method in group.Value)
-    //             {
-    //                 method.Name = group.Key;
-    //             }
-    //         }
-    //     }
-    // }
-    //
-    // // Helper para verificar se um grupo de métodos são realmente overloads
-    // private bool AreOverloads(List<CsMethod> methods)
-    // {
-    //     // Verificar se os métodos têm o mesmo tipo de retorno
-    //     // No caso do ImGui, muitos overloads mantêm o mesmo tipo de retorno
-    //     var returnType = methods[0].ReturnType;
-    //     if (methods.Any(m => m.ReturnType?.TypeName != returnType?.TypeName))
-    //         return false;
-    //     
-    //     // Verificar se os métodos têm diferentes assinaturas de parâmetros
-    //     // Podemos comparar a contagem de parâmetros ou os tipos de parâmetros
-    //     // Na maioria dos casos de ImGui, overloads têm números diferentes de parâmetros
-    //     
-    //     var paramCounts = methods.Select(m => m.Parameters.Count).ToList();
-    //     if (paramCounts.Distinct().Count() != methods.Count)
-    //     {
-    //         // Se dois métodos têm o mesmo número de parâmetros, verifique se os tipos são diferentes
-    //         var groups = methods.GroupBy(m => m.Parameters.Count);
-    //         foreach (var group in groups)
-    //         {
-    //             if (group.Count() > 1)
-    //             {
-    //                 // Métodos com o mesmo número de parâmetros devem ter tipos diferentes
-    //                 var methodsInGroup = group.ToList();
-    //                 for (int i = 0; i < methodsInGroup.Count; i++)
-    //                 {
-    //                     for (int j = i + 1; j < methodsInGroup.Count; j++)
-    //                     {
-    //                         if (HaveSameParameterTypes(methodsInGroup[i], methodsInGroup[j]))
-    //                             return false;
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     
-    //     return true;
-    // }
-    //
-    // private bool HaveSameParameterTypes(CsMethod method1, CsMethod method2)
-    // {
-    //     if (method1.Parameters.Count != method2.Parameters.Count)
-    //         return false;
-    //     
-    //     for (int i = 0; i < method1.Parameters.Count; i++)
-    //     {
-    //         if (method1.Parameters[i].Type.TypeName != method2.Parameters[i].Type.TypeName)
-    //             return false;
-    //     }
-    //     
-    //     return true;
-    // }
 
     private void ResolveEnumType(CsEnum csEnum)
     {

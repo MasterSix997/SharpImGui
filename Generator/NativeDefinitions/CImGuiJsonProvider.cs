@@ -124,7 +124,7 @@ public class CImGuiJsonProvider : INativeDefinitionProvider
         {
             JsonElement enumCommentElement = new();
             JsonElement enumTypeElement = new();
-            var hasComment = enumsHasComments && enumCommentsProperty.TryGetProperty(enumProperty.Name, out enumCommentElement);
+            var hasComment = enumsHasComments && enumCommentsProperty.ValueKind == JsonValueKind.Object && enumCommentsProperty.TryGetProperty(enumProperty.Name, out enumCommentElement);
             var hasType = enumTypesElement.ValueKind == JsonValueKind.Object && enumTypesElement.TryGetProperty(enumProperty.Name[..^1], out enumTypeElement);
             var location = locationElements.GetProperty(enumProperty.Name).GetString();
             enums.Add(ExtractEnumFromJson(enumProperty, hasComment ? enumCommentElement : null, hasType ? enumTypeElement : null, location));
@@ -134,7 +134,7 @@ public class CImGuiJsonProvider : INativeDefinitionProvider
         foreach (var structProperty in structElements.EnumerateObject())
         {
             JsonElement structCommentProperty = new();
-            var hasComment = structsHasComments && structCommentsProperty.TryGetProperty(structProperty.Name, out structCommentProperty);
+            var hasComment = structsHasComments && structCommentsProperty.ValueKind == JsonValueKind.Object && structCommentsProperty.TryGetProperty(structProperty.Name, out structCommentProperty);
             var location = locationElements.GetProperty(structProperty.Name).GetString();
             structs.Add(ExtractStructFromJson(structProperty, hasComment ? structCommentProperty : null, location));
         }

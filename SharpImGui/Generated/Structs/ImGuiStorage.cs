@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -24,10 +26,99 @@ namespace SharpImGui
 		public ImGuiStorage* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImGuiStorage this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		/// <summary>
+		/// <br/>    [Internal]<br/>
+		/// </summary>
+		public ref ImVector<ImGuiStoragePair> Data => ref Unsafe.AsRef<ImVector<ImGuiStoragePair>>(&NativePtr->Data);
 		public ImGuiStoragePtr(ImGuiStorage* nativePtr) => NativePtr = nativePtr;
 		public ImGuiStoragePtr(IntPtr nativePtr) => NativePtr = (ImGuiStorage*)nativePtr;
 		public static implicit operator ImGuiStoragePtr(ImGuiStorage* ptr) => new ImGuiStoragePtr(ptr);
 		public static implicit operator ImGuiStoragePtr(IntPtr ptr) => new ImGuiStoragePtr(ptr);
 		public static implicit operator ImGuiStorage*(ImGuiStoragePtr nativePtr) => nativePtr.NativePtr;
+		public void SetAllInt(int val)
+		{
+			ImGuiNative.ImGuiStorageSetAllInt(NativePtr, val);
+		}
+
+		public void BuildSortByKey()
+		{
+			ImGuiNative.ImGuiStorageBuildSortByKey(NativePtr);
+		}
+
+		public ref void* GetVoidPtrRef(uint key, IntPtr defaultVal)
+		{
+			var nativeResult = ImGuiNative.ImGuiStorageGetVoidPtrRef(NativePtr, key, (void*)defaultVal);
+			return ref *(void**)&nativeResult;
+		}
+
+		public ref float GetFloatRef(uint key, float defaultVal)
+		{
+			var nativeResult = ImGuiNative.ImGuiStorageGetFloatRef(NativePtr, key, defaultVal);
+			return ref *(float*)&nativeResult;
+		}
+
+		public ref byte GetBoolRef(uint key, bool defaultVal)
+		{
+			var native_defaultVal = defaultVal ? (byte)1 : (byte)0;
+			var nativeResult = ImGuiNative.ImGuiStorageGetBoolRef(NativePtr, key, native_defaultVal);
+			return ref *(byte*)&nativeResult;
+		}
+
+		public ref int GetIntRef(uint key, int defaultVal)
+		{
+			var nativeResult = ImGuiNative.ImGuiStorageGetIntRef(NativePtr, key, defaultVal);
+			return ref *(int*)&nativeResult;
+		}
+
+		public void SetVoidPtr(uint key, IntPtr val)
+		{
+			ImGuiNative.ImGuiStorageSetVoidPtr(NativePtr, key, (void*)val);
+		}
+
+		/// <summary>
+		/// default_val is NULL<br/>
+		/// </summary>
+		public IntPtr GetVoidPtr(uint key)
+		{
+			return (IntPtr)ImGuiNative.ImGuiStorageGetVoidPtr(NativePtr, key);
+		}
+
+		public void SetFloat(uint key, float val)
+		{
+			ImGuiNative.ImGuiStorageSetFloat(NativePtr, key, val);
+		}
+
+		public float GetFloat(uint key, float defaultVal)
+		{
+			return ImGuiNative.ImGuiStorageGetFloat(NativePtr, key, defaultVal);
+		}
+
+		public void SetBool(uint key, bool val)
+		{
+			var native_val = val ? (byte)1 : (byte)0;
+			ImGuiNative.ImGuiStorageSetBool(NativePtr, key, native_val);
+		}
+
+		public byte GetBool(uint key, bool defaultVal)
+		{
+			var native_defaultVal = defaultVal ? (byte)1 : (byte)0;
+			return ImGuiNative.ImGuiStorageGetBool(NativePtr, key, native_defaultVal);
+		}
+
+		public void SetInt(uint key, int val)
+		{
+			ImGuiNative.ImGuiStorageSetInt(NativePtr, key, val);
+		}
+
+		public int GetInt(uint key, int defaultVal)
+		{
+			return ImGuiNative.ImGuiStorageGetInt(NativePtr, key, defaultVal);
+		}
+
+		public void Clear()
+		{
+			ImGuiNative.ImGuiStorageClear(NativePtr);
+		}
+
 	}
 }

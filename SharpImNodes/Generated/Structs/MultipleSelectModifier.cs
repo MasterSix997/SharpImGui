@@ -1,7 +1,9 @@
+using SharpImGui;
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
-using SharpImGui;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImNodes
 {
@@ -16,10 +18,21 @@ namespace SharpImNodes
 		public MultipleSelectModifier* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public MultipleSelectModifier this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public IntPtr Modifier { get => (IntPtr)NativePtr->Modifier; set => NativePtr->Modifier = (byte*)value; }
 		public MultipleSelectModifierPtr(MultipleSelectModifier* nativePtr) => NativePtr = nativePtr;
 		public MultipleSelectModifierPtr(IntPtr nativePtr) => NativePtr = (MultipleSelectModifier*)nativePtr;
 		public static implicit operator MultipleSelectModifierPtr(MultipleSelectModifier* ptr) => new MultipleSelectModifierPtr(ptr);
 		public static implicit operator MultipleSelectModifierPtr(IntPtr ptr) => new MultipleSelectModifierPtr(ptr);
 		public static implicit operator MultipleSelectModifier*(MultipleSelectModifierPtr nativePtr) => nativePtr.NativePtr;
+		public void Destroy()
+		{
+			ImnodesNative.MultipleSelectModifierDestroy(NativePtr);
+		}
+
+		public MultipleSelectModifierPtr MultipleSelectModifier()
+		{
+			return ImnodesNative.MultipleSelectModifierMultipleSelectModifier();
+		}
+
 	}
 }

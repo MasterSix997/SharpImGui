@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -21,10 +23,26 @@ namespace SharpImGui
 		public ImGuiOnceUponAFrame* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImGuiOnceUponAFrame this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ref int RefFrame => ref Unsafe.AsRef<int>(&NativePtr->RefFrame);
 		public ImGuiOnceUponAFramePtr(ImGuiOnceUponAFrame* nativePtr) => NativePtr = nativePtr;
 		public ImGuiOnceUponAFramePtr(IntPtr nativePtr) => NativePtr = (ImGuiOnceUponAFrame*)nativePtr;
 		public static implicit operator ImGuiOnceUponAFramePtr(ImGuiOnceUponAFrame* ptr) => new ImGuiOnceUponAFramePtr(ptr);
 		public static implicit operator ImGuiOnceUponAFramePtr(IntPtr ptr) => new ImGuiOnceUponAFramePtr(ptr);
 		public static implicit operator ImGuiOnceUponAFrame*(ImGuiOnceUponAFramePtr nativePtr) => nativePtr.NativePtr;
+		public void Destroy()
+		{
+			ImGuiNative.ImGuiOnceUponAFrameDestroy(NativePtr);
+		}
+
+		public void ImGuiOnceUponAFrameConstruct()
+		{
+			ImGuiNative.ImGuiOnceUponAFrameImGuiOnceUponAFrameConstruct(NativePtr);
+		}
+
+		public ImGuiOnceUponAFramePtr ImGuiOnceUponAFrame()
+		{
+			return ImGuiNative.ImGuiOnceUponAFrameImGuiOnceUponAFrame();
+		}
+
 	}
 }

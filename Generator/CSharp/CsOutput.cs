@@ -7,7 +7,7 @@ public class GeneratedFile
     public enum FileType
     {
         Unknown,
-        NativeFunction,
+        NativeMethods,
         ManagedFunction,
         Enum,
         Struct,

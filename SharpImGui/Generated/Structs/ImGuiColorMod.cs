@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -22,6 +24,8 @@ namespace SharpImGui
 		public ImGuiColorMod* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImGuiColorMod this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ref ImGuiCol Col => ref Unsafe.AsRef<ImGuiCol>(&NativePtr->Col);
+		public ref Vector4 BackupValue => ref Unsafe.AsRef<Vector4>(&NativePtr->BackupValue);
 		public ImGuiColorModPtr(ImGuiColorMod* nativePtr) => NativePtr = nativePtr;
 		public ImGuiColorModPtr(IntPtr nativePtr) => NativePtr = (ImGuiColorMod*)nativePtr;
 		public static implicit operator ImGuiColorModPtr(ImGuiColorMod* ptr) => new ImGuiColorModPtr(ptr);

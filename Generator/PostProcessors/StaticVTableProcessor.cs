@@ -8,7 +8,7 @@ public struct StaticVTableProcessor : IPostProcessor
     public void Process(CSharpGenerated generated)
     {
         var file = CreateLibraryNativeClass(generated);
-        file.Type = GeneratedFile.FileType.NativeFunction;
+        file.Type = GeneratedFile.FileType.NativeMethods;
         var methods = file.Container.Classes[0].Methods.Where(m => m.Metadata is CppFunction).ToArray();
         CreateFunctionTableClass(methods, generated);
     }
@@ -57,7 +57,7 @@ public struct StaticVTableProcessor : IPostProcessor
         var nativeNamespace = new CsNamespace(generated.Settings.Namespace);
         nativeNamespace.Classes.Add(nativeClass);
         
-        return generated.Output.AddFile($"{nativeName}.cs", nativeNamespace, usings: ["System", "System.Numerics", "System.Runtime.InteropServices", "System.Runtime.CompilerServices", ..generated.Settings.Usings]);
+        return generated.Output.AddFile($"{nativeName}.cs", nativeNamespace, usings: generated.Settings.Usings);
     }
 
     private static void ProcessMethod(CsContainerList<CsMethod> methods, int i)
@@ -154,7 +154,7 @@ public struct StaticVTableProcessor : IPostProcessor
         vTableClass.Methods.Add(freeApiMethod);
         var vTableNamespace = new CsNamespace(generated.Settings.Namespace);
         vTableNamespace.Classes.Add(vTableClass);
-        generated.Output.AddFile("FunctionTable.cs", vTableNamespace, usings: ["System", "System.Numerics", "System.Runtime.InteropServices", ..generated.Settings.Usings])
+        generated.Output.AddFile("FunctionTable.cs", vTableNamespace, usings: generated.Settings.Usings)
             .Type = GeneratedFile.FileType.Internal;
     }
 }

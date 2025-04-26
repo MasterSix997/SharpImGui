@@ -1,7 +1,9 @@
+using SharpImGui;
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
-using SharpImGui;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImPlot
 {
@@ -26,10 +28,155 @@ namespace SharpImPlot
 		public ImPlotColormapData* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImPlotColormapData this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ref ImVector<uint> Keys => ref Unsafe.AsRef<ImVector<uint>>(&NativePtr->Keys);
+		public ref ImVector<int> KeyCounts => ref Unsafe.AsRef<ImVector<int>>(&NativePtr->KeyCounts);
+		public ref ImVector<int> KeyOffsets => ref Unsafe.AsRef<ImVector<int>>(&NativePtr->KeyOffsets);
+		public ref ImVector<uint> Tables => ref Unsafe.AsRef<ImVector<uint>>(&NativePtr->Tables);
+		public ref ImVector<int> TableSizes => ref Unsafe.AsRef<ImVector<int>>(&NativePtr->TableSizes);
+		public ref ImVector<int> TableOffsets => ref Unsafe.AsRef<ImVector<int>>(&NativePtr->TableOffsets);
+		public ref ImGuiTextBuffer Text => ref Unsafe.AsRef<ImGuiTextBuffer>(&NativePtr->Text);
+		public ref ImVector<int> TextOffsets => ref Unsafe.AsRef<ImVector<int>>(&NativePtr->TextOffsets);
+		public ref ImVector<byte> Quals => ref Unsafe.AsRef<ImVector<byte>>(&NativePtr->Quals);
+		public ref ImGuiStorage Map => ref Unsafe.AsRef<ImGuiStorage>(&NativePtr->Map);
+		public ref int Count => ref Unsafe.AsRef<int>(&NativePtr->Count);
 		public ImPlotColormapDataPtr(ImPlotColormapData* nativePtr) => NativePtr = nativePtr;
 		public ImPlotColormapDataPtr(IntPtr nativePtr) => NativePtr = (ImPlotColormapData*)nativePtr;
 		public static implicit operator ImPlotColormapDataPtr(ImPlotColormapData* ptr) => new ImPlotColormapDataPtr(ptr);
 		public static implicit operator ImPlotColormapDataPtr(IntPtr ptr) => new ImPlotColormapDataPtr(ptr);
 		public static implicit operator ImPlotColormapData*(ImPlotColormapDataPtr nativePtr) => nativePtr.NativePtr;
+		public uint ColormapDataLerpTable(ImPlotColormap cmap, float t)
+		{
+			return ImPlotNative.ColormapDataLerpTable(NativePtr, cmap, t);
+		}
+
+		public uint ColormapDataGetTableColor(ImPlotColormap cmap, int idx)
+		{
+			return ImPlotNative.ColormapDataGetTableColor(NativePtr, cmap, idx);
+		}
+
+		public int ColormapDataGetTableSize(ImPlotColormap cmap)
+		{
+			return ImPlotNative.ColormapDataGetTableSize(NativePtr, cmap);
+		}
+
+		public ref uint ColormapDataGetTable(ImPlotColormap cmap)
+		{
+			var nativeResult = ImPlotNative.ColormapDataGetTable(NativePtr, cmap);
+			return ref *(uint*)&nativeResult;
+		}
+
+		public void ColormapDataSetKeyColor(ImPlotColormap cmap, int idx, uint value)
+		{
+			ImPlotNative.ColormapDataSetKeyColor(NativePtr, cmap, idx, value);
+		}
+
+		public uint ColormapDataGetKeyColor(ImPlotColormap cmap, int idx)
+		{
+			return ImPlotNative.ColormapDataGetKeyColor(NativePtr, cmap, idx);
+		}
+
+		public int ColormapDataGetKeyCount(ImPlotColormap cmap)
+		{
+			return ImPlotNative.ColormapDataGetKeyCount(NativePtr, cmap);
+		}
+
+		public ref uint ColormapDataGetKeys(ImPlotColormap cmap)
+		{
+			var nativeResult = ImPlotNative.ColormapDataGetKeys(NativePtr, cmap);
+			return ref *(uint*)&nativeResult;
+		}
+
+		public ImPlotColormap ColormapDataGetIndex(ReadOnlySpan<char> name)
+		{
+			// Marshaling name to native string
+			byte* native_name;
+			var byteCount_name = 0;
+			if (name != null)
+			{
+				byteCount_name = Encoding.UTF8.GetByteCount(name);
+				if(byteCount_name > Utils.MaxStackallocSize)
+				{
+					native_name = Utils.Alloc<byte>(byteCount_name + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCount_name + 1];
+					native_name = stackallocBytes;
+				}
+				var name_offset = Utils.EncodeStringUTF8(name, native_name, byteCount_name);
+				native_name[name_offset] = 0;
+			}
+			else native_name = null;
+
+			return ImPlotNative.ColormapDataGetIndex(NativePtr, native_name);
+			// Freeing name native string
+			if (byteCount_name > Utils.MaxStackallocSize)
+				Utils.Free(native_name);
+		}
+
+		public ref byte ColormapDataGetName(ImPlotColormap cmap)
+		{
+			var nativeResult = ImPlotNative.ColormapDataGetName(NativePtr, cmap);
+			return ref *(byte*)&nativeResult;
+		}
+
+		public byte ColormapDataIsQual(ImPlotColormap cmap)
+		{
+			return ImPlotNative.ColormapDataIsQual(NativePtr, cmap);
+		}
+
+		public void ColormapDataRebuildTables()
+		{
+			ImPlotNative.ColormapDataRebuildTables(NativePtr);
+		}
+
+		public void ColormapDataAppendTable(ImPlotColormap cmap)
+		{
+			ImPlotNative.ColormapDataAppendTable(NativePtr, cmap);
+		}
+
+		public int ColormapDataAppend(ReadOnlySpan<char> name, ref uint keys, int count, bool qual)
+		{
+			// Marshaling name to native string
+			byte* native_name;
+			var byteCount_name = 0;
+			if (name != null)
+			{
+				byteCount_name = Encoding.UTF8.GetByteCount(name);
+				if(byteCount_name > Utils.MaxStackallocSize)
+				{
+					native_name = Utils.Alloc<byte>(byteCount_name + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCount_name + 1];
+					native_name = stackallocBytes;
+				}
+				var name_offset = Utils.EncodeStringUTF8(name, native_name, byteCount_name);
+				native_name[name_offset] = 0;
+			}
+			else native_name = null;
+
+			var native_qual = qual ? (byte)1 : (byte)0;
+			fixed (uint* native_keys = &keys)
+			{
+				var result = ImPlotNative.ColormapDataAppend(NativePtr, native_name, native_keys, count, native_qual);
+				// Freeing name native string
+				if (byteCount_name > Utils.MaxStackallocSize)
+					Utils.Free(native_name);
+				return result;
+			}
+		}
+
+		public void ColormapDataDestroy()
+		{
+			ImPlotNative.ColormapDataDestroy(NativePtr);
+		}
+
+		public ImPlotColormapDataPtr ColormapDataColormapData()
+		{
+			return ImPlotNative.ColormapDataColormapData();
+		}
+
 	}
 }

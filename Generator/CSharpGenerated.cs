@@ -24,10 +24,11 @@ public class CSharpGenerated
 
         AddTypeMaps(Settings.TypeMappings);
 
-        foreach (var type in settings.Types)
-        {
-            AddType(new CsUnresolvedType(type));
-        }
+        AddTypes(settings.Types);
+        // foreach (var type in settings.Types)
+        // {
+        //     AddType(new CsUnresolvedType(type));
+        // }
     }
 
     public bool AddType(CsType type)
@@ -111,10 +112,13 @@ public class CSharpGenerated
         {
             var originalType = GetCsType(nativeType[9..]);
 
-            if (originalType is CsPointerType)
+            if (originalType is CsPointerType pointerType)
             {
                 //C# doesn't support pointers type as generic type arguments ex: ImVector<int*>
-                originalType = GetCsType("IntPtr");
+                if (pointerType.GetCanonicalType().TypeName == "void")
+                    originalType = GetCsType("IntPtr");
+                else
+                    originalType = new CsGenericType("ImPointer", pointerType.GetCanonicalType());
             }
             if (originalType is not null)
                 return new CsGenericType("ImVector", originalType);
@@ -122,10 +126,10 @@ public class CSharpGenerated
         else if (nativeType.StartsWith("ImPool_"))
         {
             var originalType = GetCsType(nativeType[7..]);
-            if (originalType is CsPointerType)
+            if (originalType is CsPointerType pointerType)
             {
                 //C# doesn't support pointers type as generic type arguments ex: ImVector<int*>
-                originalType = GetCsType("IntPtr");
+                originalType = new CsGenericType("ImPointer", pointerType.GetCanonicalType());
             }
             if (originalType is not null)
                 return new CsGenericType("ImPool", originalType);
@@ -133,10 +137,10 @@ public class CSharpGenerated
         else if (nativeType.StartsWith("ImSpan_"))
         {
             var originalType = GetCsType(nativeType[7..]);
-            if (originalType is CsPointerType)
+            if (originalType is CsPointerType pointerType)
             {
                 //C# doesn't support pointers type as generic type arguments ex: ImVector<int*>
-                originalType = GetCsType("IntPtr");
+                originalType = new CsGenericType("ImPointer", pointerType.GetCanonicalType());
             }
             if (originalType is not null)
                 return new CsGenericType("ImSpan", originalType);
@@ -145,7 +149,7 @@ public class CSharpGenerated
         {
             var originalType = GetCsType(nativeType[14..]);
             if (originalType is not null)
-                return new CsUnresolvedType("ImChunkStream", CsTypeKind.Struct);
+                return new CsClass("ImChunkStream", CsClassKind.Struct);
         }
 
         if (nativeType.StartsWith("const ") || nativeType.StartsWith("const_"))

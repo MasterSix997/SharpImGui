@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -22,6 +24,8 @@ namespace SharpImGui
 		public ImDrawChannel* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImDrawChannel this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ref ImVector<ImDrawCmd> CmdBuffer => ref Unsafe.AsRef<ImVector<ImDrawCmd>>(&NativePtr->CmdBuffer);
+		public ref ImVector<ushort> IdxBuffer => ref Unsafe.AsRef<ImVector<ushort>>(&NativePtr->IdxBuffer);
 		public ImDrawChannelPtr(ImDrawChannel* nativePtr) => NativePtr = nativePtr;
 		public ImDrawChannelPtr(IntPtr nativePtr) => NativePtr = (ImDrawChannel*)nativePtr;
 		public static implicit operator ImDrawChannelPtr(ImDrawChannel* ptr) => new ImDrawChannelPtr(ptr);

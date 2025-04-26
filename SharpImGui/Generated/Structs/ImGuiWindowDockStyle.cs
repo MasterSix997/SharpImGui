@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -28,6 +30,7 @@ namespace SharpImGui
 		public ImGuiWindowDockStyle* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImGuiWindowDockStyle this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public Span<uint> Colors => new Span<uint>(&NativePtr->Colors_0, 8);
 		public ImGuiWindowDockStylePtr(ImGuiWindowDockStyle* nativePtr) => NativePtr = nativePtr;
 		public ImGuiWindowDockStylePtr(IntPtr nativePtr) => NativePtr = (ImGuiWindowDockStyle*)nativePtr;
 		public static implicit operator ImGuiWindowDockStylePtr(ImGuiWindowDockStyle* ptr) => new ImGuiWindowDockStylePtr(ptr);

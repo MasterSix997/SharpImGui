@@ -58,6 +58,7 @@ public enum CsPrimitiveKind
     
     Byte,
     SignedByte,
+    NativeUnsignedInt
 }
 
 /// <summary>
@@ -117,6 +118,7 @@ public sealed class CsPrimitiveType : CsType
     public static readonly CsPrimitiveType Double = new CsPrimitiveType(CsPrimitiveKind.Double);
     public static readonly CsPrimitiveType Byte = new CsPrimitiveType(CsPrimitiveKind.Byte);
     public static readonly CsPrimitiveType SignedByte = new CsPrimitiveType(CsPrimitiveKind.SignedByte);
+    public static readonly CsPrimitiveType NativeUnsignedInt = new CsPrimitiveType(CsPrimitiveKind.NativeUnsignedInt);
 
     private readonly int _sizeOf;
 
@@ -172,6 +174,9 @@ public sealed class CsPrimitiveType : CsType
             case CsPrimitiveKind.Double:
                 sizeOf = 8;
                 break;
+            case CsPrimitiveKind.NativeUnsignedInt:
+                sizeOf = 4;
+                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -208,6 +213,8 @@ public sealed class CsPrimitiveType : CsType
                 return "byte";
             case CsPrimitiveKind.SignedByte:
                 return "sbyte";
+            case CsPrimitiveKind.NativeUnsignedInt:
+                return "nuint";
             default:
                 throw new InvalidOperationException($"Unhandled PrimitiveKind: {Kind}");
         }

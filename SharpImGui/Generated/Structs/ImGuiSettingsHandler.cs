@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -47,10 +49,58 @@ namespace SharpImGui
 		public ImGuiSettingsHandler* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImGuiSettingsHandler this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		/// <summary>
+		/// Short description stored in .ini file. Disallowed characters: '[' ']'<br/>
+		/// </summary>
+		public IntPtr TypeName { get => (IntPtr)NativePtr->TypeName; set => NativePtr->TypeName = (byte*)value; }
+		/// <summary>
+		/// == ImHashStr(TypeName)<br/>
+		/// </summary>
+		public ref uint TypeHash => ref Unsafe.AsRef<uint>(&NativePtr->TypeHash);
+		/// <summary>
+		/// Clear all settings data<br/>
+		/// </summary>
+		public IntPtr ClearAllFn { get => (IntPtr)NativePtr->ClearAllFn; set => NativePtr->ClearAllFn = (void*)value; }
+		/// <summary>
+		/// Read: Called before reading (in registration order)<br/>
+		/// </summary>
+		public IntPtr ReadInitFn { get => (IntPtr)NativePtr->ReadInitFn; set => NativePtr->ReadInitFn = (void*)value; }
+		/// <summary>
+		/// Read: Called when entering into a new ini entry e.g. "[Window][Name]"<br/>
+		/// </summary>
+		public IntPtr ReadOpenFn { get => (IntPtr)NativePtr->ReadOpenFn; set => NativePtr->ReadOpenFn = (void*)value; }
+		/// <summary>
+		/// Read: Called for every line of text within an ini entry<br/>
+		/// </summary>
+		public IntPtr ReadLineFn { get => (IntPtr)NativePtr->ReadLineFn; set => NativePtr->ReadLineFn = (void*)value; }
+		/// <summary>
+		/// Read: Called after reading (in registration order)<br/>
+		/// </summary>
+		public IntPtr ApplyAllFn { get => (IntPtr)NativePtr->ApplyAllFn; set => NativePtr->ApplyAllFn = (void*)value; }
+		/// <summary>
+		/// Write: Output every entries into 'out_buf'<br/>
+		/// </summary>
+		public IntPtr WriteAllFn { get => (IntPtr)NativePtr->WriteAllFn; set => NativePtr->WriteAllFn = (void*)value; }
+		public IntPtr UserData { get => (IntPtr)NativePtr->UserData; set => NativePtr->UserData = (void*)value; }
 		public ImGuiSettingsHandlerPtr(ImGuiSettingsHandler* nativePtr) => NativePtr = nativePtr;
 		public ImGuiSettingsHandlerPtr(IntPtr nativePtr) => NativePtr = (ImGuiSettingsHandler*)nativePtr;
 		public static implicit operator ImGuiSettingsHandlerPtr(ImGuiSettingsHandler* ptr) => new ImGuiSettingsHandlerPtr(ptr);
 		public static implicit operator ImGuiSettingsHandlerPtr(IntPtr ptr) => new ImGuiSettingsHandlerPtr(ptr);
 		public static implicit operator ImGuiSettingsHandler*(ImGuiSettingsHandlerPtr nativePtr) => nativePtr.NativePtr;
+		public void Destroy()
+		{
+			ImGuiNative.ImGuiSettingsHandlerDestroy(NativePtr);
+		}
+
+		public void ImGuiSettingsHandlerConstruct()
+		{
+			ImGuiNative.ImGuiSettingsHandlerImGuiSettingsHandlerConstruct(NativePtr);
+		}
+
+		public ImGuiSettingsHandlerPtr ImGuiSettingsHandler()
+		{
+			return ImGuiNative.ImGuiSettingsHandlerImGuiSettingsHandler();
+		}
+
 	}
 }

@@ -1,4 +1,5 @@
 using CppAst;
+using Generator.CSharp;
 
 namespace Generator;
 
@@ -14,7 +15,7 @@ public class GeneratorSettings
     
     public string Namespace;
     public readonly CppParserOptions CppParserOptions = new();
-    public readonly List<string> Types = new();
+    public readonly List<CsType> Types = new();
     public readonly Dictionary<string, string> TypeMappings = new();
     public readonly List<string> Usings = [];
     public string FunctionsPrefix = ""; 

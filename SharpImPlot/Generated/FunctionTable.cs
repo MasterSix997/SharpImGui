@@ -1,7 +1,9 @@
+using SharpImGui;
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
-using SharpImGui;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImPlot
 {
@@ -11,10 +13,10 @@ namespace SharpImPlot
 		public static void InitApi(NativeLibraryContext context)
 		{
 			FuncTable = new FunctionTable(context, 740);
-			FuncTable.Load(0, "ImPlotPoint_ImPlotPoint");
+			FuncTable.Load(0, "ImPlotPoint_ImPlotPoint_Nil");
 			FuncTable.Load(1, "ImPlotPoint_destroy");
 			FuncTable.Load(2, "ImPlotPoint_ImPlotPoint_double");
-			FuncTable.Load(3, "ImPlotPoint_ImPlotPoint");
+			FuncTable.Load(3, "ImPlotPoint_ImPlotPoint_Vec2");
 			FuncTable.Load(4, "ImPlotRange_ImPlotRange_Nil");
 			FuncTable.Load(5, "ImPlotRange_destroy");
 			FuncTable.Load(6, "ImPlotRange_ImPlotRange_double");
@@ -308,16 +310,16 @@ namespace SharpImPlot
 			FuncTable.Load(294, "ImPlot_DragLineX");
 			FuncTable.Load(295, "ImPlot_DragLineY");
 			FuncTable.Load(296, "ImPlot_DragRect");
-			FuncTable.Load(297, "ImPlot_Annotation");
-			FuncTable.Load(298, "ImPlot_Annotation");
-			FuncTable.Load(299, "ImPlot_TagX");
-			FuncTable.Load(300, "ImPlot_TagX");
-			FuncTable.Load(301, "ImPlot_TagY");
-			FuncTable.Load(302, "ImPlot_TagY");
+			FuncTable.Load(297, "ImPlot_Annotation_Bool");
+			FuncTable.Load(298, "ImPlot_Annotation_Str");
+			FuncTable.Load(299, "ImPlot_TagX_Bool");
+			FuncTable.Load(300, "ImPlot_TagX_Str");
+			FuncTable.Load(301, "ImPlot_TagY_Bool");
+			FuncTable.Load(302, "ImPlot_TagY_Str");
 			FuncTable.Load(303, "ImPlot_SetAxis");
 			FuncTable.Load(304, "ImPlot_SetAxes");
-			FuncTable.Load(305, "ImPlot_PixelsToPlot");
-			FuncTable.Load(306, "ImPlot_PixelsToPlot");
+			FuncTable.Load(305, "ImPlot_PixelsToPlot_Vec2");
+			FuncTable.Load(306, "ImPlot_PixelsToPlot_Float");
 			FuncTable.Load(307, "ImPlot_PlotToPixels_PlotPoInt");
 			FuncTable.Load(308, "ImPlot_PlotToPixels_double");
 			FuncTable.Load(309, "ImPlot_GetPlotPos");
@@ -352,9 +354,9 @@ namespace SharpImPlot
 			FuncTable.Load(338, "ImPlot_PushStyleColor_U32");
 			FuncTable.Load(339, "ImPlot_PushStyleColor_Vec4");
 			FuncTable.Load(340, "ImPlot_PopStyleColor");
-			FuncTable.Load(341, "ImPlot_PushStyleVar");
-			FuncTable.Load(342, "ImPlot_PushStyleVar");
-			FuncTable.Load(343, "ImPlot_PushStyleVar");
+			FuncTable.Load(341, "ImPlot_PushStyleVar_Float");
+			FuncTable.Load(342, "ImPlot_PushStyleVar_Int");
+			FuncTable.Load(343, "ImPlot_PushStyleVar_Vec2");
 			FuncTable.Load(344, "ImPlot_PopStyleVar");
 			FuncTable.Load(345, "ImPlot_SetNextLineStyle");
 			FuncTable.Load(346, "ImPlot_SetNextFillStyle");

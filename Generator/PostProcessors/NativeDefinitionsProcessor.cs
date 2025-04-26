@@ -92,67 +92,50 @@ public struct NativeDefinitionsProcessor : IPostProcessor
             }
         }
     }
-
-
-    // private static void ProcessDefaultValues(CSharpGenerated generated)
-    // {
-    //     var defaultValuesMap = new Dictionary<string, string>
-    //     {
-    //         { "NULL", "null" },
-    //         { "true", "1" },
-    //         { "false", "0" },
-    //         { "ImVec2(0,0)", "new Vector2()" },
-    //         { "ImVec3(0,0,0)", "new Vector3()" },
-    //         { "ImVec4(0,0,0,0)", "new Vector4()" },
-    //     };
-    //     
-    //     Console.ForegroundColor = ConsoleColor.Cyan;
-    //     Console.WriteLine("Processing default values...");
-    //     Console.ResetColor();
-    //     
-    //     var nativeDefinitions = generated.NativeDefinitionProvider!.NativeDefinitions;
-    //     var container = generated.Definitions;
-    //     foreach (var nativeOverloads in nativeDefinitions.Functions)
-    //     {
-    //         foreach (var nativeFunction in nativeOverloads.Functions)
-    //         {
-    //             var csMethod = container.Methods.FirstOrDefault(method => method.Name == nativeFunction.Name);
-    //             if (csMethod == null)
-    //             {
-    //                 Console.WriteLine($"Could not find method '{nativeFunction.Name}' in container.");
-    //                 continue;
-    //             }
-    //
-    //             foreach (var (parameterName, defaultValue) in nativeFunction.DefaultValues)
-    //             {
-    //                 var csParameter = csMethod.Parameters.FirstOrDefault(param => param.Name == parameterName);
-    //                 if (csParameter == null)
-    //                 {
-    //                     Console.WriteLine($"Could not find parameter '{parameterName}' in method {csMethod.Name}.");
-    //                     continue;
-    //                 }
-    //                 
-    //                 var defaultValueMapped = defaultValuesMap.GetValueOrDefault(defaultValue, defaultValue);
-    //                 if (defaultValueMapped == defaultValue)
-    //                 {
-    //                     if (defaultValueMapped.Contains('(') || defaultValueMapped.Contains(')') || defaultValueMapped.Contains('"'))
-    //                     {
-    //                         Console.WriteLine($"Could not map default value '{defaultValue}' for parameter '{parameterName}' in method {csMethod.Name}.");
-    //                         
-    //                         // ensure that the before parameters do not have standard values
-    //                         foreach (var innerCsParam in csMethod.Parameters)
-    //                         {
-    //                             if (innerCsParam.Name == csParameter.Name) break;
-    //
-    //                             innerCsParam.InitExpression = null;
-    //                         }
-    //                         break;
-    //                     }
-    //                 }
-    //
-    //                 csParameter.InitExpression = new CsLiteralExpression(CsExpressionKind.Unary, defaultValueMapped);
-    //             }
-    //         }
-    //     }
-    // }
+    
+    private static void ProcessDefaultValues(CSharpGenerated generated)
+    {
+        var defaultValuesMap = new Dictionary<string, string>
+        {
+            { "NULL", "null" },
+            { "true", "1" },
+            { "false", "0" },
+            { "ImVec2(0,0)", "new Vector2()" },
+            { "ImVec3(0,0,0)", "new Vector3()" },
+            { "ImVec4(0,0,0,0)", "new Vector4()" },
+        };
+        
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("Processing default values...");
+        Console.ResetColor();
+        
+        var nativeDefinitions = generated.NativeDefinitionProvider!.NativeDefinitions;
+        var container = generated.Definitions;
+        foreach (var nativeOverloads in nativeDefinitions.Functions)
+        {
+            foreach (var nativeFunction in nativeOverloads.Functions)
+            {
+                var csMethod = container.Methods.FirstOrDefault(method => method.Name == nativeFunction.Name);
+                if (csMethod == null)
+                {
+                    Console.WriteLine($"Could not find method '{nativeFunction.Name}' in container.");
+                    continue;
+                }
+    
+                foreach (var (parameterName, defaultValue) in nativeFunction.DefaultValues)
+                {
+                    var csParameter = csMethod.Parameters.FirstOrDefault(param => param.Name == parameterName);
+                    if (csParameter == null)
+                    {
+                        Console.WriteLine($"Could not find parameter '{parameterName}' in method {csMethod.Name}.");
+                        continue;
+                    }
+                    
+                    var defaultValueMapped = defaultValuesMap.GetValueOrDefault(defaultValue, defaultValue);
+    
+                    csParameter.InitExpression = new CsLiteralExpression(CsExpressionKind.Unary, defaultValueMapped);
+                }
+            }
+        }
+    }
 }

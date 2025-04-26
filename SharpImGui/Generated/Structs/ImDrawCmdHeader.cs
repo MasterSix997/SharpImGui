@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -11,7 +13,7 @@ namespace SharpImGui
 	public partial struct ImDrawCmdHeader
 	{
 		public Vector4 ClipRect;
-		public IntPtr TextureId;
+		public ulong TextureId;
 		public uint VtxOffset;
 	}
 
@@ -23,6 +25,9 @@ namespace SharpImGui
 		public ImDrawCmdHeader* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImDrawCmdHeader this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ref Vector4 ClipRect => ref Unsafe.AsRef<Vector4>(&NativePtr->ClipRect);
+		public ref ulong TextureId => ref Unsafe.AsRef<ulong>(&NativePtr->TextureId);
+		public ref uint VtxOffset => ref Unsafe.AsRef<uint>(&NativePtr->VtxOffset);
 		public ImDrawCmdHeaderPtr(ImDrawCmdHeader* nativePtr) => NativePtr = nativePtr;
 		public ImDrawCmdHeaderPtr(IntPtr nativePtr) => NativePtr = (ImDrawCmdHeader*)nativePtr;
 		public static implicit operator ImDrawCmdHeaderPtr(ImDrawCmdHeader* ptr) => new ImDrawCmdHeaderPtr(ptr);

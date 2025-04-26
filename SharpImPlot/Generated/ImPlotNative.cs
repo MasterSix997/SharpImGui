@@ -1,8 +1,9 @@
+using SharpImGui;
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
-using SharpImGui;
+using System.Text;
 
 namespace SharpImPlot
 {
@@ -19,7 +20,7 @@ namespace SharpImPlot
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static ImPlotPoint* PointPoint()
+		public static ImPlotPoint* PointPointNil()
 		{
 			return (ImPlotPoint*)((delegate* unmanaged[Cdecl]<IntPtr>)FuncTable[0])();
 		}
@@ -37,7 +38,7 @@ namespace SharpImPlot
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static ImPlotPoint* PointPoint(Vector2 p)
+		public static ImPlotPoint* PointPointVec2(Vector2 p)
 		{
 			return (ImPlotPoint*)((delegate* unmanaged[Cdecl]<Vector2, IntPtr>)FuncTable[3])(p);
 		}
@@ -241,9 +242,9 @@ namespace SharpImPlot
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void SetupAxisFormatPlotFormatter(ImAxis axis, IntPtr formatter, void* data)
+		public static void SetupAxisFormatPlotFormatter(ImAxis axis, ImPlotFormatter formatter, void* data)
 		{
-			((delegate* unmanaged[Cdecl]<ImAxis, IntPtr, IntPtr, void>)FuncTable[37])(axis, formatter, (IntPtr)data);
+			((delegate* unmanaged[Cdecl]<ImAxis, ImPlotFormatter, IntPtr, void>)FuncTable[37])(axis, formatter, (IntPtr)data);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -265,9 +266,9 @@ namespace SharpImPlot
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void SetupAxisScalePlotTransform(ImAxis axis, IntPtr forward, IntPtr inverse, void* data)
+		public static void SetupAxisScalePlotTransform(ImAxis axis, ImPlotTransform forward, ImPlotTransform inverse, void* data)
 		{
-			((delegate* unmanaged[Cdecl]<ImAxis, IntPtr, IntPtr, IntPtr, void>)FuncTable[41])(axis, forward, inverse, (IntPtr)data);
+			((delegate* unmanaged[Cdecl]<ImAxis, ImPlotTransform, ImPlotTransform, IntPtr, void>)FuncTable[41])(axis, forward, inverse, (IntPtr)data);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -463,9 +464,9 @@ namespace SharpImPlot
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotLineG(byte* labelId, void* getter, void* data, int count, ImPlotLineFlags flags)
+		public static void PlotLineG(byte* labelId, ImPlotPointGetter getter, void* data, int count, ImPlotLineFlags flags)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, ImPlotLineFlags, void>)FuncTable[74])((IntPtr)labelId, (IntPtr)getter, (IntPtr)data, count, flags);
+			((delegate* unmanaged[Cdecl]<IntPtr, ImPlotPointGetter, IntPtr, int, ImPlotLineFlags, void>)FuncTable[74])((IntPtr)labelId, getter, (IntPtr)data, count, flags);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -589,9 +590,9 @@ namespace SharpImPlot
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotScatterG(byte* labelId, void* getter, void* data, int count, ImPlotScatterFlags flags)
+		public static void PlotScatterG(byte* labelId, ImPlotPointGetter getter, void* data, int count, ImPlotScatterFlags flags)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, ImPlotScatterFlags, void>)FuncTable[95])((IntPtr)labelId, (IntPtr)getter, (IntPtr)data, count, flags);
+			((delegate* unmanaged[Cdecl]<IntPtr, ImPlotPointGetter, IntPtr, int, ImPlotScatterFlags, void>)FuncTable[95])((IntPtr)labelId, getter, (IntPtr)data, count, flags);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -715,9 +716,9 @@ namespace SharpImPlot
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotStairsG(byte* labelId, void* getter, void* data, int count, ImPlotStairsFlags flags)
+		public static void PlotStairsG(byte* labelId, ImPlotPointGetter getter, void* data, int count, ImPlotStairsFlags flags)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, ImPlotStairsFlags, void>)FuncTable[116])((IntPtr)labelId, (IntPtr)getter, (IntPtr)data, count, flags);
+			((delegate* unmanaged[Cdecl]<IntPtr, ImPlotPointGetter, IntPtr, int, ImPlotStairsFlags, void>)FuncTable[116])((IntPtr)labelId, getter, (IntPtr)data, count, flags);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -901,9 +902,9 @@ namespace SharpImPlot
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotShadedG(byte* labelId, void* getter1, void* data1, void* getter2, void* data2, int count, ImPlotShadedFlags flags)
+		public static void PlotShadedG(byte* labelId, ImPlotPointGetter getter1, void* data1, ImPlotPointGetter getter2, void* data2, int count, ImPlotShadedFlags flags)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, IntPtr, IntPtr, int, ImPlotShadedFlags, void>)FuncTable[147])((IntPtr)labelId, (IntPtr)getter1, (IntPtr)data1, (IntPtr)getter2, (IntPtr)data2, count, flags);
+			((delegate* unmanaged[Cdecl]<IntPtr, ImPlotPointGetter, IntPtr, ImPlotPointGetter, IntPtr, int, ImPlotShadedFlags, void>)FuncTable[147])((IntPtr)labelId, getter1, (IntPtr)data1, getter2, (IntPtr)data2, count, flags);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1027,9 +1028,9 @@ namespace SharpImPlot
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotBarsG(byte* labelId, void* getter, void* data, int count, double barSize, ImPlotBarsFlags flags)
+		public static void PlotBarsG(byte* labelId, ImPlotPointGetter getter, void* data, int count, double barSize, ImPlotBarsFlags flags)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, double, ImPlotBarsFlags, void>)FuncTable[168])((IntPtr)labelId, (IntPtr)getter, (IntPtr)data, count, barSize, flags);
+			((delegate* unmanaged[Cdecl]<IntPtr, ImPlotPointGetter, IntPtr, int, double, ImPlotBarsFlags, void>)FuncTable[168])((IntPtr)labelId, getter, (IntPtr)data, count, barSize, flags);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1213,123 +1214,123 @@ namespace SharpImPlot
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotStemsFloatPtrInt(byte* labelId, float* values, int count, double @ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsFloatPtrInt(byte* labelId, float* values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotStemsFlags, int, int, void>)FuncTable[199])((IntPtr)labelId, (IntPtr)values, count, @ref, scale, start, flags, offset, stride);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotStemsFlags, int, int, void>)FuncTable[199])((IntPtr)labelId, (IntPtr)values, count, _ref, scale, start, flags, offset, stride);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotStemsDoublePtrInt(byte* labelId, double* values, int count, double @ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsDoublePtrInt(byte* labelId, double* values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotStemsFlags, int, int, void>)FuncTable[200])((IntPtr)labelId, (IntPtr)values, count, @ref, scale, start, flags, offset, stride);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotStemsFlags, int, int, void>)FuncTable[200])((IntPtr)labelId, (IntPtr)values, count, _ref, scale, start, flags, offset, stride);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotStemsS8PtrInt(byte* labelId, sbyte* values, int count, double @ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsS8PtrInt(byte* labelId, sbyte* values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotStemsFlags, int, int, void>)FuncTable[201])((IntPtr)labelId, (IntPtr)values, count, @ref, scale, start, flags, offset, stride);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotStemsFlags, int, int, void>)FuncTable[201])((IntPtr)labelId, (IntPtr)values, count, _ref, scale, start, flags, offset, stride);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotStemsU8PtrInt(byte* labelId, byte* values, int count, double @ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsU8PtrInt(byte* labelId, byte* values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotStemsFlags, int, int, void>)FuncTable[202])((IntPtr)labelId, (IntPtr)values, count, @ref, scale, start, flags, offset, stride);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotStemsFlags, int, int, void>)FuncTable[202])((IntPtr)labelId, (IntPtr)values, count, _ref, scale, start, flags, offset, stride);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotStemsS16PtrInt(byte* labelId, short* values, int count, double @ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsS16PtrInt(byte* labelId, short* values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotStemsFlags, int, int, void>)FuncTable[203])((IntPtr)labelId, (IntPtr)values, count, @ref, scale, start, flags, offset, stride);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotStemsFlags, int, int, void>)FuncTable[203])((IntPtr)labelId, (IntPtr)values, count, _ref, scale, start, flags, offset, stride);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotStemsU16PtrInt(byte* labelId, ushort* values, int count, double @ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsU16PtrInt(byte* labelId, ushort* values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotStemsFlags, int, int, void>)FuncTable[204])((IntPtr)labelId, (IntPtr)values, count, @ref, scale, start, flags, offset, stride);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotStemsFlags, int, int, void>)FuncTable[204])((IntPtr)labelId, (IntPtr)values, count, _ref, scale, start, flags, offset, stride);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotStemsS32PtrInt(byte* labelId, int* values, int count, double @ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsS32PtrInt(byte* labelId, int* values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotStemsFlags, int, int, void>)FuncTable[205])((IntPtr)labelId, (IntPtr)values, count, @ref, scale, start, flags, offset, stride);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotStemsFlags, int, int, void>)FuncTable[205])((IntPtr)labelId, (IntPtr)values, count, _ref, scale, start, flags, offset, stride);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotStemsU32PtrInt(byte* labelId, uint* values, int count, double @ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsU32PtrInt(byte* labelId, uint* values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotStemsFlags, int, int, void>)FuncTable[206])((IntPtr)labelId, (IntPtr)values, count, @ref, scale, start, flags, offset, stride);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotStemsFlags, int, int, void>)FuncTable[206])((IntPtr)labelId, (IntPtr)values, count, _ref, scale, start, flags, offset, stride);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotStemsS64PtrInt(byte* labelId, long* values, int count, double @ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsS64PtrInt(byte* labelId, long* values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotStemsFlags, int, int, void>)FuncTable[207])((IntPtr)labelId, (IntPtr)values, count, @ref, scale, start, flags, offset, stride);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotStemsFlags, int, int, void>)FuncTable[207])((IntPtr)labelId, (IntPtr)values, count, _ref, scale, start, flags, offset, stride);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotStemsU64PtrInt(byte* labelId, ulong* values, int count, double @ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsU64PtrInt(byte* labelId, ulong* values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotStemsFlags, int, int, void>)FuncTable[208])((IntPtr)labelId, (IntPtr)values, count, @ref, scale, start, flags, offset, stride);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotStemsFlags, int, int, void>)FuncTable[208])((IntPtr)labelId, (IntPtr)values, count, _ref, scale, start, flags, offset, stride);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotStemsFloatPtrFloatPtr(byte* labelId, float* xs, float* ys, int count, double @ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsFloatPtrFloatPtr(byte* labelId, float* xs, float* ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, double, ImPlotStemsFlags, int, int, void>)FuncTable[209])((IntPtr)labelId, (IntPtr)xs, (IntPtr)ys, count, @ref, flags, offset, stride);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, double, ImPlotStemsFlags, int, int, void>)FuncTable[209])((IntPtr)labelId, (IntPtr)xs, (IntPtr)ys, count, _ref, flags, offset, stride);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotStemsDoublePtrdoublePtr(byte* labelId, double* xs, double* ys, int count, double @ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsDoublePtrdoublePtr(byte* labelId, double* xs, double* ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, double, ImPlotStemsFlags, int, int, void>)FuncTable[210])((IntPtr)labelId, (IntPtr)xs, (IntPtr)ys, count, @ref, flags, offset, stride);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, double, ImPlotStemsFlags, int, int, void>)FuncTable[210])((IntPtr)labelId, (IntPtr)xs, (IntPtr)ys, count, _ref, flags, offset, stride);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotStemsS8PtrS8Ptr(byte* labelId, sbyte* xs, sbyte* ys, int count, double @ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsS8PtrS8Ptr(byte* labelId, sbyte* xs, sbyte* ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, double, ImPlotStemsFlags, int, int, void>)FuncTable[211])((IntPtr)labelId, (IntPtr)xs, (IntPtr)ys, count, @ref, flags, offset, stride);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, double, ImPlotStemsFlags, int, int, void>)FuncTable[211])((IntPtr)labelId, (IntPtr)xs, (IntPtr)ys, count, _ref, flags, offset, stride);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotStemsU8PtrU8Ptr(byte* labelId, byte* xs, byte* ys, int count, double @ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsU8PtrU8Ptr(byte* labelId, byte* xs, byte* ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, double, ImPlotStemsFlags, int, int, void>)FuncTable[212])((IntPtr)labelId, (IntPtr)xs, (IntPtr)ys, count, @ref, flags, offset, stride);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, double, ImPlotStemsFlags, int, int, void>)FuncTable[212])((IntPtr)labelId, (IntPtr)xs, (IntPtr)ys, count, _ref, flags, offset, stride);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotStemsS16PtrS16Ptr(byte* labelId, short* xs, short* ys, int count, double @ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsS16PtrS16Ptr(byte* labelId, short* xs, short* ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, double, ImPlotStemsFlags, int, int, void>)FuncTable[213])((IntPtr)labelId, (IntPtr)xs, (IntPtr)ys, count, @ref, flags, offset, stride);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, double, ImPlotStemsFlags, int, int, void>)FuncTable[213])((IntPtr)labelId, (IntPtr)xs, (IntPtr)ys, count, _ref, flags, offset, stride);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotStemsU16PtrU16Ptr(byte* labelId, ushort* xs, ushort* ys, int count, double @ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsU16PtrU16Ptr(byte* labelId, ushort* xs, ushort* ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, double, ImPlotStemsFlags, int, int, void>)FuncTable[214])((IntPtr)labelId, (IntPtr)xs, (IntPtr)ys, count, @ref, flags, offset, stride);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, double, ImPlotStemsFlags, int, int, void>)FuncTable[214])((IntPtr)labelId, (IntPtr)xs, (IntPtr)ys, count, _ref, flags, offset, stride);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotStemsS32PtrS32Ptr(byte* labelId, int* xs, int* ys, int count, double @ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsS32PtrS32Ptr(byte* labelId, int* xs, int* ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, double, ImPlotStemsFlags, int, int, void>)FuncTable[215])((IntPtr)labelId, (IntPtr)xs, (IntPtr)ys, count, @ref, flags, offset, stride);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, double, ImPlotStemsFlags, int, int, void>)FuncTable[215])((IntPtr)labelId, (IntPtr)xs, (IntPtr)ys, count, _ref, flags, offset, stride);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotStemsU32PtrU32Ptr(byte* labelId, uint* xs, uint* ys, int count, double @ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsU32PtrU32Ptr(byte* labelId, uint* xs, uint* ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, double, ImPlotStemsFlags, int, int, void>)FuncTable[216])((IntPtr)labelId, (IntPtr)xs, (IntPtr)ys, count, @ref, flags, offset, stride);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, double, ImPlotStemsFlags, int, int, void>)FuncTable[216])((IntPtr)labelId, (IntPtr)xs, (IntPtr)ys, count, _ref, flags, offset, stride);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotStemsS64PtrS64Ptr(byte* labelId, long* xs, long* ys, int count, double @ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsS64PtrS64Ptr(byte* labelId, long* xs, long* ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, double, ImPlotStemsFlags, int, int, void>)FuncTable[217])((IntPtr)labelId, (IntPtr)xs, (IntPtr)ys, count, @ref, flags, offset, stride);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, double, ImPlotStemsFlags, int, int, void>)FuncTable[217])((IntPtr)labelId, (IntPtr)xs, (IntPtr)ys, count, _ref, flags, offset, stride);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotStemsU64PtrU64Ptr(byte* labelId, ulong* xs, ulong* ys, int count, double @ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsU64PtrU64Ptr(byte* labelId, ulong* xs, ulong* ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, double, ImPlotStemsFlags, int, int, void>)FuncTable[218])((IntPtr)labelId, (IntPtr)xs, (IntPtr)ys, count, @ref, flags, offset, stride);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, double, ImPlotStemsFlags, int, int, void>)FuncTable[218])((IntPtr)labelId, (IntPtr)xs, (IntPtr)ys, count, _ref, flags, offset, stride);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1393,63 +1394,63 @@ namespace SharpImPlot
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotPieChartFloatPtrPlotFormatter(byte** labelIds, float* values, int count, double x, double y, double radius, IntPtr fmt, void* fmtData, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartFloatPtrPlotFormatter(byte** labelIds, float* values, int count, double x, double y, double radius, ImPlotFormatter fmt, void* fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, IntPtr, IntPtr, double, ImPlotPieChartFlags, void>)FuncTable[229])((IntPtr)labelIds, (IntPtr)values, count, x, y, radius, fmt, (IntPtr)fmtData, angle0, flags);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotFormatter, IntPtr, double, ImPlotPieChartFlags, void>)FuncTable[229])((IntPtr)labelIds, (IntPtr)values, count, x, y, radius, fmt, (IntPtr)fmtData, angle0, flags);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotPieChartDoublePtrPlotFormatter(byte** labelIds, double* values, int count, double x, double y, double radius, IntPtr fmt, void* fmtData, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartDoublePtrPlotFormatter(byte** labelIds, double* values, int count, double x, double y, double radius, ImPlotFormatter fmt, void* fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, IntPtr, IntPtr, double, ImPlotPieChartFlags, void>)FuncTable[230])((IntPtr)labelIds, (IntPtr)values, count, x, y, radius, fmt, (IntPtr)fmtData, angle0, flags);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotFormatter, IntPtr, double, ImPlotPieChartFlags, void>)FuncTable[230])((IntPtr)labelIds, (IntPtr)values, count, x, y, radius, fmt, (IntPtr)fmtData, angle0, flags);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotPieChartS8PtrPlotFormatter(byte** labelIds, sbyte* values, int count, double x, double y, double radius, IntPtr fmt, void* fmtData, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartS8PtrPlotFormatter(byte** labelIds, sbyte* values, int count, double x, double y, double radius, ImPlotFormatter fmt, void* fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, IntPtr, IntPtr, double, ImPlotPieChartFlags, void>)FuncTable[231])((IntPtr)labelIds, (IntPtr)values, count, x, y, radius, fmt, (IntPtr)fmtData, angle0, flags);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotFormatter, IntPtr, double, ImPlotPieChartFlags, void>)FuncTable[231])((IntPtr)labelIds, (IntPtr)values, count, x, y, radius, fmt, (IntPtr)fmtData, angle0, flags);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotPieChartU8PtrPlotFormatter(byte** labelIds, byte* values, int count, double x, double y, double radius, IntPtr fmt, void* fmtData, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartU8PtrPlotFormatter(byte** labelIds, byte* values, int count, double x, double y, double radius, ImPlotFormatter fmt, void* fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, IntPtr, IntPtr, double, ImPlotPieChartFlags, void>)FuncTable[232])((IntPtr)labelIds, (IntPtr)values, count, x, y, radius, fmt, (IntPtr)fmtData, angle0, flags);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotFormatter, IntPtr, double, ImPlotPieChartFlags, void>)FuncTable[232])((IntPtr)labelIds, (IntPtr)values, count, x, y, radius, fmt, (IntPtr)fmtData, angle0, flags);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotPieChartS16PtrPlotFormatter(byte** labelIds, short* values, int count, double x, double y, double radius, IntPtr fmt, void* fmtData, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartS16PtrPlotFormatter(byte** labelIds, short* values, int count, double x, double y, double radius, ImPlotFormatter fmt, void* fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, IntPtr, IntPtr, double, ImPlotPieChartFlags, void>)FuncTable[233])((IntPtr)labelIds, (IntPtr)values, count, x, y, radius, fmt, (IntPtr)fmtData, angle0, flags);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotFormatter, IntPtr, double, ImPlotPieChartFlags, void>)FuncTable[233])((IntPtr)labelIds, (IntPtr)values, count, x, y, radius, fmt, (IntPtr)fmtData, angle0, flags);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotPieChartU16PtrPlotFormatter(byte** labelIds, ushort* values, int count, double x, double y, double radius, IntPtr fmt, void* fmtData, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartU16PtrPlotFormatter(byte** labelIds, ushort* values, int count, double x, double y, double radius, ImPlotFormatter fmt, void* fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, IntPtr, IntPtr, double, ImPlotPieChartFlags, void>)FuncTable[234])((IntPtr)labelIds, (IntPtr)values, count, x, y, radius, fmt, (IntPtr)fmtData, angle0, flags);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotFormatter, IntPtr, double, ImPlotPieChartFlags, void>)FuncTable[234])((IntPtr)labelIds, (IntPtr)values, count, x, y, radius, fmt, (IntPtr)fmtData, angle0, flags);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotPieChartS32PtrPlotFormatter(byte** labelIds, int* values, int count, double x, double y, double radius, IntPtr fmt, void* fmtData, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartS32PtrPlotFormatter(byte** labelIds, int* values, int count, double x, double y, double radius, ImPlotFormatter fmt, void* fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, IntPtr, IntPtr, double, ImPlotPieChartFlags, void>)FuncTable[235])((IntPtr)labelIds, (IntPtr)values, count, x, y, radius, fmt, (IntPtr)fmtData, angle0, flags);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotFormatter, IntPtr, double, ImPlotPieChartFlags, void>)FuncTable[235])((IntPtr)labelIds, (IntPtr)values, count, x, y, radius, fmt, (IntPtr)fmtData, angle0, flags);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotPieChartU32PtrPlotFormatter(byte** labelIds, uint* values, int count, double x, double y, double radius, IntPtr fmt, void* fmtData, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartU32PtrPlotFormatter(byte** labelIds, uint* values, int count, double x, double y, double radius, ImPlotFormatter fmt, void* fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, IntPtr, IntPtr, double, ImPlotPieChartFlags, void>)FuncTable[236])((IntPtr)labelIds, (IntPtr)values, count, x, y, radius, fmt, (IntPtr)fmtData, angle0, flags);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotFormatter, IntPtr, double, ImPlotPieChartFlags, void>)FuncTable[236])((IntPtr)labelIds, (IntPtr)values, count, x, y, radius, fmt, (IntPtr)fmtData, angle0, flags);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotPieChartS64PtrPlotFormatter(byte** labelIds, long* values, int count, double x, double y, double radius, IntPtr fmt, void* fmtData, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartS64PtrPlotFormatter(byte** labelIds, long* values, int count, double x, double y, double radius, ImPlotFormatter fmt, void* fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, IntPtr, IntPtr, double, ImPlotPieChartFlags, void>)FuncTable[237])((IntPtr)labelIds, (IntPtr)values, count, x, y, radius, fmt, (IntPtr)fmtData, angle0, flags);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotFormatter, IntPtr, double, ImPlotPieChartFlags, void>)FuncTable[237])((IntPtr)labelIds, (IntPtr)values, count, x, y, radius, fmt, (IntPtr)fmtData, angle0, flags);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotPieChartU64PtrPlotFormatter(byte** labelIds, ulong* values, int count, double x, double y, double radius, IntPtr fmt, void* fmtData, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartU64PtrPlotFormatter(byte** labelIds, ulong* values, int count, double x, double y, double radius, ImPlotFormatter fmt, void* fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, IntPtr, IntPtr, double, ImPlotPieChartFlags, void>)FuncTable[238])((IntPtr)labelIds, (IntPtr)values, count, x, y, radius, fmt, (IntPtr)fmtData, angle0, flags);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, double, double, double, ImPlotFormatter, IntPtr, double, ImPlotPieChartFlags, void>)FuncTable[238])((IntPtr)labelIds, (IntPtr)values, count, x, y, radius, fmt, (IntPtr)fmtData, angle0, flags);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1753,15 +1754,15 @@ namespace SharpImPlot
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotDigitalG(byte* labelId, void* getter, void* data, int count, ImPlotDigitalFlags flags)
+		public static void PlotDigitalG(byte* labelId, ImPlotPointGetter getter, void* data, int count, ImPlotDigitalFlags flags)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, ImPlotDigitalFlags, void>)FuncTable[289])((IntPtr)labelId, (IntPtr)getter, (IntPtr)data, count, flags);
+			((delegate* unmanaged[Cdecl]<IntPtr, ImPlotPointGetter, IntPtr, int, ImPlotDigitalFlags, void>)FuncTable[289])((IntPtr)labelId, getter, (IntPtr)data, count, flags);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotImage(byte* labelId, IntPtr userTextureId, ImPlotPoint boundsMin, ImPlotPoint boundsMax, Vector2 uv0, Vector2 uv1, Vector4 tintCol, ImPlotImageFlags flags)
+		public static void PlotImage(byte* labelId, ulong userTextureId, ImPlotPoint boundsMin, ImPlotPoint boundsMax, Vector2 uv0, Vector2 uv1, Vector4 tintCol, ImPlotImageFlags flags)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, ImPlotPoint, ImPlotPoint, Vector2, Vector2, Vector4, ImPlotImageFlags, void>)FuncTable[290])((IntPtr)labelId, userTextureId, boundsMin, boundsMax, uv0, uv1, tintCol, flags);
+			((delegate* unmanaged[Cdecl]<IntPtr, ulong, ImPlotPoint, ImPlotPoint, Vector2, Vector2, Vector4, ImPlotImageFlags, void>)FuncTable[290])((IntPtr)labelId, userTextureId, boundsMin, boundsMax, uv0, uv1, tintCol, flags);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1801,37 +1802,37 @@ namespace SharpImPlot
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void Annotation(double x, double y, Vector4 col, Vector2 pixOffset, byte clamp, byte round)
+		public static void AnnotationBool(double x, double y, Vector4 col, Vector2 pixOffset, byte clamp, byte round)
 		{
 			((delegate* unmanaged[Cdecl]<double, double, Vector4, Vector2, byte, byte, void>)FuncTable[297])(x, y, col, pixOffset, clamp, round);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void Annotation(double x, double y, Vector4 col, Vector2 pixOffset, byte clamp, byte* fmt)
+		public static void AnnotationStr(double x, double y, Vector4 col, Vector2 pixOffset, byte clamp, byte* fmt)
 		{
 			((delegate* unmanaged[Cdecl]<double, double, Vector4, Vector2, byte, IntPtr, void>)FuncTable[298])(x, y, col, pixOffset, clamp, (IntPtr)fmt);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void TagX(double x, Vector4 col, byte round)
+		public static void TagXBool(double x, Vector4 col, byte round)
 		{
 			((delegate* unmanaged[Cdecl]<double, Vector4, byte, void>)FuncTable[299])(x, col, round);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void TagX(double x, Vector4 col, byte* fmt)
+		public static void TagXStr(double x, Vector4 col, byte* fmt)
 		{
 			((delegate* unmanaged[Cdecl]<double, Vector4, IntPtr, void>)FuncTable[300])(x, col, (IntPtr)fmt);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void TagY(double y, Vector4 col, byte round)
+		public static void TagYBool(double y, Vector4 col, byte round)
 		{
 			((delegate* unmanaged[Cdecl]<double, Vector4, byte, void>)FuncTable[301])(y, col, round);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void TagY(double y, Vector4 col, byte* fmt)
+		public static void TagYStr(double y, Vector4 col, byte* fmt)
 		{
 			((delegate* unmanaged[Cdecl]<double, Vector4, IntPtr, void>)FuncTable[302])(y, col, (IntPtr)fmt);
 		}
@@ -1849,13 +1850,13 @@ namespace SharpImPlot
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PixelsToPlot(ImPlotPoint* pOut, Vector2 pix, ImAxis xAxis, ImAxis yAxis)
+		public static void PixelsToPlotVec2(ImPlotPoint* pOut, Vector2 pix, ImAxis xAxis, ImAxis yAxis)
 		{
 			((delegate* unmanaged[Cdecl]<IntPtr, Vector2, ImAxis, ImAxis, void>)FuncTable[305])((IntPtr)pOut, pix, xAxis, yAxis);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PixelsToPlot(ImPlotPoint* pOut, float x, float y, ImAxis xAxis, ImAxis yAxis)
+		public static void PixelsToPlotFloat(ImPlotPoint* pOut, float x, float y, ImAxis xAxis, ImAxis yAxis)
 		{
 			((delegate* unmanaged[Cdecl]<IntPtr, float, float, ImAxis, ImAxis, void>)FuncTable[306])((IntPtr)pOut, x, y, xAxis, yAxis);
 		}
@@ -2065,19 +2066,19 @@ namespace SharpImPlot
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PushStyleVar(ImPlotStyleVar idx, float val)
+		public static void PushStyleVarFloat(ImPlotStyleVar idx, float val)
 		{
 			((delegate* unmanaged[Cdecl]<ImPlotStyleVar, float, void>)FuncTable[341])(idx, val);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PushStyleVar(ImPlotStyleVar idx, int val)
+		public static void PushStyleVarInt(ImPlotStyleVar idx, int val)
 		{
 			((delegate* unmanaged[Cdecl]<ImPlotStyleVar, int, void>)FuncTable[342])(idx, val);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PushStyleVar(ImPlotStyleVar idx, Vector2 val)
+		public static void PushStyleVarVec2(ImPlotStyleVar idx, Vector2 val)
 		{
 			((delegate* unmanaged[Cdecl]<ImPlotStyleVar, Vector2, void>)FuncTable[343])(idx, val);
 		}
@@ -2209,9 +2210,9 @@ namespace SharpImPlot
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static byte ColormapSlider(byte* label, float* t, Vector4* @out, byte* format, ImPlotColormap cmap)
+		public static byte ColormapSlider(byte* label, float* t, Vector4* _out, byte* format, ImPlotColormap cmap)
 		{
-			return ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, IntPtr, ImPlotColormap, byte>)FuncTable[365])((IntPtr)label, (IntPtr)t, (IntPtr)@out, (IntPtr)format, cmap);
+			return ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, IntPtr, ImPlotColormap, byte>)FuncTable[365])((IntPtr)label, (IntPtr)t, (IntPtr)_out, (IntPtr)format, cmap);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2299,9 +2300,9 @@ namespace SharpImPlot
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void ShowStyleEditor(ImPlotStyle* @ref)
+		public static void ShowStyleEditor(ImPlotStyle* _ref)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, void>)FuncTable[380])((IntPtr)@ref);
+			((delegate* unmanaged[Cdecl]<IntPtr, void>)FuncTable[380])((IntPtr)_ref);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3229,9 +3230,9 @@ namespace SharpImPlot
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static ImPlotTick* TickerAddTickDoublePlotFormatter(ImPlotTicker* self, double value, byte major, int level, byte showLabel, IntPtr formatter, void* data)
+		public static ImPlotTick* TickerAddTickDoublePlotFormatter(ImPlotTicker* self, double value, byte major, int level, byte showLabel, ImPlotFormatter formatter, void* data)
 		{
-			return (ImPlotTick*)((delegate* unmanaged[Cdecl]<IntPtr, double, byte, int, byte, IntPtr, IntPtr, IntPtr>)FuncTable[535])((IntPtr)self, value, major, level, showLabel, formatter, (IntPtr)data);
+			return (ImPlotTick*)((delegate* unmanaged[Cdecl]<IntPtr, double, byte, int, byte, ImPlotFormatter, IntPtr, IntPtr>)FuncTable[535])((IntPtr)self, value, major, level, showLabel, formatter, (IntPtr)data);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4435,27 +4436,27 @@ namespace SharpImPlot
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void LocatorDefault(ImPlotTicker* ticker, ImPlotRange range, float pixels, byte vertical, IntPtr formatter, void* formatterData)
+		public static void LocatorDefault(ImPlotTicker* ticker, ImPlotRange range, float pixels, byte vertical, ImPlotFormatter formatter, void* formatterData)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, ImPlotRange, float, byte, IntPtr, IntPtr, void>)FuncTable[736])((IntPtr)ticker, range, pixels, vertical, formatter, (IntPtr)formatterData);
+			((delegate* unmanaged[Cdecl]<IntPtr, ImPlotRange, float, byte, ImPlotFormatter, IntPtr, void>)FuncTable[736])((IntPtr)ticker, range, pixels, vertical, formatter, (IntPtr)formatterData);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void LocatorTime(ImPlotTicker* ticker, ImPlotRange range, float pixels, byte vertical, IntPtr formatter, void* formatterData)
+		public static void LocatorTime(ImPlotTicker* ticker, ImPlotRange range, float pixels, byte vertical, ImPlotFormatter formatter, void* formatterData)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, ImPlotRange, float, byte, IntPtr, IntPtr, void>)FuncTable[737])((IntPtr)ticker, range, pixels, vertical, formatter, (IntPtr)formatterData);
+			((delegate* unmanaged[Cdecl]<IntPtr, ImPlotRange, float, byte, ImPlotFormatter, IntPtr, void>)FuncTable[737])((IntPtr)ticker, range, pixels, vertical, formatter, (IntPtr)formatterData);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void LocatorLog10(ImPlotTicker* ticker, ImPlotRange range, float pixels, byte vertical, IntPtr formatter, void* formatterData)
+		public static void LocatorLog10(ImPlotTicker* ticker, ImPlotRange range, float pixels, byte vertical, ImPlotFormatter formatter, void* formatterData)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, ImPlotRange, float, byte, IntPtr, IntPtr, void>)FuncTable[738])((IntPtr)ticker, range, pixels, vertical, formatter, (IntPtr)formatterData);
+			((delegate* unmanaged[Cdecl]<IntPtr, ImPlotRange, float, byte, ImPlotFormatter, IntPtr, void>)FuncTable[738])((IntPtr)ticker, range, pixels, vertical, formatter, (IntPtr)formatterData);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void LocatorSymLog(ImPlotTicker* ticker, ImPlotRange range, float pixels, byte vertical, IntPtr formatter, void* formatterData)
+		public static void LocatorSymLog(ImPlotTicker* ticker, ImPlotRange range, float pixels, byte vertical, ImPlotFormatter formatter, void* formatterData)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, ImPlotRange, float, byte, IntPtr, IntPtr, void>)FuncTable[739])((IntPtr)ticker, range, pixels, vertical, formatter, (IntPtr)formatterData);
+			((delegate* unmanaged[Cdecl]<IntPtr, ImPlotRange, float, byte, ImPlotFormatter, IntPtr, void>)FuncTable[739])((IntPtr)ticker, range, pixels, vertical, formatter, (IntPtr)formatterData);
 		}
 
 	}

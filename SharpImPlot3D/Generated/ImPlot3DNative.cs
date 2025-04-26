@@ -1,8 +1,9 @@
+using SharpImGui;
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
-using SharpImGui;
+using System.Text;
 
 namespace SharpImPlot3D
 {
@@ -70,9 +71,9 @@ namespace SharpImPlot3D
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void SetupAxisFormat(ImAxis3D idx, void* formatter, void* data)
+		public static void SetupAxisFormat(ImAxis3D idx, ImPlot3DFormatter formatter, void* data)
 		{
-			((delegate* unmanaged[Cdecl]<ImAxis3D, IntPtr, IntPtr, void>)FuncTable[8])(idx, (IntPtr)formatter, (IntPtr)data);
+			((delegate* unmanaged[Cdecl]<ImAxis3D, ImPlot3DFormatter, IntPtr, void>)FuncTable[8])(idx, formatter, (IntPtr)data);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -700,9 +701,9 @@ namespace SharpImPlot3D
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void ShowStyleEditor(ImPlot3DStyle* @ref)
+		public static void ShowStyleEditor(ImPlot3DStyle* _ref)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, void>)FuncTable[110])((IntPtr)@ref);
+			((delegate* unmanaged[Cdecl]<IntPtr, void>)FuncTable[110])((IntPtr)_ref);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -21,10 +23,36 @@ namespace SharpImGui
 		public ImBitVector* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImBitVector this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ref ImVector<uint> Storage => ref Unsafe.AsRef<ImVector<uint>>(&NativePtr->Storage);
 		public ImBitVectorPtr(ImBitVector* nativePtr) => NativePtr = nativePtr;
 		public ImBitVectorPtr(IntPtr nativePtr) => NativePtr = (ImBitVector*)nativePtr;
 		public static implicit operator ImBitVectorPtr(ImBitVector* ptr) => new ImBitVectorPtr(ptr);
 		public static implicit operator ImBitVectorPtr(IntPtr ptr) => new ImBitVectorPtr(ptr);
 		public static implicit operator ImBitVector*(ImBitVectorPtr nativePtr) => nativePtr.NativePtr;
+		public void ClearBit(int n)
+		{
+			ImGuiNative.ImBitVectorClearBit(NativePtr, n);
+		}
+
+		public void SetBit(int n)
+		{
+			ImGuiNative.ImBitVectorSetBit(NativePtr, n);
+		}
+
+		public byte TestBit(int n)
+		{
+			return ImGuiNative.ImBitVectorTestBit(NativePtr, n);
+		}
+
+		public void Clear()
+		{
+			ImGuiNative.ImBitVectorClear(NativePtr);
+		}
+
+		public void Create(int sz)
+		{
+			ImGuiNative.ImBitVectorCreate(NativePtr, sz);
+		}
+
 	}
 }

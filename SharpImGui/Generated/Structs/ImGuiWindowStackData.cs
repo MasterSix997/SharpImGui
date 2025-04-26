@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -31,6 +33,17 @@ namespace SharpImGui
 		public ImGuiWindowStackData* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImGuiWindowStackData this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ref ImGuiWindowPtr Window => ref Unsafe.AsRef<ImGuiWindowPtr>(&NativePtr->Window);
+		public ref ImGuiLastItemData ParentLastItemDataBackup => ref Unsafe.AsRef<ImGuiLastItemData>(&NativePtr->ParentLastItemDataBackup);
+		/// <summary>
+		/// Store size of various stacks for asserting<br/>
+		/// </summary>
+		public ref ImGuiErrorRecoveryState StackSizesInBegin => ref Unsafe.AsRef<ImGuiErrorRecoveryState>(&NativePtr->StackSizesInBegin);
+		/// <summary>
+		/// Non-child window override disabled flag<br/>
+		/// </summary>
+		public ref bool DisabledOverrideReenable => ref Unsafe.AsRef<bool>(&NativePtr->DisabledOverrideReenable);
+		public ref float DisabledOverrideReenableAlphaBackup => ref Unsafe.AsRef<float>(&NativePtr->DisabledOverrideReenableAlphaBackup);
 		public ImGuiWindowStackDataPtr(ImGuiWindowStackData* nativePtr) => NativePtr = nativePtr;
 		public ImGuiWindowStackDataPtr(IntPtr nativePtr) => NativePtr = (ImGuiWindowStackData*)nativePtr;
 		public static implicit operator ImGuiWindowStackDataPtr(ImGuiWindowStackData* ptr) => new ImGuiWindowStackDataPtr(ptr);

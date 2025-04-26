@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -15,6 +17,7 @@ namespace SharpImGui
 		public ImGuiInputEventAppFocused* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImGuiInputEventAppFocused this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ref bool Focused => ref Unsafe.AsRef<bool>(&NativePtr->Focused);
 		public ImGuiInputEventAppFocusedPtr(ImGuiInputEventAppFocused* nativePtr) => NativePtr = nativePtr;
 		public ImGuiInputEventAppFocusedPtr(IntPtr nativePtr) => NativePtr = (ImGuiInputEventAppFocused*)nativePtr;
 		public static implicit operator ImGuiInputEventAppFocusedPtr(ImGuiInputEventAppFocused* ptr) => new ImGuiInputEventAppFocusedPtr(ptr);

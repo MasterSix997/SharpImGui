@@ -1,8 +1,9 @@
+using SharpImGui;
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
-using SharpImGui;
+using System.Text;
 
 namespace SharpImNodes
 {
@@ -187,9 +188,9 @@ namespace SharpImNodes
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void MiniMap(float minimapSizeFraction, ImNodesMiniMapLocation location, void* nodeHoveringCallback, void* nodeHoveringCallbackData)
+		public static void MiniMap(float minimapSizeFraction, ImNodesMiniMapLocation location, ImNodesMiniMapNodeHoveringCallback nodeHoveringCallback, void* nodeHoveringCallbackData)
 		{
-			((delegate* unmanaged[Cdecl]<float, ImNodesMiniMapLocation, IntPtr, IntPtr, void>)FuncTable[28])(minimapSizeFraction, location, (IntPtr)nodeHoveringCallback, (IntPtr)nodeHoveringCallbackData);
+			((delegate* unmanaged[Cdecl]<float, ImNodesMiniMapLocation, ImNodesMiniMapNodeHoveringCallback, IntPtr, void>)FuncTable[28])(minimapSizeFraction, location, nodeHoveringCallback, (IntPtr)nodeHoveringCallbackData);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]

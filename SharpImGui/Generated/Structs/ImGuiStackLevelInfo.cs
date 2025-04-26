@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -84,10 +86,39 @@ namespace SharpImGui
 		public ImGuiStackLevelInfo* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImGuiStackLevelInfo this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ref uint ID => ref Unsafe.AsRef<uint>(&NativePtr->ID);
+		/// <summary>
+		/// &gt;= 1: Query in progress<br/>
+		/// </summary>
+		public ref sbyte QueryFrameCount => ref Unsafe.AsRef<sbyte>(&NativePtr->QueryFrameCount);
+		/// <summary>
+		/// Obtained result from DebugHookIdInfo()<br/>
+		/// </summary>
+		public ref bool QuerySuccess => ref Unsafe.AsRef<bool>(&NativePtr->QuerySuccess);
+		public ref ImGuiDataType DataType => ref Unsafe.AsRef<ImGuiDataType>(&NativePtr->DataType);
+		/// <summary>
+		/// Arbitrarily sized buffer to hold a result (FIXME: could replace Results[] with a chunk stream?) FIXME: Now that we added CTRL+C this should be fixed.<br/>
+		/// </summary>
+		public Span<byte> Desc => new Span<byte>(&NativePtr->Desc_0, 57);
 		public ImGuiStackLevelInfoPtr(ImGuiStackLevelInfo* nativePtr) => NativePtr = nativePtr;
 		public ImGuiStackLevelInfoPtr(IntPtr nativePtr) => NativePtr = (ImGuiStackLevelInfo*)nativePtr;
 		public static implicit operator ImGuiStackLevelInfoPtr(ImGuiStackLevelInfo* ptr) => new ImGuiStackLevelInfoPtr(ptr);
 		public static implicit operator ImGuiStackLevelInfoPtr(IntPtr ptr) => new ImGuiStackLevelInfoPtr(ptr);
 		public static implicit operator ImGuiStackLevelInfo*(ImGuiStackLevelInfoPtr nativePtr) => nativePtr.NativePtr;
+		public void Destroy()
+		{
+			ImGuiNative.ImGuiStackLevelInfoDestroy(NativePtr);
+		}
+
+		public void ImGuiStackLevelInfoConstruct()
+		{
+			ImGuiNative.ImGuiStackLevelInfoImGuiStackLevelInfoConstruct(NativePtr);
+		}
+
+		public ImGuiStackLevelInfoPtr ImGuiStackLevelInfo()
+		{
+			return ImGuiNative.ImGuiStackLevelInfoImGuiStackLevelInfo();
+		}
+
 	}
 }

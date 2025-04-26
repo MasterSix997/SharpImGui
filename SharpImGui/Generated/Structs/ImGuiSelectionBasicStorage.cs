@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -45,10 +47,112 @@ namespace SharpImGui
 		public ImGuiSelectionBasicStorage* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImGuiSelectionBasicStorage this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		/// <summary>
+		/// <br/>    Members<br/>
+		///          Number of selected items, maintained by this helper.<br/>
+		/// </summary>
+		public ref int Size => ref Unsafe.AsRef<int>(&NativePtr->Size);
+		/// <summary>
+		/// = false  GetNextSelectedItem() will return ordered selection (currently implemented by two additional sorts of selection. Could be improved)<br/>
+		/// </summary>
+		public ref bool PreserveOrder => ref Unsafe.AsRef<bool>(&NativePtr->PreserveOrder);
+		/// <summary>
+		/// = NULL   User data for use by adapter function        e.g. selection.UserData = (void*)my_items;<br/>
+		/// </summary>
+		public IntPtr UserData { get => (IntPtr)NativePtr->UserData; set => NativePtr->UserData = (void*)value; }
+		/// <summary>
+		/// e.g. selection.AdapterIndexToStorageId = [](ImGuiSelectionBasicStorage* self, int idx)  return ((MyItems**)self-&gt;UserData)[idx]-&gt;ID; ;<br/>
+		/// </summary>
+		public IntPtr AdapterIndexToStorageId { get => (IntPtr)NativePtr->AdapterIndexToStorageId; set => NativePtr->AdapterIndexToStorageId = (void*)value; }
+		/// <summary>
+		/// [Internal] Increasing counter to store selection order<br/>
+		/// </summary>
+		public ref int SelectionOrder => ref Unsafe.AsRef<int>(&NativePtr->SelectionOrder);
+		/// <summary>
+		/// [Internal] Selection set. Think of this as similar to e.g. std::set&lt;ImGuiID&gt;. Prefer not accessing directly: iterate with GetNextSelectedItem().<br/>
+		/// </summary>
+		public ref ImGuiStorage Storage => ref Unsafe.AsRef<ImGuiStorage>(&NativePtr->Storage);
 		public ImGuiSelectionBasicStoragePtr(ImGuiSelectionBasicStorage* nativePtr) => NativePtr = nativePtr;
 		public ImGuiSelectionBasicStoragePtr(IntPtr nativePtr) => NativePtr = (ImGuiSelectionBasicStorage*)nativePtr;
 		public static implicit operator ImGuiSelectionBasicStoragePtr(ImGuiSelectionBasicStorage* ptr) => new ImGuiSelectionBasicStoragePtr(ptr);
 		public static implicit operator ImGuiSelectionBasicStoragePtr(IntPtr ptr) => new ImGuiSelectionBasicStoragePtr(ptr);
 		public static implicit operator ImGuiSelectionBasicStorage*(ImGuiSelectionBasicStoragePtr nativePtr) => nativePtr.NativePtr;
+		/// <summary>
+		/// Convert index to item id based on provided adapter.<br/>
+		/// </summary>
+		public uint GetStorageIdFromIndex(int idx)
+		{
+			return ImGuiNative.ImGuiSelectionBasicStorageGetStorageIdFromIndex(NativePtr, idx);
+		}
+
+		/// <summary>
+		/// Iterate selection with 'void* it = NULL; ImGuiID id; while (selection.GetNextSelectedItem(&it, &id))  ... '<br/>
+		/// </summary>
+		public byte GetNextSelectedItem(ref void* opaqueIt, ref uint outId)
+		{
+			fixed (void** native_opaqueIt = &opaqueIt)
+			fixed (uint* native_outId = &outId)
+			{
+				var result = ImGuiNative.ImGuiSelectionBasicStorageGetNextSelectedItem(NativePtr, native_opaqueIt, native_outId);
+				return result;
+			}
+		}
+
+		/// <summary>
+		/// Add/remove an item from selection (generally done by ApplyRequests() function)<br/>
+		/// </summary>
+		public void SetItemSelected(uint id, bool selected)
+		{
+			var native_selected = selected ? (byte)1 : (byte)0;
+			ImGuiNative.ImGuiSelectionBasicStorageSetItemSelected(NativePtr, id, native_selected);
+		}
+
+		/// <summary>
+		/// Swap two selections<br/>
+		/// </summary>
+		public void Swap(ImGuiSelectionBasicStoragePtr r)
+		{
+			ImGuiNative.ImGuiSelectionBasicStorageSwap(NativePtr, r);
+		}
+
+		/// <summary>
+		/// Clear selection<br/>
+		/// </summary>
+		public void Clear()
+		{
+			ImGuiNative.ImGuiSelectionBasicStorageClear(NativePtr);
+		}
+
+		/// <summary>
+		/// Query if an item id is in selection.<br/>
+		/// </summary>
+		public byte Contains(uint id)
+		{
+			return ImGuiNative.ImGuiSelectionBasicStorageContains(NativePtr, id);
+		}
+
+		/// <summary>
+		/// Apply selection requests coming from BeginMultiSelect() and EndMultiSelect() functions. It uses 'items_count' passed to BeginMultiSelect()<br/>
+		/// </summary>
+		public void ApplyRequests(ImGuiMultiSelectIOPtr msIo)
+		{
+			ImGuiNative.ImGuiSelectionBasicStorageApplyRequests(NativePtr, msIo);
+		}
+
+		public void Destroy()
+		{
+			ImGuiNative.ImGuiSelectionBasicStorageDestroy(NativePtr);
+		}
+
+		public void ImGuiSelectionBasicStorageConstruct()
+		{
+			ImGuiNative.ImGuiSelectionBasicStorageImGuiSelectionBasicStorageConstruct(NativePtr);
+		}
+
+		public ImGuiSelectionBasicStoragePtr ImGuiSelectionBasicStorage()
+		{
+			return ImGuiNative.ImGuiSelectionBasicStorageImGuiSelectionBasicStorage();
+		}
+
 	}
 }

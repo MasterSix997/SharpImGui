@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -18,7 +20,7 @@ namespace SharpImGui
 		/// <summary>
 		/// User data to refer to the texture once it has been uploaded to user's graphic systems. It is passed back to you during rendering via the ImDrawCmd structure.<br/>
 		/// </summary>
-		public IntPtr TexID;
+		public ulong TexID;
 		/// <summary>
 		/// Texture width desired by user before Build(). Must be a power-of-two. If have many glyphs your graphics API have texture size restrictions you may want to increase texture width to decrease height.<br/>
 		/// </summary>
@@ -120,7 +122,7 @@ namespace SharpImGui
 		///     [Internal] Font builder<br/>
 		/// Opaque interface to a font builder (default to stb_truetype, can be changed to use FreeType by defining IMGUI_ENABLE_FREETYPE).<br/>
 		/// </summary>
-		public unsafe IntPtr* FontBuilderIO;
+		public unsafe ImFontBuilderIO* FontBuilderIO;
 		/// <summary>
 		/// Shared flags (for all fonts) for custom font builder. THIS IS BUILD IMPLEMENTATION DEPENDENT. Per-font override is also available in ImFontConfig.<br/>
 		/// </summary>
@@ -144,10 +146,404 @@ namespace SharpImGui
 		public ImFontAtlas* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImFontAtlas this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		/// <summary>
+		///     Input<br/>
+		/// Build flags (see ImFontAtlasFlags_)<br/>
+		/// </summary>
+		public ref ImFontAtlasFlags Flags => ref Unsafe.AsRef<ImFontAtlasFlags>(&NativePtr->Flags);
+		/// <summary>
+		/// User data to refer to the texture once it has been uploaded to user's graphic systems. It is passed back to you during rendering via the ImDrawCmd structure.<br/>
+		/// </summary>
+		public ref ulong TexID => ref Unsafe.AsRef<ulong>(&NativePtr->TexID);
+		/// <summary>
+		/// Texture width desired by user before Build(). Must be a power-of-two. If have many glyphs your graphics API have texture size restrictions you may want to increase texture width to decrease height.<br/>
+		/// </summary>
+		public ref int TexDesiredWidth => ref Unsafe.AsRef<int>(&NativePtr->TexDesiredWidth);
+		/// <summary>
+		/// FIXME: Should be called "TexPackPadding". Padding between glyphs within texture in pixels. Defaults to 1. If your rendering method doesn't rely on bilinear filtering you may set this to 0 (will also need to set AntiAliasedLinesUseTex = false).<br/>
+		/// </summary>
+		public ref int TexGlyphPadding => ref Unsafe.AsRef<int>(&NativePtr->TexGlyphPadding);
+		/// <summary>
+		/// Store your own atlas related user-data (if e.g. you have multiple font atlas).<br/>
+		/// </summary>
+		public IntPtr UserData { get => (IntPtr)NativePtr->UserData; set => NativePtr->UserData = (void*)value; }
+		/// <summary>
+		///     [Internal]<br/>    NB: Access texture data via GetTexData*() calls! Which will setup a default font for you.<br/>
+		/// Marked as Locked by ImGui::NewFrame() so attempt to modify the atlas will assert.<br/>
+		/// </summary>
+		public ref bool Locked => ref Unsafe.AsRef<bool>(&NativePtr->Locked);
+		/// <summary>
+		/// Set when texture was built matching current font input<br/>
+		/// </summary>
+		public ref bool TexReady => ref Unsafe.AsRef<bool>(&NativePtr->TexReady);
+		/// <summary>
+		/// Tell whether our texture data is known to use colors (rather than just alpha channel), in order to help backend select a format.<br/>
+		/// </summary>
+		public ref bool TexPixelsUseColors => ref Unsafe.AsRef<bool>(&NativePtr->TexPixelsUseColors);
+		/// <summary>
+		/// 1 component per pixel, each component is unsigned 8-bit. Total size = TexWidth * TexHeight<br/>
+		/// </summary>
+		public IntPtr TexPixelsAlpha8 { get => (IntPtr)NativePtr->TexPixelsAlpha8; set => NativePtr->TexPixelsAlpha8 = (byte*)value; }
+		/// <summary>
+		/// 4 component per pixel, each component is unsigned 8-bit. Total size = TexWidth * TexHeight * 4<br/>
+		/// </summary>
+		public IntPtr TexPixelsRgba32 { get => (IntPtr)NativePtr->TexPixelsRgba32; set => NativePtr->TexPixelsRgba32 = (uint*)value; }
+		/// <summary>
+		/// Texture width calculated during Build().<br/>
+		/// </summary>
+		public ref int TexWidth => ref Unsafe.AsRef<int>(&NativePtr->TexWidth);
+		/// <summary>
+		/// Texture height calculated during Build().<br/>
+		/// </summary>
+		public ref int TexHeight => ref Unsafe.AsRef<int>(&NativePtr->TexHeight);
+		/// <summary>
+		/// = (1.0f/TexWidth, 1.0f/TexHeight)<br/>
+		/// </summary>
+		public ref Vector2 TexUvScale => ref Unsafe.AsRef<Vector2>(&NativePtr->TexUvScale);
+		/// <summary>
+		/// Texture coordinates to a white pixel<br/>
+		/// </summary>
+		public ref Vector2 TexUvWhitePixel => ref Unsafe.AsRef<Vector2>(&NativePtr->TexUvWhitePixel);
+		/// <summary>
+		/// Hold all the fonts returned by AddFont*. Fonts[0] is the default font upon calling ImGui::NewFrame(), use ImGui::PushFont()/PopFont() to change the current font.<br/>
+		/// </summary>
+		public ref ImVector<ImFontPtr> Fonts => ref Unsafe.AsRef<ImVector<ImFontPtr>>(&NativePtr->Fonts);
+		/// <summary>
+		/// Rectangles for packing custom texture data into the atlas.<br/>
+		/// </summary>
+		public ref ImVector<ImFontAtlasCustomRect> CustomRects => ref Unsafe.AsRef<ImVector<ImFontAtlasCustomRect>>(&NativePtr->CustomRects);
+		/// <summary>
+		/// Source/configuration data<br/>
+		/// </summary>
+		public ref ImVector<ImFontConfig> Sources => ref Unsafe.AsRef<ImVector<ImFontConfig>>(&NativePtr->Sources);
+		/// <summary>
+		/// UVs for baked anti-aliased lines<br/>
+		/// </summary>
+		public Span<Vector4> TexUvLines => new Span<Vector4>(&NativePtr->TexUvLines_0, 33);
+		/// <summary>
+		///     [Internal] Font builder<br/>
+		/// Opaque interface to a font builder (default to stb_truetype, can be changed to use FreeType by defining IMGUI_ENABLE_FREETYPE).<br/>
+		/// </summary>
+		public ref ImFontBuilderIOPtr FontBuilderIO => ref Unsafe.AsRef<ImFontBuilderIOPtr>(&NativePtr->FontBuilderIO);
+		/// <summary>
+		/// Shared flags (for all fonts) for custom font builder. THIS IS BUILD IMPLEMENTATION DEPENDENT. Per-font override is also available in ImFontConfig.<br/>
+		/// </summary>
+		public ref uint FontBuilderFlags => ref Unsafe.AsRef<uint>(&NativePtr->FontBuilderFlags);
+		/// <summary>
+		///     [Internal] Packing data<br/>
+		/// Custom texture rectangle ID for white pixel and mouse cursors<br/>
+		/// </summary>
+		public ref int PackIdMouseCursors => ref Unsafe.AsRef<int>(&NativePtr->PackIdMouseCursors);
+		/// <summary>
+		/// Custom texture rectangle ID for baked anti-aliased lines<br/>
+		/// </summary>
+		public ref int PackIdLines => ref Unsafe.AsRef<int>(&NativePtr->PackIdLines);
 		public ImFontAtlasPtr(ImFontAtlas* nativePtr) => NativePtr = nativePtr;
 		public ImFontAtlasPtr(IntPtr nativePtr) => NativePtr = (ImFontAtlas*)nativePtr;
 		public static implicit operator ImFontAtlasPtr(ImFontAtlas* ptr) => new ImFontAtlasPtr(ptr);
 		public static implicit operator ImFontAtlasPtr(IntPtr ptr) => new ImFontAtlasPtr(ptr);
 		public static implicit operator ImFontAtlas*(ImFontAtlasPtr nativePtr) => nativePtr.NativePtr;
+		public void CalcCustomRectUV(ImFontAtlasCustomRectPtr rect, ref Vector2 outUvMin, ref Vector2 outUvMax)
+		{
+			fixed (Vector2* native_outUvMin = &outUvMin)
+			fixed (Vector2* native_outUvMax = &outUvMax)
+			{
+				ImGuiNative.ImFontAtlasCalcCustomRectUV(NativePtr, rect, native_outUvMin, native_outUvMax);
+			}
+		}
+
+		public ImFontAtlasCustomRectPtr GetCustomRectByIndex(int index)
+		{
+			return ImGuiNative.ImFontAtlasGetCustomRectByIndex(NativePtr, index);
+		}
+
+		public int AddCustomRectFontGlyph(ImFontPtr font, ushort id, int width, int height, float advanceX, Vector2 offset)
+		{
+			return ImGuiNative.ImFontAtlasAddCustomRectFontGlyph(NativePtr, font, id, width, height, advanceX, offset);
+		}
+
+		public int AddCustomRectRegular(int width, int height)
+		{
+			return ImGuiNative.ImFontAtlasAddCustomRectRegular(NativePtr, width, height);
+		}
+
+		/// <summary>
+		/// Default + Vietnamese characters<br/>
+		/// </summary>
+		public ref ushort GetGlyphRangesVietnamese()
+		{
+			var nativeResult = ImGuiNative.ImFontAtlasGetGlyphRangesVietnamese(NativePtr);
+			return ref *(ushort*)&nativeResult;
+		}
+
+		/// <summary>
+		/// Default + Thai characters<br/>
+		/// </summary>
+		public ref ushort GetGlyphRangesThai()
+		{
+			var nativeResult = ImGuiNative.ImFontAtlasGetGlyphRangesThai(NativePtr);
+			return ref *(ushort*)&nativeResult;
+		}
+
+		/// <summary>
+		/// Default + about 400 Cyrillic characters<br/>
+		/// </summary>
+		public ref ushort GetGlyphRangesCyrillic()
+		{
+			var nativeResult = ImGuiNative.ImFontAtlasGetGlyphRangesCyrillic(NativePtr);
+			return ref *(ushort*)&nativeResult;
+		}
+
+		/// <summary>
+		/// Default + Half-Width + Japanese Hiragana/Katakana + set of 2500 CJK Unified Ideographs for common simplified Chinese<br/>
+		/// </summary>
+		public ref ushort GetGlyphRangesChineseSimplifiedCommon()
+		{
+			var nativeResult = ImGuiNative.ImFontAtlasGetGlyphRangesChineseSimplifiedCommon(NativePtr);
+			return ref *(ushort*)&nativeResult;
+		}
+
+		/// <summary>
+		/// Default + Half-Width + Japanese Hiragana/Katakana + full set of about 21000 CJK Unified Ideographs<br/>
+		/// </summary>
+		public ref ushort GetGlyphRangesChineseFull()
+		{
+			var nativeResult = ImGuiNative.ImFontAtlasGetGlyphRangesChineseFull(NativePtr);
+			return ref *(ushort*)&nativeResult;
+		}
+
+		/// <summary>
+		/// Default + Hiragana, Katakana, Half-Width, Selection of 2999 Ideographs<br/>
+		/// </summary>
+		public ref ushort GetGlyphRangesJapanese()
+		{
+			var nativeResult = ImGuiNative.ImFontAtlasGetGlyphRangesJapanese(NativePtr);
+			return ref *(ushort*)&nativeResult;
+		}
+
+		/// <summary>
+		/// Default + Korean characters<br/>
+		/// </summary>
+		public ref ushort GetGlyphRangesKorean()
+		{
+			var nativeResult = ImGuiNative.ImFontAtlasGetGlyphRangesKorean(NativePtr);
+			return ref *(ushort*)&nativeResult;
+		}
+
+		/// <summary>
+		/// Default + Greek and Coptic<br/>
+		/// </summary>
+		public ref ushort GetGlyphRangesGreek()
+		{
+			var nativeResult = ImGuiNative.ImFontAtlasGetGlyphRangesGreek(NativePtr);
+			return ref *(ushort*)&nativeResult;
+		}
+
+		/// <summary>
+		/// Basic Latin, Extended Latin<br/>
+		/// </summary>
+		public ref ushort GetGlyphRangesDefault()
+		{
+			var nativeResult = ImGuiNative.ImFontAtlasGetGlyphRangesDefault(NativePtr);
+			return ref *(ushort*)&nativeResult;
+		}
+
+		public void SetTexID(ulong id)
+		{
+			ImGuiNative.ImFontAtlasSetTexID(NativePtr, id);
+		}
+
+		/// <summary>
+		/// Bit ambiguous: used to detect when user didn't build texture but effectively we should check TexID != 0 except that would be backend dependent...<br/>
+		/// </summary>
+		public byte IsBuilt()
+		{
+			return ImGuiNative.ImFontAtlasIsBuilt(NativePtr);
+		}
+
+		/// <summary>
+		/// 4 bytes-per-pixel<br/>
+		/// </summary>
+		public void GetTexDataAsRgba32(ref byte* outPixels, ref int outWidth, ref int outHeight, ref int outBytesPerPixel)
+		{
+			fixed (byte** native_outPixels = &outPixels)
+			fixed (int* native_outWidth = &outWidth)
+			fixed (int* native_outHeight = &outHeight)
+			fixed (int* native_outBytesPerPixel = &outBytesPerPixel)
+			{
+				ImGuiNative.ImFontAtlasGetTexDataAsRgba32(NativePtr, native_outPixels, native_outWidth, native_outHeight, native_outBytesPerPixel);
+			}
+		}
+
+		/// <summary>
+		/// 1 byte per-pixel<br/>
+		/// </summary>
+		public void GetTexDataAsAlpha8(ref byte* outPixels, ref int outWidth, ref int outHeight, ref int outBytesPerPixel)
+		{
+			fixed (byte** native_outPixels = &outPixels)
+			fixed (int* native_outWidth = &outWidth)
+			fixed (int* native_outHeight = &outHeight)
+			fixed (int* native_outBytesPerPixel = &outBytesPerPixel)
+			{
+				ImGuiNative.ImFontAtlasGetTexDataAsAlpha8(NativePtr, native_outPixels, native_outWidth, native_outHeight, native_outBytesPerPixel);
+			}
+		}
+
+		/// <summary>
+		/// Build pixels data. This is called automatically for you by the GetTexData*** functions.<br/>
+		/// </summary>
+		public byte Build()
+		{
+			return ImGuiNative.ImFontAtlasBuild(NativePtr);
+		}
+
+		/// <summary>
+		/// Clear all input and output.<br/>
+		/// </summary>
+		public void Clear()
+		{
+			ImGuiNative.ImFontAtlasClear(NativePtr);
+		}
+
+		/// <summary>
+		/// Clear output texture data (CPU side). Saves RAM once the texture has been copied to graphics memory.<br/>
+		/// </summary>
+		public void ClearTexData()
+		{
+			ImGuiNative.ImFontAtlasClearTexData(NativePtr);
+		}
+
+		/// <summary>
+		/// Clear input+output font data (same as ClearInputData() + glyphs storage, UV coordinates).<br/>
+		/// </summary>
+		public void ClearFonts()
+		{
+			ImGuiNative.ImFontAtlasClearFonts(NativePtr);
+		}
+
+		/// <summary>
+		/// Clear input data (all ImFontConfig structures including sizes, TTF data, glyph ranges, etc.) = all the data used to build the texture and fonts.<br/>
+		/// </summary>
+		public void ClearInputData()
+		{
+			ImGuiNative.ImFontAtlasClearInputData(NativePtr);
+		}
+
+		/// <summary>
+		/// 'compressed_font_data_base85' still owned by caller. Compress with binary_to_compressed_c.cpp with -base85 parameter.<br/>
+		/// </summary>
+		public ImFontPtr AddFontFromMemoryCompressedBase85TTF(ReadOnlySpan<char> compressedFontDataBase85, float sizePixels, ImFontConfigPtr fontCfg, ref ushort glyphRanges)
+		{
+			// Marshaling compressedFontDataBase85 to native string
+			byte* native_compressedFontDataBase85;
+			var byteCount_compressedFontDataBase85 = 0;
+			if (compressedFontDataBase85 != null)
+			{
+				byteCount_compressedFontDataBase85 = Encoding.UTF8.GetByteCount(compressedFontDataBase85);
+				if(byteCount_compressedFontDataBase85 > Utils.MaxStackallocSize)
+				{
+					native_compressedFontDataBase85 = Utils.Alloc<byte>(byteCount_compressedFontDataBase85 + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCount_compressedFontDataBase85 + 1];
+					native_compressedFontDataBase85 = stackallocBytes;
+				}
+				var compressedFontDataBase85_offset = Utils.EncodeStringUTF8(compressedFontDataBase85, native_compressedFontDataBase85, byteCount_compressedFontDataBase85);
+				native_compressedFontDataBase85[compressedFontDataBase85_offset] = 0;
+			}
+			else native_compressedFontDataBase85 = null;
+
+			fixed (ushort* native_glyphRanges = &glyphRanges)
+			{
+				var result = ImGuiNative.ImFontAtlasAddFontFromMemoryCompressedBase85TTF(NativePtr, native_compressedFontDataBase85, sizePixels, fontCfg, native_glyphRanges);
+				// Freeing compressedFontDataBase85 native string
+				if (byteCount_compressedFontDataBase85 > Utils.MaxStackallocSize)
+					Utils.Free(native_compressedFontDataBase85);
+				return result;
+			}
+		}
+
+		/// <summary>
+		/// 'compressed_font_data' still owned by caller. Compress with binary_to_compressed_c.cpp.<br/>
+		/// </summary>
+		public ImFontPtr AddFontFromMemoryCompressedTTF(IntPtr compressedFontData, int compressedFontDataSize, float sizePixels, ImFontConfigPtr fontCfg, ref ushort glyphRanges)
+		{
+			fixed (ushort* native_glyphRanges = &glyphRanges)
+			{
+				var result = ImGuiNative.ImFontAtlasAddFontFromMemoryCompressedTTF(NativePtr, (void*)compressedFontData, compressedFontDataSize, sizePixels, fontCfg, native_glyphRanges);
+				return result;
+			}
+		}
+
+		/// <summary>
+		/// Note: Transfer ownership of 'ttf_data' to ImFontAtlas! Will be deleted after destruction of the atlas. Set font_cfg-&gt;FontDataOwnedByAtlas=false to keep ownership of your data and it won't be freed.<br/>
+		/// </summary>
+		public ImFontPtr AddFontFromMemoryTTF(IntPtr fontData, int fontDataSize, float sizePixels, ImFontConfigPtr fontCfg, ref ushort glyphRanges)
+		{
+			fixed (ushort* native_glyphRanges = &glyphRanges)
+			{
+				var result = ImGuiNative.ImFontAtlasAddFontFromMemoryTTF(NativePtr, (void*)fontData, fontDataSize, sizePixels, fontCfg, native_glyphRanges);
+				return result;
+			}
+		}
+
+		public ImFontPtr AddFontFromFileTTF(ReadOnlySpan<char> filename, float sizePixels, ImFontConfigPtr fontCfg, ref ushort glyphRanges)
+		{
+			// Marshaling filename to native string
+			byte* native_filename;
+			var byteCount_filename = 0;
+			if (filename != null)
+			{
+				byteCount_filename = Encoding.UTF8.GetByteCount(filename);
+				if(byteCount_filename > Utils.MaxStackallocSize)
+				{
+					native_filename = Utils.Alloc<byte>(byteCount_filename + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCount_filename + 1];
+					native_filename = stackallocBytes;
+				}
+				var filename_offset = Utils.EncodeStringUTF8(filename, native_filename, byteCount_filename);
+				native_filename[filename_offset] = 0;
+			}
+			else native_filename = null;
+
+			fixed (ushort* native_glyphRanges = &glyphRanges)
+			{
+				var result = ImGuiNative.ImFontAtlasAddFontFromFileTTF(NativePtr, native_filename, sizePixels, fontCfg, native_glyphRanges);
+				// Freeing filename native string
+				if (byteCount_filename > Utils.MaxStackallocSize)
+					Utils.Free(native_filename);
+				return result;
+			}
+		}
+
+		public ImFontPtr AddFontDefault(ImFontConfigPtr fontCfg)
+		{
+			return ImGuiNative.ImFontAtlasAddFontDefault(NativePtr, fontCfg);
+		}
+
+		public ImFontPtr AddFont(ImFontConfigPtr fontCfg)
+		{
+			return ImGuiNative.ImFontAtlasAddFont(NativePtr, fontCfg);
+		}
+
+		public void Destroy()
+		{
+			ImGuiNative.ImFontAtlasDestroy(NativePtr);
+		}
+
+		public void ImFontAtlasConstruct()
+		{
+			ImGuiNative.ImFontAtlasImFontAtlasConstruct(NativePtr);
+		}
+
+		public ImFontAtlasPtr ImFontAtlas()
+		{
+			return ImGuiNative.ImFontAtlasImFontAtlas();
+		}
+
 	}
 }

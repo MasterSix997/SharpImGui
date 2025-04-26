@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -21,10 +23,76 @@ namespace SharpImGui
 		public ImColor* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImColor this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ref Vector4 Value => ref Unsafe.AsRef<Vector4>(&NativePtr->Value);
 		public ImColorPtr(ImColor* nativePtr) => NativePtr = nativePtr;
 		public ImColorPtr(IntPtr nativePtr) => NativePtr = (ImColor*)nativePtr;
 		public static implicit operator ImColorPtr(ImColor* ptr) => new ImColorPtr(ptr);
 		public static implicit operator ImColorPtr(IntPtr ptr) => new ImColorPtr(ptr);
 		public static implicit operator ImColor*(ImColorPtr nativePtr) => nativePtr.NativePtr;
+		public void HSV(ImColorPtr pOut, float h, float s, float v, float a)
+		{
+			ImGuiNative.ImColorHSV(pOut, h, s, v, a);
+		}
+
+		public void SetHSV(float h, float s, float v, float a)
+		{
+			ImGuiNative.ImColorSetHSV(NativePtr, h, s, v, a);
+		}
+
+		public void ImColorU32Construct(uint rgba)
+		{
+			ImGuiNative.ImColorImColorU32Construct(NativePtr, rgba);
+		}
+
+		public ImColorPtr ImColorU32(uint rgba)
+		{
+			return ImGuiNative.ImColorImColorU32(rgba);
+		}
+
+		public void ImColorIntConstruct(int r, int g, int b, int a)
+		{
+			ImGuiNative.ImColorImColorIntConstruct(NativePtr, r, g, b, a);
+		}
+
+		public ImColorPtr ImColor(int r, int g, int b, int a)
+		{
+			return ImGuiNative.ImColorImColor(r, g, b, a);
+		}
+
+		public void ImColorVec4Construct(Vector4 col)
+		{
+			ImGuiNative.ImColorImColorVec4Construct(NativePtr, col);
+		}
+
+		public ImColorPtr ImColor(Vector4 col)
+		{
+			return ImGuiNative.ImColorImColor(col);
+		}
+
+		public void ImColorFloatConstruct(float r, float g, float b, float a)
+		{
+			ImGuiNative.ImColorImColorFloatConstruct(NativePtr, r, g, b, a);
+		}
+
+		public ImColorPtr ImColor(float r, float g, float b, float a)
+		{
+			return ImGuiNative.ImColorImColor(r, g, b, a);
+		}
+
+		public void Destroy()
+		{
+			ImGuiNative.ImColorDestroy(NativePtr);
+		}
+
+		public void ImColorNilConstruct()
+		{
+			ImGuiNative.ImColorImColorNilConstruct(NativePtr);
+		}
+
+		public ImColorPtr ImColor()
+		{
+			return ImGuiNative.ImColorImColor();
+		}
+
 	}
 }

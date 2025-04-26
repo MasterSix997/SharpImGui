@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -25,10 +27,111 @@ namespace SharpImGui
 		public ImGuiTextIndex* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImGuiTextIndex this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ref ImVector<int> LineOffsets => ref Unsafe.AsRef<ImVector<int>>(&NativePtr->LineOffsets);
+		/// <summary>
+		/// Because we don't own text buffer we need to maintain EndOffset (may bake in LineOffsets?)<br/>
+		/// </summary>
+		public ref int EndOffset => ref Unsafe.AsRef<int>(&NativePtr->EndOffset);
 		public ImGuiTextIndexPtr(ImGuiTextIndex* nativePtr) => NativePtr = nativePtr;
 		public ImGuiTextIndexPtr(IntPtr nativePtr) => NativePtr = (ImGuiTextIndex*)nativePtr;
 		public static implicit operator ImGuiTextIndexPtr(ImGuiTextIndex* ptr) => new ImGuiTextIndexPtr(ptr);
 		public static implicit operator ImGuiTextIndexPtr(IntPtr ptr) => new ImGuiTextIndexPtr(ptr);
 		public static implicit operator ImGuiTextIndex*(ImGuiTextIndexPtr nativePtr) => nativePtr.NativePtr;
+		public void Append(ReadOnlySpan<char> _base, int oldSize, int newSize)
+		{
+			// Marshaling _base to native string
+			byte* native__base;
+			var byteCount__base = 0;
+			if (_base != null)
+			{
+				byteCount__base = Encoding.UTF8.GetByteCount(_base);
+				if(byteCount__base > Utils.MaxStackallocSize)
+				{
+					native__base = Utils.Alloc<byte>(byteCount__base + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCount__base + 1];
+					native__base = stackallocBytes;
+				}
+				var _base_offset = Utils.EncodeStringUTF8(_base, native__base, byteCount__base);
+				native__base[_base_offset] = 0;
+			}
+			else native__base = null;
+
+			ImGuiNative.ImGuiTextIndexAppend(NativePtr, native__base, oldSize, newSize);
+			// Freeing _base native string
+			if (byteCount__base > Utils.MaxStackallocSize)
+				Utils.Free(native__base);
+		}
+
+		public ref byte GetLineEnd(ReadOnlySpan<char> _base, int n)
+		{
+			// Marshaling _base to native string
+			byte* native__base;
+			var byteCount__base = 0;
+			if (_base != null)
+			{
+				byteCount__base = Encoding.UTF8.GetByteCount(_base);
+				if(byteCount__base > Utils.MaxStackallocSize)
+				{
+					native__base = Utils.Alloc<byte>(byteCount__base + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCount__base + 1];
+					native__base = stackallocBytes;
+				}
+				var _base_offset = Utils.EncodeStringUTF8(_base, native__base, byteCount__base);
+				native__base[_base_offset] = 0;
+			}
+			else native__base = null;
+
+			var nativeResult = ImGuiNative.ImGuiTextIndexGetLineEnd(NativePtr, native__base, n);
+			// Freeing _base native string
+			if (byteCount__base > Utils.MaxStackallocSize)
+				Utils.Free(native__base);
+			return ref *(byte*)&nativeResult;
+		}
+
+		public ref byte GetLineBegin(ReadOnlySpan<char> _base, int n)
+		{
+			// Marshaling _base to native string
+			byte* native__base;
+			var byteCount__base = 0;
+			if (_base != null)
+			{
+				byteCount__base = Encoding.UTF8.GetByteCount(_base);
+				if(byteCount__base > Utils.MaxStackallocSize)
+				{
+					native__base = Utils.Alloc<byte>(byteCount__base + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCount__base + 1];
+					native__base = stackallocBytes;
+				}
+				var _base_offset = Utils.EncodeStringUTF8(_base, native__base, byteCount__base);
+				native__base[_base_offset] = 0;
+			}
+			else native__base = null;
+
+			var nativeResult = ImGuiNative.ImGuiTextIndexGetLineBegin(NativePtr, native__base, n);
+			// Freeing _base native string
+			if (byteCount__base > Utils.MaxStackallocSize)
+				Utils.Free(native__base);
+			return ref *(byte*)&nativeResult;
+		}
+
+		public int Size()
+		{
+			return ImGuiNative.ImGuiTextIndexSize(NativePtr);
+		}
+
+		public void Clear()
+		{
+			ImGuiNative.ImGuiTextIndexClear(NativePtr);
+		}
+
 	}
 }

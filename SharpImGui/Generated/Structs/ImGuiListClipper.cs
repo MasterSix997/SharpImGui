@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -52,10 +54,96 @@ namespace SharpImGui
 		public ImGuiListClipper* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImGuiListClipper this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		/// <summary>
+		/// Parent UI context<br/>
+		/// </summary>
+		public ref ImGuiContextPtr Ctx => ref Unsafe.AsRef<ImGuiContextPtr>(&NativePtr->Ctx);
+		/// <summary>
+		/// First item to display, updated by each call to Step()<br/>
+		/// </summary>
+		public ref int DisplayStart => ref Unsafe.AsRef<int>(&NativePtr->DisplayStart);
+		/// <summary>
+		/// End of items to display (exclusive)<br/>
+		/// </summary>
+		public ref int DisplayEnd => ref Unsafe.AsRef<int>(&NativePtr->DisplayEnd);
+		/// <summary>
+		/// [Internal] Number of items<br/>
+		/// </summary>
+		public ref int ItemsCount => ref Unsafe.AsRef<int>(&NativePtr->ItemsCount);
+		/// <summary>
+		/// [Internal] Height of item after a first step and item submission can calculate it<br/>
+		/// </summary>
+		public ref float ItemsHeight => ref Unsafe.AsRef<float>(&NativePtr->ItemsHeight);
+		/// <summary>
+		/// [Internal] Cursor position at the time of Begin() or after table frozen rows are all processed<br/>
+		/// </summary>
+		public ref float StartPosY => ref Unsafe.AsRef<float>(&NativePtr->StartPosY);
+		/// <summary>
+		/// [Internal] Account for frozen rows in a table and initial loss of precision in very large windows.<br/>
+		/// </summary>
+		public ref double StartSeekOffsetY => ref Unsafe.AsRef<double>(&NativePtr->StartSeekOffsetY);
+		/// <summary>
+		/// [Internal] Internal data<br/>
+		/// </summary>
+		public IntPtr TempData { get => (IntPtr)NativePtr->TempData; set => NativePtr->TempData = (void*)value; }
 		public ImGuiListClipperPtr(ImGuiListClipper* nativePtr) => NativePtr = nativePtr;
 		public ImGuiListClipperPtr(IntPtr nativePtr) => NativePtr = (ImGuiListClipper*)nativePtr;
 		public static implicit operator ImGuiListClipperPtr(ImGuiListClipper* ptr) => new ImGuiListClipperPtr(ptr);
 		public static implicit operator ImGuiListClipperPtr(IntPtr ptr) => new ImGuiListClipperPtr(ptr);
 		public static implicit operator ImGuiListClipper*(ImGuiListClipperPtr nativePtr) => nativePtr.NativePtr;
+		public void SeekCursorForItem(int itemIndex)
+		{
+			ImGuiNative.ImGuiListClipperSeekCursorForItem(NativePtr, itemIndex);
+		}
+
+		/// <summary>
+		/// item_end is exclusive e.g. use (42, 42+1) to make item 42 never clipped.<br/>
+		/// </summary>
+		public void IncludeItemsByIndex(int itemBegin, int itemEnd)
+		{
+			ImGuiNative.ImGuiListClipperIncludeItemsByIndex(NativePtr, itemBegin, itemEnd);
+		}
+
+		public void IncludeItemByIndex(int itemIndex)
+		{
+			ImGuiNative.ImGuiListClipperIncludeItemByIndex(NativePtr, itemIndex);
+		}
+
+		/// <summary>
+		/// Call until it returns false. The DisplayStart/DisplayEnd fields will be set and you can process/draw those items.<br/>
+		/// </summary>
+		public byte Step()
+		{
+			return ImGuiNative.ImGuiListClipperStep(NativePtr);
+		}
+
+		/// <summary>
+		/// Automatically called on the last call of Step() that returns false.<br/>
+		/// </summary>
+		public void End()
+		{
+			ImGuiNative.ImGuiListClipperEnd(NativePtr);
+		}
+
+		public void Begin(int itemsCount, float itemsHeight)
+		{
+			ImGuiNative.ImGuiListClipperBegin(NativePtr, itemsCount, itemsHeight);
+		}
+
+		public void Destroy()
+		{
+			ImGuiNative.ImGuiListClipperDestroy(NativePtr);
+		}
+
+		public void ImGuiListClipperConstruct()
+		{
+			ImGuiNative.ImGuiListClipperImGuiListClipperConstruct(NativePtr);
+		}
+
+		public ImGuiListClipperPtr ImGuiListClipper()
+		{
+			return ImGuiNative.ImGuiListClipperImGuiListClipper();
+		}
+
 	}
 }

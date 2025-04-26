@@ -1,7 +1,9 @@
+using SharpImGui;
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
-using SharpImGui;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImPlot3D
 {
@@ -17,6 +19,8 @@ namespace SharpImPlot3D
 		public ImPlot3DPlane* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImPlot3DPlane this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ref ImPlot3DPoint Point => ref Unsafe.AsRef<ImPlot3DPoint>(&NativePtr->Point);
+		public ref ImPlot3DPoint Normal => ref Unsafe.AsRef<ImPlot3DPoint>(&NativePtr->Normal);
 		public ImPlot3DPlanePtr(ImPlot3DPlane* nativePtr) => NativePtr = nativePtr;
 		public ImPlot3DPlanePtr(IntPtr nativePtr) => NativePtr = (ImPlot3DPlane*)nativePtr;
 		public static implicit operator ImPlot3DPlanePtr(ImPlot3DPlane* ptr) => new ImPlot3DPlanePtr(ptr);

@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -23,6 +25,9 @@ namespace SharpImGui
 		public ImGuiInputEventMousePos* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImGuiInputEventMousePos this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ref float PosX => ref Unsafe.AsRef<float>(&NativePtr->PosX);
+		public ref float PosY => ref Unsafe.AsRef<float>(&NativePtr->PosY);
+		public ref ImGuiMouseSource MouseSource => ref Unsafe.AsRef<ImGuiMouseSource>(&NativePtr->MouseSource);
 		public ImGuiInputEventMousePosPtr(ImGuiInputEventMousePos* nativePtr) => NativePtr = nativePtr;
 		public ImGuiInputEventMousePosPtr(IntPtr nativePtr) => NativePtr = (ImGuiInputEventMousePos*)nativePtr;
 		public static implicit operator ImGuiInputEventMousePosPtr(ImGuiInputEventMousePos* ptr) => new ImGuiInputEventMousePosPtr(ptr);

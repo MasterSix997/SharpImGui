@@ -181,3 +181,40 @@ public class CsGenericType : CsType
         return writer.ToString();
     }
 }
+
+public class CsKeywordType : CsType
+{
+    public enum CsKeyword
+    {
+        Ref,
+        Out,
+        In,
+        Params,
+        This
+    } 
+    
+    public CsType OriginalType { get; }
+    public CsKeyword Keyword { get; }
+    
+    public override int SizeOf => OriginalType.SizeOf;
+    public override string TypeName => $"{Keyword.ToString().ToLower()} {OriginalType.TypeName}";
+
+    public CsKeywordType(CsType originalType, CsKeyword keyword) : base(CsTypeKind.Reference)
+    {
+        OriginalType = originalType;
+        Keyword = keyword;
+    }
+    
+    public override CsType GetCanonicalType() => OriginalType.GetCanonicalType();
+    
+    public override void WriteTo(CodeWriter writer)
+    {
+        writer.Write(Keyword.ToString().ToLower()).Write(' ');
+        writer.Write(OriginalType.TypeName);
+    }
+    
+    public override string ToString()
+    {
+        return TypeName;
+    }
+}

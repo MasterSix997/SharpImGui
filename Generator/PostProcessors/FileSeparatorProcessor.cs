@@ -17,7 +17,7 @@ public struct FileSeparatorProcessor : IPostProcessor
         
         var delegatesNamespace = new CsNamespace(generated.Settings.Namespace);
         output.DefinitionsWithoutFiles.Delegates.MoveTo(delegatesNamespace.Delegates);
-        output.AddFile("Delegates.cs", delegatesNamespace, usings: ["System", "System.Numerics", "System.Runtime.InteropServices", ..generated.Settings.Usings])
+        output.AddFile("Delegates.cs", delegatesNamespace, usings: generated.Settings.Usings)
             .Type = GeneratedFile.FileType.Delegate;
         
         // Internals
@@ -57,7 +57,7 @@ public struct FileSeparatorProcessor : IPostProcessor
                 ptrStructs.Remove(csStruct.Name);
             }
             var subDir = csStruct.Metadata is NativeEnum { IsInternal: true } ? "Internal/Structs" : "Structs";
-            output.AddFile($"{csStruct.Name}.cs", structNamespace, subDir, ["System", "System.Numerics", "System.Runtime.InteropServices", ..settings.Usings])
+            output.AddFile($"{csStruct.Name}.cs", structNamespace, subDir, settings.Usings)
                 .Type = GeneratedFile.FileType.Struct;
         }
     }

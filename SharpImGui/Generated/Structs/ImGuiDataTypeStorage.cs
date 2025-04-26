@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -25,6 +27,10 @@ namespace SharpImGui
 		public ImGuiDataTypeStorage* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImGuiDataTypeStorage this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		/// <summary>
+		/// Opaque storage to fit any data up to ImGuiDataType_COUNT<br/>
+		/// </summary>
+		public Span<byte> Data => new Span<byte>(&NativePtr->Data_0, 8);
 		public ImGuiDataTypeStoragePtr(ImGuiDataTypeStorage* nativePtr) => NativePtr = nativePtr;
 		public ImGuiDataTypeStoragePtr(IntPtr nativePtr) => NativePtr = (ImGuiDataTypeStorage*)nativePtr;
 		public static implicit operator ImGuiDataTypeStoragePtr(ImGuiDataTypeStorage* ptr) => new ImGuiDataTypeStoragePtr(ptr);

@@ -1,7 +1,9 @@
+using SharpImGui;
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
-using SharpImGui;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImNodes
 {
@@ -60,10 +62,37 @@ namespace SharpImNodes
 		public ImNodesStyle* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImNodesStyle this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ref float GridSpacing => ref Unsafe.AsRef<float>(&NativePtr->GridSpacing);
+		public ref float NodeCornerRounding => ref Unsafe.AsRef<float>(&NativePtr->NodeCornerRounding);
+		public ref Vector2 NodePadding => ref Unsafe.AsRef<Vector2>(&NativePtr->NodePadding);
+		public ref float NodeBorderThickness => ref Unsafe.AsRef<float>(&NativePtr->NodeBorderThickness);
+		public ref float LinkThickness => ref Unsafe.AsRef<float>(&NativePtr->LinkThickness);
+		public ref float LinkLineSegmentsPerLength => ref Unsafe.AsRef<float>(&NativePtr->LinkLineSegmentsPerLength);
+		public ref float LinkHoverDistance => ref Unsafe.AsRef<float>(&NativePtr->LinkHoverDistance);
+		public ref float PinCircleRadius => ref Unsafe.AsRef<float>(&NativePtr->PinCircleRadius);
+		public ref float PinQuadSideLength => ref Unsafe.AsRef<float>(&NativePtr->PinQuadSideLength);
+		public ref float PinTriangleSideLength => ref Unsafe.AsRef<float>(&NativePtr->PinTriangleSideLength);
+		public ref float PinLineThickness => ref Unsafe.AsRef<float>(&NativePtr->PinLineThickness);
+		public ref float PinHoverRadius => ref Unsafe.AsRef<float>(&NativePtr->PinHoverRadius);
+		public ref float PinOffset => ref Unsafe.AsRef<float>(&NativePtr->PinOffset);
+		public ref Vector2 MiniMapPadding => ref Unsafe.AsRef<Vector2>(&NativePtr->MiniMapPadding);
+		public ref Vector2 MiniMapOffset => ref Unsafe.AsRef<Vector2>(&NativePtr->MiniMapOffset);
+		public ref ImNodesStyleFlags Flags => ref Unsafe.AsRef<ImNodesStyleFlags>(&NativePtr->Flags);
+		public Span<uint> Colors => new Span<uint>(&NativePtr->Colors_0, 29);
 		public ImNodesStylePtr(ImNodesStyle* nativePtr) => NativePtr = nativePtr;
 		public ImNodesStylePtr(IntPtr nativePtr) => NativePtr = (ImNodesStyle*)nativePtr;
 		public static implicit operator ImNodesStylePtr(ImNodesStyle* ptr) => new ImNodesStylePtr(ptr);
 		public static implicit operator ImNodesStylePtr(IntPtr ptr) => new ImNodesStylePtr(ptr);
 		public static implicit operator ImNodesStyle*(ImNodesStylePtr nativePtr) => nativePtr.NativePtr;
+		public void Destroy()
+		{
+			ImnodesNative.ImNodesStyleDestroy(NativePtr);
+		}
+
+		public ImNodesStylePtr ImNodesStyle()
+		{
+			return ImnodesNative.ImNodesStyleImNodesStyle();
+		}
+
 	}
 }

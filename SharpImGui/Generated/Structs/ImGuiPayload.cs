@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -86,10 +88,102 @@ namespace SharpImGui
 		public ImGuiPayload* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImGuiPayload this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		/// <summary>
+		/// <br/>    Members<br/>
+		/// Data (copied and owned by dear imgui)<br/>
+		/// </summary>
+		public IntPtr Data { get => (IntPtr)NativePtr->Data; set => NativePtr->Data = (void*)value; }
+		/// <summary>
+		/// Data size<br/>
+		/// </summary>
+		public ref int DataSize => ref Unsafe.AsRef<int>(&NativePtr->DataSize);
+		/// <summary>
+		///     [Internal]<br/>
+		/// Source item id<br/>
+		/// </summary>
+		public ref uint SourceId => ref Unsafe.AsRef<uint>(&NativePtr->SourceId);
+		/// <summary>
+		/// Source parent id (if available)<br/>
+		/// </summary>
+		public ref uint SourceParentId => ref Unsafe.AsRef<uint>(&NativePtr->SourceParentId);
+		/// <summary>
+		/// Data timestamp<br/>
+		/// </summary>
+		public ref int DataFrameCount => ref Unsafe.AsRef<int>(&NativePtr->DataFrameCount);
+		/// <summary>
+		/// Data type tag (short user-supplied string, 32 characters max)<br/>
+		/// </summary>
+		public Span<byte> DataType => new Span<byte>(&NativePtr->DataType_0, 33);
+		/// <summary>
+		/// Set when AcceptDragDropPayload() was called and mouse has been hovering the target item (nb: handle overlapping drag targets)<br/>
+		/// </summary>
+		public ref bool Preview => ref Unsafe.AsRef<bool>(&NativePtr->Preview);
+		/// <summary>
+		/// Set when AcceptDragDropPayload() was called and mouse button is released over the target item.<br/>
+		/// </summary>
+		public ref bool Delivery => ref Unsafe.AsRef<bool>(&NativePtr->Delivery);
 		public ImGuiPayloadPtr(ImGuiPayload* nativePtr) => NativePtr = nativePtr;
 		public ImGuiPayloadPtr(IntPtr nativePtr) => NativePtr = (ImGuiPayload*)nativePtr;
 		public static implicit operator ImGuiPayloadPtr(ImGuiPayload* ptr) => new ImGuiPayloadPtr(ptr);
 		public static implicit operator ImGuiPayloadPtr(IntPtr ptr) => new ImGuiPayloadPtr(ptr);
 		public static implicit operator ImGuiPayload*(ImGuiPayloadPtr nativePtr) => nativePtr.NativePtr;
+		public byte IsDelivery()
+		{
+			return ImGuiNative.ImGuiPayloadIsDelivery(NativePtr);
+		}
+
+		public byte IsPreview()
+		{
+			return ImGuiNative.ImGuiPayloadIsPreview(NativePtr);
+		}
+
+		public byte IsDataType(ReadOnlySpan<char> type)
+		{
+			// Marshaling type to native string
+			byte* native_type;
+			var byteCount_type = 0;
+			if (type != null)
+			{
+				byteCount_type = Encoding.UTF8.GetByteCount(type);
+				if(byteCount_type > Utils.MaxStackallocSize)
+				{
+					native_type = Utils.Alloc<byte>(byteCount_type + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCount_type + 1];
+					native_type = stackallocBytes;
+				}
+				var type_offset = Utils.EncodeStringUTF8(type, native_type, byteCount_type);
+				native_type[type_offset] = 0;
+			}
+			else native_type = null;
+
+			return ImGuiNative.ImGuiPayloadIsDataType(NativePtr, native_type);
+			// Freeing type native string
+			if (byteCount_type > Utils.MaxStackallocSize)
+				Utils.Free(native_type);
+		}
+
+		public void Clear()
+		{
+			ImGuiNative.ImGuiPayloadClear(NativePtr);
+		}
+
+		public void Destroy()
+		{
+			ImGuiNative.ImGuiPayloadDestroy(NativePtr);
+		}
+
+		public void ImGuiPayloadConstruct()
+		{
+			ImGuiNative.ImGuiPayloadImGuiPayloadConstruct(NativePtr);
+		}
+
+		public ImGuiPayloadPtr ImGuiPayload()
+		{
+			return ImGuiNative.ImGuiPayloadImGuiPayload();
+		}
+
 	}
 }

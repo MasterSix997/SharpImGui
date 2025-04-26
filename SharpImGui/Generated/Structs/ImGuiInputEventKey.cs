@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -17,6 +19,9 @@ namespace SharpImGui
 		public ImGuiInputEventKey* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImGuiInputEventKey this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ref ImGuiKey Key => ref Unsafe.AsRef<ImGuiKey>(&NativePtr->Key);
+		public ref bool Down => ref Unsafe.AsRef<bool>(&NativePtr->Down);
+		public ref float AnalogValue => ref Unsafe.AsRef<float>(&NativePtr->AnalogValue);
 		public ImGuiInputEventKeyPtr(ImGuiInputEventKey* nativePtr) => NativePtr = nativePtr;
 		public ImGuiInputEventKeyPtr(IntPtr nativePtr) => NativePtr = (ImGuiInputEventKey*)nativePtr;
 		public static implicit operator ImGuiInputEventKeyPtr(ImGuiInputEventKey* ptr) => new ImGuiInputEventKeyPtr(ptr);

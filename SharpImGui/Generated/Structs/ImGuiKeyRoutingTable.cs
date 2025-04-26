@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -183,10 +185,39 @@ namespace SharpImGui
 		public ImGuiKeyRoutingTable* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImGuiKeyRoutingTable this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		/// <summary>
+		/// Index of first entry in Entries[]<br/>
+		/// </summary>
+		public Span<short> Index => new Span<short>(&NativePtr->Index_0, 155);
+		public ref ImVector<ImGuiKeyRoutingData> Entries => ref Unsafe.AsRef<ImVector<ImGuiKeyRoutingData>>(&NativePtr->Entries);
+		/// <summary>
+		/// Double-buffer to avoid reallocation (could use a shared buffer)<br/>
+		/// </summary>
+		public ref ImVector<ImGuiKeyRoutingData> EntriesNext => ref Unsafe.AsRef<ImVector<ImGuiKeyRoutingData>>(&NativePtr->EntriesNext);
 		public ImGuiKeyRoutingTablePtr(ImGuiKeyRoutingTable* nativePtr) => NativePtr = nativePtr;
 		public ImGuiKeyRoutingTablePtr(IntPtr nativePtr) => NativePtr = (ImGuiKeyRoutingTable*)nativePtr;
 		public static implicit operator ImGuiKeyRoutingTablePtr(ImGuiKeyRoutingTable* ptr) => new ImGuiKeyRoutingTablePtr(ptr);
 		public static implicit operator ImGuiKeyRoutingTablePtr(IntPtr ptr) => new ImGuiKeyRoutingTablePtr(ptr);
 		public static implicit operator ImGuiKeyRoutingTable*(ImGuiKeyRoutingTablePtr nativePtr) => nativePtr.NativePtr;
+		public void Clear()
+		{
+			ImGuiNative.ImGuiKeyRoutingTableClear(NativePtr);
+		}
+
+		public void Destroy()
+		{
+			ImGuiNative.ImGuiKeyRoutingTableDestroy(NativePtr);
+		}
+
+		public void ImGuiKeyRoutingTableConstruct()
+		{
+			ImGuiNative.ImGuiKeyRoutingTableImGuiKeyRoutingTableConstruct(NativePtr);
+		}
+
+		public ImGuiKeyRoutingTablePtr ImGuiKeyRoutingTable()
+		{
+			return ImGuiNative.ImGuiKeyRoutingTableImGuiKeyRoutingTable();
+		}
+
 	}
 }

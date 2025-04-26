@@ -29,4 +29,10 @@ namespace SharpImGui
     {
         
     }
+    
+    [StructLayout(LayoutKind.Sequential)]
+    public partial struct ImPointer<T> where T : unmanaged
+    {
+        public unsafe T* Ptr;
+    }
 }

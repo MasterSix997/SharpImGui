@@ -1,7 +1,9 @@
+using SharpImGui;
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
-using SharpImGui;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImPlot
 {
@@ -67,10 +69,52 @@ namespace SharpImPlot
 		public ImPlotStyle* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImPlotStyle this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ref float LineWeight => ref Unsafe.AsRef<float>(&NativePtr->LineWeight);
+		public ref int Marker => ref Unsafe.AsRef<int>(&NativePtr->Marker);
+		public ref float MarkerSize => ref Unsafe.AsRef<float>(&NativePtr->MarkerSize);
+		public ref float MarkerWeight => ref Unsafe.AsRef<float>(&NativePtr->MarkerWeight);
+		public ref float FillAlpha => ref Unsafe.AsRef<float>(&NativePtr->FillAlpha);
+		public ref float ErrorBarSize => ref Unsafe.AsRef<float>(&NativePtr->ErrorBarSize);
+		public ref float ErrorBarWeight => ref Unsafe.AsRef<float>(&NativePtr->ErrorBarWeight);
+		public ref float DigitalBitHeight => ref Unsafe.AsRef<float>(&NativePtr->DigitalBitHeight);
+		public ref float DigitalBitGap => ref Unsafe.AsRef<float>(&NativePtr->DigitalBitGap);
+		public ref float PlotBorderSize => ref Unsafe.AsRef<float>(&NativePtr->PlotBorderSize);
+		public ref float MinorAlpha => ref Unsafe.AsRef<float>(&NativePtr->MinorAlpha);
+		public ref Vector2 MajorTickLen => ref Unsafe.AsRef<Vector2>(&NativePtr->MajorTickLen);
+		public ref Vector2 MinorTickLen => ref Unsafe.AsRef<Vector2>(&NativePtr->MinorTickLen);
+		public ref Vector2 MajorTickSize => ref Unsafe.AsRef<Vector2>(&NativePtr->MajorTickSize);
+		public ref Vector2 MinorTickSize => ref Unsafe.AsRef<Vector2>(&NativePtr->MinorTickSize);
+		public ref Vector2 MajorGridSize => ref Unsafe.AsRef<Vector2>(&NativePtr->MajorGridSize);
+		public ref Vector2 MinorGridSize => ref Unsafe.AsRef<Vector2>(&NativePtr->MinorGridSize);
+		public ref Vector2 PlotPadding => ref Unsafe.AsRef<Vector2>(&NativePtr->PlotPadding);
+		public ref Vector2 LabelPadding => ref Unsafe.AsRef<Vector2>(&NativePtr->LabelPadding);
+		public ref Vector2 LegendPadding => ref Unsafe.AsRef<Vector2>(&NativePtr->LegendPadding);
+		public ref Vector2 LegendInnerPadding => ref Unsafe.AsRef<Vector2>(&NativePtr->LegendInnerPadding);
+		public ref Vector2 LegendSpacing => ref Unsafe.AsRef<Vector2>(&NativePtr->LegendSpacing);
+		public ref Vector2 MousePosPadding => ref Unsafe.AsRef<Vector2>(&NativePtr->MousePosPadding);
+		public ref Vector2 AnnotationPadding => ref Unsafe.AsRef<Vector2>(&NativePtr->AnnotationPadding);
+		public ref Vector2 FitPadding => ref Unsafe.AsRef<Vector2>(&NativePtr->FitPadding);
+		public ref Vector2 PlotDefaultSize => ref Unsafe.AsRef<Vector2>(&NativePtr->PlotDefaultSize);
+		public ref Vector2 PlotMinSize => ref Unsafe.AsRef<Vector2>(&NativePtr->PlotMinSize);
+		public Span<Vector4> Colors => new Span<Vector4>(&NativePtr->Colors_0, 21);
+		public ref ImPlotColormap Colormap => ref Unsafe.AsRef<ImPlotColormap>(&NativePtr->Colormap);
+		public ref bool UseLocalTime => ref Unsafe.AsRef<bool>(&NativePtr->UseLocalTime);
+		public ref bool UseIso8601 => ref Unsafe.AsRef<bool>(&NativePtr->UseIso8601);
+		public ref bool Use24HourClock => ref Unsafe.AsRef<bool>(&NativePtr->Use24HourClock);
 		public ImPlotStylePtr(ImPlotStyle* nativePtr) => NativePtr = nativePtr;
 		public ImPlotStylePtr(IntPtr nativePtr) => NativePtr = (ImPlotStyle*)nativePtr;
 		public static implicit operator ImPlotStylePtr(ImPlotStyle* ptr) => new ImPlotStylePtr(ptr);
 		public static implicit operator ImPlotStylePtr(IntPtr ptr) => new ImPlotStylePtr(ptr);
 		public static implicit operator ImPlotStyle*(ImPlotStylePtr nativePtr) => nativePtr.NativePtr;
+		public void StyleDestroy()
+		{
+			ImPlotNative.StyleDestroy(NativePtr);
+		}
+
+		public ImPlotStylePtr StyleStyle()
+		{
+			return ImPlotNative.StyleStyle();
+		}
+
 	}
 }

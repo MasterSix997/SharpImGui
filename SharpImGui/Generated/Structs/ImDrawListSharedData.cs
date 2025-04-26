@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -187,10 +189,87 @@ namespace SharpImGui
 		public ImDrawListSharedData* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImDrawListSharedData this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		/// <summary>
+		/// UV of white pixel in the atlas<br/>
+		/// </summary>
+		public ref Vector2 TexUvWhitePixel => ref Unsafe.AsRef<Vector2>(&NativePtr->TexUvWhitePixel);
+		/// <summary>
+		/// UV of anti-aliased lines in the atlas<br/>
+		/// </summary>
+		public IntPtr TexUvLines { get => (IntPtr)NativePtr->TexUvLines; set => NativePtr->TexUvLines = (Vector4*)value; }
+		/// <summary>
+		/// Current/default font (optional, for simplified AddText overload)<br/>
+		/// </summary>
+		public ref ImFontPtr Font => ref Unsafe.AsRef<ImFontPtr>(&NativePtr->Font);
+		/// <summary>
+		/// Current/default font size (optional, for simplified AddText overload)<br/>
+		/// </summary>
+		public ref float FontSize => ref Unsafe.AsRef<float>(&NativePtr->FontSize);
+		/// <summary>
+		/// Current/default font scale (== FontSize / Font-&gt;FontSize)<br/>
+		/// </summary>
+		public ref float FontScale => ref Unsafe.AsRef<float>(&NativePtr->FontScale);
+		/// <summary>
+		/// Tessellation tolerance when using PathBezierCurveTo()<br/>
+		/// </summary>
+		public ref float CurveTessellationTol => ref Unsafe.AsRef<float>(&NativePtr->CurveTessellationTol);
+		/// <summary>
+		/// Number of circle segments to use per pixel of radius for AddCircle() etc<br/>
+		/// </summary>
+		public ref float CircleSegmentMaxError => ref Unsafe.AsRef<float>(&NativePtr->CircleSegmentMaxError);
+		/// <summary>
+		/// Initial scale to apply to AA fringe<br/>
+		/// </summary>
+		public ref float InitialFringeScale => ref Unsafe.AsRef<float>(&NativePtr->InitialFringeScale);
+		/// <summary>
+		/// Initial flags at the beginning of the frame (it is possible to alter flags on a per-drawlist basis afterwards)<br/>
+		/// </summary>
+		public ref ImDrawListFlags InitialFlags => ref Unsafe.AsRef<ImDrawListFlags>(&NativePtr->InitialFlags);
+		/// <summary>
+		/// Value for PushClipRectFullscreen()<br/>
+		/// </summary>
+		public ref Vector4 ClipRectFullscreen => ref Unsafe.AsRef<Vector4>(&NativePtr->ClipRectFullscreen);
+		/// <summary>
+		/// Temporary write buffer<br/>
+		/// </summary>
+		public ref ImVector<Vector2> TempBuffer => ref Unsafe.AsRef<ImVector<Vector2>>(&NativePtr->TempBuffer);
+		/// <summary>
+		///     Lookup tables<br/>
+		/// Sample points on the quarter of the circle.<br/>
+		/// </summary>
+		public Span<Vector2> ArcFastVtx => new Span<Vector2>(&NativePtr->ArcFastVtx_0, 48);
+		/// <summary>
+		/// Cutoff radius after which arc drawing will fallback to slower PathArcTo()<br/>
+		/// </summary>
+		public ref float ArcFastRadiusCutoff => ref Unsafe.AsRef<float>(&NativePtr->ArcFastRadiusCutoff);
+		/// <summary>
+		/// Precomputed segment count for given radius before we calculate it dynamically (to avoid calculation overhead)<br/>
+		/// </summary>
+		public Span<byte> CircleSegmentCounts => new Span<byte>(&NativePtr->CircleSegmentCounts_0, 64);
 		public ImDrawListSharedDataPtr(ImDrawListSharedData* nativePtr) => NativePtr = nativePtr;
 		public ImDrawListSharedDataPtr(IntPtr nativePtr) => NativePtr = (ImDrawListSharedData*)nativePtr;
 		public static implicit operator ImDrawListSharedDataPtr(ImDrawListSharedData* ptr) => new ImDrawListSharedDataPtr(ptr);
 		public static implicit operator ImDrawListSharedDataPtr(IntPtr ptr) => new ImDrawListSharedDataPtr(ptr);
 		public static implicit operator ImDrawListSharedData*(ImDrawListSharedDataPtr nativePtr) => nativePtr.NativePtr;
+		public void SetCircleTessellationMaxError(float maxError)
+		{
+			ImGuiNative.ImDrawListSharedDataSetCircleTessellationMaxError(NativePtr, maxError);
+		}
+
+		public void Destroy()
+		{
+			ImGuiNative.ImDrawListSharedDataDestroy(NativePtr);
+		}
+
+		public void ImDrawListSharedDataConstruct()
+		{
+			ImGuiNative.ImDrawListSharedDataImDrawListSharedDataConstruct(NativePtr);
+		}
+
+		public ImDrawListSharedDataPtr ImDrawListSharedData()
+		{
+			return ImGuiNative.ImDrawListSharedDataImDrawListSharedData();
+		}
+
 	}
 }

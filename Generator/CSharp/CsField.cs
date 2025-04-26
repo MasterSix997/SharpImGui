@@ -104,8 +104,8 @@
         public bool IsRef { get; set; }
 
         public PropertyType PropertyType;
-        public string? GetProperty;
-        public string? SetProperty;
+        public string? InlinePropertyGet;
+        public string? InlinePropertySet;
 
         /// <inheritdoc />
         public override string ToString()
@@ -139,7 +139,7 @@
 
             if (PropertyType == PropertyType.GetInline)
             {
-                writer.Write(" => ").Write(GetProperty).Write(";");
+                writer.Write(" => ").Write(InlinePropertyGet).Write(";");
             }
             else if (PropertyType != PropertyType.None)
             {
@@ -147,27 +147,27 @@
                 if (PropertyType == PropertyType.Get)
                 {
                     writer.Write("get");
-                    if (!string.IsNullOrEmpty(GetProperty))
-                        writer.Write(" => ").Write(GetProperty);
+                    if (!string.IsNullOrEmpty(InlinePropertyGet))
+                        writer.Write(" => ").Write(InlinePropertyGet);
                     writer.Write(";");
                 }
                 else if (PropertyType == PropertyType.Set)
                 {
                     writer.Write("set");
-                    if (!string.IsNullOrEmpty(SetProperty))
-                        writer.Write(" => ").Write(SetProperty);
+                    if (!string.IsNullOrEmpty(InlinePropertySet))
+                        writer.Write(" => ").Write(InlinePropertySet);
                     writer.Write(";");
                 }
                 else if (PropertyType == PropertyType.GetSet)
                 {
                     writer.Write("get");
-                    if (!string.IsNullOrEmpty(GetProperty))
-                        writer.Write(" => ").Write(GetProperty);
+                    if (!string.IsNullOrEmpty(InlinePropertyGet))
+                        writer.Write(" => ").Write(InlinePropertyGet);
                     writer.Write(";");
                     writer.Write(" ");
                     writer.Write("set");
-                    if (!string.IsNullOrEmpty(SetProperty))
-                        writer.Write(" => ").Write(SetProperty);
+                    if (!string.IsNullOrEmpty(InlinePropertySet))
+                        writer.Write(" => ").Write(InlinePropertySet);
                     writer.Write(";");
                 }
                 writer.Write(" }");

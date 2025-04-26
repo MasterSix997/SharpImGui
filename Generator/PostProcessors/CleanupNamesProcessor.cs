@@ -12,6 +12,7 @@ public struct CleanupNamesProcessor : IPostProcessor
             ProcessEnums(file.Container);
             ProcessStructs(file.Container, generated.Settings);
             ProcessMethods(file.Container, generated.Settings);
+            ProcessDelegates(file.Container, generated.Settings);
         }
     }
 
@@ -54,8 +55,20 @@ public struct CleanupNamesProcessor : IPostProcessor
             }
         }
     }
+    
+    private static void ProcessDelegates(ICsDeclarationContainer container, GeneratorSettings settings)
+    {
+        foreach (var csDelegate in container.Delegates)
+        {
+            csDelegate.Name = ToPascalCase(csDelegate.Name);
+            foreach (var csParameter in csDelegate.Parameters)
+            {
+                csParameter.Name = ToCamelCase(csParameter.Name);
+            }
+        }
+    }
 
-    private static string ToPascalCase(string original)
+    public static string ToPascalCase(string original)
     {
         var invalidCharsRgx = new Regex("[^_@a-zA-Z0-9]");
         var whiteSpace = new Regex(@"(?<=\s)");
@@ -77,12 +90,13 @@ public struct CleanupNamesProcessor : IPostProcessor
             // lower second and next upper case letters except the last if it follows by any lower (ABcDEf -> AbcDef)
             .Select(w => upperCaseInside.Replace(w, m => m.Value.ToLower()))
             // if the first letter is a number, add an underscore before it (9abc -> _9abc)
-            .Select(w => w.StartsWith('_') || !char.IsDigit(w[0]) ? w : "_" + w);
+            .Select(w => w.StartsWith('_') || !char.IsDigit(w[0]) ? w : "_" + w)
+            .Select(w => w.Replace("@", "_"));
 
         return string.Concat(pascalCase);
     }
     
-    private static string ToCamelCase(string original)
+    public static string ToCamelCase(string original)
     {
         var pascalCase = ToPascalCase(original);
         return char.ToLower(pascalCase[0]) + pascalCase[1..];

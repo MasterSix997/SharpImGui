@@ -2,6 +2,7 @@ using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -210,9 +211,9 @@ namespace SharpImGui
 		/// add style editor block (not a window). you can pass in a reference ImGuiStyle structure to compare to, revert to and save to (else it uses the default style)<br/>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void ShowStyleEditor(ImGuiStyle* @ref)
+		public static void ShowStyleEditor(ImGuiStyle* _ref)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, void>)FuncTable[26])((IntPtr)@ref);
+			((delegate* unmanaged[Cdecl]<IntPtr, void>)FuncTable[26])((IntPtr)_ref);
 		}
 
 		/// <summary>
@@ -423,9 +424,9 @@ namespace SharpImGui
 		/// set next window size limits. use 0.0f or FLT_MAX if you don't want limits. Use -1 for both min and max of same axis to preserve current size (which itself is a constraint). Use callback to apply non-trivial programmatic constraints.<br/>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void SetNextWindowSizeConstraints(Vector2 sizeMin, Vector2 sizeMax, void* customCallback, void* customCallbackData)
+		public static void SetNextWindowSizeConstraints(Vector2 sizeMin, Vector2 sizeMax, ImGuiSizeCallback customCallback, void* customCallbackData)
 		{
-			((delegate* unmanaged[Cdecl]<Vector2, Vector2, IntPtr, IntPtr, void>)FuncTable[52])(sizeMin, sizeMax, (IntPtr)customCallback, (IntPtr)customCallbackData);
+			((delegate* unmanaged[Cdecl]<Vector2, Vector2, ImGuiSizeCallback, IntPtr, void>)FuncTable[52])(sizeMin, sizeMax, customCallback, (IntPtr)customCallbackData);
 		}
 
 		/// <summary>
@@ -1263,21 +1264,21 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void Image(IntPtr userTextureId, Vector2 imageSize, Vector2 uv0, Vector2 uv1)
+		public static void Image(ulong userTextureId, Vector2 imageSize, Vector2 uv0, Vector2 uv1)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, Vector2, Vector2, Vector2, void>)FuncTable[157])(userTextureId, imageSize, uv0, uv1);
+			((delegate* unmanaged[Cdecl]<ulong, Vector2, Vector2, Vector2, void>)FuncTable[157])(userTextureId, imageSize, uv0, uv1);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void ImageWithBg(IntPtr userTextureId, Vector2 imageSize, Vector2 uv0, Vector2 uv1, Vector4 bgCol, Vector4 tintCol)
+		public static void ImageWithBg(ulong userTextureId, Vector2 imageSize, Vector2 uv0, Vector2 uv1, Vector4 bgCol, Vector4 tintCol)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, Vector2, Vector2, Vector2, Vector4, Vector4, void>)FuncTable[158])(userTextureId, imageSize, uv0, uv1, bgCol, tintCol);
+			((delegate* unmanaged[Cdecl]<ulong, Vector2, Vector2, Vector2, Vector4, Vector4, void>)FuncTable[158])(userTextureId, imageSize, uv0, uv1, bgCol, tintCol);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static byte ImageButton(byte* strId, IntPtr userTextureId, Vector2 imageSize, Vector2 uv0, Vector2 uv1, Vector4 bgCol, Vector4 tintCol)
+		public static byte ImageButton(byte* strId, ulong userTextureId, Vector2 imageSize, Vector2 uv0, Vector2 uv1, Vector4 bgCol, Vector4 tintCol)
 		{
-			return ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, Vector2, Vector2, Vector2, Vector4, Vector4, byte>)FuncTable[159])((IntPtr)strId, userTextureId, imageSize, uv0, uv1, bgCol, tintCol);
+			return ((delegate* unmanaged[Cdecl]<IntPtr, ulong, Vector2, Vector2, Vector2, Vector4, Vector4, byte>)FuncTable[159])((IntPtr)strId, userTextureId, imageSize, uv0, uv1, bgCol, tintCol);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1308,9 +1309,9 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static byte Combo(byte* label, int* currentItem, void* getter, void* userData, int itemsCount, int popupMaxHeightInItems)
+		public static byte Combo(byte* label, int* currentItem, IgComboGetter getter, void* userData, int itemsCount, int popupMaxHeightInItems)
 		{
-			return ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, IntPtr, int, int, byte>)FuncTable[164])((IntPtr)label, (IntPtr)currentItem, (IntPtr)getter, (IntPtr)userData, itemsCount, popupMaxHeightInItems);
+			return ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IgComboGetter, IntPtr, int, int, byte>)FuncTable[164])((IntPtr)label, (IntPtr)currentItem, getter, (IntPtr)userData, itemsCount, popupMaxHeightInItems);
 		}
 
 		/// <summary>
@@ -1479,21 +1480,21 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static byte InputText(byte* label, byte* buf, uint bufSize, ImGuiInputTextFlags flags, void* callback, void* userData)
+		public static byte InputText(byte* label, byte* buf, uint bufSize, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, void* userData)
 		{
-			return ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, uint, ImGuiInputTextFlags, IntPtr, IntPtr, byte>)FuncTable[191])((IntPtr)label, (IntPtr)buf, bufSize, flags, (IntPtr)callback, (IntPtr)userData);
+			return ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, uint, ImGuiInputTextFlags, ImGuiInputTextCallback, IntPtr, byte>)FuncTable[191])((IntPtr)label, (IntPtr)buf, bufSize, flags, callback, (IntPtr)userData);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static byte InputTextMultiline(byte* label, byte* buf, uint bufSize, Vector2 size, ImGuiInputTextFlags flags, void* callback, void* userData)
+		public static byte InputTextMultiline(byte* label, byte* buf, uint bufSize, Vector2 size, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, void* userData)
 		{
-			return ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, uint, Vector2, ImGuiInputTextFlags, IntPtr, IntPtr, byte>)FuncTable[192])((IntPtr)label, (IntPtr)buf, bufSize, size, flags, (IntPtr)callback, (IntPtr)userData);
+			return ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, uint, Vector2, ImGuiInputTextFlags, ImGuiInputTextCallback, IntPtr, byte>)FuncTable[192])((IntPtr)label, (IntPtr)buf, bufSize, size, flags, callback, (IntPtr)userData);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static byte InputTextWithHint(byte* label, byte* hint, byte* buf, uint bufSize, ImGuiInputTextFlags flags, void* callback, void* userData)
+		public static byte InputTextWithHint(byte* label, byte* hint, byte* buf, uint bufSize, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, void* userData)
 		{
-			return ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, uint, ImGuiInputTextFlags, IntPtr, IntPtr, byte>)FuncTable[193])((IntPtr)label, (IntPtr)hint, (IntPtr)buf, bufSize, flags, (IntPtr)callback, (IntPtr)userData);
+			return ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, uint, ImGuiInputTextFlags, ImGuiInputTextCallback, IntPtr, byte>)FuncTable[193])((IntPtr)label, (IntPtr)hint, (IntPtr)buf, bufSize, flags, callback, (IntPtr)userData);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1776,9 +1777,9 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static byte ListBoxFnStrPtr(byte* label, int* currentItem, void* getter, void* userData, int itemsCount, int heightInItems)
+		public static byte ListBoxFnStrPtr(byte* label, int* currentItem, IgComboGetter getter, void* userData, int itemsCount, int heightInItems)
 		{
-			return ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, IntPtr, int, int, byte>)FuncTable[234])((IntPtr)label, (IntPtr)currentItem, (IntPtr)getter, (IntPtr)userData, itemsCount, heightInItems);
+			return ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IgComboGetter, IntPtr, int, int, byte>)FuncTable[234])((IntPtr)label, (IntPtr)currentItem, getter, (IntPtr)userData, itemsCount, heightInItems);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1788,9 +1789,9 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotLines(byte* label, void* valuesGetter, void* data, int valuesCount, int valuesOffset, byte* overlayText, float scaleMin, float scaleMax, Vector2 graphSize)
+		public static void PlotLines(byte* label, IgPlotLinesValuesGetter valuesGetter, void* data, int valuesCount, int valuesOffset, byte* overlayText, float scaleMin, float scaleMax, Vector2 graphSize)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, int, IntPtr, float, float, Vector2, void>)FuncTable[236])((IntPtr)label, (IntPtr)valuesGetter, (IntPtr)data, valuesCount, valuesOffset, (IntPtr)overlayText, scaleMin, scaleMax, graphSize);
+			((delegate* unmanaged[Cdecl]<IntPtr, IgPlotLinesValuesGetter, IntPtr, int, int, IntPtr, float, float, Vector2, void>)FuncTable[236])((IntPtr)label, valuesGetter, (IntPtr)data, valuesCount, valuesOffset, (IntPtr)overlayText, scaleMin, scaleMax, graphSize);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1800,9 +1801,9 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void PlotHistogram(byte* label, void* valuesGetter, void* data, int valuesCount, int valuesOffset, byte* overlayText, float scaleMin, float scaleMax, Vector2 graphSize)
+		public static void PlotHistogram(byte* label, IgPlotLinesValuesGetter valuesGetter, void* data, int valuesCount, int valuesOffset, byte* overlayText, float scaleMin, float scaleMax, Vector2 graphSize)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, int, IntPtr, float, float, Vector2, void>)FuncTable[238])((IntPtr)label, (IntPtr)valuesGetter, (IntPtr)data, valuesCount, valuesOffset, (IntPtr)overlayText, scaleMin, scaleMax, graphSize);
+			((delegate* unmanaged[Cdecl]<IntPtr, IgPlotLinesValuesGetter, IntPtr, int, int, IntPtr, float, float, Vector2, void>)FuncTable[238])((IntPtr)label, valuesGetter, (IntPtr)data, valuesCount, valuesOffset, (IntPtr)overlayText, scaleMin, scaleMax, graphSize);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2790,15 +2791,15 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void ColorConvertU32ToFloat4(Vector4* pOut, uint @in)
+		public static void ColorConvertU32ToFloat4(Vector4* pOut, uint _in)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, uint, void>)FuncTable[356])((IntPtr)pOut, @in);
+			((delegate* unmanaged[Cdecl]<IntPtr, uint, void>)FuncTable[356])((IntPtr)pOut, _in);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static uint ColorConvertFloat4ToU32(Vector4 @in)
+		public static uint ColorConvertFloat4ToU32(Vector4 _in)
 		{
-			return ((delegate* unmanaged[Cdecl]<Vector4, uint>)FuncTable[357])(@in);
+			return ((delegate* unmanaged[Cdecl]<Vector4, uint>)FuncTable[357])(_in);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2835,9 +2836,9 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static byte IsKeyChordPressed(ImGuiKey keyChord)
+		public static byte IsKeyChordPressed(int keyChord)
 		{
-			return ((delegate* unmanaged[Cdecl]<ImGuiKey, byte>)FuncTable[363])(keyChord);
+			return ((delegate* unmanaged[Cdecl]<int, byte>)FuncTable[363])(keyChord);
 		}
 
 		/// <summary>
@@ -2868,15 +2869,15 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static byte Shortcut(ImGuiKey keyChord, ImGuiInputFlags flags)
+		public static byte Shortcut(int keyChord, ImGuiInputFlags flags)
 		{
-			return ((delegate* unmanaged[Cdecl]<ImGuiKey, ImGuiInputFlags, byte>)FuncTable[367])(keyChord, flags);
+			return ((delegate* unmanaged[Cdecl]<int, ImGuiInputFlags, byte>)FuncTable[367])(keyChord, flags);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void SetNextItemShortcut(ImGuiKey keyChord, ImGuiInputFlags flags)
+		public static void SetNextItemShortcut(int keyChord, ImGuiInputFlags flags)
 		{
-			((delegate* unmanaged[Cdecl]<ImGuiKey, ImGuiInputFlags, void>)FuncTable[368])(keyChord, flags);
+			((delegate* unmanaged[Cdecl]<int, ImGuiInputFlags, void>)FuncTable[368])(keyChord, flags);
 		}
 
 		/// <summary>
@@ -3114,13 +3115,13 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void SetAllocatorFunctions(IntPtr allocFunc, IntPtr freeFunc, void* userData)
+		public static void SetAllocatorFunctions(ImGuiMemAllocFunc allocFunc, ImGuiMemFreeFunc freeFunc, void* userData)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, void>)FuncTable[398])(allocFunc, freeFunc, (IntPtr)userData);
+			((delegate* unmanaged[Cdecl]<ImGuiMemAllocFunc, ImGuiMemFreeFunc, IntPtr, void>)FuncTable[398])(allocFunc, freeFunc, (IntPtr)userData);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void GetAllocatorFunctions(IntPtr* pAllocFunc, IntPtr* pFreeFunc, void** pUserData)
+		public static void GetAllocatorFunctions(ImGuiMemAllocFunc* pAllocFunc, ImGuiMemFreeFunc* pFreeFunc, void** pUserData)
 		{
 			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, void>)FuncTable[399])((IntPtr)pAllocFunc, (IntPtr)pFreeFunc, (IntPtr)pUserData);
 		}
@@ -3618,9 +3619,9 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void ImGuiTextRangeSplit(ImGuiTextRange* self, byte separator, ImVector<ImGuiTextRange>* @out)
+		public static void ImGuiTextRangeSplit(ImGuiTextRange* self, byte separator, ImVector<ImGuiTextRange>* _out)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, byte, IntPtr, void>)FuncTable[471])((IntPtr)self, separator, (IntPtr)@out);
+			((delegate* unmanaged[Cdecl]<IntPtr, byte, IntPtr, void>)FuncTable[471])((IntPtr)self, separator, (IntPtr)_out);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4107,9 +4108,9 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static IntPtr ImDrawCmdGetTexID(ImDrawCmd* self)
+		public static ulong ImDrawCmdGetTexID(ImDrawCmd* self)
 		{
-			return ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr>)FuncTable[545])((IntPtr)self);
+			return ((delegate* unmanaged[Cdecl]<IntPtr, ulong>)FuncTable[545])((IntPtr)self);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4203,9 +4204,9 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void ImDrawListPushTextureID(ImDrawList* self, IntPtr textureId)
+		public static void ImDrawListPushTextureID(ImDrawList* self, ulong textureId)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, void>)FuncTable[560])((IntPtr)self, textureId);
+			((delegate* unmanaged[Cdecl]<IntPtr, ulong, void>)FuncTable[560])((IntPtr)self, textureId);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4365,21 +4366,21 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void ImDrawListAddImage(ImDrawList* self, IntPtr userTextureId, Vector2 pMin, Vector2 pMax, Vector2 uvMin, Vector2 uvMax, uint col)
+		public static void ImDrawListAddImage(ImDrawList* self, ulong userTextureId, Vector2 pMin, Vector2 pMax, Vector2 uvMin, Vector2 uvMax, uint col)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, Vector2, Vector2, Vector2, Vector2, uint, void>)FuncTable[585])((IntPtr)self, userTextureId, pMin, pMax, uvMin, uvMax, col);
+			((delegate* unmanaged[Cdecl]<IntPtr, ulong, Vector2, Vector2, Vector2, Vector2, uint, void>)FuncTable[585])((IntPtr)self, userTextureId, pMin, pMax, uvMin, uvMax, col);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void ImDrawListAddImageQuad(ImDrawList* self, IntPtr userTextureId, Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, Vector2 uv1, Vector2 uv2, Vector2 uv3, Vector2 uv4, uint col)
+		public static void ImDrawListAddImageQuad(ImDrawList* self, ulong userTextureId, Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, Vector2 uv1, Vector2 uv2, Vector2 uv3, Vector2 uv4, uint col)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, Vector2, Vector2, Vector2, Vector2, Vector2, Vector2, Vector2, Vector2, uint, void>)FuncTable[586])((IntPtr)self, userTextureId, p1, p2, p3, p4, uv1, uv2, uv3, uv4, col);
+			((delegate* unmanaged[Cdecl]<IntPtr, ulong, Vector2, Vector2, Vector2, Vector2, Vector2, Vector2, Vector2, Vector2, uint, void>)FuncTable[586])((IntPtr)self, userTextureId, p1, p2, p3, p4, uv1, uv2, uv3, uv4, col);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void ImDrawListAddImageRounded(ImDrawList* self, IntPtr userTextureId, Vector2 pMin, Vector2 pMax, Vector2 uvMin, Vector2 uvMax, uint col, float rounding, ImDrawFlags flags)
+		public static void ImDrawListAddImageRounded(ImDrawList* self, ulong userTextureId, Vector2 pMin, Vector2 pMax, Vector2 uvMin, Vector2 uvMax, uint col, float rounding, ImDrawFlags flags)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, Vector2, Vector2, Vector2, Vector2, uint, float, ImDrawFlags, void>)FuncTable[587])((IntPtr)self, userTextureId, pMin, pMax, uvMin, uvMax, col, rounding, flags);
+			((delegate* unmanaged[Cdecl]<IntPtr, ulong, Vector2, Vector2, Vector2, Vector2, uint, float, ImDrawFlags, void>)FuncTable[587])((IntPtr)self, userTextureId, pMin, pMax, uvMin, uvMax, col, rounding, flags);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4467,9 +4468,9 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void ImDrawListAddCallback(ImDrawList* self, IntPtr callback, void* userdata, uint userdataSize)
+		public static void ImDrawListAddCallback(ImDrawList* self, ImDrawCallback callback, void* userdata, uint userdataSize)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, uint, void>)FuncTable[600])((IntPtr)self, callback, (IntPtr)userdata, userdataSize);
+			((delegate* unmanaged[Cdecl]<IntPtr, ImDrawCallback, IntPtr, uint, void>)FuncTable[600])((IntPtr)self, callback, (IntPtr)userdata, userdataSize);
 		}
 
 		/// <summary>
@@ -4605,9 +4606,9 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void ImDrawListSetTextureID(ImDrawList* self, IntPtr textureId)
+		public static void ImDrawListSetTextureID(ImDrawList* self, ulong textureId)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, void>)FuncTable[621])((IntPtr)self, textureId);
+			((delegate* unmanaged[Cdecl]<IntPtr, ulong, void>)FuncTable[621])((IntPtr)self, textureId);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -4935,9 +4936,9 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void ImFontAtlasSetTexID(ImFontAtlas* self, IntPtr id)
+		public static void ImFontAtlasSetTexID(ImFontAtlas* self, ulong id)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, void>)FuncTable[666])((IntPtr)self, id);
+			((delegate* unmanaged[Cdecl]<IntPtr, ulong, void>)FuncTable[666])((IntPtr)self, id);
 		}
 
 		/// <summary>
@@ -5256,9 +5257,9 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void ImQsort(void* @base, uint count, uint sizeOfElement, void* compareFunc)
+		public static void ImQsort(void* _base, uint count, uint sizeOfElement, IgImQsortCompareFunc compareFunc)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, uint, uint, IntPtr, void>)FuncTable[714])((IntPtr)@base, count, sizeOfElement, (IntPtr)compareFunc);
+			((delegate* unmanaged[Cdecl]<IntPtr, uint, uint, IgImQsortCompareFunc, void>)FuncTable[714])((IntPtr)_base, count, sizeOfElement, compareFunc);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -5553,33 +5554,33 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static IntPtr ImFileOpen(byte* filename, byte* mode)
+		public static void* ImFileOpen(byte* filename, byte* mode)
 		{
-			return ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr>)FuncTable[753])((IntPtr)filename, (IntPtr)mode);
+			return (void*)((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr>)FuncTable[753])((IntPtr)filename, (IntPtr)mode);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static byte ImFileClose(IntPtr file)
+		public static byte ImFileClose(void* file)
 		{
-			return ((delegate* unmanaged[Cdecl]<IntPtr, byte>)FuncTable[754])(file);
+			return ((delegate* unmanaged[Cdecl]<IntPtr, byte>)FuncTable[754])((IntPtr)file);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static ulong ImFileGetSize(IntPtr file)
+		public static ulong ImFileGetSize(void* file)
 		{
-			return ((delegate* unmanaged[Cdecl]<IntPtr, ulong>)FuncTable[755])(file);
+			return ((delegate* unmanaged[Cdecl]<IntPtr, ulong>)FuncTable[755])((IntPtr)file);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static ulong ImFileRead(void* data, ulong size, ulong count, IntPtr file)
+		public static ulong ImFileRead(void* data, ulong size, ulong count, void* file)
 		{
-			return ((delegate* unmanaged[Cdecl]<IntPtr, ulong, ulong, IntPtr, ulong>)FuncTable[756])((IntPtr)data, size, count, file);
+			return ((delegate* unmanaged[Cdecl]<IntPtr, ulong, ulong, IntPtr, ulong>)FuncTable[756])((IntPtr)data, size, count, (IntPtr)file);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static ulong ImFileWrite(void* data, ulong size, ulong count, IntPtr file)
+		public static ulong ImFileWrite(void* data, ulong size, ulong count, void* file)
 		{
-			return ((delegate* unmanaged[Cdecl]<IntPtr, ulong, ulong, IntPtr, ulong>)FuncTable[757])((IntPtr)data, size, count, file);
+			return ((delegate* unmanaged[Cdecl]<IntPtr, ulong, ulong, IntPtr, ulong>)FuncTable[757])((IntPtr)data, size, count, (IntPtr)file);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -6225,21 +6226,21 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static byte* ImGuiTextIndexGetLineBegin(ImGuiTextIndex* self, byte* @base, int n)
+		public static byte* ImGuiTextIndexGetLineBegin(ImGuiTextIndex* self, byte* _base, int n)
 		{
-			return (byte*)((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, IntPtr>)FuncTable[861])((IntPtr)self, (IntPtr)@base, n);
+			return (byte*)((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, IntPtr>)FuncTable[861])((IntPtr)self, (IntPtr)_base, n);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static byte* ImGuiTextIndexGetLineEnd(ImGuiTextIndex* self, byte* @base, int n)
+		public static byte* ImGuiTextIndexGetLineEnd(ImGuiTextIndex* self, byte* _base, int n)
 		{
-			return (byte*)((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, IntPtr>)FuncTable[862])((IntPtr)self, (IntPtr)@base, n);
+			return (byte*)((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, IntPtr>)FuncTable[862])((IntPtr)self, (IntPtr)_base, n);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void ImGuiTextIndexAppend(ImGuiTextIndex* self, byte* @base, int oldSize, int newSize)
+		public static void ImGuiTextIndexAppend(ImGuiTextIndex* self, byte* _base, int oldSize, int newSize)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, int, void>)FuncTable[863])((IntPtr)self, (IntPtr)@base, oldSize, newSize);
+			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, int, int, void>)FuncTable[863])((IntPtr)self, (IntPtr)_base, oldSize, newSize);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -8433,9 +8434,9 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static ImGuiKey FixupKeyChord(ImGuiKey keyChord)
+		public static int FixupKeyChord(int keyChord)
 		{
-			return ((delegate* unmanaged[Cdecl]<ImGuiKey, ImGuiKey>)FuncTable[1221])(keyChord);
+			return ((delegate* unmanaged[Cdecl]<int, int>)FuncTable[1221])(keyChord);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -8457,9 +8458,9 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static byte* GetKeyChordName(ImGuiKey keyChord)
+		public static byte* GetKeyChordName(int keyChord)
 		{
-			return (byte*)((delegate* unmanaged[Cdecl]<ImGuiKey, IntPtr>)FuncTable[1225])(keyChord);
+			return (byte*)((delegate* unmanaged[Cdecl]<int, IntPtr>)FuncTable[1225])(keyChord);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -8529,9 +8530,9 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void SetKeyOwnersForKeyChord(ImGuiKey key, uint ownerId, ImGuiInputFlags flags)
+		public static void SetKeyOwnersForKeyChord(int key, uint ownerId, ImGuiInputFlags flags)
 		{
-			((delegate* unmanaged[Cdecl]<ImGuiKey, uint, ImGuiInputFlags, void>)FuncTable[1237])(key, ownerId, flags);
+			((delegate* unmanaged[Cdecl]<int, uint, ImGuiInputFlags, void>)FuncTable[1237])(key, ownerId, flags);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -8574,9 +8575,9 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static byte IsKeyChordPressed(ImGuiKey keyChord, ImGuiInputFlags flags, uint ownerId)
+		public static byte IsKeyChordPressed(int keyChord, ImGuiInputFlags flags, uint ownerId)
 		{
-			return ((delegate* unmanaged[Cdecl]<ImGuiKey, ImGuiInputFlags, uint, byte>)FuncTable[1244])(keyChord, flags, ownerId);
+			return ((delegate* unmanaged[Cdecl]<int, ImGuiInputFlags, uint, byte>)FuncTable[1244])(keyChord, flags, ownerId);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -8604,30 +8605,30 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static byte Shortcut(ImGuiKey keyChord, ImGuiInputFlags flags, uint ownerId)
+		public static byte Shortcut(int keyChord, ImGuiInputFlags flags, uint ownerId)
 		{
-			return ((delegate* unmanaged[Cdecl]<ImGuiKey, ImGuiInputFlags, uint, byte>)FuncTable[1249])(keyChord, flags, ownerId);
+			return ((delegate* unmanaged[Cdecl]<int, ImGuiInputFlags, uint, byte>)FuncTable[1249])(keyChord, flags, ownerId);
 		}
 
 		/// <summary>
 		/// owner_id needs to be explicit and cannot be 0<br/>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static byte SetShortcutRouting(ImGuiKey keyChord, ImGuiInputFlags flags, uint ownerId)
+		public static byte SetShortcutRouting(int keyChord, ImGuiInputFlags flags, uint ownerId)
 		{
-			return ((delegate* unmanaged[Cdecl]<ImGuiKey, ImGuiInputFlags, uint, byte>)FuncTable[1250])(keyChord, flags, ownerId);
+			return ((delegate* unmanaged[Cdecl]<int, ImGuiInputFlags, uint, byte>)FuncTable[1250])(keyChord, flags, ownerId);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static byte TestShortcutRouting(ImGuiKey keyChord, uint ownerId)
+		public static byte TestShortcutRouting(int keyChord, uint ownerId)
 		{
-			return ((delegate* unmanaged[Cdecl]<ImGuiKey, uint, byte>)FuncTable[1251])(keyChord, ownerId);
+			return ((delegate* unmanaged[Cdecl]<int, uint, byte>)FuncTable[1251])(keyChord, ownerId);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static ImGuiKeyRoutingData* GetShortcutRoutingData(ImGuiKey keyChord)
+		public static ImGuiKeyRoutingData* GetShortcutRoutingData(int keyChord)
 		{
-			return (ImGuiKeyRoutingData*)((delegate* unmanaged[Cdecl]<ImGuiKey, IntPtr>)FuncTable[1252])(keyChord);
+			return (ImGuiKeyRoutingData*)((delegate* unmanaged[Cdecl]<int, IntPtr>)FuncTable[1252])(keyChord);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -8871,7 +8872,7 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void DockBuilderCopyDockSpace(uint srcDockspaceId, uint dstDockspaceId, ImVector<IntPtr>* inWindowRemapPairs)
+		public static void DockBuilderCopyDockSpace(uint srcDockspaceId, uint dstDockspaceId, ImVector<ImPointer<byte>>* inWindowRemapPairs)
 		{
 			((delegate* unmanaged[Cdecl]<uint, uint, IntPtr, void>)FuncTable[1291])(srcDockspaceId, dstDockspaceId, (IntPtr)inWindowRemapPairs);
 		}
@@ -8952,21 +8953,21 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static int TypingSelectFindMatch(ImGuiTypingSelectRequest* req, int itemsCount, void* getItemNameFunc, void* userData, int navItemIdx)
+		public static int TypingSelectFindMatch(ImGuiTypingSelectRequest* req, int itemsCount, IgTypingSelectFindMatchGetItemNameFunc getItemNameFunc, void* userData, int navItemIdx)
 		{
-			return ((delegate* unmanaged[Cdecl]<IntPtr, int, IntPtr, IntPtr, int, int>)FuncTable[1304])((IntPtr)req, itemsCount, (IntPtr)getItemNameFunc, (IntPtr)userData, navItemIdx);
+			return ((delegate* unmanaged[Cdecl]<IntPtr, int, IgTypingSelectFindMatchGetItemNameFunc, IntPtr, int, int>)FuncTable[1304])((IntPtr)req, itemsCount, getItemNameFunc, (IntPtr)userData, navItemIdx);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static int TypingSelectFindNextSingleCharMatch(ImGuiTypingSelectRequest* req, int itemsCount, void* getItemNameFunc, void* userData, int navItemIdx)
+		public static int TypingSelectFindNextSingleCharMatch(ImGuiTypingSelectRequest* req, int itemsCount, IgTypingSelectFindMatchGetItemNameFunc getItemNameFunc, void* userData, int navItemIdx)
 		{
-			return ((delegate* unmanaged[Cdecl]<IntPtr, int, IntPtr, IntPtr, int, int>)FuncTable[1305])((IntPtr)req, itemsCount, (IntPtr)getItemNameFunc, (IntPtr)userData, navItemIdx);
+			return ((delegate* unmanaged[Cdecl]<IntPtr, int, IgTypingSelectFindMatchGetItemNameFunc, IntPtr, int, int>)FuncTable[1305])((IntPtr)req, itemsCount, getItemNameFunc, (IntPtr)userData, navItemIdx);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static int TypingSelectFindBestLeadingMatch(ImGuiTypingSelectRequest* req, int itemsCount, void* getItemNameFunc, void* userData)
+		public static int TypingSelectFindBestLeadingMatch(ImGuiTypingSelectRequest* req, int itemsCount, IgTypingSelectFindMatchGetItemNameFunc getItemNameFunc, void* userData)
 		{
-			return ((delegate* unmanaged[Cdecl]<IntPtr, int, IntPtr, IntPtr, int>)FuncTable[1306])((IntPtr)req, itemsCount, (IntPtr)getItemNameFunc, (IntPtr)userData);
+			return ((delegate* unmanaged[Cdecl]<IntPtr, int, IgTypingSelectFindMatchGetItemNameFunc, IntPtr, int>)FuncTable[1306])((IntPtr)req, itemsCount, getItemNameFunc, (IntPtr)userData);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -9657,9 +9658,9 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static byte ImageButtonEx(uint id, IntPtr userTextureId, Vector2 imageSize, Vector2 uv0, Vector2 uv1, Vector4 bgCol, Vector4 tintCol, ImGuiButtonFlags flags)
+		public static byte ImageButtonEx(uint id, ulong userTextureId, Vector2 imageSize, Vector2 uv0, Vector2 uv1, Vector4 bgCol, Vector4 tintCol, ImGuiButtonFlags flags)
 		{
-			return ((delegate* unmanaged[Cdecl]<uint, IntPtr, Vector2, Vector2, Vector2, Vector4, Vector4, ImGuiButtonFlags, byte>)FuncTable[1419])(id, userTextureId, imageSize, uv0, uv1, bgCol, tintCol, flags);
+			return ((delegate* unmanaged[Cdecl]<uint, ulong, Vector2, Vector2, Vector2, Vector4, Vector4, ImGuiButtonFlags, byte>)FuncTable[1419])(id, userTextureId, imageSize, uv0, uv1, bgCol, tintCol, flags);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -9837,9 +9838,9 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static byte InputTextEx(byte* label, byte* hint, byte* buf, int bufSize, Vector2 sizeArg, ImGuiInputTextFlags flags, void* callback, void* userData)
+		public static byte InputTextEx(byte* label, byte* hint, byte* buf, int bufSize, Vector2 sizeArg, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, void* userData)
 		{
-			return ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, Vector2, ImGuiInputTextFlags, IntPtr, IntPtr, byte>)FuncTable[1448])((IntPtr)label, (IntPtr)hint, (IntPtr)buf, bufSize, sizeArg, flags, (IntPtr)callback, (IntPtr)userData);
+			return ((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, int, Vector2, ImGuiInputTextFlags, ImGuiInputTextCallback, IntPtr, byte>)FuncTable[1448])((IntPtr)label, (IntPtr)hint, (IntPtr)buf, bufSize, sizeArg, flags, callback, (IntPtr)userData);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -9909,9 +9910,9 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static int PlotEx(ImGuiPlotType plotType, byte* label, void* valuesGetter, void* data, int valuesCount, int valuesOffset, byte* overlayText, float scaleMin, float scaleMax, Vector2 sizeArg)
+		public static int PlotEx(ImGuiPlotType plotType, byte* label, IgPlotLinesValuesGetter valuesGetter, void* data, int valuesCount, int valuesOffset, byte* overlayText, float scaleMin, float scaleMax, Vector2 sizeArg)
 		{
-			return ((delegate* unmanaged[Cdecl]<ImGuiPlotType, IntPtr, IntPtr, IntPtr, int, int, IntPtr, float, float, Vector2, int>)FuncTable[1459])(plotType, (IntPtr)label, (IntPtr)valuesGetter, (IntPtr)data, valuesCount, valuesOffset, (IntPtr)overlayText, scaleMin, scaleMax, sizeArg);
+			return ((delegate* unmanaged[Cdecl]<ImGuiPlotType, IntPtr, IgPlotLinesValuesGetter, IntPtr, int, int, IntPtr, float, float, Vector2, int>)FuncTable[1459])(plotType, (IntPtr)label, valuesGetter, (IntPtr)data, valuesCount, valuesOffset, (IntPtr)overlayText, scaleMin, scaleMax, sizeArg);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -10212,9 +10213,9 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static IntPtr* ImFontAtlasGetBuilderForStbTruetype()
+		public static ImFontBuilderIO* ImFontAtlasGetBuilderForStbTruetype()
 		{
-			return (IntPtr*)((delegate* unmanaged[Cdecl]<IntPtr>)FuncTable[1508])();
+			return (ImFontBuilderIO*)((delegate* unmanaged[Cdecl]<IntPtr>)FuncTable[1508])();
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -10326,15 +10327,15 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void ImGuiPlatformIOSetPlatformGetWindowPos(ImGuiPlatformIO* platformIo, void* userCallback)
+		public static void ImGuiPlatformIOSetPlatformGetWindowPos(ImGuiPlatformIO* platformIo, ImGuiPlatformIOSetPlatformGetWindowPosUserCallback userCallback)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, void>)FuncTable[1527])((IntPtr)platformIo, (IntPtr)userCallback);
+			((delegate* unmanaged[Cdecl]<IntPtr, ImGuiPlatformIOSetPlatformGetWindowPosUserCallback, void>)FuncTable[1527])((IntPtr)platformIo, userCallback);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void ImGuiPlatformIOSetPlatformGetWindowSize(ImGuiPlatformIO* platformIo, void* userCallback)
+		public static void ImGuiPlatformIOSetPlatformGetWindowSize(ImGuiPlatformIO* platformIo, ImGuiPlatformIOSetPlatformGetWindowSizeUserCallback userCallback)
 		{
-			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, void>)FuncTable[1528])((IntPtr)platformIo, (IntPtr)userCallback);
+			((delegate* unmanaged[Cdecl]<IntPtr, ImGuiPlatformIOSetPlatformGetWindowSizeUserCallback, void>)FuncTable[1528])((IntPtr)platformIo, userCallback);
 		}
 
 	}

@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -98,10 +100,48 @@ namespace SharpImGui
 		public ImGuiTypingSelectState* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImGuiTypingSelectState this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		/// <summary>
+		/// User-facing data<br/>
+		/// </summary>
+		public ref ImGuiTypingSelectRequest Request => ref Unsafe.AsRef<ImGuiTypingSelectRequest>(&NativePtr->Request);
+		/// <summary>
+		/// Search buffer: no need to make dynamic as this search is very transient.<br/>
+		/// </summary>
+		public Span<byte> SearchBuffer => new Span<byte>(&NativePtr->SearchBuffer_0, 64);
+		public ref uint FocusScope => ref Unsafe.AsRef<uint>(&NativePtr->FocusScope);
+		public ref int LastRequestFrame => ref Unsafe.AsRef<int>(&NativePtr->LastRequestFrame);
+		public ref float LastRequestTime => ref Unsafe.AsRef<float>(&NativePtr->LastRequestTime);
+		/// <summary>
+		/// After a certain single char repeat count we lock into SingleCharMode. Two benefits: 1) buffer never fill, 2) we can provide an immediate SingleChar mode without timer elapsing.<br/>
+		/// </summary>
+		public ref bool SingleCharModeLock => ref Unsafe.AsRef<bool>(&NativePtr->SingleCharModeLock);
 		public ImGuiTypingSelectStatePtr(ImGuiTypingSelectState* nativePtr) => NativePtr = nativePtr;
 		public ImGuiTypingSelectStatePtr(IntPtr nativePtr) => NativePtr = (ImGuiTypingSelectState*)nativePtr;
 		public static implicit operator ImGuiTypingSelectStatePtr(ImGuiTypingSelectState* ptr) => new ImGuiTypingSelectStatePtr(ptr);
 		public static implicit operator ImGuiTypingSelectStatePtr(IntPtr ptr) => new ImGuiTypingSelectStatePtr(ptr);
 		public static implicit operator ImGuiTypingSelectState*(ImGuiTypingSelectStatePtr nativePtr) => nativePtr.NativePtr;
+		/// <summary>
+		/// We preserve remaining data for easier debugging<br/>
+		/// </summary>
+		public void Clear()
+		{
+			ImGuiNative.ImGuiTypingSelectStateClear(NativePtr);
+		}
+
+		public void Destroy()
+		{
+			ImGuiNative.ImGuiTypingSelectStateDestroy(NativePtr);
+		}
+
+		public void ImGuiTypingSelectStateConstruct()
+		{
+			ImGuiNative.ImGuiTypingSelectStateImGuiTypingSelectStateConstruct(NativePtr);
+		}
+
+		public ImGuiTypingSelectStatePtr ImGuiTypingSelectState()
+		{
+			return ImGuiNative.ImGuiTypingSelectStateImGuiTypingSelectState();
+		}
+
 	}
 }

@@ -102,6 +102,7 @@ public class CppToCSharp
             { "ulong", CsPrimitiveType.UnsignedLong },
             { "float", CsPrimitiveType.Float },
             { "double", CsPrimitiveType.Double },
+            { "nuint", CsPrimitiveType.NativeUnsignedInt },
             
             // Other known types
             { "string", new CsUnresolvedType("string", CsTypeKind.Primitive) },
@@ -127,7 +128,7 @@ public class CppToCSharp
             { "signed char", "sbyte" },
             { "char", "byte" },
             { "ImWchar", "ushort" },
-            { "ImFileHandle", "IntPtr" },
+            { "ImFileHandle", "void*" },
             { "ImU8", "byte" },
             { "ImS8", "sbyte" },
             { "ImU16", "ushort" },
@@ -145,17 +146,17 @@ public class CppToCSharp
             { "ImWchar16", "ushort" },
             { "ImVec4_Simple", "Vector4" },
             { "ImColor_Simple", "ImColor" },
-            { "ImTextureID", "IntPtr" },
-            { "ImGuiID", "uint" },
-            { "ImDrawIdx", "ushort" },
-            { "ImDrawCallback", "IntPtr" },
+            // { "ImTextureID", "void*" },
+            // { "ImGuiID", "uint" },
+            // { "ImDrawIdx", "ushort" },
+            // { "ImDrawCallback", "void*" },
             { "size_t", "uint" },
-            { "ImGuiContext*", "IntPtr" },
-            { "ImPlotContext*", "IntPtr" },
-            { "EditorContext*", "IntPtr" },
-            { "ImGuiMemAllocFunc", "IntPtr" },
-            { "ImGuiMemFreeFunc", "IntPtr" },
-            { "ImFontBuilderIO", "IntPtr" },
+            // { "ImGuiContext*", "void*" },
+            // { "ImPlotContext*", "void*" },
+            // { "EditorContext*", "void*" },
+            // { "ImGuiMemAllocFunc", "void*" },
+            // { "ImGuiMemFreeFunc", "void*" },
+            // { "ImFontBuilderIO", "void*" },
             { "float[2]", "Vector2*" },
             { "float[3]", "Vector3*" },
             { "float[4]", "Vector4*" },
@@ -166,11 +167,11 @@ public class CppToCSharp
             { "ImVec2[2]", "Vector2*" },
             { "char* []", "byte**" },
             { "unsigned char[256]", "byte*" },
-            { "ImPlotFormatter", "IntPtr" },
-            { "ImPlotGetter", "IntPtr" },
-            { "ImPlotTransform", "IntPtr" },
-            { "ImGuiKeyChord", "ImGuiKey" },
-            { "ImGuiSelectionUserData", "long" },
+            // { "ImPlotFormatter", "void*" },
+            // { "ImPlotGetter", "void*" },
+            // { "ImPlotTransform", "void*" },
+            // { "ImGuiKeyChord", "ImGuiKey" },
+            // { "ImGuiSelectionUserData", "long" },
             
             {"unsigned_int", "uint"},
             {"unsigned_char", "byte"},
@@ -182,10 +183,10 @@ public class CppToCSharp
             {"signed int", "int"},
             {"signed long long", "long"},
             
-            {"ImBitArrayForNamedKeys", "uint"}, //Pode não ser o tipo correto (c# 9.0: nuint)
+            {"ImBitArrayForNamedKeys", "nuint"}, //Pode não ser o tipo correto (c# 9.0: nuint)
             {"ImGuiDockRequest", "EmptyStruct"},
             {"ImGuiDockNodeSettings", "EmptyStruct"},
-            {"ImBitArrayPtr", "IntPtr"},
+            {"ImBitArrayPtr", "void*"},
             {"ImStbTexteditState*", "void*"},
             {"ImVector_const_charPtr*", "ImVectorPtrIntPtr"},
         });
@@ -242,7 +243,6 @@ public class CppToCSharp
             foreach (var cppField in cppStruct.Fields)
             {
                 var fieldType = new CsUnresolvedType(cppField.Type.FullName);
-                //todo array type
                 
                 var indexOfBracket = cppField.Type.FullName.IndexOf('[');
                 if (indexOfBracket is not -1)
@@ -256,6 +256,7 @@ public class CppToCSharp
                         var csField = new CsField(fieldType, string.Concat(cppField.Name, '_', i));
                         csStruct.Fields.Add(csField);
                         csField.Visibility = CsVisibility.Public;
+                        csField.Metadata = cppField;
                     }
                 }
                 else
@@ -447,7 +448,7 @@ public class CppToCSharp
                 var @delegate = ExtractDelegate(name, type.Replace("typedef ", ""));
                 @delegate.Metadata = cppTypedef;
                 CSharpGenerated.AddType(@delegate);
-                CSharpGenerated.AddTypeMap(name, "void*");
+                CSharpGenerated.AddTypeMap(name, @delegate.Name);
                 CSharpGenerated.Definitions.Delegates.Add(@delegate);
                 continue;
             }
@@ -456,9 +457,7 @@ public class CppToCSharp
             {
                 continue;
             }
-        
             typesDict.Add(name, type);
-            
         }
         CSharpGenerated.AddTypeMaps(typesDict);
 
@@ -554,7 +553,7 @@ public class CppToCSharp
                 @delegate.Metadata = csField.Metadata;
                 CSharpGenerated.Definitions.Delegates.Add(@delegate);
                 CSharpGenerated.AddType(@delegate);
-                CSharpGenerated.AddTypeMap(unresolvedType.Name, "void*");
+                CSharpGenerated.AddTypeMap(unresolvedType.Name, @delegate.Name);
             }
             else if (unresolvedType.Name.StartsWith("union"))
             {
@@ -574,7 +573,8 @@ public class CppToCSharp
                 var csUnion = new CsClass(unionName, CsClassKind.Struct)
                 {
                     Visibility = CsVisibility.Public,
-                    IsPartial = true
+                    IsPartial = true,
+                    Metadata = cppUnion
                 };
                 csUnion.Attributes.Add(new CsAttribute("StructLayout") { Arguments = "LayoutKind.Explicit" });
                 csStruct.Classes.Add(csUnion);
@@ -616,6 +616,9 @@ public class CppToCSharp
                 unresolvedType.Name = string.Concat(unresolvedType, "_UNRESOLVED");
                 continue;
             }
+
+            if (fieldType is CsDelegate)
+                fieldType = CSharpGenerated.GetCsType("void*")!;
 
             csField.Type = fieldType;
         }
@@ -688,7 +691,7 @@ public class CppToCSharp
                 ResolveDelegateType(@delegate);
                 CSharpGenerated.Definitions.Delegates.Add(@delegate);
                 CSharpGenerated.AddType(@delegate);
-                CSharpGenerated.AddTypeMap(unresolvedType.Name, "void*");
+                CSharpGenerated.AddTypeMap(unresolvedType.Name, @delegate.Name);
             }
                 
             ResolveArgumentType(unresolvedType, csArg);
@@ -711,7 +714,7 @@ public class CppToCSharp
 
     private CsDelegate ExtractDelegate(string baseName, string delegateSignature)
     {
-        var delegateName = string.Concat(baseName, "Delegate");
+        var delegateName = baseName;//string.Concat(baseName, "Delegate");
         int i = 0;
 
         SkipWhitespace();

@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -36,6 +38,22 @@ namespace SharpImGui
 		public ImGuiDataTypeInfo* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImGuiDataTypeInfo this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		/// <summary>
+		/// Size in bytes<br/>
+		/// </summary>
+		public ref uint Size => ref Unsafe.AsRef<uint>(&NativePtr->Size);
+		/// <summary>
+		/// Short descriptive name for the type, for debugging<br/>
+		/// </summary>
+		public IntPtr Name { get => (IntPtr)NativePtr->Name; set => NativePtr->Name = (byte*)value; }
+		/// <summary>
+		/// Default printf format for the type<br/>
+		/// </summary>
+		public IntPtr PrintFmt { get => (IntPtr)NativePtr->PrintFmt; set => NativePtr->PrintFmt = (byte*)value; }
+		/// <summary>
+		/// Default scanf format for the type<br/>
+		/// </summary>
+		public IntPtr ScanFmt { get => (IntPtr)NativePtr->ScanFmt; set => NativePtr->ScanFmt = (byte*)value; }
 		public ImGuiDataTypeInfoPtr(ImGuiDataTypeInfo* nativePtr) => NativePtr = nativePtr;
 		public ImGuiDataTypeInfoPtr(IntPtr nativePtr) => NativePtr = (ImGuiDataTypeInfo*)nativePtr;
 		public static implicit operator ImGuiDataTypeInfoPtr(ImGuiDataTypeInfo* ptr) => new ImGuiDataTypeInfoPtr(ptr);

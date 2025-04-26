@@ -1,7 +1,9 @@
+using SharpImGui;
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
-using SharpImGui;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImPlot
 {
@@ -51,10 +53,31 @@ namespace SharpImPlot
 		public ImPlotNextPlotData* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImPlotNextPlotData this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public Span<ImPlotCond> RangeCond => new Span<ImPlotCond>(&NativePtr->RangeCond_0, 6);
+		public Span<ImPlotRange> Range => new Span<ImPlotRange>(&NativePtr->Range_0, 6);
+		public Span<byte> HasRange => new Span<byte>(&NativePtr->HasRange_0, 6);
+		public Span<byte> Fit => new Span<byte>(&NativePtr->Fit_0, 6);
+		public Span<ImPointer<double>> LinkedMin => new Span<ImPointer<double>>(&NativePtr->LinkedMin_0, 6);
+		public Span<ImPointer<double>> LinkedMax => new Span<ImPointer<double>>(&NativePtr->LinkedMax_0, 6);
 		public ImPlotNextPlotDataPtr(ImPlotNextPlotData* nativePtr) => NativePtr = nativePtr;
 		public ImPlotNextPlotDataPtr(IntPtr nativePtr) => NativePtr = (ImPlotNextPlotData*)nativePtr;
 		public static implicit operator ImPlotNextPlotDataPtr(ImPlotNextPlotData* ptr) => new ImPlotNextPlotDataPtr(ptr);
 		public static implicit operator ImPlotNextPlotDataPtr(IntPtr ptr) => new ImPlotNextPlotDataPtr(ptr);
 		public static implicit operator ImPlotNextPlotData*(ImPlotNextPlotDataPtr nativePtr) => nativePtr.NativePtr;
+		public void NextPlotDataReset()
+		{
+			ImPlotNative.NextPlotDataReset(NativePtr);
+		}
+
+		public void NextPlotDataDestroy()
+		{
+			ImPlotNative.NextPlotDataDestroy(NativePtr);
+		}
+
+		public ImPlotNextPlotDataPtr NextPlotDataNextPlotData()
+		{
+			return ImPlotNative.NextPlotDataNextPlotData();
+		}
+
 	}
 }

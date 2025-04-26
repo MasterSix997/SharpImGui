@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -22,6 +24,8 @@ namespace SharpImGui
 		public ImGuiFocusScopeData* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImGuiFocusScopeData this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ref uint ID => ref Unsafe.AsRef<uint>(&NativePtr->ID);
+		public ref uint WindowID => ref Unsafe.AsRef<uint>(&NativePtr->WindowID);
 		public ImGuiFocusScopeDataPtr(ImGuiFocusScopeData* nativePtr) => NativePtr = nativePtr;
 		public ImGuiFocusScopeDataPtr(IntPtr nativePtr) => NativePtr = (ImGuiFocusScopeData*)nativePtr;
 		public static implicit operator ImGuiFocusScopeDataPtr(ImGuiFocusScopeData* ptr) => new ImGuiFocusScopeDataPtr(ptr);

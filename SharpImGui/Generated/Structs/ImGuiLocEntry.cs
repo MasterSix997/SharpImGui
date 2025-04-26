@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -16,6 +18,8 @@ namespace SharpImGui
 		public ImGuiLocEntry* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImGuiLocEntry this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ref ImGuiLocKey Key => ref Unsafe.AsRef<ImGuiLocKey>(&NativePtr->Key);
+		public IntPtr Text { get => (IntPtr)NativePtr->Text; set => NativePtr->Text = (byte*)value; }
 		public ImGuiLocEntryPtr(ImGuiLocEntry* nativePtr) => NativePtr = nativePtr;
 		public ImGuiLocEntryPtr(IntPtr nativePtr) => NativePtr = (ImGuiLocEntry*)nativePtr;
 		public static implicit operator ImGuiLocEntryPtr(ImGuiLocEntry* ptr) => new ImGuiLocEntryPtr(ptr);

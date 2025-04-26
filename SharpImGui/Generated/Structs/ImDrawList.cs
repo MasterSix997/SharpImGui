@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -63,7 +65,7 @@ namespace SharpImGui
 		/// <summary>
 		/// [Internal]<br/>
 		/// </summary>
-		public ImVector<IntPtr> TextureIdStack;
+		public ImVector<ulong> TextureIdStack;
 		/// <summary>
 		/// [Internal]<br/>
 		/// </summary>
@@ -86,10 +88,581 @@ namespace SharpImGui
 		public ImDrawList* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImDrawList this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		/// <summary>
+		/// <br/>    This is what you have to render<br/>
+		/// Draw commands. Typically 1 command = 1 GPU draw call, unless the command is a callback.<br/>
+		/// </summary>
+		public ref ImVector<ImDrawCmd> CmdBuffer => ref Unsafe.AsRef<ImVector<ImDrawCmd>>(&NativePtr->CmdBuffer);
+		/// <summary>
+		/// Index buffer. Each command consume ImDrawCmd::ElemCount of those<br/>
+		/// </summary>
+		public ref ImVector<ushort> IdxBuffer => ref Unsafe.AsRef<ImVector<ushort>>(&NativePtr->IdxBuffer);
+		/// <summary>
+		/// Vertex buffer.<br/>
+		/// </summary>
+		public ref ImVector<ImDrawVert> VtxBuffer => ref Unsafe.AsRef<ImVector<ImDrawVert>>(&NativePtr->VtxBuffer);
+		/// <summary>
+		/// Flags, you may poke into these to adjust anti-aliasing settings per-primitive.<br/>
+		/// </summary>
+		public ref ImDrawListFlags Flags => ref Unsafe.AsRef<ImDrawListFlags>(&NativePtr->Flags);
+		/// <summary>
+		///     [Internal, used while building lists]<br/>
+		/// [Internal] generally == VtxBuffer.Size unless we are past 64K vertices, in which case this gets reset to 0.<br/>
+		/// </summary>
+		public ref uint VtxCurrentIdx => ref Unsafe.AsRef<uint>(&NativePtr->VtxCurrentIdx);
+		/// <summary>
+		/// Pointer to shared draw data (you can use ImGui::GetDrawListSharedData() to get the one from current ImGui context)<br/>
+		/// </summary>
+		public ref ImDrawListSharedDataPtr Data => ref Unsafe.AsRef<ImDrawListSharedDataPtr>(&NativePtr->Data);
+		/// <summary>
+		/// [Internal] point within VtxBuffer.Data after each add command (to avoid using the ImVector&lt;&gt; operators too much)<br/>
+		/// </summary>
+		public ref ImDrawVertPtr VtxWritePtr => ref Unsafe.AsRef<ImDrawVertPtr>(&NativePtr->VtxWritePtr);
+		/// <summary>
+		/// [Internal] point within IdxBuffer.Data after each add command (to avoid using the ImVector&lt;&gt; operators too much)<br/>
+		/// </summary>
+		public IntPtr IdxWritePtr { get => (IntPtr)NativePtr->IdxWritePtr; set => NativePtr->IdxWritePtr = (ushort*)value; }
+		/// <summary>
+		/// [Internal] current path building<br/>
+		/// </summary>
+		public ref ImVector<Vector2> Path => ref Unsafe.AsRef<ImVector<Vector2>>(&NativePtr->Path);
+		/// <summary>
+		/// [Internal] template of active commands. Fields should match those of CmdBuffer.back().<br/>
+		/// </summary>
+		public ref ImDrawCmdHeader CmdHeader => ref Unsafe.AsRef<ImDrawCmdHeader>(&NativePtr->CmdHeader);
+		/// <summary>
+		/// [Internal] for channels api (note: prefer using your own persistent instance of ImDrawListSplitter!)<br/>
+		/// </summary>
+		public ref ImDrawListSplitter Splitter => ref Unsafe.AsRef<ImDrawListSplitter>(&NativePtr->Splitter);
+		/// <summary>
+		/// [Internal]<br/>
+		/// </summary>
+		public ref ImVector<Vector4> ClipRectStack => ref Unsafe.AsRef<ImVector<Vector4>>(&NativePtr->ClipRectStack);
+		/// <summary>
+		/// [Internal]<br/>
+		/// </summary>
+		public ref ImVector<ulong> TextureIdStack => ref Unsafe.AsRef<ImVector<ulong>>(&NativePtr->TextureIdStack);
+		/// <summary>
+		/// [Internal]<br/>
+		/// </summary>
+		public ref ImVector<byte> CallbacksDataBuf => ref Unsafe.AsRef<ImVector<byte>>(&NativePtr->CallbacksDataBuf);
+		/// <summary>
+		/// [Internal] anti-alias fringe is scaled by this value, this helps to keep things sharp while zooming at vertex buffer content<br/>
+		/// </summary>
+		public ref float FringeScale => ref Unsafe.AsRef<float>(&NativePtr->FringeScale);
+		/// <summary>
+		/// Pointer to owner window's name for debugging<br/>
+		/// </summary>
+		public IntPtr OwnerName { get => (IntPtr)NativePtr->OwnerName; set => NativePtr->OwnerName = (byte*)value; }
 		public ImDrawListPtr(ImDrawList* nativePtr) => NativePtr = nativePtr;
 		public ImDrawListPtr(IntPtr nativePtr) => NativePtr = (ImDrawList*)nativePtr;
 		public static implicit operator ImDrawListPtr(ImDrawList* ptr) => new ImDrawListPtr(ptr);
 		public static implicit operator ImDrawListPtr(IntPtr ptr) => new ImDrawListPtr(ptr);
 		public static implicit operator ImDrawList*(ImDrawListPtr nativePtr) => nativePtr.NativePtr;
+		public void PathArcToN(Vector2 center, float radius, float aMin, float aMax, int numSegments)
+		{
+			ImGuiNative.ImDrawListPathArcToN(NativePtr, center, radius, aMin, aMax, numSegments);
+		}
+
+		public void PathArcToFastEx(Vector2 center, float radius, int aMinSample, int aMaxSample, int aStep)
+		{
+			ImGuiNative.ImDrawListPathArcToFastEx(NativePtr, center, radius, aMinSample, aMaxSample, aStep);
+		}
+
+		public int CalcCircleAutoSegmentCount(float radius)
+		{
+			return ImGuiNative.ImDrawListCalcCircleAutoSegmentCount(NativePtr, radius);
+		}
+
+		public void SetTextureID(ulong textureId)
+		{
+			ImGuiNative.ImDrawListSetTextureID(NativePtr, textureId);
+		}
+
+		public void OnChangedVtxOffset()
+		{
+			ImGuiNative.ImDrawListOnChangedVtxOffset(NativePtr);
+		}
+
+		public void OnChangedTextureID()
+		{
+			ImGuiNative.ImDrawListOnChangedTextureID(NativePtr);
+		}
+
+		public void OnChangedClipRect()
+		{
+			ImGuiNative.ImDrawListOnChangedClipRect(NativePtr);
+		}
+
+		public void TryMergeDrawCmds()
+		{
+			ImGuiNative.ImDrawListTryMergeDrawCmds(NativePtr);
+		}
+
+		public void PopUnusedDrawCmd()
+		{
+			ImGuiNative.ImDrawListPopUnusedDrawCmd(NativePtr);
+		}
+
+		public void ClearFreeMemory()
+		{
+			ImGuiNative.ImDrawListClearFreeMemory(NativePtr);
+		}
+
+		public void ResetForNewFrame()
+		{
+			ImGuiNative.ImDrawListResetForNewFrame(NativePtr);
+		}
+
+		/// <summary>
+		/// Write vertex with unique index<br/>
+		/// </summary>
+		public void PrimVtx(Vector2 pos, Vector2 uv, uint col)
+		{
+			ImGuiNative.ImDrawListPrimVtx(NativePtr, pos, uv, col);
+		}
+
+		public void PrimWriteIdx(ushort idx)
+		{
+			ImGuiNative.ImDrawListPrimWriteIdx(NativePtr, idx);
+		}
+
+		public void PrimWriteVtx(Vector2 pos, Vector2 uv, uint col)
+		{
+			ImGuiNative.ImDrawListPrimWriteVtx(NativePtr, pos, uv, col);
+		}
+
+		public void PrimQuadUV(Vector2 a, Vector2 b, Vector2 c, Vector2 d, Vector2 uvA, Vector2 uvB, Vector2 uvC, Vector2 uvD, uint col)
+		{
+			ImGuiNative.ImDrawListPrimQuadUV(NativePtr, a, b, c, d, uvA, uvB, uvC, uvD, col);
+		}
+
+		public void PrimRectUV(Vector2 a, Vector2 b, Vector2 uvA, Vector2 uvB, uint col)
+		{
+			ImGuiNative.ImDrawListPrimRectUV(NativePtr, a, b, uvA, uvB, col);
+		}
+
+		/// <summary>
+		/// Axis aligned rectangle (composed of two triangles)<br/>
+		/// </summary>
+		public void PrimRect(Vector2 a, Vector2 b, uint col)
+		{
+			ImGuiNative.ImDrawListPrimRect(NativePtr, a, b, col);
+		}
+
+		public void PrimUnreserve(int idxCount, int vtxCount)
+		{
+			ImGuiNative.ImDrawListPrimUnreserve(NativePtr, idxCount, vtxCount);
+		}
+
+		public void PrimReserve(int idxCount, int vtxCount)
+		{
+			ImGuiNative.ImDrawListPrimReserve(NativePtr, idxCount, vtxCount);
+		}
+
+		public void ChannelsSetCurrent(int n)
+		{
+			ImGuiNative.ImDrawListChannelsSetCurrent(NativePtr, n);
+		}
+
+		public void ChannelsMerge()
+		{
+			ImGuiNative.ImDrawListChannelsMerge(NativePtr);
+		}
+
+		public void ChannelsSplit(int count)
+		{
+			ImGuiNative.ImDrawListChannelsSplit(NativePtr, count);
+		}
+
+		/// <summary>
+		/// Create a clone of the CmdBuffer/IdxBuffer/VtxBuffer.<br/>
+		/// </summary>
+		public ImDrawListPtr CloneOutput()
+		{
+			return ImGuiNative.ImDrawListCloneOutput(NativePtr);
+		}
+
+		/// <summary>
+		/// This is useful if you need to forcefully create a new draw call (to allow for dependent rendering / blending). Otherwise primitives are merged into the same draw-call as much as possible<br/>
+		/// </summary>
+		public void AddDrawCmd()
+		{
+			ImGuiNative.ImDrawListAddDrawCmd(NativePtr);
+		}
+
+		public void AddCallback(ImDrawCallback callback, IntPtr userdata, uint userdataSize)
+		{
+			ImGuiNative.ImDrawListAddCallback(NativePtr, callback, (void*)userdata, userdataSize);
+		}
+
+		public void PathRect(Vector2 rectMin, Vector2 rectMax, float rounding, ImDrawFlags flags)
+		{
+			ImGuiNative.ImDrawListPathRect(NativePtr, rectMin, rectMax, rounding, flags);
+		}
+
+		/// <summary>
+		/// Quadratic Bezier (3 control points)<br/>
+		/// </summary>
+		public void PathBezierQuadraticCurveTo(Vector2 p2, Vector2 p3, int numSegments)
+		{
+			ImGuiNative.ImDrawListPathBezierQuadraticCurveTo(NativePtr, p2, p3, numSegments);
+		}
+
+		/// <summary>
+		/// Cubic Bezier (4 control points)<br/>
+		/// </summary>
+		public void PathBezierCubicCurveTo(Vector2 p2, Vector2 p3, Vector2 p4, int numSegments)
+		{
+			ImGuiNative.ImDrawListPathBezierCubicCurveTo(NativePtr, p2, p3, p4, numSegments);
+		}
+
+		/// <summary>
+		/// Ellipse<br/>
+		/// </summary>
+		public void PathEllipticalArcTo(Vector2 center, Vector2 radius, float rot, float aMin, float aMax, int numSegments)
+		{
+			ImGuiNative.ImDrawListPathEllipticalArcTo(NativePtr, center, radius, rot, aMin, aMax, numSegments);
+		}
+
+		/// <summary>
+		/// Use precomputed angles for a 12 steps circle<br/>
+		/// </summary>
+		public void PathArcToFast(Vector2 center, float radius, int aMinOf_12, int aMaxOf_12)
+		{
+			ImGuiNative.ImDrawListPathArcToFast(NativePtr, center, radius, aMinOf_12, aMaxOf_12);
+		}
+
+		public void PathArcTo(Vector2 center, float radius, float aMin, float aMax, int numSegments)
+		{
+			ImGuiNative.ImDrawListPathArcTo(NativePtr, center, radius, aMin, aMax, numSegments);
+		}
+
+		public void PathStroke(uint col, ImDrawFlags flags, float thickness)
+		{
+			ImGuiNative.ImDrawListPathStroke(NativePtr, col, flags, thickness);
+		}
+
+		public void PathFillConcave(uint col)
+		{
+			ImGuiNative.ImDrawListPathFillConcave(NativePtr, col);
+		}
+
+		public void PathFillConvex(uint col)
+		{
+			ImGuiNative.ImDrawListPathFillConvex(NativePtr, col);
+		}
+
+		public void PathLineToMergeDuplicate(Vector2 pos)
+		{
+			ImGuiNative.ImDrawListPathLineToMergeDuplicate(NativePtr, pos);
+		}
+
+		public void PathLineTo(Vector2 pos)
+		{
+			ImGuiNative.ImDrawListPathLineTo(NativePtr, pos);
+		}
+
+		public void PathClear()
+		{
+			ImGuiNative.ImDrawListPathClear(NativePtr);
+		}
+
+		public void AddImageRounded(ulong userTextureId, Vector2 pMin, Vector2 pMax, Vector2 uvMin, Vector2 uvMax, uint col, float rounding, ImDrawFlags flags)
+		{
+			ImGuiNative.ImDrawListAddImageRounded(NativePtr, userTextureId, pMin, pMax, uvMin, uvMax, col, rounding, flags);
+		}
+
+		public void AddImageQuad(ulong userTextureId, Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, Vector2 uv1, Vector2 uv2, Vector2 uv3, Vector2 uv4, uint col)
+		{
+			ImGuiNative.ImDrawListAddImageQuad(NativePtr, userTextureId, p1, p2, p3, p4, uv1, uv2, uv3, uv4, col);
+		}
+
+		public void AddImage(ulong userTextureId, Vector2 pMin, Vector2 pMax, Vector2 uvMin, Vector2 uvMax, uint col)
+		{
+			ImGuiNative.ImDrawListAddImage(NativePtr, userTextureId, pMin, pMax, uvMin, uvMax, col);
+		}
+
+		public void AddConcavePolyFilled(ref Vector2 points, int numPoints, uint col)
+		{
+			fixed (Vector2* native_points = &points)
+			{
+				ImGuiNative.ImDrawListAddConcavePolyFilled(NativePtr, native_points, numPoints, col);
+			}
+		}
+
+		public void AddConvexPolyFilled(ref Vector2 points, int numPoints, uint col)
+		{
+			fixed (Vector2* native_points = &points)
+			{
+				ImGuiNative.ImDrawListAddConvexPolyFilled(NativePtr, native_points, numPoints, col);
+			}
+		}
+
+		public void AddPolyline(ref Vector2 points, int numPoints, uint col, ImDrawFlags flags, float thickness)
+		{
+			fixed (Vector2* native_points = &points)
+			{
+				ImGuiNative.ImDrawListAddPolyline(NativePtr, native_points, numPoints, col, flags, thickness);
+			}
+		}
+
+		/// <summary>
+		/// Quadratic Bezier (3 control points)<br/>
+		/// </summary>
+		public void AddBezierQuadratic(Vector2 p1, Vector2 p2, Vector2 p3, uint col, float thickness, int numSegments)
+		{
+			ImGuiNative.ImDrawListAddBezierQuadratic(NativePtr, p1, p2, p3, col, thickness, numSegments);
+		}
+
+		/// <summary>
+		/// Cubic Bezier (4 control points)<br/>
+		/// </summary>
+		public void AddBezierCubic(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, uint col, float thickness, int numSegments)
+		{
+			ImGuiNative.ImDrawListAddBezierCubic(NativePtr, p1, p2, p3, p4, col, thickness, numSegments);
+		}
+
+		public void AddText(ImFontPtr font, float fontSize, Vector2 pos, uint col, ReadOnlySpan<char> textBegin, ReadOnlySpan<char> textEnd, float wrapWidth, ref Vector4 cpuFineClipRect)
+		{
+			// Marshaling textBegin to native string
+			byte* native_textBegin;
+			var byteCount_textBegin = 0;
+			if (textBegin != null)
+			{
+				byteCount_textBegin = Encoding.UTF8.GetByteCount(textBegin);
+				if(byteCount_textBegin > Utils.MaxStackallocSize)
+				{
+					native_textBegin = Utils.Alloc<byte>(byteCount_textBegin + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCount_textBegin + 1];
+					native_textBegin = stackallocBytes;
+				}
+				var textBegin_offset = Utils.EncodeStringUTF8(textBegin, native_textBegin, byteCount_textBegin);
+				native_textBegin[textBegin_offset] = 0;
+			}
+			else native_textBegin = null;
+
+			// Marshaling textEnd to native string
+			byte* native_textEnd;
+			var byteCount_textEnd = 0;
+			if (textEnd != null)
+			{
+				byteCount_textEnd = Encoding.UTF8.GetByteCount(textEnd);
+				if(byteCount_textEnd > Utils.MaxStackallocSize)
+				{
+					native_textEnd = Utils.Alloc<byte>(byteCount_textEnd + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCount_textEnd + 1];
+					native_textEnd = stackallocBytes;
+				}
+				var textEnd_offset = Utils.EncodeStringUTF8(textEnd, native_textEnd, byteCount_textEnd);
+				native_textEnd[textEnd_offset] = 0;
+			}
+			else native_textEnd = null;
+
+			fixed (Vector4* native_cpuFineClipRect = &cpuFineClipRect)
+			{
+				ImGuiNative.ImDrawListAddText(NativePtr, font, fontSize, pos, col, native_textBegin, native_textEnd, wrapWidth, native_cpuFineClipRect);
+				// Freeing textBegin native string
+				if (byteCount_textBegin > Utils.MaxStackallocSize)
+					Utils.Free(native_textBegin);
+				// Freeing textEnd native string
+				if (byteCount_textEnd > Utils.MaxStackallocSize)
+					Utils.Free(native_textEnd);
+			}
+		}
+
+		public void AddText(Vector2 pos, uint col, ReadOnlySpan<char> textBegin, ReadOnlySpan<char> textEnd)
+		{
+			// Marshaling textBegin to native string
+			byte* native_textBegin;
+			var byteCount_textBegin = 0;
+			if (textBegin != null)
+			{
+				byteCount_textBegin = Encoding.UTF8.GetByteCount(textBegin);
+				if(byteCount_textBegin > Utils.MaxStackallocSize)
+				{
+					native_textBegin = Utils.Alloc<byte>(byteCount_textBegin + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCount_textBegin + 1];
+					native_textBegin = stackallocBytes;
+				}
+				var textBegin_offset = Utils.EncodeStringUTF8(textBegin, native_textBegin, byteCount_textBegin);
+				native_textBegin[textBegin_offset] = 0;
+			}
+			else native_textBegin = null;
+
+			// Marshaling textEnd to native string
+			byte* native_textEnd;
+			var byteCount_textEnd = 0;
+			if (textEnd != null)
+			{
+				byteCount_textEnd = Encoding.UTF8.GetByteCount(textEnd);
+				if(byteCount_textEnd > Utils.MaxStackallocSize)
+				{
+					native_textEnd = Utils.Alloc<byte>(byteCount_textEnd + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCount_textEnd + 1];
+					native_textEnd = stackallocBytes;
+				}
+				var textEnd_offset = Utils.EncodeStringUTF8(textEnd, native_textEnd, byteCount_textEnd);
+				native_textEnd[textEnd_offset] = 0;
+			}
+			else native_textEnd = null;
+
+			ImGuiNative.ImDrawListAddText(NativePtr, pos, col, native_textBegin, native_textEnd);
+			// Freeing textBegin native string
+			if (byteCount_textBegin > Utils.MaxStackallocSize)
+				Utils.Free(native_textBegin);
+			// Freeing textEnd native string
+			if (byteCount_textEnd > Utils.MaxStackallocSize)
+				Utils.Free(native_textEnd);
+		}
+
+		public void AddEllipseFilled(Vector2 center, Vector2 radius, uint col, float rot, int numSegments)
+		{
+			ImGuiNative.ImDrawListAddEllipseFilled(NativePtr, center, radius, col, rot, numSegments);
+		}
+
+		public void AddEllipse(Vector2 center, Vector2 radius, uint col, float rot, int numSegments, float thickness)
+		{
+			ImGuiNative.ImDrawListAddEllipse(NativePtr, center, radius, col, rot, numSegments, thickness);
+		}
+
+		public void AddNgonFilled(Vector2 center, float radius, uint col, int numSegments)
+		{
+			ImGuiNative.ImDrawListAddNgonFilled(NativePtr, center, radius, col, numSegments);
+		}
+
+		public void AddNgon(Vector2 center, float radius, uint col, int numSegments, float thickness)
+		{
+			ImGuiNative.ImDrawListAddNgon(NativePtr, center, radius, col, numSegments, thickness);
+		}
+
+		public void AddCircleFilled(Vector2 center, float radius, uint col, int numSegments)
+		{
+			ImGuiNative.ImDrawListAddCircleFilled(NativePtr, center, radius, col, numSegments);
+		}
+
+		public void AddCircle(Vector2 center, float radius, uint col, int numSegments, float thickness)
+		{
+			ImGuiNative.ImDrawListAddCircle(NativePtr, center, radius, col, numSegments, thickness);
+		}
+
+		public void AddTriangleFilled(Vector2 p1, Vector2 p2, Vector2 p3, uint col)
+		{
+			ImGuiNative.ImDrawListAddTriangleFilled(NativePtr, p1, p2, p3, col);
+		}
+
+		public void AddTriangle(Vector2 p1, Vector2 p2, Vector2 p3, uint col, float thickness)
+		{
+			ImGuiNative.ImDrawListAddTriangle(NativePtr, p1, p2, p3, col, thickness);
+		}
+
+		public void AddQuadFilled(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, uint col)
+		{
+			ImGuiNative.ImDrawListAddQuadFilled(NativePtr, p1, p2, p3, p4, col);
+		}
+
+		public void AddQuad(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, uint col, float thickness)
+		{
+			ImGuiNative.ImDrawListAddQuad(NativePtr, p1, p2, p3, p4, col, thickness);
+		}
+
+		public void AddRectFilledMultiColor(Vector2 pMin, Vector2 pMax, uint colUprLeft, uint colUprRight, uint colBotRight, uint colBotLeft)
+		{
+			ImGuiNative.ImDrawListAddRectFilledMultiColor(NativePtr, pMin, pMax, colUprLeft, colUprRight, colBotRight, colBotLeft);
+		}
+
+		/// <summary>
+		/// a: upper-left, b: lower-right (== upper-left + size)<br/>
+		/// </summary>
+		public void AddRectFilled(Vector2 pMin, Vector2 pMax, uint col, float rounding, ImDrawFlags flags)
+		{
+			ImGuiNative.ImDrawListAddRectFilled(NativePtr, pMin, pMax, col, rounding, flags);
+		}
+
+		/// <summary>
+		/// a: upper-left, b: lower-right (== upper-left + size)<br/>
+		/// </summary>
+		public void AddRect(Vector2 pMin, Vector2 pMax, uint col, float rounding, ImDrawFlags flags, float thickness)
+		{
+			ImGuiNative.ImDrawListAddRect(NativePtr, pMin, pMax, col, rounding, flags, thickness);
+		}
+
+		public void AddLine(Vector2 p1, Vector2 p2, uint col, float thickness)
+		{
+			ImGuiNative.ImDrawListAddLine(NativePtr, p1, p2, col, thickness);
+		}
+
+		public void GetClipRectMax(ref Vector2 pOut)
+		{
+			fixed (Vector2* native_pOut = &pOut)
+			{
+				ImGuiNative.ImDrawListGetClipRectMax(native_pOut, NativePtr);
+			}
+		}
+
+		public void GetClipRectMin(ref Vector2 pOut)
+		{
+			fixed (Vector2* native_pOut = &pOut)
+			{
+				ImGuiNative.ImDrawListGetClipRectMin(native_pOut, NativePtr);
+			}
+		}
+
+		public void PopTextureID()
+		{
+			ImGuiNative.ImDrawListPopTextureID(NativePtr);
+		}
+
+		public void PushTextureID(ulong textureId)
+		{
+			ImGuiNative.ImDrawListPushTextureID(NativePtr, textureId);
+		}
+
+		public void PopClipRect()
+		{
+			ImGuiNative.ImDrawListPopClipRect(NativePtr);
+		}
+
+		public void PushClipRectFullScreen()
+		{
+			ImGuiNative.ImDrawListPushClipRectFullScreen(NativePtr);
+		}
+
+		/// <summary>
+		/// Render-level scissoring. This is passed down to your render function but not used for CPU-side coarse clipping. Prefer using higher-level ImGui::PushClipRect() to affect logic (hit-testing and widget culling)<br/>
+		/// </summary>
+		public void PushClipRect(Vector2 clipRectMin, Vector2 clipRectMax, bool intersectWithCurrentClipRect)
+		{
+			var native_intersectWithCurrentClipRect = intersectWithCurrentClipRect ? (byte)1 : (byte)0;
+			ImGuiNative.ImDrawListPushClipRect(NativePtr, clipRectMin, clipRectMax, native_intersectWithCurrentClipRect);
+		}
+
+		public void Destroy()
+		{
+			ImGuiNative.ImDrawListDestroy(NativePtr);
+		}
+
+		public void ImDrawListConstruct(ImDrawListSharedDataPtr sharedData)
+		{
+			ImGuiNative.ImDrawListImDrawListConstruct(NativePtr, sharedData);
+		}
+
+		public ImDrawListPtr ImDrawList(ImDrawListSharedDataPtr sharedData)
+		{
+			return ImGuiNative.ImDrawListImDrawList(sharedData);
+		}
+
 	}
 }

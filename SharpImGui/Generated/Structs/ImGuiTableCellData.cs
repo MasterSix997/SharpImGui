@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -28,6 +30,14 @@ namespace SharpImGui
 		public ImGuiTableCellData* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImGuiTableCellData this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		/// <summary>
+		/// Actual color<br/>
+		/// </summary>
+		public ref uint BgColor => ref Unsafe.AsRef<uint>(&NativePtr->BgColor);
+		/// <summary>
+		/// Column number<br/>
+		/// </summary>
+		public ref short Column => ref Unsafe.AsRef<short>(&NativePtr->Column);
 		public ImGuiTableCellDataPtr(ImGuiTableCellData* nativePtr) => NativePtr = nativePtr;
 		public ImGuiTableCellDataPtr(IntPtr nativePtr) => NativePtr = (ImGuiTableCellData*)nativePtr;
 		public static implicit operator ImGuiTableCellDataPtr(ImGuiTableCellData* ptr) => new ImGuiTableCellDataPtr(ptr);

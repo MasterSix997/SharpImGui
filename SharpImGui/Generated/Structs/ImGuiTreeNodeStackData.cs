@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -30,6 +32,16 @@ namespace SharpImGui
 		public ImGuiTreeNodeStackData* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImGuiTreeNodeStackData this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ref uint ID => ref Unsafe.AsRef<uint>(&NativePtr->ID);
+		public ref ImGuiTreeNodeFlags TreeFlags => ref Unsafe.AsRef<ImGuiTreeNodeFlags>(&NativePtr->TreeFlags);
+		/// <summary>
+		/// Used for nav landing<br/>
+		/// </summary>
+		public ref ImGuiItemFlags ItemFlags => ref Unsafe.AsRef<ImGuiItemFlags>(&NativePtr->ItemFlags);
+		/// <summary>
+		/// Used for nav landing<br/>
+		/// </summary>
+		public ref ImRect NavRect => ref Unsafe.AsRef<ImRect>(&NativePtr->NavRect);
 		public ImGuiTreeNodeStackDataPtr(ImGuiTreeNodeStackData* nativePtr) => NativePtr = nativePtr;
 		public ImGuiTreeNodeStackDataPtr(IntPtr nativePtr) => NativePtr = (ImGuiTreeNodeStackData*)nativePtr;
 		public static implicit operator ImGuiTreeNodeStackDataPtr(ImGuiTreeNodeStackData* ptr) => new ImGuiTreeNodeStackDataPtr(ptr);

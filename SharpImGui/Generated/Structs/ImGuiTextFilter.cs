@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -278,10 +280,171 @@ namespace SharpImGui
 		public ImGuiTextFilter* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImGuiTextFilter this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public Span<byte> InputBuf => new Span<byte>(&NativePtr->InputBuf_0, 256);
+		public ref ImVector<ImGuiTextRange> Filters => ref Unsafe.AsRef<ImVector<ImGuiTextRange>>(&NativePtr->Filters);
+		public ref int CountGrep => ref Unsafe.AsRef<int>(&NativePtr->CountGrep);
 		public ImGuiTextFilterPtr(ImGuiTextFilter* nativePtr) => NativePtr = nativePtr;
 		public ImGuiTextFilterPtr(IntPtr nativePtr) => NativePtr = (ImGuiTextFilter*)nativePtr;
 		public static implicit operator ImGuiTextFilterPtr(ImGuiTextFilter* ptr) => new ImGuiTextFilterPtr(ptr);
 		public static implicit operator ImGuiTextFilterPtr(IntPtr ptr) => new ImGuiTextFilterPtr(ptr);
 		public static implicit operator ImGuiTextFilter*(ImGuiTextFilterPtr nativePtr) => nativePtr.NativePtr;
+		public byte IsActive()
+		{
+			return ImGuiNative.ImGuiTextFilterIsActive(NativePtr);
+		}
+
+		public void Clear()
+		{
+			ImGuiNative.ImGuiTextFilterClear(NativePtr);
+		}
+
+		public void Build()
+		{
+			ImGuiNative.ImGuiTextFilterBuild(NativePtr);
+		}
+
+		public byte PassFilter(ReadOnlySpan<char> text, ReadOnlySpan<char> textEnd)
+		{
+			// Marshaling text to native string
+			byte* native_text;
+			var byteCount_text = 0;
+			if (text != null)
+			{
+				byteCount_text = Encoding.UTF8.GetByteCount(text);
+				if(byteCount_text > Utils.MaxStackallocSize)
+				{
+					native_text = Utils.Alloc<byte>(byteCount_text + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCount_text + 1];
+					native_text = stackallocBytes;
+				}
+				var text_offset = Utils.EncodeStringUTF8(text, native_text, byteCount_text);
+				native_text[text_offset] = 0;
+			}
+			else native_text = null;
+
+			// Marshaling textEnd to native string
+			byte* native_textEnd;
+			var byteCount_textEnd = 0;
+			if (textEnd != null)
+			{
+				byteCount_textEnd = Encoding.UTF8.GetByteCount(textEnd);
+				if(byteCount_textEnd > Utils.MaxStackallocSize)
+				{
+					native_textEnd = Utils.Alloc<byte>(byteCount_textEnd + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCount_textEnd + 1];
+					native_textEnd = stackallocBytes;
+				}
+				var textEnd_offset = Utils.EncodeStringUTF8(textEnd, native_textEnd, byteCount_textEnd);
+				native_textEnd[textEnd_offset] = 0;
+			}
+			else native_textEnd = null;
+
+			return ImGuiNative.ImGuiTextFilterPassFilter(NativePtr, native_text, native_textEnd);
+			// Freeing text native string
+			if (byteCount_text > Utils.MaxStackallocSize)
+				Utils.Free(native_text);
+			// Freeing textEnd native string
+			if (byteCount_textEnd > Utils.MaxStackallocSize)
+				Utils.Free(native_textEnd);
+		}
+
+		/// <summary>
+		/// Helper calling InputText+Build<br/>
+		/// </summary>
+		public byte Draw(ReadOnlySpan<char> label, float width)
+		{
+			// Marshaling label to native string
+			byte* native_label;
+			var byteCount_label = 0;
+			if (label != null)
+			{
+				byteCount_label = Encoding.UTF8.GetByteCount(label);
+				if(byteCount_label > Utils.MaxStackallocSize)
+				{
+					native_label = Utils.Alloc<byte>(byteCount_label + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCount_label + 1];
+					native_label = stackallocBytes;
+				}
+				var label_offset = Utils.EncodeStringUTF8(label, native_label, byteCount_label);
+				native_label[label_offset] = 0;
+			}
+			else native_label = null;
+
+			return ImGuiNative.ImGuiTextFilterDraw(NativePtr, native_label, width);
+			// Freeing label native string
+			if (byteCount_label > Utils.MaxStackallocSize)
+				Utils.Free(native_label);
+		}
+
+		public void Destroy()
+		{
+			ImGuiNative.ImGuiTextFilterDestroy(NativePtr);
+		}
+
+		public void ImGuiTextFilterConstruct(ReadOnlySpan<char> defaultFilter)
+		{
+			// Marshaling defaultFilter to native string
+			byte* native_defaultFilter;
+			var byteCount_defaultFilter = 0;
+			if (defaultFilter != null)
+			{
+				byteCount_defaultFilter = Encoding.UTF8.GetByteCount(defaultFilter);
+				if(byteCount_defaultFilter > Utils.MaxStackallocSize)
+				{
+					native_defaultFilter = Utils.Alloc<byte>(byteCount_defaultFilter + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCount_defaultFilter + 1];
+					native_defaultFilter = stackallocBytes;
+				}
+				var defaultFilter_offset = Utils.EncodeStringUTF8(defaultFilter, native_defaultFilter, byteCount_defaultFilter);
+				native_defaultFilter[defaultFilter_offset] = 0;
+			}
+			else native_defaultFilter = null;
+
+			ImGuiNative.ImGuiTextFilterImGuiTextFilterConstruct(NativePtr, native_defaultFilter);
+			// Freeing defaultFilter native string
+			if (byteCount_defaultFilter > Utils.MaxStackallocSize)
+				Utils.Free(native_defaultFilter);
+		}
+
+		public ImGuiTextFilterPtr ImGuiTextFilter(ReadOnlySpan<char> defaultFilter)
+		{
+			// Marshaling defaultFilter to native string
+			byte* native_defaultFilter;
+			var byteCount_defaultFilter = 0;
+			if (defaultFilter != null)
+			{
+				byteCount_defaultFilter = Encoding.UTF8.GetByteCount(defaultFilter);
+				if(byteCount_defaultFilter > Utils.MaxStackallocSize)
+				{
+					native_defaultFilter = Utils.Alloc<byte>(byteCount_defaultFilter + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCount_defaultFilter + 1];
+					native_defaultFilter = stackallocBytes;
+				}
+				var defaultFilter_offset = Utils.EncodeStringUTF8(defaultFilter, native_defaultFilter, byteCount_defaultFilter);
+				native_defaultFilter[defaultFilter_offset] = 0;
+			}
+			else native_defaultFilter = null;
+
+			return ImGuiNative.ImGuiTextFilterImGuiTextFilter(native_defaultFilter);
+			// Freeing defaultFilter native string
+			if (byteCount_defaultFilter > Utils.MaxStackallocSize)
+				Utils.Free(native_defaultFilter);
+		}
+
 	}
 }

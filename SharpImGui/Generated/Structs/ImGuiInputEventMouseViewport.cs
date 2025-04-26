@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SharpImGui
 {
@@ -15,6 +17,7 @@ namespace SharpImGui
 		public ImGuiInputEventMouseViewport* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImGuiInputEventMouseViewport this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
+		public ref uint HoveredViewportID => ref Unsafe.AsRef<uint>(&NativePtr->HoveredViewportID);
 		public ImGuiInputEventMouseViewportPtr(ImGuiInputEventMouseViewport* nativePtr) => NativePtr = nativePtr;
 		public ImGuiInputEventMouseViewportPtr(IntPtr nativePtr) => NativePtr = (ImGuiInputEventMouseViewport*)nativePtr;
 		public static implicit operator ImGuiInputEventMouseViewportPtr(ImGuiInputEventMouseViewport* ptr) => new ImGuiInputEventMouseViewportPtr(ptr);

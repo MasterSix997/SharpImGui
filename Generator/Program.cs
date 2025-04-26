@@ -1,4 +1,6 @@
-﻿using Generator.PostProcessors;
+﻿using Generator.CSharp;
+using Generator.PostProcessors;
+using Generator.PostProcessors.Marshalling;
 
 namespace Generator;
 
@@ -6,10 +8,10 @@ class Program
 {
     static void Main(string[] args)
     {
-        // GenerateImGui();
-        // GenerateImPlot();
-        // GenerateImPlot3D();
-        // GenerateImGuizmo();
+        GenerateImGui();
+        GenerateImPlot();
+        GenerateImPlot3D();
+        GenerateImGuizmo();
         GenerateImNodes();
     }
 
@@ -23,7 +25,8 @@ class Program
                 Defines = { "CIMGUI_DEFINE_ENUMS_AND_STRUCTS" },
             },
             FunctionsPrefix = "ig",
-            MergeOverloads = true
+            MergeOverloads = true,
+            Usings = { "System", "System.Numerics", "System.Runtime.InteropServices", "System.Runtime.CompilerServices", "System.Text" }
         });
         AddAllPostProcessors(generator);
         
@@ -46,11 +49,11 @@ class Program
             },
             Types =
             {
-                "Tm"
+                new CsClass("Tm", CsClassKind.Struct)
             },
             Usings =
             {
-                "SharpImGui",
+                "SharpImGui", "System", "System.Numerics", "System.Runtime.InteropServices", "System.Runtime.CompilerServices", "System.Text"
             },
             FunctionsPrefix = "ImPlot"
         };
@@ -76,11 +79,11 @@ class Program
             },
             Types =
             {
-                "Tm"
+                new CsClass("Tm", CsClassKind.Struct)
             },
             Usings =
             {
-                "SharpImGui",
+                "SharpImGui", "System", "System.Numerics", "System.Runtime.InteropServices", "System.Runtime.CompilerServices", "System.Text"
             },
             FunctionsPrefix = "ImPlot3D"
         };
@@ -100,7 +103,7 @@ class Program
             },
             Usings =
             {
-                "SharpImGui",
+                "SharpImGui", "System", "System.Numerics", "System.Runtime.InteropServices", "System.Runtime.CompilerServices", "System.Text"
             },
             FunctionsPrefix = "ImGuizmo"
         };
@@ -120,7 +123,7 @@ class Program
             },
             Usings =
             {
-                "SharpImGui",
+                "SharpImGui", "System", "System.Numerics", "System.Runtime.InteropServices", "System.Runtime.CompilerServices", "System.Text"
             },
             FunctionsPrefix = "imnodes",
             MergeOverloads = true,

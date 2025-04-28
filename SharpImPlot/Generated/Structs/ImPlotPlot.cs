@@ -85,32 +85,40 @@ namespace SharpImPlot
 			return ref *(byte*)&nativeResult;
 		}
 
+		public void PlotSetAxisLabel(ImPlotAxisPtr axis, ReadOnlySpan<byte> label)
+		{
+			fixed (byte* nativeLabel = label)
+			{
+				ImPlotNative.PlotSetAxisLabel(NativePtr, axis, nativeLabel);
+			}
+		}
+
 		public void PlotSetAxisLabel(ImPlotAxisPtr axis, ReadOnlySpan<char> label)
 		{
 			// Marshaling label to native string
-			byte* native_label;
-			var byteCount_label = 0;
+			byte* nativeLabel;
+			var byteCountLabel = 0;
 			if (label != null)
 			{
-				byteCount_label = Encoding.UTF8.GetByteCount(label);
-				if(byteCount_label > Utils.MaxStackallocSize)
+				byteCountLabel = Encoding.UTF8.GetByteCount(label);
+				if(byteCountLabel > Utils.MaxStackallocSize)
 				{
-					native_label = Utils.Alloc<byte>(byteCount_label + 1);
+					nativeLabel = Utils.Alloc<byte>(byteCountLabel + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_label + 1];
-					native_label = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabel + 1];
+					nativeLabel = stackallocBytes;
 				}
-				var label_offset = Utils.EncodeStringUTF8(label, native_label, byteCount_label);
-				native_label[label_offset] = 0;
+				var offsetLabel = Utils.EncodeStringUTF8(label, nativeLabel, byteCountLabel);
+				nativeLabel[offsetLabel] = 0;
 			}
-			else native_label = null;
+			else nativeLabel = null;
 
-			ImPlotNative.PlotSetAxisLabel(NativePtr, axis, native_label);
+			ImPlotNative.PlotSetAxisLabel(NativePtr, axis, nativeLabel);
 			// Freeing label native string
-			if (byteCount_label > Utils.MaxStackallocSize)
-				Utils.Free(native_label);
+			if (byteCountLabel > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabel);
 		}
 
 		public int PlotEnabledAxesY()
@@ -149,37 +157,46 @@ namespace SharpImPlot
 			return ref *(byte*)&nativeResult;
 		}
 
-		public byte PlotHasTitle()
+		public bool PlotHasTitle()
 		{
-			return ImPlotNative.PlotHasTitle(NativePtr);
+			var result = ImPlotNative.PlotHasTitle(NativePtr);
+			return result != 0;
+		}
+
+		public void PlotSetTitle(ReadOnlySpan<byte> title)
+		{
+			fixed (byte* nativeTitle = title)
+			{
+				ImPlotNative.PlotSetTitle(NativePtr, nativeTitle);
+			}
 		}
 
 		public void PlotSetTitle(ReadOnlySpan<char> title)
 		{
 			// Marshaling title to native string
-			byte* native_title;
-			var byteCount_title = 0;
+			byte* nativeTitle;
+			var byteCountTitle = 0;
 			if (title != null)
 			{
-				byteCount_title = Encoding.UTF8.GetByteCount(title);
-				if(byteCount_title > Utils.MaxStackallocSize)
+				byteCountTitle = Encoding.UTF8.GetByteCount(title);
+				if(byteCountTitle > Utils.MaxStackallocSize)
 				{
-					native_title = Utils.Alloc<byte>(byteCount_title + 1);
+					nativeTitle = Utils.Alloc<byte>(byteCountTitle + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_title + 1];
-					native_title = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountTitle + 1];
+					nativeTitle = stackallocBytes;
 				}
-				var title_offset = Utils.EncodeStringUTF8(title, native_title, byteCount_title);
-				native_title[title_offset] = 0;
+				var offsetTitle = Utils.EncodeStringUTF8(title, nativeTitle, byteCountTitle);
+				nativeTitle[offsetTitle] = 0;
 			}
-			else native_title = null;
+			else nativeTitle = null;
 
-			ImPlotNative.PlotSetTitle(NativePtr, native_title);
+			ImPlotNative.PlotSetTitle(NativePtr, nativeTitle);
 			// Freeing title native string
-			if (byteCount_title > Utils.MaxStackallocSize)
-				Utils.Free(native_title);
+			if (byteCountTitle > Utils.MaxStackallocSize)
+				Utils.Free(nativeTitle);
 		}
 
 		public void PlotClearTextBuffer()
@@ -187,9 +204,10 @@ namespace SharpImPlot
 			ImPlotNative.PlotClearTextBuffer(NativePtr);
 		}
 
-		public byte PlotIsInputLocked()
+		public bool PlotIsInputLocked()
 		{
-			return ImPlotNative.PlotIsInputLocked(NativePtr);
+			var result = ImPlotNative.PlotIsInputLocked(NativePtr);
+			return result != 0;
 		}
 
 		public void PlotDestroy()

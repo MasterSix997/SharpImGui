@@ -34,9 +34,10 @@ namespace SharpImPlot3D
 		public static implicit operator ImPlot3DPointPtr(ImPlot3DPoint* ptr) => new ImPlot3DPointPtr(ptr);
 		public static implicit operator ImPlot3DPointPtr(IntPtr ptr) => new ImPlot3DPointPtr(ptr);
 		public static implicit operator ImPlot3DPoint*(ImPlot3DPointPtr nativePtr) => nativePtr.NativePtr;
-		public byte PointIsNaN()
+		public bool PointIsNaN()
 		{
-			return ImPlot3DNative.PointIsNaN(NativePtr);
+			var result = ImPlot3DNative.PointIsNaN(NativePtr);
+			return result != 0;
 		}
 
 		public void PointNormalized(ImPlot3DPointPtr pOut)

@@ -1194,34 +1194,55 @@ namespace SharpImGui
 		}
 
 		/// <summary>
+		/// [Optional] Specify index for legacy &lt;1.87 IsKeyXXX() functions with native indices + specify native keycode, scancode.<br/>
+		/// </summary>
+		public void SetKeyEventNativeData(ImGuiKey key, int nativeKeycode, int nativeScancode)
+		{
+			// defining omitted parameters
+			int nativeLegacyIndex = -1;
+			ImGuiNative.ImGuiIOSetKeyEventNativeData(NativePtr, key, nativeKeycode, nativeScancode, nativeLegacyIndex);
+		}
+
+		/// <summary>
+		/// Queue a new characters input from a UTF-8 string<br/>
+		/// </summary>
+		public void AddInputCharactersUtf8(ReadOnlySpan<byte> str)
+		{
+			fixed (byte* nativeStr = str)
+			{
+				ImGuiNative.ImGuiIOAddInputCharactersUtf8(NativePtr, nativeStr);
+			}
+		}
+
+		/// <summary>
 		/// Queue a new characters input from a UTF-8 string<br/>
 		/// </summary>
 		public void AddInputCharactersUtf8(ReadOnlySpan<char> str)
 		{
 			// Marshaling str to native string
-			byte* native_str;
-			var byteCount_str = 0;
+			byte* nativeStr;
+			var byteCountStr = 0;
 			if (str != null)
 			{
-				byteCount_str = Encoding.UTF8.GetByteCount(str);
-				if(byteCount_str > Utils.MaxStackallocSize)
+				byteCountStr = Encoding.UTF8.GetByteCount(str);
+				if(byteCountStr > Utils.MaxStackallocSize)
 				{
-					native_str = Utils.Alloc<byte>(byteCount_str + 1);
+					nativeStr = Utils.Alloc<byte>(byteCountStr + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_str + 1];
-					native_str = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountStr + 1];
+					nativeStr = stackallocBytes;
 				}
-				var str_offset = Utils.EncodeStringUTF8(str, native_str, byteCount_str);
-				native_str[str_offset] = 0;
+				var offsetStr = Utils.EncodeStringUTF8(str, nativeStr, byteCountStr);
+				nativeStr[offsetStr] = 0;
 			}
-			else native_str = null;
+			else nativeStr = null;
 
-			ImGuiNative.ImGuiIOAddInputCharactersUtf8(NativePtr, native_str);
+			ImGuiNative.ImGuiIOAddInputCharactersUtf8(NativePtr, nativeStr);
 			// Freeing str native string
-			if (byteCount_str > Utils.MaxStackallocSize)
-				Utils.Free(native_str);
+			if (byteCountStr > Utils.MaxStackallocSize)
+				Utils.Free(nativeStr);
 		}
 
 		/// <summary>

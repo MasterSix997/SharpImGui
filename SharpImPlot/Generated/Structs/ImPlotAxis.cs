@@ -143,100 +143,119 @@ namespace SharpImPlot
 			ImPlotNative.AxisPushLinks(NativePtr);
 		}
 
-		public byte AxisIsPanLocked(bool increasing)
+		public bool AxisIsPanLocked(bool increasing)
 		{
 			var native_increasing = increasing ? (byte)1 : (byte)0;
-			return ImPlotNative.AxisIsPanLocked(NativePtr, native_increasing);
+			var result = ImPlotNative.AxisIsPanLocked(NativePtr, native_increasing);
+			return result != 0;
 		}
 
-		public byte AxisHasMenus()
+		public bool AxisHasMenus()
 		{
-			return ImPlotNative.AxisHasMenus(NativePtr);
+			var result = ImPlotNative.AxisHasMenus(NativePtr);
+			return result != 0;
 		}
 
-		public byte AxisIsInputLocked()
+		public bool AxisIsInputLocked()
 		{
-			return ImPlotNative.AxisIsInputLocked(NativePtr);
+			var result = ImPlotNative.AxisIsInputLocked(NativePtr);
+			return result != 0;
 		}
 
-		public byte AxisIsInputLockedMax()
+		public bool AxisIsInputLockedMax()
 		{
-			return ImPlotNative.AxisIsInputLockedMax(NativePtr);
+			var result = ImPlotNative.AxisIsInputLockedMax(NativePtr);
+			return result != 0;
 		}
 
-		public byte AxisIsInputLockedMin()
+		public bool AxisIsInputLockedMin()
 		{
-			return ImPlotNative.AxisIsInputLockedMin(NativePtr);
+			var result = ImPlotNative.AxisIsInputLockedMin(NativePtr);
+			return result != 0;
 		}
 
-		public byte AxisIsLocked()
+		public bool AxisIsLocked()
 		{
-			return ImPlotNative.AxisIsLocked(NativePtr);
+			var result = ImPlotNative.AxisIsLocked(NativePtr);
+			return result != 0;
 		}
 
-		public byte AxisIsLockedMax()
+		public bool AxisIsLockedMax()
 		{
-			return ImPlotNative.AxisIsLockedMax(NativePtr);
+			var result = ImPlotNative.AxisIsLockedMax(NativePtr);
+			return result != 0;
 		}
 
-		public byte AxisIsLockedMin()
+		public bool AxisIsLockedMin()
 		{
-			return ImPlotNative.AxisIsLockedMin(NativePtr);
+			var result = ImPlotNative.AxisIsLockedMin(NativePtr);
+			return result != 0;
 		}
 
-		public byte AxisIsRangeLocked()
+		public bool AxisIsRangeLocked()
 		{
-			return ImPlotNative.AxisIsRangeLocked(NativePtr);
+			var result = ImPlotNative.AxisIsRangeLocked(NativePtr);
+			return result != 0;
 		}
 
-		public byte AxisCanInitFit()
+		public bool AxisCanInitFit()
 		{
-			return ImPlotNative.AxisCanInitFit(NativePtr);
+			var result = ImPlotNative.AxisCanInitFit(NativePtr);
+			return result != 0;
 		}
 
-		public byte AxisIsAutoFitting()
+		public bool AxisIsAutoFitting()
 		{
-			return ImPlotNative.AxisIsAutoFitting(NativePtr);
+			var result = ImPlotNative.AxisIsAutoFitting(NativePtr);
+			return result != 0;
 		}
 
-		public byte AxisIsForeground()
+		public bool AxisIsForeground()
 		{
-			return ImPlotNative.AxisIsForeground(NativePtr);
+			var result = ImPlotNative.AxisIsForeground(NativePtr);
+			return result != 0;
 		}
 
-		public byte AxisIsInverted()
+		public bool AxisIsInverted()
 		{
-			return ImPlotNative.AxisIsInverted(NativePtr);
+			var result = ImPlotNative.AxisIsInverted(NativePtr);
+			return result != 0;
 		}
 
-		public byte AxisIsOpposite()
+		public bool AxisIsOpposite()
 		{
-			return ImPlotNative.AxisIsOpposite(NativePtr);
+			var result = ImPlotNative.AxisIsOpposite(NativePtr);
+			return result != 0;
 		}
 
-		public byte AxisWillRender()
+		public bool AxisWillRender()
 		{
-			return ImPlotNative.AxisWillRender(NativePtr);
+			var result = ImPlotNative.AxisWillRender(NativePtr);
+			return result != 0;
 		}
 
-		public byte AxisHasTickMarks()
+		public bool AxisHasTickMarks()
 		{
-			return ImPlotNative.AxisHasTickMarks(NativePtr);
+			var result = ImPlotNative.AxisHasTickMarks(NativePtr);
+			return result != 0;
 		}
 
-		public byte AxisHasTickLabels()
+		public bool AxisHasTickLabels()
 		{
-			return ImPlotNative.AxisHasTickLabels(NativePtr);
+			var result = ImPlotNative.AxisHasTickLabels(NativePtr);
+			return result != 0;
 		}
 
-		public byte AxisHasGridLines()
+		public bool AxisHasGridLines()
 		{
-			return ImPlotNative.AxisHasGridLines(NativePtr);
+			var result = ImPlotNative.AxisHasGridLines(NativePtr);
+			return result != 0;
 		}
 
-		public byte AxisHasLabel()
+		public bool AxisHasLabel()
 		{
-			return ImPlotNative.AxisHasLabel(NativePtr);
+			var result = ImPlotNative.AxisHasLabel(NativePtr);
+			return result != 0;
 		}
 
 		public void AxisApplyFit(float padding)
@@ -299,16 +318,34 @@ namespace SharpImPlot
 			ImPlotNative.AxisSetRangeDouble(NativePtr, v1, v2);
 		}
 
-		public byte AxisSetMax(double max, bool force)
+		public bool AxisSetMax(double max, bool force)
 		{
 			var native_force = force ? (byte)1 : (byte)0;
-			return ImPlotNative.AxisSetMax(NativePtr, max, native_force);
+			var result = ImPlotNative.AxisSetMax(NativePtr, max, native_force);
+			return result != 0;
 		}
 
-		public byte AxisSetMin(double min, bool force)
+		public bool AxisSetMax(double max)
+		{
+			// defining omitted parameters
+			byte force = 0;
+			var result = ImPlotNative.AxisSetMax(NativePtr, max, force);
+			return result != 0;
+		}
+
+		public bool AxisSetMin(double min, bool force)
 		{
 			var native_force = force ? (byte)1 : (byte)0;
-			return ImPlotNative.AxisSetMin(NativePtr, min, native_force);
+			var result = ImPlotNative.AxisSetMin(NativePtr, min, native_force);
+			return result != 0;
+		}
+
+		public bool AxisSetMin(double min)
+		{
+			// defining omitted parameters
+			byte force = 0;
+			var result = ImPlotNative.AxisSetMin(NativePtr, min, force);
+			return result != 0;
 		}
 
 		public void AxisReset()

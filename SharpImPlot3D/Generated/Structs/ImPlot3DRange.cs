@@ -31,9 +31,10 @@ namespace SharpImPlot3D
 			return ImPlot3DNative.RangeSize(NativePtr);
 		}
 
-		public byte RangeContains(float value)
+		public bool RangeContains(float value)
 		{
-			return ImPlot3DNative.RangeContains(NativePtr, value);
+			var result = ImPlot3DNative.RangeContains(NativePtr, value);
+			return result != 0;
 		}
 
 		public void RangeExpand(float value)

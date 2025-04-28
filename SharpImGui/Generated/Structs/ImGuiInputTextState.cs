@@ -199,9 +199,10 @@ namespace SharpImGui
 			ImGuiNative.ImGuiInputTextStateClearSelection(NativePtr);
 		}
 
-		public byte HasSelection()
+		public bool HasSelection()
 		{
-			return ImGuiNative.ImGuiInputTextStateHasSelection(NativePtr);
+			var result = ImGuiNative.ImGuiInputTextStateHasSelection(NativePtr);
+			return result != 0;
 		}
 
 		public void CursorClamp()

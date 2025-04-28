@@ -51,8 +51,24 @@ namespace SharpImGui
 			return ref *(void**)&nativeResult;
 		}
 
+		public ref void* GetVoidPtrRef(uint key)
+		{
+			// defining omitted parameters
+			void* defaultVal = null;
+			var nativeResult = ImGuiNative.ImGuiStorageGetVoidPtrRef(NativePtr, key, defaultVal);
+			return ref *(void**)&nativeResult;
+		}
+
 		public ref float GetFloatRef(uint key, float defaultVal)
 		{
+			var nativeResult = ImGuiNative.ImGuiStorageGetFloatRef(NativePtr, key, defaultVal);
+			return ref *(float*)&nativeResult;
+		}
+
+		public ref float GetFloatRef(uint key)
+		{
+			// defining omitted parameters
+			float defaultVal = 0.0f;
 			var nativeResult = ImGuiNative.ImGuiStorageGetFloatRef(NativePtr, key, defaultVal);
 			return ref *(float*)&nativeResult;
 		}
@@ -64,8 +80,24 @@ namespace SharpImGui
 			return ref *(byte*)&nativeResult;
 		}
 
+		public ref byte GetBoolRef(uint key)
+		{
+			// defining omitted parameters
+			byte defaultVal = 0;
+			var nativeResult = ImGuiNative.ImGuiStorageGetBoolRef(NativePtr, key, defaultVal);
+			return ref *(byte*)&nativeResult;
+		}
+
 		public ref int GetIntRef(uint key, int defaultVal)
 		{
+			var nativeResult = ImGuiNative.ImGuiStorageGetIntRef(NativePtr, key, defaultVal);
+			return ref *(int*)&nativeResult;
+		}
+
+		public ref int GetIntRef(uint key)
+		{
+			// defining omitted parameters
+			int defaultVal = 0;
 			var nativeResult = ImGuiNative.ImGuiStorageGetIntRef(NativePtr, key, defaultVal);
 			return ref *(int*)&nativeResult;
 		}
@@ -93,16 +125,32 @@ namespace SharpImGui
 			return ImGuiNative.ImGuiStorageGetFloat(NativePtr, key, defaultVal);
 		}
 
+		public float GetFloat(uint key)
+		{
+			// defining omitted parameters
+			float defaultVal = 0.0f;
+			return ImGuiNative.ImGuiStorageGetFloat(NativePtr, key, defaultVal);
+		}
+
 		public void SetBool(uint key, bool val)
 		{
 			var native_val = val ? (byte)1 : (byte)0;
 			ImGuiNative.ImGuiStorageSetBool(NativePtr, key, native_val);
 		}
 
-		public byte GetBool(uint key, bool defaultVal)
+		public bool GetBool(uint key, bool defaultVal)
 		{
 			var native_defaultVal = defaultVal ? (byte)1 : (byte)0;
-			return ImGuiNative.ImGuiStorageGetBool(NativePtr, key, native_defaultVal);
+			var result = ImGuiNative.ImGuiStorageGetBool(NativePtr, key, native_defaultVal);
+			return result != 0;
+		}
+
+		public bool GetBool(uint key)
+		{
+			// defining omitted parameters
+			byte defaultVal = 0;
+			var result = ImGuiNative.ImGuiStorageGetBool(NativePtr, key, defaultVal);
+			return result != 0;
 		}
 
 		public void SetInt(uint key, int val)
@@ -112,6 +160,13 @@ namespace SharpImGui
 
 		public int GetInt(uint key, int defaultVal)
 		{
+			return ImGuiNative.ImGuiStorageGetInt(NativePtr, key, defaultVal);
+		}
+
+		public int GetInt(uint key)
+		{
+			// defining omitted parameters
+			int defaultVal = 0;
 			return ImGuiNative.ImGuiStorageGetInt(NativePtr, key, defaultVal);
 		}
 

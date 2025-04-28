@@ -103,9 +103,10 @@ namespace SharpImGui
 		public static implicit operator ImFontAtlasCustomRectPtr(ImFontAtlasCustomRect* ptr) => new ImFontAtlasCustomRectPtr(ptr);
 		public static implicit operator ImFontAtlasCustomRectPtr(IntPtr ptr) => new ImFontAtlasCustomRectPtr(ptr);
 		public static implicit operator ImFontAtlasCustomRect*(ImFontAtlasCustomRectPtr nativePtr) => nativePtr.NativePtr;
-		public byte IsPacked()
+		public bool IsPacked()
 		{
-			return ImGuiNative.ImFontAtlasCustomRectIsPacked(NativePtr);
+			var result = ImGuiNative.ImFontAtlasCustomRectIsPacked(NativePtr);
+			return result != 0;
 		}
 
 		public void Destroy()

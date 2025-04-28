@@ -34,117 +34,137 @@ namespace SharpImGui
 		public void Split(bool separator, ref ImVector<ImGuiTextRange> _out)
 		{
 			var native_separator = separator ? (byte)1 : (byte)0;
-			fixed (ImVector<ImGuiTextRange>* native__out = &_out)
+			fixed (ImVector<ImGuiTextRange>* nativeOut = &_out)
 			{
-				ImGuiNative.ImGuiTextRangeSplit(NativePtr, native_separator, native__out);
+				ImGuiNative.ImGuiTextRangeSplit(NativePtr, native_separator, nativeOut);
 			}
 		}
 
-		public byte Empty()
+		public bool Empty()
 		{
-			return ImGuiNative.ImGuiTextRangeEmpty(NativePtr);
+			var result = ImGuiNative.ImGuiTextRangeEmpty(NativePtr);
+			return result != 0;
+		}
+
+		public void ImGuiTextRangeStrConstruct(ReadOnlySpan<byte> b, ReadOnlySpan<byte> e)
+		{
+			fixed (byte* nativeB = b)
+			fixed (byte* nativeE = e)
+			{
+				ImGuiNative.ImGuiTextRangeImGuiTextRangeStrConstruct(NativePtr, nativeB, nativeE);
+			}
 		}
 
 		public void ImGuiTextRangeStrConstruct(ReadOnlySpan<char> b, ReadOnlySpan<char> e)
 		{
 			// Marshaling b to native string
-			byte* native_b;
-			var byteCount_b = 0;
+			byte* nativeB;
+			var byteCountB = 0;
 			if (b != null)
 			{
-				byteCount_b = Encoding.UTF8.GetByteCount(b);
-				if(byteCount_b > Utils.MaxStackallocSize)
+				byteCountB = Encoding.UTF8.GetByteCount(b);
+				if(byteCountB > Utils.MaxStackallocSize)
 				{
-					native_b = Utils.Alloc<byte>(byteCount_b + 1);
+					nativeB = Utils.Alloc<byte>(byteCountB + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_b + 1];
-					native_b = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountB + 1];
+					nativeB = stackallocBytes;
 				}
-				var b_offset = Utils.EncodeStringUTF8(b, native_b, byteCount_b);
-				native_b[b_offset] = 0;
+				var offsetB = Utils.EncodeStringUTF8(b, nativeB, byteCountB);
+				nativeB[offsetB] = 0;
 			}
-			else native_b = null;
+			else nativeB = null;
 
 			// Marshaling e to native string
-			byte* native_e;
-			var byteCount_e = 0;
+			byte* nativeE;
+			var byteCountE = 0;
 			if (e != null)
 			{
-				byteCount_e = Encoding.UTF8.GetByteCount(e);
-				if(byteCount_e > Utils.MaxStackallocSize)
+				byteCountE = Encoding.UTF8.GetByteCount(e);
+				if(byteCountE > Utils.MaxStackallocSize)
 				{
-					native_e = Utils.Alloc<byte>(byteCount_e + 1);
+					nativeE = Utils.Alloc<byte>(byteCountE + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_e + 1];
-					native_e = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountE + 1];
+					nativeE = stackallocBytes;
 				}
-				var e_offset = Utils.EncodeStringUTF8(e, native_e, byteCount_e);
-				native_e[e_offset] = 0;
+				var offsetE = Utils.EncodeStringUTF8(e, nativeE, byteCountE);
+				nativeE[offsetE] = 0;
 			}
-			else native_e = null;
+			else nativeE = null;
 
-			ImGuiNative.ImGuiTextRangeImGuiTextRangeStrConstruct(NativePtr, native_b, native_e);
+			ImGuiNative.ImGuiTextRangeImGuiTextRangeStrConstruct(NativePtr, nativeB, nativeE);
 			// Freeing b native string
-			if (byteCount_b > Utils.MaxStackallocSize)
-				Utils.Free(native_b);
+			if (byteCountB > Utils.MaxStackallocSize)
+				Utils.Free(nativeB);
 			// Freeing e native string
-			if (byteCount_e > Utils.MaxStackallocSize)
-				Utils.Free(native_e);
+			if (byteCountE > Utils.MaxStackallocSize)
+				Utils.Free(nativeE);
+		}
+
+		public ImGuiTextRangePtr ImGuiTextRange(ReadOnlySpan<byte> b, ReadOnlySpan<byte> e)
+		{
+			fixed (byte* nativeB = b)
+			fixed (byte* nativeE = e)
+			{
+				return ImGuiNative.ImGuiTextRangeImGuiTextRange(nativeB, nativeE);
+			}
 		}
 
 		public ImGuiTextRangePtr ImGuiTextRange(ReadOnlySpan<char> b, ReadOnlySpan<char> e)
 		{
 			// Marshaling b to native string
-			byte* native_b;
-			var byteCount_b = 0;
+			byte* nativeB;
+			var byteCountB = 0;
 			if (b != null)
 			{
-				byteCount_b = Encoding.UTF8.GetByteCount(b);
-				if(byteCount_b > Utils.MaxStackallocSize)
+				byteCountB = Encoding.UTF8.GetByteCount(b);
+				if(byteCountB > Utils.MaxStackallocSize)
 				{
-					native_b = Utils.Alloc<byte>(byteCount_b + 1);
+					nativeB = Utils.Alloc<byte>(byteCountB + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_b + 1];
-					native_b = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountB + 1];
+					nativeB = stackallocBytes;
 				}
-				var b_offset = Utils.EncodeStringUTF8(b, native_b, byteCount_b);
-				native_b[b_offset] = 0;
+				var offsetB = Utils.EncodeStringUTF8(b, nativeB, byteCountB);
+				nativeB[offsetB] = 0;
 			}
-			else native_b = null;
+			else nativeB = null;
 
 			// Marshaling e to native string
-			byte* native_e;
-			var byteCount_e = 0;
+			byte* nativeE;
+			var byteCountE = 0;
 			if (e != null)
 			{
-				byteCount_e = Encoding.UTF8.GetByteCount(e);
-				if(byteCount_e > Utils.MaxStackallocSize)
+				byteCountE = Encoding.UTF8.GetByteCount(e);
+				if(byteCountE > Utils.MaxStackallocSize)
 				{
-					native_e = Utils.Alloc<byte>(byteCount_e + 1);
+					nativeE = Utils.Alloc<byte>(byteCountE + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_e + 1];
-					native_e = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountE + 1];
+					nativeE = stackallocBytes;
 				}
-				var e_offset = Utils.EncodeStringUTF8(e, native_e, byteCount_e);
-				native_e[e_offset] = 0;
+				var offsetE = Utils.EncodeStringUTF8(e, nativeE, byteCountE);
+				nativeE[offsetE] = 0;
 			}
-			else native_e = null;
+			else nativeE = null;
 
-			return ImGuiNative.ImGuiTextRangeImGuiTextRange(native_b, native_e);
+			var result = ImGuiNative.ImGuiTextRangeImGuiTextRange(nativeB, nativeE);
 			// Freeing b native string
-			if (byteCount_b > Utils.MaxStackallocSize)
-				Utils.Free(native_b);
+			if (byteCountB > Utils.MaxStackallocSize)
+				Utils.Free(nativeB);
 			// Freeing e native string
-			if (byteCount_e > Utils.MaxStackallocSize)
-				Utils.Free(native_e);
+			if (byteCountE > Utils.MaxStackallocSize)
+				Utils.Free(nativeE);
+			return result;
 		}
 
 		public void Destroy()

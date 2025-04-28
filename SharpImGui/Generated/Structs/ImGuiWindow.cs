@@ -950,55 +950,65 @@ namespace SharpImGui
 			return ImGuiNative.ImGuiWindowGetID(NativePtr, (void*)ptr);
 		}
 
+		public uint GetID(ReadOnlySpan<byte> str, ReadOnlySpan<byte> strEnd)
+		{
+			fixed (byte* nativeStr = str)
+			fixed (byte* nativeStrEnd = strEnd)
+			{
+				return ImGuiNative.ImGuiWindowGetID(NativePtr, nativeStr, nativeStrEnd);
+			}
+		}
+
 		public uint GetID(ReadOnlySpan<char> str, ReadOnlySpan<char> strEnd)
 		{
 			// Marshaling str to native string
-			byte* native_str;
-			var byteCount_str = 0;
+			byte* nativeStr;
+			var byteCountStr = 0;
 			if (str != null)
 			{
-				byteCount_str = Encoding.UTF8.GetByteCount(str);
-				if(byteCount_str > Utils.MaxStackallocSize)
+				byteCountStr = Encoding.UTF8.GetByteCount(str);
+				if(byteCountStr > Utils.MaxStackallocSize)
 				{
-					native_str = Utils.Alloc<byte>(byteCount_str + 1);
+					nativeStr = Utils.Alloc<byte>(byteCountStr + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_str + 1];
-					native_str = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountStr + 1];
+					nativeStr = stackallocBytes;
 				}
-				var str_offset = Utils.EncodeStringUTF8(str, native_str, byteCount_str);
-				native_str[str_offset] = 0;
+				var offsetStr = Utils.EncodeStringUTF8(str, nativeStr, byteCountStr);
+				nativeStr[offsetStr] = 0;
 			}
-			else native_str = null;
+			else nativeStr = null;
 
 			// Marshaling strEnd to native string
-			byte* native_strEnd;
-			var byteCount_strEnd = 0;
+			byte* nativeStrEnd;
+			var byteCountStrEnd = 0;
 			if (strEnd != null)
 			{
-				byteCount_strEnd = Encoding.UTF8.GetByteCount(strEnd);
-				if(byteCount_strEnd > Utils.MaxStackallocSize)
+				byteCountStrEnd = Encoding.UTF8.GetByteCount(strEnd);
+				if(byteCountStrEnd > Utils.MaxStackallocSize)
 				{
-					native_strEnd = Utils.Alloc<byte>(byteCount_strEnd + 1);
+					nativeStrEnd = Utils.Alloc<byte>(byteCountStrEnd + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_strEnd + 1];
-					native_strEnd = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountStrEnd + 1];
+					nativeStrEnd = stackallocBytes;
 				}
-				var strEnd_offset = Utils.EncodeStringUTF8(strEnd, native_strEnd, byteCount_strEnd);
-				native_strEnd[strEnd_offset] = 0;
+				var offsetStrEnd = Utils.EncodeStringUTF8(strEnd, nativeStrEnd, byteCountStrEnd);
+				nativeStrEnd[offsetStrEnd] = 0;
 			}
-			else native_strEnd = null;
+			else nativeStrEnd = null;
 
-			return ImGuiNative.ImGuiWindowGetID(NativePtr, native_str, native_strEnd);
+			var result = ImGuiNative.ImGuiWindowGetID(NativePtr, nativeStr, nativeStrEnd);
 			// Freeing str native string
-			if (byteCount_str > Utils.MaxStackallocSize)
-				Utils.Free(native_str);
+			if (byteCountStr > Utils.MaxStackallocSize)
+				Utils.Free(nativeStr);
 			// Freeing strEnd native string
-			if (byteCount_strEnd > Utils.MaxStackallocSize)
-				Utils.Free(native_strEnd);
+			if (byteCountStrEnd > Utils.MaxStackallocSize)
+				Utils.Free(nativeStrEnd);
+			return result;
 		}
 
 		public void Destroy()
@@ -1006,60 +1016,77 @@ namespace SharpImGui
 			ImGuiNative.ImGuiWindowDestroy(NativePtr);
 		}
 
+		public void ImGuiWindowConstruct(ImGuiContextPtr context, ReadOnlySpan<byte> name)
+		{
+			fixed (byte* nativeName = name)
+			{
+				ImGuiNative.ImGuiWindowImGuiWindowConstruct(NativePtr, context, nativeName);
+			}
+		}
+
 		public void ImGuiWindowConstruct(ImGuiContextPtr context, ReadOnlySpan<char> name)
 		{
 			// Marshaling name to native string
-			byte* native_name;
-			var byteCount_name = 0;
+			byte* nativeName;
+			var byteCountName = 0;
 			if (name != null)
 			{
-				byteCount_name = Encoding.UTF8.GetByteCount(name);
-				if(byteCount_name > Utils.MaxStackallocSize)
+				byteCountName = Encoding.UTF8.GetByteCount(name);
+				if(byteCountName > Utils.MaxStackallocSize)
 				{
-					native_name = Utils.Alloc<byte>(byteCount_name + 1);
+					nativeName = Utils.Alloc<byte>(byteCountName + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_name + 1];
-					native_name = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountName + 1];
+					nativeName = stackallocBytes;
 				}
-				var name_offset = Utils.EncodeStringUTF8(name, native_name, byteCount_name);
-				native_name[name_offset] = 0;
+				var offsetName = Utils.EncodeStringUTF8(name, nativeName, byteCountName);
+				nativeName[offsetName] = 0;
 			}
-			else native_name = null;
+			else nativeName = null;
 
-			ImGuiNative.ImGuiWindowImGuiWindowConstruct(NativePtr, context, native_name);
+			ImGuiNative.ImGuiWindowImGuiWindowConstruct(NativePtr, context, nativeName);
 			// Freeing name native string
-			if (byteCount_name > Utils.MaxStackallocSize)
-				Utils.Free(native_name);
+			if (byteCountName > Utils.MaxStackallocSize)
+				Utils.Free(nativeName);
+		}
+
+		public ImGuiWindowPtr ImGuiWindow(ImGuiContextPtr context, ReadOnlySpan<byte> name)
+		{
+			fixed (byte* nativeName = name)
+			{
+				return ImGuiNative.ImGuiWindowImGuiWindow(context, nativeName);
+			}
 		}
 
 		public ImGuiWindowPtr ImGuiWindow(ImGuiContextPtr context, ReadOnlySpan<char> name)
 		{
 			// Marshaling name to native string
-			byte* native_name;
-			var byteCount_name = 0;
+			byte* nativeName;
+			var byteCountName = 0;
 			if (name != null)
 			{
-				byteCount_name = Encoding.UTF8.GetByteCount(name);
-				if(byteCount_name > Utils.MaxStackallocSize)
+				byteCountName = Encoding.UTF8.GetByteCount(name);
+				if(byteCountName > Utils.MaxStackallocSize)
 				{
-					native_name = Utils.Alloc<byte>(byteCount_name + 1);
+					nativeName = Utils.Alloc<byte>(byteCountName + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_name + 1];
-					native_name = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountName + 1];
+					nativeName = stackallocBytes;
 				}
-				var name_offset = Utils.EncodeStringUTF8(name, native_name, byteCount_name);
-				native_name[name_offset] = 0;
+				var offsetName = Utils.EncodeStringUTF8(name, nativeName, byteCountName);
+				nativeName[offsetName] = 0;
 			}
-			else native_name = null;
+			else nativeName = null;
 
-			return ImGuiNative.ImGuiWindowImGuiWindow(context, native_name);
+			var result = ImGuiNative.ImGuiWindowImGuiWindow(context, nativeName);
 			// Freeing name native string
-			if (byteCount_name > Utils.MaxStackallocSize)
-				Utils.Free(native_name);
+			if (byteCountName > Utils.MaxStackallocSize)
+				Utils.Free(nativeName);
+			return result;
 		}
 
 	}

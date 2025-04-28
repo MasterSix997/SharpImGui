@@ -39,33 +39,42 @@ namespace SharpImPlot
 			return ref *(byte*)&nativeResult;
 		}
 
+		public void AnnotationCollectionAppend(Vector2 pos, Vector2 off, uint bg, uint fg, bool clamp, ReadOnlySpan<byte> fmt)
+		{
+			var native_clamp = clamp ? (byte)1 : (byte)0;
+			fixed (byte* nativeFmt = fmt)
+			{
+				ImPlotNative.AnnotationCollectionAppend(NativePtr, pos, off, bg, fg, native_clamp, nativeFmt);
+			}
+		}
+
 		public void AnnotationCollectionAppend(Vector2 pos, Vector2 off, uint bg, uint fg, bool clamp, ReadOnlySpan<char> fmt)
 		{
 			var native_clamp = clamp ? (byte)1 : (byte)0;
 			// Marshaling fmt to native string
-			byte* native_fmt;
-			var byteCount_fmt = 0;
+			byte* nativeFmt;
+			var byteCountFmt = 0;
 			if (fmt != null)
 			{
-				byteCount_fmt = Encoding.UTF8.GetByteCount(fmt);
-				if(byteCount_fmt > Utils.MaxStackallocSize)
+				byteCountFmt = Encoding.UTF8.GetByteCount(fmt);
+				if(byteCountFmt > Utils.MaxStackallocSize)
 				{
-					native_fmt = Utils.Alloc<byte>(byteCount_fmt + 1);
+					nativeFmt = Utils.Alloc<byte>(byteCountFmt + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_fmt + 1];
-					native_fmt = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountFmt + 1];
+					nativeFmt = stackallocBytes;
 				}
-				var fmt_offset = Utils.EncodeStringUTF8(fmt, native_fmt, byteCount_fmt);
-				native_fmt[fmt_offset] = 0;
+				var offsetFmt = Utils.EncodeStringUTF8(fmt, nativeFmt, byteCountFmt);
+				nativeFmt[offsetFmt] = 0;
 			}
-			else native_fmt = null;
+			else nativeFmt = null;
 
-			ImPlotNative.AnnotationCollectionAppend(NativePtr, pos, off, bg, fg, native_clamp, native_fmt);
+			ImPlotNative.AnnotationCollectionAppend(NativePtr, pos, off, bg, fg, native_clamp, nativeFmt);
 			// Freeing fmt native string
-			if (byteCount_fmt > Utils.MaxStackallocSize)
-				Utils.Free(native_fmt);
+			if (byteCountFmt > Utils.MaxStackallocSize)
+				Utils.Free(nativeFmt);
 		}
 
 		public void AnnotationCollectionDestroy()

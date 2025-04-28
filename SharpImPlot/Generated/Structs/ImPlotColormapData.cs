@@ -86,32 +86,41 @@ namespace SharpImPlot
 			return ref *(uint*)&nativeResult;
 		}
 
+		public ImPlotColormap ColormapDataGetIndex(ReadOnlySpan<byte> name)
+		{
+			fixed (byte* nativeName = name)
+			{
+				return ImPlotNative.ColormapDataGetIndex(NativePtr, nativeName);
+			}
+		}
+
 		public ImPlotColormap ColormapDataGetIndex(ReadOnlySpan<char> name)
 		{
 			// Marshaling name to native string
-			byte* native_name;
-			var byteCount_name = 0;
+			byte* nativeName;
+			var byteCountName = 0;
 			if (name != null)
 			{
-				byteCount_name = Encoding.UTF8.GetByteCount(name);
-				if(byteCount_name > Utils.MaxStackallocSize)
+				byteCountName = Encoding.UTF8.GetByteCount(name);
+				if(byteCountName > Utils.MaxStackallocSize)
 				{
-					native_name = Utils.Alloc<byte>(byteCount_name + 1);
+					nativeName = Utils.Alloc<byte>(byteCountName + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_name + 1];
-					native_name = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountName + 1];
+					nativeName = stackallocBytes;
 				}
-				var name_offset = Utils.EncodeStringUTF8(name, native_name, byteCount_name);
-				native_name[name_offset] = 0;
+				var offsetName = Utils.EncodeStringUTF8(name, nativeName, byteCountName);
+				nativeName[offsetName] = 0;
 			}
-			else native_name = null;
+			else nativeName = null;
 
-			return ImPlotNative.ColormapDataGetIndex(NativePtr, native_name);
+			var result = ImPlotNative.ColormapDataGetIndex(NativePtr, nativeName);
 			// Freeing name native string
-			if (byteCount_name > Utils.MaxStackallocSize)
-				Utils.Free(native_name);
+			if (byteCountName > Utils.MaxStackallocSize)
+				Utils.Free(nativeName);
+			return result;
 		}
 
 		public ref byte ColormapDataGetName(ImPlotColormap cmap)
@@ -120,9 +129,10 @@ namespace SharpImPlot
 			return ref *(byte*)&nativeResult;
 		}
 
-		public byte ColormapDataIsQual(ImPlotColormap cmap)
+		public bool ColormapDataIsQual(ImPlotColormap cmap)
 		{
-			return ImPlotNative.ColormapDataIsQual(NativePtr, cmap);
+			var result = ImPlotNative.ColormapDataIsQual(NativePtr, cmap);
+			return result != 0;
 		}
 
 		public void ColormapDataRebuildTables()
@@ -135,35 +145,45 @@ namespace SharpImPlot
 			ImPlotNative.ColormapDataAppendTable(NativePtr, cmap);
 		}
 
+		public int ColormapDataAppend(ReadOnlySpan<byte> name, ref uint keys, int count, bool qual)
+		{
+			var native_qual = qual ? (byte)1 : (byte)0;
+			fixed (byte* nativeName = name)
+			fixed (uint* nativeKeys = &keys)
+			{
+				return ImPlotNative.ColormapDataAppend(NativePtr, nativeName, nativeKeys, count, native_qual);
+			}
+		}
+
 		public int ColormapDataAppend(ReadOnlySpan<char> name, ref uint keys, int count, bool qual)
 		{
 			// Marshaling name to native string
-			byte* native_name;
-			var byteCount_name = 0;
+			byte* nativeName;
+			var byteCountName = 0;
 			if (name != null)
 			{
-				byteCount_name = Encoding.UTF8.GetByteCount(name);
-				if(byteCount_name > Utils.MaxStackallocSize)
+				byteCountName = Encoding.UTF8.GetByteCount(name);
+				if(byteCountName > Utils.MaxStackallocSize)
 				{
-					native_name = Utils.Alloc<byte>(byteCount_name + 1);
+					nativeName = Utils.Alloc<byte>(byteCountName + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_name + 1];
-					native_name = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountName + 1];
+					nativeName = stackallocBytes;
 				}
-				var name_offset = Utils.EncodeStringUTF8(name, native_name, byteCount_name);
-				native_name[name_offset] = 0;
+				var offsetName = Utils.EncodeStringUTF8(name, nativeName, byteCountName);
+				nativeName[offsetName] = 0;
 			}
-			else native_name = null;
+			else nativeName = null;
 
 			var native_qual = qual ? (byte)1 : (byte)0;
-			fixed (uint* native_keys = &keys)
+			fixed (uint* nativeKeys = &keys)
 			{
-				var result = ImPlotNative.ColormapDataAppend(NativePtr, native_name, native_keys, count, native_qual);
+				var result = ImPlotNative.ColormapDataAppend(NativePtr, nativeName, nativeKeys, count, native_qual);
 				// Freeing name native string
-				if (byteCount_name > Utils.MaxStackallocSize)
-					Utils.Free(native_name);
+				if (byteCountName > Utils.MaxStackallocSize)
+					Utils.Free(nativeName);
 				return result;
 			}
 		}

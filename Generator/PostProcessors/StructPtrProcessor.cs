@@ -52,10 +52,12 @@ public sealed class StructPtrProcessor : IPostProcessor
             {
                 continue;
             }
-            
-            var managedMethod = GenerateManagedMethod(csMethod, managedStruct);
-            managedMethod.IsStatic = true;
-            managedStruct.Methods.Add(managedMethod);
+
+            foreach (var managedMethod in GenerateManagedMethodOverloads(managedStruct, csMethod, nativeLibrary))
+            {
+                managedMethod.IsStatic = true;
+                managedStruct.Methods.Add(managedMethod);
+            }
         }
         return managedStruct;
     }
@@ -174,14 +176,17 @@ public sealed class StructPtrProcessor : IPostProcessor
         {
             _notUsedNativeMethods.Remove(nativeMethods[i]);
             
-            var nativeMethod = nativeMethods[i];
-            var managedMethod = GenerateManagedMethod(nativeMethod, csStruct);
-            
-            if (managedMethod.Name.StartsWith(csStruct.Name))
-                managedMethod.Name = managedMethod.Name[csStruct.Name.Length..];
-            
-            ptrStruct.Methods.Add(managedMethod);
+            var originalMethod = nativeMethods[i];
+            foreach (var managedMethod in GenerateManagedMethodOverloads(ptrStruct, originalMethod, csStruct))
+            {
+                if (managedMethod.Name.StartsWith(csStruct.Name))
+                    managedMethod.Name = managedMethod.Name[csStruct.Name.Length..];
+                
+                ptrStruct.Methods.Add(managedMethod);
+            }
         }
+        
+        // RemoveMethodsWithSameSignature(ptrStruct);
 
         return ptrStruct;
     }
@@ -237,22 +242,82 @@ public sealed class StructPtrProcessor : IPostProcessor
         return csArrayField;
     }
 
-    private CsMethod GenerateManagedMethod(CsMethod csMethod, CsClass csStruct)
+    private IEnumerable<CsMethod> GenerateManagedMethodOverloads(CsClass managedStruct, CsMethod originalMethod, CsClass originalStruct)
     {
+        var overloadsGenerators = new HashSet<ICSharpMarshalling>();
+        MethodOverloadInfo overloadInfo = default;
+        foreach (var methodParameter in originalMethod.Parameters)
+        {
+            foreach (var marshalling in TypeMarshallings)
+            {
+                if (marshalling.OverloadsCount <= 0) continue;
+                if (!marshalling.CanMarshalOverload(methodParameter))
+                    continue;
+
+                if (!overloadsGenerators.Add(marshalling)) continue;
+                for (var i = 0; i < marshalling.OverloadsCount; i++)
+                {
+                    overloadInfo = new MethodOverloadInfo
+                    {
+                        OriginalMethod = originalMethod,
+                        OriginalStruct = originalStruct,
+                        OverloadMarshalling = marshalling,
+                        OverloadIndex = i,
+                    };
+                    var managedMethod = GenerateManagedMethod(overloadInfo);
+                    yield return managedMethod;
+                    
+                }
+            }
+        }
+        if (overloadsGenerators.Count == 0)
+        {
+            overloadInfo = new MethodOverloadInfo
+            {
+                OriginalMethod = originalMethod,
+                OriginalStruct = originalStruct
+            };
+            yield return GenerateManagedMethod(overloadInfo);
+        }
+        var defaultValuesOverloads = GenerateOverloadsByDefaultValues(originalMethod, (originalMethod.Metadata as CppFunction)!, managedStruct).ToImmutableArray();
+        if (defaultValuesOverloads.Length > 0)
+        {
+            foreach (var defaultValuesOverload in defaultValuesOverloads)
+            {
+                MarshallMethod(defaultValuesOverload.Method, overloadInfo, defaultValuesOverload.OmittedParameters);
+                yield return defaultValuesOverload.Method;
+            }
+        }
+    }
+    
+    public struct MethodOverloadInfo
+    {
+        public CsMethod OriginalMethod;
+        public CsClass OriginalStruct;
+        
+        public ICSharpMarshalling? OverloadMarshalling;
+        public int OverloadIndex;
+    }
+
+    // private IEnumerable<CsMethod> 
+    
+    private CsMethod GenerateManagedMethod(MethodOverloadInfo overloadInfo)
+    {
+        var csMethod = overloadInfo.OriginalMethod;
         var managedMethod = new CsMethod(csMethod.Name)
         {
             Visibility = CsVisibility.Public,
             ReturnType = csMethod.ReturnType,
-            IsUnsafe = csMethod.IsUnsafe,
             Comment = csMethod.Comment,
         };
-        managedMethod.Parameters.AddRange(csMethod.Parameters.Select(p => new CsParameter(p.Type, p.Name)));
+        managedMethod.Parameters.AddRange(csMethod.Parameters.Select(p => new CsParameter(p.Type, p.Name) { Metadata = p.Metadata }));
         
-        MarshallMethod(managedMethod, csMethod, csStruct);
+        MarshallMethod(managedMethod, overloadInfo);
+        
         if (_marshallingErrors != null)
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"==== Errors on marshalling method '{csMethod.Name}' in struct '{csStruct.Name}' ====");
+            Console.WriteLine($"==== Errors on marshalling method '{csMethod.Name}' in struct '{overloadInfo.OriginalStruct.Name}' ====");
             Console.WriteLine(_marshallingErrors);
             Console.ResetColor();
 
@@ -272,52 +337,98 @@ public sealed class StructPtrProcessor : IPostProcessor
         _marshallingErrors = $"No marshalling found for field '{csField.Name}' type '{csField.Type.TypeName}'";
     }
 
-    private void MarshallMethod(CsMethod csMethod, CsMethod originalMethod, CsClass csStruct)
+    private void MarshallMethod(CsMethod csMethod, in MethodOverloadInfo overloadInfo, Dictionary<CsParameter, string>? omittedParameters = null)
     {
+        var originalMethod = overloadInfo.OriginalMethod;
+        
         var returnMarshalledInfo = new ReturnMarshalledInfo();
-        var hasReturnInfo = TypeMarshallings.Any(typeMarshalling => typeMarshalling.TryMarshalReturnValue(csMethod, csStruct, _generated, out returnMarshalledInfo));
+        var hasReturnInfo = false;
+        foreach (var typeMarshalling in TypeMarshallings)
+        {
+            if (typeMarshalling.TryMarshalReturnValue(csMethod, overloadInfo, _generated, out returnMarshalledInfo))
+            {
+                hasReturnInfo = true;
+                break;
+            }
+        }
+
         if (!hasReturnInfo)
             _marshallingErrors = $"No return value marshalling found for method '{csMethod.Name}'";
         
         var parametersMarshalledInfo = new List<ParameterMarshalledInfo>();
         foreach (var parameter in csMethod.Parameters)
         {
-            var parameterMarshalledInfo = MarshallParameter(parameter, csStruct);
+            var parameterMarshalledInfo = MarshallParameter(parameter, overloadInfo);
             parametersMarshalledInfo.Add(parameterMarshalledInfo);
         }
 
         csMethod.WriteBody = writer =>
         {
+            var omittedParamsInfo = new List<ParameterMarshalledInfo>(); 
+            if (omittedParameters is { Count: > 0 })
+            {
+                writer.WriteLine("// defining omitted parameters");
+                var omittedParams = omittedParameters.Keys.ToArray();
+                var omittedParamValues = omittedParameters.Values.ToArray();
+                
+                for (int i = 0; i < omittedParameters.Count; i++)
+                {
+                    var any = false;
+                    foreach (var typeMarshalling in TypeMarshallings)
+                    {
+                        if (!typeMarshalling.TryProcessDefaultValue(omittedParams[i], omittedParamValues[i], out var omittedMarshalledInfo)) 
+                            continue;
+                        
+                        omittedParamsInfo.Add(omittedMarshalledInfo);
+                        any = true;
+                        break;
+                    }
+
+                    if (!any)
+                        writer.StartLine().Write($"{omittedParams[i].Type.TypeName} ").Write(omittedParams[i].Name).Write(" = ").Write(omittedParamValues[i]).Write(';').EndLine();
+                }
+            }
+            
+            
+            foreach (var omittedInfo in omittedParamsInfo)
+                omittedInfo.BeforeCallWriter?.Invoke(writer);
+            
             foreach (var parameterInfo in parametersMarshalledInfo)
                 parameterInfo.BeforeCallWriter?.Invoke(writer);
             
             var fixedParameters = parametersMarshalledInfo.Where(p => p.fixedCode != null).ToImmutableArray();
+            var hasFixedBlock = fixedParameters.Length > 0;
+
+            foreach (var omittedInfo in omittedParamsInfo.Where(p => p.fixedCode != null))
+            {
+                writer.WriteLine($"fixed ({omittedInfo.fixedCode})");
+                hasFixedBlock = true;
+            }
+            
             foreach (var parameterInfo in fixedParameters)
                 writer.WriteLine($"fixed ({parameterInfo.fixedCode})");
-            if (fixedParameters.Length > 0)
+            
+            if (hasFixedBlock)
                 writer.PushBlock();
             
             writer.StartLine();
             
-            var hasReturnVariable = returnMarshalledInfo.UseReturnVariable;
+            var hasReturnVariable = csMethod.ReturnType is not CsPrimitiveType { Kind: CsPrimitiveKind.Void } 
+                && (returnMarshalledInfo.UseReturnVariable
+                || omittedParamsInfo.Any(p => p.AfterCallWriter != null) 
+                || parametersMarshalledInfo.Any(p => p.AfterCallWriter != null));
+            
             if (csMethod.ReturnType is not CsPrimitiveType { Kind: CsPrimitiveKind.Void})
             {
-                if (!hasReturnVariable && fixedParameters.Length == 0)
-                {
-                    writer.Write("return ");
-                }
-                else
-                {
-                    hasReturnVariable = true;
-                    writer.Write($"var {returnMarshalledInfo.OverrideReturnVariable ?? "result"} = ");
-                }
-                
+                writer.Write(hasReturnVariable
+                    ? $"var {returnMarshalledInfo.OverrideReturnVariable ?? "result"} = "
+                    : "return ");
+
                 if (returnMarshalledInfo.BeforeCall != null)
                     writer.Write(returnMarshalledInfo.BeforeCall);
             }
             
             writer.Write($"{_generated.Settings.OriginalLibraryName}Native.")
-                // .Write($"{csStruct.Name}{csMethod.Name}")
                 .Write(originalMethod.Name)
                 .Write("(");
             
@@ -334,11 +445,27 @@ public sealed class StructPtrProcessor : IPostProcessor
                 if (parameterInfo.AfterParameter != null)
                     writer.Write(parameterInfo.AfterParameter!);
             }
+
+            if (omittedParameters is { Count: > 0 })
+            {
+                var omittedParamNames = omittedParameters.Keys.ToArray();
+                
+                for (int i = omittedParameters.Count - 1; i >= 0; i--)
+                {
+                    if (parametersMarshalledInfo.Count > 0 || i < omittedParameters.Count - 1)
+                        writer.Write(", ");
+                    
+                    writer.Write(omittedParamNames[i].Name);
+                }
+            }
             
             writer.Write(");").EndLine();
             
             if (returnMarshalledInfo.AfterCall != null)
                 writer.WriteLine(returnMarshalledInfo.AfterCall);
+
+            foreach (var omittedInfo in omittedParamsInfo)
+                omittedInfo.AfterCallWriter?.Invoke(writer);
             
             foreach (var parameterInfo in parametersMarshalledInfo)
                 parameterInfo.AfterCallWriter?.Invoke(writer);
@@ -349,7 +476,7 @@ public sealed class StructPtrProcessor : IPostProcessor
                     ? $"return {returnMarshalledInfo.OverrideReturnVariable ?? "result"};"
                     : $"return {returnMarshalledInfo.CustomReturn};");
             }
-            if (fixedParameters.Length > 0)
+            if (hasFixedBlock)
                 writer.PopBlock();
         };
 
@@ -360,33 +487,11 @@ public sealed class StructPtrProcessor : IPostProcessor
         }
     }
     
-    private ParameterMarshalledInfo MarshallParameter(CsParameter csParameter, CsClass csStruct)
+    private ParameterMarshalledInfo MarshallParameter(CsParameter csParameter, in MethodOverloadInfo overloadInfo)
     {
-        // var overloadsGenerators = new HashSet<ICSharpMarshalling>();
         foreach (var marshalling in TypeMarshallings)
         {
-            // if (marshalling.OverloadsCount > 0)
-            // {
-            //     if (!overloadsGenerators.Contains(marshalling))
-            //     {
-            //         overloadsGenerators.Add(marshalling);
-            //         var csMethod = csParameter.Parent as CsMethod;
-            //         for (int i = 0; i < marshalling.OverloadsCount; i++)
-            //         {
-            //             var overloadMethod = new CsMethod(csMethod.Name)
-            //             {
-            //                 Visibility = csMethod.Visibility,
-            //                 ReturnType = csMethod.ReturnType,
-            //                 Comment = csMethod.Comment,
-            //             };
-            //             overloadMethod.Parameters.AddRange(csMethod.Parameters.Select(p => new CsParameter(p.Type, p.Name)));
-            //             overloadMethod.Metadata = csMethod.Metadata;
-            //             
-            //         }
-            //     }
-            // }
-            
-            if (marshalling.TryMarshalParameter(csParameter, csStruct, _generated, out var parameterMarshalledInfo))
+            if (marshalling.TryMarshalParameter(csParameter, overloadInfo, _generated, out var parameterMarshalledInfo))
             {
                 parameterMarshalledInfo.OriginalParameter = csParameter;
                 return parameterMarshalledInfo;
@@ -395,5 +500,127 @@ public sealed class StructPtrProcessor : IPostProcessor
         _marshallingErrors += $"\nNo marshalling found for parameter '{csParameter.Name}' type '{csParameter.Type.TypeName}'";
         return new ParameterMarshalledInfo() {OriginalParameter = csParameter};
     }
+
+    public struct MethodOmittedOverload
+    {
+        public CsMethod Method { get; set; }
+        public Dictionary<CsParameter, string> OmittedParameters { get; set; }
+    }
+
+    private IEnumerable<MethodOmittedOverload> GenerateOverloadsByDefaultValues(CsMethod csMethod, CppFunction cppFunction, CsClass managedStruct) 
+    {
+        // Encontrar função nativa correspondente
+        var nativeFunction = _generated.NativeDefinitionProvider?.NativeDefinitions.Functions?
+            .SelectMany(f => f.Functions)
+            .FirstOrDefault(f => f.Name == cppFunction.Name);
+        
+        if (nativeFunction == null) yield break;
+        
+        // Coletar parâmetros com valores padrão e suas posições
+        var defaultParams = new List<(int Index, CsParameter Parameter, string Value)>();
+        
+        for (int i = 0; i < csMethod.Parameters.Count; i++)
+        {
+            if (csMethod.Parameters[i].Metadata is CppParameter cppParam &&
+                nativeFunction.DefaultValues.TryGetValue(cppParam.Name, out string defaultValue))
+            {
+                // string mappedValue = defaultValuesMap.GetValueOrDefault(defaultValue, defaultValue);
+                defaultParams.Add((i, csMethod.Parameters[i], defaultValue));
+            }
+        }
+        
+        if (defaultParams.Count == 0) yield break;
+        
+        // Ordenar os parâmetros com valor padrão do último para o primeiro
+        defaultParams.Sort((a, b) => b.Index.CompareTo(a.Index));
+        
+        var skipIndices = new HashSet<int>();
+        foreach (var (index, parameter, value) in defaultParams)
+        {
+            skipIndices.Add(index);
+            
+            var overload = new CsMethod(csMethod.Name)
+            {
+                Visibility = csMethod.Visibility,
+                ReturnType = csMethod.ReturnType,
+                IsUnsafe = csMethod.IsUnsafe,
+                IsInline = csMethod.IsInline,
+                Comment = csMethod.Comment,
+                Metadata = csMethod.Metadata
+            };
+            
+            // Adicionar apenas parâmetros não omitidos (sem valores padrão)
+            for (int i = 0; i < csMethod.Parameters.Count; i++)
+            {
+                if (!skipIndices.Contains(i))
+                {
+                    var param = csMethod.Parameters[i];
+                    overload.Parameters.Add(new CsParameter(param.Type, param.Name)
+                    {
+                        Metadata = param.Metadata
+                    });
+                }
+            }
+            
+            // Criar dicionário com os parâmetros omitidos
+            var omittedParams = new Dictionary<CsParameter, string>();
+            foreach (var (idx, param, paramValue) in defaultParams)
+            {
+                if (skipIndices.Contains(idx))
+                {
+                    omittedParams[new CsParameter(param.Type, param.Name) { Metadata = param.Metadata }] = paramValue;
+                }
+            }
+            
+            var methodOverload = new MethodOmittedOverload
+            {
+                Method = overload,
+                OmittedParameters = omittedParams
+            };
+            yield return methodOverload;
+        }
+    }
     
+    private void RemoveMethodsWithSameSignature(CsClass csClass)
+    {
+        var duplicates = csClass.Methods
+            .GroupBy(m => m.Name)
+            .SelectMany(g => g
+                .Where((m, i) => g
+                    .Take(i)
+                    .Any(prev => HasSameSignature(prev, m))
+                )
+            )
+            .ToList();
+
+        duplicates.ForEach(m => csClass.Methods.Remove(m));
+    }
+
+    private bool HasMethodWithSameSignature(CsClass csClass, CsMethod csMethod)
+    {
+        for (int i = 0; i < csClass.Methods.Count; i++)
+        {
+            if (HasSameSignature(csMethod, csClass.Methods[i]))
+                return true;
+        }
+
+        return false;
+    }
+    
+    private bool HasSameSignature(CsMethod csMethod1, CsMethod csMethod2)
+    {
+        if (csMethod1.Name != csMethod2.Name)
+            return false;
+        if (csMethod1.Parameters.Count != csMethod2.Parameters.Count)
+            return false;
+        if (csMethod1.IsImplicit != csMethod2.IsImplicit)
+            return false;
+        
+        for (int i = 0; i < csMethod1.Parameters.Count; i++)
+        {
+            if (csMethod1.Parameters[i].Type.TypeName != csMethod2.Parameters[i].Type.TypeName)
+                return false;
+        }
+        return true;
+    }
 }

@@ -14,6 +14,13 @@ namespace SharpImGuizmo
 			ImGuizmoNative.SetDrawlist(drawlist);
 		}
 
+		public static void SetDrawlist()
+		{
+			// defining omitted parameters
+			ImDrawList* drawlist = null;
+			ImGuizmoNative.SetDrawlist(drawlist);
+		}
+
 		public static void BeginFrame()
 		{
 			ImGuizmoNative.BeginFrame();
@@ -24,29 +31,34 @@ namespace SharpImGuizmo
 			ImGuizmoNative.SetImGuiContext(ctx);
 		}
 
-		public static byte IsOverNil()
+		public static bool IsOverNil()
 		{
-			return ImGuizmoNative.IsOverNil();
+			var result = ImGuizmoNative.IsOverNil();
+			return result != 0;
 		}
 
-		public static byte IsUsing()
+		public static bool IsUsing()
 		{
-			return ImGuizmoNative.IsUsing();
+			var result = ImGuizmoNative.IsUsing();
+			return result != 0;
 		}
 
-		public static byte IsUsingViewManipulate()
+		public static bool IsUsingViewManipulate()
 		{
-			return ImGuizmoNative.IsUsingViewManipulate();
+			var result = ImGuizmoNative.IsUsingViewManipulate();
+			return result != 0;
 		}
 
-		public static byte IsViewManipulateHovered()
+		public static bool IsViewManipulateHovered()
 		{
-			return ImGuizmoNative.IsViewManipulateHovered();
+			var result = ImGuizmoNative.IsViewManipulateHovered();
+			return result != 0;
 		}
 
-		public static byte IsUsingAny()
+		public static bool IsUsingAny()
 		{
-			return ImGuizmoNative.IsUsingAny();
+			var result = ImGuizmoNative.IsUsingAny();
+			return result != 0;
 		}
 
 		public static void Enable(bool enable)
@@ -57,23 +69,23 @@ namespace SharpImGuizmo
 
 		public static void DecomposeMatrixToComponents(ref float matrix, ref float translation, ref float rotation, ref float scale)
 		{
-			fixed (float* native_matrix = &matrix)
-			fixed (float* native_translation = &translation)
-			fixed (float* native_rotation = &rotation)
-			fixed (float* native_scale = &scale)
+			fixed (float* nativeMatrix = &matrix)
+			fixed (float* nativeTranslation = &translation)
+			fixed (float* nativeRotation = &rotation)
+			fixed (float* nativeScale = &scale)
 			{
-				ImGuizmoNative.DecomposeMatrixToComponents(native_matrix, native_translation, native_rotation, native_scale);
+				ImGuizmoNative.DecomposeMatrixToComponents(nativeMatrix, nativeTranslation, nativeRotation, nativeScale);
 			}
 		}
 
 		public static void RecomposeMatrixFromComponents(ref float translation, ref float rotation, ref float scale, ref float matrix)
 		{
-			fixed (float* native_translation = &translation)
-			fixed (float* native_rotation = &rotation)
-			fixed (float* native_scale = &scale)
-			fixed (float* native_matrix = &matrix)
+			fixed (float* nativeTranslation = &translation)
+			fixed (float* nativeRotation = &rotation)
+			fixed (float* nativeScale = &scale)
+			fixed (float* nativeMatrix = &matrix)
 			{
-				ImGuizmoNative.RecomposeMatrixFromComponents(native_translation, native_rotation, native_scale, native_matrix);
+				ImGuizmoNative.RecomposeMatrixFromComponents(nativeTranslation, nativeRotation, nativeScale, nativeMatrix);
 			}
 		}
 
@@ -90,54 +102,118 @@ namespace SharpImGuizmo
 
 		public static void DrawCubes(ref float view, ref float projection, ref float matrices, int matrixCount)
 		{
-			fixed (float* native_view = &view)
-			fixed (float* native_projection = &projection)
-			fixed (float* native_matrices = &matrices)
+			fixed (float* nativeView = &view)
+			fixed (float* nativeProjection = &projection)
+			fixed (float* nativeMatrices = &matrices)
 			{
-				ImGuizmoNative.DrawCubes(native_view, native_projection, native_matrices, matrixCount);
+				ImGuizmoNative.DrawCubes(nativeView, nativeProjection, nativeMatrices, matrixCount);
 			}
 		}
 
 		public static void DrawGrid(ref float view, ref float projection, ref float matrix, float gridSize)
 		{
-			fixed (float* native_view = &view)
-			fixed (float* native_projection = &projection)
-			fixed (float* native_matrix = &matrix)
+			fixed (float* nativeView = &view)
+			fixed (float* nativeProjection = &projection)
+			fixed (float* nativeMatrix = &matrix)
 			{
-				ImGuizmoNative.DrawGrid(native_view, native_projection, native_matrix, gridSize);
+				ImGuizmoNative.DrawGrid(nativeView, nativeProjection, nativeMatrix, gridSize);
 			}
 		}
 
-		public static byte Manipulate(ref float view, ref float projection, OPERATION operation, MODE mode, ref float matrix, ref float deltaMatrix, ref float snap, ref float localBounds, ref float boundsSnap)
+		public static bool Manipulate(ref float view, ref float projection, OPERATION operation, MODE mode, ref float matrix, ref float deltaMatrix, ref float snap, ref float localBounds, ref float boundsSnap)
 		{
-			fixed (float* native_view = &view)
-			fixed (float* native_projection = &projection)
-			fixed (float* native_matrix = &matrix)
-			fixed (float* native_deltaMatrix = &deltaMatrix)
-			fixed (float* native_snap = &snap)
-			fixed (float* native_localBounds = &localBounds)
-			fixed (float* native_boundsSnap = &boundsSnap)
+			fixed (float* nativeView = &view)
+			fixed (float* nativeProjection = &projection)
+			fixed (float* nativeMatrix = &matrix)
+			fixed (float* nativeDeltaMatrix = &deltaMatrix)
+			fixed (float* nativeSnap = &snap)
+			fixed (float* nativeLocalBounds = &localBounds)
+			fixed (float* nativeBoundsSnap = &boundsSnap)
 			{
-				var result = ImGuizmoNative.Manipulate(native_view, native_projection, operation, mode, native_matrix, native_deltaMatrix, native_snap, native_localBounds, native_boundsSnap);
-				return result;
+				var result = ImGuizmoNative.Manipulate(nativeView, nativeProjection, operation, mode, nativeMatrix, nativeDeltaMatrix, nativeSnap, nativeLocalBounds, nativeBoundsSnap);
+				return result != 0;
+			}
+		}
+
+		public static bool Manipulate(ref float view, ref float projection, OPERATION operation, MODE mode, ref float matrix, ref float deltaMatrix, ref float snap, ref float localBounds)
+		{
+			// defining omitted parameters
+			float* boundsSnap = null;
+			fixed (float* nativeView = &view)
+			fixed (float* nativeProjection = &projection)
+			fixed (float* nativeMatrix = &matrix)
+			fixed (float* nativeDeltaMatrix = &deltaMatrix)
+			fixed (float* nativeSnap = &snap)
+			fixed (float* nativeLocalBounds = &localBounds)
+			{
+				var result = ImGuizmoNative.Manipulate(nativeView, nativeProjection, operation, mode, nativeMatrix, nativeDeltaMatrix, nativeSnap, nativeLocalBounds, boundsSnap);
+				return result != 0;
+			}
+		}
+
+		public static bool Manipulate(ref float view, ref float projection, OPERATION operation, MODE mode, ref float matrix, ref float deltaMatrix, ref float snap)
+		{
+			// defining omitted parameters
+			float* boundsSnap = null;
+			float* localBounds = null;
+			fixed (float* nativeView = &view)
+			fixed (float* nativeProjection = &projection)
+			fixed (float* nativeMatrix = &matrix)
+			fixed (float* nativeDeltaMatrix = &deltaMatrix)
+			fixed (float* nativeSnap = &snap)
+			{
+				var result = ImGuizmoNative.Manipulate(nativeView, nativeProjection, operation, mode, nativeMatrix, nativeDeltaMatrix, nativeSnap, localBounds, boundsSnap);
+				return result != 0;
+			}
+		}
+
+		public static bool Manipulate(ref float view, ref float projection, OPERATION operation, MODE mode, ref float matrix, ref float deltaMatrix)
+		{
+			// defining omitted parameters
+			float* boundsSnap = null;
+			float* localBounds = null;
+			float* snap = null;
+			fixed (float* nativeView = &view)
+			fixed (float* nativeProjection = &projection)
+			fixed (float* nativeMatrix = &matrix)
+			fixed (float* nativeDeltaMatrix = &deltaMatrix)
+			{
+				var result = ImGuizmoNative.Manipulate(nativeView, nativeProjection, operation, mode, nativeMatrix, nativeDeltaMatrix, snap, localBounds, boundsSnap);
+				return result != 0;
+			}
+		}
+
+		public static bool Manipulate(ref float view, ref float projection, OPERATION operation, MODE mode, ref float matrix)
+		{
+			// defining omitted parameters
+			float* boundsSnap = null;
+			float* localBounds = null;
+			float* snap = null;
+			float* deltaMatrix = null;
+			fixed (float* nativeView = &view)
+			fixed (float* nativeProjection = &projection)
+			fixed (float* nativeMatrix = &matrix)
+			{
+				var result = ImGuizmoNative.Manipulate(nativeView, nativeProjection, operation, mode, nativeMatrix, deltaMatrix, snap, localBounds, boundsSnap);
+				return result != 0;
 			}
 		}
 
 		public static void ViewManipulateFloat(ref float view, float length, Vector2 position, Vector2 size, uint backgroundColor)
 		{
-			fixed (float* native_view = &view)
+			fixed (float* nativeView = &view)
 			{
-				ImGuizmoNative.ViewManipulateFloat(native_view, length, position, size, backgroundColor);
+				ImGuizmoNative.ViewManipulateFloat(nativeView, length, position, size, backgroundColor);
 			}
 		}
 
 		public static void ViewManipulateFloatPtr(ref float view, ref float projection, OPERATION operation, MODE mode, ref float matrix, float length, Vector2 position, Vector2 size, uint backgroundColor)
 		{
-			fixed (float* native_view = &view)
-			fixed (float* native_projection = &projection)
-			fixed (float* native_matrix = &matrix)
+			fixed (float* nativeView = &view)
+			fixed (float* nativeProjection = &projection)
+			fixed (float* nativeMatrix = &matrix)
 			{
-				ImGuizmoNative.ViewManipulateFloatPtr(native_view, native_projection, operation, mode, native_matrix, length, position, size, backgroundColor);
+				ImGuizmoNative.ViewManipulateFloatPtr(nativeView, nativeProjection, operation, mode, nativeMatrix, length, position, size, backgroundColor);
 			}
 		}
 
@@ -151,83 +227,100 @@ namespace SharpImGuizmo
 			ImGuizmoNative.SetID(id);
 		}
 
+		public static void PushIDStr(ReadOnlySpan<byte> strId)
+		{
+			fixed (byte* nativeStrId = strId)
+			{
+				ImGuizmoNative.PushIDStr(nativeStrId);
+			}
+		}
+
 		public static void PushIDStr(ReadOnlySpan<char> strId)
 		{
 			// Marshaling strId to native string
-			byte* native_strId;
-			var byteCount_strId = 0;
+			byte* nativeStrId;
+			var byteCountStrId = 0;
 			if (strId != null)
 			{
-				byteCount_strId = Encoding.UTF8.GetByteCount(strId);
-				if(byteCount_strId > Utils.MaxStackallocSize)
+				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
+				if(byteCountStrId > Utils.MaxStackallocSize)
 				{
-					native_strId = Utils.Alloc<byte>(byteCount_strId + 1);
+					nativeStrId = Utils.Alloc<byte>(byteCountStrId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_strId + 1];
-					native_strId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountStrId + 1];
+					nativeStrId = stackallocBytes;
 				}
-				var strId_offset = Utils.EncodeStringUTF8(strId, native_strId, byteCount_strId);
-				native_strId[strId_offset] = 0;
+				var offsetStrId = Utils.EncodeStringUTF8(strId, nativeStrId, byteCountStrId);
+				nativeStrId[offsetStrId] = 0;
 			}
-			else native_strId = null;
+			else nativeStrId = null;
 
-			ImGuizmoNative.PushIDStr(native_strId);
+			ImGuizmoNative.PushIDStr(nativeStrId);
 			// Freeing strId native string
-			if (byteCount_strId > Utils.MaxStackallocSize)
-				Utils.Free(native_strId);
+			if (byteCountStrId > Utils.MaxStackallocSize)
+				Utils.Free(nativeStrId);
+		}
+
+		public static void PushIDStrStr(ReadOnlySpan<byte> strIdBegin, ReadOnlySpan<byte> strIdEnd)
+		{
+			fixed (byte* nativeStrIdBegin = strIdBegin)
+			fixed (byte* nativeStrIdEnd = strIdEnd)
+			{
+				ImGuizmoNative.PushIDStrStr(nativeStrIdBegin, nativeStrIdEnd);
+			}
 		}
 
 		public static void PushIDStrStr(ReadOnlySpan<char> strIdBegin, ReadOnlySpan<char> strIdEnd)
 		{
 			// Marshaling strIdBegin to native string
-			byte* native_strIdBegin;
-			var byteCount_strIdBegin = 0;
+			byte* nativeStrIdBegin;
+			var byteCountStrIdBegin = 0;
 			if (strIdBegin != null)
 			{
-				byteCount_strIdBegin = Encoding.UTF8.GetByteCount(strIdBegin);
-				if(byteCount_strIdBegin > Utils.MaxStackallocSize)
+				byteCountStrIdBegin = Encoding.UTF8.GetByteCount(strIdBegin);
+				if(byteCountStrIdBegin > Utils.MaxStackallocSize)
 				{
-					native_strIdBegin = Utils.Alloc<byte>(byteCount_strIdBegin + 1);
+					nativeStrIdBegin = Utils.Alloc<byte>(byteCountStrIdBegin + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_strIdBegin + 1];
-					native_strIdBegin = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountStrIdBegin + 1];
+					nativeStrIdBegin = stackallocBytes;
 				}
-				var strIdBegin_offset = Utils.EncodeStringUTF8(strIdBegin, native_strIdBegin, byteCount_strIdBegin);
-				native_strIdBegin[strIdBegin_offset] = 0;
+				var offsetStrIdBegin = Utils.EncodeStringUTF8(strIdBegin, nativeStrIdBegin, byteCountStrIdBegin);
+				nativeStrIdBegin[offsetStrIdBegin] = 0;
 			}
-			else native_strIdBegin = null;
+			else nativeStrIdBegin = null;
 
 			// Marshaling strIdEnd to native string
-			byte* native_strIdEnd;
-			var byteCount_strIdEnd = 0;
+			byte* nativeStrIdEnd;
+			var byteCountStrIdEnd = 0;
 			if (strIdEnd != null)
 			{
-				byteCount_strIdEnd = Encoding.UTF8.GetByteCount(strIdEnd);
-				if(byteCount_strIdEnd > Utils.MaxStackallocSize)
+				byteCountStrIdEnd = Encoding.UTF8.GetByteCount(strIdEnd);
+				if(byteCountStrIdEnd > Utils.MaxStackallocSize)
 				{
-					native_strIdEnd = Utils.Alloc<byte>(byteCount_strIdEnd + 1);
+					nativeStrIdEnd = Utils.Alloc<byte>(byteCountStrIdEnd + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_strIdEnd + 1];
-					native_strIdEnd = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountStrIdEnd + 1];
+					nativeStrIdEnd = stackallocBytes;
 				}
-				var strIdEnd_offset = Utils.EncodeStringUTF8(strIdEnd, native_strIdEnd, byteCount_strIdEnd);
-				native_strIdEnd[strIdEnd_offset] = 0;
+				var offsetStrIdEnd = Utils.EncodeStringUTF8(strIdEnd, nativeStrIdEnd, byteCountStrIdEnd);
+				nativeStrIdEnd[offsetStrIdEnd] = 0;
 			}
-			else native_strIdEnd = null;
+			else nativeStrIdEnd = null;
 
-			ImGuizmoNative.PushIDStrStr(native_strIdBegin, native_strIdEnd);
+			ImGuizmoNative.PushIDStrStr(nativeStrIdBegin, nativeStrIdEnd);
 			// Freeing strIdBegin native string
-			if (byteCount_strIdBegin > Utils.MaxStackallocSize)
-				Utils.Free(native_strIdBegin);
+			if (byteCountStrIdBegin > Utils.MaxStackallocSize)
+				Utils.Free(nativeStrIdBegin);
 			// Freeing strIdEnd native string
-			if (byteCount_strIdEnd > Utils.MaxStackallocSize)
-				Utils.Free(native_strIdEnd);
+			if (byteCountStrIdEnd > Utils.MaxStackallocSize)
+				Utils.Free(nativeStrIdEnd);
 		}
 
 		public static void PushIDPtr(IntPtr ptrId)
@@ -248,83 +341,102 @@ namespace SharpImGuizmo
 			ImGuizmoNative.PopID();
 		}
 
+		public static uint GetIDStr(ReadOnlySpan<byte> strId)
+		{
+			fixed (byte* nativeStrId = strId)
+			{
+				return ImGuizmoNative.GetIDStr(nativeStrId);
+			}
+		}
+
 		public static uint GetIDStr(ReadOnlySpan<char> strId)
 		{
 			// Marshaling strId to native string
-			byte* native_strId;
-			var byteCount_strId = 0;
+			byte* nativeStrId;
+			var byteCountStrId = 0;
 			if (strId != null)
 			{
-				byteCount_strId = Encoding.UTF8.GetByteCount(strId);
-				if(byteCount_strId > Utils.MaxStackallocSize)
+				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
+				if(byteCountStrId > Utils.MaxStackallocSize)
 				{
-					native_strId = Utils.Alloc<byte>(byteCount_strId + 1);
+					nativeStrId = Utils.Alloc<byte>(byteCountStrId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_strId + 1];
-					native_strId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountStrId + 1];
+					nativeStrId = stackallocBytes;
 				}
-				var strId_offset = Utils.EncodeStringUTF8(strId, native_strId, byteCount_strId);
-				native_strId[strId_offset] = 0;
+				var offsetStrId = Utils.EncodeStringUTF8(strId, nativeStrId, byteCountStrId);
+				nativeStrId[offsetStrId] = 0;
 			}
-			else native_strId = null;
+			else nativeStrId = null;
 
-			return ImGuizmoNative.GetIDStr(native_strId);
+			var result = ImGuizmoNative.GetIDStr(nativeStrId);
 			// Freeing strId native string
-			if (byteCount_strId > Utils.MaxStackallocSize)
-				Utils.Free(native_strId);
+			if (byteCountStrId > Utils.MaxStackallocSize)
+				Utils.Free(nativeStrId);
+			return result;
+		}
+
+		public static uint GetIDStrStr(ReadOnlySpan<byte> strIdBegin, ReadOnlySpan<byte> strIdEnd)
+		{
+			fixed (byte* nativeStrIdBegin = strIdBegin)
+			fixed (byte* nativeStrIdEnd = strIdEnd)
+			{
+				return ImGuizmoNative.GetIDStrStr(nativeStrIdBegin, nativeStrIdEnd);
+			}
 		}
 
 		public static uint GetIDStrStr(ReadOnlySpan<char> strIdBegin, ReadOnlySpan<char> strIdEnd)
 		{
 			// Marshaling strIdBegin to native string
-			byte* native_strIdBegin;
-			var byteCount_strIdBegin = 0;
+			byte* nativeStrIdBegin;
+			var byteCountStrIdBegin = 0;
 			if (strIdBegin != null)
 			{
-				byteCount_strIdBegin = Encoding.UTF8.GetByteCount(strIdBegin);
-				if(byteCount_strIdBegin > Utils.MaxStackallocSize)
+				byteCountStrIdBegin = Encoding.UTF8.GetByteCount(strIdBegin);
+				if(byteCountStrIdBegin > Utils.MaxStackallocSize)
 				{
-					native_strIdBegin = Utils.Alloc<byte>(byteCount_strIdBegin + 1);
+					nativeStrIdBegin = Utils.Alloc<byte>(byteCountStrIdBegin + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_strIdBegin + 1];
-					native_strIdBegin = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountStrIdBegin + 1];
+					nativeStrIdBegin = stackallocBytes;
 				}
-				var strIdBegin_offset = Utils.EncodeStringUTF8(strIdBegin, native_strIdBegin, byteCount_strIdBegin);
-				native_strIdBegin[strIdBegin_offset] = 0;
+				var offsetStrIdBegin = Utils.EncodeStringUTF8(strIdBegin, nativeStrIdBegin, byteCountStrIdBegin);
+				nativeStrIdBegin[offsetStrIdBegin] = 0;
 			}
-			else native_strIdBegin = null;
+			else nativeStrIdBegin = null;
 
 			// Marshaling strIdEnd to native string
-			byte* native_strIdEnd;
-			var byteCount_strIdEnd = 0;
+			byte* nativeStrIdEnd;
+			var byteCountStrIdEnd = 0;
 			if (strIdEnd != null)
 			{
-				byteCount_strIdEnd = Encoding.UTF8.GetByteCount(strIdEnd);
-				if(byteCount_strIdEnd > Utils.MaxStackallocSize)
+				byteCountStrIdEnd = Encoding.UTF8.GetByteCount(strIdEnd);
+				if(byteCountStrIdEnd > Utils.MaxStackallocSize)
 				{
-					native_strIdEnd = Utils.Alloc<byte>(byteCount_strIdEnd + 1);
+					nativeStrIdEnd = Utils.Alloc<byte>(byteCountStrIdEnd + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_strIdEnd + 1];
-					native_strIdEnd = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountStrIdEnd + 1];
+					nativeStrIdEnd = stackallocBytes;
 				}
-				var strIdEnd_offset = Utils.EncodeStringUTF8(strIdEnd, native_strIdEnd, byteCount_strIdEnd);
-				native_strIdEnd[strIdEnd_offset] = 0;
+				var offsetStrIdEnd = Utils.EncodeStringUTF8(strIdEnd, nativeStrIdEnd, byteCountStrIdEnd);
+				nativeStrIdEnd[offsetStrIdEnd] = 0;
 			}
-			else native_strIdEnd = null;
+			else nativeStrIdEnd = null;
 
-			return ImGuizmoNative.GetIDStrStr(native_strIdBegin, native_strIdEnd);
+			var result = ImGuizmoNative.GetIDStrStr(nativeStrIdBegin, nativeStrIdEnd);
 			// Freeing strIdBegin native string
-			if (byteCount_strIdBegin > Utils.MaxStackallocSize)
-				Utils.Free(native_strIdBegin);
+			if (byteCountStrIdBegin > Utils.MaxStackallocSize)
+				Utils.Free(nativeStrIdBegin);
 			// Freeing strIdEnd native string
-			if (byteCount_strIdEnd > Utils.MaxStackallocSize)
-				Utils.Free(native_strIdEnd);
+			if (byteCountStrIdEnd > Utils.MaxStackallocSize)
+				Utils.Free(nativeStrIdEnd);
+			return result;
 		}
 
 		public static uint GetIDPtr(IntPtr ptrId)
@@ -332,9 +444,10 @@ namespace SharpImGuizmo
 			return ImGuizmoNative.GetIDPtr((void*)ptrId);
 		}
 
-		public static byte IsOverOPERATION(OPERATION op)
+		public static bool IsOverOPERATION(OPERATION op)
 		{
-			return ImGuizmoNative.IsOverOPERATION(op);
+			var result = ImGuizmoNative.IsOverOPERATION(op);
+			return result != 0;
 		}
 
 		public static void SetGizmoSizeClipSpace(float value)
@@ -366,12 +479,12 @@ namespace SharpImGuizmo
 			ImGuizmoNative.SetPlaneLimit(value);
 		}
 
-		public static byte IsOverFloatPtr(ref float position, float pixelRadius)
+		public static bool IsOverFloatPtr(ref float position, float pixelRadius)
 		{
-			fixed (float* native_position = &position)
+			fixed (float* nativePosition = &position)
 			{
-				var result = ImGuizmoNative.IsOverFloatPtr(native_position, pixelRadius);
-				return result;
+				var result = ImGuizmoNative.IsOverFloatPtr(nativePosition, pixelRadius);
+				return result != 0;
 			}
 		}
 

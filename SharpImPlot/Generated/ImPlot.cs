@@ -19,6 +19,13 @@ namespace SharpImPlot
 			ImPlotNative.DestroyContext(ctx);
 		}
 
+		public static void DestroyContext()
+		{
+			// defining omitted parameters
+			ImPlotContext* ctx = null;
+			ImPlotNative.DestroyContext(ctx);
+		}
+
 		public static ImPlotContextPtr GetCurrentContext()
 		{
 			return ImPlotNative.GetCurrentContext();
@@ -34,32 +41,105 @@ namespace SharpImPlot
 			ImPlotNative.SetImGuiContext(ctx);
 		}
 
-		public static byte BeginPlot(ReadOnlySpan<char> titleId, Vector2 size, ImPlotFlags flags)
+		public static bool BeginPlot(ReadOnlySpan<byte> titleId, Vector2 size, ImPlotFlags flags)
+		{
+			fixed (byte* nativeTitleId = titleId)
+			{
+				var result = ImPlotNative.BeginPlot(nativeTitleId, size, flags);
+				return result != 0;
+			}
+		}
+
+		public static bool BeginPlot(ReadOnlySpan<char> titleId, Vector2 size, ImPlotFlags flags)
 		{
 			// Marshaling titleId to native string
-			byte* native_titleId;
-			var byteCount_titleId = 0;
+			byte* nativeTitleId;
+			var byteCountTitleId = 0;
 			if (titleId != null)
 			{
-				byteCount_titleId = Encoding.UTF8.GetByteCount(titleId);
-				if(byteCount_titleId > Utils.MaxStackallocSize)
+				byteCountTitleId = Encoding.UTF8.GetByteCount(titleId);
+				if(byteCountTitleId > Utils.MaxStackallocSize)
 				{
-					native_titleId = Utils.Alloc<byte>(byteCount_titleId + 1);
+					nativeTitleId = Utils.Alloc<byte>(byteCountTitleId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_titleId + 1];
-					native_titleId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountTitleId + 1];
+					nativeTitleId = stackallocBytes;
 				}
-				var titleId_offset = Utils.EncodeStringUTF8(titleId, native_titleId, byteCount_titleId);
-				native_titleId[titleId_offset] = 0;
+				var offsetTitleId = Utils.EncodeStringUTF8(titleId, nativeTitleId, byteCountTitleId);
+				nativeTitleId[offsetTitleId] = 0;
 			}
-			else native_titleId = null;
+			else nativeTitleId = null;
 
-			return ImPlotNative.BeginPlot(native_titleId, size, flags);
+			var result = ImPlotNative.BeginPlot(nativeTitleId, size, flags);
 			// Freeing titleId native string
-			if (byteCount_titleId > Utils.MaxStackallocSize)
-				Utils.Free(native_titleId);
+			if (byteCountTitleId > Utils.MaxStackallocSize)
+				Utils.Free(nativeTitleId);
+			return result != 0;
+		}
+
+		public static bool BeginPlot(ReadOnlySpan<char> titleId, Vector2 size)
+		{
+			// defining omitted parameters
+			ImPlotFlags flags = ImPlotFlags.None;
+			// Marshaling titleId to native string
+			byte* nativeTitleId;
+			var byteCountTitleId = 0;
+			if (titleId != null)
+			{
+				byteCountTitleId = Encoding.UTF8.GetByteCount(titleId);
+				if(byteCountTitleId > Utils.MaxStackallocSize)
+				{
+					nativeTitleId = Utils.Alloc<byte>(byteCountTitleId + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountTitleId + 1];
+					nativeTitleId = stackallocBytes;
+				}
+				var offsetTitleId = Utils.EncodeStringUTF8(titleId, nativeTitleId, byteCountTitleId);
+				nativeTitleId[offsetTitleId] = 0;
+			}
+			else nativeTitleId = null;
+
+			var result = ImPlotNative.BeginPlot(nativeTitleId, size, flags);
+			// Freeing titleId native string
+			if (byteCountTitleId > Utils.MaxStackallocSize)
+				Utils.Free(nativeTitleId);
+			return result != 0;
+		}
+
+		public static bool BeginPlot(ReadOnlySpan<char> titleId)
+		{
+			// defining omitted parameters
+			ImPlotFlags flags = ImPlotFlags.None;
+			Vector2 size = new Vector2(-1,0);
+			// Marshaling titleId to native string
+			byte* nativeTitleId;
+			var byteCountTitleId = 0;
+			if (titleId != null)
+			{
+				byteCountTitleId = Encoding.UTF8.GetByteCount(titleId);
+				if(byteCountTitleId > Utils.MaxStackallocSize)
+				{
+					nativeTitleId = Utils.Alloc<byte>(byteCountTitleId + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountTitleId + 1];
+					nativeTitleId = stackallocBytes;
+				}
+				var offsetTitleId = Utils.EncodeStringUTF8(titleId, nativeTitleId, byteCountTitleId);
+				nativeTitleId[offsetTitleId] = 0;
+			}
+			else nativeTitleId = null;
+
+			var result = ImPlotNative.BeginPlot(nativeTitleId, size, flags);
+			// Freeing titleId native string
+			if (byteCountTitleId > Utils.MaxStackallocSize)
+				Utils.Free(nativeTitleId);
+			return result != 0;
 		}
 
 		public static void EndPlot()
@@ -67,37 +147,147 @@ namespace SharpImPlot
 			ImPlotNative.EndPlot();
 		}
 
-		public static byte BeginSubplots(ReadOnlySpan<char> titleId, int rows, int cols, Vector2 size, ImPlotSubplotFlags flags, ref float rowRatios, ref float colRatios)
+		public static bool BeginSubplots(ReadOnlySpan<byte> titleId, int rows, int cols, Vector2 size, ImPlotSubplotFlags flags, ref float rowRatios, ref float colRatios)
+		{
+			fixed (byte* nativeTitleId = titleId)
+			fixed (float* nativeRowRatios = &rowRatios)
+			fixed (float* nativeColRatios = &colRatios)
+			{
+				var result = ImPlotNative.BeginSubplots(nativeTitleId, rows, cols, size, flags, nativeRowRatios, nativeColRatios);
+				return result != 0;
+			}
+		}
+
+		public static bool BeginSubplots(ReadOnlySpan<char> titleId, int rows, int cols, Vector2 size, ImPlotSubplotFlags flags, ref float rowRatios, ref float colRatios)
 		{
 			// Marshaling titleId to native string
-			byte* native_titleId;
-			var byteCount_titleId = 0;
+			byte* nativeTitleId;
+			var byteCountTitleId = 0;
 			if (titleId != null)
 			{
-				byteCount_titleId = Encoding.UTF8.GetByteCount(titleId);
-				if(byteCount_titleId > Utils.MaxStackallocSize)
+				byteCountTitleId = Encoding.UTF8.GetByteCount(titleId);
+				if(byteCountTitleId > Utils.MaxStackallocSize)
 				{
-					native_titleId = Utils.Alloc<byte>(byteCount_titleId + 1);
+					nativeTitleId = Utils.Alloc<byte>(byteCountTitleId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_titleId + 1];
-					native_titleId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountTitleId + 1];
+					nativeTitleId = stackallocBytes;
 				}
-				var titleId_offset = Utils.EncodeStringUTF8(titleId, native_titleId, byteCount_titleId);
-				native_titleId[titleId_offset] = 0;
+				var offsetTitleId = Utils.EncodeStringUTF8(titleId, nativeTitleId, byteCountTitleId);
+				nativeTitleId[offsetTitleId] = 0;
 			}
-			else native_titleId = null;
+			else nativeTitleId = null;
 
-			fixed (float* native_rowRatios = &rowRatios)
-			fixed (float* native_colRatios = &colRatios)
+			fixed (float* nativeRowRatios = &rowRatios)
+			fixed (float* nativeColRatios = &colRatios)
 			{
-				var result = ImPlotNative.BeginSubplots(native_titleId, rows, cols, size, flags, native_rowRatios, native_colRatios);
+				var result = ImPlotNative.BeginSubplots(nativeTitleId, rows, cols, size, flags, nativeRowRatios, nativeColRatios);
 				// Freeing titleId native string
-				if (byteCount_titleId > Utils.MaxStackallocSize)
-					Utils.Free(native_titleId);
-				return result;
+				if (byteCountTitleId > Utils.MaxStackallocSize)
+					Utils.Free(nativeTitleId);
+				return result != 0;
 			}
+		}
+
+		public static bool BeginSubplots(ReadOnlySpan<char> titleId, int rows, int cols, Vector2 size, ImPlotSubplotFlags flags, ref float rowRatios)
+		{
+			// defining omitted parameters
+			float* colRatios = null;
+			// Marshaling titleId to native string
+			byte* nativeTitleId;
+			var byteCountTitleId = 0;
+			if (titleId != null)
+			{
+				byteCountTitleId = Encoding.UTF8.GetByteCount(titleId);
+				if(byteCountTitleId > Utils.MaxStackallocSize)
+				{
+					nativeTitleId = Utils.Alloc<byte>(byteCountTitleId + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountTitleId + 1];
+					nativeTitleId = stackallocBytes;
+				}
+				var offsetTitleId = Utils.EncodeStringUTF8(titleId, nativeTitleId, byteCountTitleId);
+				nativeTitleId[offsetTitleId] = 0;
+			}
+			else nativeTitleId = null;
+
+			fixed (float* nativeRowRatios = &rowRatios)
+			{
+				var result = ImPlotNative.BeginSubplots(nativeTitleId, rows, cols, size, flags, nativeRowRatios, colRatios);
+				// Freeing titleId native string
+				if (byteCountTitleId > Utils.MaxStackallocSize)
+					Utils.Free(nativeTitleId);
+				return result != 0;
+			}
+		}
+
+		public static bool BeginSubplots(ReadOnlySpan<char> titleId, int rows, int cols, Vector2 size, ImPlotSubplotFlags flags)
+		{
+			// defining omitted parameters
+			float* colRatios = null;
+			float* rowRatios = null;
+			// Marshaling titleId to native string
+			byte* nativeTitleId;
+			var byteCountTitleId = 0;
+			if (titleId != null)
+			{
+				byteCountTitleId = Encoding.UTF8.GetByteCount(titleId);
+				if(byteCountTitleId > Utils.MaxStackallocSize)
+				{
+					nativeTitleId = Utils.Alloc<byte>(byteCountTitleId + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountTitleId + 1];
+					nativeTitleId = stackallocBytes;
+				}
+				var offsetTitleId = Utils.EncodeStringUTF8(titleId, nativeTitleId, byteCountTitleId);
+				nativeTitleId[offsetTitleId] = 0;
+			}
+			else nativeTitleId = null;
+
+			var result = ImPlotNative.BeginSubplots(nativeTitleId, rows, cols, size, flags, rowRatios, colRatios);
+			// Freeing titleId native string
+			if (byteCountTitleId > Utils.MaxStackallocSize)
+				Utils.Free(nativeTitleId);
+			return result != 0;
+		}
+
+		public static bool BeginSubplots(ReadOnlySpan<char> titleId, int rows, int cols, Vector2 size)
+		{
+			// defining omitted parameters
+			float* colRatios = null;
+			float* rowRatios = null;
+			ImPlotSubplotFlags flags = ImPlotSubplotFlags.None;
+			// Marshaling titleId to native string
+			byte* nativeTitleId;
+			var byteCountTitleId = 0;
+			if (titleId != null)
+			{
+				byteCountTitleId = Encoding.UTF8.GetByteCount(titleId);
+				if(byteCountTitleId > Utils.MaxStackallocSize)
+				{
+					nativeTitleId = Utils.Alloc<byte>(byteCountTitleId + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountTitleId + 1];
+					nativeTitleId = stackallocBytes;
+				}
+				var offsetTitleId = Utils.EncodeStringUTF8(titleId, nativeTitleId, byteCountTitleId);
+				nativeTitleId[offsetTitleId] = 0;
+			}
+			else nativeTitleId = null;
+
+			var result = ImPlotNative.BeginSubplots(nativeTitleId, rows, cols, size, flags, rowRatios, colRatios);
+			// Freeing titleId native string
+			if (byteCountTitleId > Utils.MaxStackallocSize)
+				Utils.Free(nativeTitleId);
+			return result != 0;
 		}
 
 		public static void EndSubplots()
@@ -105,32 +295,78 @@ namespace SharpImPlot
 			ImPlotNative.EndSubplots();
 		}
 
+		public static void SetupAxis(ImAxis axis, ReadOnlySpan<byte> label, ImPlotAxisFlags flags)
+		{
+			fixed (byte* nativeLabel = label)
+			{
+				ImPlotNative.SetupAxis(axis, nativeLabel, flags);
+			}
+		}
+
 		public static void SetupAxis(ImAxis axis, ReadOnlySpan<char> label, ImPlotAxisFlags flags)
 		{
 			// Marshaling label to native string
-			byte* native_label;
-			var byteCount_label = 0;
+			byte* nativeLabel;
+			var byteCountLabel = 0;
 			if (label != null)
 			{
-				byteCount_label = Encoding.UTF8.GetByteCount(label);
-				if(byteCount_label > Utils.MaxStackallocSize)
+				byteCountLabel = Encoding.UTF8.GetByteCount(label);
+				if(byteCountLabel > Utils.MaxStackallocSize)
 				{
-					native_label = Utils.Alloc<byte>(byteCount_label + 1);
+					nativeLabel = Utils.Alloc<byte>(byteCountLabel + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_label + 1];
-					native_label = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabel + 1];
+					nativeLabel = stackallocBytes;
 				}
-				var label_offset = Utils.EncodeStringUTF8(label, native_label, byteCount_label);
-				native_label[label_offset] = 0;
+				var offsetLabel = Utils.EncodeStringUTF8(label, nativeLabel, byteCountLabel);
+				nativeLabel[offsetLabel] = 0;
 			}
-			else native_label = null;
+			else nativeLabel = null;
 
-			ImPlotNative.SetupAxis(axis, native_label, flags);
+			ImPlotNative.SetupAxis(axis, nativeLabel, flags);
 			// Freeing label native string
-			if (byteCount_label > Utils.MaxStackallocSize)
-				Utils.Free(native_label);
+			if (byteCountLabel > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabel);
+		}
+
+		public static void SetupAxis(ImAxis axis, ReadOnlySpan<char> label)
+		{
+			// defining omitted parameters
+			ImPlotAxisFlags flags = ImPlotAxisFlags.None;
+			// Marshaling label to native string
+			byte* nativeLabel;
+			var byteCountLabel = 0;
+			if (label != null)
+			{
+				byteCountLabel = Encoding.UTF8.GetByteCount(label);
+				if(byteCountLabel > Utils.MaxStackallocSize)
+				{
+					nativeLabel = Utils.Alloc<byte>(byteCountLabel + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountLabel + 1];
+					nativeLabel = stackallocBytes;
+				}
+				var offsetLabel = Utils.EncodeStringUTF8(label, nativeLabel, byteCountLabel);
+				nativeLabel[offsetLabel] = 0;
+			}
+			else nativeLabel = null;
+
+			ImPlotNative.SetupAxis(axis, nativeLabel, flags);
+			// Freeing label native string
+			if (byteCountLabel > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabel);
+		}
+
+		public static void SetupAxis(ImAxis axis)
+		{
+			// defining omitted parameters
+			ImPlotAxisFlags flags = ImPlotAxisFlags.None;
+			byte* label = null;
+			ImPlotNative.SetupAxis(axis, label, flags);
 		}
 
 		public static void SetupAxisLimits(ImAxis axis, double vMin, double vMax, ImPlotCond cond)
@@ -138,41 +374,56 @@ namespace SharpImPlot
 			ImPlotNative.SetupAxisLimits(axis, vMin, vMax, cond);
 		}
 
+		public static void SetupAxisLimits(ImAxis axis, double vMin, double vMax)
+		{
+			// defining omitted parameters
+			ImPlotCond cond = ImPlotCond.Once;
+			ImPlotNative.SetupAxisLimits(axis, vMin, vMax, cond);
+		}
+
 		public static void SetupAxisLinks(ImAxis axis, ref double linkMin, ref double linkMax)
 		{
-			fixed (double* native_linkMin = &linkMin)
-			fixed (double* native_linkMax = &linkMax)
+			fixed (double* nativeLinkMin = &linkMin)
+			fixed (double* nativeLinkMax = &linkMax)
 			{
-				ImPlotNative.SetupAxisLinks(axis, native_linkMin, native_linkMax);
+				ImPlotNative.SetupAxisLinks(axis, nativeLinkMin, nativeLinkMax);
+			}
+		}
+
+		public static void SetupAxisFormatStr(ImAxis axis, ReadOnlySpan<byte> fmt)
+		{
+			fixed (byte* nativeFmt = fmt)
+			{
+				ImPlotNative.SetupAxisFormatStr(axis, nativeFmt);
 			}
 		}
 
 		public static void SetupAxisFormatStr(ImAxis axis, ReadOnlySpan<char> fmt)
 		{
 			// Marshaling fmt to native string
-			byte* native_fmt;
-			var byteCount_fmt = 0;
+			byte* nativeFmt;
+			var byteCountFmt = 0;
 			if (fmt != null)
 			{
-				byteCount_fmt = Encoding.UTF8.GetByteCount(fmt);
-				if(byteCount_fmt > Utils.MaxStackallocSize)
+				byteCountFmt = Encoding.UTF8.GetByteCount(fmt);
+				if(byteCountFmt > Utils.MaxStackallocSize)
 				{
-					native_fmt = Utils.Alloc<byte>(byteCount_fmt + 1);
+					nativeFmt = Utils.Alloc<byte>(byteCountFmt + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_fmt + 1];
-					native_fmt = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountFmt + 1];
+					nativeFmt = stackallocBytes;
 				}
-				var fmt_offset = Utils.EncodeStringUTF8(fmt, native_fmt, byteCount_fmt);
-				native_fmt[fmt_offset] = 0;
+				var offsetFmt = Utils.EncodeStringUTF8(fmt, nativeFmt, byteCountFmt);
+				nativeFmt[offsetFmt] = 0;
 			}
-			else native_fmt = null;
+			else nativeFmt = null;
 
-			ImPlotNative.SetupAxisFormatStr(axis, native_fmt);
+			ImPlotNative.SetupAxisFormatStr(axis, nativeFmt);
 			// Freeing fmt native string
-			if (byteCount_fmt > Utils.MaxStackallocSize)
-				Utils.Free(native_fmt);
+			if (byteCountFmt > Utils.MaxStackallocSize)
+				Utils.Free(nativeFmt);
 		}
 
 		public static void SetupAxisFormatPlotFormatter(ImAxis axis, ImPlotFormatter formatter, IntPtr data)
@@ -183,19 +434,19 @@ namespace SharpImPlot
 		public static void SetupAxisTicksDoublePtr(ImAxis axis, ref double values, int nTicks, ref byte* labels, bool keepDefault)
 		{
 			var native_keepDefault = keepDefault ? (byte)1 : (byte)0;
-			fixed (double* native_values = &values)
-			fixed (byte** native_labels = &labels)
+			fixed (double* nativeValues = &values)
+			fixed (byte** nativeLabels = &labels)
 			{
-				ImPlotNative.SetupAxisTicksDoublePtr(axis, native_values, nTicks, native_labels, native_keepDefault);
+				ImPlotNative.SetupAxisTicksDoublePtr(axis, nativeValues, nTicks, nativeLabels, native_keepDefault);
 			}
 		}
 
 		public static void SetupAxisTicksDouble(ImAxis axis, double vMin, double vMax, int nTicks, ref byte* labels, bool keepDefault)
 		{
 			var native_keepDefault = keepDefault ? (byte)1 : (byte)0;
-			fixed (byte** native_labels = &labels)
+			fixed (byte** nativeLabels = &labels)
 			{
-				ImPlotNative.SetupAxisTicksDouble(axis, vMin, vMax, nTicks, native_labels, native_keepDefault);
+				ImPlotNative.SetupAxisTicksDouble(axis, vMin, vMax, nTicks, nativeLabels, native_keepDefault);
 			}
 		}
 
@@ -219,59 +470,182 @@ namespace SharpImPlot
 			ImPlotNative.SetupAxisZoomConstraints(axis, zMin, zMax);
 		}
 
+		public static void SetupAxes(ReadOnlySpan<byte> xLabel, ReadOnlySpan<byte> yLabel, ImPlotAxisFlags xFlags, ImPlotAxisFlags yFlags)
+		{
+			fixed (byte* nativeXLabel = xLabel)
+			fixed (byte* nativeYLabel = yLabel)
+			{
+				ImPlotNative.SetupAxes(nativeXLabel, nativeYLabel, xFlags, yFlags);
+			}
+		}
+
 		public static void SetupAxes(ReadOnlySpan<char> xLabel, ReadOnlySpan<char> yLabel, ImPlotAxisFlags xFlags, ImPlotAxisFlags yFlags)
 		{
 			// Marshaling xLabel to native string
-			byte* native_xLabel;
-			var byteCount_xLabel = 0;
+			byte* nativeXLabel;
+			var byteCountXLabel = 0;
 			if (xLabel != null)
 			{
-				byteCount_xLabel = Encoding.UTF8.GetByteCount(xLabel);
-				if(byteCount_xLabel > Utils.MaxStackallocSize)
+				byteCountXLabel = Encoding.UTF8.GetByteCount(xLabel);
+				if(byteCountXLabel > Utils.MaxStackallocSize)
 				{
-					native_xLabel = Utils.Alloc<byte>(byteCount_xLabel + 1);
+					nativeXLabel = Utils.Alloc<byte>(byteCountXLabel + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_xLabel + 1];
-					native_xLabel = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountXLabel + 1];
+					nativeXLabel = stackallocBytes;
 				}
-				var xLabel_offset = Utils.EncodeStringUTF8(xLabel, native_xLabel, byteCount_xLabel);
-				native_xLabel[xLabel_offset] = 0;
+				var offsetXLabel = Utils.EncodeStringUTF8(xLabel, nativeXLabel, byteCountXLabel);
+				nativeXLabel[offsetXLabel] = 0;
 			}
-			else native_xLabel = null;
+			else nativeXLabel = null;
 
 			// Marshaling yLabel to native string
-			byte* native_yLabel;
-			var byteCount_yLabel = 0;
+			byte* nativeYLabel;
+			var byteCountYLabel = 0;
 			if (yLabel != null)
 			{
-				byteCount_yLabel = Encoding.UTF8.GetByteCount(yLabel);
-				if(byteCount_yLabel > Utils.MaxStackallocSize)
+				byteCountYLabel = Encoding.UTF8.GetByteCount(yLabel);
+				if(byteCountYLabel > Utils.MaxStackallocSize)
 				{
-					native_yLabel = Utils.Alloc<byte>(byteCount_yLabel + 1);
+					nativeYLabel = Utils.Alloc<byte>(byteCountYLabel + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_yLabel + 1];
-					native_yLabel = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountYLabel + 1];
+					nativeYLabel = stackallocBytes;
 				}
-				var yLabel_offset = Utils.EncodeStringUTF8(yLabel, native_yLabel, byteCount_yLabel);
-				native_yLabel[yLabel_offset] = 0;
+				var offsetYLabel = Utils.EncodeStringUTF8(yLabel, nativeYLabel, byteCountYLabel);
+				nativeYLabel[offsetYLabel] = 0;
 			}
-			else native_yLabel = null;
+			else nativeYLabel = null;
 
-			ImPlotNative.SetupAxes(native_xLabel, native_yLabel, xFlags, yFlags);
+			ImPlotNative.SetupAxes(nativeXLabel, nativeYLabel, xFlags, yFlags);
 			// Freeing xLabel native string
-			if (byteCount_xLabel > Utils.MaxStackallocSize)
-				Utils.Free(native_xLabel);
+			if (byteCountXLabel > Utils.MaxStackallocSize)
+				Utils.Free(nativeXLabel);
 			// Freeing yLabel native string
-			if (byteCount_yLabel > Utils.MaxStackallocSize)
-				Utils.Free(native_yLabel);
+			if (byteCountYLabel > Utils.MaxStackallocSize)
+				Utils.Free(nativeYLabel);
+		}
+
+		public static void SetupAxes(ReadOnlySpan<char> xLabel, ReadOnlySpan<char> yLabel, ImPlotAxisFlags xFlags)
+		{
+			// defining omitted parameters
+			ImPlotAxisFlags yFlags = ImPlotAxisFlags.None;
+			// Marshaling xLabel to native string
+			byte* nativeXLabel;
+			var byteCountXLabel = 0;
+			if (xLabel != null)
+			{
+				byteCountXLabel = Encoding.UTF8.GetByteCount(xLabel);
+				if(byteCountXLabel > Utils.MaxStackallocSize)
+				{
+					nativeXLabel = Utils.Alloc<byte>(byteCountXLabel + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountXLabel + 1];
+					nativeXLabel = stackallocBytes;
+				}
+				var offsetXLabel = Utils.EncodeStringUTF8(xLabel, nativeXLabel, byteCountXLabel);
+				nativeXLabel[offsetXLabel] = 0;
+			}
+			else nativeXLabel = null;
+
+			// Marshaling yLabel to native string
+			byte* nativeYLabel;
+			var byteCountYLabel = 0;
+			if (yLabel != null)
+			{
+				byteCountYLabel = Encoding.UTF8.GetByteCount(yLabel);
+				if(byteCountYLabel > Utils.MaxStackallocSize)
+				{
+					nativeYLabel = Utils.Alloc<byte>(byteCountYLabel + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountYLabel + 1];
+					nativeYLabel = stackallocBytes;
+				}
+				var offsetYLabel = Utils.EncodeStringUTF8(yLabel, nativeYLabel, byteCountYLabel);
+				nativeYLabel[offsetYLabel] = 0;
+			}
+			else nativeYLabel = null;
+
+			ImPlotNative.SetupAxes(nativeXLabel, nativeYLabel, xFlags, yFlags);
+			// Freeing xLabel native string
+			if (byteCountXLabel > Utils.MaxStackallocSize)
+				Utils.Free(nativeXLabel);
+			// Freeing yLabel native string
+			if (byteCountYLabel > Utils.MaxStackallocSize)
+				Utils.Free(nativeYLabel);
+		}
+
+		public static void SetupAxes(ReadOnlySpan<char> xLabel, ReadOnlySpan<char> yLabel)
+		{
+			// defining omitted parameters
+			ImPlotAxisFlags yFlags = ImPlotAxisFlags.None;
+			ImPlotAxisFlags xFlags = ImPlotAxisFlags.None;
+			// Marshaling xLabel to native string
+			byte* nativeXLabel;
+			var byteCountXLabel = 0;
+			if (xLabel != null)
+			{
+				byteCountXLabel = Encoding.UTF8.GetByteCount(xLabel);
+				if(byteCountXLabel > Utils.MaxStackallocSize)
+				{
+					nativeXLabel = Utils.Alloc<byte>(byteCountXLabel + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountXLabel + 1];
+					nativeXLabel = stackallocBytes;
+				}
+				var offsetXLabel = Utils.EncodeStringUTF8(xLabel, nativeXLabel, byteCountXLabel);
+				nativeXLabel[offsetXLabel] = 0;
+			}
+			else nativeXLabel = null;
+
+			// Marshaling yLabel to native string
+			byte* nativeYLabel;
+			var byteCountYLabel = 0;
+			if (yLabel != null)
+			{
+				byteCountYLabel = Encoding.UTF8.GetByteCount(yLabel);
+				if(byteCountYLabel > Utils.MaxStackallocSize)
+				{
+					nativeYLabel = Utils.Alloc<byte>(byteCountYLabel + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountYLabel + 1];
+					nativeYLabel = stackallocBytes;
+				}
+				var offsetYLabel = Utils.EncodeStringUTF8(yLabel, nativeYLabel, byteCountYLabel);
+				nativeYLabel[offsetYLabel] = 0;
+			}
+			else nativeYLabel = null;
+
+			ImPlotNative.SetupAxes(nativeXLabel, nativeYLabel, xFlags, yFlags);
+			// Freeing xLabel native string
+			if (byteCountXLabel > Utils.MaxStackallocSize)
+				Utils.Free(nativeXLabel);
+			// Freeing yLabel native string
+			if (byteCountYLabel > Utils.MaxStackallocSize)
+				Utils.Free(nativeYLabel);
 		}
 
 		public static void SetupAxesLimits(double xMin, double xMax, double yMin, double yMax, ImPlotCond cond)
 		{
+			ImPlotNative.SetupAxesLimits(xMin, xMax, yMin, yMax, cond);
+		}
+
+		public static void SetupAxesLimits(double xMin, double xMax, double yMin, double yMax)
+		{
+			// defining omitted parameters
+			ImPlotCond cond = ImPlotCond.Once;
 			ImPlotNative.SetupAxesLimits(xMin, xMax, yMin, yMax, cond);
 		}
 
@@ -280,8 +654,22 @@ namespace SharpImPlot
 			ImPlotNative.SetupLegend(location, flags);
 		}
 
+		public static void SetupLegend(ImPlotLocation location)
+		{
+			// defining omitted parameters
+			ImPlotLegendFlags flags = ImPlotLegendFlags.None;
+			ImPlotNative.SetupLegend(location, flags);
+		}
+
 		public static void SetupMouseText(ImPlotLocation location, ImPlotMouseTextFlags flags)
 		{
+			ImPlotNative.SetupMouseText(location, flags);
+		}
+
+		public static void SetupMouseText(ImPlotLocation location)
+		{
+			// defining omitted parameters
+			ImPlotMouseTextFlags flags = ImPlotMouseTextFlags.None;
 			ImPlotNative.SetupMouseText(location, flags);
 		}
 
@@ -295,12 +683,19 @@ namespace SharpImPlot
 			ImPlotNative.SetNextAxisLimits(axis, vMin, vMax, cond);
 		}
 
+		public static void SetNextAxisLimits(ImAxis axis, double vMin, double vMax)
+		{
+			// defining omitted parameters
+			ImPlotCond cond = ImPlotCond.Once;
+			ImPlotNative.SetNextAxisLimits(axis, vMin, vMax, cond);
+		}
+
 		public static void SetNextAxisLinks(ImAxis axis, ref double linkMin, ref double linkMax)
 		{
-			fixed (double* native_linkMin = &linkMin)
-			fixed (double* native_linkMax = &linkMax)
+			fixed (double* nativeLinkMin = &linkMin)
+			fixed (double* nativeLinkMax = &linkMax)
 			{
-				ImPlotNative.SetNextAxisLinks(axis, native_linkMin, native_linkMax);
+				ImPlotNative.SetNextAxisLinks(axis, nativeLinkMin, nativeLinkMax);
 			}
 		}
 
@@ -314,8470 +709,10270 @@ namespace SharpImPlot
 			ImPlotNative.SetNextAxesLimits(xMin, xMax, yMin, yMax, cond);
 		}
 
+		public static void SetNextAxesLimits(double xMin, double xMax, double yMin, double yMax)
+		{
+			// defining omitted parameters
+			ImPlotCond cond = ImPlotCond.Once;
+			ImPlotNative.SetNextAxesLimits(xMin, xMax, yMin, yMax, cond);
+		}
+
 		public static void SetNextAxesToFit()
 		{
 			ImPlotNative.SetNextAxesToFit();
 		}
 
+		public static void PlotLineFloatPtrInt(ReadOnlySpan<byte> labelId, ref float values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (float* nativeValues = &values)
+			{
+				ImPlotNative.PlotLineFloatPtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
+			}
+		}
+
 		public static void PlotLineFloatPtrInt(ReadOnlySpan<char> labelId, ref float values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (float* native_values = &values)
+			fixed (float* nativeValues = &values)
 			{
-				ImPlotNative.PlotLineFloatPtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotLineFloatPtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotLineDoublePtrInt(ReadOnlySpan<byte> labelId, ref double values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (double* nativeValues = &values)
+			{
+				ImPlotNative.PlotLineDoublePtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
 		public static void PlotLineDoublePtrInt(ReadOnlySpan<char> labelId, ref double values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (double* native_values = &values)
+			fixed (double* nativeValues = &values)
 			{
-				ImPlotNative.PlotLineDoublePtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotLineDoublePtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotLineS8PtrInt(ReadOnlySpan<byte> labelId, ref sbyte values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (sbyte* nativeValues = &values)
+			{
+				ImPlotNative.PlotLineS8PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
 		public static void PlotLineS8PtrInt(ReadOnlySpan<char> labelId, ref sbyte values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (sbyte* native_values = &values)
+			fixed (sbyte* nativeValues = &values)
 			{
-				ImPlotNative.PlotLineS8PtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotLineS8PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
 		}
 
-		public static void PlotLineU8PtrInt(ReadOnlySpan<char> labelId, ReadOnlySpan<char> values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineU8PtrInt(ReadOnlySpan<byte> labelId, ref byte values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (byte* nativeValues = &values)
+			{
+				ImPlotNative.PlotLineU8PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
+			}
+		}
+
+		public static void PlotLineU8PtrInt(ReadOnlySpan<char> labelId, ref byte values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			// Marshaling values to native string
-			byte* native_values;
-			var byteCount_values = 0;
-			if (values != null)
+			fixed (byte* nativeValues = &values)
 			{
-				byteCount_values = Encoding.UTF8.GetByteCount(values);
-				if(byteCount_values > Utils.MaxStackallocSize)
-				{
-					native_values = Utils.Alloc<byte>(byteCount_values + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_values + 1];
-					native_values = stackallocBytes;
-				}
-				var values_offset = Utils.EncodeStringUTF8(values, native_values, byteCount_values);
-				native_values[values_offset] = 0;
+				ImPlotNative.PlotLineU8PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
+				// Freeing labelId native string
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
-			else native_values = null;
+		}
 
-			ImPlotNative.PlotLineU8PtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
-			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
-			// Freeing values native string
-			if (byteCount_values > Utils.MaxStackallocSize)
-				Utils.Free(native_values);
+		public static void PlotLineS16PtrInt(ReadOnlySpan<byte> labelId, ref short values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (short* nativeValues = &values)
+			{
+				ImPlotNative.PlotLineS16PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
+			}
 		}
 
 		public static void PlotLineS16PtrInt(ReadOnlySpan<char> labelId, ref short values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (short* native_values = &values)
+			fixed (short* nativeValues = &values)
 			{
-				ImPlotNative.PlotLineS16PtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotLineS16PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotLineU16PtrInt(ReadOnlySpan<byte> labelId, ref ushort values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ushort* nativeValues = &values)
+			{
+				ImPlotNative.PlotLineU16PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
 		public static void PlotLineU16PtrInt(ReadOnlySpan<char> labelId, ref ushort values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ushort* native_values = &values)
+			fixed (ushort* nativeValues = &values)
 			{
-				ImPlotNative.PlotLineU16PtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotLineU16PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotLineS32PtrInt(ReadOnlySpan<byte> labelId, ref int values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (int* nativeValues = &values)
+			{
+				ImPlotNative.PlotLineS32PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
 		public static void PlotLineS32PtrInt(ReadOnlySpan<char> labelId, ref int values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (int* native_values = &values)
+			fixed (int* nativeValues = &values)
 			{
-				ImPlotNative.PlotLineS32PtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotLineS32PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotLineU32PtrInt(ReadOnlySpan<byte> labelId, ref uint values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (uint* nativeValues = &values)
+			{
+				ImPlotNative.PlotLineU32PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
 		public static void PlotLineU32PtrInt(ReadOnlySpan<char> labelId, ref uint values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (uint* native_values = &values)
+			fixed (uint* nativeValues = &values)
 			{
-				ImPlotNative.PlotLineU32PtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotLineU32PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotLineS64PtrInt(ReadOnlySpan<byte> labelId, ref long values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (long* nativeValues = &values)
+			{
+				ImPlotNative.PlotLineS64PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
 		public static void PlotLineS64PtrInt(ReadOnlySpan<char> labelId, ref long values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (long* native_values = &values)
+			fixed (long* nativeValues = &values)
 			{
-				ImPlotNative.PlotLineS64PtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotLineS64PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotLineU64PtrInt(ReadOnlySpan<byte> labelId, ref ulong values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ulong* nativeValues = &values)
+			{
+				ImPlotNative.PlotLineU64PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
 		public static void PlotLineU64PtrInt(ReadOnlySpan<char> labelId, ref ulong values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ulong* native_values = &values)
+			fixed (ulong* nativeValues = &values)
 			{
-				ImPlotNative.PlotLineU64PtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotLineU64PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotLineFloatPtrFloatPtr(ReadOnlySpan<byte> labelId, ref float xs, ref float ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (float* nativeXs = &xs)
+			fixed (float* nativeYs = &ys)
+			{
+				ImPlotNative.PlotLineFloatPtrFloatPtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotLineFloatPtrFloatPtr(ReadOnlySpan<char> labelId, ref float xs, ref float ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (float* native_xs = &xs)
-			fixed (float* native_ys = &ys)
+			fixed (float* nativeXs = &xs)
+			fixed (float* nativeYs = &ys)
 			{
-				ImPlotNative.PlotLineFloatPtrFloatPtr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotLineFloatPtrFloatPtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotLineDoublePtrdoublePtr(ReadOnlySpan<byte> labelId, ref double xs, ref double ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (double* nativeXs = &xs)
+			fixed (double* nativeYs = &ys)
+			{
+				ImPlotNative.PlotLineDoublePtrdoublePtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotLineDoublePtrdoublePtr(ReadOnlySpan<char> labelId, ref double xs, ref double ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (double* native_xs = &xs)
-			fixed (double* native_ys = &ys)
+			fixed (double* nativeXs = &xs)
+			fixed (double* nativeYs = &ys)
 			{
-				ImPlotNative.PlotLineDoublePtrdoublePtr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotLineDoublePtrdoublePtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotLineS8PtrS8Ptr(ReadOnlySpan<byte> labelId, ref sbyte xs, ref sbyte ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (sbyte* nativeXs = &xs)
+			fixed (sbyte* nativeYs = &ys)
+			{
+				ImPlotNative.PlotLineS8PtrS8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotLineS8PtrS8Ptr(ReadOnlySpan<char> labelId, ref sbyte xs, ref sbyte ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (sbyte* native_xs = &xs)
-			fixed (sbyte* native_ys = &ys)
+			fixed (sbyte* nativeXs = &xs)
+			fixed (sbyte* nativeYs = &ys)
 			{
-				ImPlotNative.PlotLineS8PtrS8Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotLineS8PtrS8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
 		}
 
-		public static void PlotLineU8PtrU8Ptr(ReadOnlySpan<char> labelId, ReadOnlySpan<char> xs, ReadOnlySpan<char> ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineU8PtrU8Ptr(ReadOnlySpan<byte> labelId, ref byte xs, ref byte ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (byte* nativeXs = &xs)
+			fixed (byte* nativeYs = &ys)
+			{
+				ImPlotNative.PlotLineU8PtrU8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
+			}
+		}
+
+		public static void PlotLineU8PtrU8Ptr(ReadOnlySpan<char> labelId, ref byte xs, ref byte ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			// Marshaling xs to native string
-			byte* native_xs;
-			var byteCount_xs = 0;
-			if (xs != null)
+			fixed (byte* nativeXs = &xs)
+			fixed (byte* nativeYs = &ys)
 			{
-				byteCount_xs = Encoding.UTF8.GetByteCount(xs);
-				if(byteCount_xs > Utils.MaxStackallocSize)
-				{
-					native_xs = Utils.Alloc<byte>(byteCount_xs + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_xs + 1];
-					native_xs = stackallocBytes;
-				}
-				var xs_offset = Utils.EncodeStringUTF8(xs, native_xs, byteCount_xs);
-				native_xs[xs_offset] = 0;
+				ImPlotNative.PlotLineU8PtrU8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
+				// Freeing labelId native string
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
-			else native_xs = null;
+		}
 
-			// Marshaling ys to native string
-			byte* native_ys;
-			var byteCount_ys = 0;
-			if (ys != null)
+		public static void PlotLineS16PtrS16Ptr(ReadOnlySpan<byte> labelId, ref short xs, ref short ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (short* nativeXs = &xs)
+			fixed (short* nativeYs = &ys)
 			{
-				byteCount_ys = Encoding.UTF8.GetByteCount(ys);
-				if(byteCount_ys > Utils.MaxStackallocSize)
-				{
-					native_ys = Utils.Alloc<byte>(byteCount_ys + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_ys + 1];
-					native_ys = stackallocBytes;
-				}
-				var ys_offset = Utils.EncodeStringUTF8(ys, native_ys, byteCount_ys);
-				native_ys[ys_offset] = 0;
+				ImPlotNative.PlotLineS16PtrS16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
-			else native_ys = null;
-
-			ImPlotNative.PlotLineU8PtrU8Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
-			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
-			// Freeing xs native string
-			if (byteCount_xs > Utils.MaxStackallocSize)
-				Utils.Free(native_xs);
-			// Freeing ys native string
-			if (byteCount_ys > Utils.MaxStackallocSize)
-				Utils.Free(native_ys);
 		}
 
 		public static void PlotLineS16PtrS16Ptr(ReadOnlySpan<char> labelId, ref short xs, ref short ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (short* native_xs = &xs)
-			fixed (short* native_ys = &ys)
+			fixed (short* nativeXs = &xs)
+			fixed (short* nativeYs = &ys)
 			{
-				ImPlotNative.PlotLineS16PtrS16Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotLineS16PtrS16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotLineU16PtrU16Ptr(ReadOnlySpan<byte> labelId, ref ushort xs, ref ushort ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ushort* nativeXs = &xs)
+			fixed (ushort* nativeYs = &ys)
+			{
+				ImPlotNative.PlotLineU16PtrU16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotLineU16PtrU16Ptr(ReadOnlySpan<char> labelId, ref ushort xs, ref ushort ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ushort* native_xs = &xs)
-			fixed (ushort* native_ys = &ys)
+			fixed (ushort* nativeXs = &xs)
+			fixed (ushort* nativeYs = &ys)
 			{
-				ImPlotNative.PlotLineU16PtrU16Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotLineU16PtrU16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotLineS32PtrS32Ptr(ReadOnlySpan<byte> labelId, ref int xs, ref int ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (int* nativeXs = &xs)
+			fixed (int* nativeYs = &ys)
+			{
+				ImPlotNative.PlotLineS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotLineS32PtrS32Ptr(ReadOnlySpan<char> labelId, ref int xs, ref int ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (int* native_xs = &xs)
-			fixed (int* native_ys = &ys)
+			fixed (int* nativeXs = &xs)
+			fixed (int* nativeYs = &ys)
 			{
-				ImPlotNative.PlotLineS32PtrS32Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotLineS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotLineU32PtrU32Ptr(ReadOnlySpan<byte> labelId, ref uint xs, ref uint ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (uint* nativeXs = &xs)
+			fixed (uint* nativeYs = &ys)
+			{
+				ImPlotNative.PlotLineU32PtrU32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotLineU32PtrU32Ptr(ReadOnlySpan<char> labelId, ref uint xs, ref uint ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (uint* native_xs = &xs)
-			fixed (uint* native_ys = &ys)
+			fixed (uint* nativeXs = &xs)
+			fixed (uint* nativeYs = &ys)
 			{
-				ImPlotNative.PlotLineU32PtrU32Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotLineU32PtrU32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotLineS64PtrS64Ptr(ReadOnlySpan<byte> labelId, ref long xs, ref long ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (long* nativeXs = &xs)
+			fixed (long* nativeYs = &ys)
+			{
+				ImPlotNative.PlotLineS64PtrS64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotLineS64PtrS64Ptr(ReadOnlySpan<char> labelId, ref long xs, ref long ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (long* native_xs = &xs)
-			fixed (long* native_ys = &ys)
+			fixed (long* nativeXs = &xs)
+			fixed (long* nativeYs = &ys)
 			{
-				ImPlotNative.PlotLineS64PtrS64Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotLineS64PtrS64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotLineU64PtrU64Ptr(ReadOnlySpan<byte> labelId, ref ulong xs, ref ulong ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ulong* nativeXs = &xs)
+			fixed (ulong* nativeYs = &ys)
+			{
+				ImPlotNative.PlotLineU64PtrU64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotLineU64PtrU64Ptr(ReadOnlySpan<char> labelId, ref ulong xs, ref ulong ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ulong* native_xs = &xs)
-			fixed (ulong* native_ys = &ys)
+			fixed (ulong* nativeXs = &xs)
+			fixed (ulong* nativeYs = &ys)
 			{
-				ImPlotNative.PlotLineU64PtrU64Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotLineU64PtrU64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotLineG(ReadOnlySpan<byte> labelId, ImPlotPointGetter getter, IntPtr data, int count, ImPlotLineFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			{
+				ImPlotNative.PlotLineG(nativeLabelId, getter, (void*)data, count, flags);
 			}
 		}
 
 		public static void PlotLineG(ReadOnlySpan<char> labelId, ImPlotPointGetter getter, IntPtr data, int count, ImPlotLineFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			ImPlotNative.PlotLineG(native_labelId, getter, (void*)data, count, flags);
+			ImPlotNative.PlotLineG(nativeLabelId, getter, (void*)data, count, flags);
 			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+		}
+
+		public static void PlotLineG(ReadOnlySpan<char> labelId, ImPlotPointGetter getter, IntPtr data, int count)
+		{
+			// defining omitted parameters
+			ImPlotLineFlags flags = ImPlotLineFlags.None;
+			// Marshaling labelId to native string
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
+			if (labelId != null)
+			{
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
+				{
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
+				}
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
+			}
+			else nativeLabelId = null;
+
+			ImPlotNative.PlotLineG(nativeLabelId, getter, (void*)data, count, flags);
+			// Freeing labelId native string
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+		}
+
+		public static void PlotScatterFloatPtrInt(ReadOnlySpan<byte> labelId, ref float values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (float* nativeValues = &values)
+			{
+				ImPlotNative.PlotScatterFloatPtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
+			}
 		}
 
 		public static void PlotScatterFloatPtrInt(ReadOnlySpan<char> labelId, ref float values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (float* native_values = &values)
+			fixed (float* nativeValues = &values)
 			{
-				ImPlotNative.PlotScatterFloatPtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotScatterFloatPtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotScatterDoublePtrInt(ReadOnlySpan<byte> labelId, ref double values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (double* nativeValues = &values)
+			{
+				ImPlotNative.PlotScatterDoublePtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
 		public static void PlotScatterDoublePtrInt(ReadOnlySpan<char> labelId, ref double values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (double* native_values = &values)
+			fixed (double* nativeValues = &values)
 			{
-				ImPlotNative.PlotScatterDoublePtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotScatterDoublePtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotScatterS8PtrInt(ReadOnlySpan<byte> labelId, ref sbyte values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (sbyte* nativeValues = &values)
+			{
+				ImPlotNative.PlotScatterS8PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
 		public static void PlotScatterS8PtrInt(ReadOnlySpan<char> labelId, ref sbyte values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (sbyte* native_values = &values)
+			fixed (sbyte* nativeValues = &values)
 			{
-				ImPlotNative.PlotScatterS8PtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotScatterS8PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
 		}
 
-		public static void PlotScatterU8PtrInt(ReadOnlySpan<char> labelId, ReadOnlySpan<char> values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterU8PtrInt(ReadOnlySpan<byte> labelId, ref byte values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (byte* nativeValues = &values)
+			{
+				ImPlotNative.PlotScatterU8PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
+			}
+		}
+
+		public static void PlotScatterU8PtrInt(ReadOnlySpan<char> labelId, ref byte values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			// Marshaling values to native string
-			byte* native_values;
-			var byteCount_values = 0;
-			if (values != null)
+			fixed (byte* nativeValues = &values)
 			{
-				byteCount_values = Encoding.UTF8.GetByteCount(values);
-				if(byteCount_values > Utils.MaxStackallocSize)
-				{
-					native_values = Utils.Alloc<byte>(byteCount_values + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_values + 1];
-					native_values = stackallocBytes;
-				}
-				var values_offset = Utils.EncodeStringUTF8(values, native_values, byteCount_values);
-				native_values[values_offset] = 0;
+				ImPlotNative.PlotScatterU8PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
+				// Freeing labelId native string
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
-			else native_values = null;
+		}
 
-			ImPlotNative.PlotScatterU8PtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
-			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
-			// Freeing values native string
-			if (byteCount_values > Utils.MaxStackallocSize)
-				Utils.Free(native_values);
+		public static void PlotScatterS16PtrInt(ReadOnlySpan<byte> labelId, ref short values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (short* nativeValues = &values)
+			{
+				ImPlotNative.PlotScatterS16PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
+			}
 		}
 
 		public static void PlotScatterS16PtrInt(ReadOnlySpan<char> labelId, ref short values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (short* native_values = &values)
+			fixed (short* nativeValues = &values)
 			{
-				ImPlotNative.PlotScatterS16PtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotScatterS16PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotScatterU16PtrInt(ReadOnlySpan<byte> labelId, ref ushort values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ushort* nativeValues = &values)
+			{
+				ImPlotNative.PlotScatterU16PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
 		public static void PlotScatterU16PtrInt(ReadOnlySpan<char> labelId, ref ushort values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ushort* native_values = &values)
+			fixed (ushort* nativeValues = &values)
 			{
-				ImPlotNative.PlotScatterU16PtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotScatterU16PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotScatterS32PtrInt(ReadOnlySpan<byte> labelId, ref int values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (int* nativeValues = &values)
+			{
+				ImPlotNative.PlotScatterS32PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
 		public static void PlotScatterS32PtrInt(ReadOnlySpan<char> labelId, ref int values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (int* native_values = &values)
+			fixed (int* nativeValues = &values)
 			{
-				ImPlotNative.PlotScatterS32PtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotScatterS32PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotScatterU32PtrInt(ReadOnlySpan<byte> labelId, ref uint values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (uint* nativeValues = &values)
+			{
+				ImPlotNative.PlotScatterU32PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
 		public static void PlotScatterU32PtrInt(ReadOnlySpan<char> labelId, ref uint values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (uint* native_values = &values)
+			fixed (uint* nativeValues = &values)
 			{
-				ImPlotNative.PlotScatterU32PtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotScatterU32PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotScatterS64PtrInt(ReadOnlySpan<byte> labelId, ref long values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (long* nativeValues = &values)
+			{
+				ImPlotNative.PlotScatterS64PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
 		public static void PlotScatterS64PtrInt(ReadOnlySpan<char> labelId, ref long values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (long* native_values = &values)
+			fixed (long* nativeValues = &values)
 			{
-				ImPlotNative.PlotScatterS64PtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotScatterS64PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotScatterU64PtrInt(ReadOnlySpan<byte> labelId, ref ulong values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ulong* nativeValues = &values)
+			{
+				ImPlotNative.PlotScatterU64PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
 		public static void PlotScatterU64PtrInt(ReadOnlySpan<char> labelId, ref ulong values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ulong* native_values = &values)
+			fixed (ulong* nativeValues = &values)
 			{
-				ImPlotNative.PlotScatterU64PtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotScatterU64PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotScatterFloatPtrFloatPtr(ReadOnlySpan<byte> labelId, ref float xs, ref float ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (float* nativeXs = &xs)
+			fixed (float* nativeYs = &ys)
+			{
+				ImPlotNative.PlotScatterFloatPtrFloatPtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotScatterFloatPtrFloatPtr(ReadOnlySpan<char> labelId, ref float xs, ref float ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (float* native_xs = &xs)
-			fixed (float* native_ys = &ys)
+			fixed (float* nativeXs = &xs)
+			fixed (float* nativeYs = &ys)
 			{
-				ImPlotNative.PlotScatterFloatPtrFloatPtr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotScatterFloatPtrFloatPtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotScatterDoublePtrdoublePtr(ReadOnlySpan<byte> labelId, ref double xs, ref double ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (double* nativeXs = &xs)
+			fixed (double* nativeYs = &ys)
+			{
+				ImPlotNative.PlotScatterDoublePtrdoublePtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotScatterDoublePtrdoublePtr(ReadOnlySpan<char> labelId, ref double xs, ref double ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (double* native_xs = &xs)
-			fixed (double* native_ys = &ys)
+			fixed (double* nativeXs = &xs)
+			fixed (double* nativeYs = &ys)
 			{
-				ImPlotNative.PlotScatterDoublePtrdoublePtr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotScatterDoublePtrdoublePtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotScatterS8PtrS8Ptr(ReadOnlySpan<byte> labelId, ref sbyte xs, ref sbyte ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (sbyte* nativeXs = &xs)
+			fixed (sbyte* nativeYs = &ys)
+			{
+				ImPlotNative.PlotScatterS8PtrS8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotScatterS8PtrS8Ptr(ReadOnlySpan<char> labelId, ref sbyte xs, ref sbyte ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (sbyte* native_xs = &xs)
-			fixed (sbyte* native_ys = &ys)
+			fixed (sbyte* nativeXs = &xs)
+			fixed (sbyte* nativeYs = &ys)
 			{
-				ImPlotNative.PlotScatterS8PtrS8Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotScatterS8PtrS8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
 		}
 
-		public static void PlotScatterU8PtrU8Ptr(ReadOnlySpan<char> labelId, ReadOnlySpan<char> xs, ReadOnlySpan<char> ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterU8PtrU8Ptr(ReadOnlySpan<byte> labelId, ref byte xs, ref byte ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (byte* nativeXs = &xs)
+			fixed (byte* nativeYs = &ys)
+			{
+				ImPlotNative.PlotScatterU8PtrU8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
+			}
+		}
+
+		public static void PlotScatterU8PtrU8Ptr(ReadOnlySpan<char> labelId, ref byte xs, ref byte ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			// Marshaling xs to native string
-			byte* native_xs;
-			var byteCount_xs = 0;
-			if (xs != null)
+			fixed (byte* nativeXs = &xs)
+			fixed (byte* nativeYs = &ys)
 			{
-				byteCount_xs = Encoding.UTF8.GetByteCount(xs);
-				if(byteCount_xs > Utils.MaxStackallocSize)
-				{
-					native_xs = Utils.Alloc<byte>(byteCount_xs + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_xs + 1];
-					native_xs = stackallocBytes;
-				}
-				var xs_offset = Utils.EncodeStringUTF8(xs, native_xs, byteCount_xs);
-				native_xs[xs_offset] = 0;
+				ImPlotNative.PlotScatterU8PtrU8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
+				// Freeing labelId native string
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
-			else native_xs = null;
+		}
 
-			// Marshaling ys to native string
-			byte* native_ys;
-			var byteCount_ys = 0;
-			if (ys != null)
+		public static void PlotScatterS16PtrS16Ptr(ReadOnlySpan<byte> labelId, ref short xs, ref short ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (short* nativeXs = &xs)
+			fixed (short* nativeYs = &ys)
 			{
-				byteCount_ys = Encoding.UTF8.GetByteCount(ys);
-				if(byteCount_ys > Utils.MaxStackallocSize)
-				{
-					native_ys = Utils.Alloc<byte>(byteCount_ys + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_ys + 1];
-					native_ys = stackallocBytes;
-				}
-				var ys_offset = Utils.EncodeStringUTF8(ys, native_ys, byteCount_ys);
-				native_ys[ys_offset] = 0;
+				ImPlotNative.PlotScatterS16PtrS16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
-			else native_ys = null;
-
-			ImPlotNative.PlotScatterU8PtrU8Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
-			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
-			// Freeing xs native string
-			if (byteCount_xs > Utils.MaxStackallocSize)
-				Utils.Free(native_xs);
-			// Freeing ys native string
-			if (byteCount_ys > Utils.MaxStackallocSize)
-				Utils.Free(native_ys);
 		}
 
 		public static void PlotScatterS16PtrS16Ptr(ReadOnlySpan<char> labelId, ref short xs, ref short ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (short* native_xs = &xs)
-			fixed (short* native_ys = &ys)
+			fixed (short* nativeXs = &xs)
+			fixed (short* nativeYs = &ys)
 			{
-				ImPlotNative.PlotScatterS16PtrS16Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotScatterS16PtrS16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotScatterU16PtrU16Ptr(ReadOnlySpan<byte> labelId, ref ushort xs, ref ushort ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ushort* nativeXs = &xs)
+			fixed (ushort* nativeYs = &ys)
+			{
+				ImPlotNative.PlotScatterU16PtrU16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotScatterU16PtrU16Ptr(ReadOnlySpan<char> labelId, ref ushort xs, ref ushort ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ushort* native_xs = &xs)
-			fixed (ushort* native_ys = &ys)
+			fixed (ushort* nativeXs = &xs)
+			fixed (ushort* nativeYs = &ys)
 			{
-				ImPlotNative.PlotScatterU16PtrU16Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotScatterU16PtrU16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotScatterS32PtrS32Ptr(ReadOnlySpan<byte> labelId, ref int xs, ref int ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (int* nativeXs = &xs)
+			fixed (int* nativeYs = &ys)
+			{
+				ImPlotNative.PlotScatterS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotScatterS32PtrS32Ptr(ReadOnlySpan<char> labelId, ref int xs, ref int ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (int* native_xs = &xs)
-			fixed (int* native_ys = &ys)
+			fixed (int* nativeXs = &xs)
+			fixed (int* nativeYs = &ys)
 			{
-				ImPlotNative.PlotScatterS32PtrS32Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotScatterS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotScatterU32PtrU32Ptr(ReadOnlySpan<byte> labelId, ref uint xs, ref uint ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (uint* nativeXs = &xs)
+			fixed (uint* nativeYs = &ys)
+			{
+				ImPlotNative.PlotScatterU32PtrU32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotScatterU32PtrU32Ptr(ReadOnlySpan<char> labelId, ref uint xs, ref uint ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (uint* native_xs = &xs)
-			fixed (uint* native_ys = &ys)
+			fixed (uint* nativeXs = &xs)
+			fixed (uint* nativeYs = &ys)
 			{
-				ImPlotNative.PlotScatterU32PtrU32Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotScatterU32PtrU32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotScatterS64PtrS64Ptr(ReadOnlySpan<byte> labelId, ref long xs, ref long ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (long* nativeXs = &xs)
+			fixed (long* nativeYs = &ys)
+			{
+				ImPlotNative.PlotScatterS64PtrS64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotScatterS64PtrS64Ptr(ReadOnlySpan<char> labelId, ref long xs, ref long ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (long* native_xs = &xs)
-			fixed (long* native_ys = &ys)
+			fixed (long* nativeXs = &xs)
+			fixed (long* nativeYs = &ys)
 			{
-				ImPlotNative.PlotScatterS64PtrS64Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotScatterS64PtrS64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotScatterU64PtrU64Ptr(ReadOnlySpan<byte> labelId, ref ulong xs, ref ulong ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ulong* nativeXs = &xs)
+			fixed (ulong* nativeYs = &ys)
+			{
+				ImPlotNative.PlotScatterU64PtrU64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotScatterU64PtrU64Ptr(ReadOnlySpan<char> labelId, ref ulong xs, ref ulong ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ulong* native_xs = &xs)
-			fixed (ulong* native_ys = &ys)
+			fixed (ulong* nativeXs = &xs)
+			fixed (ulong* nativeYs = &ys)
 			{
-				ImPlotNative.PlotScatterU64PtrU64Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotScatterU64PtrU64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotScatterG(ReadOnlySpan<byte> labelId, ImPlotPointGetter getter, IntPtr data, int count, ImPlotScatterFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			{
+				ImPlotNative.PlotScatterG(nativeLabelId, getter, (void*)data, count, flags);
 			}
 		}
 
 		public static void PlotScatterG(ReadOnlySpan<char> labelId, ImPlotPointGetter getter, IntPtr data, int count, ImPlotScatterFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			ImPlotNative.PlotScatterG(native_labelId, getter, (void*)data, count, flags);
+			ImPlotNative.PlotScatterG(nativeLabelId, getter, (void*)data, count, flags);
 			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+		}
+
+		public static void PlotScatterG(ReadOnlySpan<char> labelId, ImPlotPointGetter getter, IntPtr data, int count)
+		{
+			// defining omitted parameters
+			ImPlotScatterFlags flags = ImPlotScatterFlags.None;
+			// Marshaling labelId to native string
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
+			if (labelId != null)
+			{
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
+				{
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
+				}
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
+			}
+			else nativeLabelId = null;
+
+			ImPlotNative.PlotScatterG(nativeLabelId, getter, (void*)data, count, flags);
+			// Freeing labelId native string
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+		}
+
+		public static void PlotStairsFloatPtrInt(ReadOnlySpan<byte> labelId, ref float values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (float* nativeValues = &values)
+			{
+				ImPlotNative.PlotStairsFloatPtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
+			}
 		}
 
 		public static void PlotStairsFloatPtrInt(ReadOnlySpan<char> labelId, ref float values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (float* native_values = &values)
+			fixed (float* nativeValues = &values)
 			{
-				ImPlotNative.PlotStairsFloatPtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotStairsFloatPtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStairsDoublePtrInt(ReadOnlySpan<byte> labelId, ref double values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (double* nativeValues = &values)
+			{
+				ImPlotNative.PlotStairsDoublePtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStairsDoublePtrInt(ReadOnlySpan<char> labelId, ref double values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (double* native_values = &values)
+			fixed (double* nativeValues = &values)
 			{
-				ImPlotNative.PlotStairsDoublePtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotStairsDoublePtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStairsS8PtrInt(ReadOnlySpan<byte> labelId, ref sbyte values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (sbyte* nativeValues = &values)
+			{
+				ImPlotNative.PlotStairsS8PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStairsS8PtrInt(ReadOnlySpan<char> labelId, ref sbyte values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (sbyte* native_values = &values)
+			fixed (sbyte* nativeValues = &values)
 			{
-				ImPlotNative.PlotStairsS8PtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotStairsS8PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
 		}
 
-		public static void PlotStairsU8PtrInt(ReadOnlySpan<char> labelId, ReadOnlySpan<char> values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsU8PtrInt(ReadOnlySpan<byte> labelId, ref byte values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (byte* nativeValues = &values)
+			{
+				ImPlotNative.PlotStairsU8PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
+			}
+		}
+
+		public static void PlotStairsU8PtrInt(ReadOnlySpan<char> labelId, ref byte values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			// Marshaling values to native string
-			byte* native_values;
-			var byteCount_values = 0;
-			if (values != null)
+			fixed (byte* nativeValues = &values)
 			{
-				byteCount_values = Encoding.UTF8.GetByteCount(values);
-				if(byteCount_values > Utils.MaxStackallocSize)
-				{
-					native_values = Utils.Alloc<byte>(byteCount_values + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_values + 1];
-					native_values = stackallocBytes;
-				}
-				var values_offset = Utils.EncodeStringUTF8(values, native_values, byteCount_values);
-				native_values[values_offset] = 0;
+				ImPlotNative.PlotStairsU8PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
+				// Freeing labelId native string
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
-			else native_values = null;
+		}
 
-			ImPlotNative.PlotStairsU8PtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
-			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
-			// Freeing values native string
-			if (byteCount_values > Utils.MaxStackallocSize)
-				Utils.Free(native_values);
+		public static void PlotStairsS16PtrInt(ReadOnlySpan<byte> labelId, ref short values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (short* nativeValues = &values)
+			{
+				ImPlotNative.PlotStairsS16PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
+			}
 		}
 
 		public static void PlotStairsS16PtrInt(ReadOnlySpan<char> labelId, ref short values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (short* native_values = &values)
+			fixed (short* nativeValues = &values)
 			{
-				ImPlotNative.PlotStairsS16PtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotStairsS16PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStairsU16PtrInt(ReadOnlySpan<byte> labelId, ref ushort values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ushort* nativeValues = &values)
+			{
+				ImPlotNative.PlotStairsU16PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStairsU16PtrInt(ReadOnlySpan<char> labelId, ref ushort values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ushort* native_values = &values)
+			fixed (ushort* nativeValues = &values)
 			{
-				ImPlotNative.PlotStairsU16PtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotStairsU16PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStairsS32PtrInt(ReadOnlySpan<byte> labelId, ref int values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (int* nativeValues = &values)
+			{
+				ImPlotNative.PlotStairsS32PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStairsS32PtrInt(ReadOnlySpan<char> labelId, ref int values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (int* native_values = &values)
+			fixed (int* nativeValues = &values)
 			{
-				ImPlotNative.PlotStairsS32PtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotStairsS32PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStairsU32PtrInt(ReadOnlySpan<byte> labelId, ref uint values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (uint* nativeValues = &values)
+			{
+				ImPlotNative.PlotStairsU32PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStairsU32PtrInt(ReadOnlySpan<char> labelId, ref uint values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (uint* native_values = &values)
+			fixed (uint* nativeValues = &values)
 			{
-				ImPlotNative.PlotStairsU32PtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotStairsU32PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStairsS64PtrInt(ReadOnlySpan<byte> labelId, ref long values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (long* nativeValues = &values)
+			{
+				ImPlotNative.PlotStairsS64PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStairsS64PtrInt(ReadOnlySpan<char> labelId, ref long values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (long* native_values = &values)
+			fixed (long* nativeValues = &values)
 			{
-				ImPlotNative.PlotStairsS64PtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotStairsS64PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStairsU64PtrInt(ReadOnlySpan<byte> labelId, ref ulong values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ulong* nativeValues = &values)
+			{
+				ImPlotNative.PlotStairsU64PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStairsU64PtrInt(ReadOnlySpan<char> labelId, ref ulong values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ulong* native_values = &values)
+			fixed (ulong* nativeValues = &values)
 			{
-				ImPlotNative.PlotStairsU64PtrInt(native_labelId, native_values, count, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotStairsU64PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStairsFloatPtrFloatPtr(ReadOnlySpan<byte> labelId, ref float xs, ref float ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (float* nativeXs = &xs)
+			fixed (float* nativeYs = &ys)
+			{
+				ImPlotNative.PlotStairsFloatPtrFloatPtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStairsFloatPtrFloatPtr(ReadOnlySpan<char> labelId, ref float xs, ref float ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (float* native_xs = &xs)
-			fixed (float* native_ys = &ys)
+			fixed (float* nativeXs = &xs)
+			fixed (float* nativeYs = &ys)
 			{
-				ImPlotNative.PlotStairsFloatPtrFloatPtr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotStairsFloatPtrFloatPtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStairsDoublePtrdoublePtr(ReadOnlySpan<byte> labelId, ref double xs, ref double ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (double* nativeXs = &xs)
+			fixed (double* nativeYs = &ys)
+			{
+				ImPlotNative.PlotStairsDoublePtrdoublePtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStairsDoublePtrdoublePtr(ReadOnlySpan<char> labelId, ref double xs, ref double ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (double* native_xs = &xs)
-			fixed (double* native_ys = &ys)
+			fixed (double* nativeXs = &xs)
+			fixed (double* nativeYs = &ys)
 			{
-				ImPlotNative.PlotStairsDoublePtrdoublePtr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotStairsDoublePtrdoublePtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStairsS8PtrS8Ptr(ReadOnlySpan<byte> labelId, ref sbyte xs, ref sbyte ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (sbyte* nativeXs = &xs)
+			fixed (sbyte* nativeYs = &ys)
+			{
+				ImPlotNative.PlotStairsS8PtrS8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStairsS8PtrS8Ptr(ReadOnlySpan<char> labelId, ref sbyte xs, ref sbyte ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (sbyte* native_xs = &xs)
-			fixed (sbyte* native_ys = &ys)
+			fixed (sbyte* nativeXs = &xs)
+			fixed (sbyte* nativeYs = &ys)
 			{
-				ImPlotNative.PlotStairsS8PtrS8Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotStairsS8PtrS8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
 		}
 
-		public static void PlotStairsU8PtrU8Ptr(ReadOnlySpan<char> labelId, ReadOnlySpan<char> xs, ReadOnlySpan<char> ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsU8PtrU8Ptr(ReadOnlySpan<byte> labelId, ref byte xs, ref byte ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (byte* nativeXs = &xs)
+			fixed (byte* nativeYs = &ys)
+			{
+				ImPlotNative.PlotStairsU8PtrU8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
+			}
+		}
+
+		public static void PlotStairsU8PtrU8Ptr(ReadOnlySpan<char> labelId, ref byte xs, ref byte ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			// Marshaling xs to native string
-			byte* native_xs;
-			var byteCount_xs = 0;
-			if (xs != null)
+			fixed (byte* nativeXs = &xs)
+			fixed (byte* nativeYs = &ys)
 			{
-				byteCount_xs = Encoding.UTF8.GetByteCount(xs);
-				if(byteCount_xs > Utils.MaxStackallocSize)
-				{
-					native_xs = Utils.Alloc<byte>(byteCount_xs + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_xs + 1];
-					native_xs = stackallocBytes;
-				}
-				var xs_offset = Utils.EncodeStringUTF8(xs, native_xs, byteCount_xs);
-				native_xs[xs_offset] = 0;
+				ImPlotNative.PlotStairsU8PtrU8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
+				// Freeing labelId native string
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
-			else native_xs = null;
+		}
 
-			// Marshaling ys to native string
-			byte* native_ys;
-			var byteCount_ys = 0;
-			if (ys != null)
+		public static void PlotStairsS16PtrS16Ptr(ReadOnlySpan<byte> labelId, ref short xs, ref short ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (short* nativeXs = &xs)
+			fixed (short* nativeYs = &ys)
 			{
-				byteCount_ys = Encoding.UTF8.GetByteCount(ys);
-				if(byteCount_ys > Utils.MaxStackallocSize)
-				{
-					native_ys = Utils.Alloc<byte>(byteCount_ys + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_ys + 1];
-					native_ys = stackallocBytes;
-				}
-				var ys_offset = Utils.EncodeStringUTF8(ys, native_ys, byteCount_ys);
-				native_ys[ys_offset] = 0;
+				ImPlotNative.PlotStairsS16PtrS16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
-			else native_ys = null;
-
-			ImPlotNative.PlotStairsU8PtrU8Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
-			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
-			// Freeing xs native string
-			if (byteCount_xs > Utils.MaxStackallocSize)
-				Utils.Free(native_xs);
-			// Freeing ys native string
-			if (byteCount_ys > Utils.MaxStackallocSize)
-				Utils.Free(native_ys);
 		}
 
 		public static void PlotStairsS16PtrS16Ptr(ReadOnlySpan<char> labelId, ref short xs, ref short ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (short* native_xs = &xs)
-			fixed (short* native_ys = &ys)
+			fixed (short* nativeXs = &xs)
+			fixed (short* nativeYs = &ys)
 			{
-				ImPlotNative.PlotStairsS16PtrS16Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotStairsS16PtrS16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStairsU16PtrU16Ptr(ReadOnlySpan<byte> labelId, ref ushort xs, ref ushort ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ushort* nativeXs = &xs)
+			fixed (ushort* nativeYs = &ys)
+			{
+				ImPlotNative.PlotStairsU16PtrU16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStairsU16PtrU16Ptr(ReadOnlySpan<char> labelId, ref ushort xs, ref ushort ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ushort* native_xs = &xs)
-			fixed (ushort* native_ys = &ys)
+			fixed (ushort* nativeXs = &xs)
+			fixed (ushort* nativeYs = &ys)
 			{
-				ImPlotNative.PlotStairsU16PtrU16Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotStairsU16PtrU16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStairsS32PtrS32Ptr(ReadOnlySpan<byte> labelId, ref int xs, ref int ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (int* nativeXs = &xs)
+			fixed (int* nativeYs = &ys)
+			{
+				ImPlotNative.PlotStairsS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStairsS32PtrS32Ptr(ReadOnlySpan<char> labelId, ref int xs, ref int ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (int* native_xs = &xs)
-			fixed (int* native_ys = &ys)
+			fixed (int* nativeXs = &xs)
+			fixed (int* nativeYs = &ys)
 			{
-				ImPlotNative.PlotStairsS32PtrS32Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotStairsS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStairsU32PtrU32Ptr(ReadOnlySpan<byte> labelId, ref uint xs, ref uint ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (uint* nativeXs = &xs)
+			fixed (uint* nativeYs = &ys)
+			{
+				ImPlotNative.PlotStairsU32PtrU32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStairsU32PtrU32Ptr(ReadOnlySpan<char> labelId, ref uint xs, ref uint ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (uint* native_xs = &xs)
-			fixed (uint* native_ys = &ys)
+			fixed (uint* nativeXs = &xs)
+			fixed (uint* nativeYs = &ys)
 			{
-				ImPlotNative.PlotStairsU32PtrU32Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotStairsU32PtrU32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStairsS64PtrS64Ptr(ReadOnlySpan<byte> labelId, ref long xs, ref long ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (long* nativeXs = &xs)
+			fixed (long* nativeYs = &ys)
+			{
+				ImPlotNative.PlotStairsS64PtrS64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStairsS64PtrS64Ptr(ReadOnlySpan<char> labelId, ref long xs, ref long ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (long* native_xs = &xs)
-			fixed (long* native_ys = &ys)
+			fixed (long* nativeXs = &xs)
+			fixed (long* nativeYs = &ys)
 			{
-				ImPlotNative.PlotStairsS64PtrS64Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotStairsS64PtrS64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStairsU64PtrU64Ptr(ReadOnlySpan<byte> labelId, ref ulong xs, ref ulong ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ulong* nativeXs = &xs)
+			fixed (ulong* nativeYs = &ys)
+			{
+				ImPlotNative.PlotStairsU64PtrU64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStairsU64PtrU64Ptr(ReadOnlySpan<char> labelId, ref ulong xs, ref ulong ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ulong* native_xs = &xs)
-			fixed (ulong* native_ys = &ys)
+			fixed (ulong* nativeXs = &xs)
+			fixed (ulong* nativeYs = &ys)
 			{
-				ImPlotNative.PlotStairsU64PtrU64Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotStairsU64PtrU64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStairsG(ReadOnlySpan<byte> labelId, ImPlotPointGetter getter, IntPtr data, int count, ImPlotStairsFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			{
+				ImPlotNative.PlotStairsG(nativeLabelId, getter, (void*)data, count, flags);
 			}
 		}
 
 		public static void PlotStairsG(ReadOnlySpan<char> labelId, ImPlotPointGetter getter, IntPtr data, int count, ImPlotStairsFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			ImPlotNative.PlotStairsG(native_labelId, getter, (void*)data, count, flags);
+			ImPlotNative.PlotStairsG(nativeLabelId, getter, (void*)data, count, flags);
 			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+		}
+
+		public static void PlotStairsG(ReadOnlySpan<char> labelId, ImPlotPointGetter getter, IntPtr data, int count)
+		{
+			// defining omitted parameters
+			ImPlotStairsFlags flags = ImPlotStairsFlags.None;
+			// Marshaling labelId to native string
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
+			if (labelId != null)
+			{
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
+				{
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
+				}
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
+			}
+			else nativeLabelId = null;
+
+			ImPlotNative.PlotStairsG(nativeLabelId, getter, (void*)data, count, flags);
+			// Freeing labelId native string
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+		}
+
+		public static void PlotShadedFloatPtrInt(ReadOnlySpan<byte> labelId, ref float values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (float* nativeValues = &values)
+			{
+				ImPlotNative.PlotShadedFloatPtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
+			}
 		}
 
 		public static void PlotShadedFloatPtrInt(ReadOnlySpan<char> labelId, ref float values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (float* native_values = &values)
+			fixed (float* nativeValues = &values)
 			{
-				ImPlotNative.PlotShadedFloatPtrInt(native_labelId, native_values, count, yref, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotShadedFloatPtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotShadedDoublePtrInt(ReadOnlySpan<byte> labelId, ref double values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (double* nativeValues = &values)
+			{
+				ImPlotNative.PlotShadedDoublePtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 			}
 		}
 
 		public static void PlotShadedDoublePtrInt(ReadOnlySpan<char> labelId, ref double values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (double* native_values = &values)
+			fixed (double* nativeValues = &values)
 			{
-				ImPlotNative.PlotShadedDoublePtrInt(native_labelId, native_values, count, yref, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotShadedDoublePtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotShadedS8PtrInt(ReadOnlySpan<byte> labelId, ref sbyte values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (sbyte* nativeValues = &values)
+			{
+				ImPlotNative.PlotShadedS8PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 			}
 		}
 
 		public static void PlotShadedS8PtrInt(ReadOnlySpan<char> labelId, ref sbyte values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (sbyte* native_values = &values)
+			fixed (sbyte* nativeValues = &values)
 			{
-				ImPlotNative.PlotShadedS8PtrInt(native_labelId, native_values, count, yref, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotShadedS8PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
 		}
 
-		public static void PlotShadedU8PtrInt(ReadOnlySpan<char> labelId, ReadOnlySpan<char> values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedU8PtrInt(ReadOnlySpan<byte> labelId, ref byte values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (byte* nativeValues = &values)
+			{
+				ImPlotNative.PlotShadedU8PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
+			}
+		}
+
+		public static void PlotShadedU8PtrInt(ReadOnlySpan<char> labelId, ref byte values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			// Marshaling values to native string
-			byte* native_values;
-			var byteCount_values = 0;
-			if (values != null)
+			fixed (byte* nativeValues = &values)
 			{
-				byteCount_values = Encoding.UTF8.GetByteCount(values);
-				if(byteCount_values > Utils.MaxStackallocSize)
-				{
-					native_values = Utils.Alloc<byte>(byteCount_values + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_values + 1];
-					native_values = stackallocBytes;
-				}
-				var values_offset = Utils.EncodeStringUTF8(values, native_values, byteCount_values);
-				native_values[values_offset] = 0;
+				ImPlotNative.PlotShadedU8PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
+				// Freeing labelId native string
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
-			else native_values = null;
+		}
 
-			ImPlotNative.PlotShadedU8PtrInt(native_labelId, native_values, count, yref, xscale, xstart, flags, offset, stride);
-			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
-			// Freeing values native string
-			if (byteCount_values > Utils.MaxStackallocSize)
-				Utils.Free(native_values);
+		public static void PlotShadedS16PtrInt(ReadOnlySpan<byte> labelId, ref short values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (short* nativeValues = &values)
+			{
+				ImPlotNative.PlotShadedS16PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
+			}
 		}
 
 		public static void PlotShadedS16PtrInt(ReadOnlySpan<char> labelId, ref short values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (short* native_values = &values)
+			fixed (short* nativeValues = &values)
 			{
-				ImPlotNative.PlotShadedS16PtrInt(native_labelId, native_values, count, yref, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotShadedS16PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotShadedU16PtrInt(ReadOnlySpan<byte> labelId, ref ushort values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ushort* nativeValues = &values)
+			{
+				ImPlotNative.PlotShadedU16PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 			}
 		}
 
 		public static void PlotShadedU16PtrInt(ReadOnlySpan<char> labelId, ref ushort values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ushort* native_values = &values)
+			fixed (ushort* nativeValues = &values)
 			{
-				ImPlotNative.PlotShadedU16PtrInt(native_labelId, native_values, count, yref, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotShadedU16PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotShadedS32PtrInt(ReadOnlySpan<byte> labelId, ref int values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (int* nativeValues = &values)
+			{
+				ImPlotNative.PlotShadedS32PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 			}
 		}
 
 		public static void PlotShadedS32PtrInt(ReadOnlySpan<char> labelId, ref int values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (int* native_values = &values)
+			fixed (int* nativeValues = &values)
 			{
-				ImPlotNative.PlotShadedS32PtrInt(native_labelId, native_values, count, yref, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotShadedS32PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotShadedU32PtrInt(ReadOnlySpan<byte> labelId, ref uint values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (uint* nativeValues = &values)
+			{
+				ImPlotNative.PlotShadedU32PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 			}
 		}
 
 		public static void PlotShadedU32PtrInt(ReadOnlySpan<char> labelId, ref uint values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (uint* native_values = &values)
+			fixed (uint* nativeValues = &values)
 			{
-				ImPlotNative.PlotShadedU32PtrInt(native_labelId, native_values, count, yref, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotShadedU32PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotShadedS64PtrInt(ReadOnlySpan<byte> labelId, ref long values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (long* nativeValues = &values)
+			{
+				ImPlotNative.PlotShadedS64PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 			}
 		}
 
 		public static void PlotShadedS64PtrInt(ReadOnlySpan<char> labelId, ref long values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (long* native_values = &values)
+			fixed (long* nativeValues = &values)
 			{
-				ImPlotNative.PlotShadedS64PtrInt(native_labelId, native_values, count, yref, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotShadedS64PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotShadedU64PtrInt(ReadOnlySpan<byte> labelId, ref ulong values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ulong* nativeValues = &values)
+			{
+				ImPlotNative.PlotShadedU64PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 			}
 		}
 
 		public static void PlotShadedU64PtrInt(ReadOnlySpan<char> labelId, ref ulong values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ulong* native_values = &values)
+			fixed (ulong* nativeValues = &values)
 			{
-				ImPlotNative.PlotShadedU64PtrInt(native_labelId, native_values, count, yref, xscale, xstart, flags, offset, stride);
+				ImPlotNative.PlotShadedU64PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotShadedFloatPtrFloatPtrInt(ReadOnlySpan<byte> labelId, ref float xs, ref float ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (float* nativeXs = &xs)
+			fixed (float* nativeYs = &ys)
+			{
+				ImPlotNative.PlotShadedFloatPtrFloatPtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 			}
 		}
 
 		public static void PlotShadedFloatPtrFloatPtrInt(ReadOnlySpan<char> labelId, ref float xs, ref float ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (float* native_xs = &xs)
-			fixed (float* native_ys = &ys)
+			fixed (float* nativeXs = &xs)
+			fixed (float* nativeYs = &ys)
 			{
-				ImPlotNative.PlotShadedFloatPtrFloatPtrInt(native_labelId, native_xs, native_ys, count, yref, flags, offset, stride);
+				ImPlotNative.PlotShadedFloatPtrFloatPtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotShadedDoublePtrdoublePtrInt(ReadOnlySpan<byte> labelId, ref double xs, ref double ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (double* nativeXs = &xs)
+			fixed (double* nativeYs = &ys)
+			{
+				ImPlotNative.PlotShadedDoublePtrdoublePtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 			}
 		}
 
 		public static void PlotShadedDoublePtrdoublePtrInt(ReadOnlySpan<char> labelId, ref double xs, ref double ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (double* native_xs = &xs)
-			fixed (double* native_ys = &ys)
+			fixed (double* nativeXs = &xs)
+			fixed (double* nativeYs = &ys)
 			{
-				ImPlotNative.PlotShadedDoublePtrdoublePtrInt(native_labelId, native_xs, native_ys, count, yref, flags, offset, stride);
+				ImPlotNative.PlotShadedDoublePtrdoublePtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotShadedS8PtrS8PtrInt(ReadOnlySpan<byte> labelId, ref sbyte xs, ref sbyte ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (sbyte* nativeXs = &xs)
+			fixed (sbyte* nativeYs = &ys)
+			{
+				ImPlotNative.PlotShadedS8PtrS8PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 			}
 		}
 
 		public static void PlotShadedS8PtrS8PtrInt(ReadOnlySpan<char> labelId, ref sbyte xs, ref sbyte ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (sbyte* native_xs = &xs)
-			fixed (sbyte* native_ys = &ys)
+			fixed (sbyte* nativeXs = &xs)
+			fixed (sbyte* nativeYs = &ys)
 			{
-				ImPlotNative.PlotShadedS8PtrS8PtrInt(native_labelId, native_xs, native_ys, count, yref, flags, offset, stride);
+				ImPlotNative.PlotShadedS8PtrS8PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
 		}
 
-		public static void PlotShadedU8PtrU8PtrInt(ReadOnlySpan<char> labelId, ReadOnlySpan<char> xs, ReadOnlySpan<char> ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedU8PtrU8PtrInt(ReadOnlySpan<byte> labelId, ref byte xs, ref byte ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (byte* nativeXs = &xs)
+			fixed (byte* nativeYs = &ys)
+			{
+				ImPlotNative.PlotShadedU8PtrU8PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
+			}
+		}
+
+		public static void PlotShadedU8PtrU8PtrInt(ReadOnlySpan<char> labelId, ref byte xs, ref byte ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			// Marshaling xs to native string
-			byte* native_xs;
-			var byteCount_xs = 0;
-			if (xs != null)
+			fixed (byte* nativeXs = &xs)
+			fixed (byte* nativeYs = &ys)
 			{
-				byteCount_xs = Encoding.UTF8.GetByteCount(xs);
-				if(byteCount_xs > Utils.MaxStackallocSize)
-				{
-					native_xs = Utils.Alloc<byte>(byteCount_xs + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_xs + 1];
-					native_xs = stackallocBytes;
-				}
-				var xs_offset = Utils.EncodeStringUTF8(xs, native_xs, byteCount_xs);
-				native_xs[xs_offset] = 0;
+				ImPlotNative.PlotShadedU8PtrU8PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
+				// Freeing labelId native string
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
-			else native_xs = null;
+		}
 
-			// Marshaling ys to native string
-			byte* native_ys;
-			var byteCount_ys = 0;
-			if (ys != null)
+		public static void PlotShadedS16PtrS16PtrInt(ReadOnlySpan<byte> labelId, ref short xs, ref short ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (short* nativeXs = &xs)
+			fixed (short* nativeYs = &ys)
 			{
-				byteCount_ys = Encoding.UTF8.GetByteCount(ys);
-				if(byteCount_ys > Utils.MaxStackallocSize)
-				{
-					native_ys = Utils.Alloc<byte>(byteCount_ys + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_ys + 1];
-					native_ys = stackallocBytes;
-				}
-				var ys_offset = Utils.EncodeStringUTF8(ys, native_ys, byteCount_ys);
-				native_ys[ys_offset] = 0;
+				ImPlotNative.PlotShadedS16PtrS16PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 			}
-			else native_ys = null;
-
-			ImPlotNative.PlotShadedU8PtrU8PtrInt(native_labelId, native_xs, native_ys, count, yref, flags, offset, stride);
-			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
-			// Freeing xs native string
-			if (byteCount_xs > Utils.MaxStackallocSize)
-				Utils.Free(native_xs);
-			// Freeing ys native string
-			if (byteCount_ys > Utils.MaxStackallocSize)
-				Utils.Free(native_ys);
 		}
 
 		public static void PlotShadedS16PtrS16PtrInt(ReadOnlySpan<char> labelId, ref short xs, ref short ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (short* native_xs = &xs)
-			fixed (short* native_ys = &ys)
+			fixed (short* nativeXs = &xs)
+			fixed (short* nativeYs = &ys)
 			{
-				ImPlotNative.PlotShadedS16PtrS16PtrInt(native_labelId, native_xs, native_ys, count, yref, flags, offset, stride);
+				ImPlotNative.PlotShadedS16PtrS16PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotShadedU16PtrU16PtrInt(ReadOnlySpan<byte> labelId, ref ushort xs, ref ushort ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ushort* nativeXs = &xs)
+			fixed (ushort* nativeYs = &ys)
+			{
+				ImPlotNative.PlotShadedU16PtrU16PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 			}
 		}
 
 		public static void PlotShadedU16PtrU16PtrInt(ReadOnlySpan<char> labelId, ref ushort xs, ref ushort ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ushort* native_xs = &xs)
-			fixed (ushort* native_ys = &ys)
+			fixed (ushort* nativeXs = &xs)
+			fixed (ushort* nativeYs = &ys)
 			{
-				ImPlotNative.PlotShadedU16PtrU16PtrInt(native_labelId, native_xs, native_ys, count, yref, flags, offset, stride);
+				ImPlotNative.PlotShadedU16PtrU16PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotShadedS32PtrS32PtrInt(ReadOnlySpan<byte> labelId, ref int xs, ref int ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (int* nativeXs = &xs)
+			fixed (int* nativeYs = &ys)
+			{
+				ImPlotNative.PlotShadedS32PtrS32PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 			}
 		}
 
 		public static void PlotShadedS32PtrS32PtrInt(ReadOnlySpan<char> labelId, ref int xs, ref int ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (int* native_xs = &xs)
-			fixed (int* native_ys = &ys)
+			fixed (int* nativeXs = &xs)
+			fixed (int* nativeYs = &ys)
 			{
-				ImPlotNative.PlotShadedS32PtrS32PtrInt(native_labelId, native_xs, native_ys, count, yref, flags, offset, stride);
+				ImPlotNative.PlotShadedS32PtrS32PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotShadedU32PtrU32PtrInt(ReadOnlySpan<byte> labelId, ref uint xs, ref uint ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (uint* nativeXs = &xs)
+			fixed (uint* nativeYs = &ys)
+			{
+				ImPlotNative.PlotShadedU32PtrU32PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 			}
 		}
 
 		public static void PlotShadedU32PtrU32PtrInt(ReadOnlySpan<char> labelId, ref uint xs, ref uint ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (uint* native_xs = &xs)
-			fixed (uint* native_ys = &ys)
+			fixed (uint* nativeXs = &xs)
+			fixed (uint* nativeYs = &ys)
 			{
-				ImPlotNative.PlotShadedU32PtrU32PtrInt(native_labelId, native_xs, native_ys, count, yref, flags, offset, stride);
+				ImPlotNative.PlotShadedU32PtrU32PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotShadedS64PtrS64PtrInt(ReadOnlySpan<byte> labelId, ref long xs, ref long ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (long* nativeXs = &xs)
+			fixed (long* nativeYs = &ys)
+			{
+				ImPlotNative.PlotShadedS64PtrS64PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 			}
 		}
 
 		public static void PlotShadedS64PtrS64PtrInt(ReadOnlySpan<char> labelId, ref long xs, ref long ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (long* native_xs = &xs)
-			fixed (long* native_ys = &ys)
+			fixed (long* nativeXs = &xs)
+			fixed (long* nativeYs = &ys)
 			{
-				ImPlotNative.PlotShadedS64PtrS64PtrInt(native_labelId, native_xs, native_ys, count, yref, flags, offset, stride);
+				ImPlotNative.PlotShadedS64PtrS64PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotShadedU64PtrU64PtrInt(ReadOnlySpan<byte> labelId, ref ulong xs, ref ulong ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ulong* nativeXs = &xs)
+			fixed (ulong* nativeYs = &ys)
+			{
+				ImPlotNative.PlotShadedU64PtrU64PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 			}
 		}
 
 		public static void PlotShadedU64PtrU64PtrInt(ReadOnlySpan<char> labelId, ref ulong xs, ref ulong ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ulong* native_xs = &xs)
-			fixed (ulong* native_ys = &ys)
+			fixed (ulong* nativeXs = &xs)
+			fixed (ulong* nativeYs = &ys)
 			{
-				ImPlotNative.PlotShadedU64PtrU64PtrInt(native_labelId, native_xs, native_ys, count, yref, flags, offset, stride);
+				ImPlotNative.PlotShadedU64PtrU64PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotShadedFloatPtrFloatPtrFloatPtr(ReadOnlySpan<byte> labelId, ref float xs, ref float ys1, ref float ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (float* nativeXs = &xs)
+			fixed (float* nativeYs1 = &ys1)
+			fixed (float* nativeYs2 = &ys2)
+			{
+				ImPlotNative.PlotShadedFloatPtrFloatPtrFloatPtr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotShadedFloatPtrFloatPtrFloatPtr(ReadOnlySpan<char> labelId, ref float xs, ref float ys1, ref float ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (float* native_xs = &xs)
-			fixed (float* native_ys1 = &ys1)
-			fixed (float* native_ys2 = &ys2)
+			fixed (float* nativeXs = &xs)
+			fixed (float* nativeYs1 = &ys1)
+			fixed (float* nativeYs2 = &ys2)
 			{
-				ImPlotNative.PlotShadedFloatPtrFloatPtrFloatPtr(native_labelId, native_xs, native_ys1, native_ys2, count, flags, offset, stride);
+				ImPlotNative.PlotShadedFloatPtrFloatPtrFloatPtr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotShadedDoublePtrdoublePtrdoublePtr(ReadOnlySpan<byte> labelId, ref double xs, ref double ys1, ref double ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (double* nativeXs = &xs)
+			fixed (double* nativeYs1 = &ys1)
+			fixed (double* nativeYs2 = &ys2)
+			{
+				ImPlotNative.PlotShadedDoublePtrdoublePtrdoublePtr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotShadedDoublePtrdoublePtrdoublePtr(ReadOnlySpan<char> labelId, ref double xs, ref double ys1, ref double ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (double* native_xs = &xs)
-			fixed (double* native_ys1 = &ys1)
-			fixed (double* native_ys2 = &ys2)
+			fixed (double* nativeXs = &xs)
+			fixed (double* nativeYs1 = &ys1)
+			fixed (double* nativeYs2 = &ys2)
 			{
-				ImPlotNative.PlotShadedDoublePtrdoublePtrdoublePtr(native_labelId, native_xs, native_ys1, native_ys2, count, flags, offset, stride);
+				ImPlotNative.PlotShadedDoublePtrdoublePtrdoublePtr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotShadedS8PtrS8PtrS8Ptr(ReadOnlySpan<byte> labelId, ref sbyte xs, ref sbyte ys1, ref sbyte ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (sbyte* nativeXs = &xs)
+			fixed (sbyte* nativeYs1 = &ys1)
+			fixed (sbyte* nativeYs2 = &ys2)
+			{
+				ImPlotNative.PlotShadedS8PtrS8PtrS8Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotShadedS8PtrS8PtrS8Ptr(ReadOnlySpan<char> labelId, ref sbyte xs, ref sbyte ys1, ref sbyte ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (sbyte* native_xs = &xs)
-			fixed (sbyte* native_ys1 = &ys1)
-			fixed (sbyte* native_ys2 = &ys2)
+			fixed (sbyte* nativeXs = &xs)
+			fixed (sbyte* nativeYs1 = &ys1)
+			fixed (sbyte* nativeYs2 = &ys2)
 			{
-				ImPlotNative.PlotShadedS8PtrS8PtrS8Ptr(native_labelId, native_xs, native_ys1, native_ys2, count, flags, offset, stride);
+				ImPlotNative.PlotShadedS8PtrS8PtrS8Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
 		}
 
-		public static void PlotShadedU8PtrU8PtrU8Ptr(ReadOnlySpan<char> labelId, ReadOnlySpan<char> xs, ReadOnlySpan<char> ys1, ReadOnlySpan<char> ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedU8PtrU8PtrU8Ptr(ReadOnlySpan<byte> labelId, ref byte xs, ref byte ys1, ref byte ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (byte* nativeXs = &xs)
+			fixed (byte* nativeYs1 = &ys1)
+			fixed (byte* nativeYs2 = &ys2)
+			{
+				ImPlotNative.PlotShadedU8PtrU8PtrU8Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
+			}
+		}
+
+		public static void PlotShadedU8PtrU8PtrU8Ptr(ReadOnlySpan<char> labelId, ref byte xs, ref byte ys1, ref byte ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			// Marshaling xs to native string
-			byte* native_xs;
-			var byteCount_xs = 0;
-			if (xs != null)
+			fixed (byte* nativeXs = &xs)
+			fixed (byte* nativeYs1 = &ys1)
+			fixed (byte* nativeYs2 = &ys2)
 			{
-				byteCount_xs = Encoding.UTF8.GetByteCount(xs);
-				if(byteCount_xs > Utils.MaxStackallocSize)
-				{
-					native_xs = Utils.Alloc<byte>(byteCount_xs + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_xs + 1];
-					native_xs = stackallocBytes;
-				}
-				var xs_offset = Utils.EncodeStringUTF8(xs, native_xs, byteCount_xs);
-				native_xs[xs_offset] = 0;
+				ImPlotNative.PlotShadedU8PtrU8PtrU8Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
+				// Freeing labelId native string
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
-			else native_xs = null;
+		}
 
-			// Marshaling ys1 to native string
-			byte* native_ys1;
-			var byteCount_ys1 = 0;
-			if (ys1 != null)
+		public static void PlotShadedS16PtrS16PtrS16Ptr(ReadOnlySpan<byte> labelId, ref short xs, ref short ys1, ref short ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (short* nativeXs = &xs)
+			fixed (short* nativeYs1 = &ys1)
+			fixed (short* nativeYs2 = &ys2)
 			{
-				byteCount_ys1 = Encoding.UTF8.GetByteCount(ys1);
-				if(byteCount_ys1 > Utils.MaxStackallocSize)
-				{
-					native_ys1 = Utils.Alloc<byte>(byteCount_ys1 + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_ys1 + 1];
-					native_ys1 = stackallocBytes;
-				}
-				var ys1_offset = Utils.EncodeStringUTF8(ys1, native_ys1, byteCount_ys1);
-				native_ys1[ys1_offset] = 0;
+				ImPlotNative.PlotShadedS16PtrS16PtrS16Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 			}
-			else native_ys1 = null;
-
-			// Marshaling ys2 to native string
-			byte* native_ys2;
-			var byteCount_ys2 = 0;
-			if (ys2 != null)
-			{
-				byteCount_ys2 = Encoding.UTF8.GetByteCount(ys2);
-				if(byteCount_ys2 > Utils.MaxStackallocSize)
-				{
-					native_ys2 = Utils.Alloc<byte>(byteCount_ys2 + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_ys2 + 1];
-					native_ys2 = stackallocBytes;
-				}
-				var ys2_offset = Utils.EncodeStringUTF8(ys2, native_ys2, byteCount_ys2);
-				native_ys2[ys2_offset] = 0;
-			}
-			else native_ys2 = null;
-
-			ImPlotNative.PlotShadedU8PtrU8PtrU8Ptr(native_labelId, native_xs, native_ys1, native_ys2, count, flags, offset, stride);
-			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
-			// Freeing xs native string
-			if (byteCount_xs > Utils.MaxStackallocSize)
-				Utils.Free(native_xs);
-			// Freeing ys1 native string
-			if (byteCount_ys1 > Utils.MaxStackallocSize)
-				Utils.Free(native_ys1);
-			// Freeing ys2 native string
-			if (byteCount_ys2 > Utils.MaxStackallocSize)
-				Utils.Free(native_ys2);
 		}
 
 		public static void PlotShadedS16PtrS16PtrS16Ptr(ReadOnlySpan<char> labelId, ref short xs, ref short ys1, ref short ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (short* native_xs = &xs)
-			fixed (short* native_ys1 = &ys1)
-			fixed (short* native_ys2 = &ys2)
+			fixed (short* nativeXs = &xs)
+			fixed (short* nativeYs1 = &ys1)
+			fixed (short* nativeYs2 = &ys2)
 			{
-				ImPlotNative.PlotShadedS16PtrS16PtrS16Ptr(native_labelId, native_xs, native_ys1, native_ys2, count, flags, offset, stride);
+				ImPlotNative.PlotShadedS16PtrS16PtrS16Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotShadedU16PtrU16PtrU16Ptr(ReadOnlySpan<byte> labelId, ref ushort xs, ref ushort ys1, ref ushort ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ushort* nativeXs = &xs)
+			fixed (ushort* nativeYs1 = &ys1)
+			fixed (ushort* nativeYs2 = &ys2)
+			{
+				ImPlotNative.PlotShadedU16PtrU16PtrU16Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotShadedU16PtrU16PtrU16Ptr(ReadOnlySpan<char> labelId, ref ushort xs, ref ushort ys1, ref ushort ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ushort* native_xs = &xs)
-			fixed (ushort* native_ys1 = &ys1)
-			fixed (ushort* native_ys2 = &ys2)
+			fixed (ushort* nativeXs = &xs)
+			fixed (ushort* nativeYs1 = &ys1)
+			fixed (ushort* nativeYs2 = &ys2)
 			{
-				ImPlotNative.PlotShadedU16PtrU16PtrU16Ptr(native_labelId, native_xs, native_ys1, native_ys2, count, flags, offset, stride);
+				ImPlotNative.PlotShadedU16PtrU16PtrU16Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotShadedS32PtrS32PtrS32Ptr(ReadOnlySpan<byte> labelId, ref int xs, ref int ys1, ref int ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (int* nativeXs = &xs)
+			fixed (int* nativeYs1 = &ys1)
+			fixed (int* nativeYs2 = &ys2)
+			{
+				ImPlotNative.PlotShadedS32PtrS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotShadedS32PtrS32PtrS32Ptr(ReadOnlySpan<char> labelId, ref int xs, ref int ys1, ref int ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (int* native_xs = &xs)
-			fixed (int* native_ys1 = &ys1)
-			fixed (int* native_ys2 = &ys2)
+			fixed (int* nativeXs = &xs)
+			fixed (int* nativeYs1 = &ys1)
+			fixed (int* nativeYs2 = &ys2)
 			{
-				ImPlotNative.PlotShadedS32PtrS32PtrS32Ptr(native_labelId, native_xs, native_ys1, native_ys2, count, flags, offset, stride);
+				ImPlotNative.PlotShadedS32PtrS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotShadedU32PtrU32PtrU32Ptr(ReadOnlySpan<byte> labelId, ref uint xs, ref uint ys1, ref uint ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (uint* nativeXs = &xs)
+			fixed (uint* nativeYs1 = &ys1)
+			fixed (uint* nativeYs2 = &ys2)
+			{
+				ImPlotNative.PlotShadedU32PtrU32PtrU32Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotShadedU32PtrU32PtrU32Ptr(ReadOnlySpan<char> labelId, ref uint xs, ref uint ys1, ref uint ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (uint* native_xs = &xs)
-			fixed (uint* native_ys1 = &ys1)
-			fixed (uint* native_ys2 = &ys2)
+			fixed (uint* nativeXs = &xs)
+			fixed (uint* nativeYs1 = &ys1)
+			fixed (uint* nativeYs2 = &ys2)
 			{
-				ImPlotNative.PlotShadedU32PtrU32PtrU32Ptr(native_labelId, native_xs, native_ys1, native_ys2, count, flags, offset, stride);
+				ImPlotNative.PlotShadedU32PtrU32PtrU32Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotShadedS64PtrS64PtrS64Ptr(ReadOnlySpan<byte> labelId, ref long xs, ref long ys1, ref long ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (long* nativeXs = &xs)
+			fixed (long* nativeYs1 = &ys1)
+			fixed (long* nativeYs2 = &ys2)
+			{
+				ImPlotNative.PlotShadedS64PtrS64PtrS64Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotShadedS64PtrS64PtrS64Ptr(ReadOnlySpan<char> labelId, ref long xs, ref long ys1, ref long ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (long* native_xs = &xs)
-			fixed (long* native_ys1 = &ys1)
-			fixed (long* native_ys2 = &ys2)
+			fixed (long* nativeXs = &xs)
+			fixed (long* nativeYs1 = &ys1)
+			fixed (long* nativeYs2 = &ys2)
 			{
-				ImPlotNative.PlotShadedS64PtrS64PtrS64Ptr(native_labelId, native_xs, native_ys1, native_ys2, count, flags, offset, stride);
+				ImPlotNative.PlotShadedS64PtrS64PtrS64Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotShadedU64PtrU64PtrU64Ptr(ReadOnlySpan<byte> labelId, ref ulong xs, ref ulong ys1, ref ulong ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ulong* nativeXs = &xs)
+			fixed (ulong* nativeYs1 = &ys1)
+			fixed (ulong* nativeYs2 = &ys2)
+			{
+				ImPlotNative.PlotShadedU64PtrU64PtrU64Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotShadedU64PtrU64PtrU64Ptr(ReadOnlySpan<char> labelId, ref ulong xs, ref ulong ys1, ref ulong ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ulong* native_xs = &xs)
-			fixed (ulong* native_ys1 = &ys1)
-			fixed (ulong* native_ys2 = &ys2)
+			fixed (ulong* nativeXs = &xs)
+			fixed (ulong* nativeYs1 = &ys1)
+			fixed (ulong* nativeYs2 = &ys2)
 			{
-				ImPlotNative.PlotShadedU64PtrU64PtrU64Ptr(native_labelId, native_xs, native_ys1, native_ys2, count, flags, offset, stride);
+				ImPlotNative.PlotShadedU64PtrU64PtrU64Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotShadedG(ReadOnlySpan<byte> labelId, ImPlotPointGetter getter1, IntPtr data1, ImPlotPointGetter getter2, IntPtr data2, int count, ImPlotShadedFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			{
+				ImPlotNative.PlotShadedG(nativeLabelId, getter1, (void*)data1, getter2, (void*)data2, count, flags);
 			}
 		}
 
 		public static void PlotShadedG(ReadOnlySpan<char> labelId, ImPlotPointGetter getter1, IntPtr data1, ImPlotPointGetter getter2, IntPtr data2, int count, ImPlotShadedFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			ImPlotNative.PlotShadedG(native_labelId, getter1, (void*)data1, getter2, (void*)data2, count, flags);
+			ImPlotNative.PlotShadedG(nativeLabelId, getter1, (void*)data1, getter2, (void*)data2, count, flags);
 			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+		}
+
+		public static void PlotShadedG(ReadOnlySpan<char> labelId, ImPlotPointGetter getter1, IntPtr data1, ImPlotPointGetter getter2, IntPtr data2, int count)
+		{
+			// defining omitted parameters
+			ImPlotShadedFlags flags = ImPlotShadedFlags.None;
+			// Marshaling labelId to native string
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
+			if (labelId != null)
+			{
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
+				{
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
+				}
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
+			}
+			else nativeLabelId = null;
+
+			ImPlotNative.PlotShadedG(nativeLabelId, getter1, (void*)data1, getter2, (void*)data2, count, flags);
+			// Freeing labelId native string
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+		}
+
+		public static void PlotBarsFloatPtrInt(ReadOnlySpan<byte> labelId, ref float values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (float* nativeValues = &values)
+			{
+				ImPlotNative.PlotBarsFloatPtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
+			}
 		}
 
 		public static void PlotBarsFloatPtrInt(ReadOnlySpan<char> labelId, ref float values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (float* native_values = &values)
+			fixed (float* nativeValues = &values)
 			{
-				ImPlotNative.PlotBarsFloatPtrInt(native_labelId, native_values, count, barSize, shift, flags, offset, stride);
+				ImPlotNative.PlotBarsFloatPtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotBarsDoublePtrInt(ReadOnlySpan<byte> labelId, ref double values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (double* nativeValues = &values)
+			{
+				ImPlotNative.PlotBarsDoublePtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 			}
 		}
 
 		public static void PlotBarsDoublePtrInt(ReadOnlySpan<char> labelId, ref double values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (double* native_values = &values)
+			fixed (double* nativeValues = &values)
 			{
-				ImPlotNative.PlotBarsDoublePtrInt(native_labelId, native_values, count, barSize, shift, flags, offset, stride);
+				ImPlotNative.PlotBarsDoublePtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotBarsS8PtrInt(ReadOnlySpan<byte> labelId, ref sbyte values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (sbyte* nativeValues = &values)
+			{
+				ImPlotNative.PlotBarsS8PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 			}
 		}
 
 		public static void PlotBarsS8PtrInt(ReadOnlySpan<char> labelId, ref sbyte values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (sbyte* native_values = &values)
+			fixed (sbyte* nativeValues = &values)
 			{
-				ImPlotNative.PlotBarsS8PtrInt(native_labelId, native_values, count, barSize, shift, flags, offset, stride);
+				ImPlotNative.PlotBarsS8PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
 		}
 
-		public static void PlotBarsU8PtrInt(ReadOnlySpan<char> labelId, ReadOnlySpan<char> values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsU8PtrInt(ReadOnlySpan<byte> labelId, ref byte values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (byte* nativeValues = &values)
+			{
+				ImPlotNative.PlotBarsU8PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
+			}
+		}
+
+		public static void PlotBarsU8PtrInt(ReadOnlySpan<char> labelId, ref byte values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			// Marshaling values to native string
-			byte* native_values;
-			var byteCount_values = 0;
-			if (values != null)
+			fixed (byte* nativeValues = &values)
 			{
-				byteCount_values = Encoding.UTF8.GetByteCount(values);
-				if(byteCount_values > Utils.MaxStackallocSize)
-				{
-					native_values = Utils.Alloc<byte>(byteCount_values + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_values + 1];
-					native_values = stackallocBytes;
-				}
-				var values_offset = Utils.EncodeStringUTF8(values, native_values, byteCount_values);
-				native_values[values_offset] = 0;
+				ImPlotNative.PlotBarsU8PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
+				// Freeing labelId native string
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
-			else native_values = null;
+		}
 
-			ImPlotNative.PlotBarsU8PtrInt(native_labelId, native_values, count, barSize, shift, flags, offset, stride);
-			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
-			// Freeing values native string
-			if (byteCount_values > Utils.MaxStackallocSize)
-				Utils.Free(native_values);
+		public static void PlotBarsS16PtrInt(ReadOnlySpan<byte> labelId, ref short values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (short* nativeValues = &values)
+			{
+				ImPlotNative.PlotBarsS16PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
+			}
 		}
 
 		public static void PlotBarsS16PtrInt(ReadOnlySpan<char> labelId, ref short values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (short* native_values = &values)
+			fixed (short* nativeValues = &values)
 			{
-				ImPlotNative.PlotBarsS16PtrInt(native_labelId, native_values, count, barSize, shift, flags, offset, stride);
+				ImPlotNative.PlotBarsS16PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotBarsU16PtrInt(ReadOnlySpan<byte> labelId, ref ushort values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ushort* nativeValues = &values)
+			{
+				ImPlotNative.PlotBarsU16PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 			}
 		}
 
 		public static void PlotBarsU16PtrInt(ReadOnlySpan<char> labelId, ref ushort values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ushort* native_values = &values)
+			fixed (ushort* nativeValues = &values)
 			{
-				ImPlotNative.PlotBarsU16PtrInt(native_labelId, native_values, count, barSize, shift, flags, offset, stride);
+				ImPlotNative.PlotBarsU16PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotBarsS32PtrInt(ReadOnlySpan<byte> labelId, ref int values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (int* nativeValues = &values)
+			{
+				ImPlotNative.PlotBarsS32PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 			}
 		}
 
 		public static void PlotBarsS32PtrInt(ReadOnlySpan<char> labelId, ref int values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (int* native_values = &values)
+			fixed (int* nativeValues = &values)
 			{
-				ImPlotNative.PlotBarsS32PtrInt(native_labelId, native_values, count, barSize, shift, flags, offset, stride);
+				ImPlotNative.PlotBarsS32PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotBarsU32PtrInt(ReadOnlySpan<byte> labelId, ref uint values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (uint* nativeValues = &values)
+			{
+				ImPlotNative.PlotBarsU32PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 			}
 		}
 
 		public static void PlotBarsU32PtrInt(ReadOnlySpan<char> labelId, ref uint values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (uint* native_values = &values)
+			fixed (uint* nativeValues = &values)
 			{
-				ImPlotNative.PlotBarsU32PtrInt(native_labelId, native_values, count, barSize, shift, flags, offset, stride);
+				ImPlotNative.PlotBarsU32PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotBarsS64PtrInt(ReadOnlySpan<byte> labelId, ref long values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (long* nativeValues = &values)
+			{
+				ImPlotNative.PlotBarsS64PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 			}
 		}
 
 		public static void PlotBarsS64PtrInt(ReadOnlySpan<char> labelId, ref long values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (long* native_values = &values)
+			fixed (long* nativeValues = &values)
 			{
-				ImPlotNative.PlotBarsS64PtrInt(native_labelId, native_values, count, barSize, shift, flags, offset, stride);
+				ImPlotNative.PlotBarsS64PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotBarsU64PtrInt(ReadOnlySpan<byte> labelId, ref ulong values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ulong* nativeValues = &values)
+			{
+				ImPlotNative.PlotBarsU64PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 			}
 		}
 
 		public static void PlotBarsU64PtrInt(ReadOnlySpan<char> labelId, ref ulong values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ulong* native_values = &values)
+			fixed (ulong* nativeValues = &values)
 			{
-				ImPlotNative.PlotBarsU64PtrInt(native_labelId, native_values, count, barSize, shift, flags, offset, stride);
+				ImPlotNative.PlotBarsU64PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotBarsFloatPtrFloatPtr(ReadOnlySpan<byte> labelId, ref float xs, ref float ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (float* nativeXs = &xs)
+			fixed (float* nativeYs = &ys)
+			{
+				ImPlotNative.PlotBarsFloatPtrFloatPtr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 			}
 		}
 
 		public static void PlotBarsFloatPtrFloatPtr(ReadOnlySpan<char> labelId, ref float xs, ref float ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (float* native_xs = &xs)
-			fixed (float* native_ys = &ys)
+			fixed (float* nativeXs = &xs)
+			fixed (float* nativeYs = &ys)
 			{
-				ImPlotNative.PlotBarsFloatPtrFloatPtr(native_labelId, native_xs, native_ys, count, barSize, flags, offset, stride);
+				ImPlotNative.PlotBarsFloatPtrFloatPtr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotBarsDoublePtrdoublePtr(ReadOnlySpan<byte> labelId, ref double xs, ref double ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (double* nativeXs = &xs)
+			fixed (double* nativeYs = &ys)
+			{
+				ImPlotNative.PlotBarsDoublePtrdoublePtr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 			}
 		}
 
 		public static void PlotBarsDoublePtrdoublePtr(ReadOnlySpan<char> labelId, ref double xs, ref double ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (double* native_xs = &xs)
-			fixed (double* native_ys = &ys)
+			fixed (double* nativeXs = &xs)
+			fixed (double* nativeYs = &ys)
 			{
-				ImPlotNative.PlotBarsDoublePtrdoublePtr(native_labelId, native_xs, native_ys, count, barSize, flags, offset, stride);
+				ImPlotNative.PlotBarsDoublePtrdoublePtr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotBarsS8PtrS8Ptr(ReadOnlySpan<byte> labelId, ref sbyte xs, ref sbyte ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (sbyte* nativeXs = &xs)
+			fixed (sbyte* nativeYs = &ys)
+			{
+				ImPlotNative.PlotBarsS8PtrS8Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 			}
 		}
 
 		public static void PlotBarsS8PtrS8Ptr(ReadOnlySpan<char> labelId, ref sbyte xs, ref sbyte ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (sbyte* native_xs = &xs)
-			fixed (sbyte* native_ys = &ys)
+			fixed (sbyte* nativeXs = &xs)
+			fixed (sbyte* nativeYs = &ys)
 			{
-				ImPlotNative.PlotBarsS8PtrS8Ptr(native_labelId, native_xs, native_ys, count, barSize, flags, offset, stride);
+				ImPlotNative.PlotBarsS8PtrS8Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
 		}
 
-		public static void PlotBarsU8PtrU8Ptr(ReadOnlySpan<char> labelId, ReadOnlySpan<char> xs, ReadOnlySpan<char> ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsU8PtrU8Ptr(ReadOnlySpan<byte> labelId, ref byte xs, ref byte ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (byte* nativeXs = &xs)
+			fixed (byte* nativeYs = &ys)
+			{
+				ImPlotNative.PlotBarsU8PtrU8Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
+			}
+		}
+
+		public static void PlotBarsU8PtrU8Ptr(ReadOnlySpan<char> labelId, ref byte xs, ref byte ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			// Marshaling xs to native string
-			byte* native_xs;
-			var byteCount_xs = 0;
-			if (xs != null)
+			fixed (byte* nativeXs = &xs)
+			fixed (byte* nativeYs = &ys)
 			{
-				byteCount_xs = Encoding.UTF8.GetByteCount(xs);
-				if(byteCount_xs > Utils.MaxStackallocSize)
-				{
-					native_xs = Utils.Alloc<byte>(byteCount_xs + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_xs + 1];
-					native_xs = stackallocBytes;
-				}
-				var xs_offset = Utils.EncodeStringUTF8(xs, native_xs, byteCount_xs);
-				native_xs[xs_offset] = 0;
+				ImPlotNative.PlotBarsU8PtrU8Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
+				// Freeing labelId native string
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
-			else native_xs = null;
+		}
 
-			// Marshaling ys to native string
-			byte* native_ys;
-			var byteCount_ys = 0;
-			if (ys != null)
+		public static void PlotBarsS16PtrS16Ptr(ReadOnlySpan<byte> labelId, ref short xs, ref short ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (short* nativeXs = &xs)
+			fixed (short* nativeYs = &ys)
 			{
-				byteCount_ys = Encoding.UTF8.GetByteCount(ys);
-				if(byteCount_ys > Utils.MaxStackallocSize)
-				{
-					native_ys = Utils.Alloc<byte>(byteCount_ys + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_ys + 1];
-					native_ys = stackallocBytes;
-				}
-				var ys_offset = Utils.EncodeStringUTF8(ys, native_ys, byteCount_ys);
-				native_ys[ys_offset] = 0;
+				ImPlotNative.PlotBarsS16PtrS16Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 			}
-			else native_ys = null;
-
-			ImPlotNative.PlotBarsU8PtrU8Ptr(native_labelId, native_xs, native_ys, count, barSize, flags, offset, stride);
-			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
-			// Freeing xs native string
-			if (byteCount_xs > Utils.MaxStackallocSize)
-				Utils.Free(native_xs);
-			// Freeing ys native string
-			if (byteCount_ys > Utils.MaxStackallocSize)
-				Utils.Free(native_ys);
 		}
 
 		public static void PlotBarsS16PtrS16Ptr(ReadOnlySpan<char> labelId, ref short xs, ref short ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (short* native_xs = &xs)
-			fixed (short* native_ys = &ys)
+			fixed (short* nativeXs = &xs)
+			fixed (short* nativeYs = &ys)
 			{
-				ImPlotNative.PlotBarsS16PtrS16Ptr(native_labelId, native_xs, native_ys, count, barSize, flags, offset, stride);
+				ImPlotNative.PlotBarsS16PtrS16Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotBarsU16PtrU16Ptr(ReadOnlySpan<byte> labelId, ref ushort xs, ref ushort ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ushort* nativeXs = &xs)
+			fixed (ushort* nativeYs = &ys)
+			{
+				ImPlotNative.PlotBarsU16PtrU16Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 			}
 		}
 
 		public static void PlotBarsU16PtrU16Ptr(ReadOnlySpan<char> labelId, ref ushort xs, ref ushort ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ushort* native_xs = &xs)
-			fixed (ushort* native_ys = &ys)
+			fixed (ushort* nativeXs = &xs)
+			fixed (ushort* nativeYs = &ys)
 			{
-				ImPlotNative.PlotBarsU16PtrU16Ptr(native_labelId, native_xs, native_ys, count, barSize, flags, offset, stride);
+				ImPlotNative.PlotBarsU16PtrU16Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotBarsS32PtrS32Ptr(ReadOnlySpan<byte> labelId, ref int xs, ref int ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (int* nativeXs = &xs)
+			fixed (int* nativeYs = &ys)
+			{
+				ImPlotNative.PlotBarsS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 			}
 		}
 
 		public static void PlotBarsS32PtrS32Ptr(ReadOnlySpan<char> labelId, ref int xs, ref int ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (int* native_xs = &xs)
-			fixed (int* native_ys = &ys)
+			fixed (int* nativeXs = &xs)
+			fixed (int* nativeYs = &ys)
 			{
-				ImPlotNative.PlotBarsS32PtrS32Ptr(native_labelId, native_xs, native_ys, count, barSize, flags, offset, stride);
+				ImPlotNative.PlotBarsS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotBarsU32PtrU32Ptr(ReadOnlySpan<byte> labelId, ref uint xs, ref uint ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (uint* nativeXs = &xs)
+			fixed (uint* nativeYs = &ys)
+			{
+				ImPlotNative.PlotBarsU32PtrU32Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 			}
 		}
 
 		public static void PlotBarsU32PtrU32Ptr(ReadOnlySpan<char> labelId, ref uint xs, ref uint ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (uint* native_xs = &xs)
-			fixed (uint* native_ys = &ys)
+			fixed (uint* nativeXs = &xs)
+			fixed (uint* nativeYs = &ys)
 			{
-				ImPlotNative.PlotBarsU32PtrU32Ptr(native_labelId, native_xs, native_ys, count, barSize, flags, offset, stride);
+				ImPlotNative.PlotBarsU32PtrU32Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotBarsS64PtrS64Ptr(ReadOnlySpan<byte> labelId, ref long xs, ref long ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (long* nativeXs = &xs)
+			fixed (long* nativeYs = &ys)
+			{
+				ImPlotNative.PlotBarsS64PtrS64Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 			}
 		}
 
 		public static void PlotBarsS64PtrS64Ptr(ReadOnlySpan<char> labelId, ref long xs, ref long ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (long* native_xs = &xs)
-			fixed (long* native_ys = &ys)
+			fixed (long* nativeXs = &xs)
+			fixed (long* nativeYs = &ys)
 			{
-				ImPlotNative.PlotBarsS64PtrS64Ptr(native_labelId, native_xs, native_ys, count, barSize, flags, offset, stride);
+				ImPlotNative.PlotBarsS64PtrS64Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotBarsU64PtrU64Ptr(ReadOnlySpan<byte> labelId, ref ulong xs, ref ulong ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ulong* nativeXs = &xs)
+			fixed (ulong* nativeYs = &ys)
+			{
+				ImPlotNative.PlotBarsU64PtrU64Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 			}
 		}
 
 		public static void PlotBarsU64PtrU64Ptr(ReadOnlySpan<char> labelId, ref ulong xs, ref ulong ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ulong* native_xs = &xs)
-			fixed (ulong* native_ys = &ys)
+			fixed (ulong* nativeXs = &xs)
+			fixed (ulong* nativeYs = &ys)
 			{
-				ImPlotNative.PlotBarsU64PtrU64Ptr(native_labelId, native_xs, native_ys, count, barSize, flags, offset, stride);
+				ImPlotNative.PlotBarsU64PtrU64Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotBarsG(ReadOnlySpan<byte> labelId, ImPlotPointGetter getter, IntPtr data, int count, double barSize, ImPlotBarsFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			{
+				ImPlotNative.PlotBarsG(nativeLabelId, getter, (void*)data, count, barSize, flags);
 			}
 		}
 
 		public static void PlotBarsG(ReadOnlySpan<char> labelId, ImPlotPointGetter getter, IntPtr data, int count, double barSize, ImPlotBarsFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			ImPlotNative.PlotBarsG(native_labelId, getter, (void*)data, count, barSize, flags);
+			ImPlotNative.PlotBarsG(nativeLabelId, getter, (void*)data, count, barSize, flags);
 			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+		}
+
+		public static void PlotBarsG(ReadOnlySpan<char> labelId, ImPlotPointGetter getter, IntPtr data, int count, double barSize)
+		{
+			// defining omitted parameters
+			ImPlotBarsFlags flags = ImPlotBarsFlags.None;
+			// Marshaling labelId to native string
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
+			if (labelId != null)
+			{
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
+				{
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
+				}
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
+			}
+			else nativeLabelId = null;
+
+			ImPlotNative.PlotBarsG(nativeLabelId, getter, (void*)data, count, barSize, flags);
+			// Freeing labelId native string
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
 		}
 
 		public static void PlotBarGroupsFloatPtr(ref byte* labelIds, ref float values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
 		{
-			fixed (byte** native_labelIds = &labelIds)
-			fixed (float* native_values = &values)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (float* nativeValues = &values)
 			{
-				ImPlotNative.PlotBarGroupsFloatPtr(native_labelIds, native_values, itemCount, groupCount, groupSize, shift, flags);
+				ImPlotNative.PlotBarGroupsFloatPtr(nativeLabelIds, nativeValues, itemCount, groupCount, groupSize, shift, flags);
 			}
 		}
 
 		public static void PlotBarGroupsDoublePtr(ref byte* labelIds, ref double values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
 		{
-			fixed (byte** native_labelIds = &labelIds)
-			fixed (double* native_values = &values)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (double* nativeValues = &values)
 			{
-				ImPlotNative.PlotBarGroupsDoublePtr(native_labelIds, native_values, itemCount, groupCount, groupSize, shift, flags);
+				ImPlotNative.PlotBarGroupsDoublePtr(nativeLabelIds, nativeValues, itemCount, groupCount, groupSize, shift, flags);
 			}
 		}
 
 		public static void PlotBarGroupsS8Ptr(ref byte* labelIds, ref sbyte values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
 		{
-			fixed (byte** native_labelIds = &labelIds)
-			fixed (sbyte* native_values = &values)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (sbyte* nativeValues = &values)
 			{
-				ImPlotNative.PlotBarGroupsS8Ptr(native_labelIds, native_values, itemCount, groupCount, groupSize, shift, flags);
+				ImPlotNative.PlotBarGroupsS8Ptr(nativeLabelIds, nativeValues, itemCount, groupCount, groupSize, shift, flags);
 			}
 		}
 
-		public static void PlotBarGroupsU8Ptr(ref byte* labelIds, ReadOnlySpan<char> values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
+		public static void PlotBarGroupsU8Ptr(ref byte* labelIds, ref byte values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
 		{
-			// Marshaling values to native string
-			byte* native_values;
-			var byteCount_values = 0;
-			if (values != null)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (byte* nativeValues = &values)
 			{
-				byteCount_values = Encoding.UTF8.GetByteCount(values);
-				if(byteCount_values > Utils.MaxStackallocSize)
-				{
-					native_values = Utils.Alloc<byte>(byteCount_values + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_values + 1];
-					native_values = stackallocBytes;
-				}
-				var values_offset = Utils.EncodeStringUTF8(values, native_values, byteCount_values);
-				native_values[values_offset] = 0;
-			}
-			else native_values = null;
-
-			fixed (byte** native_labelIds = &labelIds)
-			{
-				ImPlotNative.PlotBarGroupsU8Ptr(native_labelIds, native_values, itemCount, groupCount, groupSize, shift, flags);
-				// Freeing values native string
-				if (byteCount_values > Utils.MaxStackallocSize)
-					Utils.Free(native_values);
+				ImPlotNative.PlotBarGroupsU8Ptr(nativeLabelIds, nativeValues, itemCount, groupCount, groupSize, shift, flags);
 			}
 		}
 
 		public static void PlotBarGroupsS16Ptr(ref byte* labelIds, ref short values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
 		{
-			fixed (byte** native_labelIds = &labelIds)
-			fixed (short* native_values = &values)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (short* nativeValues = &values)
 			{
-				ImPlotNative.PlotBarGroupsS16Ptr(native_labelIds, native_values, itemCount, groupCount, groupSize, shift, flags);
+				ImPlotNative.PlotBarGroupsS16Ptr(nativeLabelIds, nativeValues, itemCount, groupCount, groupSize, shift, flags);
 			}
 		}
 
 		public static void PlotBarGroupsU16Ptr(ref byte* labelIds, ref ushort values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
 		{
-			fixed (byte** native_labelIds = &labelIds)
-			fixed (ushort* native_values = &values)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (ushort* nativeValues = &values)
 			{
-				ImPlotNative.PlotBarGroupsU16Ptr(native_labelIds, native_values, itemCount, groupCount, groupSize, shift, flags);
+				ImPlotNative.PlotBarGroupsU16Ptr(nativeLabelIds, nativeValues, itemCount, groupCount, groupSize, shift, flags);
 			}
 		}
 
 		public static void PlotBarGroupsS32Ptr(ref byte* labelIds, ref int values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
 		{
-			fixed (byte** native_labelIds = &labelIds)
-			fixed (int* native_values = &values)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (int* nativeValues = &values)
 			{
-				ImPlotNative.PlotBarGroupsS32Ptr(native_labelIds, native_values, itemCount, groupCount, groupSize, shift, flags);
+				ImPlotNative.PlotBarGroupsS32Ptr(nativeLabelIds, nativeValues, itemCount, groupCount, groupSize, shift, flags);
 			}
 		}
 
 		public static void PlotBarGroupsU32Ptr(ref byte* labelIds, ref uint values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
 		{
-			fixed (byte** native_labelIds = &labelIds)
-			fixed (uint* native_values = &values)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (uint* nativeValues = &values)
 			{
-				ImPlotNative.PlotBarGroupsU32Ptr(native_labelIds, native_values, itemCount, groupCount, groupSize, shift, flags);
+				ImPlotNative.PlotBarGroupsU32Ptr(nativeLabelIds, nativeValues, itemCount, groupCount, groupSize, shift, flags);
 			}
 		}
 
 		public static void PlotBarGroupsS64Ptr(ref byte* labelIds, ref long values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
 		{
-			fixed (byte** native_labelIds = &labelIds)
-			fixed (long* native_values = &values)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (long* nativeValues = &values)
 			{
-				ImPlotNative.PlotBarGroupsS64Ptr(native_labelIds, native_values, itemCount, groupCount, groupSize, shift, flags);
+				ImPlotNative.PlotBarGroupsS64Ptr(nativeLabelIds, nativeValues, itemCount, groupCount, groupSize, shift, flags);
 			}
 		}
 
 		public static void PlotBarGroupsU64Ptr(ref byte* labelIds, ref ulong values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
 		{
-			fixed (byte** native_labelIds = &labelIds)
-			fixed (ulong* native_values = &values)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (ulong* nativeValues = &values)
 			{
-				ImPlotNative.PlotBarGroupsU64Ptr(native_labelIds, native_values, itemCount, groupCount, groupSize, shift, flags);
+				ImPlotNative.PlotBarGroupsU64Ptr(nativeLabelIds, nativeValues, itemCount, groupCount, groupSize, shift, flags);
+			}
+		}
+
+		public static void PlotErrorBarsFloatPtrFloatPtrFloatPtrInt(ReadOnlySpan<byte> labelId, ref float xs, ref float ys, ref float err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (float* nativeXs = &xs)
+			fixed (float* nativeYs = &ys)
+			fixed (float* nativeErr = &err)
+			{
+				ImPlotNative.PlotErrorBarsFloatPtrFloatPtrFloatPtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotErrorBarsFloatPtrFloatPtrFloatPtrInt(ReadOnlySpan<char> labelId, ref float xs, ref float ys, ref float err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (float* native_xs = &xs)
-			fixed (float* native_ys = &ys)
-			fixed (float* native_err = &err)
+			fixed (float* nativeXs = &xs)
+			fixed (float* nativeYs = &ys)
+			fixed (float* nativeErr = &err)
 			{
-				ImPlotNative.PlotErrorBarsFloatPtrFloatPtrFloatPtrInt(native_labelId, native_xs, native_ys, native_err, count, flags, offset, stride);
+				ImPlotNative.PlotErrorBarsFloatPtrFloatPtrFloatPtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotErrorBarsDoublePtrdoublePtrdoublePtrInt(ReadOnlySpan<byte> labelId, ref double xs, ref double ys, ref double err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (double* nativeXs = &xs)
+			fixed (double* nativeYs = &ys)
+			fixed (double* nativeErr = &err)
+			{
+				ImPlotNative.PlotErrorBarsDoublePtrdoublePtrdoublePtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotErrorBarsDoublePtrdoublePtrdoublePtrInt(ReadOnlySpan<char> labelId, ref double xs, ref double ys, ref double err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (double* native_xs = &xs)
-			fixed (double* native_ys = &ys)
-			fixed (double* native_err = &err)
+			fixed (double* nativeXs = &xs)
+			fixed (double* nativeYs = &ys)
+			fixed (double* nativeErr = &err)
 			{
-				ImPlotNative.PlotErrorBarsDoublePtrdoublePtrdoublePtrInt(native_labelId, native_xs, native_ys, native_err, count, flags, offset, stride);
+				ImPlotNative.PlotErrorBarsDoublePtrdoublePtrdoublePtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotErrorBarsS8PtrS8PtrS8PtrInt(ReadOnlySpan<byte> labelId, ref sbyte xs, ref sbyte ys, ref sbyte err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (sbyte* nativeXs = &xs)
+			fixed (sbyte* nativeYs = &ys)
+			fixed (sbyte* nativeErr = &err)
+			{
+				ImPlotNative.PlotErrorBarsS8PtrS8PtrS8PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotErrorBarsS8PtrS8PtrS8PtrInt(ReadOnlySpan<char> labelId, ref sbyte xs, ref sbyte ys, ref sbyte err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (sbyte* native_xs = &xs)
-			fixed (sbyte* native_ys = &ys)
-			fixed (sbyte* native_err = &err)
+			fixed (sbyte* nativeXs = &xs)
+			fixed (sbyte* nativeYs = &ys)
+			fixed (sbyte* nativeErr = &err)
 			{
-				ImPlotNative.PlotErrorBarsS8PtrS8PtrS8PtrInt(native_labelId, native_xs, native_ys, native_err, count, flags, offset, stride);
+				ImPlotNative.PlotErrorBarsS8PtrS8PtrS8PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
 		}
 
-		public static void PlotErrorBarsU8PtrU8PtrU8PtrInt(ReadOnlySpan<char> labelId, ReadOnlySpan<char> xs, ReadOnlySpan<char> ys, ReadOnlySpan<char> err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsU8PtrU8PtrU8PtrInt(ReadOnlySpan<byte> labelId, ref byte xs, ref byte ys, ref byte err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (byte* nativeXs = &xs)
+			fixed (byte* nativeYs = &ys)
+			fixed (byte* nativeErr = &err)
+			{
+				ImPlotNative.PlotErrorBarsU8PtrU8PtrU8PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
+			}
+		}
+
+		public static void PlotErrorBarsU8PtrU8PtrU8PtrInt(ReadOnlySpan<char> labelId, ref byte xs, ref byte ys, ref byte err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			// Marshaling xs to native string
-			byte* native_xs;
-			var byteCount_xs = 0;
-			if (xs != null)
+			fixed (byte* nativeXs = &xs)
+			fixed (byte* nativeYs = &ys)
+			fixed (byte* nativeErr = &err)
 			{
-				byteCount_xs = Encoding.UTF8.GetByteCount(xs);
-				if(byteCount_xs > Utils.MaxStackallocSize)
-				{
-					native_xs = Utils.Alloc<byte>(byteCount_xs + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_xs + 1];
-					native_xs = stackallocBytes;
-				}
-				var xs_offset = Utils.EncodeStringUTF8(xs, native_xs, byteCount_xs);
-				native_xs[xs_offset] = 0;
+				ImPlotNative.PlotErrorBarsU8PtrU8PtrU8PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
+				// Freeing labelId native string
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
-			else native_xs = null;
+		}
 
-			// Marshaling ys to native string
-			byte* native_ys;
-			var byteCount_ys = 0;
-			if (ys != null)
+		public static void PlotErrorBarsS16PtrS16PtrS16PtrInt(ReadOnlySpan<byte> labelId, ref short xs, ref short ys, ref short err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (short* nativeXs = &xs)
+			fixed (short* nativeYs = &ys)
+			fixed (short* nativeErr = &err)
 			{
-				byteCount_ys = Encoding.UTF8.GetByteCount(ys);
-				if(byteCount_ys > Utils.MaxStackallocSize)
-				{
-					native_ys = Utils.Alloc<byte>(byteCount_ys + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_ys + 1];
-					native_ys = stackallocBytes;
-				}
-				var ys_offset = Utils.EncodeStringUTF8(ys, native_ys, byteCount_ys);
-				native_ys[ys_offset] = 0;
+				ImPlotNative.PlotErrorBarsS16PtrS16PtrS16PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 			}
-			else native_ys = null;
-
-			// Marshaling err to native string
-			byte* native_err;
-			var byteCount_err = 0;
-			if (err != null)
-			{
-				byteCount_err = Encoding.UTF8.GetByteCount(err);
-				if(byteCount_err > Utils.MaxStackallocSize)
-				{
-					native_err = Utils.Alloc<byte>(byteCount_err + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_err + 1];
-					native_err = stackallocBytes;
-				}
-				var err_offset = Utils.EncodeStringUTF8(err, native_err, byteCount_err);
-				native_err[err_offset] = 0;
-			}
-			else native_err = null;
-
-			ImPlotNative.PlotErrorBarsU8PtrU8PtrU8PtrInt(native_labelId, native_xs, native_ys, native_err, count, flags, offset, stride);
-			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
-			// Freeing xs native string
-			if (byteCount_xs > Utils.MaxStackallocSize)
-				Utils.Free(native_xs);
-			// Freeing ys native string
-			if (byteCount_ys > Utils.MaxStackallocSize)
-				Utils.Free(native_ys);
-			// Freeing err native string
-			if (byteCount_err > Utils.MaxStackallocSize)
-				Utils.Free(native_err);
 		}
 
 		public static void PlotErrorBarsS16PtrS16PtrS16PtrInt(ReadOnlySpan<char> labelId, ref short xs, ref short ys, ref short err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (short* native_xs = &xs)
-			fixed (short* native_ys = &ys)
-			fixed (short* native_err = &err)
+			fixed (short* nativeXs = &xs)
+			fixed (short* nativeYs = &ys)
+			fixed (short* nativeErr = &err)
 			{
-				ImPlotNative.PlotErrorBarsS16PtrS16PtrS16PtrInt(native_labelId, native_xs, native_ys, native_err, count, flags, offset, stride);
+				ImPlotNative.PlotErrorBarsS16PtrS16PtrS16PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotErrorBarsU16PtrU16PtrU16PtrInt(ReadOnlySpan<byte> labelId, ref ushort xs, ref ushort ys, ref ushort err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ushort* nativeXs = &xs)
+			fixed (ushort* nativeYs = &ys)
+			fixed (ushort* nativeErr = &err)
+			{
+				ImPlotNative.PlotErrorBarsU16PtrU16PtrU16PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotErrorBarsU16PtrU16PtrU16PtrInt(ReadOnlySpan<char> labelId, ref ushort xs, ref ushort ys, ref ushort err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ushort* native_xs = &xs)
-			fixed (ushort* native_ys = &ys)
-			fixed (ushort* native_err = &err)
+			fixed (ushort* nativeXs = &xs)
+			fixed (ushort* nativeYs = &ys)
+			fixed (ushort* nativeErr = &err)
 			{
-				ImPlotNative.PlotErrorBarsU16PtrU16PtrU16PtrInt(native_labelId, native_xs, native_ys, native_err, count, flags, offset, stride);
+				ImPlotNative.PlotErrorBarsU16PtrU16PtrU16PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotErrorBarsS32PtrS32PtrS32PtrInt(ReadOnlySpan<byte> labelId, ref int xs, ref int ys, ref int err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (int* nativeXs = &xs)
+			fixed (int* nativeYs = &ys)
+			fixed (int* nativeErr = &err)
+			{
+				ImPlotNative.PlotErrorBarsS32PtrS32PtrS32PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotErrorBarsS32PtrS32PtrS32PtrInt(ReadOnlySpan<char> labelId, ref int xs, ref int ys, ref int err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (int* native_xs = &xs)
-			fixed (int* native_ys = &ys)
-			fixed (int* native_err = &err)
+			fixed (int* nativeXs = &xs)
+			fixed (int* nativeYs = &ys)
+			fixed (int* nativeErr = &err)
 			{
-				ImPlotNative.PlotErrorBarsS32PtrS32PtrS32PtrInt(native_labelId, native_xs, native_ys, native_err, count, flags, offset, stride);
+				ImPlotNative.PlotErrorBarsS32PtrS32PtrS32PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotErrorBarsU32PtrU32PtrU32PtrInt(ReadOnlySpan<byte> labelId, ref uint xs, ref uint ys, ref uint err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (uint* nativeXs = &xs)
+			fixed (uint* nativeYs = &ys)
+			fixed (uint* nativeErr = &err)
+			{
+				ImPlotNative.PlotErrorBarsU32PtrU32PtrU32PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotErrorBarsU32PtrU32PtrU32PtrInt(ReadOnlySpan<char> labelId, ref uint xs, ref uint ys, ref uint err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (uint* native_xs = &xs)
-			fixed (uint* native_ys = &ys)
-			fixed (uint* native_err = &err)
+			fixed (uint* nativeXs = &xs)
+			fixed (uint* nativeYs = &ys)
+			fixed (uint* nativeErr = &err)
 			{
-				ImPlotNative.PlotErrorBarsU32PtrU32PtrU32PtrInt(native_labelId, native_xs, native_ys, native_err, count, flags, offset, stride);
+				ImPlotNative.PlotErrorBarsU32PtrU32PtrU32PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotErrorBarsS64PtrS64PtrS64PtrInt(ReadOnlySpan<byte> labelId, ref long xs, ref long ys, ref long err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (long* nativeXs = &xs)
+			fixed (long* nativeYs = &ys)
+			fixed (long* nativeErr = &err)
+			{
+				ImPlotNative.PlotErrorBarsS64PtrS64PtrS64PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotErrorBarsS64PtrS64PtrS64PtrInt(ReadOnlySpan<char> labelId, ref long xs, ref long ys, ref long err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (long* native_xs = &xs)
-			fixed (long* native_ys = &ys)
-			fixed (long* native_err = &err)
+			fixed (long* nativeXs = &xs)
+			fixed (long* nativeYs = &ys)
+			fixed (long* nativeErr = &err)
 			{
-				ImPlotNative.PlotErrorBarsS64PtrS64PtrS64PtrInt(native_labelId, native_xs, native_ys, native_err, count, flags, offset, stride);
+				ImPlotNative.PlotErrorBarsS64PtrS64PtrS64PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotErrorBarsU64PtrU64PtrU64PtrInt(ReadOnlySpan<byte> labelId, ref ulong xs, ref ulong ys, ref ulong err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ulong* nativeXs = &xs)
+			fixed (ulong* nativeYs = &ys)
+			fixed (ulong* nativeErr = &err)
+			{
+				ImPlotNative.PlotErrorBarsU64PtrU64PtrU64PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotErrorBarsU64PtrU64PtrU64PtrInt(ReadOnlySpan<char> labelId, ref ulong xs, ref ulong ys, ref ulong err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ulong* native_xs = &xs)
-			fixed (ulong* native_ys = &ys)
-			fixed (ulong* native_err = &err)
+			fixed (ulong* nativeXs = &xs)
+			fixed (ulong* nativeYs = &ys)
+			fixed (ulong* nativeErr = &err)
 			{
-				ImPlotNative.PlotErrorBarsU64PtrU64PtrU64PtrInt(native_labelId, native_xs, native_ys, native_err, count, flags, offset, stride);
+				ImPlotNative.PlotErrorBarsU64PtrU64PtrU64PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotErrorBarsFloatPtrFloatPtrFloatPtrFloatPtr(ReadOnlySpan<byte> labelId, ref float xs, ref float ys, ref float neg, ref float pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (float* nativeXs = &xs)
+			fixed (float* nativeYs = &ys)
+			fixed (float* nativeNeg = &neg)
+			fixed (float* nativePos = &pos)
+			{
+				ImPlotNative.PlotErrorBarsFloatPtrFloatPtrFloatPtrFloatPtr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotErrorBarsFloatPtrFloatPtrFloatPtrFloatPtr(ReadOnlySpan<char> labelId, ref float xs, ref float ys, ref float neg, ref float pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (float* native_xs = &xs)
-			fixed (float* native_ys = &ys)
-			fixed (float* native_neg = &neg)
-			fixed (float* native_pos = &pos)
+			fixed (float* nativeXs = &xs)
+			fixed (float* nativeYs = &ys)
+			fixed (float* nativeNeg = &neg)
+			fixed (float* nativePos = &pos)
 			{
-				ImPlotNative.PlotErrorBarsFloatPtrFloatPtrFloatPtrFloatPtr(native_labelId, native_xs, native_ys, native_neg, native_pos, count, flags, offset, stride);
+				ImPlotNative.PlotErrorBarsFloatPtrFloatPtrFloatPtrFloatPtr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotErrorBarsDoublePtrdoublePtrdoublePtrdoublePtr(ReadOnlySpan<byte> labelId, ref double xs, ref double ys, ref double neg, ref double pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (double* nativeXs = &xs)
+			fixed (double* nativeYs = &ys)
+			fixed (double* nativeNeg = &neg)
+			fixed (double* nativePos = &pos)
+			{
+				ImPlotNative.PlotErrorBarsDoublePtrdoublePtrdoublePtrdoublePtr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotErrorBarsDoublePtrdoublePtrdoublePtrdoublePtr(ReadOnlySpan<char> labelId, ref double xs, ref double ys, ref double neg, ref double pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (double* native_xs = &xs)
-			fixed (double* native_ys = &ys)
-			fixed (double* native_neg = &neg)
-			fixed (double* native_pos = &pos)
+			fixed (double* nativeXs = &xs)
+			fixed (double* nativeYs = &ys)
+			fixed (double* nativeNeg = &neg)
+			fixed (double* nativePos = &pos)
 			{
-				ImPlotNative.PlotErrorBarsDoublePtrdoublePtrdoublePtrdoublePtr(native_labelId, native_xs, native_ys, native_neg, native_pos, count, flags, offset, stride);
+				ImPlotNative.PlotErrorBarsDoublePtrdoublePtrdoublePtrdoublePtr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotErrorBarsS8PtrS8PtrS8PtrS8Ptr(ReadOnlySpan<byte> labelId, ref sbyte xs, ref sbyte ys, ref sbyte neg, ref sbyte pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (sbyte* nativeXs = &xs)
+			fixed (sbyte* nativeYs = &ys)
+			fixed (sbyte* nativeNeg = &neg)
+			fixed (sbyte* nativePos = &pos)
+			{
+				ImPlotNative.PlotErrorBarsS8PtrS8PtrS8PtrS8Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotErrorBarsS8PtrS8PtrS8PtrS8Ptr(ReadOnlySpan<char> labelId, ref sbyte xs, ref sbyte ys, ref sbyte neg, ref sbyte pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (sbyte* native_xs = &xs)
-			fixed (sbyte* native_ys = &ys)
-			fixed (sbyte* native_neg = &neg)
-			fixed (sbyte* native_pos = &pos)
+			fixed (sbyte* nativeXs = &xs)
+			fixed (sbyte* nativeYs = &ys)
+			fixed (sbyte* nativeNeg = &neg)
+			fixed (sbyte* nativePos = &pos)
 			{
-				ImPlotNative.PlotErrorBarsS8PtrS8PtrS8PtrS8Ptr(native_labelId, native_xs, native_ys, native_neg, native_pos, count, flags, offset, stride);
+				ImPlotNative.PlotErrorBarsS8PtrS8PtrS8PtrS8Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
 		}
 
-		public static void PlotErrorBarsU8PtrU8PtrU8PtrU8Ptr(ReadOnlySpan<char> labelId, ReadOnlySpan<char> xs, ReadOnlySpan<char> ys, ReadOnlySpan<char> neg, ReadOnlySpan<char> pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsU8PtrU8PtrU8PtrU8Ptr(ReadOnlySpan<byte> labelId, ref byte xs, ref byte ys, ref byte neg, ref byte pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (byte* nativeXs = &xs)
+			fixed (byte* nativeYs = &ys)
+			fixed (byte* nativeNeg = &neg)
+			fixed (byte* nativePos = &pos)
+			{
+				ImPlotNative.PlotErrorBarsU8PtrU8PtrU8PtrU8Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
+			}
+		}
+
+		public static void PlotErrorBarsU8PtrU8PtrU8PtrU8Ptr(ReadOnlySpan<char> labelId, ref byte xs, ref byte ys, ref byte neg, ref byte pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			// Marshaling xs to native string
-			byte* native_xs;
-			var byteCount_xs = 0;
-			if (xs != null)
+			fixed (byte* nativeXs = &xs)
+			fixed (byte* nativeYs = &ys)
+			fixed (byte* nativeNeg = &neg)
+			fixed (byte* nativePos = &pos)
 			{
-				byteCount_xs = Encoding.UTF8.GetByteCount(xs);
-				if(byteCount_xs > Utils.MaxStackallocSize)
-				{
-					native_xs = Utils.Alloc<byte>(byteCount_xs + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_xs + 1];
-					native_xs = stackallocBytes;
-				}
-				var xs_offset = Utils.EncodeStringUTF8(xs, native_xs, byteCount_xs);
-				native_xs[xs_offset] = 0;
+				ImPlotNative.PlotErrorBarsU8PtrU8PtrU8PtrU8Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
+				// Freeing labelId native string
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
-			else native_xs = null;
+		}
 
-			// Marshaling ys to native string
-			byte* native_ys;
-			var byteCount_ys = 0;
-			if (ys != null)
+		public static void PlotErrorBarsS16PtrS16PtrS16PtrS16Ptr(ReadOnlySpan<byte> labelId, ref short xs, ref short ys, ref short neg, ref short pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (short* nativeXs = &xs)
+			fixed (short* nativeYs = &ys)
+			fixed (short* nativeNeg = &neg)
+			fixed (short* nativePos = &pos)
 			{
-				byteCount_ys = Encoding.UTF8.GetByteCount(ys);
-				if(byteCount_ys > Utils.MaxStackallocSize)
-				{
-					native_ys = Utils.Alloc<byte>(byteCount_ys + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_ys + 1];
-					native_ys = stackallocBytes;
-				}
-				var ys_offset = Utils.EncodeStringUTF8(ys, native_ys, byteCount_ys);
-				native_ys[ys_offset] = 0;
+				ImPlotNative.PlotErrorBarsS16PtrS16PtrS16PtrS16Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 			}
-			else native_ys = null;
-
-			// Marshaling neg to native string
-			byte* native_neg;
-			var byteCount_neg = 0;
-			if (neg != null)
-			{
-				byteCount_neg = Encoding.UTF8.GetByteCount(neg);
-				if(byteCount_neg > Utils.MaxStackallocSize)
-				{
-					native_neg = Utils.Alloc<byte>(byteCount_neg + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_neg + 1];
-					native_neg = stackallocBytes;
-				}
-				var neg_offset = Utils.EncodeStringUTF8(neg, native_neg, byteCount_neg);
-				native_neg[neg_offset] = 0;
-			}
-			else native_neg = null;
-
-			// Marshaling pos to native string
-			byte* native_pos;
-			var byteCount_pos = 0;
-			if (pos != null)
-			{
-				byteCount_pos = Encoding.UTF8.GetByteCount(pos);
-				if(byteCount_pos > Utils.MaxStackallocSize)
-				{
-					native_pos = Utils.Alloc<byte>(byteCount_pos + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_pos + 1];
-					native_pos = stackallocBytes;
-				}
-				var pos_offset = Utils.EncodeStringUTF8(pos, native_pos, byteCount_pos);
-				native_pos[pos_offset] = 0;
-			}
-			else native_pos = null;
-
-			ImPlotNative.PlotErrorBarsU8PtrU8PtrU8PtrU8Ptr(native_labelId, native_xs, native_ys, native_neg, native_pos, count, flags, offset, stride);
-			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
-			// Freeing xs native string
-			if (byteCount_xs > Utils.MaxStackallocSize)
-				Utils.Free(native_xs);
-			// Freeing ys native string
-			if (byteCount_ys > Utils.MaxStackallocSize)
-				Utils.Free(native_ys);
-			// Freeing neg native string
-			if (byteCount_neg > Utils.MaxStackallocSize)
-				Utils.Free(native_neg);
-			// Freeing pos native string
-			if (byteCount_pos > Utils.MaxStackallocSize)
-				Utils.Free(native_pos);
 		}
 
 		public static void PlotErrorBarsS16PtrS16PtrS16PtrS16Ptr(ReadOnlySpan<char> labelId, ref short xs, ref short ys, ref short neg, ref short pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (short* native_xs = &xs)
-			fixed (short* native_ys = &ys)
-			fixed (short* native_neg = &neg)
-			fixed (short* native_pos = &pos)
+			fixed (short* nativeXs = &xs)
+			fixed (short* nativeYs = &ys)
+			fixed (short* nativeNeg = &neg)
+			fixed (short* nativePos = &pos)
 			{
-				ImPlotNative.PlotErrorBarsS16PtrS16PtrS16PtrS16Ptr(native_labelId, native_xs, native_ys, native_neg, native_pos, count, flags, offset, stride);
+				ImPlotNative.PlotErrorBarsS16PtrS16PtrS16PtrS16Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotErrorBarsU16PtrU16PtrU16PtrU16Ptr(ReadOnlySpan<byte> labelId, ref ushort xs, ref ushort ys, ref ushort neg, ref ushort pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ushort* nativeXs = &xs)
+			fixed (ushort* nativeYs = &ys)
+			fixed (ushort* nativeNeg = &neg)
+			fixed (ushort* nativePos = &pos)
+			{
+				ImPlotNative.PlotErrorBarsU16PtrU16PtrU16PtrU16Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotErrorBarsU16PtrU16PtrU16PtrU16Ptr(ReadOnlySpan<char> labelId, ref ushort xs, ref ushort ys, ref ushort neg, ref ushort pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ushort* native_xs = &xs)
-			fixed (ushort* native_ys = &ys)
-			fixed (ushort* native_neg = &neg)
-			fixed (ushort* native_pos = &pos)
+			fixed (ushort* nativeXs = &xs)
+			fixed (ushort* nativeYs = &ys)
+			fixed (ushort* nativeNeg = &neg)
+			fixed (ushort* nativePos = &pos)
 			{
-				ImPlotNative.PlotErrorBarsU16PtrU16PtrU16PtrU16Ptr(native_labelId, native_xs, native_ys, native_neg, native_pos, count, flags, offset, stride);
+				ImPlotNative.PlotErrorBarsU16PtrU16PtrU16PtrU16Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotErrorBarsS32PtrS32PtrS32PtrS32Ptr(ReadOnlySpan<byte> labelId, ref int xs, ref int ys, ref int neg, ref int pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (int* nativeXs = &xs)
+			fixed (int* nativeYs = &ys)
+			fixed (int* nativeNeg = &neg)
+			fixed (int* nativePos = &pos)
+			{
+				ImPlotNative.PlotErrorBarsS32PtrS32PtrS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotErrorBarsS32PtrS32PtrS32PtrS32Ptr(ReadOnlySpan<char> labelId, ref int xs, ref int ys, ref int neg, ref int pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (int* native_xs = &xs)
-			fixed (int* native_ys = &ys)
-			fixed (int* native_neg = &neg)
-			fixed (int* native_pos = &pos)
+			fixed (int* nativeXs = &xs)
+			fixed (int* nativeYs = &ys)
+			fixed (int* nativeNeg = &neg)
+			fixed (int* nativePos = &pos)
 			{
-				ImPlotNative.PlotErrorBarsS32PtrS32PtrS32PtrS32Ptr(native_labelId, native_xs, native_ys, native_neg, native_pos, count, flags, offset, stride);
+				ImPlotNative.PlotErrorBarsS32PtrS32PtrS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotErrorBarsU32PtrU32PtrU32PtrU32Ptr(ReadOnlySpan<byte> labelId, ref uint xs, ref uint ys, ref uint neg, ref uint pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (uint* nativeXs = &xs)
+			fixed (uint* nativeYs = &ys)
+			fixed (uint* nativeNeg = &neg)
+			fixed (uint* nativePos = &pos)
+			{
+				ImPlotNative.PlotErrorBarsU32PtrU32PtrU32PtrU32Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotErrorBarsU32PtrU32PtrU32PtrU32Ptr(ReadOnlySpan<char> labelId, ref uint xs, ref uint ys, ref uint neg, ref uint pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (uint* native_xs = &xs)
-			fixed (uint* native_ys = &ys)
-			fixed (uint* native_neg = &neg)
-			fixed (uint* native_pos = &pos)
+			fixed (uint* nativeXs = &xs)
+			fixed (uint* nativeYs = &ys)
+			fixed (uint* nativeNeg = &neg)
+			fixed (uint* nativePos = &pos)
 			{
-				ImPlotNative.PlotErrorBarsU32PtrU32PtrU32PtrU32Ptr(native_labelId, native_xs, native_ys, native_neg, native_pos, count, flags, offset, stride);
+				ImPlotNative.PlotErrorBarsU32PtrU32PtrU32PtrU32Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotErrorBarsS64PtrS64PtrS64PtrS64Ptr(ReadOnlySpan<byte> labelId, ref long xs, ref long ys, ref long neg, ref long pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (long* nativeXs = &xs)
+			fixed (long* nativeYs = &ys)
+			fixed (long* nativeNeg = &neg)
+			fixed (long* nativePos = &pos)
+			{
+				ImPlotNative.PlotErrorBarsS64PtrS64PtrS64PtrS64Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotErrorBarsS64PtrS64PtrS64PtrS64Ptr(ReadOnlySpan<char> labelId, ref long xs, ref long ys, ref long neg, ref long pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (long* native_xs = &xs)
-			fixed (long* native_ys = &ys)
-			fixed (long* native_neg = &neg)
-			fixed (long* native_pos = &pos)
+			fixed (long* nativeXs = &xs)
+			fixed (long* nativeYs = &ys)
+			fixed (long* nativeNeg = &neg)
+			fixed (long* nativePos = &pos)
 			{
-				ImPlotNative.PlotErrorBarsS64PtrS64PtrS64PtrS64Ptr(native_labelId, native_xs, native_ys, native_neg, native_pos, count, flags, offset, stride);
+				ImPlotNative.PlotErrorBarsS64PtrS64PtrS64PtrS64Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotErrorBarsU64PtrU64PtrU64PtrU64Ptr(ReadOnlySpan<byte> labelId, ref ulong xs, ref ulong ys, ref ulong neg, ref ulong pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ulong* nativeXs = &xs)
+			fixed (ulong* nativeYs = &ys)
+			fixed (ulong* nativeNeg = &neg)
+			fixed (ulong* nativePos = &pos)
+			{
+				ImPlotNative.PlotErrorBarsU64PtrU64PtrU64PtrU64Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotErrorBarsU64PtrU64PtrU64PtrU64Ptr(ReadOnlySpan<char> labelId, ref ulong xs, ref ulong ys, ref ulong neg, ref ulong pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ulong* native_xs = &xs)
-			fixed (ulong* native_ys = &ys)
-			fixed (ulong* native_neg = &neg)
-			fixed (ulong* native_pos = &pos)
+			fixed (ulong* nativeXs = &xs)
+			fixed (ulong* nativeYs = &ys)
+			fixed (ulong* nativeNeg = &neg)
+			fixed (ulong* nativePos = &pos)
 			{
-				ImPlotNative.PlotErrorBarsU64PtrU64PtrU64PtrU64Ptr(native_labelId, native_xs, native_ys, native_neg, native_pos, count, flags, offset, stride);
+				ImPlotNative.PlotErrorBarsU64PtrU64PtrU64PtrU64Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStemsFloatPtrInt(ReadOnlySpan<byte> labelId, ref float values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (float* nativeValues = &values)
+			{
+				ImPlotNative.PlotStemsFloatPtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStemsFloatPtrInt(ReadOnlySpan<char> labelId, ref float values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (float* native_values = &values)
+			fixed (float* nativeValues = &values)
 			{
-				ImPlotNative.PlotStemsFloatPtrInt(native_labelId, native_values, count, _ref, scale, start, flags, offset, stride);
+				ImPlotNative.PlotStemsFloatPtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStemsDoublePtrInt(ReadOnlySpan<byte> labelId, ref double values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (double* nativeValues = &values)
+			{
+				ImPlotNative.PlotStemsDoublePtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStemsDoublePtrInt(ReadOnlySpan<char> labelId, ref double values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (double* native_values = &values)
+			fixed (double* nativeValues = &values)
 			{
-				ImPlotNative.PlotStemsDoublePtrInt(native_labelId, native_values, count, _ref, scale, start, flags, offset, stride);
+				ImPlotNative.PlotStemsDoublePtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStemsS8PtrInt(ReadOnlySpan<byte> labelId, ref sbyte values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (sbyte* nativeValues = &values)
+			{
+				ImPlotNative.PlotStemsS8PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStemsS8PtrInt(ReadOnlySpan<char> labelId, ref sbyte values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (sbyte* native_values = &values)
+			fixed (sbyte* nativeValues = &values)
 			{
-				ImPlotNative.PlotStemsS8PtrInt(native_labelId, native_values, count, _ref, scale, start, flags, offset, stride);
+				ImPlotNative.PlotStemsS8PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
 		}
 
-		public static void PlotStemsU8PtrInt(ReadOnlySpan<char> labelId, ReadOnlySpan<char> values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsU8PtrInt(ReadOnlySpan<byte> labelId, ref byte values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (byte* nativeValues = &values)
+			{
+				ImPlotNative.PlotStemsU8PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
+			}
+		}
+
+		public static void PlotStemsU8PtrInt(ReadOnlySpan<char> labelId, ref byte values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			// Marshaling values to native string
-			byte* native_values;
-			var byteCount_values = 0;
-			if (values != null)
+			fixed (byte* nativeValues = &values)
 			{
-				byteCount_values = Encoding.UTF8.GetByteCount(values);
-				if(byteCount_values > Utils.MaxStackallocSize)
-				{
-					native_values = Utils.Alloc<byte>(byteCount_values + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_values + 1];
-					native_values = stackallocBytes;
-				}
-				var values_offset = Utils.EncodeStringUTF8(values, native_values, byteCount_values);
-				native_values[values_offset] = 0;
+				ImPlotNative.PlotStemsU8PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
+				// Freeing labelId native string
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
-			else native_values = null;
+		}
 
-			ImPlotNative.PlotStemsU8PtrInt(native_labelId, native_values, count, _ref, scale, start, flags, offset, stride);
-			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
-			// Freeing values native string
-			if (byteCount_values > Utils.MaxStackallocSize)
-				Utils.Free(native_values);
+		public static void PlotStemsS16PtrInt(ReadOnlySpan<byte> labelId, ref short values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (short* nativeValues = &values)
+			{
+				ImPlotNative.PlotStemsS16PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
+			}
 		}
 
 		public static void PlotStemsS16PtrInt(ReadOnlySpan<char> labelId, ref short values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (short* native_values = &values)
+			fixed (short* nativeValues = &values)
 			{
-				ImPlotNative.PlotStemsS16PtrInt(native_labelId, native_values, count, _ref, scale, start, flags, offset, stride);
+				ImPlotNative.PlotStemsS16PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStemsU16PtrInt(ReadOnlySpan<byte> labelId, ref ushort values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ushort* nativeValues = &values)
+			{
+				ImPlotNative.PlotStemsU16PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStemsU16PtrInt(ReadOnlySpan<char> labelId, ref ushort values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ushort* native_values = &values)
+			fixed (ushort* nativeValues = &values)
 			{
-				ImPlotNative.PlotStemsU16PtrInt(native_labelId, native_values, count, _ref, scale, start, flags, offset, stride);
+				ImPlotNative.PlotStemsU16PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStemsS32PtrInt(ReadOnlySpan<byte> labelId, ref int values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (int* nativeValues = &values)
+			{
+				ImPlotNative.PlotStemsS32PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStemsS32PtrInt(ReadOnlySpan<char> labelId, ref int values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (int* native_values = &values)
+			fixed (int* nativeValues = &values)
 			{
-				ImPlotNative.PlotStemsS32PtrInt(native_labelId, native_values, count, _ref, scale, start, flags, offset, stride);
+				ImPlotNative.PlotStemsS32PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStemsU32PtrInt(ReadOnlySpan<byte> labelId, ref uint values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (uint* nativeValues = &values)
+			{
+				ImPlotNative.PlotStemsU32PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStemsU32PtrInt(ReadOnlySpan<char> labelId, ref uint values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (uint* native_values = &values)
+			fixed (uint* nativeValues = &values)
 			{
-				ImPlotNative.PlotStemsU32PtrInt(native_labelId, native_values, count, _ref, scale, start, flags, offset, stride);
+				ImPlotNative.PlotStemsU32PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStemsS64PtrInt(ReadOnlySpan<byte> labelId, ref long values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (long* nativeValues = &values)
+			{
+				ImPlotNative.PlotStemsS64PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStemsS64PtrInt(ReadOnlySpan<char> labelId, ref long values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (long* native_values = &values)
+			fixed (long* nativeValues = &values)
 			{
-				ImPlotNative.PlotStemsS64PtrInt(native_labelId, native_values, count, _ref, scale, start, flags, offset, stride);
+				ImPlotNative.PlotStemsS64PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStemsU64PtrInt(ReadOnlySpan<byte> labelId, ref ulong values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ulong* nativeValues = &values)
+			{
+				ImPlotNative.PlotStemsU64PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStemsU64PtrInt(ReadOnlySpan<char> labelId, ref ulong values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ulong* native_values = &values)
+			fixed (ulong* nativeValues = &values)
 			{
-				ImPlotNative.PlotStemsU64PtrInt(native_labelId, native_values, count, _ref, scale, start, flags, offset, stride);
+				ImPlotNative.PlotStemsU64PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStemsFloatPtrFloatPtr(ReadOnlySpan<byte> labelId, ref float xs, ref float ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (float* nativeXs = &xs)
+			fixed (float* nativeYs = &ys)
+			{
+				ImPlotNative.PlotStemsFloatPtrFloatPtr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStemsFloatPtrFloatPtr(ReadOnlySpan<char> labelId, ref float xs, ref float ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (float* native_xs = &xs)
-			fixed (float* native_ys = &ys)
+			fixed (float* nativeXs = &xs)
+			fixed (float* nativeYs = &ys)
 			{
-				ImPlotNative.PlotStemsFloatPtrFloatPtr(native_labelId, native_xs, native_ys, count, _ref, flags, offset, stride);
+				ImPlotNative.PlotStemsFloatPtrFloatPtr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStemsDoublePtrdoublePtr(ReadOnlySpan<byte> labelId, ref double xs, ref double ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (double* nativeXs = &xs)
+			fixed (double* nativeYs = &ys)
+			{
+				ImPlotNative.PlotStemsDoublePtrdoublePtr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStemsDoublePtrdoublePtr(ReadOnlySpan<char> labelId, ref double xs, ref double ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (double* native_xs = &xs)
-			fixed (double* native_ys = &ys)
+			fixed (double* nativeXs = &xs)
+			fixed (double* nativeYs = &ys)
 			{
-				ImPlotNative.PlotStemsDoublePtrdoublePtr(native_labelId, native_xs, native_ys, count, _ref, flags, offset, stride);
+				ImPlotNative.PlotStemsDoublePtrdoublePtr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStemsS8PtrS8Ptr(ReadOnlySpan<byte> labelId, ref sbyte xs, ref sbyte ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (sbyte* nativeXs = &xs)
+			fixed (sbyte* nativeYs = &ys)
+			{
+				ImPlotNative.PlotStemsS8PtrS8Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStemsS8PtrS8Ptr(ReadOnlySpan<char> labelId, ref sbyte xs, ref sbyte ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (sbyte* native_xs = &xs)
-			fixed (sbyte* native_ys = &ys)
+			fixed (sbyte* nativeXs = &xs)
+			fixed (sbyte* nativeYs = &ys)
 			{
-				ImPlotNative.PlotStemsS8PtrS8Ptr(native_labelId, native_xs, native_ys, count, _ref, flags, offset, stride);
+				ImPlotNative.PlotStemsS8PtrS8Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
 		}
 
-		public static void PlotStemsU8PtrU8Ptr(ReadOnlySpan<char> labelId, ReadOnlySpan<char> xs, ReadOnlySpan<char> ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsU8PtrU8Ptr(ReadOnlySpan<byte> labelId, ref byte xs, ref byte ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (byte* nativeXs = &xs)
+			fixed (byte* nativeYs = &ys)
+			{
+				ImPlotNative.PlotStemsU8PtrU8Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
+			}
+		}
+
+		public static void PlotStemsU8PtrU8Ptr(ReadOnlySpan<char> labelId, ref byte xs, ref byte ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			// Marshaling xs to native string
-			byte* native_xs;
-			var byteCount_xs = 0;
-			if (xs != null)
+			fixed (byte* nativeXs = &xs)
+			fixed (byte* nativeYs = &ys)
 			{
-				byteCount_xs = Encoding.UTF8.GetByteCount(xs);
-				if(byteCount_xs > Utils.MaxStackallocSize)
-				{
-					native_xs = Utils.Alloc<byte>(byteCount_xs + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_xs + 1];
-					native_xs = stackallocBytes;
-				}
-				var xs_offset = Utils.EncodeStringUTF8(xs, native_xs, byteCount_xs);
-				native_xs[xs_offset] = 0;
+				ImPlotNative.PlotStemsU8PtrU8Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
+				// Freeing labelId native string
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
-			else native_xs = null;
+		}
 
-			// Marshaling ys to native string
-			byte* native_ys;
-			var byteCount_ys = 0;
-			if (ys != null)
+		public static void PlotStemsS16PtrS16Ptr(ReadOnlySpan<byte> labelId, ref short xs, ref short ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (short* nativeXs = &xs)
+			fixed (short* nativeYs = &ys)
 			{
-				byteCount_ys = Encoding.UTF8.GetByteCount(ys);
-				if(byteCount_ys > Utils.MaxStackallocSize)
-				{
-					native_ys = Utils.Alloc<byte>(byteCount_ys + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_ys + 1];
-					native_ys = stackallocBytes;
-				}
-				var ys_offset = Utils.EncodeStringUTF8(ys, native_ys, byteCount_ys);
-				native_ys[ys_offset] = 0;
+				ImPlotNative.PlotStemsS16PtrS16Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 			}
-			else native_ys = null;
-
-			ImPlotNative.PlotStemsU8PtrU8Ptr(native_labelId, native_xs, native_ys, count, _ref, flags, offset, stride);
-			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
-			// Freeing xs native string
-			if (byteCount_xs > Utils.MaxStackallocSize)
-				Utils.Free(native_xs);
-			// Freeing ys native string
-			if (byteCount_ys > Utils.MaxStackallocSize)
-				Utils.Free(native_ys);
 		}
 
 		public static void PlotStemsS16PtrS16Ptr(ReadOnlySpan<char> labelId, ref short xs, ref short ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (short* native_xs = &xs)
-			fixed (short* native_ys = &ys)
+			fixed (short* nativeXs = &xs)
+			fixed (short* nativeYs = &ys)
 			{
-				ImPlotNative.PlotStemsS16PtrS16Ptr(native_labelId, native_xs, native_ys, count, _ref, flags, offset, stride);
+				ImPlotNative.PlotStemsS16PtrS16Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStemsU16PtrU16Ptr(ReadOnlySpan<byte> labelId, ref ushort xs, ref ushort ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ushort* nativeXs = &xs)
+			fixed (ushort* nativeYs = &ys)
+			{
+				ImPlotNative.PlotStemsU16PtrU16Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStemsU16PtrU16Ptr(ReadOnlySpan<char> labelId, ref ushort xs, ref ushort ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ushort* native_xs = &xs)
-			fixed (ushort* native_ys = &ys)
+			fixed (ushort* nativeXs = &xs)
+			fixed (ushort* nativeYs = &ys)
 			{
-				ImPlotNative.PlotStemsU16PtrU16Ptr(native_labelId, native_xs, native_ys, count, _ref, flags, offset, stride);
+				ImPlotNative.PlotStemsU16PtrU16Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStemsS32PtrS32Ptr(ReadOnlySpan<byte> labelId, ref int xs, ref int ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (int* nativeXs = &xs)
+			fixed (int* nativeYs = &ys)
+			{
+				ImPlotNative.PlotStemsS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStemsS32PtrS32Ptr(ReadOnlySpan<char> labelId, ref int xs, ref int ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (int* native_xs = &xs)
-			fixed (int* native_ys = &ys)
+			fixed (int* nativeXs = &xs)
+			fixed (int* nativeYs = &ys)
 			{
-				ImPlotNative.PlotStemsS32PtrS32Ptr(native_labelId, native_xs, native_ys, count, _ref, flags, offset, stride);
+				ImPlotNative.PlotStemsS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStemsU32PtrU32Ptr(ReadOnlySpan<byte> labelId, ref uint xs, ref uint ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (uint* nativeXs = &xs)
+			fixed (uint* nativeYs = &ys)
+			{
+				ImPlotNative.PlotStemsU32PtrU32Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStemsU32PtrU32Ptr(ReadOnlySpan<char> labelId, ref uint xs, ref uint ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (uint* native_xs = &xs)
-			fixed (uint* native_ys = &ys)
+			fixed (uint* nativeXs = &xs)
+			fixed (uint* nativeYs = &ys)
 			{
-				ImPlotNative.PlotStemsU32PtrU32Ptr(native_labelId, native_xs, native_ys, count, _ref, flags, offset, stride);
+				ImPlotNative.PlotStemsU32PtrU32Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStemsS64PtrS64Ptr(ReadOnlySpan<byte> labelId, ref long xs, ref long ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (long* nativeXs = &xs)
+			fixed (long* nativeYs = &ys)
+			{
+				ImPlotNative.PlotStemsS64PtrS64Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStemsS64PtrS64Ptr(ReadOnlySpan<char> labelId, ref long xs, ref long ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (long* native_xs = &xs)
-			fixed (long* native_ys = &ys)
+			fixed (long* nativeXs = &xs)
+			fixed (long* nativeYs = &ys)
 			{
-				ImPlotNative.PlotStemsS64PtrS64Ptr(native_labelId, native_xs, native_ys, count, _ref, flags, offset, stride);
+				ImPlotNative.PlotStemsS64PtrS64Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotStemsU64PtrU64Ptr(ReadOnlySpan<byte> labelId, ref ulong xs, ref ulong ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ulong* nativeXs = &xs)
+			fixed (ulong* nativeYs = &ys)
+			{
+				ImPlotNative.PlotStemsU64PtrU64Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 			}
 		}
 
 		public static void PlotStemsU64PtrU64Ptr(ReadOnlySpan<char> labelId, ref ulong xs, ref ulong ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ulong* native_xs = &xs)
-			fixed (ulong* native_ys = &ys)
+			fixed (ulong* nativeXs = &xs)
+			fixed (ulong* nativeYs = &ys)
 			{
-				ImPlotNative.PlotStemsU64PtrU64Ptr(native_labelId, native_xs, native_ys, count, _ref, flags, offset, stride);
+				ImPlotNative.PlotStemsU64PtrU64Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotInfLinesFloatPtr(ReadOnlySpan<byte> labelId, ref float values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (float* nativeValues = &values)
+			{
+				ImPlotNative.PlotInfLinesFloatPtr(nativeLabelId, nativeValues, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotInfLinesFloatPtr(ReadOnlySpan<char> labelId, ref float values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (float* native_values = &values)
+			fixed (float* nativeValues = &values)
 			{
-				ImPlotNative.PlotInfLinesFloatPtr(native_labelId, native_values, count, flags, offset, stride);
+				ImPlotNative.PlotInfLinesFloatPtr(nativeLabelId, nativeValues, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotInfLinesDoublePtr(ReadOnlySpan<byte> labelId, ref double values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (double* nativeValues = &values)
+			{
+				ImPlotNative.PlotInfLinesDoublePtr(nativeLabelId, nativeValues, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotInfLinesDoublePtr(ReadOnlySpan<char> labelId, ref double values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (double* native_values = &values)
+			fixed (double* nativeValues = &values)
 			{
-				ImPlotNative.PlotInfLinesDoublePtr(native_labelId, native_values, count, flags, offset, stride);
+				ImPlotNative.PlotInfLinesDoublePtr(nativeLabelId, nativeValues, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotInfLinesS8Ptr(ReadOnlySpan<byte> labelId, ref sbyte values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (sbyte* nativeValues = &values)
+			{
+				ImPlotNative.PlotInfLinesS8Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotInfLinesS8Ptr(ReadOnlySpan<char> labelId, ref sbyte values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (sbyte* native_values = &values)
+			fixed (sbyte* nativeValues = &values)
 			{
-				ImPlotNative.PlotInfLinesS8Ptr(native_labelId, native_values, count, flags, offset, stride);
+				ImPlotNative.PlotInfLinesS8Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
 		}
 
-		public static void PlotInfLinesU8Ptr(ReadOnlySpan<char> labelId, ReadOnlySpan<char> values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		public static void PlotInfLinesU8Ptr(ReadOnlySpan<byte> labelId, ref byte values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (byte* nativeValues = &values)
+			{
+				ImPlotNative.PlotInfLinesU8Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
+			}
+		}
+
+		public static void PlotInfLinesU8Ptr(ReadOnlySpan<char> labelId, ref byte values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			// Marshaling values to native string
-			byte* native_values;
-			var byteCount_values = 0;
-			if (values != null)
+			fixed (byte* nativeValues = &values)
 			{
-				byteCount_values = Encoding.UTF8.GetByteCount(values);
-				if(byteCount_values > Utils.MaxStackallocSize)
-				{
-					native_values = Utils.Alloc<byte>(byteCount_values + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_values + 1];
-					native_values = stackallocBytes;
-				}
-				var values_offset = Utils.EncodeStringUTF8(values, native_values, byteCount_values);
-				native_values[values_offset] = 0;
+				ImPlotNative.PlotInfLinesU8Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
+				// Freeing labelId native string
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
-			else native_values = null;
+		}
 
-			ImPlotNative.PlotInfLinesU8Ptr(native_labelId, native_values, count, flags, offset, stride);
-			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
-			// Freeing values native string
-			if (byteCount_values > Utils.MaxStackallocSize)
-				Utils.Free(native_values);
+		public static void PlotInfLinesS16Ptr(ReadOnlySpan<byte> labelId, ref short values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (short* nativeValues = &values)
+			{
+				ImPlotNative.PlotInfLinesS16Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
+			}
 		}
 
 		public static void PlotInfLinesS16Ptr(ReadOnlySpan<char> labelId, ref short values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (short* native_values = &values)
+			fixed (short* nativeValues = &values)
 			{
-				ImPlotNative.PlotInfLinesS16Ptr(native_labelId, native_values, count, flags, offset, stride);
+				ImPlotNative.PlotInfLinesS16Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotInfLinesU16Ptr(ReadOnlySpan<byte> labelId, ref ushort values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ushort* nativeValues = &values)
+			{
+				ImPlotNative.PlotInfLinesU16Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotInfLinesU16Ptr(ReadOnlySpan<char> labelId, ref ushort values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ushort* native_values = &values)
+			fixed (ushort* nativeValues = &values)
 			{
-				ImPlotNative.PlotInfLinesU16Ptr(native_labelId, native_values, count, flags, offset, stride);
+				ImPlotNative.PlotInfLinesU16Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotInfLinesS32Ptr(ReadOnlySpan<byte> labelId, ref int values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (int* nativeValues = &values)
+			{
+				ImPlotNative.PlotInfLinesS32Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotInfLinesS32Ptr(ReadOnlySpan<char> labelId, ref int values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (int* native_values = &values)
+			fixed (int* nativeValues = &values)
 			{
-				ImPlotNative.PlotInfLinesS32Ptr(native_labelId, native_values, count, flags, offset, stride);
+				ImPlotNative.PlotInfLinesS32Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotInfLinesU32Ptr(ReadOnlySpan<byte> labelId, ref uint values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (uint* nativeValues = &values)
+			{
+				ImPlotNative.PlotInfLinesU32Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotInfLinesU32Ptr(ReadOnlySpan<char> labelId, ref uint values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (uint* native_values = &values)
+			fixed (uint* nativeValues = &values)
 			{
-				ImPlotNative.PlotInfLinesU32Ptr(native_labelId, native_values, count, flags, offset, stride);
+				ImPlotNative.PlotInfLinesU32Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotInfLinesS64Ptr(ReadOnlySpan<byte> labelId, ref long values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (long* nativeValues = &values)
+			{
+				ImPlotNative.PlotInfLinesS64Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotInfLinesS64Ptr(ReadOnlySpan<char> labelId, ref long values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (long* native_values = &values)
+			fixed (long* nativeValues = &values)
 			{
-				ImPlotNative.PlotInfLinesS64Ptr(native_labelId, native_values, count, flags, offset, stride);
+				ImPlotNative.PlotInfLinesS64Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotInfLinesU64Ptr(ReadOnlySpan<byte> labelId, ref ulong values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ulong* nativeValues = &values)
+			{
+				ImPlotNative.PlotInfLinesU64Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotInfLinesU64Ptr(ReadOnlySpan<char> labelId, ref ulong values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ulong* native_values = &values)
+			fixed (ulong* nativeValues = &values)
 			{
-				ImPlotNative.PlotInfLinesU64Ptr(native_labelId, native_values, count, flags, offset, stride);
+				ImPlotNative.PlotInfLinesU64Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
 		}
 
 		public static void PlotPieChartFloatPtrPlotFormatter(ref byte* labelIds, ref float values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
-			fixed (byte** native_labelIds = &labelIds)
-			fixed (float* native_values = &values)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (float* nativeValues = &values)
 			{
-				ImPlotNative.PlotPieChartFloatPtrPlotFormatter(native_labelIds, native_values, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
+				ImPlotNative.PlotPieChartFloatPtrPlotFormatter(nativeLabelIds, nativeValues, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
 			}
 		}
 
 		public static void PlotPieChartDoublePtrPlotFormatter(ref byte* labelIds, ref double values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
-			fixed (byte** native_labelIds = &labelIds)
-			fixed (double* native_values = &values)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (double* nativeValues = &values)
 			{
-				ImPlotNative.PlotPieChartDoublePtrPlotFormatter(native_labelIds, native_values, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
+				ImPlotNative.PlotPieChartDoublePtrPlotFormatter(nativeLabelIds, nativeValues, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
 			}
 		}
 
 		public static void PlotPieChartS8PtrPlotFormatter(ref byte* labelIds, ref sbyte values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
-			fixed (byte** native_labelIds = &labelIds)
-			fixed (sbyte* native_values = &values)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (sbyte* nativeValues = &values)
 			{
-				ImPlotNative.PlotPieChartS8PtrPlotFormatter(native_labelIds, native_values, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
+				ImPlotNative.PlotPieChartS8PtrPlotFormatter(nativeLabelIds, nativeValues, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
 			}
 		}
 
-		public static void PlotPieChartU8PtrPlotFormatter(ref byte* labelIds, ReadOnlySpan<char> values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartU8PtrPlotFormatter(ref byte* labelIds, ref byte values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
-			// Marshaling values to native string
-			byte* native_values;
-			var byteCount_values = 0;
-			if (values != null)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (byte* nativeValues = &values)
 			{
-				byteCount_values = Encoding.UTF8.GetByteCount(values);
-				if(byteCount_values > Utils.MaxStackallocSize)
-				{
-					native_values = Utils.Alloc<byte>(byteCount_values + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_values + 1];
-					native_values = stackallocBytes;
-				}
-				var values_offset = Utils.EncodeStringUTF8(values, native_values, byteCount_values);
-				native_values[values_offset] = 0;
-			}
-			else native_values = null;
-
-			fixed (byte** native_labelIds = &labelIds)
-			{
-				ImPlotNative.PlotPieChartU8PtrPlotFormatter(native_labelIds, native_values, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
-				// Freeing values native string
-				if (byteCount_values > Utils.MaxStackallocSize)
-					Utils.Free(native_values);
+				ImPlotNative.PlotPieChartU8PtrPlotFormatter(nativeLabelIds, nativeValues, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
 			}
 		}
 
 		public static void PlotPieChartS16PtrPlotFormatter(ref byte* labelIds, ref short values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
-			fixed (byte** native_labelIds = &labelIds)
-			fixed (short* native_values = &values)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (short* nativeValues = &values)
 			{
-				ImPlotNative.PlotPieChartS16PtrPlotFormatter(native_labelIds, native_values, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
+				ImPlotNative.PlotPieChartS16PtrPlotFormatter(nativeLabelIds, nativeValues, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
 			}
 		}
 
 		public static void PlotPieChartU16PtrPlotFormatter(ref byte* labelIds, ref ushort values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
-			fixed (byte** native_labelIds = &labelIds)
-			fixed (ushort* native_values = &values)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (ushort* nativeValues = &values)
 			{
-				ImPlotNative.PlotPieChartU16PtrPlotFormatter(native_labelIds, native_values, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
+				ImPlotNative.PlotPieChartU16PtrPlotFormatter(nativeLabelIds, nativeValues, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
 			}
 		}
 
 		public static void PlotPieChartS32PtrPlotFormatter(ref byte* labelIds, ref int values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
-			fixed (byte** native_labelIds = &labelIds)
-			fixed (int* native_values = &values)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (int* nativeValues = &values)
 			{
-				ImPlotNative.PlotPieChartS32PtrPlotFormatter(native_labelIds, native_values, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
+				ImPlotNative.PlotPieChartS32PtrPlotFormatter(nativeLabelIds, nativeValues, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
 			}
 		}
 
 		public static void PlotPieChartU32PtrPlotFormatter(ref byte* labelIds, ref uint values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
-			fixed (byte** native_labelIds = &labelIds)
-			fixed (uint* native_values = &values)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (uint* nativeValues = &values)
 			{
-				ImPlotNative.PlotPieChartU32PtrPlotFormatter(native_labelIds, native_values, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
+				ImPlotNative.PlotPieChartU32PtrPlotFormatter(nativeLabelIds, nativeValues, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
 			}
 		}
 
 		public static void PlotPieChartS64PtrPlotFormatter(ref byte* labelIds, ref long values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
-			fixed (byte** native_labelIds = &labelIds)
-			fixed (long* native_values = &values)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (long* nativeValues = &values)
 			{
-				ImPlotNative.PlotPieChartS64PtrPlotFormatter(native_labelIds, native_values, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
+				ImPlotNative.PlotPieChartS64PtrPlotFormatter(nativeLabelIds, nativeValues, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
 			}
 		}
 
 		public static void PlotPieChartU64PtrPlotFormatter(ref byte* labelIds, ref ulong values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
-			fixed (byte** native_labelIds = &labelIds)
-			fixed (ulong* native_values = &values)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (ulong* nativeValues = &values)
 			{
-				ImPlotNative.PlotPieChartU64PtrPlotFormatter(native_labelIds, native_values, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
+				ImPlotNative.PlotPieChartU64PtrPlotFormatter(nativeLabelIds, nativeValues, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
+			}
+		}
+
+		public static void PlotPieChartFloatPtrStr(ref byte* labelIds, ref float values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		{
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (float* nativeValues = &values)
+			fixed (byte* nativeLabelFmt = labelFmt)
+			{
+				ImPlotNative.PlotPieChartFloatPtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 			}
 		}
 
 		public static void PlotPieChartFloatPtrStr(ref byte* labelIds, ref float values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			// Marshaling labelFmt to native string
-			byte* native_labelFmt;
-			var byteCount_labelFmt = 0;
+			byte* nativeLabelFmt;
+			var byteCountLabelFmt = 0;
 			if (labelFmt != null)
 			{
-				byteCount_labelFmt = Encoding.UTF8.GetByteCount(labelFmt);
-				if(byteCount_labelFmt > Utils.MaxStackallocSize)
+				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
+				if(byteCountLabelFmt > Utils.MaxStackallocSize)
 				{
-					native_labelFmt = Utils.Alloc<byte>(byteCount_labelFmt + 1);
+					nativeLabelFmt = Utils.Alloc<byte>(byteCountLabelFmt + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelFmt + 1];
-					native_labelFmt = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelFmt + 1];
+					nativeLabelFmt = stackallocBytes;
 				}
-				var labelFmt_offset = Utils.EncodeStringUTF8(labelFmt, native_labelFmt, byteCount_labelFmt);
-				native_labelFmt[labelFmt_offset] = 0;
+				var offsetLabelFmt = Utils.EncodeStringUTF8(labelFmt, nativeLabelFmt, byteCountLabelFmt);
+				nativeLabelFmt[offsetLabelFmt] = 0;
 			}
-			else native_labelFmt = null;
+			else nativeLabelFmt = null;
 
-			fixed (byte** native_labelIds = &labelIds)
-			fixed (float* native_values = &values)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (float* nativeValues = &values)
 			{
-				ImPlotNative.PlotPieChartFloatPtrStr(native_labelIds, native_values, count, x, y, radius, native_labelFmt, angle0, flags);
+				ImPlotNative.PlotPieChartFloatPtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 				// Freeing labelFmt native string
-				if (byteCount_labelFmt > Utils.MaxStackallocSize)
-					Utils.Free(native_labelFmt);
+				if (byteCountLabelFmt > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelFmt);
+			}
+		}
+
+		public static void PlotPieChartDoublePtrStr(ref byte* labelIds, ref double values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		{
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (double* nativeValues = &values)
+			fixed (byte* nativeLabelFmt = labelFmt)
+			{
+				ImPlotNative.PlotPieChartDoublePtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 			}
 		}
 
 		public static void PlotPieChartDoublePtrStr(ref byte* labelIds, ref double values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			// Marshaling labelFmt to native string
-			byte* native_labelFmt;
-			var byteCount_labelFmt = 0;
+			byte* nativeLabelFmt;
+			var byteCountLabelFmt = 0;
 			if (labelFmt != null)
 			{
-				byteCount_labelFmt = Encoding.UTF8.GetByteCount(labelFmt);
-				if(byteCount_labelFmt > Utils.MaxStackallocSize)
+				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
+				if(byteCountLabelFmt > Utils.MaxStackallocSize)
 				{
-					native_labelFmt = Utils.Alloc<byte>(byteCount_labelFmt + 1);
+					nativeLabelFmt = Utils.Alloc<byte>(byteCountLabelFmt + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelFmt + 1];
-					native_labelFmt = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelFmt + 1];
+					nativeLabelFmt = stackallocBytes;
 				}
-				var labelFmt_offset = Utils.EncodeStringUTF8(labelFmt, native_labelFmt, byteCount_labelFmt);
-				native_labelFmt[labelFmt_offset] = 0;
+				var offsetLabelFmt = Utils.EncodeStringUTF8(labelFmt, nativeLabelFmt, byteCountLabelFmt);
+				nativeLabelFmt[offsetLabelFmt] = 0;
 			}
-			else native_labelFmt = null;
+			else nativeLabelFmt = null;
 
-			fixed (byte** native_labelIds = &labelIds)
-			fixed (double* native_values = &values)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (double* nativeValues = &values)
 			{
-				ImPlotNative.PlotPieChartDoublePtrStr(native_labelIds, native_values, count, x, y, radius, native_labelFmt, angle0, flags);
+				ImPlotNative.PlotPieChartDoublePtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 				// Freeing labelFmt native string
-				if (byteCount_labelFmt > Utils.MaxStackallocSize)
-					Utils.Free(native_labelFmt);
+				if (byteCountLabelFmt > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelFmt);
+			}
+		}
+
+		public static void PlotPieChartS8PtrStr(ref byte* labelIds, ref sbyte values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		{
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (sbyte* nativeValues = &values)
+			fixed (byte* nativeLabelFmt = labelFmt)
+			{
+				ImPlotNative.PlotPieChartS8PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 			}
 		}
 
 		public static void PlotPieChartS8PtrStr(ref byte* labelIds, ref sbyte values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			// Marshaling labelFmt to native string
-			byte* native_labelFmt;
-			var byteCount_labelFmt = 0;
+			byte* nativeLabelFmt;
+			var byteCountLabelFmt = 0;
 			if (labelFmt != null)
 			{
-				byteCount_labelFmt = Encoding.UTF8.GetByteCount(labelFmt);
-				if(byteCount_labelFmt > Utils.MaxStackallocSize)
+				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
+				if(byteCountLabelFmt > Utils.MaxStackallocSize)
 				{
-					native_labelFmt = Utils.Alloc<byte>(byteCount_labelFmt + 1);
+					nativeLabelFmt = Utils.Alloc<byte>(byteCountLabelFmt + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelFmt + 1];
-					native_labelFmt = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelFmt + 1];
+					nativeLabelFmt = stackallocBytes;
 				}
-				var labelFmt_offset = Utils.EncodeStringUTF8(labelFmt, native_labelFmt, byteCount_labelFmt);
-				native_labelFmt[labelFmt_offset] = 0;
+				var offsetLabelFmt = Utils.EncodeStringUTF8(labelFmt, nativeLabelFmt, byteCountLabelFmt);
+				nativeLabelFmt[offsetLabelFmt] = 0;
 			}
-			else native_labelFmt = null;
+			else nativeLabelFmt = null;
 
-			fixed (byte** native_labelIds = &labelIds)
-			fixed (sbyte* native_values = &values)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (sbyte* nativeValues = &values)
 			{
-				ImPlotNative.PlotPieChartS8PtrStr(native_labelIds, native_values, count, x, y, radius, native_labelFmt, angle0, flags);
+				ImPlotNative.PlotPieChartS8PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 				// Freeing labelFmt native string
-				if (byteCount_labelFmt > Utils.MaxStackallocSize)
-					Utils.Free(native_labelFmt);
+				if (byteCountLabelFmt > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelFmt);
 			}
 		}
 
-		public static void PlotPieChartU8PtrStr(ref byte* labelIds, ReadOnlySpan<char> values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartU8PtrStr(ref byte* labelIds, ref byte values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
-			// Marshaling values to native string
-			byte* native_values;
-			var byteCount_values = 0;
-			if (values != null)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeLabelFmt = labelFmt)
 			{
-				byteCount_values = Encoding.UTF8.GetByteCount(values);
-				if(byteCount_values > Utils.MaxStackallocSize)
-				{
-					native_values = Utils.Alloc<byte>(byteCount_values + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_values + 1];
-					native_values = stackallocBytes;
-				}
-				var values_offset = Utils.EncodeStringUTF8(values, native_values, byteCount_values);
-				native_values[values_offset] = 0;
+				ImPlotNative.PlotPieChartU8PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 			}
-			else native_values = null;
+		}
 
+		public static void PlotPieChartU8PtrStr(ref byte* labelIds, ref byte values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		{
 			// Marshaling labelFmt to native string
-			byte* native_labelFmt;
-			var byteCount_labelFmt = 0;
+			byte* nativeLabelFmt;
+			var byteCountLabelFmt = 0;
 			if (labelFmt != null)
 			{
-				byteCount_labelFmt = Encoding.UTF8.GetByteCount(labelFmt);
-				if(byteCount_labelFmt > Utils.MaxStackallocSize)
+				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
+				if(byteCountLabelFmt > Utils.MaxStackallocSize)
 				{
-					native_labelFmt = Utils.Alloc<byte>(byteCount_labelFmt + 1);
+					nativeLabelFmt = Utils.Alloc<byte>(byteCountLabelFmt + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelFmt + 1];
-					native_labelFmt = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelFmt + 1];
+					nativeLabelFmt = stackallocBytes;
 				}
-				var labelFmt_offset = Utils.EncodeStringUTF8(labelFmt, native_labelFmt, byteCount_labelFmt);
-				native_labelFmt[labelFmt_offset] = 0;
+				var offsetLabelFmt = Utils.EncodeStringUTF8(labelFmt, nativeLabelFmt, byteCountLabelFmt);
+				nativeLabelFmt[offsetLabelFmt] = 0;
 			}
-			else native_labelFmt = null;
+			else nativeLabelFmt = null;
 
-			fixed (byte** native_labelIds = &labelIds)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (byte* nativeValues = &values)
 			{
-				ImPlotNative.PlotPieChartU8PtrStr(native_labelIds, native_values, count, x, y, radius, native_labelFmt, angle0, flags);
-				// Freeing values native string
-				if (byteCount_values > Utils.MaxStackallocSize)
-					Utils.Free(native_values);
+				ImPlotNative.PlotPieChartU8PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 				// Freeing labelFmt native string
-				if (byteCount_labelFmt > Utils.MaxStackallocSize)
-					Utils.Free(native_labelFmt);
+				if (byteCountLabelFmt > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelFmt);
+			}
+		}
+
+		public static void PlotPieChartS16PtrStr(ref byte* labelIds, ref short values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		{
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (short* nativeValues = &values)
+			fixed (byte* nativeLabelFmt = labelFmt)
+			{
+				ImPlotNative.PlotPieChartS16PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 			}
 		}
 
 		public static void PlotPieChartS16PtrStr(ref byte* labelIds, ref short values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			// Marshaling labelFmt to native string
-			byte* native_labelFmt;
-			var byteCount_labelFmt = 0;
+			byte* nativeLabelFmt;
+			var byteCountLabelFmt = 0;
 			if (labelFmt != null)
 			{
-				byteCount_labelFmt = Encoding.UTF8.GetByteCount(labelFmt);
-				if(byteCount_labelFmt > Utils.MaxStackallocSize)
+				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
+				if(byteCountLabelFmt > Utils.MaxStackallocSize)
 				{
-					native_labelFmt = Utils.Alloc<byte>(byteCount_labelFmt + 1);
+					nativeLabelFmt = Utils.Alloc<byte>(byteCountLabelFmt + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelFmt + 1];
-					native_labelFmt = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelFmt + 1];
+					nativeLabelFmt = stackallocBytes;
 				}
-				var labelFmt_offset = Utils.EncodeStringUTF8(labelFmt, native_labelFmt, byteCount_labelFmt);
-				native_labelFmt[labelFmt_offset] = 0;
+				var offsetLabelFmt = Utils.EncodeStringUTF8(labelFmt, nativeLabelFmt, byteCountLabelFmt);
+				nativeLabelFmt[offsetLabelFmt] = 0;
 			}
-			else native_labelFmt = null;
+			else nativeLabelFmt = null;
 
-			fixed (byte** native_labelIds = &labelIds)
-			fixed (short* native_values = &values)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (short* nativeValues = &values)
 			{
-				ImPlotNative.PlotPieChartS16PtrStr(native_labelIds, native_values, count, x, y, radius, native_labelFmt, angle0, flags);
+				ImPlotNative.PlotPieChartS16PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 				// Freeing labelFmt native string
-				if (byteCount_labelFmt > Utils.MaxStackallocSize)
-					Utils.Free(native_labelFmt);
+				if (byteCountLabelFmt > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelFmt);
+			}
+		}
+
+		public static void PlotPieChartU16PtrStr(ref byte* labelIds, ref ushort values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		{
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (ushort* nativeValues = &values)
+			fixed (byte* nativeLabelFmt = labelFmt)
+			{
+				ImPlotNative.PlotPieChartU16PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 			}
 		}
 
 		public static void PlotPieChartU16PtrStr(ref byte* labelIds, ref ushort values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			// Marshaling labelFmt to native string
-			byte* native_labelFmt;
-			var byteCount_labelFmt = 0;
+			byte* nativeLabelFmt;
+			var byteCountLabelFmt = 0;
 			if (labelFmt != null)
 			{
-				byteCount_labelFmt = Encoding.UTF8.GetByteCount(labelFmt);
-				if(byteCount_labelFmt > Utils.MaxStackallocSize)
+				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
+				if(byteCountLabelFmt > Utils.MaxStackallocSize)
 				{
-					native_labelFmt = Utils.Alloc<byte>(byteCount_labelFmt + 1);
+					nativeLabelFmt = Utils.Alloc<byte>(byteCountLabelFmt + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelFmt + 1];
-					native_labelFmt = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelFmt + 1];
+					nativeLabelFmt = stackallocBytes;
 				}
-				var labelFmt_offset = Utils.EncodeStringUTF8(labelFmt, native_labelFmt, byteCount_labelFmt);
-				native_labelFmt[labelFmt_offset] = 0;
+				var offsetLabelFmt = Utils.EncodeStringUTF8(labelFmt, nativeLabelFmt, byteCountLabelFmt);
+				nativeLabelFmt[offsetLabelFmt] = 0;
 			}
-			else native_labelFmt = null;
+			else nativeLabelFmt = null;
 
-			fixed (byte** native_labelIds = &labelIds)
-			fixed (ushort* native_values = &values)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (ushort* nativeValues = &values)
 			{
-				ImPlotNative.PlotPieChartU16PtrStr(native_labelIds, native_values, count, x, y, radius, native_labelFmt, angle0, flags);
+				ImPlotNative.PlotPieChartU16PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 				// Freeing labelFmt native string
-				if (byteCount_labelFmt > Utils.MaxStackallocSize)
-					Utils.Free(native_labelFmt);
+				if (byteCountLabelFmt > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelFmt);
+			}
+		}
+
+		public static void PlotPieChartS32PtrStr(ref byte* labelIds, ref int values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		{
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (int* nativeValues = &values)
+			fixed (byte* nativeLabelFmt = labelFmt)
+			{
+				ImPlotNative.PlotPieChartS32PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 			}
 		}
 
 		public static void PlotPieChartS32PtrStr(ref byte* labelIds, ref int values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			// Marshaling labelFmt to native string
-			byte* native_labelFmt;
-			var byteCount_labelFmt = 0;
+			byte* nativeLabelFmt;
+			var byteCountLabelFmt = 0;
 			if (labelFmt != null)
 			{
-				byteCount_labelFmt = Encoding.UTF8.GetByteCount(labelFmt);
-				if(byteCount_labelFmt > Utils.MaxStackallocSize)
+				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
+				if(byteCountLabelFmt > Utils.MaxStackallocSize)
 				{
-					native_labelFmt = Utils.Alloc<byte>(byteCount_labelFmt + 1);
+					nativeLabelFmt = Utils.Alloc<byte>(byteCountLabelFmt + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelFmt + 1];
-					native_labelFmt = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelFmt + 1];
+					nativeLabelFmt = stackallocBytes;
 				}
-				var labelFmt_offset = Utils.EncodeStringUTF8(labelFmt, native_labelFmt, byteCount_labelFmt);
-				native_labelFmt[labelFmt_offset] = 0;
+				var offsetLabelFmt = Utils.EncodeStringUTF8(labelFmt, nativeLabelFmt, byteCountLabelFmt);
+				nativeLabelFmt[offsetLabelFmt] = 0;
 			}
-			else native_labelFmt = null;
+			else nativeLabelFmt = null;
 
-			fixed (byte** native_labelIds = &labelIds)
-			fixed (int* native_values = &values)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (int* nativeValues = &values)
 			{
-				ImPlotNative.PlotPieChartS32PtrStr(native_labelIds, native_values, count, x, y, radius, native_labelFmt, angle0, flags);
+				ImPlotNative.PlotPieChartS32PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 				// Freeing labelFmt native string
-				if (byteCount_labelFmt > Utils.MaxStackallocSize)
-					Utils.Free(native_labelFmt);
+				if (byteCountLabelFmt > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelFmt);
+			}
+		}
+
+		public static void PlotPieChartU32PtrStr(ref byte* labelIds, ref uint values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		{
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (uint* nativeValues = &values)
+			fixed (byte* nativeLabelFmt = labelFmt)
+			{
+				ImPlotNative.PlotPieChartU32PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 			}
 		}
 
 		public static void PlotPieChartU32PtrStr(ref byte* labelIds, ref uint values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			// Marshaling labelFmt to native string
-			byte* native_labelFmt;
-			var byteCount_labelFmt = 0;
+			byte* nativeLabelFmt;
+			var byteCountLabelFmt = 0;
 			if (labelFmt != null)
 			{
-				byteCount_labelFmt = Encoding.UTF8.GetByteCount(labelFmt);
-				if(byteCount_labelFmt > Utils.MaxStackallocSize)
+				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
+				if(byteCountLabelFmt > Utils.MaxStackallocSize)
 				{
-					native_labelFmt = Utils.Alloc<byte>(byteCount_labelFmt + 1);
+					nativeLabelFmt = Utils.Alloc<byte>(byteCountLabelFmt + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelFmt + 1];
-					native_labelFmt = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelFmt + 1];
+					nativeLabelFmt = stackallocBytes;
 				}
-				var labelFmt_offset = Utils.EncodeStringUTF8(labelFmt, native_labelFmt, byteCount_labelFmt);
-				native_labelFmt[labelFmt_offset] = 0;
+				var offsetLabelFmt = Utils.EncodeStringUTF8(labelFmt, nativeLabelFmt, byteCountLabelFmt);
+				nativeLabelFmt[offsetLabelFmt] = 0;
 			}
-			else native_labelFmt = null;
+			else nativeLabelFmt = null;
 
-			fixed (byte** native_labelIds = &labelIds)
-			fixed (uint* native_values = &values)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (uint* nativeValues = &values)
 			{
-				ImPlotNative.PlotPieChartU32PtrStr(native_labelIds, native_values, count, x, y, radius, native_labelFmt, angle0, flags);
+				ImPlotNative.PlotPieChartU32PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 				// Freeing labelFmt native string
-				if (byteCount_labelFmt > Utils.MaxStackallocSize)
-					Utils.Free(native_labelFmt);
+				if (byteCountLabelFmt > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelFmt);
+			}
+		}
+
+		public static void PlotPieChartS64PtrStr(ref byte* labelIds, ref long values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		{
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (long* nativeValues = &values)
+			fixed (byte* nativeLabelFmt = labelFmt)
+			{
+				ImPlotNative.PlotPieChartS64PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 			}
 		}
 
 		public static void PlotPieChartS64PtrStr(ref byte* labelIds, ref long values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			// Marshaling labelFmt to native string
-			byte* native_labelFmt;
-			var byteCount_labelFmt = 0;
+			byte* nativeLabelFmt;
+			var byteCountLabelFmt = 0;
 			if (labelFmt != null)
 			{
-				byteCount_labelFmt = Encoding.UTF8.GetByteCount(labelFmt);
-				if(byteCount_labelFmt > Utils.MaxStackallocSize)
+				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
+				if(byteCountLabelFmt > Utils.MaxStackallocSize)
 				{
-					native_labelFmt = Utils.Alloc<byte>(byteCount_labelFmt + 1);
+					nativeLabelFmt = Utils.Alloc<byte>(byteCountLabelFmt + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelFmt + 1];
-					native_labelFmt = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelFmt + 1];
+					nativeLabelFmt = stackallocBytes;
 				}
-				var labelFmt_offset = Utils.EncodeStringUTF8(labelFmt, native_labelFmt, byteCount_labelFmt);
-				native_labelFmt[labelFmt_offset] = 0;
+				var offsetLabelFmt = Utils.EncodeStringUTF8(labelFmt, nativeLabelFmt, byteCountLabelFmt);
+				nativeLabelFmt[offsetLabelFmt] = 0;
 			}
-			else native_labelFmt = null;
+			else nativeLabelFmt = null;
 
-			fixed (byte** native_labelIds = &labelIds)
-			fixed (long* native_values = &values)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (long* nativeValues = &values)
 			{
-				ImPlotNative.PlotPieChartS64PtrStr(native_labelIds, native_values, count, x, y, radius, native_labelFmt, angle0, flags);
+				ImPlotNative.PlotPieChartS64PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 				// Freeing labelFmt native string
-				if (byteCount_labelFmt > Utils.MaxStackallocSize)
-					Utils.Free(native_labelFmt);
+				if (byteCountLabelFmt > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelFmt);
+			}
+		}
+
+		public static void PlotPieChartU64PtrStr(ref byte* labelIds, ref ulong values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		{
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (ulong* nativeValues = &values)
+			fixed (byte* nativeLabelFmt = labelFmt)
+			{
+				ImPlotNative.PlotPieChartU64PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 			}
 		}
 
 		public static void PlotPieChartU64PtrStr(ref byte* labelIds, ref ulong values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			// Marshaling labelFmt to native string
-			byte* native_labelFmt;
-			var byteCount_labelFmt = 0;
+			byte* nativeLabelFmt;
+			var byteCountLabelFmt = 0;
 			if (labelFmt != null)
 			{
-				byteCount_labelFmt = Encoding.UTF8.GetByteCount(labelFmt);
-				if(byteCount_labelFmt > Utils.MaxStackallocSize)
+				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
+				if(byteCountLabelFmt > Utils.MaxStackallocSize)
 				{
-					native_labelFmt = Utils.Alloc<byte>(byteCount_labelFmt + 1);
+					nativeLabelFmt = Utils.Alloc<byte>(byteCountLabelFmt + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelFmt + 1];
-					native_labelFmt = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelFmt + 1];
+					nativeLabelFmt = stackallocBytes;
 				}
-				var labelFmt_offset = Utils.EncodeStringUTF8(labelFmt, native_labelFmt, byteCount_labelFmt);
-				native_labelFmt[labelFmt_offset] = 0;
+				var offsetLabelFmt = Utils.EncodeStringUTF8(labelFmt, nativeLabelFmt, byteCountLabelFmt);
+				nativeLabelFmt[offsetLabelFmt] = 0;
 			}
-			else native_labelFmt = null;
+			else nativeLabelFmt = null;
 
-			fixed (byte** native_labelIds = &labelIds)
-			fixed (ulong* native_values = &values)
+			fixed (byte** nativeLabelIds = &labelIds)
+			fixed (ulong* nativeValues = &values)
 			{
-				ImPlotNative.PlotPieChartU64PtrStr(native_labelIds, native_values, count, x, y, radius, native_labelFmt, angle0, flags);
+				ImPlotNative.PlotPieChartU64PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 				// Freeing labelFmt native string
-				if (byteCount_labelFmt > Utils.MaxStackallocSize)
-					Utils.Free(native_labelFmt);
+				if (byteCountLabelFmt > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelFmt);
+			}
+		}
+
+		public static void PlotHeatmapFloatPtr(ReadOnlySpan<byte> labelId, ref float values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (float* nativeValues = &values)
+			fixed (byte* nativeLabelFmt = labelFmt)
+			{
+				ImPlotNative.PlotHeatmapFloatPtr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 			}
 		}
 
 		public static void PlotHeatmapFloatPtr(ReadOnlySpan<char> labelId, ref float values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
 			// Marshaling labelFmt to native string
-			byte* native_labelFmt;
-			var byteCount_labelFmt = 0;
+			byte* nativeLabelFmt;
+			var byteCountLabelFmt = 0;
 			if (labelFmt != null)
 			{
-				byteCount_labelFmt = Encoding.UTF8.GetByteCount(labelFmt);
-				if(byteCount_labelFmt > Utils.MaxStackallocSize)
+				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
+				if(byteCountLabelFmt > Utils.MaxStackallocSize)
 				{
-					native_labelFmt = Utils.Alloc<byte>(byteCount_labelFmt + 1);
+					nativeLabelFmt = Utils.Alloc<byte>(byteCountLabelFmt + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelFmt + 1];
-					native_labelFmt = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelFmt + 1];
+					nativeLabelFmt = stackallocBytes;
 				}
-				var labelFmt_offset = Utils.EncodeStringUTF8(labelFmt, native_labelFmt, byteCount_labelFmt);
-				native_labelFmt[labelFmt_offset] = 0;
+				var offsetLabelFmt = Utils.EncodeStringUTF8(labelFmt, nativeLabelFmt, byteCountLabelFmt);
+				nativeLabelFmt[offsetLabelFmt] = 0;
 			}
-			else native_labelFmt = null;
+			else nativeLabelFmt = null;
 
-			fixed (float* native_values = &values)
+			fixed (float* nativeValues = &values)
 			{
-				ImPlotNative.PlotHeatmapFloatPtr(native_labelId, native_values, rows, cols, scaleMin, scaleMax, native_labelFmt, boundsMin, boundsMax, flags);
+				ImPlotNative.PlotHeatmapFloatPtr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 				// Freeing labelFmt native string
-				if (byteCount_labelFmt > Utils.MaxStackallocSize)
-					Utils.Free(native_labelFmt);
+				if (byteCountLabelFmt > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelFmt);
+			}
+		}
+
+		public static void PlotHeatmapDoublePtr(ReadOnlySpan<byte> labelId, ref double values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (double* nativeValues = &values)
+			fixed (byte* nativeLabelFmt = labelFmt)
+			{
+				ImPlotNative.PlotHeatmapDoublePtr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 			}
 		}
 
 		public static void PlotHeatmapDoublePtr(ReadOnlySpan<char> labelId, ref double values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
 			// Marshaling labelFmt to native string
-			byte* native_labelFmt;
-			var byteCount_labelFmt = 0;
+			byte* nativeLabelFmt;
+			var byteCountLabelFmt = 0;
 			if (labelFmt != null)
 			{
-				byteCount_labelFmt = Encoding.UTF8.GetByteCount(labelFmt);
-				if(byteCount_labelFmt > Utils.MaxStackallocSize)
+				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
+				if(byteCountLabelFmt > Utils.MaxStackallocSize)
 				{
-					native_labelFmt = Utils.Alloc<byte>(byteCount_labelFmt + 1);
+					nativeLabelFmt = Utils.Alloc<byte>(byteCountLabelFmt + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelFmt + 1];
-					native_labelFmt = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelFmt + 1];
+					nativeLabelFmt = stackallocBytes;
 				}
-				var labelFmt_offset = Utils.EncodeStringUTF8(labelFmt, native_labelFmt, byteCount_labelFmt);
-				native_labelFmt[labelFmt_offset] = 0;
+				var offsetLabelFmt = Utils.EncodeStringUTF8(labelFmt, nativeLabelFmt, byteCountLabelFmt);
+				nativeLabelFmt[offsetLabelFmt] = 0;
 			}
-			else native_labelFmt = null;
+			else nativeLabelFmt = null;
 
-			fixed (double* native_values = &values)
+			fixed (double* nativeValues = &values)
 			{
-				ImPlotNative.PlotHeatmapDoublePtr(native_labelId, native_values, rows, cols, scaleMin, scaleMax, native_labelFmt, boundsMin, boundsMax, flags);
+				ImPlotNative.PlotHeatmapDoublePtr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 				// Freeing labelFmt native string
-				if (byteCount_labelFmt > Utils.MaxStackallocSize)
-					Utils.Free(native_labelFmt);
+				if (byteCountLabelFmt > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelFmt);
+			}
+		}
+
+		public static void PlotHeatmapS8Ptr(ReadOnlySpan<byte> labelId, ref sbyte values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (sbyte* nativeValues = &values)
+			fixed (byte* nativeLabelFmt = labelFmt)
+			{
+				ImPlotNative.PlotHeatmapS8Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 			}
 		}
 
 		public static void PlotHeatmapS8Ptr(ReadOnlySpan<char> labelId, ref sbyte values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
 			// Marshaling labelFmt to native string
-			byte* native_labelFmt;
-			var byteCount_labelFmt = 0;
+			byte* nativeLabelFmt;
+			var byteCountLabelFmt = 0;
 			if (labelFmt != null)
 			{
-				byteCount_labelFmt = Encoding.UTF8.GetByteCount(labelFmt);
-				if(byteCount_labelFmt > Utils.MaxStackallocSize)
+				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
+				if(byteCountLabelFmt > Utils.MaxStackallocSize)
 				{
-					native_labelFmt = Utils.Alloc<byte>(byteCount_labelFmt + 1);
+					nativeLabelFmt = Utils.Alloc<byte>(byteCountLabelFmt + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelFmt + 1];
-					native_labelFmt = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelFmt + 1];
+					nativeLabelFmt = stackallocBytes;
 				}
-				var labelFmt_offset = Utils.EncodeStringUTF8(labelFmt, native_labelFmt, byteCount_labelFmt);
-				native_labelFmt[labelFmt_offset] = 0;
+				var offsetLabelFmt = Utils.EncodeStringUTF8(labelFmt, nativeLabelFmt, byteCountLabelFmt);
+				nativeLabelFmt[offsetLabelFmt] = 0;
 			}
-			else native_labelFmt = null;
+			else nativeLabelFmt = null;
 
-			fixed (sbyte* native_values = &values)
+			fixed (sbyte* nativeValues = &values)
 			{
-				ImPlotNative.PlotHeatmapS8Ptr(native_labelId, native_values, rows, cols, scaleMin, scaleMax, native_labelFmt, boundsMin, boundsMax, flags);
+				ImPlotNative.PlotHeatmapS8Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 				// Freeing labelFmt native string
-				if (byteCount_labelFmt > Utils.MaxStackallocSize)
-					Utils.Free(native_labelFmt);
+				if (byteCountLabelFmt > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelFmt);
 			}
 		}
 
-		public static void PlotHeatmapU8Ptr(ReadOnlySpan<char> labelId, ReadOnlySpan<char> values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		public static void PlotHeatmapU8Ptr(ReadOnlySpan<byte> labelId, ref byte values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeLabelFmt = labelFmt)
+			{
+				ImPlotNative.PlotHeatmapU8Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
+			}
+		}
+
+		public static void PlotHeatmapU8Ptr(ReadOnlySpan<char> labelId, ref byte values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
-
-			// Marshaling values to native string
-			byte* native_values;
-			var byteCount_values = 0;
-			if (values != null)
-			{
-				byteCount_values = Encoding.UTF8.GetByteCount(values);
-				if(byteCount_values > Utils.MaxStackallocSize)
-				{
-					native_values = Utils.Alloc<byte>(byteCount_values + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_values + 1];
-					native_values = stackallocBytes;
-				}
-				var values_offset = Utils.EncodeStringUTF8(values, native_values, byteCount_values);
-				native_values[values_offset] = 0;
-			}
-			else native_values = null;
+			else nativeLabelId = null;
 
 			// Marshaling labelFmt to native string
-			byte* native_labelFmt;
-			var byteCount_labelFmt = 0;
+			byte* nativeLabelFmt;
+			var byteCountLabelFmt = 0;
 			if (labelFmt != null)
 			{
-				byteCount_labelFmt = Encoding.UTF8.GetByteCount(labelFmt);
-				if(byteCount_labelFmt > Utils.MaxStackallocSize)
+				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
+				if(byteCountLabelFmt > Utils.MaxStackallocSize)
 				{
-					native_labelFmt = Utils.Alloc<byte>(byteCount_labelFmt + 1);
+					nativeLabelFmt = Utils.Alloc<byte>(byteCountLabelFmt + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelFmt + 1];
-					native_labelFmt = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelFmt + 1];
+					nativeLabelFmt = stackallocBytes;
 				}
-				var labelFmt_offset = Utils.EncodeStringUTF8(labelFmt, native_labelFmt, byteCount_labelFmt);
-				native_labelFmt[labelFmt_offset] = 0;
+				var offsetLabelFmt = Utils.EncodeStringUTF8(labelFmt, nativeLabelFmt, byteCountLabelFmt);
+				nativeLabelFmt[offsetLabelFmt] = 0;
 			}
-			else native_labelFmt = null;
+			else nativeLabelFmt = null;
 
-			ImPlotNative.PlotHeatmapU8Ptr(native_labelId, native_values, rows, cols, scaleMin, scaleMax, native_labelFmt, boundsMin, boundsMax, flags);
-			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
-			// Freeing values native string
-			if (byteCount_values > Utils.MaxStackallocSize)
-				Utils.Free(native_values);
-			// Freeing labelFmt native string
-			if (byteCount_labelFmt > Utils.MaxStackallocSize)
-				Utils.Free(native_labelFmt);
+			fixed (byte* nativeValues = &values)
+			{
+				ImPlotNative.PlotHeatmapU8Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
+				// Freeing labelId native string
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+				// Freeing labelFmt native string
+				if (byteCountLabelFmt > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelFmt);
+			}
+		}
+
+		public static void PlotHeatmapS16Ptr(ReadOnlySpan<byte> labelId, ref short values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (short* nativeValues = &values)
+			fixed (byte* nativeLabelFmt = labelFmt)
+			{
+				ImPlotNative.PlotHeatmapS16Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
+			}
 		}
 
 		public static void PlotHeatmapS16Ptr(ReadOnlySpan<char> labelId, ref short values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
 			// Marshaling labelFmt to native string
-			byte* native_labelFmt;
-			var byteCount_labelFmt = 0;
+			byte* nativeLabelFmt;
+			var byteCountLabelFmt = 0;
 			if (labelFmt != null)
 			{
-				byteCount_labelFmt = Encoding.UTF8.GetByteCount(labelFmt);
-				if(byteCount_labelFmt > Utils.MaxStackallocSize)
+				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
+				if(byteCountLabelFmt > Utils.MaxStackallocSize)
 				{
-					native_labelFmt = Utils.Alloc<byte>(byteCount_labelFmt + 1);
+					nativeLabelFmt = Utils.Alloc<byte>(byteCountLabelFmt + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelFmt + 1];
-					native_labelFmt = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelFmt + 1];
+					nativeLabelFmt = stackallocBytes;
 				}
-				var labelFmt_offset = Utils.EncodeStringUTF8(labelFmt, native_labelFmt, byteCount_labelFmt);
-				native_labelFmt[labelFmt_offset] = 0;
+				var offsetLabelFmt = Utils.EncodeStringUTF8(labelFmt, nativeLabelFmt, byteCountLabelFmt);
+				nativeLabelFmt[offsetLabelFmt] = 0;
 			}
-			else native_labelFmt = null;
+			else nativeLabelFmt = null;
 
-			fixed (short* native_values = &values)
+			fixed (short* nativeValues = &values)
 			{
-				ImPlotNative.PlotHeatmapS16Ptr(native_labelId, native_values, rows, cols, scaleMin, scaleMax, native_labelFmt, boundsMin, boundsMax, flags);
+				ImPlotNative.PlotHeatmapS16Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 				// Freeing labelFmt native string
-				if (byteCount_labelFmt > Utils.MaxStackallocSize)
-					Utils.Free(native_labelFmt);
+				if (byteCountLabelFmt > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelFmt);
+			}
+		}
+
+		public static void PlotHeatmapU16Ptr(ReadOnlySpan<byte> labelId, ref ushort values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ushort* nativeValues = &values)
+			fixed (byte* nativeLabelFmt = labelFmt)
+			{
+				ImPlotNative.PlotHeatmapU16Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 			}
 		}
 
 		public static void PlotHeatmapU16Ptr(ReadOnlySpan<char> labelId, ref ushort values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
 			// Marshaling labelFmt to native string
-			byte* native_labelFmt;
-			var byteCount_labelFmt = 0;
+			byte* nativeLabelFmt;
+			var byteCountLabelFmt = 0;
 			if (labelFmt != null)
 			{
-				byteCount_labelFmt = Encoding.UTF8.GetByteCount(labelFmt);
-				if(byteCount_labelFmt > Utils.MaxStackallocSize)
+				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
+				if(byteCountLabelFmt > Utils.MaxStackallocSize)
 				{
-					native_labelFmt = Utils.Alloc<byte>(byteCount_labelFmt + 1);
+					nativeLabelFmt = Utils.Alloc<byte>(byteCountLabelFmt + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelFmt + 1];
-					native_labelFmt = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelFmt + 1];
+					nativeLabelFmt = stackallocBytes;
 				}
-				var labelFmt_offset = Utils.EncodeStringUTF8(labelFmt, native_labelFmt, byteCount_labelFmt);
-				native_labelFmt[labelFmt_offset] = 0;
+				var offsetLabelFmt = Utils.EncodeStringUTF8(labelFmt, nativeLabelFmt, byteCountLabelFmt);
+				nativeLabelFmt[offsetLabelFmt] = 0;
 			}
-			else native_labelFmt = null;
+			else nativeLabelFmt = null;
 
-			fixed (ushort* native_values = &values)
+			fixed (ushort* nativeValues = &values)
 			{
-				ImPlotNative.PlotHeatmapU16Ptr(native_labelId, native_values, rows, cols, scaleMin, scaleMax, native_labelFmt, boundsMin, boundsMax, flags);
+				ImPlotNative.PlotHeatmapU16Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 				// Freeing labelFmt native string
-				if (byteCount_labelFmt > Utils.MaxStackallocSize)
-					Utils.Free(native_labelFmt);
+				if (byteCountLabelFmt > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelFmt);
+			}
+		}
+
+		public static void PlotHeatmapS32Ptr(ReadOnlySpan<byte> labelId, ref int values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (int* nativeValues = &values)
+			fixed (byte* nativeLabelFmt = labelFmt)
+			{
+				ImPlotNative.PlotHeatmapS32Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 			}
 		}
 
 		public static void PlotHeatmapS32Ptr(ReadOnlySpan<char> labelId, ref int values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
 			// Marshaling labelFmt to native string
-			byte* native_labelFmt;
-			var byteCount_labelFmt = 0;
+			byte* nativeLabelFmt;
+			var byteCountLabelFmt = 0;
 			if (labelFmt != null)
 			{
-				byteCount_labelFmt = Encoding.UTF8.GetByteCount(labelFmt);
-				if(byteCount_labelFmt > Utils.MaxStackallocSize)
+				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
+				if(byteCountLabelFmt > Utils.MaxStackallocSize)
 				{
-					native_labelFmt = Utils.Alloc<byte>(byteCount_labelFmt + 1);
+					nativeLabelFmt = Utils.Alloc<byte>(byteCountLabelFmt + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelFmt + 1];
-					native_labelFmt = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelFmt + 1];
+					nativeLabelFmt = stackallocBytes;
 				}
-				var labelFmt_offset = Utils.EncodeStringUTF8(labelFmt, native_labelFmt, byteCount_labelFmt);
-				native_labelFmt[labelFmt_offset] = 0;
+				var offsetLabelFmt = Utils.EncodeStringUTF8(labelFmt, nativeLabelFmt, byteCountLabelFmt);
+				nativeLabelFmt[offsetLabelFmt] = 0;
 			}
-			else native_labelFmt = null;
+			else nativeLabelFmt = null;
 
-			fixed (int* native_values = &values)
+			fixed (int* nativeValues = &values)
 			{
-				ImPlotNative.PlotHeatmapS32Ptr(native_labelId, native_values, rows, cols, scaleMin, scaleMax, native_labelFmt, boundsMin, boundsMax, flags);
+				ImPlotNative.PlotHeatmapS32Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 				// Freeing labelFmt native string
-				if (byteCount_labelFmt > Utils.MaxStackallocSize)
-					Utils.Free(native_labelFmt);
+				if (byteCountLabelFmt > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelFmt);
+			}
+		}
+
+		public static void PlotHeatmapU32Ptr(ReadOnlySpan<byte> labelId, ref uint values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (uint* nativeValues = &values)
+			fixed (byte* nativeLabelFmt = labelFmt)
+			{
+				ImPlotNative.PlotHeatmapU32Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 			}
 		}
 
 		public static void PlotHeatmapU32Ptr(ReadOnlySpan<char> labelId, ref uint values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
 			// Marshaling labelFmt to native string
-			byte* native_labelFmt;
-			var byteCount_labelFmt = 0;
+			byte* nativeLabelFmt;
+			var byteCountLabelFmt = 0;
 			if (labelFmt != null)
 			{
-				byteCount_labelFmt = Encoding.UTF8.GetByteCount(labelFmt);
-				if(byteCount_labelFmt > Utils.MaxStackallocSize)
+				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
+				if(byteCountLabelFmt > Utils.MaxStackallocSize)
 				{
-					native_labelFmt = Utils.Alloc<byte>(byteCount_labelFmt + 1);
+					nativeLabelFmt = Utils.Alloc<byte>(byteCountLabelFmt + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelFmt + 1];
-					native_labelFmt = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelFmt + 1];
+					nativeLabelFmt = stackallocBytes;
 				}
-				var labelFmt_offset = Utils.EncodeStringUTF8(labelFmt, native_labelFmt, byteCount_labelFmt);
-				native_labelFmt[labelFmt_offset] = 0;
+				var offsetLabelFmt = Utils.EncodeStringUTF8(labelFmt, nativeLabelFmt, byteCountLabelFmt);
+				nativeLabelFmt[offsetLabelFmt] = 0;
 			}
-			else native_labelFmt = null;
+			else nativeLabelFmt = null;
 
-			fixed (uint* native_values = &values)
+			fixed (uint* nativeValues = &values)
 			{
-				ImPlotNative.PlotHeatmapU32Ptr(native_labelId, native_values, rows, cols, scaleMin, scaleMax, native_labelFmt, boundsMin, boundsMax, flags);
+				ImPlotNative.PlotHeatmapU32Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 				// Freeing labelFmt native string
-				if (byteCount_labelFmt > Utils.MaxStackallocSize)
-					Utils.Free(native_labelFmt);
+				if (byteCountLabelFmt > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelFmt);
+			}
+		}
+
+		public static void PlotHeatmapS64Ptr(ReadOnlySpan<byte> labelId, ref long values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (long* nativeValues = &values)
+			fixed (byte* nativeLabelFmt = labelFmt)
+			{
+				ImPlotNative.PlotHeatmapS64Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 			}
 		}
 
 		public static void PlotHeatmapS64Ptr(ReadOnlySpan<char> labelId, ref long values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
 			// Marshaling labelFmt to native string
-			byte* native_labelFmt;
-			var byteCount_labelFmt = 0;
+			byte* nativeLabelFmt;
+			var byteCountLabelFmt = 0;
 			if (labelFmt != null)
 			{
-				byteCount_labelFmt = Encoding.UTF8.GetByteCount(labelFmt);
-				if(byteCount_labelFmt > Utils.MaxStackallocSize)
+				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
+				if(byteCountLabelFmt > Utils.MaxStackallocSize)
 				{
-					native_labelFmt = Utils.Alloc<byte>(byteCount_labelFmt + 1);
+					nativeLabelFmt = Utils.Alloc<byte>(byteCountLabelFmt + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelFmt + 1];
-					native_labelFmt = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelFmt + 1];
+					nativeLabelFmt = stackallocBytes;
 				}
-				var labelFmt_offset = Utils.EncodeStringUTF8(labelFmt, native_labelFmt, byteCount_labelFmt);
-				native_labelFmt[labelFmt_offset] = 0;
+				var offsetLabelFmt = Utils.EncodeStringUTF8(labelFmt, nativeLabelFmt, byteCountLabelFmt);
+				nativeLabelFmt[offsetLabelFmt] = 0;
 			}
-			else native_labelFmt = null;
+			else nativeLabelFmt = null;
 
-			fixed (long* native_values = &values)
+			fixed (long* nativeValues = &values)
 			{
-				ImPlotNative.PlotHeatmapS64Ptr(native_labelId, native_values, rows, cols, scaleMin, scaleMax, native_labelFmt, boundsMin, boundsMax, flags);
+				ImPlotNative.PlotHeatmapS64Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 				// Freeing labelFmt native string
-				if (byteCount_labelFmt > Utils.MaxStackallocSize)
-					Utils.Free(native_labelFmt);
+				if (byteCountLabelFmt > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelFmt);
+			}
+		}
+
+		public static void PlotHeatmapU64Ptr(ReadOnlySpan<byte> labelId, ref ulong values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ulong* nativeValues = &values)
+			fixed (byte* nativeLabelFmt = labelFmt)
+			{
+				ImPlotNative.PlotHeatmapU64Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 			}
 		}
 
 		public static void PlotHeatmapU64Ptr(ReadOnlySpan<char> labelId, ref ulong values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
 			// Marshaling labelFmt to native string
-			byte* native_labelFmt;
-			var byteCount_labelFmt = 0;
+			byte* nativeLabelFmt;
+			var byteCountLabelFmt = 0;
 			if (labelFmt != null)
 			{
-				byteCount_labelFmt = Encoding.UTF8.GetByteCount(labelFmt);
-				if(byteCount_labelFmt > Utils.MaxStackallocSize)
+				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
+				if(byteCountLabelFmt > Utils.MaxStackallocSize)
 				{
-					native_labelFmt = Utils.Alloc<byte>(byteCount_labelFmt + 1);
+					nativeLabelFmt = Utils.Alloc<byte>(byteCountLabelFmt + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelFmt + 1];
-					native_labelFmt = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelFmt + 1];
+					nativeLabelFmt = stackallocBytes;
 				}
-				var labelFmt_offset = Utils.EncodeStringUTF8(labelFmt, native_labelFmt, byteCount_labelFmt);
-				native_labelFmt[labelFmt_offset] = 0;
+				var offsetLabelFmt = Utils.EncodeStringUTF8(labelFmt, nativeLabelFmt, byteCountLabelFmt);
+				nativeLabelFmt[offsetLabelFmt] = 0;
 			}
-			else native_labelFmt = null;
+			else nativeLabelFmt = null;
 
-			fixed (ulong* native_values = &values)
+			fixed (ulong* nativeValues = &values)
 			{
-				ImPlotNative.PlotHeatmapU64Ptr(native_labelId, native_values, rows, cols, scaleMin, scaleMax, native_labelFmt, boundsMin, boundsMax, flags);
+				ImPlotNative.PlotHeatmapU64Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 				// Freeing labelFmt native string
-				if (byteCount_labelFmt > Utils.MaxStackallocSize)
-					Utils.Free(native_labelFmt);
+				if (byteCountLabelFmt > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelFmt);
+			}
+		}
+
+		public static double PlotHistogramFloatPtr(ReadOnlySpan<byte> labelId, ref float values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (float* nativeValues = &values)
+			{
+				return ImPlotNative.PlotHistogramFloatPtr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 			}
 		}
 
 		public static double PlotHistogramFloatPtr(ReadOnlySpan<char> labelId, ref float values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (float* native_values = &values)
+			fixed (float* nativeValues = &values)
 			{
-				var result = ImPlotNative.PlotHistogramFloatPtr(native_labelId, native_values, count, bins, barScale, range, flags);
+				var result = ImPlotNative.PlotHistogramFloatPtr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 				return result;
+			}
+		}
+
+		public static double PlotHistogramDoublePtr(ReadOnlySpan<byte> labelId, ref double values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (double* nativeValues = &values)
+			{
+				return ImPlotNative.PlotHistogramDoublePtr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 			}
 		}
 
 		public static double PlotHistogramDoublePtr(ReadOnlySpan<char> labelId, ref double values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (double* native_values = &values)
+			fixed (double* nativeValues = &values)
 			{
-				var result = ImPlotNative.PlotHistogramDoublePtr(native_labelId, native_values, count, bins, barScale, range, flags);
+				var result = ImPlotNative.PlotHistogramDoublePtr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 				return result;
+			}
+		}
+
+		public static double PlotHistogramS8Ptr(ReadOnlySpan<byte> labelId, ref sbyte values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (sbyte* nativeValues = &values)
+			{
+				return ImPlotNative.PlotHistogramS8Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 			}
 		}
 
 		public static double PlotHistogramS8Ptr(ReadOnlySpan<char> labelId, ref sbyte values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (sbyte* native_values = &values)
+			fixed (sbyte* nativeValues = &values)
 			{
-				var result = ImPlotNative.PlotHistogramS8Ptr(native_labelId, native_values, count, bins, barScale, range, flags);
+				var result = ImPlotNative.PlotHistogramS8Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 				return result;
 			}
 		}
 
-		public static double PlotHistogramU8Ptr(ReadOnlySpan<char> labelId, ReadOnlySpan<char> values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		public static double PlotHistogramU8Ptr(ReadOnlySpan<byte> labelId, ref byte values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (byte* nativeValues = &values)
+			{
+				return ImPlotNative.PlotHistogramU8Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
+			}
+		}
+
+		public static double PlotHistogramU8Ptr(ReadOnlySpan<char> labelId, ref byte values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			// Marshaling values to native string
-			byte* native_values;
-			var byteCount_values = 0;
-			if (values != null)
+			fixed (byte* nativeValues = &values)
 			{
-				byteCount_values = Encoding.UTF8.GetByteCount(values);
-				if(byteCount_values > Utils.MaxStackallocSize)
-				{
-					native_values = Utils.Alloc<byte>(byteCount_values + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_values + 1];
-					native_values = stackallocBytes;
-				}
-				var values_offset = Utils.EncodeStringUTF8(values, native_values, byteCount_values);
-				native_values[values_offset] = 0;
+				var result = ImPlotNative.PlotHistogramU8Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
+				// Freeing labelId native string
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+				return result;
 			}
-			else native_values = null;
+		}
 
-			return ImPlotNative.PlotHistogramU8Ptr(native_labelId, native_values, count, bins, barScale, range, flags);
-			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
-			// Freeing values native string
-			if (byteCount_values > Utils.MaxStackallocSize)
-				Utils.Free(native_values);
+		public static double PlotHistogramS16Ptr(ReadOnlySpan<byte> labelId, ref short values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (short* nativeValues = &values)
+			{
+				return ImPlotNative.PlotHistogramS16Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
+			}
 		}
 
 		public static double PlotHistogramS16Ptr(ReadOnlySpan<char> labelId, ref short values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (short* native_values = &values)
+			fixed (short* nativeValues = &values)
 			{
-				var result = ImPlotNative.PlotHistogramS16Ptr(native_labelId, native_values, count, bins, barScale, range, flags);
+				var result = ImPlotNative.PlotHistogramS16Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 				return result;
+			}
+		}
+
+		public static double PlotHistogramU16Ptr(ReadOnlySpan<byte> labelId, ref ushort values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ushort* nativeValues = &values)
+			{
+				return ImPlotNative.PlotHistogramU16Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 			}
 		}
 
 		public static double PlotHistogramU16Ptr(ReadOnlySpan<char> labelId, ref ushort values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ushort* native_values = &values)
+			fixed (ushort* nativeValues = &values)
 			{
-				var result = ImPlotNative.PlotHistogramU16Ptr(native_labelId, native_values, count, bins, barScale, range, flags);
+				var result = ImPlotNative.PlotHistogramU16Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 				return result;
+			}
+		}
+
+		public static double PlotHistogramS32Ptr(ReadOnlySpan<byte> labelId, ref int values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (int* nativeValues = &values)
+			{
+				return ImPlotNative.PlotHistogramS32Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 			}
 		}
 
 		public static double PlotHistogramS32Ptr(ReadOnlySpan<char> labelId, ref int values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (int* native_values = &values)
+			fixed (int* nativeValues = &values)
 			{
-				var result = ImPlotNative.PlotHistogramS32Ptr(native_labelId, native_values, count, bins, barScale, range, flags);
+				var result = ImPlotNative.PlotHistogramS32Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 				return result;
+			}
+		}
+
+		public static double PlotHistogramU32Ptr(ReadOnlySpan<byte> labelId, ref uint values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (uint* nativeValues = &values)
+			{
+				return ImPlotNative.PlotHistogramU32Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 			}
 		}
 
 		public static double PlotHistogramU32Ptr(ReadOnlySpan<char> labelId, ref uint values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (uint* native_values = &values)
+			fixed (uint* nativeValues = &values)
 			{
-				var result = ImPlotNative.PlotHistogramU32Ptr(native_labelId, native_values, count, bins, barScale, range, flags);
+				var result = ImPlotNative.PlotHistogramU32Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 				return result;
+			}
+		}
+
+		public static double PlotHistogramS64Ptr(ReadOnlySpan<byte> labelId, ref long values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (long* nativeValues = &values)
+			{
+				return ImPlotNative.PlotHistogramS64Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 			}
 		}
 
 		public static double PlotHistogramS64Ptr(ReadOnlySpan<char> labelId, ref long values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (long* native_values = &values)
+			fixed (long* nativeValues = &values)
 			{
-				var result = ImPlotNative.PlotHistogramS64Ptr(native_labelId, native_values, count, bins, barScale, range, flags);
+				var result = ImPlotNative.PlotHistogramS64Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 				return result;
+			}
+		}
+
+		public static double PlotHistogramU64Ptr(ReadOnlySpan<byte> labelId, ref ulong values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ulong* nativeValues = &values)
+			{
+				return ImPlotNative.PlotHistogramU64Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 			}
 		}
 
 		public static double PlotHistogramU64Ptr(ReadOnlySpan<char> labelId, ref ulong values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ulong* native_values = &values)
+			fixed (ulong* nativeValues = &values)
 			{
-				var result = ImPlotNative.PlotHistogramU64Ptr(native_labelId, native_values, count, bins, barScale, range, flags);
+				var result = ImPlotNative.PlotHistogramU64Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 				return result;
+			}
+		}
+
+		public static double PlotHistogram2DFloatPtr(ReadOnlySpan<byte> labelId, ref float xs, ref float ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (float* nativeXs = &xs)
+			fixed (float* nativeYs = &ys)
+			{
+				return ImPlotNative.PlotHistogram2DFloatPtr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 			}
 		}
 
 		public static double PlotHistogram2DFloatPtr(ReadOnlySpan<char> labelId, ref float xs, ref float ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (float* native_xs = &xs)
-			fixed (float* native_ys = &ys)
+			fixed (float* nativeXs = &xs)
+			fixed (float* nativeYs = &ys)
 			{
-				var result = ImPlotNative.PlotHistogram2DFloatPtr(native_labelId, native_xs, native_ys, count, xBins, yBins, range, flags);
+				var result = ImPlotNative.PlotHistogram2DFloatPtr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 				return result;
+			}
+		}
+
+		public static double PlotHistogram2DDoublePtr(ReadOnlySpan<byte> labelId, ref double xs, ref double ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (double* nativeXs = &xs)
+			fixed (double* nativeYs = &ys)
+			{
+				return ImPlotNative.PlotHistogram2DDoublePtr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 			}
 		}
 
 		public static double PlotHistogram2DDoublePtr(ReadOnlySpan<char> labelId, ref double xs, ref double ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (double* native_xs = &xs)
-			fixed (double* native_ys = &ys)
+			fixed (double* nativeXs = &xs)
+			fixed (double* nativeYs = &ys)
 			{
-				var result = ImPlotNative.PlotHistogram2DDoublePtr(native_labelId, native_xs, native_ys, count, xBins, yBins, range, flags);
+				var result = ImPlotNative.PlotHistogram2DDoublePtr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 				return result;
+			}
+		}
+
+		public static double PlotHistogram2DS8Ptr(ReadOnlySpan<byte> labelId, ref sbyte xs, ref sbyte ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (sbyte* nativeXs = &xs)
+			fixed (sbyte* nativeYs = &ys)
+			{
+				return ImPlotNative.PlotHistogram2DS8Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 			}
 		}
 
 		public static double PlotHistogram2DS8Ptr(ReadOnlySpan<char> labelId, ref sbyte xs, ref sbyte ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (sbyte* native_xs = &xs)
-			fixed (sbyte* native_ys = &ys)
+			fixed (sbyte* nativeXs = &xs)
+			fixed (sbyte* nativeYs = &ys)
 			{
-				var result = ImPlotNative.PlotHistogram2DS8Ptr(native_labelId, native_xs, native_ys, count, xBins, yBins, range, flags);
+				var result = ImPlotNative.PlotHistogram2DS8Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 				return result;
 			}
 		}
 
-		public static double PlotHistogram2DU8Ptr(ReadOnlySpan<char> labelId, ReadOnlySpan<char> xs, ReadOnlySpan<char> ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		public static double PlotHistogram2DU8Ptr(ReadOnlySpan<byte> labelId, ref byte xs, ref byte ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (byte* nativeXs = &xs)
+			fixed (byte* nativeYs = &ys)
+			{
+				return ImPlotNative.PlotHistogram2DU8Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
+			}
+		}
+
+		public static double PlotHistogram2DU8Ptr(ReadOnlySpan<char> labelId, ref byte xs, ref byte ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			// Marshaling xs to native string
-			byte* native_xs;
-			var byteCount_xs = 0;
-			if (xs != null)
+			fixed (byte* nativeXs = &xs)
+			fixed (byte* nativeYs = &ys)
 			{
-				byteCount_xs = Encoding.UTF8.GetByteCount(xs);
-				if(byteCount_xs > Utils.MaxStackallocSize)
-				{
-					native_xs = Utils.Alloc<byte>(byteCount_xs + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_xs + 1];
-					native_xs = stackallocBytes;
-				}
-				var xs_offset = Utils.EncodeStringUTF8(xs, native_xs, byteCount_xs);
-				native_xs[xs_offset] = 0;
+				var result = ImPlotNative.PlotHistogram2DU8Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
+				// Freeing labelId native string
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+				return result;
 			}
-			else native_xs = null;
+		}
 
-			// Marshaling ys to native string
-			byte* native_ys;
-			var byteCount_ys = 0;
-			if (ys != null)
+		public static double PlotHistogram2DS16Ptr(ReadOnlySpan<byte> labelId, ref short xs, ref short ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (short* nativeXs = &xs)
+			fixed (short* nativeYs = &ys)
 			{
-				byteCount_ys = Encoding.UTF8.GetByteCount(ys);
-				if(byteCount_ys > Utils.MaxStackallocSize)
-				{
-					native_ys = Utils.Alloc<byte>(byteCount_ys + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_ys + 1];
-					native_ys = stackallocBytes;
-				}
-				var ys_offset = Utils.EncodeStringUTF8(ys, native_ys, byteCount_ys);
-				native_ys[ys_offset] = 0;
+				return ImPlotNative.PlotHistogram2DS16Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 			}
-			else native_ys = null;
-
-			return ImPlotNative.PlotHistogram2DU8Ptr(native_labelId, native_xs, native_ys, count, xBins, yBins, range, flags);
-			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
-			// Freeing xs native string
-			if (byteCount_xs > Utils.MaxStackallocSize)
-				Utils.Free(native_xs);
-			// Freeing ys native string
-			if (byteCount_ys > Utils.MaxStackallocSize)
-				Utils.Free(native_ys);
 		}
 
 		public static double PlotHistogram2DS16Ptr(ReadOnlySpan<char> labelId, ref short xs, ref short ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (short* native_xs = &xs)
-			fixed (short* native_ys = &ys)
+			fixed (short* nativeXs = &xs)
+			fixed (short* nativeYs = &ys)
 			{
-				var result = ImPlotNative.PlotHistogram2DS16Ptr(native_labelId, native_xs, native_ys, count, xBins, yBins, range, flags);
+				var result = ImPlotNative.PlotHistogram2DS16Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 				return result;
+			}
+		}
+
+		public static double PlotHistogram2DU16Ptr(ReadOnlySpan<byte> labelId, ref ushort xs, ref ushort ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ushort* nativeXs = &xs)
+			fixed (ushort* nativeYs = &ys)
+			{
+				return ImPlotNative.PlotHistogram2DU16Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 			}
 		}
 
 		public static double PlotHistogram2DU16Ptr(ReadOnlySpan<char> labelId, ref ushort xs, ref ushort ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ushort* native_xs = &xs)
-			fixed (ushort* native_ys = &ys)
+			fixed (ushort* nativeXs = &xs)
+			fixed (ushort* nativeYs = &ys)
 			{
-				var result = ImPlotNative.PlotHistogram2DU16Ptr(native_labelId, native_xs, native_ys, count, xBins, yBins, range, flags);
+				var result = ImPlotNative.PlotHistogram2DU16Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 				return result;
+			}
+		}
+
+		public static double PlotHistogram2DS32Ptr(ReadOnlySpan<byte> labelId, ref int xs, ref int ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (int* nativeXs = &xs)
+			fixed (int* nativeYs = &ys)
+			{
+				return ImPlotNative.PlotHistogram2DS32Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 			}
 		}
 
 		public static double PlotHistogram2DS32Ptr(ReadOnlySpan<char> labelId, ref int xs, ref int ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (int* native_xs = &xs)
-			fixed (int* native_ys = &ys)
+			fixed (int* nativeXs = &xs)
+			fixed (int* nativeYs = &ys)
 			{
-				var result = ImPlotNative.PlotHistogram2DS32Ptr(native_labelId, native_xs, native_ys, count, xBins, yBins, range, flags);
+				var result = ImPlotNative.PlotHistogram2DS32Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 				return result;
+			}
+		}
+
+		public static double PlotHistogram2DU32Ptr(ReadOnlySpan<byte> labelId, ref uint xs, ref uint ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (uint* nativeXs = &xs)
+			fixed (uint* nativeYs = &ys)
+			{
+				return ImPlotNative.PlotHistogram2DU32Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 			}
 		}
 
 		public static double PlotHistogram2DU32Ptr(ReadOnlySpan<char> labelId, ref uint xs, ref uint ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (uint* native_xs = &xs)
-			fixed (uint* native_ys = &ys)
+			fixed (uint* nativeXs = &xs)
+			fixed (uint* nativeYs = &ys)
 			{
-				var result = ImPlotNative.PlotHistogram2DU32Ptr(native_labelId, native_xs, native_ys, count, xBins, yBins, range, flags);
+				var result = ImPlotNative.PlotHistogram2DU32Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 				return result;
+			}
+		}
+
+		public static double PlotHistogram2DS64Ptr(ReadOnlySpan<byte> labelId, ref long xs, ref long ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (long* nativeXs = &xs)
+			fixed (long* nativeYs = &ys)
+			{
+				return ImPlotNative.PlotHistogram2DS64Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 			}
 		}
 
 		public static double PlotHistogram2DS64Ptr(ReadOnlySpan<char> labelId, ref long xs, ref long ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (long* native_xs = &xs)
-			fixed (long* native_ys = &ys)
+			fixed (long* nativeXs = &xs)
+			fixed (long* nativeYs = &ys)
 			{
-				var result = ImPlotNative.PlotHistogram2DS64Ptr(native_labelId, native_xs, native_ys, count, xBins, yBins, range, flags);
+				var result = ImPlotNative.PlotHistogram2DS64Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 				return result;
+			}
+		}
+
+		public static double PlotHistogram2DU64Ptr(ReadOnlySpan<byte> labelId, ref ulong xs, ref ulong ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ulong* nativeXs = &xs)
+			fixed (ulong* nativeYs = &ys)
+			{
+				return ImPlotNative.PlotHistogram2DU64Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 			}
 		}
 
 		public static double PlotHistogram2DU64Ptr(ReadOnlySpan<char> labelId, ref ulong xs, ref ulong ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ulong* native_xs = &xs)
-			fixed (ulong* native_ys = &ys)
+			fixed (ulong* nativeXs = &xs)
+			fixed (ulong* nativeYs = &ys)
 			{
-				var result = ImPlotNative.PlotHistogram2DU64Ptr(native_labelId, native_xs, native_ys, count, xBins, yBins, range, flags);
+				var result = ImPlotNative.PlotHistogram2DU64Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 				return result;
+			}
+		}
+
+		public static void PlotDigitalFloatPtr(ReadOnlySpan<byte> labelId, ref float xs, ref float ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (float* nativeXs = &xs)
+			fixed (float* nativeYs = &ys)
+			{
+				ImPlotNative.PlotDigitalFloatPtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotDigitalFloatPtr(ReadOnlySpan<char> labelId, ref float xs, ref float ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (float* native_xs = &xs)
-			fixed (float* native_ys = &ys)
+			fixed (float* nativeXs = &xs)
+			fixed (float* nativeYs = &ys)
 			{
-				ImPlotNative.PlotDigitalFloatPtr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotDigitalFloatPtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotDigitalDoublePtr(ReadOnlySpan<byte> labelId, ref double xs, ref double ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (double* nativeXs = &xs)
+			fixed (double* nativeYs = &ys)
+			{
+				ImPlotNative.PlotDigitalDoublePtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotDigitalDoublePtr(ReadOnlySpan<char> labelId, ref double xs, ref double ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (double* native_xs = &xs)
-			fixed (double* native_ys = &ys)
+			fixed (double* nativeXs = &xs)
+			fixed (double* nativeYs = &ys)
 			{
-				ImPlotNative.PlotDigitalDoublePtr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotDigitalDoublePtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotDigitalS8Ptr(ReadOnlySpan<byte> labelId, ref sbyte xs, ref sbyte ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (sbyte* nativeXs = &xs)
+			fixed (sbyte* nativeYs = &ys)
+			{
+				ImPlotNative.PlotDigitalS8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotDigitalS8Ptr(ReadOnlySpan<char> labelId, ref sbyte xs, ref sbyte ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (sbyte* native_xs = &xs)
-			fixed (sbyte* native_ys = &ys)
+			fixed (sbyte* nativeXs = &xs)
+			fixed (sbyte* nativeYs = &ys)
 			{
-				ImPlotNative.PlotDigitalS8Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotDigitalS8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
 		}
 
-		public static void PlotDigitalU8Ptr(ReadOnlySpan<char> labelId, ReadOnlySpan<char> xs, ReadOnlySpan<char> ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		public static void PlotDigitalU8Ptr(ReadOnlySpan<byte> labelId, ref byte xs, ref byte ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (byte* nativeXs = &xs)
+			fixed (byte* nativeYs = &ys)
+			{
+				ImPlotNative.PlotDigitalU8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
+			}
+		}
+
+		public static void PlotDigitalU8Ptr(ReadOnlySpan<char> labelId, ref byte xs, ref byte ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			// Marshaling xs to native string
-			byte* native_xs;
-			var byteCount_xs = 0;
-			if (xs != null)
+			fixed (byte* nativeXs = &xs)
+			fixed (byte* nativeYs = &ys)
 			{
-				byteCount_xs = Encoding.UTF8.GetByteCount(xs);
-				if(byteCount_xs > Utils.MaxStackallocSize)
-				{
-					native_xs = Utils.Alloc<byte>(byteCount_xs + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_xs + 1];
-					native_xs = stackallocBytes;
-				}
-				var xs_offset = Utils.EncodeStringUTF8(xs, native_xs, byteCount_xs);
-				native_xs[xs_offset] = 0;
+				ImPlotNative.PlotDigitalU8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
+				// Freeing labelId native string
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
 			}
-			else native_xs = null;
+		}
 
-			// Marshaling ys to native string
-			byte* native_ys;
-			var byteCount_ys = 0;
-			if (ys != null)
+		public static void PlotDigitalS16Ptr(ReadOnlySpan<byte> labelId, ref short xs, ref short ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (short* nativeXs = &xs)
+			fixed (short* nativeYs = &ys)
 			{
-				byteCount_ys = Encoding.UTF8.GetByteCount(ys);
-				if(byteCount_ys > Utils.MaxStackallocSize)
-				{
-					native_ys = Utils.Alloc<byte>(byteCount_ys + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_ys + 1];
-					native_ys = stackallocBytes;
-				}
-				var ys_offset = Utils.EncodeStringUTF8(ys, native_ys, byteCount_ys);
-				native_ys[ys_offset] = 0;
+				ImPlotNative.PlotDigitalS16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
-			else native_ys = null;
-
-			ImPlotNative.PlotDigitalU8Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
-			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
-			// Freeing xs native string
-			if (byteCount_xs > Utils.MaxStackallocSize)
-				Utils.Free(native_xs);
-			// Freeing ys native string
-			if (byteCount_ys > Utils.MaxStackallocSize)
-				Utils.Free(native_ys);
 		}
 
 		public static void PlotDigitalS16Ptr(ReadOnlySpan<char> labelId, ref short xs, ref short ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (short* native_xs = &xs)
-			fixed (short* native_ys = &ys)
+			fixed (short* nativeXs = &xs)
+			fixed (short* nativeYs = &ys)
 			{
-				ImPlotNative.PlotDigitalS16Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotDigitalS16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotDigitalU16Ptr(ReadOnlySpan<byte> labelId, ref ushort xs, ref ushort ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ushort* nativeXs = &xs)
+			fixed (ushort* nativeYs = &ys)
+			{
+				ImPlotNative.PlotDigitalU16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotDigitalU16Ptr(ReadOnlySpan<char> labelId, ref ushort xs, ref ushort ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ushort* native_xs = &xs)
-			fixed (ushort* native_ys = &ys)
+			fixed (ushort* nativeXs = &xs)
+			fixed (ushort* nativeYs = &ys)
 			{
-				ImPlotNative.PlotDigitalU16Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotDigitalU16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotDigitalS32Ptr(ReadOnlySpan<byte> labelId, ref int xs, ref int ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (int* nativeXs = &xs)
+			fixed (int* nativeYs = &ys)
+			{
+				ImPlotNative.PlotDigitalS32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotDigitalS32Ptr(ReadOnlySpan<char> labelId, ref int xs, ref int ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (int* native_xs = &xs)
-			fixed (int* native_ys = &ys)
+			fixed (int* nativeXs = &xs)
+			fixed (int* nativeYs = &ys)
 			{
-				ImPlotNative.PlotDigitalS32Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotDigitalS32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotDigitalU32Ptr(ReadOnlySpan<byte> labelId, ref uint xs, ref uint ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (uint* nativeXs = &xs)
+			fixed (uint* nativeYs = &ys)
+			{
+				ImPlotNative.PlotDigitalU32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotDigitalU32Ptr(ReadOnlySpan<char> labelId, ref uint xs, ref uint ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (uint* native_xs = &xs)
-			fixed (uint* native_ys = &ys)
+			fixed (uint* nativeXs = &xs)
+			fixed (uint* nativeYs = &ys)
 			{
-				ImPlotNative.PlotDigitalU32Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotDigitalU32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotDigitalS64Ptr(ReadOnlySpan<byte> labelId, ref long xs, ref long ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (long* nativeXs = &xs)
+			fixed (long* nativeYs = &ys)
+			{
+				ImPlotNative.PlotDigitalS64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotDigitalS64Ptr(ReadOnlySpan<char> labelId, ref long xs, ref long ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (long* native_xs = &xs)
-			fixed (long* native_ys = &ys)
+			fixed (long* nativeXs = &xs)
+			fixed (long* nativeYs = &ys)
 			{
-				ImPlotNative.PlotDigitalS64Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotDigitalS64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotDigitalU64Ptr(ReadOnlySpan<byte> labelId, ref ulong xs, ref ulong ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			fixed (ulong* nativeXs = &xs)
+			fixed (ulong* nativeYs = &ys)
+			{
+				ImPlotNative.PlotDigitalU64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
 		public static void PlotDigitalU64Ptr(ReadOnlySpan<char> labelId, ref ulong xs, ref ulong ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			fixed (ulong* native_xs = &xs)
-			fixed (ulong* native_ys = &ys)
+			fixed (ulong* nativeXs = &xs)
+			fixed (ulong* nativeYs = &ys)
 			{
-				ImPlotNative.PlotDigitalU64Ptr(native_labelId, native_xs, native_ys, count, flags, offset, stride);
+				ImPlotNative.PlotDigitalU64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
-				if (byteCount_labelId > Utils.MaxStackallocSize)
-					Utils.Free(native_labelId);
+				if (byteCountLabelId > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabelId);
+			}
+		}
+
+		public static void PlotDigitalG(ReadOnlySpan<byte> labelId, ImPlotPointGetter getter, IntPtr data, int count, ImPlotDigitalFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			{
+				ImPlotNative.PlotDigitalG(nativeLabelId, getter, (void*)data, count, flags);
 			}
 		}
 
 		public static void PlotDigitalG(ReadOnlySpan<char> labelId, ImPlotPointGetter getter, IntPtr data, int count, ImPlotDigitalFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			ImPlotNative.PlotDigitalG(native_labelId, getter, (void*)data, count, flags);
+			ImPlotNative.PlotDigitalG(nativeLabelId, getter, (void*)data, count, flags);
 			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+		}
+
+		public static void PlotDigitalG(ReadOnlySpan<char> labelId, ImPlotPointGetter getter, IntPtr data, int count)
+		{
+			// defining omitted parameters
+			ImPlotDigitalFlags flags = ImPlotDigitalFlags.None;
+			// Marshaling labelId to native string
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
+			if (labelId != null)
+			{
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
+				{
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
+				}
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
+			}
+			else nativeLabelId = null;
+
+			ImPlotNative.PlotDigitalG(nativeLabelId, getter, (void*)data, count, flags);
+			// Freeing labelId native string
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+		}
+
+		public static void PlotImage(ReadOnlySpan<byte> labelId, ulong userTextureId, ImPlotPoint boundsMin, ImPlotPoint boundsMax, Vector2 uv0, Vector2 uv1, Vector4 tintCol, ImPlotImageFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			{
+				ImPlotNative.PlotImage(nativeLabelId, userTextureId, boundsMin, boundsMax, uv0, uv1, tintCol, flags);
+			}
 		}
 
 		public static void PlotImage(ReadOnlySpan<char> labelId, ulong userTextureId, ImPlotPoint boundsMin, ImPlotPoint boundsMax, Vector2 uv0, Vector2 uv1, Vector4 tintCol, ImPlotImageFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			ImPlotNative.PlotImage(native_labelId, userTextureId, boundsMin, boundsMax, uv0, uv1, tintCol, flags);
+			ImPlotNative.PlotImage(nativeLabelId, userTextureId, boundsMin, boundsMax, uv0, uv1, tintCol, flags);
 			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+		}
+
+		public static void PlotImage(ReadOnlySpan<char> labelId, ulong userTextureId, ImPlotPoint boundsMin, ImPlotPoint boundsMax, Vector2 uv0, Vector2 uv1, Vector4 tintCol)
+		{
+			// defining omitted parameters
+			ImPlotImageFlags flags = ImPlotImageFlags.None;
+			// Marshaling labelId to native string
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
+			if (labelId != null)
+			{
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
+				{
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
+				}
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
+			}
+			else nativeLabelId = null;
+
+			ImPlotNative.PlotImage(nativeLabelId, userTextureId, boundsMin, boundsMax, uv0, uv1, tintCol, flags);
+			// Freeing labelId native string
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+		}
+
+		public static void PlotImage(ReadOnlySpan<char> labelId, ulong userTextureId, ImPlotPoint boundsMin, ImPlotPoint boundsMax, Vector2 uv0, Vector2 uv1)
+		{
+			// defining omitted parameters
+			ImPlotImageFlags flags = ImPlotImageFlags.None;
+			Vector4 tintCol = new Vector4(1,1,1,1);
+			// Marshaling labelId to native string
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
+			if (labelId != null)
+			{
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
+				{
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
+				}
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
+			}
+			else nativeLabelId = null;
+
+			ImPlotNative.PlotImage(nativeLabelId, userTextureId, boundsMin, boundsMax, uv0, uv1, tintCol, flags);
+			// Freeing labelId native string
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+		}
+
+		public static void PlotImage(ReadOnlySpan<char> labelId, ulong userTextureId, ImPlotPoint boundsMin, ImPlotPoint boundsMax, Vector2 uv0)
+		{
+			// defining omitted parameters
+			ImPlotImageFlags flags = ImPlotImageFlags.None;
+			Vector4 tintCol = new Vector4(1,1,1,1);
+			Vector2 uv1 = new Vector2(1,1);
+			// Marshaling labelId to native string
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
+			if (labelId != null)
+			{
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
+				{
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
+				}
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
+			}
+			else nativeLabelId = null;
+
+			ImPlotNative.PlotImage(nativeLabelId, userTextureId, boundsMin, boundsMax, uv0, uv1, tintCol, flags);
+			// Freeing labelId native string
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+		}
+
+		public static void PlotImage(ReadOnlySpan<char> labelId, ulong userTextureId, ImPlotPoint boundsMin, ImPlotPoint boundsMax)
+		{
+			// defining omitted parameters
+			ImPlotImageFlags flags = ImPlotImageFlags.None;
+			Vector4 tintCol = new Vector4(1,1,1,1);
+			Vector2 uv1 = new Vector2(1,1);
+			Vector2 uv0 = new Vector2(0,0);
+			// Marshaling labelId to native string
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
+			if (labelId != null)
+			{
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
+				{
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
+				}
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
+			}
+			else nativeLabelId = null;
+
+			ImPlotNative.PlotImage(nativeLabelId, userTextureId, boundsMin, boundsMax, uv0, uv1, tintCol, flags);
+			// Freeing labelId native string
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+		}
+
+		public static void PlotText(ReadOnlySpan<byte> text, double x, double y, Vector2 pixOffset, ImPlotTextFlags flags)
+		{
+			fixed (byte* nativeText = text)
+			{
+				ImPlotNative.PlotText(nativeText, x, y, pixOffset, flags);
+			}
 		}
 
 		public static void PlotText(ReadOnlySpan<char> text, double x, double y, Vector2 pixOffset, ImPlotTextFlags flags)
 		{
 			// Marshaling text to native string
-			byte* native_text;
-			var byteCount_text = 0;
+			byte* nativeText;
+			var byteCountText = 0;
 			if (text != null)
 			{
-				byteCount_text = Encoding.UTF8.GetByteCount(text);
-				if(byteCount_text > Utils.MaxStackallocSize)
+				byteCountText = Encoding.UTF8.GetByteCount(text);
+				if(byteCountText > Utils.MaxStackallocSize)
 				{
-					native_text = Utils.Alloc<byte>(byteCount_text + 1);
+					nativeText = Utils.Alloc<byte>(byteCountText + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_text + 1];
-					native_text = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountText + 1];
+					nativeText = stackallocBytes;
 				}
-				var text_offset = Utils.EncodeStringUTF8(text, native_text, byteCount_text);
-				native_text[text_offset] = 0;
+				var offsetText = Utils.EncodeStringUTF8(text, nativeText, byteCountText);
+				nativeText[offsetText] = 0;
 			}
-			else native_text = null;
+			else nativeText = null;
 
-			ImPlotNative.PlotText(native_text, x, y, pixOffset, flags);
+			ImPlotNative.PlotText(nativeText, x, y, pixOffset, flags);
 			// Freeing text native string
-			if (byteCount_text > Utils.MaxStackallocSize)
-				Utils.Free(native_text);
+			if (byteCountText > Utils.MaxStackallocSize)
+				Utils.Free(nativeText);
+		}
+
+		public static void PlotText(ReadOnlySpan<char> text, double x, double y, Vector2 pixOffset)
+		{
+			// defining omitted parameters
+			ImPlotTextFlags flags = ImPlotTextFlags.None;
+			// Marshaling text to native string
+			byte* nativeText;
+			var byteCountText = 0;
+			if (text != null)
+			{
+				byteCountText = Encoding.UTF8.GetByteCount(text);
+				if(byteCountText > Utils.MaxStackallocSize)
+				{
+					nativeText = Utils.Alloc<byte>(byteCountText + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountText + 1];
+					nativeText = stackallocBytes;
+				}
+				var offsetText = Utils.EncodeStringUTF8(text, nativeText, byteCountText);
+				nativeText[offsetText] = 0;
+			}
+			else nativeText = null;
+
+			ImPlotNative.PlotText(nativeText, x, y, pixOffset, flags);
+			// Freeing text native string
+			if (byteCountText > Utils.MaxStackallocSize)
+				Utils.Free(nativeText);
+		}
+
+		public static void PlotText(ReadOnlySpan<char> text, double x, double y)
+		{
+			// defining omitted parameters
+			ImPlotTextFlags flags = ImPlotTextFlags.None;
+			Vector2 pixOffset = new Vector2(0,0);
+			// Marshaling text to native string
+			byte* nativeText;
+			var byteCountText = 0;
+			if (text != null)
+			{
+				byteCountText = Encoding.UTF8.GetByteCount(text);
+				if(byteCountText > Utils.MaxStackallocSize)
+				{
+					nativeText = Utils.Alloc<byte>(byteCountText + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountText + 1];
+					nativeText = stackallocBytes;
+				}
+				var offsetText = Utils.EncodeStringUTF8(text, nativeText, byteCountText);
+				nativeText[offsetText] = 0;
+			}
+			else nativeText = null;
+
+			ImPlotNative.PlotText(nativeText, x, y, pixOffset, flags);
+			// Freeing text native string
+			if (byteCountText > Utils.MaxStackallocSize)
+				Utils.Free(nativeText);
+		}
+
+		public static void PlotDummy(ReadOnlySpan<byte> labelId, ImPlotDummyFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			{
+				ImPlotNative.PlotDummy(nativeLabelId, flags);
+			}
 		}
 
 		public static void PlotDummy(ReadOnlySpan<char> labelId, ImPlotDummyFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			ImPlotNative.PlotDummy(native_labelId, flags);
+			ImPlotNative.PlotDummy(nativeLabelId, flags);
 			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
 		}
 
-		public static byte DragPoint(int id, ref double x, ref double y, Vector4 col, float size, ImPlotDragToolFlags flags, ReadOnlySpan<char> outClicked, ReadOnlySpan<char> outHovered, ReadOnlySpan<char> held)
+		public static void PlotDummy(ReadOnlySpan<char> labelId)
 		{
-			// Marshaling outClicked to native string
-			byte* native_outClicked;
-			var byteCount_outClicked = 0;
-			if (outClicked != null)
+			// defining omitted parameters
+			ImPlotDummyFlags flags = ImPlotDummyFlags.None;
+			// Marshaling labelId to native string
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
+			if (labelId != null)
 			{
-				byteCount_outClicked = Encoding.UTF8.GetByteCount(outClicked);
-				if(byteCount_outClicked > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_outClicked = Utils.Alloc<byte>(byteCount_outClicked + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_outClicked + 1];
-					native_outClicked = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var outClicked_offset = Utils.EncodeStringUTF8(outClicked, native_outClicked, byteCount_outClicked);
-				native_outClicked[outClicked_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_outClicked = null;
+			else nativeLabelId = null;
 
-			// Marshaling outHovered to native string
-			byte* native_outHovered;
-			var byteCount_outHovered = 0;
-			if (outHovered != null)
-			{
-				byteCount_outHovered = Encoding.UTF8.GetByteCount(outHovered);
-				if(byteCount_outHovered > Utils.MaxStackallocSize)
-				{
-					native_outHovered = Utils.Alloc<byte>(byteCount_outHovered + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_outHovered + 1];
-					native_outHovered = stackallocBytes;
-				}
-				var outHovered_offset = Utils.EncodeStringUTF8(outHovered, native_outHovered, byteCount_outHovered);
-				native_outHovered[outHovered_offset] = 0;
-			}
-			else native_outHovered = null;
+			ImPlotNative.PlotDummy(nativeLabelId, flags);
+			// Freeing labelId native string
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+		}
 
-			// Marshaling held to native string
-			byte* native_held;
-			var byteCount_held = 0;
-			if (held != null)
+		public static bool DragPoint(int id, ref double x, ref double y, Vector4 col, float size, ImPlotDragToolFlags flags, ref bool outClicked, ref bool outHovered, ref bool held)
+		{
+			var nativeOutClickedVal = outClicked ? (byte)1 : (byte)0;
+			var nativeOutClicked = &nativeOutClickedVal;
+			var nativeOutHoveredVal = outHovered ? (byte)1 : (byte)0;
+			var nativeOutHovered = &nativeOutHoveredVal;
+			var nativeHeldVal = held ? (byte)1 : (byte)0;
+			var nativeHeld = &nativeHeldVal;
+			fixed (double* nativeX = &x)
+			fixed (double* nativeY = &y)
 			{
-				byteCount_held = Encoding.UTF8.GetByteCount(held);
-				if(byteCount_held > Utils.MaxStackallocSize)
-				{
-					native_held = Utils.Alloc<byte>(byteCount_held + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_held + 1];
-					native_held = stackallocBytes;
-				}
-				var held_offset = Utils.EncodeStringUTF8(held, native_held, byteCount_held);
-				native_held[held_offset] = 0;
-			}
-			else native_held = null;
-
-			fixed (double* native_x = &x)
-			fixed (double* native_y = &y)
-			{
-				var result = ImPlotNative.DragPoint(id, native_x, native_y, col, size, flags, native_outClicked, native_outHovered, native_held);
-				// Freeing outClicked native string
-				if (byteCount_outClicked > Utils.MaxStackallocSize)
-					Utils.Free(native_outClicked);
-				// Freeing outHovered native string
-				if (byteCount_outHovered > Utils.MaxStackallocSize)
-					Utils.Free(native_outHovered);
-				// Freeing held native string
-				if (byteCount_held > Utils.MaxStackallocSize)
-					Utils.Free(native_held);
-				return result;
+				var result = ImPlotNative.DragPoint(id, nativeX, nativeY, col, size, flags, nativeOutClicked, nativeOutHovered, nativeHeld);
+				outClicked = nativeOutClickedVal != 0;
+				outHovered = nativeOutHoveredVal != 0;
+				held = nativeHeldVal != 0;
+				return result != 0;
 			}
 		}
 
-		public static byte DragLineX(int id, ref double x, Vector4 col, float thickness, ImPlotDragToolFlags flags, ReadOnlySpan<char> outClicked, ReadOnlySpan<char> outHovered, ReadOnlySpan<char> held)
+		public static bool DragPoint(int id, ref double x, ref double y, Vector4 col, float size, ImPlotDragToolFlags flags, ref bool outClicked, ref bool outHovered)
 		{
-			// Marshaling outClicked to native string
-			byte* native_outClicked;
-			var byteCount_outClicked = 0;
-			if (outClicked != null)
+			// defining omitted parameters
+			byte* held = null;
+			var nativeOutClickedVal = outClicked ? (byte)1 : (byte)0;
+			var nativeOutClicked = &nativeOutClickedVal;
+			var nativeOutHoveredVal = outHovered ? (byte)1 : (byte)0;
+			var nativeOutHovered = &nativeOutHoveredVal;
+			fixed (double* nativeX = &x)
+			fixed (double* nativeY = &y)
 			{
-				byteCount_outClicked = Encoding.UTF8.GetByteCount(outClicked);
-				if(byteCount_outClicked > Utils.MaxStackallocSize)
-				{
-					native_outClicked = Utils.Alloc<byte>(byteCount_outClicked + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_outClicked + 1];
-					native_outClicked = stackallocBytes;
-				}
-				var outClicked_offset = Utils.EncodeStringUTF8(outClicked, native_outClicked, byteCount_outClicked);
-				native_outClicked[outClicked_offset] = 0;
-			}
-			else native_outClicked = null;
-
-			// Marshaling outHovered to native string
-			byte* native_outHovered;
-			var byteCount_outHovered = 0;
-			if (outHovered != null)
-			{
-				byteCount_outHovered = Encoding.UTF8.GetByteCount(outHovered);
-				if(byteCount_outHovered > Utils.MaxStackallocSize)
-				{
-					native_outHovered = Utils.Alloc<byte>(byteCount_outHovered + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_outHovered + 1];
-					native_outHovered = stackallocBytes;
-				}
-				var outHovered_offset = Utils.EncodeStringUTF8(outHovered, native_outHovered, byteCount_outHovered);
-				native_outHovered[outHovered_offset] = 0;
-			}
-			else native_outHovered = null;
-
-			// Marshaling held to native string
-			byte* native_held;
-			var byteCount_held = 0;
-			if (held != null)
-			{
-				byteCount_held = Encoding.UTF8.GetByteCount(held);
-				if(byteCount_held > Utils.MaxStackallocSize)
-				{
-					native_held = Utils.Alloc<byte>(byteCount_held + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_held + 1];
-					native_held = stackallocBytes;
-				}
-				var held_offset = Utils.EncodeStringUTF8(held, native_held, byteCount_held);
-				native_held[held_offset] = 0;
-			}
-			else native_held = null;
-
-			fixed (double* native_x = &x)
-			{
-				var result = ImPlotNative.DragLineX(id, native_x, col, thickness, flags, native_outClicked, native_outHovered, native_held);
-				// Freeing outClicked native string
-				if (byteCount_outClicked > Utils.MaxStackallocSize)
-					Utils.Free(native_outClicked);
-				// Freeing outHovered native string
-				if (byteCount_outHovered > Utils.MaxStackallocSize)
-					Utils.Free(native_outHovered);
-				// Freeing held native string
-				if (byteCount_held > Utils.MaxStackallocSize)
-					Utils.Free(native_held);
-				return result;
+				var result = ImPlotNative.DragPoint(id, nativeX, nativeY, col, size, flags, nativeOutClicked, nativeOutHovered, held);
+				outClicked = nativeOutClickedVal != 0;
+				outHovered = nativeOutHoveredVal != 0;
+				return result != 0;
 			}
 		}
 
-		public static byte DragLineY(int id, ref double y, Vector4 col, float thickness, ImPlotDragToolFlags flags, ReadOnlySpan<char> outClicked, ReadOnlySpan<char> outHovered, ReadOnlySpan<char> held)
+		public static bool DragPoint(int id, ref double x, ref double y, Vector4 col, float size, ImPlotDragToolFlags flags, ref bool outClicked)
 		{
-			// Marshaling outClicked to native string
-			byte* native_outClicked;
-			var byteCount_outClicked = 0;
-			if (outClicked != null)
+			// defining omitted parameters
+			byte* held = null;
+			byte* outHovered = null;
+			var nativeOutClickedVal = outClicked ? (byte)1 : (byte)0;
+			var nativeOutClicked = &nativeOutClickedVal;
+			fixed (double* nativeX = &x)
+			fixed (double* nativeY = &y)
 			{
-				byteCount_outClicked = Encoding.UTF8.GetByteCount(outClicked);
-				if(byteCount_outClicked > Utils.MaxStackallocSize)
-				{
-					native_outClicked = Utils.Alloc<byte>(byteCount_outClicked + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_outClicked + 1];
-					native_outClicked = stackallocBytes;
-				}
-				var outClicked_offset = Utils.EncodeStringUTF8(outClicked, native_outClicked, byteCount_outClicked);
-				native_outClicked[outClicked_offset] = 0;
-			}
-			else native_outClicked = null;
-
-			// Marshaling outHovered to native string
-			byte* native_outHovered;
-			var byteCount_outHovered = 0;
-			if (outHovered != null)
-			{
-				byteCount_outHovered = Encoding.UTF8.GetByteCount(outHovered);
-				if(byteCount_outHovered > Utils.MaxStackallocSize)
-				{
-					native_outHovered = Utils.Alloc<byte>(byteCount_outHovered + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_outHovered + 1];
-					native_outHovered = stackallocBytes;
-				}
-				var outHovered_offset = Utils.EncodeStringUTF8(outHovered, native_outHovered, byteCount_outHovered);
-				native_outHovered[outHovered_offset] = 0;
-			}
-			else native_outHovered = null;
-
-			// Marshaling held to native string
-			byte* native_held;
-			var byteCount_held = 0;
-			if (held != null)
-			{
-				byteCount_held = Encoding.UTF8.GetByteCount(held);
-				if(byteCount_held > Utils.MaxStackallocSize)
-				{
-					native_held = Utils.Alloc<byte>(byteCount_held + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_held + 1];
-					native_held = stackallocBytes;
-				}
-				var held_offset = Utils.EncodeStringUTF8(held, native_held, byteCount_held);
-				native_held[held_offset] = 0;
-			}
-			else native_held = null;
-
-			fixed (double* native_y = &y)
-			{
-				var result = ImPlotNative.DragLineY(id, native_y, col, thickness, flags, native_outClicked, native_outHovered, native_held);
-				// Freeing outClicked native string
-				if (byteCount_outClicked > Utils.MaxStackallocSize)
-					Utils.Free(native_outClicked);
-				// Freeing outHovered native string
-				if (byteCount_outHovered > Utils.MaxStackallocSize)
-					Utils.Free(native_outHovered);
-				// Freeing held native string
-				if (byteCount_held > Utils.MaxStackallocSize)
-					Utils.Free(native_held);
-				return result;
+				var result = ImPlotNative.DragPoint(id, nativeX, nativeY, col, size, flags, nativeOutClicked, outHovered, held);
+				outClicked = nativeOutClickedVal != 0;
+				return result != 0;
 			}
 		}
 
-		public static byte DragRect(int id, ref double x1, ref double y1, ref double x2, ref double y2, Vector4 col, ImPlotDragToolFlags flags, ReadOnlySpan<char> outClicked, ReadOnlySpan<char> outHovered, ReadOnlySpan<char> held)
+		public static bool DragPoint(int id, ref double x, ref double y, Vector4 col, float size, ImPlotDragToolFlags flags)
 		{
-			// Marshaling outClicked to native string
-			byte* native_outClicked;
-			var byteCount_outClicked = 0;
-			if (outClicked != null)
+			// defining omitted parameters
+			byte* held = null;
+			byte* outHovered = null;
+			byte* outClicked = null;
+			fixed (double* nativeX = &x)
+			fixed (double* nativeY = &y)
 			{
-				byteCount_outClicked = Encoding.UTF8.GetByteCount(outClicked);
-				if(byteCount_outClicked > Utils.MaxStackallocSize)
-				{
-					native_outClicked = Utils.Alloc<byte>(byteCount_outClicked + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_outClicked + 1];
-					native_outClicked = stackallocBytes;
-				}
-				var outClicked_offset = Utils.EncodeStringUTF8(outClicked, native_outClicked, byteCount_outClicked);
-				native_outClicked[outClicked_offset] = 0;
+				var result = ImPlotNative.DragPoint(id, nativeX, nativeY, col, size, flags, outClicked, outHovered, held);
+				return result != 0;
 			}
-			else native_outClicked = null;
+		}
 
-			// Marshaling outHovered to native string
-			byte* native_outHovered;
-			var byteCount_outHovered = 0;
-			if (outHovered != null)
+		public static bool DragPoint(int id, ref double x, ref double y, Vector4 col, float size)
+		{
+			// defining omitted parameters
+			byte* held = null;
+			byte* outHovered = null;
+			byte* outClicked = null;
+			ImPlotDragToolFlags flags = ImPlotDragToolFlags.None;
+			fixed (double* nativeX = &x)
+			fixed (double* nativeY = &y)
 			{
-				byteCount_outHovered = Encoding.UTF8.GetByteCount(outHovered);
-				if(byteCount_outHovered > Utils.MaxStackallocSize)
-				{
-					native_outHovered = Utils.Alloc<byte>(byteCount_outHovered + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_outHovered + 1];
-					native_outHovered = stackallocBytes;
-				}
-				var outHovered_offset = Utils.EncodeStringUTF8(outHovered, native_outHovered, byteCount_outHovered);
-				native_outHovered[outHovered_offset] = 0;
+				var result = ImPlotNative.DragPoint(id, nativeX, nativeY, col, size, flags, outClicked, outHovered, held);
+				return result != 0;
 			}
-			else native_outHovered = null;
+		}
 
-			// Marshaling held to native string
-			byte* native_held;
-			var byteCount_held = 0;
-			if (held != null)
+		public static bool DragPoint(int id, ref double x, ref double y, Vector4 col)
+		{
+			// defining omitted parameters
+			float size = 4;
+			byte* held = null;
+			byte* outHovered = null;
+			byte* outClicked = null;
+			ImPlotDragToolFlags flags = ImPlotDragToolFlags.None;
+			fixed (double* nativeX = &x)
+			fixed (double* nativeY = &y)
 			{
-				byteCount_held = Encoding.UTF8.GetByteCount(held);
-				if(byteCount_held > Utils.MaxStackallocSize)
-				{
-					native_held = Utils.Alloc<byte>(byteCount_held + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_held + 1];
-					native_held = stackallocBytes;
-				}
-				var held_offset = Utils.EncodeStringUTF8(held, native_held, byteCount_held);
-				native_held[held_offset] = 0;
+				var result = ImPlotNative.DragPoint(id, nativeX, nativeY, col, size, flags, outClicked, outHovered, held);
+				return result != 0;
 			}
-			else native_held = null;
+		}
 
-			fixed (double* native_x1 = &x1)
-			fixed (double* native_y1 = &y1)
-			fixed (double* native_x2 = &x2)
-			fixed (double* native_y2 = &y2)
+		public static bool DragLineX(int id, ref double x, Vector4 col, float thickness, ImPlotDragToolFlags flags, ref bool outClicked, ref bool outHovered, ref bool held)
+		{
+			var nativeOutClickedVal = outClicked ? (byte)1 : (byte)0;
+			var nativeOutClicked = &nativeOutClickedVal;
+			var nativeOutHoveredVal = outHovered ? (byte)1 : (byte)0;
+			var nativeOutHovered = &nativeOutHoveredVal;
+			var nativeHeldVal = held ? (byte)1 : (byte)0;
+			var nativeHeld = &nativeHeldVal;
+			fixed (double* nativeX = &x)
 			{
-				var result = ImPlotNative.DragRect(id, native_x1, native_y1, native_x2, native_y2, col, flags, native_outClicked, native_outHovered, native_held);
-				// Freeing outClicked native string
-				if (byteCount_outClicked > Utils.MaxStackallocSize)
-					Utils.Free(native_outClicked);
-				// Freeing outHovered native string
-				if (byteCount_outHovered > Utils.MaxStackallocSize)
-					Utils.Free(native_outHovered);
-				// Freeing held native string
-				if (byteCount_held > Utils.MaxStackallocSize)
-					Utils.Free(native_held);
-				return result;
+				var result = ImPlotNative.DragLineX(id, nativeX, col, thickness, flags, nativeOutClicked, nativeOutHovered, nativeHeld);
+				outClicked = nativeOutClickedVal != 0;
+				outHovered = nativeOutHoveredVal != 0;
+				held = nativeHeldVal != 0;
+				return result != 0;
+			}
+		}
+
+		public static bool DragLineX(int id, ref double x, Vector4 col, float thickness, ImPlotDragToolFlags flags, ref bool outClicked, ref bool outHovered)
+		{
+			// defining omitted parameters
+			byte* held = null;
+			var nativeOutClickedVal = outClicked ? (byte)1 : (byte)0;
+			var nativeOutClicked = &nativeOutClickedVal;
+			var nativeOutHoveredVal = outHovered ? (byte)1 : (byte)0;
+			var nativeOutHovered = &nativeOutHoveredVal;
+			fixed (double* nativeX = &x)
+			{
+				var result = ImPlotNative.DragLineX(id, nativeX, col, thickness, flags, nativeOutClicked, nativeOutHovered, held);
+				outClicked = nativeOutClickedVal != 0;
+				outHovered = nativeOutHoveredVal != 0;
+				return result != 0;
+			}
+		}
+
+		public static bool DragLineX(int id, ref double x, Vector4 col, float thickness, ImPlotDragToolFlags flags, ref bool outClicked)
+		{
+			// defining omitted parameters
+			byte* held = null;
+			byte* outHovered = null;
+			var nativeOutClickedVal = outClicked ? (byte)1 : (byte)0;
+			var nativeOutClicked = &nativeOutClickedVal;
+			fixed (double* nativeX = &x)
+			{
+				var result = ImPlotNative.DragLineX(id, nativeX, col, thickness, flags, nativeOutClicked, outHovered, held);
+				outClicked = nativeOutClickedVal != 0;
+				return result != 0;
+			}
+		}
+
+		public static bool DragLineX(int id, ref double x, Vector4 col, float thickness, ImPlotDragToolFlags flags)
+		{
+			// defining omitted parameters
+			byte* held = null;
+			byte* outHovered = null;
+			byte* outClicked = null;
+			fixed (double* nativeX = &x)
+			{
+				var result = ImPlotNative.DragLineX(id, nativeX, col, thickness, flags, outClicked, outHovered, held);
+				return result != 0;
+			}
+		}
+
+		public static bool DragLineX(int id, ref double x, Vector4 col, float thickness)
+		{
+			// defining omitted parameters
+			byte* held = null;
+			byte* outHovered = null;
+			byte* outClicked = null;
+			ImPlotDragToolFlags flags = ImPlotDragToolFlags.None;
+			fixed (double* nativeX = &x)
+			{
+				var result = ImPlotNative.DragLineX(id, nativeX, col, thickness, flags, outClicked, outHovered, held);
+				return result != 0;
+			}
+		}
+
+		public static bool DragLineX(int id, ref double x, Vector4 col)
+		{
+			// defining omitted parameters
+			float thickness = 1;
+			byte* held = null;
+			byte* outHovered = null;
+			byte* outClicked = null;
+			ImPlotDragToolFlags flags = ImPlotDragToolFlags.None;
+			fixed (double* nativeX = &x)
+			{
+				var result = ImPlotNative.DragLineX(id, nativeX, col, thickness, flags, outClicked, outHovered, held);
+				return result != 0;
+			}
+		}
+
+		public static bool DragLineY(int id, ref double y, Vector4 col, float thickness, ImPlotDragToolFlags flags, ref bool outClicked, ref bool outHovered, ref bool held)
+		{
+			var nativeOutClickedVal = outClicked ? (byte)1 : (byte)0;
+			var nativeOutClicked = &nativeOutClickedVal;
+			var nativeOutHoveredVal = outHovered ? (byte)1 : (byte)0;
+			var nativeOutHovered = &nativeOutHoveredVal;
+			var nativeHeldVal = held ? (byte)1 : (byte)0;
+			var nativeHeld = &nativeHeldVal;
+			fixed (double* nativeY = &y)
+			{
+				var result = ImPlotNative.DragLineY(id, nativeY, col, thickness, flags, nativeOutClicked, nativeOutHovered, nativeHeld);
+				outClicked = nativeOutClickedVal != 0;
+				outHovered = nativeOutHoveredVal != 0;
+				held = nativeHeldVal != 0;
+				return result != 0;
+			}
+		}
+
+		public static bool DragLineY(int id, ref double y, Vector4 col, float thickness, ImPlotDragToolFlags flags, ref bool outClicked, ref bool outHovered)
+		{
+			// defining omitted parameters
+			byte* held = null;
+			var nativeOutClickedVal = outClicked ? (byte)1 : (byte)0;
+			var nativeOutClicked = &nativeOutClickedVal;
+			var nativeOutHoveredVal = outHovered ? (byte)1 : (byte)0;
+			var nativeOutHovered = &nativeOutHoveredVal;
+			fixed (double* nativeY = &y)
+			{
+				var result = ImPlotNative.DragLineY(id, nativeY, col, thickness, flags, nativeOutClicked, nativeOutHovered, held);
+				outClicked = nativeOutClickedVal != 0;
+				outHovered = nativeOutHoveredVal != 0;
+				return result != 0;
+			}
+		}
+
+		public static bool DragLineY(int id, ref double y, Vector4 col, float thickness, ImPlotDragToolFlags flags, ref bool outClicked)
+		{
+			// defining omitted parameters
+			byte* held = null;
+			byte* outHovered = null;
+			var nativeOutClickedVal = outClicked ? (byte)1 : (byte)0;
+			var nativeOutClicked = &nativeOutClickedVal;
+			fixed (double* nativeY = &y)
+			{
+				var result = ImPlotNative.DragLineY(id, nativeY, col, thickness, flags, nativeOutClicked, outHovered, held);
+				outClicked = nativeOutClickedVal != 0;
+				return result != 0;
+			}
+		}
+
+		public static bool DragLineY(int id, ref double y, Vector4 col, float thickness, ImPlotDragToolFlags flags)
+		{
+			// defining omitted parameters
+			byte* held = null;
+			byte* outHovered = null;
+			byte* outClicked = null;
+			fixed (double* nativeY = &y)
+			{
+				var result = ImPlotNative.DragLineY(id, nativeY, col, thickness, flags, outClicked, outHovered, held);
+				return result != 0;
+			}
+		}
+
+		public static bool DragLineY(int id, ref double y, Vector4 col, float thickness)
+		{
+			// defining omitted parameters
+			byte* held = null;
+			byte* outHovered = null;
+			byte* outClicked = null;
+			ImPlotDragToolFlags flags = ImPlotDragToolFlags.None;
+			fixed (double* nativeY = &y)
+			{
+				var result = ImPlotNative.DragLineY(id, nativeY, col, thickness, flags, outClicked, outHovered, held);
+				return result != 0;
+			}
+		}
+
+		public static bool DragLineY(int id, ref double y, Vector4 col)
+		{
+			// defining omitted parameters
+			float thickness = 1;
+			byte* held = null;
+			byte* outHovered = null;
+			byte* outClicked = null;
+			ImPlotDragToolFlags flags = ImPlotDragToolFlags.None;
+			fixed (double* nativeY = &y)
+			{
+				var result = ImPlotNative.DragLineY(id, nativeY, col, thickness, flags, outClicked, outHovered, held);
+				return result != 0;
+			}
+		}
+
+		public static bool DragRect(int id, ref double x1, ref double y1, ref double x2, ref double y2, Vector4 col, ImPlotDragToolFlags flags, ref bool outClicked, ref bool outHovered, ref bool held)
+		{
+			var nativeOutClickedVal = outClicked ? (byte)1 : (byte)0;
+			var nativeOutClicked = &nativeOutClickedVal;
+			var nativeOutHoveredVal = outHovered ? (byte)1 : (byte)0;
+			var nativeOutHovered = &nativeOutHoveredVal;
+			var nativeHeldVal = held ? (byte)1 : (byte)0;
+			var nativeHeld = &nativeHeldVal;
+			fixed (double* nativeX1 = &x1)
+			fixed (double* nativeY1 = &y1)
+			fixed (double* nativeX2 = &x2)
+			fixed (double* nativeY2 = &y2)
+			{
+				var result = ImPlotNative.DragRect(id, nativeX1, nativeY1, nativeX2, nativeY2, col, flags, nativeOutClicked, nativeOutHovered, nativeHeld);
+				outClicked = nativeOutClickedVal != 0;
+				outHovered = nativeOutHoveredVal != 0;
+				held = nativeHeldVal != 0;
+				return result != 0;
+			}
+		}
+
+		public static bool DragRect(int id, ref double x1, ref double y1, ref double x2, ref double y2, Vector4 col, ImPlotDragToolFlags flags, ref bool outClicked, ref bool outHovered)
+		{
+			// defining omitted parameters
+			byte* held = null;
+			var nativeOutClickedVal = outClicked ? (byte)1 : (byte)0;
+			var nativeOutClicked = &nativeOutClickedVal;
+			var nativeOutHoveredVal = outHovered ? (byte)1 : (byte)0;
+			var nativeOutHovered = &nativeOutHoveredVal;
+			fixed (double* nativeX1 = &x1)
+			fixed (double* nativeY1 = &y1)
+			fixed (double* nativeX2 = &x2)
+			fixed (double* nativeY2 = &y2)
+			{
+				var result = ImPlotNative.DragRect(id, nativeX1, nativeY1, nativeX2, nativeY2, col, flags, nativeOutClicked, nativeOutHovered, held);
+				outClicked = nativeOutClickedVal != 0;
+				outHovered = nativeOutHoveredVal != 0;
+				return result != 0;
+			}
+		}
+
+		public static bool DragRect(int id, ref double x1, ref double y1, ref double x2, ref double y2, Vector4 col, ImPlotDragToolFlags flags, ref bool outClicked)
+		{
+			// defining omitted parameters
+			byte* held = null;
+			byte* outHovered = null;
+			var nativeOutClickedVal = outClicked ? (byte)1 : (byte)0;
+			var nativeOutClicked = &nativeOutClickedVal;
+			fixed (double* nativeX1 = &x1)
+			fixed (double* nativeY1 = &y1)
+			fixed (double* nativeX2 = &x2)
+			fixed (double* nativeY2 = &y2)
+			{
+				var result = ImPlotNative.DragRect(id, nativeX1, nativeY1, nativeX2, nativeY2, col, flags, nativeOutClicked, outHovered, held);
+				outClicked = nativeOutClickedVal != 0;
+				return result != 0;
+			}
+		}
+
+		public static bool DragRect(int id, ref double x1, ref double y1, ref double x2, ref double y2, Vector4 col, ImPlotDragToolFlags flags)
+		{
+			// defining omitted parameters
+			byte* held = null;
+			byte* outHovered = null;
+			byte* outClicked = null;
+			fixed (double* nativeX1 = &x1)
+			fixed (double* nativeY1 = &y1)
+			fixed (double* nativeX2 = &x2)
+			fixed (double* nativeY2 = &y2)
+			{
+				var result = ImPlotNative.DragRect(id, nativeX1, nativeY1, nativeX2, nativeY2, col, flags, outClicked, outHovered, held);
+				return result != 0;
+			}
+		}
+
+		public static bool DragRect(int id, ref double x1, ref double y1, ref double x2, ref double y2, Vector4 col)
+		{
+			// defining omitted parameters
+			byte* held = null;
+			byte* outHovered = null;
+			byte* outClicked = null;
+			ImPlotDragToolFlags flags = ImPlotDragToolFlags.None;
+			fixed (double* nativeX1 = &x1)
+			fixed (double* nativeY1 = &y1)
+			fixed (double* nativeX2 = &x2)
+			fixed (double* nativeY2 = &y2)
+			{
+				var result = ImPlotNative.DragRect(id, nativeX1, nativeY1, nativeX2, nativeY2, col, flags, outClicked, outHovered, held);
+				return result != 0;
 			}
 		}
 
@@ -8788,33 +10983,42 @@ namespace SharpImPlot
 			ImPlotNative.AnnotationBool(x, y, col, pixOffset, native_clamp, native_round);
 		}
 
+		public static void AnnotationStr(double x, double y, Vector4 col, Vector2 pixOffset, bool clamp, ReadOnlySpan<byte> fmt)
+		{
+			var native_clamp = clamp ? (byte)1 : (byte)0;
+			fixed (byte* nativeFmt = fmt)
+			{
+				ImPlotNative.AnnotationStr(x, y, col, pixOffset, native_clamp, nativeFmt);
+			}
+		}
+
 		public static void AnnotationStr(double x, double y, Vector4 col, Vector2 pixOffset, bool clamp, ReadOnlySpan<char> fmt)
 		{
 			var native_clamp = clamp ? (byte)1 : (byte)0;
 			// Marshaling fmt to native string
-			byte* native_fmt;
-			var byteCount_fmt = 0;
+			byte* nativeFmt;
+			var byteCountFmt = 0;
 			if (fmt != null)
 			{
-				byteCount_fmt = Encoding.UTF8.GetByteCount(fmt);
-				if(byteCount_fmt > Utils.MaxStackallocSize)
+				byteCountFmt = Encoding.UTF8.GetByteCount(fmt);
+				if(byteCountFmt > Utils.MaxStackallocSize)
 				{
-					native_fmt = Utils.Alloc<byte>(byteCount_fmt + 1);
+					nativeFmt = Utils.Alloc<byte>(byteCountFmt + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_fmt + 1];
-					native_fmt = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountFmt + 1];
+					nativeFmt = stackallocBytes;
 				}
-				var fmt_offset = Utils.EncodeStringUTF8(fmt, native_fmt, byteCount_fmt);
-				native_fmt[fmt_offset] = 0;
+				var offsetFmt = Utils.EncodeStringUTF8(fmt, nativeFmt, byteCountFmt);
+				nativeFmt[offsetFmt] = 0;
 			}
-			else native_fmt = null;
+			else nativeFmt = null;
 
-			ImPlotNative.AnnotationStr(x, y, col, pixOffset, native_clamp, native_fmt);
+			ImPlotNative.AnnotationStr(x, y, col, pixOffset, native_clamp, nativeFmt);
 			// Freeing fmt native string
-			if (byteCount_fmt > Utils.MaxStackallocSize)
-				Utils.Free(native_fmt);
+			if (byteCountFmt > Utils.MaxStackallocSize)
+				Utils.Free(nativeFmt);
 		}
 
 		public static void TagXBool(double x, Vector4 col, bool round)
@@ -8823,32 +11027,40 @@ namespace SharpImPlot
 			ImPlotNative.TagXBool(x, col, native_round);
 		}
 
+		public static void TagXStr(double x, Vector4 col, ReadOnlySpan<byte> fmt)
+		{
+			fixed (byte* nativeFmt = fmt)
+			{
+				ImPlotNative.TagXStr(x, col, nativeFmt);
+			}
+		}
+
 		public static void TagXStr(double x, Vector4 col, ReadOnlySpan<char> fmt)
 		{
 			// Marshaling fmt to native string
-			byte* native_fmt;
-			var byteCount_fmt = 0;
+			byte* nativeFmt;
+			var byteCountFmt = 0;
 			if (fmt != null)
 			{
-				byteCount_fmt = Encoding.UTF8.GetByteCount(fmt);
-				if(byteCount_fmt > Utils.MaxStackallocSize)
+				byteCountFmt = Encoding.UTF8.GetByteCount(fmt);
+				if(byteCountFmt > Utils.MaxStackallocSize)
 				{
-					native_fmt = Utils.Alloc<byte>(byteCount_fmt + 1);
+					nativeFmt = Utils.Alloc<byte>(byteCountFmt + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_fmt + 1];
-					native_fmt = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountFmt + 1];
+					nativeFmt = stackallocBytes;
 				}
-				var fmt_offset = Utils.EncodeStringUTF8(fmt, native_fmt, byteCount_fmt);
-				native_fmt[fmt_offset] = 0;
+				var offsetFmt = Utils.EncodeStringUTF8(fmt, nativeFmt, byteCountFmt);
+				nativeFmt[offsetFmt] = 0;
 			}
-			else native_fmt = null;
+			else nativeFmt = null;
 
-			ImPlotNative.TagXStr(x, col, native_fmt);
+			ImPlotNative.TagXStr(x, col, nativeFmt);
 			// Freeing fmt native string
-			if (byteCount_fmt > Utils.MaxStackallocSize)
-				Utils.Free(native_fmt);
+			if (byteCountFmt > Utils.MaxStackallocSize)
+				Utils.Free(nativeFmt);
 		}
 
 		public static void TagYBool(double y, Vector4 col, bool round)
@@ -8857,32 +11069,40 @@ namespace SharpImPlot
 			ImPlotNative.TagYBool(y, col, native_round);
 		}
 
+		public static void TagYStr(double y, Vector4 col, ReadOnlySpan<byte> fmt)
+		{
+			fixed (byte* nativeFmt = fmt)
+			{
+				ImPlotNative.TagYStr(y, col, nativeFmt);
+			}
+		}
+
 		public static void TagYStr(double y, Vector4 col, ReadOnlySpan<char> fmt)
 		{
 			// Marshaling fmt to native string
-			byte* native_fmt;
-			var byteCount_fmt = 0;
+			byte* nativeFmt;
+			var byteCountFmt = 0;
 			if (fmt != null)
 			{
-				byteCount_fmt = Encoding.UTF8.GetByteCount(fmt);
-				if(byteCount_fmt > Utils.MaxStackallocSize)
+				byteCountFmt = Encoding.UTF8.GetByteCount(fmt);
+				if(byteCountFmt > Utils.MaxStackallocSize)
 				{
-					native_fmt = Utils.Alloc<byte>(byteCount_fmt + 1);
+					nativeFmt = Utils.Alloc<byte>(byteCountFmt + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_fmt + 1];
-					native_fmt = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountFmt + 1];
+					nativeFmt = stackallocBytes;
 				}
-				var fmt_offset = Utils.EncodeStringUTF8(fmt, native_fmt, byteCount_fmt);
-				native_fmt[fmt_offset] = 0;
+				var offsetFmt = Utils.EncodeStringUTF8(fmt, nativeFmt, byteCountFmt);
+				nativeFmt[offsetFmt] = 0;
 			}
-			else native_fmt = null;
+			else nativeFmt = null;
 
-			ImPlotNative.TagYStr(y, col, native_fmt);
+			ImPlotNative.TagYStr(y, col, nativeFmt);
 			// Freeing fmt native string
-			if (byteCount_fmt > Utils.MaxStackallocSize)
-				Utils.Free(native_fmt);
+			if (byteCountFmt > Utils.MaxStackallocSize)
+				Utils.Free(nativeFmt);
 		}
 
 		public static void SetAxis(ImAxis axis)
@@ -8905,35 +11125,35 @@ namespace SharpImPlot
 			ImPlotNative.PixelsToPlotFloat(pOut, x, y, xAxis, yAxis);
 		}
 
-		public static void PlotToPixelsPlotPoInt(ref Vector2 pOut, ImPlotPoint plt, ImAxis xAxis, ImAxis yAxis)
+		public static void PlotToPixelsPlotPoInt(out Vector2 pOut, ImPlotPoint plt, ImAxis xAxis, ImAxis yAxis)
 		{
-			fixed (Vector2* native_pOut = &pOut)
+			fixed (Vector2* nativePOut = &pOut)
 			{
-				ImPlotNative.PlotToPixelsPlotPoInt(native_pOut, plt, xAxis, yAxis);
+				ImPlotNative.PlotToPixelsPlotPoInt(nativePOut, plt, xAxis, yAxis);
 			}
 		}
 
-		public static void PlotToPixelsDouble(ref Vector2 pOut, double x, double y, ImAxis xAxis, ImAxis yAxis)
+		public static void PlotToPixelsDouble(out Vector2 pOut, double x, double y, ImAxis xAxis, ImAxis yAxis)
 		{
-			fixed (Vector2* native_pOut = &pOut)
+			fixed (Vector2* nativePOut = &pOut)
 			{
-				ImPlotNative.PlotToPixelsDouble(native_pOut, x, y, xAxis, yAxis);
+				ImPlotNative.PlotToPixelsDouble(nativePOut, x, y, xAxis, yAxis);
 			}
 		}
 
-		public static void GetPlotPos(ref Vector2 pOut)
+		public static void GetPlotPos(out Vector2 pOut)
 		{
-			fixed (Vector2* native_pOut = &pOut)
+			fixed (Vector2* nativePOut = &pOut)
 			{
-				ImPlotNative.GetPlotPos(native_pOut);
+				ImPlotNative.GetPlotPos(nativePOut);
 			}
 		}
 
-		public static void GetPlotSize(ref Vector2 pOut)
+		public static void GetPlotSize(out Vector2 pOut)
 		{
-			fixed (Vector2* native_pOut = &pOut)
+			fixed (Vector2* nativePOut = &pOut)
 			{
-				ImPlotNative.GetPlotSize(native_pOut);
+				ImPlotNative.GetPlotSize(nativePOut);
 			}
 		}
 
@@ -8942,33 +11162,82 @@ namespace SharpImPlot
 			ImPlotNative.GetPlotMousePos(pOut, xAxis, yAxis);
 		}
 
+		public static void GetPlotMousePos(ImPlotPointPtr pOut, ImAxis xAxis)
+		{
+			// defining omitted parameters
+			ImAxis yAxis = (ImAxis)0;
+			ImPlotNative.GetPlotMousePos(pOut, xAxis, yAxis);
+		}
+
+		public static void GetPlotMousePos(ImPlotPointPtr pOut)
+		{
+			// defining omitted parameters
+			ImAxis yAxis = (ImAxis)0;
+			ImAxis xAxis = (ImAxis)0;
+			ImPlotNative.GetPlotMousePos(pOut, xAxis, yAxis);
+		}
+
 		public static void GetPlotLimits(ImPlotRectPtr pOut, ImAxis xAxis, ImAxis yAxis)
 		{
 			ImPlotNative.GetPlotLimits(pOut, xAxis, yAxis);
 		}
 
-		public static byte IsPlotHovered()
+		public static void GetPlotLimits(ImPlotRectPtr pOut, ImAxis xAxis)
 		{
-			return ImPlotNative.IsPlotHovered();
+			// defining omitted parameters
+			ImAxis yAxis = (ImAxis)0;
+			ImPlotNative.GetPlotLimits(pOut, xAxis, yAxis);
 		}
 
-		public static byte IsAxisHovered(ImAxis axis)
+		public static void GetPlotLimits(ImPlotRectPtr pOut)
 		{
-			return ImPlotNative.IsAxisHovered(axis);
+			// defining omitted parameters
+			ImAxis yAxis = (ImAxis)0;
+			ImAxis xAxis = (ImAxis)0;
+			ImPlotNative.GetPlotLimits(pOut, xAxis, yAxis);
 		}
 
-		public static byte IsSubplotsHovered()
+		public static bool IsPlotHovered()
 		{
-			return ImPlotNative.IsSubplotsHovered();
+			var result = ImPlotNative.IsPlotHovered();
+			return result != 0;
 		}
 
-		public static byte IsPlotSelected()
+		public static bool IsAxisHovered(ImAxis axis)
 		{
-			return ImPlotNative.IsPlotSelected();
+			var result = ImPlotNative.IsAxisHovered(axis);
+			return result != 0;
+		}
+
+		public static bool IsSubplotsHovered()
+		{
+			var result = ImPlotNative.IsSubplotsHovered();
+			return result != 0;
+		}
+
+		public static bool IsPlotSelected()
+		{
+			var result = ImPlotNative.IsPlotSelected();
+			return result != 0;
 		}
 
 		public static void GetPlotSelection(ImPlotRectPtr pOut, ImAxis xAxis, ImAxis yAxis)
 		{
+			ImPlotNative.GetPlotSelection(pOut, xAxis, yAxis);
+		}
+
+		public static void GetPlotSelection(ImPlotRectPtr pOut, ImAxis xAxis)
+		{
+			// defining omitted parameters
+			ImAxis yAxis = (ImAxis)0;
+			ImPlotNative.GetPlotSelection(pOut, xAxis, yAxis);
+		}
+
+		public static void GetPlotSelection(ImPlotRectPtr pOut)
+		{
+			// defining omitted parameters
+			ImAxis yAxis = (ImAxis)0;
+			ImAxis xAxis = (ImAxis)0;
 			ImPlotNative.GetPlotSelection(pOut, xAxis, yAxis);
 		}
 
@@ -8983,33 +11252,91 @@ namespace SharpImPlot
 			ImPlotNative.HideNextItem(native_hidden, cond);
 		}
 
-		public static byte BeginAlignedPlots(ReadOnlySpan<char> groupId, bool vertical)
+		public static void HideNextItem(bool hidden)
+		{
+			// defining omitted parameters
+			ImPlotCond cond = ImPlotCond.Once;
+			var native_hidden = hidden ? (byte)1 : (byte)0;
+			ImPlotNative.HideNextItem(native_hidden, cond);
+		}
+
+		public static void HideNextItem()
+		{
+			// defining omitted parameters
+			ImPlotCond cond = ImPlotCond.Once;
+			byte hidden = 1;
+			ImPlotNative.HideNextItem(hidden, cond);
+		}
+
+		public static bool BeginAlignedPlots(ReadOnlySpan<byte> groupId, bool vertical)
+		{
+			var native_vertical = vertical ? (byte)1 : (byte)0;
+			fixed (byte* nativeGroupId = groupId)
+			{
+				var result = ImPlotNative.BeginAlignedPlots(nativeGroupId, native_vertical);
+				return result != 0;
+			}
+		}
+
+		public static bool BeginAlignedPlots(ReadOnlySpan<char> groupId, bool vertical)
 		{
 			// Marshaling groupId to native string
-			byte* native_groupId;
-			var byteCount_groupId = 0;
+			byte* nativeGroupId;
+			var byteCountGroupId = 0;
 			if (groupId != null)
 			{
-				byteCount_groupId = Encoding.UTF8.GetByteCount(groupId);
-				if(byteCount_groupId > Utils.MaxStackallocSize)
+				byteCountGroupId = Encoding.UTF8.GetByteCount(groupId);
+				if(byteCountGroupId > Utils.MaxStackallocSize)
 				{
-					native_groupId = Utils.Alloc<byte>(byteCount_groupId + 1);
+					nativeGroupId = Utils.Alloc<byte>(byteCountGroupId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_groupId + 1];
-					native_groupId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountGroupId + 1];
+					nativeGroupId = stackallocBytes;
 				}
-				var groupId_offset = Utils.EncodeStringUTF8(groupId, native_groupId, byteCount_groupId);
-				native_groupId[groupId_offset] = 0;
+				var offsetGroupId = Utils.EncodeStringUTF8(groupId, nativeGroupId, byteCountGroupId);
+				nativeGroupId[offsetGroupId] = 0;
 			}
-			else native_groupId = null;
+			else nativeGroupId = null;
 
 			var native_vertical = vertical ? (byte)1 : (byte)0;
-			return ImPlotNative.BeginAlignedPlots(native_groupId, native_vertical);
+			var result = ImPlotNative.BeginAlignedPlots(nativeGroupId, native_vertical);
 			// Freeing groupId native string
-			if (byteCount_groupId > Utils.MaxStackallocSize)
-				Utils.Free(native_groupId);
+			if (byteCountGroupId > Utils.MaxStackallocSize)
+				Utils.Free(nativeGroupId);
+			return result != 0;
+		}
+
+		public static bool BeginAlignedPlots(ReadOnlySpan<char> groupId)
+		{
+			// defining omitted parameters
+			byte vertical = 1;
+			// Marshaling groupId to native string
+			byte* nativeGroupId;
+			var byteCountGroupId = 0;
+			if (groupId != null)
+			{
+				byteCountGroupId = Encoding.UTF8.GetByteCount(groupId);
+				if(byteCountGroupId > Utils.MaxStackallocSize)
+				{
+					nativeGroupId = Utils.Alloc<byte>(byteCountGroupId + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountGroupId + 1];
+					nativeGroupId = stackallocBytes;
+				}
+				var offsetGroupId = Utils.EncodeStringUTF8(groupId, nativeGroupId, byteCountGroupId);
+				nativeGroupId[offsetGroupId] = 0;
+			}
+			else nativeGroupId = null;
+
+			var result = ImPlotNative.BeginAlignedPlots(nativeGroupId, vertical);
+			// Freeing groupId native string
+			if (byteCountGroupId > Utils.MaxStackallocSize)
+				Utils.Free(nativeGroupId);
+			return result != 0;
 		}
 
 		public static void EndAlignedPlots()
@@ -9017,32 +11344,73 @@ namespace SharpImPlot
 			ImPlotNative.EndAlignedPlots();
 		}
 
-		public static byte BeginLegendPopup(ReadOnlySpan<char> labelId, ImGuiMouseButton mouseButton)
+		public static bool BeginLegendPopup(ReadOnlySpan<byte> labelId, ImGuiMouseButton mouseButton)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			{
+				var result = ImPlotNative.BeginLegendPopup(nativeLabelId, mouseButton);
+				return result != 0;
+			}
+		}
+
+		public static bool BeginLegendPopup(ReadOnlySpan<char> labelId, ImGuiMouseButton mouseButton)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			return ImPlotNative.BeginLegendPopup(native_labelId, mouseButton);
+			var result = ImPlotNative.BeginLegendPopup(nativeLabelId, mouseButton);
 			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+			return result != 0;
+		}
+
+		public static bool BeginLegendPopup(ReadOnlySpan<char> labelId)
+		{
+			// defining omitted parameters
+			ImGuiMouseButton mouseButton = ImGuiMouseButton.Right;
+			// Marshaling labelId to native string
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
+			if (labelId != null)
+			{
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
+				{
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
+				}
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
+			}
+			else nativeLabelId = null;
+
+			var result = ImPlotNative.BeginLegendPopup(nativeLabelId, mouseButton);
+			// Freeing labelId native string
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+			return result != 0;
 		}
 
 		public static void EndLegendPopup()
@@ -9050,47 +11418,60 @@ namespace SharpImPlot
 			ImPlotNative.EndLegendPopup();
 		}
 
-		public static byte IsLegendEntryHovered(ReadOnlySpan<char> labelId)
+		public static bool IsLegendEntryHovered(ReadOnlySpan<byte> labelId)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			{
+				var result = ImPlotNative.IsLegendEntryHovered(nativeLabelId);
+				return result != 0;
+			}
+		}
+
+		public static bool IsLegendEntryHovered(ReadOnlySpan<char> labelId)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			return ImPlotNative.IsLegendEntryHovered(native_labelId);
+			var result = ImPlotNative.IsLegendEntryHovered(nativeLabelId);
 			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+			return result != 0;
 		}
 
-		public static byte BeginDragDropTargetPlot()
+		public static bool BeginDragDropTargetPlot()
 		{
-			return ImPlotNative.BeginDragDropTargetPlot();
+			var result = ImPlotNative.BeginDragDropTargetPlot();
+			return result != 0;
 		}
 
-		public static byte BeginDragDropTargetAxis(ImAxis axis)
+		public static bool BeginDragDropTargetAxis(ImAxis axis)
 		{
-			return ImPlotNative.BeginDragDropTargetAxis(axis);
+			var result = ImPlotNative.BeginDragDropTargetAxis(axis);
+			return result != 0;
 		}
 
-		public static byte BeginDragDropTargetLegend()
+		public static bool BeginDragDropTargetLegend()
 		{
-			return ImPlotNative.BeginDragDropTargetLegend();
+			var result = ImPlotNative.BeginDragDropTargetLegend();
+			return result != 0;
 		}
 
 		public static void EndDragDropTarget()
@@ -9098,42 +11479,101 @@ namespace SharpImPlot
 			ImPlotNative.EndDragDropTarget();
 		}
 
-		public static byte BeginDragDropSourcePlot(ImGuiDragDropFlags flags)
+		public static bool BeginDragDropSourcePlot(ImGuiDragDropFlags flags)
 		{
-			return ImPlotNative.BeginDragDropSourcePlot(flags);
+			var result = ImPlotNative.BeginDragDropSourcePlot(flags);
+			return result != 0;
 		}
 
-		public static byte BeginDragDropSourceAxis(ImAxis axis, ImGuiDragDropFlags flags)
+		public static bool BeginDragDropSourcePlot()
 		{
-			return ImPlotNative.BeginDragDropSourceAxis(axis, flags);
+			// defining omitted parameters
+			ImGuiDragDropFlags flags = ImGuiDragDropFlags.None;
+			var result = ImPlotNative.BeginDragDropSourcePlot(flags);
+			return result != 0;
 		}
 
-		public static byte BeginDragDropSourceItem(ReadOnlySpan<char> labelId, ImGuiDragDropFlags flags)
+		public static bool BeginDragDropSourceAxis(ImAxis axis, ImGuiDragDropFlags flags)
+		{
+			var result = ImPlotNative.BeginDragDropSourceAxis(axis, flags);
+			return result != 0;
+		}
+
+		public static bool BeginDragDropSourceAxis(ImAxis axis)
+		{
+			// defining omitted parameters
+			ImGuiDragDropFlags flags = ImGuiDragDropFlags.None;
+			var result = ImPlotNative.BeginDragDropSourceAxis(axis, flags);
+			return result != 0;
+		}
+
+		public static bool BeginDragDropSourceItem(ReadOnlySpan<byte> labelId, ImGuiDragDropFlags flags)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			{
+				var result = ImPlotNative.BeginDragDropSourceItem(nativeLabelId, flags);
+				return result != 0;
+			}
+		}
+
+		public static bool BeginDragDropSourceItem(ReadOnlySpan<char> labelId, ImGuiDragDropFlags flags)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			return ImPlotNative.BeginDragDropSourceItem(native_labelId, flags);
+			var result = ImPlotNative.BeginDragDropSourceItem(nativeLabelId, flags);
 			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+			return result != 0;
+		}
+
+		public static bool BeginDragDropSourceItem(ReadOnlySpan<char> labelId)
+		{
+			// defining omitted parameters
+			ImGuiDragDropFlags flags = ImGuiDragDropFlags.None;
+			// Marshaling labelId to native string
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
+			if (labelId != null)
+			{
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
+				{
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
+				}
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
+			}
+			else nativeLabelId = null;
+
+			var result = ImPlotNative.BeginDragDropSourceItem(nativeLabelId, flags);
+			// Freeing labelId native string
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+			return result != 0;
 		}
 
 		public static void EndDragDropSource()
@@ -9151,8 +11591,22 @@ namespace SharpImPlot
 			ImPlotNative.StyleColorsAuto(dst);
 		}
 
+		public static void StyleColorsAuto()
+		{
+			// defining omitted parameters
+			ImPlotStyle* dst = null;
+			ImPlotNative.StyleColorsAuto(dst);
+		}
+
 		public static void StyleColorsClassic(ImPlotStylePtr dst)
 		{
+			ImPlotNative.StyleColorsClassic(dst);
+		}
+
+		public static void StyleColorsClassic()
+		{
+			// defining omitted parameters
+			ImPlotStyle* dst = null;
 			ImPlotNative.StyleColorsClassic(dst);
 		}
 
@@ -9161,8 +11615,22 @@ namespace SharpImPlot
 			ImPlotNative.StyleColorsDark(dst);
 		}
 
+		public static void StyleColorsDark()
+		{
+			// defining omitted parameters
+			ImPlotStyle* dst = null;
+			ImPlotNative.StyleColorsDark(dst);
+		}
+
 		public static void StyleColorsLight(ImPlotStylePtr dst)
 		{
+			ImPlotNative.StyleColorsLight(dst);
+		}
+
+		public static void StyleColorsLight()
+		{
+			// defining omitted parameters
+			ImPlotStyle* dst = null;
 			ImPlotNative.StyleColorsLight(dst);
 		}
 
@@ -9178,6 +11646,13 @@ namespace SharpImPlot
 
 		public static void PopStyleColor(int count)
 		{
+			ImPlotNative.PopStyleColor(count);
+		}
+
+		public static void PopStyleColor()
+		{
+			// defining omitted parameters
+			int count = 1;
 			ImPlotNative.PopStyleColor(count);
 		}
 
@@ -9201,8 +11676,30 @@ namespace SharpImPlot
 			ImPlotNative.PopStyleVar(count);
 		}
 
+		public static void PopStyleVar()
+		{
+			// defining omitted parameters
+			int count = 1;
+			ImPlotNative.PopStyleVar(count);
+		}
+
 		public static void SetNextLineStyle(Vector4 col, float weight)
 		{
+			ImPlotNative.SetNextLineStyle(col, weight);
+		}
+
+		public static void SetNextLineStyle(Vector4 col)
+		{
+			// defining omitted parameters
+			float weight = -1;
+			ImPlotNative.SetNextLineStyle(col, weight);
+		}
+
+		public static void SetNextLineStyle()
+		{
+			// defining omitted parameters
+			float weight = -1;
+			Vector4 col = new Vector4(0,0,0,-1);
 			ImPlotNative.SetNextLineStyle(col, weight);
 		}
 
@@ -9211,8 +11708,68 @@ namespace SharpImPlot
 			ImPlotNative.SetNextFillStyle(col, alphaMod);
 		}
 
+		public static void SetNextFillStyle(Vector4 col)
+		{
+			// defining omitted parameters
+			float alphaMod = -1;
+			ImPlotNative.SetNextFillStyle(col, alphaMod);
+		}
+
+		public static void SetNextFillStyle()
+		{
+			// defining omitted parameters
+			float alphaMod = -1;
+			Vector4 col = new Vector4(0,0,0,-1);
+			ImPlotNative.SetNextFillStyle(col, alphaMod);
+		}
+
 		public static void SetNextMarkerStyle(ImPlotMarker marker, float size, Vector4 fill, float weight, Vector4 outline)
 		{
+			ImPlotNative.SetNextMarkerStyle(marker, size, fill, weight, outline);
+		}
+
+		public static void SetNextMarkerStyle(ImPlotMarker marker, float size, Vector4 fill, float weight)
+		{
+			// defining omitted parameters
+			Vector4 outline = new Vector4(0,0,0,-1);
+			ImPlotNative.SetNextMarkerStyle(marker, size, fill, weight, outline);
+		}
+
+		public static void SetNextMarkerStyle(ImPlotMarker marker, float size, Vector4 fill)
+		{
+			// defining omitted parameters
+			float weight = -1;
+			Vector4 outline = new Vector4(0,0,0,-1);
+			ImPlotNative.SetNextMarkerStyle(marker, size, fill, weight, outline);
+		}
+
+		public static void SetNextMarkerStyle(ImPlotMarker marker, float size)
+		{
+			// defining omitted parameters
+			float weight = -1;
+			Vector4 outline = new Vector4(0,0,0,-1);
+			Vector4 fill = new Vector4(0,0,0,-1);
+			ImPlotNative.SetNextMarkerStyle(marker, size, fill, weight, outline);
+		}
+
+		public static void SetNextMarkerStyle(ImPlotMarker marker)
+		{
+			// defining omitted parameters
+			float weight = -1;
+			float size = -1;
+			Vector4 outline = new Vector4(0,0,0,-1);
+			Vector4 fill = new Vector4(0,0,0,-1);
+			ImPlotNative.SetNextMarkerStyle(marker, size, fill, weight, outline);
+		}
+
+		public static void SetNextMarkerStyle()
+		{
+			// defining omitted parameters
+			float weight = -1;
+			float size = -1;
+			Vector4 outline = new Vector4(0,0,0,-1);
+			Vector4 fill = new Vector4(0,0,0,-1);
+			ImPlotMarker marker = ImPlotMarker.None;
 			ImPlotNative.SetNextMarkerStyle(marker, size, fill, weight, outline);
 		}
 
@@ -9221,11 +11778,35 @@ namespace SharpImPlot
 			ImPlotNative.SetNextErrorBarStyle(col, size, weight);
 		}
 
-		public static void GetLastItemColor(ref Vector4 pOut)
+		public static void SetNextErrorBarStyle(Vector4 col, float size)
 		{
-			fixed (Vector4* native_pOut = &pOut)
+			// defining omitted parameters
+			float weight = -1;
+			ImPlotNative.SetNextErrorBarStyle(col, size, weight);
+		}
+
+		public static void SetNextErrorBarStyle(Vector4 col)
+		{
+			// defining omitted parameters
+			float weight = -1;
+			float size = -1;
+			ImPlotNative.SetNextErrorBarStyle(col, size, weight);
+		}
+
+		public static void SetNextErrorBarStyle()
+		{
+			// defining omitted parameters
+			float weight = -1;
+			float size = -1;
+			Vector4 col = new Vector4(0,0,0,-1);
+			ImPlotNative.SetNextErrorBarStyle(col, size, weight);
+		}
+
+		public static void GetLastItemColor(out Vector4 pOut)
+		{
+			fixed (Vector4* nativePOut = &pOut)
 			{
-				ImPlotNative.GetLastItemColor(native_pOut);
+				ImPlotNative.GetLastItemColor(nativePOut);
 			}
 		}
 
@@ -9241,68 +11822,88 @@ namespace SharpImPlot
 			return ref *(byte*)&nativeResult;
 		}
 
+		public static ImPlotColormap AddColormapVec4Ptr(ReadOnlySpan<byte> name, ref Vector4 cols, int size, bool qual)
+		{
+			var native_qual = qual ? (byte)1 : (byte)0;
+			fixed (byte* nativeName = name)
+			fixed (Vector4* nativeCols = &cols)
+			{
+				return ImPlotNative.AddColormapVec4Ptr(nativeName, nativeCols, size, native_qual);
+			}
+		}
+
 		public static ImPlotColormap AddColormapVec4Ptr(ReadOnlySpan<char> name, ref Vector4 cols, int size, bool qual)
 		{
 			// Marshaling name to native string
-			byte* native_name;
-			var byteCount_name = 0;
+			byte* nativeName;
+			var byteCountName = 0;
 			if (name != null)
 			{
-				byteCount_name = Encoding.UTF8.GetByteCount(name);
-				if(byteCount_name > Utils.MaxStackallocSize)
+				byteCountName = Encoding.UTF8.GetByteCount(name);
+				if(byteCountName > Utils.MaxStackallocSize)
 				{
-					native_name = Utils.Alloc<byte>(byteCount_name + 1);
+					nativeName = Utils.Alloc<byte>(byteCountName + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_name + 1];
-					native_name = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountName + 1];
+					nativeName = stackallocBytes;
 				}
-				var name_offset = Utils.EncodeStringUTF8(name, native_name, byteCount_name);
-				native_name[name_offset] = 0;
+				var offsetName = Utils.EncodeStringUTF8(name, nativeName, byteCountName);
+				nativeName[offsetName] = 0;
 			}
-			else native_name = null;
+			else nativeName = null;
 
 			var native_qual = qual ? (byte)1 : (byte)0;
-			fixed (Vector4* native_cols = &cols)
+			fixed (Vector4* nativeCols = &cols)
 			{
-				var result = ImPlotNative.AddColormapVec4Ptr(native_name, native_cols, size, native_qual);
+				var result = ImPlotNative.AddColormapVec4Ptr(nativeName, nativeCols, size, native_qual);
 				// Freeing name native string
-				if (byteCount_name > Utils.MaxStackallocSize)
-					Utils.Free(native_name);
+				if (byteCountName > Utils.MaxStackallocSize)
+					Utils.Free(nativeName);
 				return result;
+			}
+		}
+
+		public static ImPlotColormap AddColormapU32Ptr(ReadOnlySpan<byte> name, ref uint cols, int size, bool qual)
+		{
+			var native_qual = qual ? (byte)1 : (byte)0;
+			fixed (byte* nativeName = name)
+			fixed (uint* nativeCols = &cols)
+			{
+				return ImPlotNative.AddColormapU32Ptr(nativeName, nativeCols, size, native_qual);
 			}
 		}
 
 		public static ImPlotColormap AddColormapU32Ptr(ReadOnlySpan<char> name, ref uint cols, int size, bool qual)
 		{
 			// Marshaling name to native string
-			byte* native_name;
-			var byteCount_name = 0;
+			byte* nativeName;
+			var byteCountName = 0;
 			if (name != null)
 			{
-				byteCount_name = Encoding.UTF8.GetByteCount(name);
-				if(byteCount_name > Utils.MaxStackallocSize)
+				byteCountName = Encoding.UTF8.GetByteCount(name);
+				if(byteCountName > Utils.MaxStackallocSize)
 				{
-					native_name = Utils.Alloc<byte>(byteCount_name + 1);
+					nativeName = Utils.Alloc<byte>(byteCountName + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_name + 1];
-					native_name = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountName + 1];
+					nativeName = stackallocBytes;
 				}
-				var name_offset = Utils.EncodeStringUTF8(name, native_name, byteCount_name);
-				native_name[name_offset] = 0;
+				var offsetName = Utils.EncodeStringUTF8(name, nativeName, byteCountName);
+				nativeName[offsetName] = 0;
 			}
-			else native_name = null;
+			else nativeName = null;
 
 			var native_qual = qual ? (byte)1 : (byte)0;
-			fixed (uint* native_cols = &cols)
+			fixed (uint* nativeCols = &cols)
 			{
-				var result = ImPlotNative.AddColormapU32Ptr(native_name, native_cols, size, native_qual);
+				var result = ImPlotNative.AddColormapU32Ptr(nativeName, nativeCols, size, native_qual);
 				// Freeing name native string
-				if (byteCount_name > Utils.MaxStackallocSize)
-					Utils.Free(native_name);
+				if (byteCountName > Utils.MaxStackallocSize)
+					Utils.Free(nativeName);
 				return result;
 			}
 		}
@@ -9318,32 +11919,41 @@ namespace SharpImPlot
 			return ref *(byte*)&nativeResult;
 		}
 
+		public static ImPlotColormap GetColormapIndex(ReadOnlySpan<byte> name)
+		{
+			fixed (byte* nativeName = name)
+			{
+				return ImPlotNative.GetColormapIndex(nativeName);
+			}
+		}
+
 		public static ImPlotColormap GetColormapIndex(ReadOnlySpan<char> name)
 		{
 			// Marshaling name to native string
-			byte* native_name;
-			var byteCount_name = 0;
+			byte* nativeName;
+			var byteCountName = 0;
 			if (name != null)
 			{
-				byteCount_name = Encoding.UTF8.GetByteCount(name);
-				if(byteCount_name > Utils.MaxStackallocSize)
+				byteCountName = Encoding.UTF8.GetByteCount(name);
+				if(byteCountName > Utils.MaxStackallocSize)
 				{
-					native_name = Utils.Alloc<byte>(byteCount_name + 1);
+					nativeName = Utils.Alloc<byte>(byteCountName + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_name + 1];
-					native_name = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountName + 1];
+					nativeName = stackallocBytes;
 				}
-				var name_offset = Utils.EncodeStringUTF8(name, native_name, byteCount_name);
-				native_name[name_offset] = 0;
+				var offsetName = Utils.EncodeStringUTF8(name, nativeName, byteCountName);
+				nativeName[offsetName] = 0;
 			}
-			else native_name = null;
+			else nativeName = null;
 
-			return ImPlotNative.GetColormapIndex(native_name);
+			var result = ImPlotNative.GetColormapIndex(nativeName);
 			// Freeing name native string
-			if (byteCount_name > Utils.MaxStackallocSize)
-				Utils.Free(native_name);
+			if (byteCountName > Utils.MaxStackallocSize)
+				Utils.Free(nativeName);
+			return result;
 		}
 
 		public static void PushColormapPlotColormap(ImPlotColormap cmap)
@@ -9351,32 +11961,40 @@ namespace SharpImPlot
 			ImPlotNative.PushColormapPlotColormap(cmap);
 		}
 
+		public static void PushColormapStr(ReadOnlySpan<byte> name)
+		{
+			fixed (byte* nativeName = name)
+			{
+				ImPlotNative.PushColormapStr(nativeName);
+			}
+		}
+
 		public static void PushColormapStr(ReadOnlySpan<char> name)
 		{
 			// Marshaling name to native string
-			byte* native_name;
-			var byteCount_name = 0;
+			byte* nativeName;
+			var byteCountName = 0;
 			if (name != null)
 			{
-				byteCount_name = Encoding.UTF8.GetByteCount(name);
-				if(byteCount_name > Utils.MaxStackallocSize)
+				byteCountName = Encoding.UTF8.GetByteCount(name);
+				if(byteCountName > Utils.MaxStackallocSize)
 				{
-					native_name = Utils.Alloc<byte>(byteCount_name + 1);
+					nativeName = Utils.Alloc<byte>(byteCountName + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_name + 1];
-					native_name = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountName + 1];
+					nativeName = stackallocBytes;
 				}
-				var name_offset = Utils.EncodeStringUTF8(name, native_name, byteCount_name);
-				native_name[name_offset] = 0;
+				var offsetName = Utils.EncodeStringUTF8(name, nativeName, byteCountName);
+				nativeName[offsetName] = 0;
 			}
-			else native_name = null;
+			else nativeName = null;
 
-			ImPlotNative.PushColormapStr(native_name);
+			ImPlotNative.PushColormapStr(nativeName);
 			// Freeing name native string
-			if (byteCount_name > Utils.MaxStackallocSize)
-				Utils.Free(native_name);
+			if (byteCountName > Utils.MaxStackallocSize)
+				Utils.Free(nativeName);
 		}
 
 		public static void PopColormap(int count)
@@ -9384,11 +12002,18 @@ namespace SharpImPlot
 			ImPlotNative.PopColormap(count);
 		}
 
-		public static void NextColormapColor(ref Vector4 pOut)
+		public static void PopColormap()
 		{
-			fixed (Vector4* native_pOut = &pOut)
+			// defining omitted parameters
+			int count = 1;
+			ImPlotNative.PopColormap(count);
+		}
+
+		public static void NextColormapColor(out Vector4 pOut)
+		{
+			fixed (Vector4* nativePOut = &pOut)
 			{
-				ImPlotNative.NextColormapColor(native_pOut);
+				ImPlotNative.NextColormapColor(nativePOut);
 			}
 		}
 
@@ -9397,183 +12022,677 @@ namespace SharpImPlot
 			return ImPlotNative.GetColormapSize(cmap);
 		}
 
-		public static void GetColormapColor(ref Vector4 pOut, int idx, ImPlotColormap cmap)
+		public static int GetColormapSize()
 		{
-			fixed (Vector4* native_pOut = &pOut)
+			// defining omitted parameters
+			ImPlotColormap cmap = (ImPlotColormap)0;
+			return ImPlotNative.GetColormapSize(cmap);
+		}
+
+		public static void GetColormapColor(out Vector4 pOut, int idx, ImPlotColormap cmap)
+		{
+			fixed (Vector4* nativePOut = &pOut)
 			{
-				ImPlotNative.GetColormapColor(native_pOut, idx, cmap);
+				ImPlotNative.GetColormapColor(nativePOut, idx, cmap);
 			}
 		}
 
-		public static void SampleColormap(ref Vector4 pOut, float t, ImPlotColormap cmap)
+		public static void GetColormapColor(out Vector4 pOut, int idx)
 		{
-			fixed (Vector4* native_pOut = &pOut)
+			// defining omitted parameters
+			ImPlotColormap cmap = (ImPlotColormap)0;
+			fixed (Vector4* nativePOut = &pOut)
 			{
-				ImPlotNative.SampleColormap(native_pOut, t, cmap);
+				ImPlotNative.GetColormapColor(nativePOut, idx, cmap);
+			}
+		}
+
+		public static void SampleColormap(out Vector4 pOut, float t, ImPlotColormap cmap)
+		{
+			fixed (Vector4* nativePOut = &pOut)
+			{
+				ImPlotNative.SampleColormap(nativePOut, t, cmap);
+			}
+		}
+
+		public static void SampleColormap(out Vector4 pOut, float t)
+		{
+			// defining omitted parameters
+			ImPlotColormap cmap = (ImPlotColormap)0;
+			fixed (Vector4* nativePOut = &pOut)
+			{
+				ImPlotNative.SampleColormap(nativePOut, t, cmap);
+			}
+		}
+
+		public static void ColormapScale(ReadOnlySpan<byte> label, double scaleMin, double scaleMax, Vector2 size, ReadOnlySpan<byte> format, ImPlotColormapScaleFlags flags, ImPlotColormap cmap)
+		{
+			fixed (byte* nativeLabel = label)
+			fixed (byte* nativeFormat = format)
+			{
+				ImPlotNative.ColormapScale(nativeLabel, scaleMin, scaleMax, size, nativeFormat, flags, cmap);
 			}
 		}
 
 		public static void ColormapScale(ReadOnlySpan<char> label, double scaleMin, double scaleMax, Vector2 size, ReadOnlySpan<char> format, ImPlotColormapScaleFlags flags, ImPlotColormap cmap)
 		{
 			// Marshaling label to native string
-			byte* native_label;
-			var byteCount_label = 0;
+			byte* nativeLabel;
+			var byteCountLabel = 0;
 			if (label != null)
 			{
-				byteCount_label = Encoding.UTF8.GetByteCount(label);
-				if(byteCount_label > Utils.MaxStackallocSize)
+				byteCountLabel = Encoding.UTF8.GetByteCount(label);
+				if(byteCountLabel > Utils.MaxStackallocSize)
 				{
-					native_label = Utils.Alloc<byte>(byteCount_label + 1);
+					nativeLabel = Utils.Alloc<byte>(byteCountLabel + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_label + 1];
-					native_label = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabel + 1];
+					nativeLabel = stackallocBytes;
 				}
-				var label_offset = Utils.EncodeStringUTF8(label, native_label, byteCount_label);
-				native_label[label_offset] = 0;
+				var offsetLabel = Utils.EncodeStringUTF8(label, nativeLabel, byteCountLabel);
+				nativeLabel[offsetLabel] = 0;
 			}
-			else native_label = null;
+			else nativeLabel = null;
 
 			// Marshaling format to native string
-			byte* native_format;
-			var byteCount_format = 0;
+			byte* nativeFormat;
+			var byteCountFormat = 0;
 			if (format != null)
 			{
-				byteCount_format = Encoding.UTF8.GetByteCount(format);
-				if(byteCount_format > Utils.MaxStackallocSize)
+				byteCountFormat = Encoding.UTF8.GetByteCount(format);
+				if(byteCountFormat > Utils.MaxStackallocSize)
 				{
-					native_format = Utils.Alloc<byte>(byteCount_format + 1);
+					nativeFormat = Utils.Alloc<byte>(byteCountFormat + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_format + 1];
-					native_format = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountFormat + 1];
+					nativeFormat = stackallocBytes;
 				}
-				var format_offset = Utils.EncodeStringUTF8(format, native_format, byteCount_format);
-				native_format[format_offset] = 0;
+				var offsetFormat = Utils.EncodeStringUTF8(format, nativeFormat, byteCountFormat);
+				nativeFormat[offsetFormat] = 0;
 			}
-			else native_format = null;
+			else nativeFormat = null;
 
-			ImPlotNative.ColormapScale(native_label, scaleMin, scaleMax, size, native_format, flags, cmap);
+			ImPlotNative.ColormapScale(nativeLabel, scaleMin, scaleMax, size, nativeFormat, flags, cmap);
 			// Freeing label native string
-			if (byteCount_label > Utils.MaxStackallocSize)
-				Utils.Free(native_label);
+			if (byteCountLabel > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabel);
 			// Freeing format native string
-			if (byteCount_format > Utils.MaxStackallocSize)
-				Utils.Free(native_format);
+			if (byteCountFormat > Utils.MaxStackallocSize)
+				Utils.Free(nativeFormat);
 		}
 
-		public static byte ColormapSlider(ReadOnlySpan<char> label, ref float t, ref Vector4 _out, ReadOnlySpan<char> format, ImPlotColormap cmap)
+		public static void ColormapScale(ReadOnlySpan<char> label, double scaleMin, double scaleMax, Vector2 size, ReadOnlySpan<char> format, ImPlotColormapScaleFlags flags)
 		{
+			// defining omitted parameters
+			ImPlotColormap cmap = (ImPlotColormap)0;
 			// Marshaling label to native string
-			byte* native_label;
-			var byteCount_label = 0;
+			byte* nativeLabel;
+			var byteCountLabel = 0;
 			if (label != null)
 			{
-				byteCount_label = Encoding.UTF8.GetByteCount(label);
-				if(byteCount_label > Utils.MaxStackallocSize)
+				byteCountLabel = Encoding.UTF8.GetByteCount(label);
+				if(byteCountLabel > Utils.MaxStackallocSize)
 				{
-					native_label = Utils.Alloc<byte>(byteCount_label + 1);
+					nativeLabel = Utils.Alloc<byte>(byteCountLabel + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_label + 1];
-					native_label = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabel + 1];
+					nativeLabel = stackallocBytes;
 				}
-				var label_offset = Utils.EncodeStringUTF8(label, native_label, byteCount_label);
-				native_label[label_offset] = 0;
+				var offsetLabel = Utils.EncodeStringUTF8(label, nativeLabel, byteCountLabel);
+				nativeLabel[offsetLabel] = 0;
 			}
-			else native_label = null;
+			else nativeLabel = null;
 
 			// Marshaling format to native string
-			byte* native_format;
-			var byteCount_format = 0;
+			byte* nativeFormat;
+			var byteCountFormat = 0;
 			if (format != null)
 			{
-				byteCount_format = Encoding.UTF8.GetByteCount(format);
-				if(byteCount_format > Utils.MaxStackallocSize)
+				byteCountFormat = Encoding.UTF8.GetByteCount(format);
+				if(byteCountFormat > Utils.MaxStackallocSize)
 				{
-					native_format = Utils.Alloc<byte>(byteCount_format + 1);
+					nativeFormat = Utils.Alloc<byte>(byteCountFormat + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_format + 1];
-					native_format = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountFormat + 1];
+					nativeFormat = stackallocBytes;
 				}
-				var format_offset = Utils.EncodeStringUTF8(format, native_format, byteCount_format);
-				native_format[format_offset] = 0;
+				var offsetFormat = Utils.EncodeStringUTF8(format, nativeFormat, byteCountFormat);
+				nativeFormat[offsetFormat] = 0;
 			}
-			else native_format = null;
+			else nativeFormat = null;
 
-			fixed (float* native_t = &t)
-			fixed (Vector4* native__out = &_out)
+			ImPlotNative.ColormapScale(nativeLabel, scaleMin, scaleMax, size, nativeFormat, flags, cmap);
+			// Freeing label native string
+			if (byteCountLabel > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabel);
+			// Freeing format native string
+			if (byteCountFormat > Utils.MaxStackallocSize)
+				Utils.Free(nativeFormat);
+		}
+
+		public static void ColormapScale(ReadOnlySpan<char> label, double scaleMin, double scaleMax, Vector2 size, ReadOnlySpan<char> format)
+		{
+			// defining omitted parameters
+			ImPlotColormap cmap = (ImPlotColormap)0;
+			ImPlotColormapScaleFlags flags = ImPlotColormapScaleFlags.None;
+			// Marshaling label to native string
+			byte* nativeLabel;
+			var byteCountLabel = 0;
+			if (label != null)
 			{
-				var result = ImPlotNative.ColormapSlider(native_label, native_t, native__out, native_format, cmap);
-				// Freeing label native string
-				if (byteCount_label > Utils.MaxStackallocSize)
-					Utils.Free(native_label);
-				// Freeing format native string
-				if (byteCount_format > Utils.MaxStackallocSize)
-					Utils.Free(native_format);
-				return result;
+				byteCountLabel = Encoding.UTF8.GetByteCount(label);
+				if(byteCountLabel > Utils.MaxStackallocSize)
+				{
+					nativeLabel = Utils.Alloc<byte>(byteCountLabel + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountLabel + 1];
+					nativeLabel = stackallocBytes;
+				}
+				var offsetLabel = Utils.EncodeStringUTF8(label, nativeLabel, byteCountLabel);
+				nativeLabel[offsetLabel] = 0;
+			}
+			else nativeLabel = null;
+
+			// Marshaling format to native string
+			byte* nativeFormat;
+			var byteCountFormat = 0;
+			if (format != null)
+			{
+				byteCountFormat = Encoding.UTF8.GetByteCount(format);
+				if(byteCountFormat > Utils.MaxStackallocSize)
+				{
+					nativeFormat = Utils.Alloc<byte>(byteCountFormat + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountFormat + 1];
+					nativeFormat = stackallocBytes;
+				}
+				var offsetFormat = Utils.EncodeStringUTF8(format, nativeFormat, byteCountFormat);
+				nativeFormat[offsetFormat] = 0;
+			}
+			else nativeFormat = null;
+
+			ImPlotNative.ColormapScale(nativeLabel, scaleMin, scaleMax, size, nativeFormat, flags, cmap);
+			// Freeing label native string
+			if (byteCountLabel > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabel);
+			// Freeing format native string
+			if (byteCountFormat > Utils.MaxStackallocSize)
+				Utils.Free(nativeFormat);
+		}
+
+		public static void ColormapScale(ReadOnlySpan<char> label, double scaleMin, double scaleMax, Vector2 size)
+		{
+			// defining omitted parameters
+			ImPlotColormap cmap = (ImPlotColormap)0;
+			ImPlotColormapScaleFlags flags = ImPlotColormapScaleFlags.None;
+			byte* nativeFormat = null;
+			var byteCountFormat = Encoding.UTF8.GetByteCount("%g");
+			if(byteCountFormat > Utils.MaxStackallocSize)
+			{
+				nativeFormat = Utils.Alloc<byte>(byteCountFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountFormat + 1];
+				nativeFormat = stackallocBytes;
+			}
+			var offsetNativeFormat = Utils.EncodeStringUTF8("%g", nativeFormat, byteCountFormat);
+			nativeFormat[offsetNativeFormat] = 0;
+			// Marshaling label to native string
+			byte* nativeLabel;
+			var byteCountLabel = 0;
+			if (label != null)
+			{
+				byteCountLabel = Encoding.UTF8.GetByteCount(label);
+				if(byteCountLabel > Utils.MaxStackallocSize)
+				{
+					nativeLabel = Utils.Alloc<byte>(byteCountLabel + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountLabel + 1];
+					nativeLabel = stackallocBytes;
+				}
+				var offsetLabel = Utils.EncodeStringUTF8(label, nativeLabel, byteCountLabel);
+				nativeLabel[offsetLabel] = 0;
+			}
+			else nativeLabel = null;
+
+			ImPlotNative.ColormapScale(nativeLabel, scaleMin, scaleMax, size, nativeFormat, flags, cmap);
+			if (byteCountFormat > Utils.MaxStackallocSize)
+				Utils.Free(nativeFormat);
+			// Freeing label native string
+			if (byteCountLabel > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabel);
+		}
+
+		public static void ColormapScale(ReadOnlySpan<char> label, double scaleMin, double scaleMax)
+		{
+			// defining omitted parameters
+			ImPlotColormap cmap = (ImPlotColormap)0;
+			ImPlotColormapScaleFlags flags = ImPlotColormapScaleFlags.None;
+			byte* nativeFormat = null;
+			var byteCountFormat = Encoding.UTF8.GetByteCount("%g");
+			if(byteCountFormat > Utils.MaxStackallocSize)
+			{
+				nativeFormat = Utils.Alloc<byte>(byteCountFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountFormat + 1];
+				nativeFormat = stackallocBytes;
+			}
+			var offsetNativeFormat = Utils.EncodeStringUTF8("%g", nativeFormat, byteCountFormat);
+			nativeFormat[offsetNativeFormat] = 0;
+			Vector2 size = new Vector2(0,0);
+			// Marshaling label to native string
+			byte* nativeLabel;
+			var byteCountLabel = 0;
+			if (label != null)
+			{
+				byteCountLabel = Encoding.UTF8.GetByteCount(label);
+				if(byteCountLabel > Utils.MaxStackallocSize)
+				{
+					nativeLabel = Utils.Alloc<byte>(byteCountLabel + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountLabel + 1];
+					nativeLabel = stackallocBytes;
+				}
+				var offsetLabel = Utils.EncodeStringUTF8(label, nativeLabel, byteCountLabel);
+				nativeLabel[offsetLabel] = 0;
+			}
+			else nativeLabel = null;
+
+			ImPlotNative.ColormapScale(nativeLabel, scaleMin, scaleMax, size, nativeFormat, flags, cmap);
+			if (byteCountFormat > Utils.MaxStackallocSize)
+				Utils.Free(nativeFormat);
+			// Freeing label native string
+			if (byteCountLabel > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabel);
+		}
+
+		public static bool ColormapSlider(ReadOnlySpan<byte> label, ref float t, ref Vector4 _out, ReadOnlySpan<byte> format, ImPlotColormap cmap)
+		{
+			fixed (byte* nativeLabel = label)
+			fixed (float* nativeT = &t)
+			fixed (Vector4* nativeOut = &_out)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImPlotNative.ColormapSlider(nativeLabel, nativeT, nativeOut, nativeFormat, cmap);
+				return result != 0;
 			}
 		}
 
-		public static byte ColormapButton(ReadOnlySpan<char> label, Vector2 size, ImPlotColormap cmap)
+		public static bool ColormapSlider(ReadOnlySpan<char> label, ref float t, ref Vector4 _out, ReadOnlySpan<char> format, ImPlotColormap cmap)
 		{
 			// Marshaling label to native string
-			byte* native_label;
-			var byteCount_label = 0;
+			byte* nativeLabel;
+			var byteCountLabel = 0;
 			if (label != null)
 			{
-				byteCount_label = Encoding.UTF8.GetByteCount(label);
-				if(byteCount_label > Utils.MaxStackallocSize)
+				byteCountLabel = Encoding.UTF8.GetByteCount(label);
+				if(byteCountLabel > Utils.MaxStackallocSize)
 				{
-					native_label = Utils.Alloc<byte>(byteCount_label + 1);
+					nativeLabel = Utils.Alloc<byte>(byteCountLabel + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_label + 1];
-					native_label = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabel + 1];
+					nativeLabel = stackallocBytes;
 				}
-				var label_offset = Utils.EncodeStringUTF8(label, native_label, byteCount_label);
-				native_label[label_offset] = 0;
+				var offsetLabel = Utils.EncodeStringUTF8(label, nativeLabel, byteCountLabel);
+				nativeLabel[offsetLabel] = 0;
 			}
-			else native_label = null;
+			else nativeLabel = null;
 
-			return ImPlotNative.ColormapButton(native_label, size, cmap);
+			// Marshaling format to native string
+			byte* nativeFormat;
+			var byteCountFormat = 0;
+			if (format != null)
+			{
+				byteCountFormat = Encoding.UTF8.GetByteCount(format);
+				if(byteCountFormat > Utils.MaxStackallocSize)
+				{
+					nativeFormat = Utils.Alloc<byte>(byteCountFormat + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountFormat + 1];
+					nativeFormat = stackallocBytes;
+				}
+				var offsetFormat = Utils.EncodeStringUTF8(format, nativeFormat, byteCountFormat);
+				nativeFormat[offsetFormat] = 0;
+			}
+			else nativeFormat = null;
+
+			fixed (float* nativeT = &t)
+			fixed (Vector4* nativeOut = &_out)
+			{
+				var result = ImPlotNative.ColormapSlider(nativeLabel, nativeT, nativeOut, nativeFormat, cmap);
+				// Freeing label native string
+				if (byteCountLabel > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabel);
+				// Freeing format native string
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool ColormapSlider(ReadOnlySpan<char> label, ref float t, ref Vector4 _out, ReadOnlySpan<char> format)
+		{
+			// defining omitted parameters
+			ImPlotColormap cmap = (ImPlotColormap)0;
+			// Marshaling label to native string
+			byte* nativeLabel;
+			var byteCountLabel = 0;
+			if (label != null)
+			{
+				byteCountLabel = Encoding.UTF8.GetByteCount(label);
+				if(byteCountLabel > Utils.MaxStackallocSize)
+				{
+					nativeLabel = Utils.Alloc<byte>(byteCountLabel + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountLabel + 1];
+					nativeLabel = stackallocBytes;
+				}
+				var offsetLabel = Utils.EncodeStringUTF8(label, nativeLabel, byteCountLabel);
+				nativeLabel[offsetLabel] = 0;
+			}
+			else nativeLabel = null;
+
+			// Marshaling format to native string
+			byte* nativeFormat;
+			var byteCountFormat = 0;
+			if (format != null)
+			{
+				byteCountFormat = Encoding.UTF8.GetByteCount(format);
+				if(byteCountFormat > Utils.MaxStackallocSize)
+				{
+					nativeFormat = Utils.Alloc<byte>(byteCountFormat + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountFormat + 1];
+					nativeFormat = stackallocBytes;
+				}
+				var offsetFormat = Utils.EncodeStringUTF8(format, nativeFormat, byteCountFormat);
+				nativeFormat[offsetFormat] = 0;
+			}
+			else nativeFormat = null;
+
+			fixed (float* nativeT = &t)
+			fixed (Vector4* nativeOut = &_out)
+			{
+				var result = ImPlotNative.ColormapSlider(nativeLabel, nativeT, nativeOut, nativeFormat, cmap);
+				// Freeing label native string
+				if (byteCountLabel > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabel);
+				// Freeing format native string
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool ColormapSlider(ReadOnlySpan<char> label, ref float t, ref Vector4 _out)
+		{
+			// defining omitted parameters
+			ImPlotColormap cmap = (ImPlotColormap)0;
+			byte* nativeFormat = null;
+			var byteCountFormat = Encoding.UTF8.GetByteCount("");
+			if(byteCountFormat > Utils.MaxStackallocSize)
+			{
+				nativeFormat = Utils.Alloc<byte>(byteCountFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountFormat + 1];
+				nativeFormat = stackallocBytes;
+			}
+			var offsetNativeFormat = Utils.EncodeStringUTF8("", nativeFormat, byteCountFormat);
+			nativeFormat[offsetNativeFormat] = 0;
+			// Marshaling label to native string
+			byte* nativeLabel;
+			var byteCountLabel = 0;
+			if (label != null)
+			{
+				byteCountLabel = Encoding.UTF8.GetByteCount(label);
+				if(byteCountLabel > Utils.MaxStackallocSize)
+				{
+					nativeLabel = Utils.Alloc<byte>(byteCountLabel + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountLabel + 1];
+					nativeLabel = stackallocBytes;
+				}
+				var offsetLabel = Utils.EncodeStringUTF8(label, nativeLabel, byteCountLabel);
+				nativeLabel[offsetLabel] = 0;
+			}
+			else nativeLabel = null;
+
+			fixed (float* nativeT = &t)
+			fixed (Vector4* nativeOut = &_out)
+			{
+				var result = ImPlotNative.ColormapSlider(nativeLabel, nativeT, nativeOut, nativeFormat, cmap);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				// Freeing label native string
+				if (byteCountLabel > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabel);
+				return result != 0;
+			}
+		}
+
+		public static bool ColormapSlider(ReadOnlySpan<char> label, ref float t)
+		{
+			// defining omitted parameters
+			ImPlotColormap cmap = (ImPlotColormap)0;
+			byte* nativeFormat = null;
+			var byteCountFormat = Encoding.UTF8.GetByteCount("");
+			if(byteCountFormat > Utils.MaxStackallocSize)
+			{
+				nativeFormat = Utils.Alloc<byte>(byteCountFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountFormat + 1];
+				nativeFormat = stackallocBytes;
+			}
+			var offsetNativeFormat = Utils.EncodeStringUTF8("", nativeFormat, byteCountFormat);
+			nativeFormat[offsetNativeFormat] = 0;
+			Vector4* _out = null;
+			// Marshaling label to native string
+			byte* nativeLabel;
+			var byteCountLabel = 0;
+			if (label != null)
+			{
+				byteCountLabel = Encoding.UTF8.GetByteCount(label);
+				if(byteCountLabel > Utils.MaxStackallocSize)
+				{
+					nativeLabel = Utils.Alloc<byte>(byteCountLabel + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountLabel + 1];
+					nativeLabel = stackallocBytes;
+				}
+				var offsetLabel = Utils.EncodeStringUTF8(label, nativeLabel, byteCountLabel);
+				nativeLabel[offsetLabel] = 0;
+			}
+			else nativeLabel = null;
+
+			fixed (float* nativeT = &t)
+			{
+				var result = ImPlotNative.ColormapSlider(nativeLabel, nativeT, _out, nativeFormat, cmap);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				// Freeing label native string
+				if (byteCountLabel > Utils.MaxStackallocSize)
+					Utils.Free(nativeLabel);
+				return result != 0;
+			}
+		}
+
+		public static bool ColormapButton(ReadOnlySpan<byte> label, Vector2 size, ImPlotColormap cmap)
+		{
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImPlotNative.ColormapButton(nativeLabel, size, cmap);
+				return result != 0;
+			}
+		}
+
+		public static bool ColormapButton(ReadOnlySpan<char> label, Vector2 size, ImPlotColormap cmap)
+		{
+			// Marshaling label to native string
+			byte* nativeLabel;
+			var byteCountLabel = 0;
+			if (label != null)
+			{
+				byteCountLabel = Encoding.UTF8.GetByteCount(label);
+				if(byteCountLabel > Utils.MaxStackallocSize)
+				{
+					nativeLabel = Utils.Alloc<byte>(byteCountLabel + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountLabel + 1];
+					nativeLabel = stackallocBytes;
+				}
+				var offsetLabel = Utils.EncodeStringUTF8(label, nativeLabel, byteCountLabel);
+				nativeLabel[offsetLabel] = 0;
+			}
+			else nativeLabel = null;
+
+			var result = ImPlotNative.ColormapButton(nativeLabel, size, cmap);
 			// Freeing label native string
-			if (byteCount_label > Utils.MaxStackallocSize)
-				Utils.Free(native_label);
+			if (byteCountLabel > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabel);
+			return result != 0;
+		}
+
+		public static bool ColormapButton(ReadOnlySpan<char> label, Vector2 size)
+		{
+			// defining omitted parameters
+			ImPlotColormap cmap = (ImPlotColormap)0;
+			// Marshaling label to native string
+			byte* nativeLabel;
+			var byteCountLabel = 0;
+			if (label != null)
+			{
+				byteCountLabel = Encoding.UTF8.GetByteCount(label);
+				if(byteCountLabel > Utils.MaxStackallocSize)
+				{
+					nativeLabel = Utils.Alloc<byte>(byteCountLabel + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountLabel + 1];
+					nativeLabel = stackallocBytes;
+				}
+				var offsetLabel = Utils.EncodeStringUTF8(label, nativeLabel, byteCountLabel);
+				nativeLabel[offsetLabel] = 0;
+			}
+			else nativeLabel = null;
+
+			var result = ImPlotNative.ColormapButton(nativeLabel, size, cmap);
+			// Freeing label native string
+			if (byteCountLabel > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabel);
+			return result != 0;
+		}
+
+		public static bool ColormapButton(ReadOnlySpan<char> label)
+		{
+			// defining omitted parameters
+			ImPlotColormap cmap = (ImPlotColormap)0;
+			Vector2 size = new Vector2(0,0);
+			// Marshaling label to native string
+			byte* nativeLabel;
+			var byteCountLabel = 0;
+			if (label != null)
+			{
+				byteCountLabel = Encoding.UTF8.GetByteCount(label);
+				if(byteCountLabel > Utils.MaxStackallocSize)
+				{
+					nativeLabel = Utils.Alloc<byte>(byteCountLabel + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountLabel + 1];
+					nativeLabel = stackallocBytes;
+				}
+				var offsetLabel = Utils.EncodeStringUTF8(label, nativeLabel, byteCountLabel);
+				nativeLabel[offsetLabel] = 0;
+			}
+			else nativeLabel = null;
+
+			var result = ImPlotNative.ColormapButton(nativeLabel, size, cmap);
+			// Freeing label native string
+			if (byteCountLabel > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabel);
+			return result != 0;
+		}
+
+		public static void BustColorCache(ReadOnlySpan<byte> plotTitleId)
+		{
+			fixed (byte* nativePlotTitleId = plotTitleId)
+			{
+				ImPlotNative.BustColorCache(nativePlotTitleId);
+			}
 		}
 
 		public static void BustColorCache(ReadOnlySpan<char> plotTitleId)
 		{
 			// Marshaling plotTitleId to native string
-			byte* native_plotTitleId;
-			var byteCount_plotTitleId = 0;
+			byte* nativePlotTitleId;
+			var byteCountPlotTitleId = 0;
 			if (plotTitleId != null)
 			{
-				byteCount_plotTitleId = Encoding.UTF8.GetByteCount(plotTitleId);
-				if(byteCount_plotTitleId > Utils.MaxStackallocSize)
+				byteCountPlotTitleId = Encoding.UTF8.GetByteCount(plotTitleId);
+				if(byteCountPlotTitleId > Utils.MaxStackallocSize)
 				{
-					native_plotTitleId = Utils.Alloc<byte>(byteCount_plotTitleId + 1);
+					nativePlotTitleId = Utils.Alloc<byte>(byteCountPlotTitleId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_plotTitleId + 1];
-					native_plotTitleId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountPlotTitleId + 1];
+					nativePlotTitleId = stackallocBytes;
 				}
-				var plotTitleId_offset = Utils.EncodeStringUTF8(plotTitleId, native_plotTitleId, byteCount_plotTitleId);
-				native_plotTitleId[plotTitleId_offset] = 0;
+				var offsetPlotTitleId = Utils.EncodeStringUTF8(plotTitleId, nativePlotTitleId, byteCountPlotTitleId);
+				nativePlotTitleId[offsetPlotTitleId] = 0;
 			}
-			else native_plotTitleId = null;
+			else nativePlotTitleId = null;
 
-			ImPlotNative.BustColorCache(native_plotTitleId);
+			ImPlotNative.BustColorCache(nativePlotTitleId);
 			// Freeing plotTitleId native string
-			if (byteCount_plotTitleId > Utils.MaxStackallocSize)
-				Utils.Free(native_plotTitleId);
+			if (byteCountPlotTitleId > Utils.MaxStackallocSize)
+				Utils.Free(nativePlotTitleId);
+		}
+
+		public static void BustColorCache()
+		{
+			// defining omitted parameters
+			byte* plotTitleId = null;
+			ImPlotNative.BustColorCache(plotTitleId);
 		}
 
 		public static ImPlotInputMapPtr GetInputMap()
@@ -9586,8 +12705,22 @@ namespace SharpImPlot
 			ImPlotNative.MapInputDefault(dst);
 		}
 
+		public static void MapInputDefault()
+		{
+			// defining omitted parameters
+			ImPlotInputMap* dst = null;
+			ImPlotNative.MapInputDefault(dst);
+		}
+
 		public static void MapInputReverse(ImPlotInputMapPtr dst)
 		{
+			ImPlotNative.MapInputReverse(dst);
+		}
+
+		public static void MapInputReverse()
+		{
+			// defining omitted parameters
+			ImPlotInputMap* dst = null;
 			ImPlotNative.MapInputReverse(dst);
 		}
 
@@ -9616,97 +12749,141 @@ namespace SharpImPlot
 			ImPlotNative.PushPlotClipRect(expand);
 		}
 
+		public static void PushPlotClipRect()
+		{
+			// defining omitted parameters
+			float expand = 0;
+			ImPlotNative.PushPlotClipRect(expand);
+		}
+
 		public static void PopPlotClipRect()
 		{
 			ImPlotNative.PopPlotClipRect();
 		}
 
-		public static byte ShowStyleSelector(ReadOnlySpan<char> label)
+		public static bool ShowStyleSelector(ReadOnlySpan<byte> label)
 		{
-			// Marshaling label to native string
-			byte* native_label;
-			var byteCount_label = 0;
-			if (label != null)
+			fixed (byte* nativeLabel = label)
 			{
-				byteCount_label = Encoding.UTF8.GetByteCount(label);
-				if(byteCount_label > Utils.MaxStackallocSize)
-				{
-					native_label = Utils.Alloc<byte>(byteCount_label + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_label + 1];
-					native_label = stackallocBytes;
-				}
-				var label_offset = Utils.EncodeStringUTF8(label, native_label, byteCount_label);
-				native_label[label_offset] = 0;
+				var result = ImPlotNative.ShowStyleSelector(nativeLabel);
+				return result != 0;
 			}
-			else native_label = null;
-
-			return ImPlotNative.ShowStyleSelector(native_label);
-			// Freeing label native string
-			if (byteCount_label > Utils.MaxStackallocSize)
-				Utils.Free(native_label);
 		}
 
-		public static byte ShowColormapSelector(ReadOnlySpan<char> label)
+		public static bool ShowStyleSelector(ReadOnlySpan<char> label)
 		{
 			// Marshaling label to native string
-			byte* native_label;
-			var byteCount_label = 0;
+			byte* nativeLabel;
+			var byteCountLabel = 0;
 			if (label != null)
 			{
-				byteCount_label = Encoding.UTF8.GetByteCount(label);
-				if(byteCount_label > Utils.MaxStackallocSize)
+				byteCountLabel = Encoding.UTF8.GetByteCount(label);
+				if(byteCountLabel > Utils.MaxStackallocSize)
 				{
-					native_label = Utils.Alloc<byte>(byteCount_label + 1);
+					nativeLabel = Utils.Alloc<byte>(byteCountLabel + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_label + 1];
-					native_label = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabel + 1];
+					nativeLabel = stackallocBytes;
 				}
-				var label_offset = Utils.EncodeStringUTF8(label, native_label, byteCount_label);
-				native_label[label_offset] = 0;
+				var offsetLabel = Utils.EncodeStringUTF8(label, nativeLabel, byteCountLabel);
+				nativeLabel[offsetLabel] = 0;
 			}
-			else native_label = null;
+			else nativeLabel = null;
 
-			return ImPlotNative.ShowColormapSelector(native_label);
+			var result = ImPlotNative.ShowStyleSelector(nativeLabel);
 			// Freeing label native string
-			if (byteCount_label > Utils.MaxStackallocSize)
-				Utils.Free(native_label);
+			if (byteCountLabel > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabel);
+			return result != 0;
 		}
 
-		public static byte ShowInputMapSelector(ReadOnlySpan<char> label)
+		public static bool ShowColormapSelector(ReadOnlySpan<byte> label)
+		{
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImPlotNative.ShowColormapSelector(nativeLabel);
+				return result != 0;
+			}
+		}
+
+		public static bool ShowColormapSelector(ReadOnlySpan<char> label)
 		{
 			// Marshaling label to native string
-			byte* native_label;
-			var byteCount_label = 0;
+			byte* nativeLabel;
+			var byteCountLabel = 0;
 			if (label != null)
 			{
-				byteCount_label = Encoding.UTF8.GetByteCount(label);
-				if(byteCount_label > Utils.MaxStackallocSize)
+				byteCountLabel = Encoding.UTF8.GetByteCount(label);
+				if(byteCountLabel > Utils.MaxStackallocSize)
 				{
-					native_label = Utils.Alloc<byte>(byteCount_label + 1);
+					nativeLabel = Utils.Alloc<byte>(byteCountLabel + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_label + 1];
-					native_label = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabel + 1];
+					nativeLabel = stackallocBytes;
 				}
-				var label_offset = Utils.EncodeStringUTF8(label, native_label, byteCount_label);
-				native_label[label_offset] = 0;
+				var offsetLabel = Utils.EncodeStringUTF8(label, nativeLabel, byteCountLabel);
+				nativeLabel[offsetLabel] = 0;
 			}
-			else native_label = null;
+			else nativeLabel = null;
 
-			return ImPlotNative.ShowInputMapSelector(native_label);
+			var result = ImPlotNative.ShowColormapSelector(nativeLabel);
 			// Freeing label native string
-			if (byteCount_label > Utils.MaxStackallocSize)
-				Utils.Free(native_label);
+			if (byteCountLabel > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabel);
+			return result != 0;
+		}
+
+		public static bool ShowInputMapSelector(ReadOnlySpan<byte> label)
+		{
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImPlotNative.ShowInputMapSelector(nativeLabel);
+				return result != 0;
+			}
+		}
+
+		public static bool ShowInputMapSelector(ReadOnlySpan<char> label)
+		{
+			// Marshaling label to native string
+			byte* nativeLabel;
+			var byteCountLabel = 0;
+			if (label != null)
+			{
+				byteCountLabel = Encoding.UTF8.GetByteCount(label);
+				if(byteCountLabel > Utils.MaxStackallocSize)
+				{
+					nativeLabel = Utils.Alloc<byte>(byteCountLabel + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountLabel + 1];
+					nativeLabel = stackallocBytes;
+				}
+				var offsetLabel = Utils.EncodeStringUTF8(label, nativeLabel, byteCountLabel);
+				nativeLabel[offsetLabel] = 0;
+			}
+			else nativeLabel = null;
+
+			var result = ImPlotNative.ShowInputMapSelector(nativeLabel);
+			// Freeing label native string
+			if (byteCountLabel > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabel);
+			return result != 0;
 		}
 
 		public static void ShowStyleEditor(ImPlotStylePtr _ref)
 		{
+			ImPlotNative.ShowStyleEditor(_ref);
+		}
+
+		public static void ShowStyleEditor()
+		{
+			// defining omitted parameters
+			ImPlotStyle* _ref = null;
 			ImPlotNative.ShowStyleEditor(_ref);
 		}
 
@@ -9715,60 +12892,34 @@ namespace SharpImPlot
 			ImPlotNative.ShowUserGuide();
 		}
 
-		public static void ShowMetricsWindow(ReadOnlySpan<char> pPopen)
+		public static void ShowMetricsWindow(ref bool pPopen)
 		{
-			// Marshaling pPopen to native string
-			byte* native_pPopen;
-			var byteCount_pPopen = 0;
-			if (pPopen != null)
-			{
-				byteCount_pPopen = Encoding.UTF8.GetByteCount(pPopen);
-				if(byteCount_pPopen > Utils.MaxStackallocSize)
-				{
-					native_pPopen = Utils.Alloc<byte>(byteCount_pPopen + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_pPopen + 1];
-					native_pPopen = stackallocBytes;
-				}
-				var pPopen_offset = Utils.EncodeStringUTF8(pPopen, native_pPopen, byteCount_pPopen);
-				native_pPopen[pPopen_offset] = 0;
-			}
-			else native_pPopen = null;
-
-			ImPlotNative.ShowMetricsWindow(native_pPopen);
-			// Freeing pPopen native string
-			if (byteCount_pPopen > Utils.MaxStackallocSize)
-				Utils.Free(native_pPopen);
+			var nativePPopenVal = pPopen ? (byte)1 : (byte)0;
+			var nativePPopen = &nativePPopenVal;
+			ImPlotNative.ShowMetricsWindow(nativePPopen);
+			pPopen = nativePPopenVal != 0;
 		}
 
-		public static void ShowDemoWindow(ReadOnlySpan<char> pOpen)
+		public static void ShowMetricsWindow()
 		{
-			// Marshaling pOpen to native string
-			byte* native_pOpen;
-			var byteCount_pOpen = 0;
-			if (pOpen != null)
-			{
-				byteCount_pOpen = Encoding.UTF8.GetByteCount(pOpen);
-				if(byteCount_pOpen > Utils.MaxStackallocSize)
-				{
-					native_pOpen = Utils.Alloc<byte>(byteCount_pOpen + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_pOpen + 1];
-					native_pOpen = stackallocBytes;
-				}
-				var pOpen_offset = Utils.EncodeStringUTF8(pOpen, native_pOpen, byteCount_pOpen);
-				native_pOpen[pOpen_offset] = 0;
-			}
-			else native_pOpen = null;
+			// defining omitted parameters
+			byte* pPopen = null;
+			ImPlotNative.ShowMetricsWindow(pPopen);
+		}
 
-			ImPlotNative.ShowDemoWindow(native_pOpen);
-			// Freeing pOpen native string
-			if (byteCount_pOpen > Utils.MaxStackallocSize)
-				Utils.Free(native_pOpen);
+		public static void ShowDemoWindow(ref bool pOpen)
+		{
+			var nativePOpenVal = pOpen ? (byte)1 : (byte)0;
+			var nativePOpen = &nativePOpenVal;
+			ImPlotNative.ShowDemoWindow(nativePOpen);
+			pOpen = nativePOpenVal != 0;
+		}
+
+		public static void ShowDemoWindow()
+		{
+			// defining omitted parameters
+			byte* pOpen = null;
+			ImPlotNative.ShowDemoWindow(pOpen);
 		}
 
 		public static float ImLog10Float(float x)
@@ -9816,14 +12967,15 @@ namespace SharpImPlot
 			return ImPlotNative.ImRemapS8(x, x0, x1, y0, y1);
 		}
 
-		public static byte ImRemapU8(bool x, bool x0, bool x1, bool y0, bool y1)
+		public static bool ImRemapU8(bool x, bool x0, bool x1, bool y0, bool y1)
 		{
 			var native_x = x ? (byte)1 : (byte)0;
 			var native_x0 = x0 ? (byte)1 : (byte)0;
 			var native_x1 = x1 ? (byte)1 : (byte)0;
 			var native_y0 = y0 ? (byte)1 : (byte)0;
 			var native_y1 = y1 ? (byte)1 : (byte)0;
-			return ImPlotNative.ImRemapU8(native_x, native_x0, native_x1, native_y0, native_y1);
+			var result = ImPlotNative.ImRemapU8(native_x, native_x0, native_x1, native_y0, native_y1);
+			return result != 0;
 		}
 
 		public static short ImRemapS16(short x, short x0, short x1, short y0, short y1)
@@ -9871,12 +13023,13 @@ namespace SharpImPlot
 			return ImPlotNative.ImRemap01S8(x, x0, x1);
 		}
 
-		public static byte ImRemap01U8(bool x, bool x0, bool x1)
+		public static bool ImRemap01U8(bool x, bool x0, bool x1)
 		{
 			var native_x = x ? (byte)1 : (byte)0;
 			var native_x0 = x0 ? (byte)1 : (byte)0;
 			var native_x1 = x1 ? (byte)1 : (byte)0;
-			return ImPlotNative.ImRemap01U8(native_x, native_x0, native_x1);
+			var result = ImPlotNative.ImRemap01U8(native_x, native_x0, native_x1);
+			return result != 0;
 		}
 
 		public static short ImRemap01S16(short x, short x0, short x1)
@@ -9914,14 +13067,16 @@ namespace SharpImPlot
 			return ImPlotNative.ImPosMod(l, r);
 		}
 
-		public static byte ImNan(double val)
+		public static bool ImNan(double val)
 		{
-			return ImPlotNative.ImNan(val);
+			var result = ImPlotNative.ImNan(val);
+			return result != 0;
 		}
 
-		public static byte ImNanOrInf(double val)
+		public static bool ImNanOrInf(double val)
 		{
-			return ImPlotNative.ImNanOrInf(val);
+			var result = ImPlotNative.ImNanOrInf(val);
+			return result != 0;
 		}
 
 		public static double ImConstrainNan(double val)
@@ -9944,717 +13099,520 @@ namespace SharpImPlot
 			return ImPlotNative.ImConstrainTime(val);
 		}
 
-		public static byte ImAlmostEqual(double v1, double v2, int ulp)
+		public static bool ImAlmostEqual(double v1, double v2, int ulp)
 		{
-			return ImPlotNative.ImAlmostEqual(v1, v2, ulp);
+			var result = ImPlotNative.ImAlmostEqual(v1, v2, ulp);
+			return result != 0;
+		}
+
+		public static bool ImAlmostEqual(double v1, double v2)
+		{
+			// defining omitted parameters
+			int ulp = 2;
+			var result = ImPlotNative.ImAlmostEqual(v1, v2, ulp);
+			return result != 0;
 		}
 
 		public static float ImMinArrayFloatPtr(ref float values, int count)
 		{
-			fixed (float* native_values = &values)
+			fixed (float* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImMinArrayFloatPtr(native_values, count);
-				return result;
+				return ImPlotNative.ImMinArrayFloatPtr(nativeValues, count);
 			}
 		}
 
 		public static double ImMinArrayDoublePtr(ref double values, int count)
 		{
-			fixed (double* native_values = &values)
+			fixed (double* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImMinArrayDoublePtr(native_values, count);
-				return result;
+				return ImPlotNative.ImMinArrayDoublePtr(nativeValues, count);
 			}
 		}
 
 		public static sbyte ImMinArrayS8Ptr(ref sbyte values, int count)
 		{
-			fixed (sbyte* native_values = &values)
+			fixed (sbyte* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImMinArrayS8Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImMinArrayS8Ptr(nativeValues, count);
 			}
 		}
 
-		public static byte ImMinArrayU8Ptr(ReadOnlySpan<char> values, int count)
+		public static bool ImMinArrayU8Ptr(ref byte values, int count)
 		{
-			// Marshaling values to native string
-			byte* native_values;
-			var byteCount_values = 0;
-			if (values != null)
+			fixed (byte* nativeValues = &values)
 			{
-				byteCount_values = Encoding.UTF8.GetByteCount(values);
-				if(byteCount_values > Utils.MaxStackallocSize)
-				{
-					native_values = Utils.Alloc<byte>(byteCount_values + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_values + 1];
-					native_values = stackallocBytes;
-				}
-				var values_offset = Utils.EncodeStringUTF8(values, native_values, byteCount_values);
-				native_values[values_offset] = 0;
+				var result = ImPlotNative.ImMinArrayU8Ptr(nativeValues, count);
+				return result != 0;
 			}
-			else native_values = null;
-
-			return ImPlotNative.ImMinArrayU8Ptr(native_values, count);
-			// Freeing values native string
-			if (byteCount_values > Utils.MaxStackallocSize)
-				Utils.Free(native_values);
 		}
 
 		public static short ImMinArrayS16Ptr(ref short values, int count)
 		{
-			fixed (short* native_values = &values)
+			fixed (short* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImMinArrayS16Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImMinArrayS16Ptr(nativeValues, count);
 			}
 		}
 
 		public static ushort ImMinArrayU16Ptr(ref ushort values, int count)
 		{
-			fixed (ushort* native_values = &values)
+			fixed (ushort* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImMinArrayU16Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImMinArrayU16Ptr(nativeValues, count);
 			}
 		}
 
 		public static int ImMinArrayS32Ptr(ref int values, int count)
 		{
-			fixed (int* native_values = &values)
+			fixed (int* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImMinArrayS32Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImMinArrayS32Ptr(nativeValues, count);
 			}
 		}
 
 		public static uint ImMinArrayU32Ptr(ref uint values, int count)
 		{
-			fixed (uint* native_values = &values)
+			fixed (uint* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImMinArrayU32Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImMinArrayU32Ptr(nativeValues, count);
 			}
 		}
 
 		public static long ImMinArrayS64Ptr(ref long values, int count)
 		{
-			fixed (long* native_values = &values)
+			fixed (long* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImMinArrayS64Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImMinArrayS64Ptr(nativeValues, count);
 			}
 		}
 
 		public static ulong ImMinArrayU64Ptr(ref ulong values, int count)
 		{
-			fixed (ulong* native_values = &values)
+			fixed (ulong* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImMinArrayU64Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImMinArrayU64Ptr(nativeValues, count);
 			}
 		}
 
 		public static float ImMaxArrayFloatPtr(ref float values, int count)
 		{
-			fixed (float* native_values = &values)
+			fixed (float* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImMaxArrayFloatPtr(native_values, count);
-				return result;
+				return ImPlotNative.ImMaxArrayFloatPtr(nativeValues, count);
 			}
 		}
 
 		public static double ImMaxArrayDoublePtr(ref double values, int count)
 		{
-			fixed (double* native_values = &values)
+			fixed (double* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImMaxArrayDoublePtr(native_values, count);
-				return result;
+				return ImPlotNative.ImMaxArrayDoublePtr(nativeValues, count);
 			}
 		}
 
 		public static sbyte ImMaxArrayS8Ptr(ref sbyte values, int count)
 		{
-			fixed (sbyte* native_values = &values)
+			fixed (sbyte* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImMaxArrayS8Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImMaxArrayS8Ptr(nativeValues, count);
 			}
 		}
 
-		public static byte ImMaxArrayU8Ptr(ReadOnlySpan<char> values, int count)
+		public static bool ImMaxArrayU8Ptr(ref byte values, int count)
 		{
-			// Marshaling values to native string
-			byte* native_values;
-			var byteCount_values = 0;
-			if (values != null)
+			fixed (byte* nativeValues = &values)
 			{
-				byteCount_values = Encoding.UTF8.GetByteCount(values);
-				if(byteCount_values > Utils.MaxStackallocSize)
-				{
-					native_values = Utils.Alloc<byte>(byteCount_values + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_values + 1];
-					native_values = stackallocBytes;
-				}
-				var values_offset = Utils.EncodeStringUTF8(values, native_values, byteCount_values);
-				native_values[values_offset] = 0;
+				var result = ImPlotNative.ImMaxArrayU8Ptr(nativeValues, count);
+				return result != 0;
 			}
-			else native_values = null;
-
-			return ImPlotNative.ImMaxArrayU8Ptr(native_values, count);
-			// Freeing values native string
-			if (byteCount_values > Utils.MaxStackallocSize)
-				Utils.Free(native_values);
 		}
 
 		public static short ImMaxArrayS16Ptr(ref short values, int count)
 		{
-			fixed (short* native_values = &values)
+			fixed (short* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImMaxArrayS16Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImMaxArrayS16Ptr(nativeValues, count);
 			}
 		}
 
 		public static ushort ImMaxArrayU16Ptr(ref ushort values, int count)
 		{
-			fixed (ushort* native_values = &values)
+			fixed (ushort* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImMaxArrayU16Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImMaxArrayU16Ptr(nativeValues, count);
 			}
 		}
 
 		public static int ImMaxArrayS32Ptr(ref int values, int count)
 		{
-			fixed (int* native_values = &values)
+			fixed (int* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImMaxArrayS32Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImMaxArrayS32Ptr(nativeValues, count);
 			}
 		}
 
 		public static uint ImMaxArrayU32Ptr(ref uint values, int count)
 		{
-			fixed (uint* native_values = &values)
+			fixed (uint* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImMaxArrayU32Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImMaxArrayU32Ptr(nativeValues, count);
 			}
 		}
 
 		public static long ImMaxArrayS64Ptr(ref long values, int count)
 		{
-			fixed (long* native_values = &values)
+			fixed (long* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImMaxArrayS64Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImMaxArrayS64Ptr(nativeValues, count);
 			}
 		}
 
 		public static ulong ImMaxArrayU64Ptr(ref ulong values, int count)
 		{
-			fixed (ulong* native_values = &values)
+			fixed (ulong* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImMaxArrayU64Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImMaxArrayU64Ptr(nativeValues, count);
 			}
 		}
 
 		public static void ImMinMaxArrayFloatPtr(ref float values, int count, ref float minOut, ref float maxOut)
 		{
-			fixed (float* native_values = &values)
-			fixed (float* native_minOut = &minOut)
-			fixed (float* native_maxOut = &maxOut)
+			fixed (float* nativeValues = &values)
+			fixed (float* nativeMinOut = &minOut)
+			fixed (float* nativeMaxOut = &maxOut)
 			{
-				ImPlotNative.ImMinMaxArrayFloatPtr(native_values, count, native_minOut, native_maxOut);
+				ImPlotNative.ImMinMaxArrayFloatPtr(nativeValues, count, nativeMinOut, nativeMaxOut);
 			}
 		}
 
 		public static void ImMinMaxArrayDoublePtr(ref double values, int count, ref double minOut, ref double maxOut)
 		{
-			fixed (double* native_values = &values)
-			fixed (double* native_minOut = &minOut)
-			fixed (double* native_maxOut = &maxOut)
+			fixed (double* nativeValues = &values)
+			fixed (double* nativeMinOut = &minOut)
+			fixed (double* nativeMaxOut = &maxOut)
 			{
-				ImPlotNative.ImMinMaxArrayDoublePtr(native_values, count, native_minOut, native_maxOut);
+				ImPlotNative.ImMinMaxArrayDoublePtr(nativeValues, count, nativeMinOut, nativeMaxOut);
 			}
 		}
 
 		public static void ImMinMaxArrayS8Ptr(ref sbyte values, int count, ref sbyte minOut, ref sbyte maxOut)
 		{
-			fixed (sbyte* native_values = &values)
-			fixed (sbyte* native_minOut = &minOut)
-			fixed (sbyte* native_maxOut = &maxOut)
+			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeMinOut = &minOut)
+			fixed (sbyte* nativeMaxOut = &maxOut)
 			{
-				ImPlotNative.ImMinMaxArrayS8Ptr(native_values, count, native_minOut, native_maxOut);
+				ImPlotNative.ImMinMaxArrayS8Ptr(nativeValues, count, nativeMinOut, nativeMaxOut);
 			}
 		}
 
-		public static void ImMinMaxArrayU8Ptr(ReadOnlySpan<char> values, int count, ReadOnlySpan<char> minOut, ReadOnlySpan<char> maxOut)
+		public static void ImMinMaxArrayU8Ptr(ref byte values, int count, ref byte minOut, ref byte maxOut)
 		{
-			// Marshaling values to native string
-			byte* native_values;
-			var byteCount_values = 0;
-			if (values != null)
+			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeMinOut = &minOut)
+			fixed (byte* nativeMaxOut = &maxOut)
 			{
-				byteCount_values = Encoding.UTF8.GetByteCount(values);
-				if(byteCount_values > Utils.MaxStackallocSize)
-				{
-					native_values = Utils.Alloc<byte>(byteCount_values + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_values + 1];
-					native_values = stackallocBytes;
-				}
-				var values_offset = Utils.EncodeStringUTF8(values, native_values, byteCount_values);
-				native_values[values_offset] = 0;
+				ImPlotNative.ImMinMaxArrayU8Ptr(nativeValues, count, nativeMinOut, nativeMaxOut);
 			}
-			else native_values = null;
-
-			// Marshaling minOut to native string
-			byte* native_minOut;
-			var byteCount_minOut = 0;
-			if (minOut != null)
-			{
-				byteCount_minOut = Encoding.UTF8.GetByteCount(minOut);
-				if(byteCount_minOut > Utils.MaxStackallocSize)
-				{
-					native_minOut = Utils.Alloc<byte>(byteCount_minOut + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_minOut + 1];
-					native_minOut = stackallocBytes;
-				}
-				var minOut_offset = Utils.EncodeStringUTF8(minOut, native_minOut, byteCount_minOut);
-				native_minOut[minOut_offset] = 0;
-			}
-			else native_minOut = null;
-
-			// Marshaling maxOut to native string
-			byte* native_maxOut;
-			var byteCount_maxOut = 0;
-			if (maxOut != null)
-			{
-				byteCount_maxOut = Encoding.UTF8.GetByteCount(maxOut);
-				if(byteCount_maxOut > Utils.MaxStackallocSize)
-				{
-					native_maxOut = Utils.Alloc<byte>(byteCount_maxOut + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_maxOut + 1];
-					native_maxOut = stackallocBytes;
-				}
-				var maxOut_offset = Utils.EncodeStringUTF8(maxOut, native_maxOut, byteCount_maxOut);
-				native_maxOut[maxOut_offset] = 0;
-			}
-			else native_maxOut = null;
-
-			ImPlotNative.ImMinMaxArrayU8Ptr(native_values, count, native_minOut, native_maxOut);
-			// Freeing values native string
-			if (byteCount_values > Utils.MaxStackallocSize)
-				Utils.Free(native_values);
-			// Freeing minOut native string
-			if (byteCount_minOut > Utils.MaxStackallocSize)
-				Utils.Free(native_minOut);
-			// Freeing maxOut native string
-			if (byteCount_maxOut > Utils.MaxStackallocSize)
-				Utils.Free(native_maxOut);
 		}
 
 		public static void ImMinMaxArrayS16Ptr(ref short values, int count, ref short minOut, ref short maxOut)
 		{
-			fixed (short* native_values = &values)
-			fixed (short* native_minOut = &minOut)
-			fixed (short* native_maxOut = &maxOut)
+			fixed (short* nativeValues = &values)
+			fixed (short* nativeMinOut = &minOut)
+			fixed (short* nativeMaxOut = &maxOut)
 			{
-				ImPlotNative.ImMinMaxArrayS16Ptr(native_values, count, native_minOut, native_maxOut);
+				ImPlotNative.ImMinMaxArrayS16Ptr(nativeValues, count, nativeMinOut, nativeMaxOut);
 			}
 		}
 
 		public static void ImMinMaxArrayU16Ptr(ref ushort values, int count, ref ushort minOut, ref ushort maxOut)
 		{
-			fixed (ushort* native_values = &values)
-			fixed (ushort* native_minOut = &minOut)
-			fixed (ushort* native_maxOut = &maxOut)
+			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeMinOut = &minOut)
+			fixed (ushort* nativeMaxOut = &maxOut)
 			{
-				ImPlotNative.ImMinMaxArrayU16Ptr(native_values, count, native_minOut, native_maxOut);
+				ImPlotNative.ImMinMaxArrayU16Ptr(nativeValues, count, nativeMinOut, nativeMaxOut);
 			}
 		}
 
 		public static void ImMinMaxArrayS32Ptr(ref int values, int count, ref int minOut, ref int maxOut)
 		{
-			fixed (int* native_values = &values)
-			fixed (int* native_minOut = &minOut)
-			fixed (int* native_maxOut = &maxOut)
+			fixed (int* nativeValues = &values)
+			fixed (int* nativeMinOut = &minOut)
+			fixed (int* nativeMaxOut = &maxOut)
 			{
-				ImPlotNative.ImMinMaxArrayS32Ptr(native_values, count, native_minOut, native_maxOut);
+				ImPlotNative.ImMinMaxArrayS32Ptr(nativeValues, count, nativeMinOut, nativeMaxOut);
 			}
 		}
 
 		public static void ImMinMaxArrayU32Ptr(ref uint values, int count, ref uint minOut, ref uint maxOut)
 		{
-			fixed (uint* native_values = &values)
-			fixed (uint* native_minOut = &minOut)
-			fixed (uint* native_maxOut = &maxOut)
+			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeMinOut = &minOut)
+			fixed (uint* nativeMaxOut = &maxOut)
 			{
-				ImPlotNative.ImMinMaxArrayU32Ptr(native_values, count, native_minOut, native_maxOut);
+				ImPlotNative.ImMinMaxArrayU32Ptr(nativeValues, count, nativeMinOut, nativeMaxOut);
 			}
 		}
 
 		public static void ImMinMaxArrayS64Ptr(ref long values, int count, ref long minOut, ref long maxOut)
 		{
-			fixed (long* native_values = &values)
-			fixed (long* native_minOut = &minOut)
-			fixed (long* native_maxOut = &maxOut)
+			fixed (long* nativeValues = &values)
+			fixed (long* nativeMinOut = &minOut)
+			fixed (long* nativeMaxOut = &maxOut)
 			{
-				ImPlotNative.ImMinMaxArrayS64Ptr(native_values, count, native_minOut, native_maxOut);
+				ImPlotNative.ImMinMaxArrayS64Ptr(nativeValues, count, nativeMinOut, nativeMaxOut);
 			}
 		}
 
 		public static void ImMinMaxArrayU64Ptr(ref ulong values, int count, ref ulong minOut, ref ulong maxOut)
 		{
-			fixed (ulong* native_values = &values)
-			fixed (ulong* native_minOut = &minOut)
-			fixed (ulong* native_maxOut = &maxOut)
+			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeMinOut = &minOut)
+			fixed (ulong* nativeMaxOut = &maxOut)
 			{
-				ImPlotNative.ImMinMaxArrayU64Ptr(native_values, count, native_minOut, native_maxOut);
+				ImPlotNative.ImMinMaxArrayU64Ptr(nativeValues, count, nativeMinOut, nativeMaxOut);
 			}
 		}
 
 		public static float ImSumFloatPtr(ref float values, int count)
 		{
-			fixed (float* native_values = &values)
+			fixed (float* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImSumFloatPtr(native_values, count);
-				return result;
+				return ImPlotNative.ImSumFloatPtr(nativeValues, count);
 			}
 		}
 
 		public static double ImSumDoublePtr(ref double values, int count)
 		{
-			fixed (double* native_values = &values)
+			fixed (double* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImSumDoublePtr(native_values, count);
-				return result;
+				return ImPlotNative.ImSumDoublePtr(nativeValues, count);
 			}
 		}
 
 		public static sbyte ImSumS8Ptr(ref sbyte values, int count)
 		{
-			fixed (sbyte* native_values = &values)
+			fixed (sbyte* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImSumS8Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImSumS8Ptr(nativeValues, count);
 			}
 		}
 
-		public static byte ImSumU8Ptr(ReadOnlySpan<char> values, int count)
+		public static bool ImSumU8Ptr(ref byte values, int count)
 		{
-			// Marshaling values to native string
-			byte* native_values;
-			var byteCount_values = 0;
-			if (values != null)
+			fixed (byte* nativeValues = &values)
 			{
-				byteCount_values = Encoding.UTF8.GetByteCount(values);
-				if(byteCount_values > Utils.MaxStackallocSize)
-				{
-					native_values = Utils.Alloc<byte>(byteCount_values + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_values + 1];
-					native_values = stackallocBytes;
-				}
-				var values_offset = Utils.EncodeStringUTF8(values, native_values, byteCount_values);
-				native_values[values_offset] = 0;
+				var result = ImPlotNative.ImSumU8Ptr(nativeValues, count);
+				return result != 0;
 			}
-			else native_values = null;
-
-			return ImPlotNative.ImSumU8Ptr(native_values, count);
-			// Freeing values native string
-			if (byteCount_values > Utils.MaxStackallocSize)
-				Utils.Free(native_values);
 		}
 
 		public static short ImSumS16Ptr(ref short values, int count)
 		{
-			fixed (short* native_values = &values)
+			fixed (short* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImSumS16Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImSumS16Ptr(nativeValues, count);
 			}
 		}
 
 		public static ushort ImSumU16Ptr(ref ushort values, int count)
 		{
-			fixed (ushort* native_values = &values)
+			fixed (ushort* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImSumU16Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImSumU16Ptr(nativeValues, count);
 			}
 		}
 
 		public static int ImSumS32Ptr(ref int values, int count)
 		{
-			fixed (int* native_values = &values)
+			fixed (int* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImSumS32Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImSumS32Ptr(nativeValues, count);
 			}
 		}
 
 		public static uint ImSumU32Ptr(ref uint values, int count)
 		{
-			fixed (uint* native_values = &values)
+			fixed (uint* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImSumU32Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImSumU32Ptr(nativeValues, count);
 			}
 		}
 
 		public static long ImSumS64Ptr(ref long values, int count)
 		{
-			fixed (long* native_values = &values)
+			fixed (long* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImSumS64Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImSumS64Ptr(nativeValues, count);
 			}
 		}
 
 		public static ulong ImSumU64Ptr(ref ulong values, int count)
 		{
-			fixed (ulong* native_values = &values)
+			fixed (ulong* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImSumU64Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImSumU64Ptr(nativeValues, count);
 			}
 		}
 
 		public static double ImMeanFloatPtr(ref float values, int count)
 		{
-			fixed (float* native_values = &values)
+			fixed (float* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImMeanFloatPtr(native_values, count);
-				return result;
+				return ImPlotNative.ImMeanFloatPtr(nativeValues, count);
 			}
 		}
 
 		public static double ImMeanDoublePtr(ref double values, int count)
 		{
-			fixed (double* native_values = &values)
+			fixed (double* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImMeanDoublePtr(native_values, count);
-				return result;
+				return ImPlotNative.ImMeanDoublePtr(nativeValues, count);
 			}
 		}
 
 		public static double ImMeanS8Ptr(ref sbyte values, int count)
 		{
-			fixed (sbyte* native_values = &values)
+			fixed (sbyte* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImMeanS8Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImMeanS8Ptr(nativeValues, count);
 			}
 		}
 
-		public static double ImMeanU8Ptr(ReadOnlySpan<char> values, int count)
+		public static double ImMeanU8Ptr(ref byte values, int count)
 		{
-			// Marshaling values to native string
-			byte* native_values;
-			var byteCount_values = 0;
-			if (values != null)
+			fixed (byte* nativeValues = &values)
 			{
-				byteCount_values = Encoding.UTF8.GetByteCount(values);
-				if(byteCount_values > Utils.MaxStackallocSize)
-				{
-					native_values = Utils.Alloc<byte>(byteCount_values + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_values + 1];
-					native_values = stackallocBytes;
-				}
-				var values_offset = Utils.EncodeStringUTF8(values, native_values, byteCount_values);
-				native_values[values_offset] = 0;
+				return ImPlotNative.ImMeanU8Ptr(nativeValues, count);
 			}
-			else native_values = null;
-
-			return ImPlotNative.ImMeanU8Ptr(native_values, count);
-			// Freeing values native string
-			if (byteCount_values > Utils.MaxStackallocSize)
-				Utils.Free(native_values);
 		}
 
 		public static double ImMeanS16Ptr(ref short values, int count)
 		{
-			fixed (short* native_values = &values)
+			fixed (short* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImMeanS16Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImMeanS16Ptr(nativeValues, count);
 			}
 		}
 
 		public static double ImMeanU16Ptr(ref ushort values, int count)
 		{
-			fixed (ushort* native_values = &values)
+			fixed (ushort* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImMeanU16Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImMeanU16Ptr(nativeValues, count);
 			}
 		}
 
 		public static double ImMeanS32Ptr(ref int values, int count)
 		{
-			fixed (int* native_values = &values)
+			fixed (int* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImMeanS32Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImMeanS32Ptr(nativeValues, count);
 			}
 		}
 
 		public static double ImMeanU32Ptr(ref uint values, int count)
 		{
-			fixed (uint* native_values = &values)
+			fixed (uint* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImMeanU32Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImMeanU32Ptr(nativeValues, count);
 			}
 		}
 
 		public static double ImMeanS64Ptr(ref long values, int count)
 		{
-			fixed (long* native_values = &values)
+			fixed (long* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImMeanS64Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImMeanS64Ptr(nativeValues, count);
 			}
 		}
 
 		public static double ImMeanU64Ptr(ref ulong values, int count)
 		{
-			fixed (ulong* native_values = &values)
+			fixed (ulong* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImMeanU64Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImMeanU64Ptr(nativeValues, count);
 			}
 		}
 
 		public static double ImStdDevFloatPtr(ref float values, int count)
 		{
-			fixed (float* native_values = &values)
+			fixed (float* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImStdDevFloatPtr(native_values, count);
-				return result;
+				return ImPlotNative.ImStdDevFloatPtr(nativeValues, count);
 			}
 		}
 
 		public static double ImStdDevDoublePtr(ref double values, int count)
 		{
-			fixed (double* native_values = &values)
+			fixed (double* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImStdDevDoublePtr(native_values, count);
-				return result;
+				return ImPlotNative.ImStdDevDoublePtr(nativeValues, count);
 			}
 		}
 
 		public static double ImStdDevS8Ptr(ref sbyte values, int count)
 		{
-			fixed (sbyte* native_values = &values)
+			fixed (sbyte* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImStdDevS8Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImStdDevS8Ptr(nativeValues, count);
 			}
 		}
 
-		public static double ImStdDevU8Ptr(ReadOnlySpan<char> values, int count)
+		public static double ImStdDevU8Ptr(ref byte values, int count)
 		{
-			// Marshaling values to native string
-			byte* native_values;
-			var byteCount_values = 0;
-			if (values != null)
+			fixed (byte* nativeValues = &values)
 			{
-				byteCount_values = Encoding.UTF8.GetByteCount(values);
-				if(byteCount_values > Utils.MaxStackallocSize)
-				{
-					native_values = Utils.Alloc<byte>(byteCount_values + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_values + 1];
-					native_values = stackallocBytes;
-				}
-				var values_offset = Utils.EncodeStringUTF8(values, native_values, byteCount_values);
-				native_values[values_offset] = 0;
+				return ImPlotNative.ImStdDevU8Ptr(nativeValues, count);
 			}
-			else native_values = null;
-
-			return ImPlotNative.ImStdDevU8Ptr(native_values, count);
-			// Freeing values native string
-			if (byteCount_values > Utils.MaxStackallocSize)
-				Utils.Free(native_values);
 		}
 
 		public static double ImStdDevS16Ptr(ref short values, int count)
 		{
-			fixed (short* native_values = &values)
+			fixed (short* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImStdDevS16Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImStdDevS16Ptr(nativeValues, count);
 			}
 		}
 
 		public static double ImStdDevU16Ptr(ref ushort values, int count)
 		{
-			fixed (ushort* native_values = &values)
+			fixed (ushort* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImStdDevU16Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImStdDevU16Ptr(nativeValues, count);
 			}
 		}
 
 		public static double ImStdDevS32Ptr(ref int values, int count)
 		{
-			fixed (int* native_values = &values)
+			fixed (int* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImStdDevS32Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImStdDevS32Ptr(nativeValues, count);
 			}
 		}
 
 		public static double ImStdDevU32Ptr(ref uint values, int count)
 		{
-			fixed (uint* native_values = &values)
+			fixed (uint* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImStdDevU32Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImStdDevU32Ptr(nativeValues, count);
 			}
 		}
 
 		public static double ImStdDevS64Ptr(ref long values, int count)
 		{
-			fixed (long* native_values = &values)
+			fixed (long* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImStdDevS64Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImStdDevS64Ptr(nativeValues, count);
 			}
 		}
 
 		public static double ImStdDevU64Ptr(ref ulong values, int count)
 		{
-			fixed (ulong* native_values = &values)
+			fixed (ulong* nativeValues = &values)
 			{
-				var result = ImPlotNative.ImStdDevU64Ptr(native_values, count);
-				return result;
+				return ImPlotNative.ImStdDevU64Ptr(nativeValues, count);
 			}
 		}
 
@@ -10665,10 +13623,9 @@ namespace SharpImPlot
 
 		public static uint ImLerpU32(ref uint colors, int size, float t)
 		{
-			fixed (uint* native_colors = &colors)
+			fixed (uint* nativeColors = &colors)
 			{
-				var result = ImPlotNative.ImLerpU32(native_colors, size, t);
-				return result;
+				return ImPlotNative.ImLerpU32(nativeColors, size, t);
 			}
 		}
 
@@ -10677,58 +13634,68 @@ namespace SharpImPlot
 			return ImPlotNative.ImAlphaU32(col, alpha);
 		}
 
-		public static byte ImOverlapsFloat(float minA, float maxA, float minB, float maxB)
+		public static bool ImOverlapsFloat(float minA, float maxA, float minB, float maxB)
 		{
-			return ImPlotNative.ImOverlapsFloat(minA, maxA, minB, maxB);
+			var result = ImPlotNative.ImOverlapsFloat(minA, maxA, minB, maxB);
+			return result != 0;
 		}
 
-		public static byte ImOverlapsDouble(double minA, double maxA, double minB, double maxB)
+		public static bool ImOverlapsDouble(double minA, double maxA, double minB, double maxB)
 		{
-			return ImPlotNative.ImOverlapsDouble(minA, maxA, minB, maxB);
+			var result = ImPlotNative.ImOverlapsDouble(minA, maxA, minB, maxB);
+			return result != 0;
 		}
 
-		public static byte ImOverlapsS8(sbyte minA, sbyte maxA, sbyte minB, sbyte maxB)
+		public static bool ImOverlapsS8(sbyte minA, sbyte maxA, sbyte minB, sbyte maxB)
 		{
-			return ImPlotNative.ImOverlapsS8(minA, maxA, minB, maxB);
+			var result = ImPlotNative.ImOverlapsS8(minA, maxA, minB, maxB);
+			return result != 0;
 		}
 
-		public static byte ImOverlapsU8(bool minA, bool maxA, bool minB, bool maxB)
+		public static bool ImOverlapsU8(bool minA, bool maxA, bool minB, bool maxB)
 		{
 			var native_minA = minA ? (byte)1 : (byte)0;
 			var native_maxA = maxA ? (byte)1 : (byte)0;
 			var native_minB = minB ? (byte)1 : (byte)0;
 			var native_maxB = maxB ? (byte)1 : (byte)0;
-			return ImPlotNative.ImOverlapsU8(native_minA, native_maxA, native_minB, native_maxB);
+			var result = ImPlotNative.ImOverlapsU8(native_minA, native_maxA, native_minB, native_maxB);
+			return result != 0;
 		}
 
-		public static byte ImOverlapsS16(short minA, short maxA, short minB, short maxB)
+		public static bool ImOverlapsS16(short minA, short maxA, short minB, short maxB)
 		{
-			return ImPlotNative.ImOverlapsS16(minA, maxA, minB, maxB);
+			var result = ImPlotNative.ImOverlapsS16(minA, maxA, minB, maxB);
+			return result != 0;
 		}
 
-		public static byte ImOverlapsU16(ushort minA, ushort maxA, ushort minB, ushort maxB)
+		public static bool ImOverlapsU16(ushort minA, ushort maxA, ushort minB, ushort maxB)
 		{
-			return ImPlotNative.ImOverlapsU16(minA, maxA, minB, maxB);
+			var result = ImPlotNative.ImOverlapsU16(minA, maxA, minB, maxB);
+			return result != 0;
 		}
 
-		public static byte ImOverlapsS32(int minA, int maxA, int minB, int maxB)
+		public static bool ImOverlapsS32(int minA, int maxA, int minB, int maxB)
 		{
-			return ImPlotNative.ImOverlapsS32(minA, maxA, minB, maxB);
+			var result = ImPlotNative.ImOverlapsS32(minA, maxA, minB, maxB);
+			return result != 0;
 		}
 
-		public static byte ImOverlapsU32(uint minA, uint maxA, uint minB, uint maxB)
+		public static bool ImOverlapsU32(uint minA, uint maxA, uint minB, uint maxB)
 		{
-			return ImPlotNative.ImOverlapsU32(minA, maxA, minB, maxB);
+			var result = ImPlotNative.ImOverlapsU32(minA, maxA, minB, maxB);
+			return result != 0;
 		}
 
-		public static byte ImOverlapsS64(long minA, long maxA, long minB, long maxB)
+		public static bool ImOverlapsS64(long minA, long maxA, long minB, long maxB)
 		{
-			return ImPlotNative.ImOverlapsS64(minA, maxA, minB, maxB);
+			var result = ImPlotNative.ImOverlapsS64(minA, maxA, minB, maxB);
+			return result != 0;
 		}
 
-		public static byte ImOverlapsU64(ulong minA, ulong maxA, ulong minB, ulong maxB)
+		public static bool ImOverlapsU64(ulong minA, ulong maxA, ulong minB, ulong maxB)
 		{
-			return ImPlotNative.ImOverlapsU64(minA, maxA, minB, maxB);
+			var result = ImPlotNative.ImOverlapsU64(minA, maxA, minB, maxB);
+			return result != 0;
 		}
 
 		public static void Initialize(ImPlotContextPtr ctx)
@@ -10751,32 +13718,41 @@ namespace SharpImPlot
 			ImPlotNative.ResetCtxForNextSubplot(ctx);
 		}
 
+		public static ImPlotPlotPtr GetPlot(ReadOnlySpan<byte> title)
+		{
+			fixed (byte* nativeTitle = title)
+			{
+				return ImPlotNative.GetPlot(nativeTitle);
+			}
+		}
+
 		public static ImPlotPlotPtr GetPlot(ReadOnlySpan<char> title)
 		{
 			// Marshaling title to native string
-			byte* native_title;
-			var byteCount_title = 0;
+			byte* nativeTitle;
+			var byteCountTitle = 0;
 			if (title != null)
 			{
-				byteCount_title = Encoding.UTF8.GetByteCount(title);
-				if(byteCount_title > Utils.MaxStackallocSize)
+				byteCountTitle = Encoding.UTF8.GetByteCount(title);
+				if(byteCountTitle > Utils.MaxStackallocSize)
 				{
-					native_title = Utils.Alloc<byte>(byteCount_title + 1);
+					nativeTitle = Utils.Alloc<byte>(byteCountTitle + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_title + 1];
-					native_title = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountTitle + 1];
+					nativeTitle = stackallocBytes;
 				}
-				var title_offset = Utils.EncodeStringUTF8(title, native_title, byteCount_title);
-				native_title[title_offset] = 0;
+				var offsetTitle = Utils.EncodeStringUTF8(title, nativeTitle, byteCountTitle);
+				nativeTitle[offsetTitle] = 0;
 			}
-			else native_title = null;
+			else nativeTitle = null;
 
-			return ImPlotNative.GetPlot(native_title);
+			var result = ImPlotNative.GetPlot(nativeTitle);
 			// Freeing title native string
-			if (byteCount_title > Utils.MaxStackallocSize)
-				Utils.Free(native_title);
+			if (byteCountTitle > Utils.MaxStackallocSize)
+				Utils.Free(nativeTitle);
+			return result;
 		}
 
 		public static ImPlotPlotPtr GetCurrentPlot()
@@ -10809,32 +13785,105 @@ namespace SharpImPlot
 			ImPlotNative.ShowSubplotsContextMenu(subplot);
 		}
 
-		public static byte BeginItem(ReadOnlySpan<char> labelId, ImPlotItemFlags flags, ImPlotCol recolorFrom)
+		public static bool BeginItem(ReadOnlySpan<byte> labelId, ImPlotItemFlags flags, ImPlotCol recolorFrom)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			{
+				var result = ImPlotNative.BeginItem(nativeLabelId, flags, recolorFrom);
+				return result != 0;
+			}
+		}
+
+		public static bool BeginItem(ReadOnlySpan<char> labelId, ImPlotItemFlags flags, ImPlotCol recolorFrom)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			return ImPlotNative.BeginItem(native_labelId, flags, recolorFrom);
+			var result = ImPlotNative.BeginItem(nativeLabelId, flags, recolorFrom);
 			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+			return result != 0;
+		}
+
+		public static bool BeginItem(ReadOnlySpan<char> labelId, ImPlotItemFlags flags)
+		{
+			// defining omitted parameters
+			ImPlotCol recolorFrom = (ImPlotCol)0;
+			// Marshaling labelId to native string
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
+			if (labelId != null)
+			{
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
+				{
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
+				}
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
+			}
+			else nativeLabelId = null;
+
+			var result = ImPlotNative.BeginItem(nativeLabelId, flags, recolorFrom);
+			// Freeing labelId native string
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+			return result != 0;
+		}
+
+		public static bool BeginItem(ReadOnlySpan<char> labelId)
+		{
+			// defining omitted parameters
+			ImPlotCol recolorFrom = (ImPlotCol)0;
+			ImPlotItemFlags flags = ImPlotItemFlags.None;
+			// Marshaling labelId to native string
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
+			if (labelId != null)
+			{
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
+				{
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
+				}
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
+			}
+			else nativeLabelId = null;
+
+			var result = ImPlotNative.BeginItem(nativeLabelId, flags, recolorFrom);
+			// Freeing labelId native string
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+			return result != 0;
 		}
 
 		public static void EndItem()
@@ -10842,83 +13891,116 @@ namespace SharpImPlot
 			ImPlotNative.EndItem();
 		}
 
-		public static ImPlotItemPtr RegisterOrGetItem(ReadOnlySpan<char> labelId, ImPlotItemFlags flags, ReadOnlySpan<char> justCreated)
+		public static ImPlotItemPtr RegisterOrGetItem(ReadOnlySpan<byte> labelId, ImPlotItemFlags flags, ref bool justCreated)
+		{
+			var nativeJustCreatedVal = justCreated ? (byte)1 : (byte)0;
+			var nativeJustCreated = &nativeJustCreatedVal;
+			fixed (byte* nativeLabelId = labelId)
+			{
+				var result = ImPlotNative.RegisterOrGetItem(nativeLabelId, flags, nativeJustCreated);
+				justCreated = nativeJustCreatedVal != 0;
+				return result;
+			}
+		}
+
+		public static ImPlotItemPtr RegisterOrGetItem(ReadOnlySpan<char> labelId, ImPlotItemFlags flags, ref bool justCreated)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			// Marshaling justCreated to native string
-			byte* native_justCreated;
-			var byteCount_justCreated = 0;
-			if (justCreated != null)
-			{
-				byteCount_justCreated = Encoding.UTF8.GetByteCount(justCreated);
-				if(byteCount_justCreated > Utils.MaxStackallocSize)
-				{
-					native_justCreated = Utils.Alloc<byte>(byteCount_justCreated + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_justCreated + 1];
-					native_justCreated = stackallocBytes;
-				}
-				var justCreated_offset = Utils.EncodeStringUTF8(justCreated, native_justCreated, byteCount_justCreated);
-				native_justCreated[justCreated_offset] = 0;
-			}
-			else native_justCreated = null;
-
-			return ImPlotNative.RegisterOrGetItem(native_labelId, flags, native_justCreated);
+			var nativeJustCreatedVal = justCreated ? (byte)1 : (byte)0;
+			var nativeJustCreated = &nativeJustCreatedVal;
+			var result = ImPlotNative.RegisterOrGetItem(nativeLabelId, flags, nativeJustCreated);
 			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
-			// Freeing justCreated native string
-			if (byteCount_justCreated > Utils.MaxStackallocSize)
-				Utils.Free(native_justCreated);
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+			justCreated = nativeJustCreatedVal != 0;
+			return result;
+		}
+
+		public static ImPlotItemPtr RegisterOrGetItem(ReadOnlySpan<char> labelId, ImPlotItemFlags flags)
+		{
+			// defining omitted parameters
+			byte* justCreated = null;
+			// Marshaling labelId to native string
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
+			if (labelId != null)
+			{
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
+				{
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
+				}
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
+			}
+			else nativeLabelId = null;
+
+			var result = ImPlotNative.RegisterOrGetItem(nativeLabelId, flags, justCreated);
+			// Freeing labelId native string
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+			return result;
+		}
+
+		public static ImPlotItemPtr GetItem(ReadOnlySpan<byte> labelId)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			{
+				return ImPlotNative.GetItem(nativeLabelId);
+			}
 		}
 
 		public static ImPlotItemPtr GetItem(ReadOnlySpan<char> labelId)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			return ImPlotNative.GetItem(native_labelId);
+			var result = ImPlotNative.GetItem(nativeLabelId);
 			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+			return result;
 		}
 
 		public static ImPlotItemPtr GetCurrentItem()
@@ -10931,29 +14013,34 @@ namespace SharpImPlot
 			ImPlotNative.BustItemCache();
 		}
 
-		public static byte AnyAxesInputLocked(ImPlotAxisPtr axes, int count)
+		public static bool AnyAxesInputLocked(ImPlotAxisPtr axes, int count)
 		{
-			return ImPlotNative.AnyAxesInputLocked(axes, count);
+			var result = ImPlotNative.AnyAxesInputLocked(axes, count);
+			return result != 0;
 		}
 
-		public static byte AllAxesInputLocked(ImPlotAxisPtr axes, int count)
+		public static bool AllAxesInputLocked(ImPlotAxisPtr axes, int count)
 		{
-			return ImPlotNative.AllAxesInputLocked(axes, count);
+			var result = ImPlotNative.AllAxesInputLocked(axes, count);
+			return result != 0;
 		}
 
-		public static byte AnyAxesHeld(ImPlotAxisPtr axes, int count)
+		public static bool AnyAxesHeld(ImPlotAxisPtr axes, int count)
 		{
-			return ImPlotNative.AnyAxesHeld(axes, count);
+			var result = ImPlotNative.AnyAxesHeld(axes, count);
+			return result != 0;
 		}
 
-		public static byte AnyAxesHovered(ImPlotAxisPtr axes, int count)
+		public static bool AnyAxesHovered(ImPlotAxisPtr axes, int count)
 		{
-			return ImPlotNative.AnyAxesHovered(axes, count);
+			var result = ImPlotNative.AnyAxesHovered(axes, count);
+			return result != 0;
 		}
 
-		public static byte FitThisFrame()
+		public static bool FitThisFrame()
 		{
-			return ImPlotNative.FitThisFrame();
+			var result = ImPlotNative.FitThisFrame();
+			return result != 0;
 		}
 
 		public static void FitPointX(double x)
@@ -10971,9 +14058,10 @@ namespace SharpImPlot
 			ImPlotNative.FitPoint(p);
 		}
 
-		public static byte RangesOverlap(ImPlotRange r1, ImPlotRange r2)
+		public static bool RangesOverlap(ImPlotRange r1, ImPlotRange r2)
 		{
-			return ImPlotNative.RangesOverlap(r1, r2);
+			var result = ImPlotNative.RangesOverlap(r1, r2);
+			return result != 0;
 		}
 
 		public static void ShowAxisContextMenu(ImPlotAxisPtr axis, ImPlotAxisPtr equalAxis, bool timeAllowed)
@@ -10982,98 +14070,213 @@ namespace SharpImPlot
 			ImPlotNative.ShowAxisContextMenu(axis, equalAxis, native_timeAllowed);
 		}
 
-		public static void GetLocationPos(ref Vector2 pOut, ImRect outerRect, Vector2 innerSize, ImPlotLocation location, Vector2 pad)
+		public static void ShowAxisContextMenu(ImPlotAxisPtr axis, ImPlotAxisPtr equalAxis)
 		{
-			fixed (Vector2* native_pOut = &pOut)
+			// defining omitted parameters
+			byte timeAllowed = 0;
+			ImPlotNative.ShowAxisContextMenu(axis, equalAxis, timeAllowed);
+		}
+
+		public static void GetLocationPos(out Vector2 pOut, ImRect outerRect, Vector2 innerSize, ImPlotLocation location, Vector2 pad)
+		{
+			fixed (Vector2* nativePOut = &pOut)
 			{
-				ImPlotNative.GetLocationPos(native_pOut, outerRect, innerSize, location, pad);
+				ImPlotNative.GetLocationPos(nativePOut, outerRect, innerSize, location, pad);
 			}
 		}
 
-		public static void CalcLegendSize(ref Vector2 pOut, ImPlotItemGroupPtr items, Vector2 pad, Vector2 spacing, bool vertical)
+		public static void GetLocationPos(out Vector2 pOut, ImRect outerRect, Vector2 innerSize, ImPlotLocation location)
+		{
+			// defining omitted parameters
+			Vector2 pad = new Vector2(0,0);
+			fixed (Vector2* nativePOut = &pOut)
+			{
+				ImPlotNative.GetLocationPos(nativePOut, outerRect, innerSize, location, pad);
+			}
+		}
+
+		public static void CalcLegendSize(out Vector2 pOut, ImPlotItemGroupPtr items, Vector2 pad, Vector2 spacing, bool vertical)
 		{
 			var native_vertical = vertical ? (byte)1 : (byte)0;
-			fixed (Vector2* native_pOut = &pOut)
+			fixed (Vector2* nativePOut = &pOut)
 			{
-				ImPlotNative.CalcLegendSize(native_pOut, items, pad, spacing, native_vertical);
+				ImPlotNative.CalcLegendSize(nativePOut, items, pad, spacing, native_vertical);
 			}
 		}
 
-		public static byte ClampLegendRect(ImRectPtr legendRect, ImRect outerRect, Vector2 pad)
+		public static bool ClampLegendRect(ImRectPtr legendRect, ImRect outerRect, Vector2 pad)
 		{
-			return ImPlotNative.ClampLegendRect(legendRect, outerRect, pad);
+			var result = ImPlotNative.ClampLegendRect(legendRect, outerRect, pad);
+			return result != 0;
 		}
 
-		public static byte ShowLegendEntries(ImPlotItemGroupPtr items, ImRect legendBb, bool interactable, Vector2 pad, Vector2 spacing, bool vertical, ImDrawListPtr drawList)
+		public static bool ShowLegendEntries(ImPlotItemGroupPtr items, ImRect legendBb, bool interactable, Vector2 pad, Vector2 spacing, bool vertical, ImDrawListPtr drawList)
 		{
 			var native_interactable = interactable ? (byte)1 : (byte)0;
 			var native_vertical = vertical ? (byte)1 : (byte)0;
-			return ImPlotNative.ShowLegendEntries(items, legendBb, native_interactable, pad, spacing, native_vertical, drawList);
+			var result = ImPlotNative.ShowLegendEntries(items, legendBb, native_interactable, pad, spacing, native_vertical, drawList);
+			return result != 0;
+		}
+
+		public static void ShowAltLegend(ReadOnlySpan<byte> titleId, bool vertical, Vector2 size, bool interactable)
+		{
+			var native_vertical = vertical ? (byte)1 : (byte)0;
+			var native_interactable = interactable ? (byte)1 : (byte)0;
+			fixed (byte* nativeTitleId = titleId)
+			{
+				ImPlotNative.ShowAltLegend(nativeTitleId, native_vertical, size, native_interactable);
+			}
 		}
 
 		public static void ShowAltLegend(ReadOnlySpan<char> titleId, bool vertical, Vector2 size, bool interactable)
 		{
 			// Marshaling titleId to native string
-			byte* native_titleId;
-			var byteCount_titleId = 0;
+			byte* nativeTitleId;
+			var byteCountTitleId = 0;
 			if (titleId != null)
 			{
-				byteCount_titleId = Encoding.UTF8.GetByteCount(titleId);
-				if(byteCount_titleId > Utils.MaxStackallocSize)
+				byteCountTitleId = Encoding.UTF8.GetByteCount(titleId);
+				if(byteCountTitleId > Utils.MaxStackallocSize)
 				{
-					native_titleId = Utils.Alloc<byte>(byteCount_titleId + 1);
+					nativeTitleId = Utils.Alloc<byte>(byteCountTitleId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_titleId + 1];
-					native_titleId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountTitleId + 1];
+					nativeTitleId = stackallocBytes;
 				}
-				var titleId_offset = Utils.EncodeStringUTF8(titleId, native_titleId, byteCount_titleId);
-				native_titleId[titleId_offset] = 0;
+				var offsetTitleId = Utils.EncodeStringUTF8(titleId, nativeTitleId, byteCountTitleId);
+				nativeTitleId[offsetTitleId] = 0;
 			}
-			else native_titleId = null;
+			else nativeTitleId = null;
 
 			var native_vertical = vertical ? (byte)1 : (byte)0;
 			var native_interactable = interactable ? (byte)1 : (byte)0;
-			ImPlotNative.ShowAltLegend(native_titleId, native_vertical, size, native_interactable);
+			ImPlotNative.ShowAltLegend(nativeTitleId, native_vertical, size, native_interactable);
 			// Freeing titleId native string
-			if (byteCount_titleId > Utils.MaxStackallocSize)
-				Utils.Free(native_titleId);
+			if (byteCountTitleId > Utils.MaxStackallocSize)
+				Utils.Free(nativeTitleId);
 		}
 
-		public static byte ShowLegendContextMenu(ImPlotLegendPtr legend, bool visible)
+		public static void ShowAltLegend(ReadOnlySpan<char> titleId, bool vertical, Vector2 size)
 		{
-			var native_visible = visible ? (byte)1 : (byte)0;
-			return ImPlotNative.ShowLegendContextMenu(legend, native_visible);
-		}
-
-		public static void LabelAxisValue(ImPlotAxis axis, double value, ReadOnlySpan<char> buff, int size, bool round)
-		{
-			// Marshaling buff to native string
-			byte* native_buff;
-			var byteCount_buff = 0;
-			if (buff != null)
+			// defining omitted parameters
+			byte interactable = 1;
+			// Marshaling titleId to native string
+			byte* nativeTitleId;
+			var byteCountTitleId = 0;
+			if (titleId != null)
 			{
-				byteCount_buff = Encoding.UTF8.GetByteCount(buff);
-				if(byteCount_buff > Utils.MaxStackallocSize)
+				byteCountTitleId = Encoding.UTF8.GetByteCount(titleId);
+				if(byteCountTitleId > Utils.MaxStackallocSize)
 				{
-					native_buff = Utils.Alloc<byte>(byteCount_buff + 1);
+					nativeTitleId = Utils.Alloc<byte>(byteCountTitleId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_buff + 1];
-					native_buff = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountTitleId + 1];
+					nativeTitleId = stackallocBytes;
 				}
-				var buff_offset = Utils.EncodeStringUTF8(buff, native_buff, byteCount_buff);
-				native_buff[buff_offset] = 0;
+				var offsetTitleId = Utils.EncodeStringUTF8(titleId, nativeTitleId, byteCountTitleId);
+				nativeTitleId[offsetTitleId] = 0;
 			}
-			else native_buff = null;
+			else nativeTitleId = null;
 
+			var native_vertical = vertical ? (byte)1 : (byte)0;
+			ImPlotNative.ShowAltLegend(nativeTitleId, native_vertical, size, interactable);
+			// Freeing titleId native string
+			if (byteCountTitleId > Utils.MaxStackallocSize)
+				Utils.Free(nativeTitleId);
+		}
+
+		public static void ShowAltLegend(ReadOnlySpan<char> titleId, bool vertical)
+		{
+			// defining omitted parameters
+			byte interactable = 1;
+			Vector2 size = new Vector2(0,0);
+			// Marshaling titleId to native string
+			byte* nativeTitleId;
+			var byteCountTitleId = 0;
+			if (titleId != null)
+			{
+				byteCountTitleId = Encoding.UTF8.GetByteCount(titleId);
+				if(byteCountTitleId > Utils.MaxStackallocSize)
+				{
+					nativeTitleId = Utils.Alloc<byte>(byteCountTitleId + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountTitleId + 1];
+					nativeTitleId = stackallocBytes;
+				}
+				var offsetTitleId = Utils.EncodeStringUTF8(titleId, nativeTitleId, byteCountTitleId);
+				nativeTitleId[offsetTitleId] = 0;
+			}
+			else nativeTitleId = null;
+
+			var native_vertical = vertical ? (byte)1 : (byte)0;
+			ImPlotNative.ShowAltLegend(nativeTitleId, native_vertical, size, interactable);
+			// Freeing titleId native string
+			if (byteCountTitleId > Utils.MaxStackallocSize)
+				Utils.Free(nativeTitleId);
+		}
+
+		public static void ShowAltLegend(ReadOnlySpan<char> titleId)
+		{
+			// defining omitted parameters
+			byte interactable = 1;
+			Vector2 size = new Vector2(0,0);
+			byte vertical = 1;
+			// Marshaling titleId to native string
+			byte* nativeTitleId;
+			var byteCountTitleId = 0;
+			if (titleId != null)
+			{
+				byteCountTitleId = Encoding.UTF8.GetByteCount(titleId);
+				if(byteCountTitleId > Utils.MaxStackallocSize)
+				{
+					nativeTitleId = Utils.Alloc<byte>(byteCountTitleId + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountTitleId + 1];
+					nativeTitleId = stackallocBytes;
+				}
+				var offsetTitleId = Utils.EncodeStringUTF8(titleId, nativeTitleId, byteCountTitleId);
+				nativeTitleId[offsetTitleId] = 0;
+			}
+			else nativeTitleId = null;
+
+			ImPlotNative.ShowAltLegend(nativeTitleId, vertical, size, interactable);
+			// Freeing titleId native string
+			if (byteCountTitleId > Utils.MaxStackallocSize)
+				Utils.Free(nativeTitleId);
+		}
+
+		public static bool ShowLegendContextMenu(ImPlotLegendPtr legend, bool visible)
+		{
+			var native_visible = visible ? (byte)1 : (byte)0;
+			var result = ImPlotNative.ShowLegendContextMenu(legend, native_visible);
+			return result != 0;
+		}
+
+		public static void LabelAxisValue(ImPlotAxis axis, double value, ref byte buff, int size, bool round)
+		{
 			var native_round = round ? (byte)1 : (byte)0;
-			ImPlotNative.LabelAxisValue(axis, value, native_buff, size, native_round);
-			// Freeing buff native string
-			if (byteCount_buff > Utils.MaxStackallocSize)
-				Utils.Free(native_buff);
+			fixed (byte* nativeBuff = &buff)
+			{
+				ImPlotNative.LabelAxisValue(axis, value, nativeBuff, size, native_round);
+			}
+		}
+
+		public static void LabelAxisValue(ImPlotAxis axis, double value, ref byte buff, int size)
+		{
+			// defining omitted parameters
+			byte round = 0;
+			fixed (byte* nativeBuff = &buff)
+			{
+				ImPlotNative.LabelAxisValue(axis, value, nativeBuff, size, round);
+			}
 		}
 
 		public static ImPlotNextItemDataPtr GetItemData()
@@ -11081,29 +14284,31 @@ namespace SharpImPlot
 			return ImPlotNative.GetItemData();
 		}
 
-		public static byte IsColorAutoVec4(Vector4 col)
+		public static bool IsColorAutoVec4(Vector4 col)
 		{
-			return ImPlotNative.IsColorAutoVec4(col);
+			var result = ImPlotNative.IsColorAutoVec4(col);
+			return result != 0;
 		}
 
-		public static byte IsColorAutoPlotCol(ImPlotCol idx)
+		public static bool IsColorAutoPlotCol(ImPlotCol idx)
 		{
-			return ImPlotNative.IsColorAutoPlotCol(idx);
+			var result = ImPlotNative.IsColorAutoPlotCol(idx);
+			return result != 0;
 		}
 
-		public static void GetAutoColor(ref Vector4 pOut, ImPlotCol idx)
+		public static void GetAutoColor(out Vector4 pOut, ImPlotCol idx)
 		{
-			fixed (Vector4* native_pOut = &pOut)
+			fixed (Vector4* nativePOut = &pOut)
 			{
-				ImPlotNative.GetAutoColor(native_pOut, idx);
+				ImPlotNative.GetAutoColor(nativePOut, idx);
 			}
 		}
 
-		public static void GetStyleColorVec4(ref Vector4 pOut, ImPlotCol idx)
+		public static void GetStyleColorVec4(out Vector4 pOut, ImPlotCol idx)
 		{
-			fixed (Vector4* native_pOut = &pOut)
+			fixed (Vector4* nativePOut = &pOut)
 			{
-				ImPlotNative.GetStyleColorVec4(native_pOut, idx);
+				ImPlotNative.GetStyleColorVec4(nativePOut, idx);
 			}
 		}
 
@@ -11112,136 +14317,223 @@ namespace SharpImPlot
 			return ImPlotNative.GetStyleColorU32(idx);
 		}
 
+		public static void AddTextVertical(ImDrawListPtr drawList, Vector2 pos, uint col, ReadOnlySpan<byte> textBegin, ReadOnlySpan<byte> textEnd)
+		{
+			fixed (byte* nativeTextBegin = textBegin)
+			fixed (byte* nativeTextEnd = textEnd)
+			{
+				ImPlotNative.AddTextVertical(drawList, pos, col, nativeTextBegin, nativeTextEnd);
+			}
+		}
+
 		public static void AddTextVertical(ImDrawListPtr drawList, Vector2 pos, uint col, ReadOnlySpan<char> textBegin, ReadOnlySpan<char> textEnd)
 		{
 			// Marshaling textBegin to native string
-			byte* native_textBegin;
-			var byteCount_textBegin = 0;
+			byte* nativeTextBegin;
+			var byteCountTextBegin = 0;
 			if (textBegin != null)
 			{
-				byteCount_textBegin = Encoding.UTF8.GetByteCount(textBegin);
-				if(byteCount_textBegin > Utils.MaxStackallocSize)
+				byteCountTextBegin = Encoding.UTF8.GetByteCount(textBegin);
+				if(byteCountTextBegin > Utils.MaxStackallocSize)
 				{
-					native_textBegin = Utils.Alloc<byte>(byteCount_textBegin + 1);
+					nativeTextBegin = Utils.Alloc<byte>(byteCountTextBegin + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_textBegin + 1];
-					native_textBegin = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountTextBegin + 1];
+					nativeTextBegin = stackallocBytes;
 				}
-				var textBegin_offset = Utils.EncodeStringUTF8(textBegin, native_textBegin, byteCount_textBegin);
-				native_textBegin[textBegin_offset] = 0;
+				var offsetTextBegin = Utils.EncodeStringUTF8(textBegin, nativeTextBegin, byteCountTextBegin);
+				nativeTextBegin[offsetTextBegin] = 0;
 			}
-			else native_textBegin = null;
+			else nativeTextBegin = null;
 
 			// Marshaling textEnd to native string
-			byte* native_textEnd;
-			var byteCount_textEnd = 0;
+			byte* nativeTextEnd;
+			var byteCountTextEnd = 0;
 			if (textEnd != null)
 			{
-				byteCount_textEnd = Encoding.UTF8.GetByteCount(textEnd);
-				if(byteCount_textEnd > Utils.MaxStackallocSize)
+				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
+				if(byteCountTextEnd > Utils.MaxStackallocSize)
 				{
-					native_textEnd = Utils.Alloc<byte>(byteCount_textEnd + 1);
+					nativeTextEnd = Utils.Alloc<byte>(byteCountTextEnd + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_textEnd + 1];
-					native_textEnd = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountTextEnd + 1];
+					nativeTextEnd = stackallocBytes;
 				}
-				var textEnd_offset = Utils.EncodeStringUTF8(textEnd, native_textEnd, byteCount_textEnd);
-				native_textEnd[textEnd_offset] = 0;
+				var offsetTextEnd = Utils.EncodeStringUTF8(textEnd, nativeTextEnd, byteCountTextEnd);
+				nativeTextEnd[offsetTextEnd] = 0;
 			}
-			else native_textEnd = null;
+			else nativeTextEnd = null;
 
-			ImPlotNative.AddTextVertical(drawList, pos, col, native_textBegin, native_textEnd);
+			ImPlotNative.AddTextVertical(drawList, pos, col, nativeTextBegin, nativeTextEnd);
 			// Freeing textBegin native string
-			if (byteCount_textBegin > Utils.MaxStackallocSize)
-				Utils.Free(native_textBegin);
+			if (byteCountTextBegin > Utils.MaxStackallocSize)
+				Utils.Free(nativeTextBegin);
 			// Freeing textEnd native string
-			if (byteCount_textEnd > Utils.MaxStackallocSize)
-				Utils.Free(native_textEnd);
+			if (byteCountTextEnd > Utils.MaxStackallocSize)
+				Utils.Free(nativeTextEnd);
+		}
+
+		public static void AddTextVertical(ImDrawListPtr drawList, Vector2 pos, uint col, ReadOnlySpan<char> textBegin)
+		{
+			// defining omitted parameters
+			byte* textEnd = null;
+			// Marshaling textBegin to native string
+			byte* nativeTextBegin;
+			var byteCountTextBegin = 0;
+			if (textBegin != null)
+			{
+				byteCountTextBegin = Encoding.UTF8.GetByteCount(textBegin);
+				if(byteCountTextBegin > Utils.MaxStackallocSize)
+				{
+					nativeTextBegin = Utils.Alloc<byte>(byteCountTextBegin + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountTextBegin + 1];
+					nativeTextBegin = stackallocBytes;
+				}
+				var offsetTextBegin = Utils.EncodeStringUTF8(textBegin, nativeTextBegin, byteCountTextBegin);
+				nativeTextBegin[offsetTextBegin] = 0;
+			}
+			else nativeTextBegin = null;
+
+			ImPlotNative.AddTextVertical(drawList, pos, col, nativeTextBegin, textEnd);
+			// Freeing textBegin native string
+			if (byteCountTextBegin > Utils.MaxStackallocSize)
+				Utils.Free(nativeTextBegin);
+		}
+
+		public static void AddTextCentered(ImDrawListPtr drawList, Vector2 topCenter, uint col, ReadOnlySpan<byte> textBegin, ReadOnlySpan<byte> textEnd)
+		{
+			fixed (byte* nativeTextBegin = textBegin)
+			fixed (byte* nativeTextEnd = textEnd)
+			{
+				ImPlotNative.AddTextCentered(drawList, topCenter, col, nativeTextBegin, nativeTextEnd);
+			}
 		}
 
 		public static void AddTextCentered(ImDrawListPtr drawList, Vector2 topCenter, uint col, ReadOnlySpan<char> textBegin, ReadOnlySpan<char> textEnd)
 		{
 			// Marshaling textBegin to native string
-			byte* native_textBegin;
-			var byteCount_textBegin = 0;
+			byte* nativeTextBegin;
+			var byteCountTextBegin = 0;
 			if (textBegin != null)
 			{
-				byteCount_textBegin = Encoding.UTF8.GetByteCount(textBegin);
-				if(byteCount_textBegin > Utils.MaxStackallocSize)
+				byteCountTextBegin = Encoding.UTF8.GetByteCount(textBegin);
+				if(byteCountTextBegin > Utils.MaxStackallocSize)
 				{
-					native_textBegin = Utils.Alloc<byte>(byteCount_textBegin + 1);
+					nativeTextBegin = Utils.Alloc<byte>(byteCountTextBegin + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_textBegin + 1];
-					native_textBegin = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountTextBegin + 1];
+					nativeTextBegin = stackallocBytes;
 				}
-				var textBegin_offset = Utils.EncodeStringUTF8(textBegin, native_textBegin, byteCount_textBegin);
-				native_textBegin[textBegin_offset] = 0;
+				var offsetTextBegin = Utils.EncodeStringUTF8(textBegin, nativeTextBegin, byteCountTextBegin);
+				nativeTextBegin[offsetTextBegin] = 0;
 			}
-			else native_textBegin = null;
+			else nativeTextBegin = null;
 
 			// Marshaling textEnd to native string
-			byte* native_textEnd;
-			var byteCount_textEnd = 0;
+			byte* nativeTextEnd;
+			var byteCountTextEnd = 0;
 			if (textEnd != null)
 			{
-				byteCount_textEnd = Encoding.UTF8.GetByteCount(textEnd);
-				if(byteCount_textEnd > Utils.MaxStackallocSize)
+				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
+				if(byteCountTextEnd > Utils.MaxStackallocSize)
 				{
-					native_textEnd = Utils.Alloc<byte>(byteCount_textEnd + 1);
+					nativeTextEnd = Utils.Alloc<byte>(byteCountTextEnd + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_textEnd + 1];
-					native_textEnd = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountTextEnd + 1];
+					nativeTextEnd = stackallocBytes;
 				}
-				var textEnd_offset = Utils.EncodeStringUTF8(textEnd, native_textEnd, byteCount_textEnd);
-				native_textEnd[textEnd_offset] = 0;
+				var offsetTextEnd = Utils.EncodeStringUTF8(textEnd, nativeTextEnd, byteCountTextEnd);
+				nativeTextEnd[offsetTextEnd] = 0;
 			}
-			else native_textEnd = null;
+			else nativeTextEnd = null;
 
-			ImPlotNative.AddTextCentered(drawList, topCenter, col, native_textBegin, native_textEnd);
+			ImPlotNative.AddTextCentered(drawList, topCenter, col, nativeTextBegin, nativeTextEnd);
 			// Freeing textBegin native string
-			if (byteCount_textBegin > Utils.MaxStackallocSize)
-				Utils.Free(native_textBegin);
+			if (byteCountTextBegin > Utils.MaxStackallocSize)
+				Utils.Free(nativeTextBegin);
 			// Freeing textEnd native string
-			if (byteCount_textEnd > Utils.MaxStackallocSize)
-				Utils.Free(native_textEnd);
+			if (byteCountTextEnd > Utils.MaxStackallocSize)
+				Utils.Free(nativeTextEnd);
 		}
 
-		public static void CalcTextSizeVertical(ref Vector2 pOut, ReadOnlySpan<char> text)
+		public static void AddTextCentered(ImDrawListPtr drawList, Vector2 topCenter, uint col, ReadOnlySpan<char> textBegin)
 		{
-			// Marshaling text to native string
-			byte* native_text;
-			var byteCount_text = 0;
-			if (text != null)
+			// defining omitted parameters
+			byte* textEnd = null;
+			// Marshaling textBegin to native string
+			byte* nativeTextBegin;
+			var byteCountTextBegin = 0;
+			if (textBegin != null)
 			{
-				byteCount_text = Encoding.UTF8.GetByteCount(text);
-				if(byteCount_text > Utils.MaxStackallocSize)
+				byteCountTextBegin = Encoding.UTF8.GetByteCount(textBegin);
+				if(byteCountTextBegin > Utils.MaxStackallocSize)
 				{
-					native_text = Utils.Alloc<byte>(byteCount_text + 1);
+					nativeTextBegin = Utils.Alloc<byte>(byteCountTextBegin + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_text + 1];
-					native_text = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountTextBegin + 1];
+					nativeTextBegin = stackallocBytes;
 				}
-				var text_offset = Utils.EncodeStringUTF8(text, native_text, byteCount_text);
-				native_text[text_offset] = 0;
+				var offsetTextBegin = Utils.EncodeStringUTF8(textBegin, nativeTextBegin, byteCountTextBegin);
+				nativeTextBegin[offsetTextBegin] = 0;
 			}
-			else native_text = null;
+			else nativeTextBegin = null;
 
-			fixed (Vector2* native_pOut = &pOut)
+			ImPlotNative.AddTextCentered(drawList, topCenter, col, nativeTextBegin, textEnd);
+			// Freeing textBegin native string
+			if (byteCountTextBegin > Utils.MaxStackallocSize)
+				Utils.Free(nativeTextBegin);
+		}
+
+		public static void CalcTextSizeVertical(out Vector2 pOut, ReadOnlySpan<byte> text)
+		{
+			fixed (Vector2* nativePOut = &pOut)
+			fixed (byte* nativeText = text)
 			{
-				ImPlotNative.CalcTextSizeVertical(native_pOut, native_text);
+				ImPlotNative.CalcTextSizeVertical(nativePOut, nativeText);
+			}
+		}
+
+		public static void CalcTextSizeVertical(out Vector2 pOut, ReadOnlySpan<char> text)
+		{
+			// Marshaling text to native string
+			byte* nativeText;
+			var byteCountText = 0;
+			if (text != null)
+			{
+				byteCountText = Encoding.UTF8.GetByteCount(text);
+				if(byteCountText > Utils.MaxStackallocSize)
+				{
+					nativeText = Utils.Alloc<byte>(byteCountText + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountText + 1];
+					nativeText = stackallocBytes;
+				}
+				var offsetText = Utils.EncodeStringUTF8(text, nativeText, byteCountText);
+				nativeText[offsetText] = 0;
+			}
+			else nativeText = null;
+
+			fixed (Vector2* nativePOut = &pOut)
+			{
+				ImPlotNative.CalcTextSizeVertical(nativePOut, nativeText);
 				// Freeing text native string
-				if (byteCount_text > Utils.MaxStackallocSize)
-					Utils.Free(native_text);
+				if (byteCountText > Utils.MaxStackallocSize)
+					Utils.Free(nativeText);
 			}
 		}
 
@@ -11260,11 +14552,11 @@ namespace SharpImPlot
 			return ImPlotNative.CalcHoverColor(col);
 		}
 
-		public static void ClampLabelPos(ref Vector2 pOut, Vector2 pos, Vector2 size, Vector2 min, Vector2 max)
+		public static void ClampLabelPos(out Vector2 pOut, Vector2 pos, Vector2 size, Vector2 min, Vector2 max)
 		{
-			fixed (Vector2* native_pOut = &pOut)
+			fixed (Vector2* nativePOut = &pOut)
 			{
-				ImPlotNative.ClampLabelPos(native_pOut, pos, size, min, max);
+				ImPlotNative.ClampLabelPos(nativePOut, pos, size, min, max);
 			}
 		}
 
@@ -11288,9 +14580,9 @@ namespace SharpImPlot
 			var native_vert = vert ? (byte)1 : (byte)0;
 			var native_reversed = reversed ? (byte)1 : (byte)0;
 			var native_continuous = continuous ? (byte)1 : (byte)0;
-			fixed (uint* native_colors = &colors)
+			fixed (uint* nativeColors = &colors)
 			{
-				ImPlotNative.RenderColorBar(native_colors, size, drawList, bounds, native_vert, native_reversed, native_continuous);
+				ImPlotNative.RenderColorBar(nativeColors, size, drawList, bounds, native_vert, native_reversed, native_continuous);
 			}
 		}
 
@@ -11320,35 +14612,35 @@ namespace SharpImPlot
 			return ImPlotNative.RoundTo(val, prec);
 		}
 
-		public static void Intersection(ref Vector2 pOut, Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2)
+		public static void Intersection(out Vector2 pOut, Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2)
 		{
-			fixed (Vector2* native_pOut = &pOut)
+			fixed (Vector2* nativePOut = &pOut)
 			{
-				ImPlotNative.Intersection(native_pOut, a1, a2, b1, b2);
+				ImPlotNative.Intersection(nativePOut, a1, a2, b1, b2);
 			}
 		}
 
 		public static void FillRangeVectorFloatPtr(ref ImVector<float> buffer, int n, float vmin, float vmax)
 		{
-			fixed (ImVector<float>* native_buffer = &buffer)
+			fixed (ImVector<float>* nativeBuffer = &buffer)
 			{
-				ImPlotNative.FillRangeVectorFloatPtr(native_buffer, n, vmin, vmax);
+				ImPlotNative.FillRangeVectorFloatPtr(nativeBuffer, n, vmin, vmax);
 			}
 		}
 
 		public static void FillRangeVectorDoublePtr(ref ImVector<double> buffer, int n, double vmin, double vmax)
 		{
-			fixed (ImVector<double>* native_buffer = &buffer)
+			fixed (ImVector<double>* nativeBuffer = &buffer)
 			{
-				ImPlotNative.FillRangeVectorDoublePtr(native_buffer, n, vmin, vmax);
+				ImPlotNative.FillRangeVectorDoublePtr(nativeBuffer, n, vmin, vmax);
 			}
 		}
 
 		public static void FillRangeVectorS8Ptr(ref ImVector<sbyte> buffer, int n, sbyte vmin, sbyte vmax)
 		{
-			fixed (ImVector<sbyte>* native_buffer = &buffer)
+			fixed (ImVector<sbyte>* nativeBuffer = &buffer)
 			{
-				ImPlotNative.FillRangeVectorS8Ptr(native_buffer, n, vmin, vmax);
+				ImPlotNative.FillRangeVectorS8Ptr(nativeBuffer, n, vmin, vmax);
 			}
 		}
 
@@ -11356,185 +14648,164 @@ namespace SharpImPlot
 		{
 			var native_vmin = vmin ? (byte)1 : (byte)0;
 			var native_vmax = vmax ? (byte)1 : (byte)0;
-			fixed (ImVector<byte>* native_buffer = &buffer)
+			fixed (ImVector<byte>* nativeBuffer = &buffer)
 			{
-				ImPlotNative.FillRangeVectorU8Ptr(native_buffer, n, native_vmin, native_vmax);
+				ImPlotNative.FillRangeVectorU8Ptr(nativeBuffer, n, native_vmin, native_vmax);
 			}
 		}
 
 		public static void FillRangeVectorS16Ptr(ref ImVector<short> buffer, int n, short vmin, short vmax)
 		{
-			fixed (ImVector<short>* native_buffer = &buffer)
+			fixed (ImVector<short>* nativeBuffer = &buffer)
 			{
-				ImPlotNative.FillRangeVectorS16Ptr(native_buffer, n, vmin, vmax);
+				ImPlotNative.FillRangeVectorS16Ptr(nativeBuffer, n, vmin, vmax);
 			}
 		}
 
 		public static void FillRangeVectorU16Ptr(ref ImVector<ushort> buffer, int n, ushort vmin, ushort vmax)
 		{
-			fixed (ImVector<ushort>* native_buffer = &buffer)
+			fixed (ImVector<ushort>* nativeBuffer = &buffer)
 			{
-				ImPlotNative.FillRangeVectorU16Ptr(native_buffer, n, vmin, vmax);
+				ImPlotNative.FillRangeVectorU16Ptr(nativeBuffer, n, vmin, vmax);
 			}
 		}
 
 		public static void FillRangeVectorS32Ptr(ref ImVector<int> buffer, int n, int vmin, int vmax)
 		{
-			fixed (ImVector<int>* native_buffer = &buffer)
+			fixed (ImVector<int>* nativeBuffer = &buffer)
 			{
-				ImPlotNative.FillRangeVectorS32Ptr(native_buffer, n, vmin, vmax);
+				ImPlotNative.FillRangeVectorS32Ptr(nativeBuffer, n, vmin, vmax);
 			}
 		}
 
 		public static void FillRangeVectorU32Ptr(ref ImVector<uint> buffer, int n, uint vmin, uint vmax)
 		{
-			fixed (ImVector<uint>* native_buffer = &buffer)
+			fixed (ImVector<uint>* nativeBuffer = &buffer)
 			{
-				ImPlotNative.FillRangeVectorU32Ptr(native_buffer, n, vmin, vmax);
+				ImPlotNative.FillRangeVectorU32Ptr(nativeBuffer, n, vmin, vmax);
 			}
 		}
 
 		public static void FillRangeVectorS64Ptr(ref ImVector<long> buffer, int n, long vmin, long vmax)
 		{
-			fixed (ImVector<long>* native_buffer = &buffer)
+			fixed (ImVector<long>* nativeBuffer = &buffer)
 			{
-				ImPlotNative.FillRangeVectorS64Ptr(native_buffer, n, vmin, vmax);
+				ImPlotNative.FillRangeVectorS64Ptr(nativeBuffer, n, vmin, vmax);
 			}
 		}
 
 		public static void FillRangeVectorU64Ptr(ref ImVector<ulong> buffer, int n, ulong vmin, ulong vmax)
 		{
-			fixed (ImVector<ulong>* native_buffer = &buffer)
+			fixed (ImVector<ulong>* nativeBuffer = &buffer)
 			{
-				ImPlotNative.FillRangeVectorU64Ptr(native_buffer, n, vmin, vmax);
+				ImPlotNative.FillRangeVectorU64Ptr(nativeBuffer, n, vmin, vmax);
 			}
 		}
 
 		public static void CalculateBinsFloatPtr(ref float values, int count, ImPlotBin meth, ImPlotRange range, ref int binsOut, ref double widthOut)
 		{
-			fixed (float* native_values = &values)
-			fixed (int* native_binsOut = &binsOut)
-			fixed (double* native_widthOut = &widthOut)
+			fixed (float* nativeValues = &values)
+			fixed (int* nativeBinsOut = &binsOut)
+			fixed (double* nativeWidthOut = &widthOut)
 			{
-				ImPlotNative.CalculateBinsFloatPtr(native_values, count, meth, range, native_binsOut, native_widthOut);
+				ImPlotNative.CalculateBinsFloatPtr(nativeValues, count, meth, range, nativeBinsOut, nativeWidthOut);
 			}
 		}
 
 		public static void CalculateBinsDoublePtr(ref double values, int count, ImPlotBin meth, ImPlotRange range, ref int binsOut, ref double widthOut)
 		{
-			fixed (double* native_values = &values)
-			fixed (int* native_binsOut = &binsOut)
-			fixed (double* native_widthOut = &widthOut)
+			fixed (double* nativeValues = &values)
+			fixed (int* nativeBinsOut = &binsOut)
+			fixed (double* nativeWidthOut = &widthOut)
 			{
-				ImPlotNative.CalculateBinsDoublePtr(native_values, count, meth, range, native_binsOut, native_widthOut);
+				ImPlotNative.CalculateBinsDoublePtr(nativeValues, count, meth, range, nativeBinsOut, nativeWidthOut);
 			}
 		}
 
 		public static void CalculateBinsS8Ptr(ref sbyte values, int count, ImPlotBin meth, ImPlotRange range, ref int binsOut, ref double widthOut)
 		{
-			fixed (sbyte* native_values = &values)
-			fixed (int* native_binsOut = &binsOut)
-			fixed (double* native_widthOut = &widthOut)
+			fixed (sbyte* nativeValues = &values)
+			fixed (int* nativeBinsOut = &binsOut)
+			fixed (double* nativeWidthOut = &widthOut)
 			{
-				ImPlotNative.CalculateBinsS8Ptr(native_values, count, meth, range, native_binsOut, native_widthOut);
+				ImPlotNative.CalculateBinsS8Ptr(nativeValues, count, meth, range, nativeBinsOut, nativeWidthOut);
 			}
 		}
 
-		public static void CalculateBinsU8Ptr(ReadOnlySpan<char> values, int count, ImPlotBin meth, ImPlotRange range, ref int binsOut, ref double widthOut)
+		public static void CalculateBinsU8Ptr(ref byte values, int count, ImPlotBin meth, ImPlotRange range, ref int binsOut, ref double widthOut)
 		{
-			// Marshaling values to native string
-			byte* native_values;
-			var byteCount_values = 0;
-			if (values != null)
+			fixed (byte* nativeValues = &values)
+			fixed (int* nativeBinsOut = &binsOut)
+			fixed (double* nativeWidthOut = &widthOut)
 			{
-				byteCount_values = Encoding.UTF8.GetByteCount(values);
-				if(byteCount_values > Utils.MaxStackallocSize)
-				{
-					native_values = Utils.Alloc<byte>(byteCount_values + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_values + 1];
-					native_values = stackallocBytes;
-				}
-				var values_offset = Utils.EncodeStringUTF8(values, native_values, byteCount_values);
-				native_values[values_offset] = 0;
-			}
-			else native_values = null;
-
-			fixed (int* native_binsOut = &binsOut)
-			fixed (double* native_widthOut = &widthOut)
-			{
-				ImPlotNative.CalculateBinsU8Ptr(native_values, count, meth, range, native_binsOut, native_widthOut);
-				// Freeing values native string
-				if (byteCount_values > Utils.MaxStackallocSize)
-					Utils.Free(native_values);
+				ImPlotNative.CalculateBinsU8Ptr(nativeValues, count, meth, range, nativeBinsOut, nativeWidthOut);
 			}
 		}
 
 		public static void CalculateBinsS16Ptr(ref short values, int count, ImPlotBin meth, ImPlotRange range, ref int binsOut, ref double widthOut)
 		{
-			fixed (short* native_values = &values)
-			fixed (int* native_binsOut = &binsOut)
-			fixed (double* native_widthOut = &widthOut)
+			fixed (short* nativeValues = &values)
+			fixed (int* nativeBinsOut = &binsOut)
+			fixed (double* nativeWidthOut = &widthOut)
 			{
-				ImPlotNative.CalculateBinsS16Ptr(native_values, count, meth, range, native_binsOut, native_widthOut);
+				ImPlotNative.CalculateBinsS16Ptr(nativeValues, count, meth, range, nativeBinsOut, nativeWidthOut);
 			}
 		}
 
 		public static void CalculateBinsU16Ptr(ref ushort values, int count, ImPlotBin meth, ImPlotRange range, ref int binsOut, ref double widthOut)
 		{
-			fixed (ushort* native_values = &values)
-			fixed (int* native_binsOut = &binsOut)
-			fixed (double* native_widthOut = &widthOut)
+			fixed (ushort* nativeValues = &values)
+			fixed (int* nativeBinsOut = &binsOut)
+			fixed (double* nativeWidthOut = &widthOut)
 			{
-				ImPlotNative.CalculateBinsU16Ptr(native_values, count, meth, range, native_binsOut, native_widthOut);
+				ImPlotNative.CalculateBinsU16Ptr(nativeValues, count, meth, range, nativeBinsOut, nativeWidthOut);
 			}
 		}
 
 		public static void CalculateBinsS32Ptr(ref int values, int count, ImPlotBin meth, ImPlotRange range, ref int binsOut, ref double widthOut)
 		{
-			fixed (int* native_values = &values)
-			fixed (int* native_binsOut = &binsOut)
-			fixed (double* native_widthOut = &widthOut)
+			fixed (int* nativeValues = &values)
+			fixed (int* nativeBinsOut = &binsOut)
+			fixed (double* nativeWidthOut = &widthOut)
 			{
-				ImPlotNative.CalculateBinsS32Ptr(native_values, count, meth, range, native_binsOut, native_widthOut);
+				ImPlotNative.CalculateBinsS32Ptr(nativeValues, count, meth, range, nativeBinsOut, nativeWidthOut);
 			}
 		}
 
 		public static void CalculateBinsU32Ptr(ref uint values, int count, ImPlotBin meth, ImPlotRange range, ref int binsOut, ref double widthOut)
 		{
-			fixed (uint* native_values = &values)
-			fixed (int* native_binsOut = &binsOut)
-			fixed (double* native_widthOut = &widthOut)
+			fixed (uint* nativeValues = &values)
+			fixed (int* nativeBinsOut = &binsOut)
+			fixed (double* nativeWidthOut = &widthOut)
 			{
-				ImPlotNative.CalculateBinsU32Ptr(native_values, count, meth, range, native_binsOut, native_widthOut);
+				ImPlotNative.CalculateBinsU32Ptr(nativeValues, count, meth, range, nativeBinsOut, nativeWidthOut);
 			}
 		}
 
 		public static void CalculateBinsS64Ptr(ref long values, int count, ImPlotBin meth, ImPlotRange range, ref int binsOut, ref double widthOut)
 		{
-			fixed (long* native_values = &values)
-			fixed (int* native_binsOut = &binsOut)
-			fixed (double* native_widthOut = &widthOut)
+			fixed (long* nativeValues = &values)
+			fixed (int* nativeBinsOut = &binsOut)
+			fixed (double* nativeWidthOut = &widthOut)
 			{
-				ImPlotNative.CalculateBinsS64Ptr(native_values, count, meth, range, native_binsOut, native_widthOut);
+				ImPlotNative.CalculateBinsS64Ptr(nativeValues, count, meth, range, nativeBinsOut, nativeWidthOut);
 			}
 		}
 
 		public static void CalculateBinsU64Ptr(ref ulong values, int count, ImPlotBin meth, ImPlotRange range, ref int binsOut, ref double widthOut)
 		{
-			fixed (ulong* native_values = &values)
-			fixed (int* native_binsOut = &binsOut)
-			fixed (double* native_widthOut = &widthOut)
+			fixed (ulong* nativeValues = &values)
+			fixed (int* nativeBinsOut = &binsOut)
+			fixed (double* nativeWidthOut = &widthOut)
 			{
-				ImPlotNative.CalculateBinsU64Ptr(native_values, count, meth, range, native_binsOut, native_widthOut);
+				ImPlotNative.CalculateBinsU64Ptr(nativeValues, count, meth, range, nativeBinsOut, nativeWidthOut);
 			}
 		}
 
-		public static byte IsLeapYear(int year)
+		public static bool IsLeapYear(int year)
 		{
-			return ImPlotNative.IsLeapYear(year);
+			var result = ImPlotNative.IsLeapYear(year);
+			return result != 0;
 		}
 
 		public static int GetDaysInMonth(int year, int month)
@@ -11574,6 +14845,63 @@ namespace SharpImPlot
 
 		public static void MakeTime(ImPlotTimePtr pOut, int year, int month, int day, int hour, int min, int sec, int us)
 		{
+			ImPlotNative.MakeTime(pOut, year, month, day, hour, min, sec, us);
+		}
+
+		public static void MakeTime(ImPlotTimePtr pOut, int year, int month, int day, int hour, int min, int sec)
+		{
+			// defining omitted parameters
+			int us = 0;
+			ImPlotNative.MakeTime(pOut, year, month, day, hour, min, sec, us);
+		}
+
+		public static void MakeTime(ImPlotTimePtr pOut, int year, int month, int day, int hour, int min)
+		{
+			// defining omitted parameters
+			int us = 0;
+			int sec = 0;
+			ImPlotNative.MakeTime(pOut, year, month, day, hour, min, sec, us);
+		}
+
+		public static void MakeTime(ImPlotTimePtr pOut, int year, int month, int day, int hour)
+		{
+			// defining omitted parameters
+			int us = 0;
+			int sec = 0;
+			int min = 0;
+			ImPlotNative.MakeTime(pOut, year, month, day, hour, min, sec, us);
+		}
+
+		public static void MakeTime(ImPlotTimePtr pOut, int year, int month, int day)
+		{
+			// defining omitted parameters
+			int us = 0;
+			int sec = 0;
+			int min = 0;
+			int hour = 0;
+			ImPlotNative.MakeTime(pOut, year, month, day, hour, min, sec, us);
+		}
+
+		public static void MakeTime(ImPlotTimePtr pOut, int year, int month)
+		{
+			// defining omitted parameters
+			int us = 0;
+			int sec = 0;
+			int min = 0;
+			int hour = 0;
+			int day = 1;
+			ImPlotNative.MakeTime(pOut, year, month, day, hour, min, sec, us);
+		}
+
+		public static void MakeTime(ImPlotTimePtr pOut, int year)
+		{
+			// defining omitted parameters
+			int us = 0;
+			int sec = 0;
+			int min = 0;
+			int hour = 0;
+			int day = 1;
+			int month = 0;
 			ImPlotNative.MakeTime(pOut, year, month, day, hour, min, sec, us);
 		}
 
@@ -11622,150 +14950,179 @@ namespace SharpImPlot
 			ImPlotNative.Today(pOut);
 		}
 
-		public static int FormatTime(ImPlotTime t, ReadOnlySpan<char> buffer, int size, ImPlotTimeFmt fmt, bool use_24HrClk)
+		public static int FormatTime(ImPlotTime t, ref byte buffer, int size, ImPlotTimeFmt fmt, bool use_24HrClk)
 		{
-			// Marshaling buffer to native string
-			byte* native_buffer;
-			var byteCount_buffer = 0;
-			if (buffer != null)
-			{
-				byteCount_buffer = Encoding.UTF8.GetByteCount(buffer);
-				if(byteCount_buffer > Utils.MaxStackallocSize)
-				{
-					native_buffer = Utils.Alloc<byte>(byteCount_buffer + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_buffer + 1];
-					native_buffer = stackallocBytes;
-				}
-				var buffer_offset = Utils.EncodeStringUTF8(buffer, native_buffer, byteCount_buffer);
-				native_buffer[buffer_offset] = 0;
-			}
-			else native_buffer = null;
-
 			var native_use_24HrClk = use_24HrClk ? (byte)1 : (byte)0;
-			return ImPlotNative.FormatTime(t, native_buffer, size, fmt, native_use_24HrClk);
-			// Freeing buffer native string
-			if (byteCount_buffer > Utils.MaxStackallocSize)
-				Utils.Free(native_buffer);
+			fixed (byte* nativeBuffer = &buffer)
+			{
+				return ImPlotNative.FormatTime(t, nativeBuffer, size, fmt, native_use_24HrClk);
+			}
 		}
 
-		public static int FormatDate(ImPlotTime t, ReadOnlySpan<char> buffer, int size, ImPlotDateFmt fmt, bool useIso_8601)
+		public static int FormatDate(ImPlotTime t, ref byte buffer, int size, ImPlotDateFmt fmt, bool useIso_8601)
 		{
-			// Marshaling buffer to native string
-			byte* native_buffer;
-			var byteCount_buffer = 0;
-			if (buffer != null)
-			{
-				byteCount_buffer = Encoding.UTF8.GetByteCount(buffer);
-				if(byteCount_buffer > Utils.MaxStackallocSize)
-				{
-					native_buffer = Utils.Alloc<byte>(byteCount_buffer + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_buffer + 1];
-					native_buffer = stackallocBytes;
-				}
-				var buffer_offset = Utils.EncodeStringUTF8(buffer, native_buffer, byteCount_buffer);
-				native_buffer[buffer_offset] = 0;
-			}
-			else native_buffer = null;
-
 			var native_useIso_8601 = useIso_8601 ? (byte)1 : (byte)0;
-			return ImPlotNative.FormatDate(t, native_buffer, size, fmt, native_useIso_8601);
-			// Freeing buffer native string
-			if (byteCount_buffer > Utils.MaxStackallocSize)
-				Utils.Free(native_buffer);
-		}
-
-		public static int FormatDateTime(ImPlotTime t, ReadOnlySpan<char> buffer, int size, ImPlotDateTimeSpec fmt)
-		{
-			// Marshaling buffer to native string
-			byte* native_buffer;
-			var byteCount_buffer = 0;
-			if (buffer != null)
+			fixed (byte* nativeBuffer = &buffer)
 			{
-				byteCount_buffer = Encoding.UTF8.GetByteCount(buffer);
-				if(byteCount_buffer > Utils.MaxStackallocSize)
-				{
-					native_buffer = Utils.Alloc<byte>(byteCount_buffer + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_buffer + 1];
-					native_buffer = stackallocBytes;
-				}
-				var buffer_offset = Utils.EncodeStringUTF8(buffer, native_buffer, byteCount_buffer);
-				native_buffer[buffer_offset] = 0;
+				return ImPlotNative.FormatDate(t, nativeBuffer, size, fmt, native_useIso_8601);
 			}
-			else native_buffer = null;
-
-			return ImPlotNative.FormatDateTime(t, native_buffer, size, fmt);
-			// Freeing buffer native string
-			if (byteCount_buffer > Utils.MaxStackallocSize)
-				Utils.Free(native_buffer);
 		}
 
-		public static byte ShowDatePicker(ReadOnlySpan<char> id, ref int level, ImPlotTimePtr t, ImPlotTimePtr t1, ImPlotTimePtr t2)
+		public static int FormatDateTime(ImPlotTime t, ref byte buffer, int size, ImPlotDateTimeSpec fmt)
+		{
+			fixed (byte* nativeBuffer = &buffer)
+			{
+				return ImPlotNative.FormatDateTime(t, nativeBuffer, size, fmt);
+			}
+		}
+
+		public static bool ShowDatePicker(ReadOnlySpan<byte> id, ref int level, ImPlotTimePtr t, ImPlotTimePtr t1, ImPlotTimePtr t2)
+		{
+			fixed (byte* nativeId = id)
+			fixed (int* nativeLevel = &level)
+			{
+				var result = ImPlotNative.ShowDatePicker(nativeId, nativeLevel, t, t1, t2);
+				return result != 0;
+			}
+		}
+
+		public static bool ShowDatePicker(ReadOnlySpan<char> id, ref int level, ImPlotTimePtr t, ImPlotTimePtr t1, ImPlotTimePtr t2)
 		{
 			// Marshaling id to native string
-			byte* native_id;
-			var byteCount_id = 0;
+			byte* nativeId;
+			var byteCountId = 0;
 			if (id != null)
 			{
-				byteCount_id = Encoding.UTF8.GetByteCount(id);
-				if(byteCount_id > Utils.MaxStackallocSize)
+				byteCountId = Encoding.UTF8.GetByteCount(id);
+				if(byteCountId > Utils.MaxStackallocSize)
 				{
-					native_id = Utils.Alloc<byte>(byteCount_id + 1);
+					nativeId = Utils.Alloc<byte>(byteCountId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_id + 1];
-					native_id = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountId + 1];
+					nativeId = stackallocBytes;
 				}
-				var id_offset = Utils.EncodeStringUTF8(id, native_id, byteCount_id);
-				native_id[id_offset] = 0;
+				var offsetId = Utils.EncodeStringUTF8(id, nativeId, byteCountId);
+				nativeId[offsetId] = 0;
 			}
-			else native_id = null;
+			else nativeId = null;
 
-			fixed (int* native_level = &level)
+			fixed (int* nativeLevel = &level)
 			{
-				var result = ImPlotNative.ShowDatePicker(native_id, native_level, t, t1, t2);
+				var result = ImPlotNative.ShowDatePicker(nativeId, nativeLevel, t, t1, t2);
 				// Freeing id native string
-				if (byteCount_id > Utils.MaxStackallocSize)
-					Utils.Free(native_id);
-				return result;
+				if (byteCountId > Utils.MaxStackallocSize)
+					Utils.Free(nativeId);
+				return result != 0;
 			}
 		}
 
-		public static byte ShowTimePicker(ReadOnlySpan<char> id, ImPlotTimePtr t)
+		public static bool ShowDatePicker(ReadOnlySpan<char> id, ref int level, ImPlotTimePtr t, ImPlotTimePtr t1)
 		{
+			// defining omitted parameters
+			ImPlotTime* t2 = null;
 			// Marshaling id to native string
-			byte* native_id;
-			var byteCount_id = 0;
+			byte* nativeId;
+			var byteCountId = 0;
 			if (id != null)
 			{
-				byteCount_id = Encoding.UTF8.GetByteCount(id);
-				if(byteCount_id > Utils.MaxStackallocSize)
+				byteCountId = Encoding.UTF8.GetByteCount(id);
+				if(byteCountId > Utils.MaxStackallocSize)
 				{
-					native_id = Utils.Alloc<byte>(byteCount_id + 1);
+					nativeId = Utils.Alloc<byte>(byteCountId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_id + 1];
-					native_id = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountId + 1];
+					nativeId = stackallocBytes;
 				}
-				var id_offset = Utils.EncodeStringUTF8(id, native_id, byteCount_id);
-				native_id[id_offset] = 0;
+				var offsetId = Utils.EncodeStringUTF8(id, nativeId, byteCountId);
+				nativeId[offsetId] = 0;
 			}
-			else native_id = null;
+			else nativeId = null;
 
-			return ImPlotNative.ShowTimePicker(native_id, t);
+			fixed (int* nativeLevel = &level)
+			{
+				var result = ImPlotNative.ShowDatePicker(nativeId, nativeLevel, t, t1, t2);
+				// Freeing id native string
+				if (byteCountId > Utils.MaxStackallocSize)
+					Utils.Free(nativeId);
+				return result != 0;
+			}
+		}
+
+		public static bool ShowDatePicker(ReadOnlySpan<char> id, ref int level, ImPlotTimePtr t)
+		{
+			// defining omitted parameters
+			ImPlotTime* t2 = null;
+			ImPlotTime* t1 = null;
+			// Marshaling id to native string
+			byte* nativeId;
+			var byteCountId = 0;
+			if (id != null)
+			{
+				byteCountId = Encoding.UTF8.GetByteCount(id);
+				if(byteCountId > Utils.MaxStackallocSize)
+				{
+					nativeId = Utils.Alloc<byte>(byteCountId + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountId + 1];
+					nativeId = stackallocBytes;
+				}
+				var offsetId = Utils.EncodeStringUTF8(id, nativeId, byteCountId);
+				nativeId[offsetId] = 0;
+			}
+			else nativeId = null;
+
+			fixed (int* nativeLevel = &level)
+			{
+				var result = ImPlotNative.ShowDatePicker(nativeId, nativeLevel, t, t1, t2);
+				// Freeing id native string
+				if (byteCountId > Utils.MaxStackallocSize)
+					Utils.Free(nativeId);
+				return result != 0;
+			}
+		}
+
+		public static bool ShowTimePicker(ReadOnlySpan<byte> id, ImPlotTimePtr t)
+		{
+			fixed (byte* nativeId = id)
+			{
+				var result = ImPlotNative.ShowTimePicker(nativeId, t);
+				return result != 0;
+			}
+		}
+
+		public static bool ShowTimePicker(ReadOnlySpan<char> id, ImPlotTimePtr t)
+		{
+			// Marshaling id to native string
+			byte* nativeId;
+			var byteCountId = 0;
+			if (id != null)
+			{
+				byteCountId = Encoding.UTF8.GetByteCount(id);
+				if(byteCountId > Utils.MaxStackallocSize)
+				{
+					nativeId = Utils.Alloc<byte>(byteCountId + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountId + 1];
+					nativeId = stackallocBytes;
+				}
+				var offsetId = Utils.EncodeStringUTF8(id, nativeId, byteCountId);
+				nativeId[offsetId] = 0;
+			}
+			else nativeId = null;
+
+			var result = ImPlotNative.ShowTimePicker(nativeId, t);
 			// Freeing id native string
-			if (byteCount_id > Utils.MaxStackallocSize)
-				Utils.Free(native_id);
+			if (byteCountId > Utils.MaxStackallocSize)
+				Utils.Free(nativeId);
+			return result != 0;
 		}
 
 		public static double TransformForwardLog10(double v, IntPtr noname1)
@@ -11798,88 +15155,28 @@ namespace SharpImPlot
 			return ImPlotNative.TransformInverseLogit(v, (void*)noname1);
 		}
 
-		public static int FormatterDefault(double value, ReadOnlySpan<char> buff, int size, IntPtr data)
+		public static int FormatterDefault(double value, ref byte buff, int size, IntPtr data)
 		{
-			// Marshaling buff to native string
-			byte* native_buff;
-			var byteCount_buff = 0;
-			if (buff != null)
+			fixed (byte* nativeBuff = &buff)
 			{
-				byteCount_buff = Encoding.UTF8.GetByteCount(buff);
-				if(byteCount_buff > Utils.MaxStackallocSize)
-				{
-					native_buff = Utils.Alloc<byte>(byteCount_buff + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_buff + 1];
-					native_buff = stackallocBytes;
-				}
-				var buff_offset = Utils.EncodeStringUTF8(buff, native_buff, byteCount_buff);
-				native_buff[buff_offset] = 0;
+				return ImPlotNative.FormatterDefault(value, nativeBuff, size, (void*)data);
 			}
-			else native_buff = null;
-
-			return ImPlotNative.FormatterDefault(value, native_buff, size, (void*)data);
-			// Freeing buff native string
-			if (byteCount_buff > Utils.MaxStackallocSize)
-				Utils.Free(native_buff);
 		}
 
-		public static int FormatterLogit(double value, ReadOnlySpan<char> buff, int size, IntPtr noname1)
+		public static int FormatterLogit(double value, ref byte buff, int size, IntPtr noname1)
 		{
-			// Marshaling buff to native string
-			byte* native_buff;
-			var byteCount_buff = 0;
-			if (buff != null)
+			fixed (byte* nativeBuff = &buff)
 			{
-				byteCount_buff = Encoding.UTF8.GetByteCount(buff);
-				if(byteCount_buff > Utils.MaxStackallocSize)
-				{
-					native_buff = Utils.Alloc<byte>(byteCount_buff + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_buff + 1];
-					native_buff = stackallocBytes;
-				}
-				var buff_offset = Utils.EncodeStringUTF8(buff, native_buff, byteCount_buff);
-				native_buff[buff_offset] = 0;
+				return ImPlotNative.FormatterLogit(value, nativeBuff, size, (void*)noname1);
 			}
-			else native_buff = null;
-
-			return ImPlotNative.FormatterLogit(value, native_buff, size, (void*)noname1);
-			// Freeing buff native string
-			if (byteCount_buff > Utils.MaxStackallocSize)
-				Utils.Free(native_buff);
 		}
 
-		public static int FormatterTime(double noname1, ReadOnlySpan<char> buff, int size, IntPtr data)
+		public static int FormatterTime(double noname1, ref byte buff, int size, IntPtr data)
 		{
-			// Marshaling buff to native string
-			byte* native_buff;
-			var byteCount_buff = 0;
-			if (buff != null)
+			fixed (byte* nativeBuff = &buff)
 			{
-				byteCount_buff = Encoding.UTF8.GetByteCount(buff);
-				if(byteCount_buff > Utils.MaxStackallocSize)
-				{
-					native_buff = Utils.Alloc<byte>(byteCount_buff + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_buff + 1];
-					native_buff = stackallocBytes;
-				}
-				var buff_offset = Utils.EncodeStringUTF8(buff, native_buff, byteCount_buff);
-				native_buff[buff_offset] = 0;
+				return ImPlotNative.FormatterTime(noname1, nativeBuff, size, (void*)data);
 			}
-			else native_buff = null;
-
-			return ImPlotNative.FormatterTime(noname1, native_buff, size, (void*)data);
-			// Freeing buff native string
-			if (byteCount_buff > Utils.MaxStackallocSize)
-				Utils.Free(native_buff);
 		}
 
 		public static void LocatorDefault(ImPlotTickerPtr ticker, ImPlotRange range, float pixels, bool vertical, ImPlotFormatter formatter, IntPtr formatterData)

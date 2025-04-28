@@ -283,55 +283,64 @@ namespace SharpImGui
 			ImGuiNative.ImGuiDockNodeRect(pOut, NativePtr);
 		}
 
-		public byte IsEmpty()
+		public bool IsEmpty()
 		{
-			return ImGuiNative.ImGuiDockNodeIsEmpty(NativePtr);
+			var result = ImGuiNative.ImGuiDockNodeIsEmpty(NativePtr);
+			return result != 0;
 		}
 
-		public byte IsLeafNode()
+		public bool IsLeafNode()
 		{
-			return ImGuiNative.ImGuiDockNodeIsLeafNode(NativePtr);
+			var result = ImGuiNative.ImGuiDockNodeIsLeafNode(NativePtr);
+			return result != 0;
 		}
 
-		public byte IsSplitNode()
+		public bool IsSplitNode()
 		{
-			return ImGuiNative.ImGuiDockNodeIsSplitNode(NativePtr);
+			var result = ImGuiNative.ImGuiDockNodeIsSplitNode(NativePtr);
+			return result != 0;
 		}
 
 		/// <summary>
 		/// Never show a tab bar<br/>
 		/// </summary>
-		public byte IsNoTabBar()
+		public bool IsNoTabBar()
 		{
-			return ImGuiNative.ImGuiDockNodeIsNoTabBar(NativePtr);
+			var result = ImGuiNative.ImGuiDockNodeIsNoTabBar(NativePtr);
+			return result != 0;
 		}
 
 		/// <summary>
 		/// Hidden tab bar can be shown back by clicking the small triangle<br/>
 		/// </summary>
-		public byte IsHiddenTabBar()
+		public bool IsHiddenTabBar()
 		{
-			return ImGuiNative.ImGuiDockNodeIsHiddenTabBar(NativePtr);
+			var result = ImGuiNative.ImGuiDockNodeIsHiddenTabBar(NativePtr);
+			return result != 0;
 		}
 
-		public byte IsCentralNode()
+		public bool IsCentralNode()
 		{
-			return ImGuiNative.ImGuiDockNodeIsCentralNode(NativePtr);
+			var result = ImGuiNative.ImGuiDockNodeIsCentralNode(NativePtr);
+			return result != 0;
 		}
 
-		public byte IsFloatingNode()
+		public bool IsFloatingNode()
 		{
-			return ImGuiNative.ImGuiDockNodeIsFloatingNode(NativePtr);
+			var result = ImGuiNative.ImGuiDockNodeIsFloatingNode(NativePtr);
+			return result != 0;
 		}
 
-		public byte IsDockSpace()
+		public bool IsDockSpace()
 		{
-			return ImGuiNative.ImGuiDockNodeIsDockSpace(NativePtr);
+			var result = ImGuiNative.ImGuiDockNodeIsDockSpace(NativePtr);
+			return result != 0;
 		}
 
-		public byte IsRootNode()
+		public bool IsRootNode()
 		{
-			return ImGuiNative.ImGuiDockNodeIsRootNode(NativePtr);
+			var result = ImGuiNative.ImGuiDockNodeIsRootNode(NativePtr);
+			return result != 0;
 		}
 
 		public void Destroy()

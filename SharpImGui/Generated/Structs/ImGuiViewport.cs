@@ -165,19 +165,19 @@ namespace SharpImGui
 		public static implicit operator ImGuiViewportPtr(ImGuiViewport* ptr) => new ImGuiViewportPtr(ptr);
 		public static implicit operator ImGuiViewportPtr(IntPtr ptr) => new ImGuiViewportPtr(ptr);
 		public static implicit operator ImGuiViewport*(ImGuiViewportPtr nativePtr) => nativePtr.NativePtr;
-		public void GetWorkCenter(ref Vector2 pOut)
+		public void GetWorkCenter(out Vector2 pOut)
 		{
-			fixed (Vector2* native_pOut = &pOut)
+			fixed (Vector2* nativePOut = &pOut)
 			{
-				ImGuiNative.ImGuiViewportGetWorkCenter(native_pOut, NativePtr);
+				ImGuiNative.ImGuiViewportGetWorkCenter(nativePOut, NativePtr);
 			}
 		}
 
-		public void GetCenter(ref Vector2 pOut)
+		public void GetCenter(out Vector2 pOut)
 		{
-			fixed (Vector2* native_pOut = &pOut)
+			fixed (Vector2* nativePOut = &pOut)
 			{
-				ImGuiNative.ImGuiViewportGetCenter(native_pOut, NativePtr);
+				ImGuiNative.ImGuiViewportGetCenter(nativePOut, NativePtr);
 			}
 		}
 

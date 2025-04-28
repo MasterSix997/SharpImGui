@@ -127,42 +127,54 @@ namespace SharpImGui
 		public static implicit operator ImGuiPayloadPtr(ImGuiPayload* ptr) => new ImGuiPayloadPtr(ptr);
 		public static implicit operator ImGuiPayloadPtr(IntPtr ptr) => new ImGuiPayloadPtr(ptr);
 		public static implicit operator ImGuiPayload*(ImGuiPayloadPtr nativePtr) => nativePtr.NativePtr;
-		public byte IsDelivery()
+		public bool IsDelivery()
 		{
-			return ImGuiNative.ImGuiPayloadIsDelivery(NativePtr);
+			var result = ImGuiNative.ImGuiPayloadIsDelivery(NativePtr);
+			return result != 0;
 		}
 
-		public byte IsPreview()
+		public bool IsPreview()
 		{
-			return ImGuiNative.ImGuiPayloadIsPreview(NativePtr);
+			var result = ImGuiNative.ImGuiPayloadIsPreview(NativePtr);
+			return result != 0;
 		}
 
-		public byte IsDataType(ReadOnlySpan<char> type)
+		public bool IsDataType(ReadOnlySpan<byte> type)
+		{
+			fixed (byte* nativeType = type)
+			{
+				var result = ImGuiNative.ImGuiPayloadIsDataType(NativePtr, nativeType);
+				return result != 0;
+			}
+		}
+
+		public bool IsDataType(ReadOnlySpan<char> type)
 		{
 			// Marshaling type to native string
-			byte* native_type;
-			var byteCount_type = 0;
+			byte* nativeType;
+			var byteCountType = 0;
 			if (type != null)
 			{
-				byteCount_type = Encoding.UTF8.GetByteCount(type);
-				if(byteCount_type > Utils.MaxStackallocSize)
+				byteCountType = Encoding.UTF8.GetByteCount(type);
+				if(byteCountType > Utils.MaxStackallocSize)
 				{
-					native_type = Utils.Alloc<byte>(byteCount_type + 1);
+					nativeType = Utils.Alloc<byte>(byteCountType + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_type + 1];
-					native_type = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountType + 1];
+					nativeType = stackallocBytes;
 				}
-				var type_offset = Utils.EncodeStringUTF8(type, native_type, byteCount_type);
-				native_type[type_offset] = 0;
+				var offsetType = Utils.EncodeStringUTF8(type, nativeType, byteCountType);
+				nativeType[offsetType] = 0;
 			}
-			else native_type = null;
+			else nativeType = null;
 
-			return ImGuiNative.ImGuiPayloadIsDataType(NativePtr, native_type);
+			var result = ImGuiNative.ImGuiPayloadIsDataType(NativePtr, nativeType);
 			// Freeing type native string
-			if (byteCount_type > Utils.MaxStackallocSize)
-				Utils.Free(native_type);
+			if (byteCountType > Utils.MaxStackallocSize)
+				Utils.Free(nativeType);
+			return result != 0;
 		}
 
 		public void Clear()

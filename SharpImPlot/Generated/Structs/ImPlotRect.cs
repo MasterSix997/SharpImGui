@@ -51,14 +51,16 @@ namespace SharpImPlot
 			ImPlotNative.RectSize(pOut, NativePtr);
 		}
 
-		public byte RectContainsDouble(double x, double y)
+		public bool RectContainsDouble(double x, double y)
 		{
-			return ImPlotNative.RectContainsDouble(NativePtr, x, y);
+			var result = ImPlotNative.RectContainsDouble(NativePtr, x, y);
+			return result != 0;
 		}
 
-		public byte RectContainsPlotPoInt(ImPlotPoint p)
+		public bool RectContainsPlotPoInt(ImPlotPoint p)
 		{
-			return ImPlotNative.RectContainsPlotPoInt(NativePtr, p);
+			var result = ImPlotNative.RectContainsPlotPoInt(NativePtr, p);
+			return result != 0;
 		}
 
 		public ImPlotRectPtr RectRectDouble(double xMin, double xMax, double yMin, double yMax)

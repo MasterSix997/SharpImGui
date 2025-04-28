@@ -45,13 +45,24 @@ public interface ICSharpMarshalling
         return false;
     }
 
-    public bool TryMarshalParameter(CsParameter parameter, CsClass csStruct, CSharpGenerated generated, out ParameterMarshalledInfo info)
+    public bool TryMarshalParameter(CsParameter parameter, in StructPtrProcessor.MethodOverloadInfo methodInfo, CSharpGenerated generated, out ParameterMarshalledInfo info)
     {
         info = default;
         return false;
     }
 
-    public bool TryMarshalReturnValue(CsMethod method, CsClass csStruct, CSharpGenerated generated, out ReturnMarshalledInfo info)
+    public bool TryMarshalReturnValue(CsMethod method, in StructPtrProcessor.MethodOverloadInfo methodInfo, CSharpGenerated generated, out ReturnMarshalledInfo info)
+    {
+        info = default;
+        return false;
+    }
+
+    bool CanMarshalOverload(CsParameter methodParameter)
+    {
+        return false;
+    }
+
+    public bool TryProcessDefaultValue(CsParameter omittedParam, string omittedParamValue, out ParameterMarshalledInfo info)
     {
         info = default;
         return false;
@@ -79,6 +90,21 @@ public sealed class UnmanagedTypeMarshal : ICSharpMarshalling
         "byte", "sbyte", "Vector2", "Vector3", "Vector4", "Quaternion", 
         "Matrix4x4", "Rect", "ImRect", "IntPtr"];
     
+    private readonly Dictionary<string, string> _defaultValuesMap = new()
+    {
+        { "NULL", "null" }, { "nullptr", "null" }, { "true", "1" }, { "false", "0" },
+        // { "ImVec2(0,0)", "new Vector2(0, 0)" }, { "ImVec3(0,0,0)", "new Vector3(0, 0, 0)" },
+        // { "ImVec4(0,0,0,0)", "new Vector4(0, 0, 0, 0)" },
+    };
+
+    public readonly Dictionary<string, string> _defaultStructValuesMap = new()
+    {
+        { "ImVec2", "Vector2" },
+        { "ImVec3", "Vector3" },
+        { "ImVec4", "Vector4" },
+        { "ImColor", "Color" },
+    };
+    
     public bool TryMarshalField(CsField field, CSharpGenerated generated)
     {
         var type = field.Type;
@@ -102,7 +128,7 @@ public sealed class UnmanagedTypeMarshal : ICSharpMarshalling
         return true;
     }
 
-    public bool TryMarshalReturnValue(CsMethod method, CsClass csStruct, CSharpGenerated generated, out ReturnMarshalledInfo info)
+    public bool TryMarshalReturnValue(CsMethod method, in StructPtrProcessor.MethodOverloadInfo methodInfo, CSharpGenerated generated, out ReturnMarshalledInfo info)
     {
         info = default;
         var type = method.ReturnType;
@@ -117,7 +143,7 @@ public sealed class UnmanagedTypeMarshal : ICSharpMarshalling
         return true;
     }
 
-    public bool TryMarshalParameter(CsParameter parameter, CsClass csStruct, CSharpGenerated generated, out ParameterMarshalledInfo info)
+    public bool TryMarshalParameter(CsParameter parameter, in StructPtrProcessor.MethodOverloadInfo methodInfo, CSharpGenerated generated, out ParameterMarshalledInfo info)
     {
         info = default;
         var type = parameter.Type;
@@ -129,6 +155,56 @@ public sealed class UnmanagedTypeMarshal : ICSharpMarshalling
             return false;
 
         return true;
+    }
+
+    public bool TryProcessDefaultValue(CsParameter omittedParam, string omittedParamValue, out ParameterMarshalledInfo info)
+    {
+        info = default;
+
+        if (_defaultValuesMap.TryGetValue(omittedParamValue, out var defaultValue))
+        {
+            info.BeforeCallWriter = writer => writer.WriteLine($"{omittedParam.Type.TypeName} {omittedParam.Name} = {defaultValue};");
+            return true;
+        }
+        
+        var parenIndex = omittedParamValue.IndexOf('(');
+        if (parenIndex >= 0)
+        {
+            string structName = omittedParamValue[..parenIndex];
+            if (_defaultStructValuesMap.TryGetValue(structName, out structName))
+            {
+                var defaultStructValues = omittedParamValue[parenIndex..].Replace("FLT_MIN", "float.MinValue");
+                info.BeforeCallWriter = writer =>
+                {
+                    writer.StartLine();
+                    writer.Write($"{omittedParam.Type.TypeName} {omittedParam.Name} = new {structName}");
+                    writer.Write(defaultStructValues);
+                    writer.Write(";");
+                    writer.EndLine();
+                };
+                return true;
+            }
+        }
+
+        if (omittedParam.Type is CsEnum csEnum)
+        {
+            var enumItem = "";
+            if (int.TryParse(omittedParamValue, out var enumValue))
+            {
+                enumItem = csEnum.Items.FirstOrDefault(i => i.Value == enumValue)?.Name;
+                // info.BeforeCallWriter = writer => writer.WriteLine($"{omittedParam.Type.TypeName} {omittedParam.Name} = {csEnum.TypeName}.{enumValue};");
+            }
+            else if(omittedParamValue.StartsWith(csEnum.Name))
+            {
+                enumItem = omittedParamValue.Replace(csEnum.Name + "_", "");
+            }
+
+            var callMode = string.IsNullOrEmpty(enumItem) ? $"({csEnum.Name})0" : $"{csEnum.TypeName}.{enumItem}";
+            info.BeforeCallWriter = writer => writer.WriteLine($"{omittedParam.Type.TypeName} {omittedParam.Name} = {callMode};");
+            return true;
+        }
+        
+        return false;
     }
 }
 
@@ -146,7 +222,7 @@ public struct VoidPtrMarshal : ICSharpMarshalling
         return true;
     }
 
-    public bool TryMarshalReturnValue(CsMethod method, CsClass csStruct, CSharpGenerated generated, out ReturnMarshalledInfo info)
+    public bool TryMarshalReturnValue(CsMethod method, in StructPtrProcessor.MethodOverloadInfo methodInfo, CSharpGenerated generated, out ReturnMarshalledInfo info)
     {
         info = default;
         if (method.ReturnType is not CsPointerType { OriginalType: CsPrimitiveType { Kind: CsPrimitiveKind.Void } })
@@ -157,7 +233,7 @@ public struct VoidPtrMarshal : ICSharpMarshalling
         return true;
     }
     
-    public bool TryMarshalParameter(CsParameter parameter, CsClass csStruct, CSharpGenerated generated, out ParameterMarshalledInfo info)
+    public bool TryMarshalParameter(CsParameter parameter, in StructPtrProcessor.MethodOverloadInfo methodInfo, CSharpGenerated generated, out ParameterMarshalledInfo info)
     {
         info = default;
         if (parameter.Type is not CsPointerType { OriginalType: CsPrimitiveType { Kind: CsPrimitiveKind.Void } })
@@ -183,7 +259,7 @@ public struct AnyPtrMarshal : ICSharpMarshalling
         return true;
     }
 
-    public bool TryMarshalReturnValue(CsMethod method, CsClass csStruct, CSharpGenerated generated, out ReturnMarshalledInfo info)
+    public bool TryMarshalReturnValue(CsMethod method, in StructPtrProcessor.MethodOverloadInfo methodInfo, CSharpGenerated generated, out ReturnMarshalledInfo info)
     {
         info = default;
         if (method.ReturnType is not CsPointerType pointerType)
@@ -196,19 +272,50 @@ public struct AnyPtrMarshal : ICSharpMarshalling
         return true;
     }
     
-    public bool TryMarshalParameter(CsParameter parameter, CsClass csStruct, CSharpGenerated generated, out ParameterMarshalledInfo info)
+    public bool TryMarshalParameter(CsParameter parameter, in StructPtrProcessor.MethodOverloadInfo methodInfo, CSharpGenerated generated, out ParameterMarshalledInfo info)
     {
         info = default;
         if (parameter.Type is not CsPointerType pointerType)
             return false;
 
-        parameter.Type = new CsKeywordType(pointerType.OriginalType, CsKeywordType.CsKeyword.Ref);
-        info.OverrideCallName = $"native_{parameter.Name}";
-        info.fixedCode = $"{pointerType.TypeName} native_{parameter.Name} = &{parameter.Name}";
-        
+        switch (pointerType.OriginalType)
+        {
+            case CsPrimitiveType { Kind: CsPrimitiveKind.Byte } 
+                when parameter.Metadata is CppParameter { Type: CppPointerType { ElementType: CppPrimitiveType { Kind: CppPrimitiveKind.Bool } } }:
+                MarshalRefBool(parameter, ref info, pointerType);
+                break;
+            default:
+                MarshalDefault(parameter, ref info, pointerType);
+                break;
+        }
         return true;
     }
 
+    private static void MarshalDefault(CsParameter parameter, ref ParameterMarshalledInfo info, CsPointerType pointerType)
+    {
+        var isOut = parameter.Name.Equals("pOut"); 
+        parameter.Type = new CsKeywordType(pointerType.OriginalType, isOut? CsKeywordType.CsKeyword.Out : CsKeywordType.CsKeyword.Ref);
+        info.OverrideCallName = CleanupNamesProcessor.ToCamelCase($"native_{parameter.Name}");
+        info.fixedCode = $"{pointerType.TypeName} {info.OverrideCallName} = &{parameter.Name}";
+    }
+
+    private static void MarshalRefBool(CsParameter parameter, ref ParameterMarshalledInfo info, CsPointerType pointerType)
+    {
+        parameter.Type = new CsKeywordType(CsPrimitiveType.Bool, CsKeywordType.CsKeyword.Ref);
+        var nativeParam = CleanupNamesProcessor.ToCamelCase($"native_{parameter.Name}");
+        var nativeParamVal = CleanupNamesProcessor.ToCamelCase($"native_{parameter.Name}_val");
+        info.BeforeCallWriter = writer =>
+        {
+            writer.WriteLine($"var {nativeParamVal} = {parameter.Name} ? (byte)1 : (byte)0;");
+            writer.WriteLine($"var {nativeParam} = &{nativeParamVal};");
+        };
+        info.AfterCallWriter = writer =>
+        {
+            writer.WriteLine($"{parameter.Name} = {nativeParamVal} != 0;");
+        };
+        
+        info.OverrideCallName = nativeParam;
+    }
 }
 
 public struct StructPtrMarshal : ICSharpMarshalling
@@ -225,7 +332,7 @@ public struct StructPtrMarshal : ICSharpMarshalling
         return true;
     }
 
-    public bool TryMarshalReturnValue(CsMethod method, CsClass csStruct, CSharpGenerated generated, out ReturnMarshalledInfo info)
+    public bool TryMarshalReturnValue(CsMethod method, in StructPtrProcessor.MethodOverloadInfo methodInfo, CSharpGenerated generated, out ReturnMarshalledInfo info)
     {
         info = default;
         if (method.ReturnType is not CsPointerType { OriginalType: CsClass returnStruct })
@@ -236,13 +343,13 @@ public struct StructPtrMarshal : ICSharpMarshalling
         return true;
     }
     
-    public bool TryMarshalParameter(CsParameter parameter, CsClass csStruct, CSharpGenerated generated, out ParameterMarshalledInfo info)
+    public bool TryMarshalParameter(CsParameter parameter, in StructPtrProcessor.MethodOverloadInfo methodInfo, CSharpGenerated generated, out ParameterMarshalledInfo info)
     {
         info = default;
         if (parameter.Type is not CsPointerType { OriginalType: CsClass parameterStruct })
             return false;
     
-        if (parameterStruct.TypeName == csStruct.TypeName && parameter.Name == "self")
+        if (parameterStruct.TypeName == methodInfo.OriginalStruct.TypeName && parameter.Name == "self")
         {
             info.OverrideCallName = "NativePtr";
             info.RemoveOriginalParameter = true;
@@ -270,7 +377,7 @@ public struct BoolMarshal : ICSharpMarshalling
         return true;
     }
     
-    public bool TryMarshalParameter(CsParameter parameter, CsClass csStruct, CSharpGenerated generated, out ParameterMarshalledInfo info)
+    public bool TryMarshalParameter(CsParameter parameter, in StructPtrProcessor.MethodOverloadInfo methodInfo, CSharpGenerated generated, out ParameterMarshalledInfo info)
     {
         info = default;
         if (parameter.Type is not CsPrimitiveType { Kind: CsPrimitiveKind.Byte }
@@ -282,45 +389,92 @@ public struct BoolMarshal : ICSharpMarshalling
         info.OverrideCallName = $"native_{parameter.Name}";
         return true;
     }
+
+    public bool TryMarshalReturnValue(CsMethod method, in StructPtrProcessor.MethodOverloadInfo methodInfo, CSharpGenerated generated, out ReturnMarshalledInfo info)
+    {
+        info = default;
+        if (method.ReturnType is not CsPrimitiveType { Kind: CsPrimitiveKind.Byte }
+            && method.Metadata is not CppFunction { ReturnType: CppPrimitiveType { Kind: CppPrimitiveKind.Bool } })
+            return false;
+
+        method.ReturnType = CsPrimitiveType.Bool;
+        info.CustomReturn = "result != 0";
+        info.UseReturnVariable = true;
+        return true;
+    }
 }
 
 public struct StringMarshal : ICSharpMarshalling
 {
     public int OverloadsCount => 2;
 
-    public bool TryMarshalParameter(CsParameter parameter, CsClass csStruct, CSharpGenerated generated, out ParameterMarshalledInfo info)
+    public bool CanMarshalOverload(CsParameter methodParameter)
+    {
+        return methodParameter is { 
+            Type: CsPointerType { OriginalType: CsPrimitiveType { Kind: CsPrimitiveKind.Byte } }, 
+            Metadata: CppParameter { Type: CppPointerType 
+            {
+                ElementType: CppQualifiedType
+                {
+                    Qualifier: CppTypeQualifier.Const, 
+                    ElementType: CppPrimitiveType { Kind: CppPrimitiveKind.Char }
+                }
+            }}};
+    }
+
+    public bool TryMarshalParameter(CsParameter parameter, in StructPtrProcessor.MethodOverloadInfo methodInfo, CSharpGenerated generated, out ParameterMarshalledInfo info)
     {
         info = default;
-        if (parameter.Type is not CsPointerType { OriginalType: CsPrimitiveType { Kind: CsPrimitiveKind.Byte }})
+        if (!CanMarshalOverload(parameter))
             return false;
-            
-        
+
+        if (methodInfo.OverloadMarshalling is StringMarshal)
+        {
+            switch (methodInfo.OverloadIndex)
+            {
+                case 0:
+                    info = MarshalParameterByteSpan(parameter);
+                    break;
+                case 1:
+                    info = MarshalParameterCharSpan(parameter);
+                    break;
+                // case 2:
+                //     info = MarshalParameterString(parameter);
+                    // break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(methodInfo.OverloadIndex), $"Invalid overload index '{methodInfo.OverloadIndex}', max is '{OverloadsCount - 1}'");
+            }
+
+            return true;
+        }
         // if oveload == 0 -> Marshal as ReadOnlySpan<byte>
         // if oveload == 2 -> Marshal as ReadOnlySpan<char>
         // if oveload == 1 -> Marshal as string
-        info = MarshalParameterCharSpan(parameter, csStruct, generated);
-        return true;
+        // info = MarshalParameterCharSpan(parameter, csStruct, generated);
+        // return true;
+        return false;
     }
     
-    public ParameterMarshalledInfo MarshalParameterByteSpan(CsParameter parameter, CsClass csStruct, CSharpGenerated generated)
+    public ParameterMarshalledInfo MarshalParameterByteSpan(CsParameter parameter)
     {
         var info = new ParameterMarshalledInfo();
         
         parameter.Type = new CsGenericType("ReadOnlySpan", new CsUnresolvedType("byte"));
-        info.fixedCode = $"byte* native_{parameter.Name} = {parameter.Name}";
-        info.OverrideCallName = $"native_{parameter.Name}";
+        var nativeName = CleanupNamesProcessor.ToCamelCase("native_" + parameter.Name);
+        info.fixedCode = $"byte* {nativeName} = {parameter.Name}";
+        info.OverrideCallName = $"{nativeName}";
         return info;
     }
     
-    public ParameterMarshalledInfo MarshalParameterCharSpan(CsParameter parameter, CsClass csStruct, CSharpGenerated generated)
+    public ParameterMarshalledInfo MarshalParameterCharSpan(CsParameter parameter)
     {
         var info = new ParameterMarshalledInfo();
         
         parameter.Type = new CsGenericType("ReadOnlySpan", new CsUnresolvedType("char"));
         
         var paramName = parameter.Name;
-        var nativeParam = $"native_{paramName}";
-        var paramByteCount = $"byteCount_{paramName}";
+        var nativeParam = CleanupNamesProcessor.ToCamelCase($"native_{paramName}");
+        var paramByteCount = CleanupNamesProcessor.ToCamelCase($"byteCount_{paramName}");
         
         info.BeforeCallWriter = writer =>
         {
@@ -338,8 +492,9 @@ public struct StringMarshal : ICSharpMarshalling
             writer.WriteLine($"var stackallocBytes = stackalloc byte[{paramByteCount} + 1];");
             writer.WriteLine($"{nativeParam} = stackallocBytes;");
             writer.PopBlock();
-            writer.WriteLine($"var {paramName}_offset = Utils.EncodeStringUTF8({paramName}, {nativeParam}, {paramByteCount});");
-            writer.WriteLine($"{nativeParam}[{paramName}_offset] = 0;");
+            var paramOffset = CleanupNamesProcessor.ToCamelCase($"offset_{paramName}");
+            writer.WriteLine($"var {paramOffset} = Utils.EncodeStringUTF8({paramName}, {nativeParam}, {paramByteCount});");
+            writer.WriteLine($"{nativeParam}[{paramOffset}] = 0;");
             
             writer.PopBlock();
             writer.WriteLine($"else {nativeParam} = null;");
@@ -355,26 +510,19 @@ public struct StringMarshal : ICSharpMarshalling
         info.OverrideCallName = nativeParam;
         return info;
     }
-    
-    public ParameterMarshalledInfo MarshalParameterString(CsParameter parameter, CsClass csStruct, CSharpGenerated generated)
+
+    public bool TryProcessDefaultValue(CsParameter omittedParam, string omittedParamValue, out ParameterMarshalledInfo info)
     {
-        var info = new ParameterMarshalledInfo();
+        info = default;
+        if (!CanMarshalOverload(omittedParam) || !omittedParamValue.Contains('"'))
+            return false;
         
-        parameter.Type = new CsUnresolvedType("string");
-        
-        var paramName = parameter.Name;
-        var nativeParam = $"native_{paramName}";
-        var paramByteCount = $"byteCount_{paramName}";
-        
+        var nativeParam = CleanupNamesProcessor.ToCamelCase($"native_{omittedParam.Name}");
+        var paramByteCount = CleanupNamesProcessor.ToCamelCase($"byteCount_{omittedParam.Name}");
         info.BeforeCallWriter = writer =>
         {
-            writer.WriteLine($"// Marshaling {paramName} to native string");
-            writer.WriteLine($"byte* {nativeParam}");
-            writer.WriteLine($"var {paramByteCount} = 0");
-            writer.WriteLine($"if ({paramName} != null)");
-            writer.PushBlock();
-
-            writer.WriteLine($"{paramByteCount} = Encoding.UTF8.GetByteCount({paramName});");
+            writer.WriteLine($"byte* {nativeParam} = null;");
+            writer.WriteLine($"var {paramByteCount} = Encoding.UTF8.GetByteCount({omittedParamValue});");
             writer.WriteLine($"if({paramByteCount} > Utils.MaxStackallocSize)");
             writer.PushBlock().WriteLine($"{nativeParam} = Utils.Alloc<byte>({paramByteCount} + 1);").PopBlock();
             writer.WriteLine("else");
@@ -382,20 +530,62 @@ public struct StringMarshal : ICSharpMarshalling
             writer.WriteLine($"var stackallocBytes = stackalloc byte[{paramByteCount} + 1];");
             writer.WriteLine($"{nativeParam} = stackallocBytes;");
             writer.PopBlock();
-            writer.WriteLine($"var {paramName}_offset = Utils.EncodeStringUTF8({paramName}, {nativeParam}, {paramByteCount});");
-            writer.WriteLine($"{nativeParam}[{paramName}_offset] = 0;");
-            
-            writer.PopBlock();
-            writer.WriteLine($"else {nativeParam} = null;");
+            var paramOffset = CleanupNamesProcessor.ToCamelCase($"offset_{omittedParam.Name}");
+            writer.WriteLine($"var {paramOffset} = Utils.EncodeStringUTF8({omittedParamValue}, {nativeParam}, {paramByteCount});");
+            writer.WriteLine($"{nativeParam}[{paramOffset}] = 0;");
         };
+        
         info.AfterCallWriter = writer =>
         {
-            writer.WriteLine($"// Freeing {paramName} native string");
             writer.WriteLine($"if ({paramByteCount} > Utils.MaxStackallocSize)");
             writer.AddIndent().WriteLine($"Utils.Free({nativeParam});").RemoveIndent();
         };
-        
-        info.OverrideCallName = nativeParam;
-        return info;
+
+        omittedParam.Name = nativeParam;
+        return true;
     }
+
+    // public ParameterMarshalledInfo MarshalParameterString(CsParameter parameter)
+    // {
+    //     var info = new ParameterMarshalledInfo();
+    //     
+    //     parameter.Type = new CsUnresolvedType("string");
+    //     
+    //     var paramName = parameter.Name;
+    //     var nativeParam = $"native_{paramName}";
+    //     var paramByteCount = $"byteCount_{paramName}";
+    //     
+    //     info.BeforeCallWriter = writer =>
+    //     {
+    //         writer.WriteLine($"// Marshaling {paramName} to native string");
+    //         writer.WriteLine($"byte* {nativeParam};");
+    //         writer.WriteLine($"var {paramByteCount} = 0;");
+    //         writer.WriteLine($"if ({paramName} != null)");
+    //         writer.PushBlock();
+    //
+    //         writer.WriteLine($"{paramByteCount} = Encoding.UTF8.GetByteCount({paramName});");
+    //         writer.WriteLine($"if({paramByteCount} > Utils.MaxStackallocSize)");
+    //         writer.PushBlock().WriteLine($"{nativeParam} = Utils.Alloc<byte>({paramByteCount} + 1);").PopBlock();
+    //         writer.WriteLine("else");
+    //         writer.PushBlock();
+    //         writer.WriteLine($"var stackallocBytes = stackalloc byte[{paramByteCount} + 1];");
+    //         writer.WriteLine($"{nativeParam} = stackallocBytes;");
+    //         writer.PopBlock();
+    //         writer.WriteLine($"var {paramName}_offset = Utils.EncodeStringUTF8({paramName}, {nativeParam}, {paramByteCount});");
+    //         writer.WriteLine($"{nativeParam}[{paramName}_offset] = 0;");
+    //         
+    //         writer.PopBlock();
+    //         writer.WriteLine($"else {nativeParam} = null;");
+    //         writer.WriteLine();
+    //     };
+    //     info.AfterCallWriter = writer =>
+    //     {
+    //         writer.WriteLine($"// Freeing {paramName} native string");
+    //         writer.WriteLine($"if ({paramByteCount} > Utils.MaxStackallocSize)");
+    //         writer.AddIndent().WriteLine($"Utils.Free({nativeParam});").RemoveIndent();
+    //     };
+    //     
+    //     info.OverrideCallName = nativeParam;
+    //     return info;
+    // }
 }

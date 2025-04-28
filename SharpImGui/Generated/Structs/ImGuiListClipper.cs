@@ -112,9 +112,10 @@ namespace SharpImGui
 		/// <summary>
 		/// Call until it returns false. The DisplayStart/DisplayEnd fields will be set and you can process/draw those items.<br/>
 		/// </summary>
-		public byte Step()
+		public bool Step()
 		{
-			return ImGuiNative.ImGuiListClipperStep(NativePtr);
+			var result = ImGuiNative.ImGuiListClipperStep(NativePtr);
+			return result != 0;
 		}
 
 		/// <summary>
@@ -127,6 +128,13 @@ namespace SharpImGui
 
 		public void Begin(int itemsCount, float itemsHeight)
 		{
+			ImGuiNative.ImGuiListClipperBegin(NativePtr, itemsCount, itemsHeight);
+		}
+
+		public void Begin(int itemsCount)
+		{
+			// defining omitted parameters
+			float itemsHeight = -1.0f;
 			ImGuiNative.ImGuiListClipperBegin(NativePtr, itemsCount, itemsHeight);
 		}
 

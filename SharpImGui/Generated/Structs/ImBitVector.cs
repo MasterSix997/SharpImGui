@@ -39,9 +39,10 @@ namespace SharpImGui
 			ImGuiNative.ImBitVectorSetBit(NativePtr, n);
 		}
 
-		public byte TestBit(int n)
+		public bool TestBit(int n)
 		{
-			return ImGuiNative.ImBitVectorTestBit(NativePtr, n);
+			var result = ImGuiNative.ImBitVectorTestBit(NativePtr, n);
+			return result != 0;
 		}
 
 		public void Clear()

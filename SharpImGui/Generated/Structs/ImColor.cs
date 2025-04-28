@@ -34,8 +34,22 @@ namespace SharpImGui
 			ImGuiNative.ImColorHSV(pOut, h, s, v, a);
 		}
 
+		public void HSV(ImColorPtr pOut, float h, float s, float v)
+		{
+			// defining omitted parameters
+			float a = 1.0f;
+			ImGuiNative.ImColorHSV(pOut, h, s, v, a);
+		}
+
 		public void SetHSV(float h, float s, float v, float a)
 		{
+			ImGuiNative.ImColorSetHSV(NativePtr, h, s, v, a);
+		}
+
+		public void SetHSV(float h, float s, float v)
+		{
+			// defining omitted parameters
+			float a = 1.0f;
 			ImGuiNative.ImColorSetHSV(NativePtr, h, s, v, a);
 		}
 

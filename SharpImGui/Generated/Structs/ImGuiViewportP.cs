@@ -172,19 +172,19 @@ namespace SharpImGui
 			ImGuiNative.ImGuiViewportPUpdateWorkRect(NativePtr);
 		}
 
-		public void CalcWorkRectSize(ref Vector2 pOut, Vector2 insetMin, Vector2 insetMax)
+		public void CalcWorkRectSize(out Vector2 pOut, Vector2 insetMin, Vector2 insetMax)
 		{
-			fixed (Vector2* native_pOut = &pOut)
+			fixed (Vector2* nativePOut = &pOut)
 			{
-				ImGuiNative.ImGuiViewportPCalcWorkRectSize(native_pOut, NativePtr, insetMin, insetMax);
+				ImGuiNative.ImGuiViewportPCalcWorkRectSize(nativePOut, NativePtr, insetMin, insetMax);
 			}
 		}
 
-		public void CalcWorkRectPos(ref Vector2 pOut, Vector2 insetMin)
+		public void CalcWorkRectPos(out Vector2 pOut, Vector2 insetMin)
 		{
-			fixed (Vector2* native_pOut = &pOut)
+			fixed (Vector2* nativePOut = &pOut)
 			{
-				ImGuiNative.ImGuiViewportPCalcWorkRectPos(native_pOut, NativePtr, insetMin);
+				ImGuiNative.ImGuiViewportPCalcWorkRectPos(nativePOut, NativePtr, insetMin);
 			}
 		}
 

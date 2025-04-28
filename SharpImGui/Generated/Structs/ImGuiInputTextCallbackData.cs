@@ -133,9 +133,10 @@ namespace SharpImGui
 		public static implicit operator ImGuiInputTextCallbackDataPtr(ImGuiInputTextCallbackData* ptr) => new ImGuiInputTextCallbackDataPtr(ptr);
 		public static implicit operator ImGuiInputTextCallbackDataPtr(IntPtr ptr) => new ImGuiInputTextCallbackDataPtr(ptr);
 		public static implicit operator ImGuiInputTextCallbackData*(ImGuiInputTextCallbackDataPtr nativePtr) => nativePtr.NativePtr;
-		public byte HasSelection()
+		public bool HasSelection()
 		{
-			return ImGuiNative.ImGuiInputTextCallbackDataHasSelection(NativePtr);
+			var result = ImGuiNative.ImGuiInputTextCallbackDataHasSelection(NativePtr);
+			return result != 0;
 		}
 
 		public void ClearSelection()
@@ -148,55 +149,94 @@ namespace SharpImGui
 			ImGuiNative.ImGuiInputTextCallbackDataSelectAll(NativePtr);
 		}
 
+		public void InsertChars(int pos, ReadOnlySpan<byte> text, ReadOnlySpan<byte> textEnd)
+		{
+			fixed (byte* nativeText = text)
+			fixed (byte* nativeTextEnd = textEnd)
+			{
+				ImGuiNative.ImGuiInputTextCallbackDataInsertChars(NativePtr, pos, nativeText, nativeTextEnd);
+			}
+		}
+
 		public void InsertChars(int pos, ReadOnlySpan<char> text, ReadOnlySpan<char> textEnd)
 		{
 			// Marshaling text to native string
-			byte* native_text;
-			var byteCount_text = 0;
+			byte* nativeText;
+			var byteCountText = 0;
 			if (text != null)
 			{
-				byteCount_text = Encoding.UTF8.GetByteCount(text);
-				if(byteCount_text > Utils.MaxStackallocSize)
+				byteCountText = Encoding.UTF8.GetByteCount(text);
+				if(byteCountText > Utils.MaxStackallocSize)
 				{
-					native_text = Utils.Alloc<byte>(byteCount_text + 1);
+					nativeText = Utils.Alloc<byte>(byteCountText + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_text + 1];
-					native_text = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountText + 1];
+					nativeText = stackallocBytes;
 				}
-				var text_offset = Utils.EncodeStringUTF8(text, native_text, byteCount_text);
-				native_text[text_offset] = 0;
+				var offsetText = Utils.EncodeStringUTF8(text, nativeText, byteCountText);
+				nativeText[offsetText] = 0;
 			}
-			else native_text = null;
+			else nativeText = null;
 
 			// Marshaling textEnd to native string
-			byte* native_textEnd;
-			var byteCount_textEnd = 0;
+			byte* nativeTextEnd;
+			var byteCountTextEnd = 0;
 			if (textEnd != null)
 			{
-				byteCount_textEnd = Encoding.UTF8.GetByteCount(textEnd);
-				if(byteCount_textEnd > Utils.MaxStackallocSize)
+				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
+				if(byteCountTextEnd > Utils.MaxStackallocSize)
 				{
-					native_textEnd = Utils.Alloc<byte>(byteCount_textEnd + 1);
+					nativeTextEnd = Utils.Alloc<byte>(byteCountTextEnd + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_textEnd + 1];
-					native_textEnd = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountTextEnd + 1];
+					nativeTextEnd = stackallocBytes;
 				}
-				var textEnd_offset = Utils.EncodeStringUTF8(textEnd, native_textEnd, byteCount_textEnd);
-				native_textEnd[textEnd_offset] = 0;
+				var offsetTextEnd = Utils.EncodeStringUTF8(textEnd, nativeTextEnd, byteCountTextEnd);
+				nativeTextEnd[offsetTextEnd] = 0;
 			}
-			else native_textEnd = null;
+			else nativeTextEnd = null;
 
-			ImGuiNative.ImGuiInputTextCallbackDataInsertChars(NativePtr, pos, native_text, native_textEnd);
+			ImGuiNative.ImGuiInputTextCallbackDataInsertChars(NativePtr, pos, nativeText, nativeTextEnd);
 			// Freeing text native string
-			if (byteCount_text > Utils.MaxStackallocSize)
-				Utils.Free(native_text);
+			if (byteCountText > Utils.MaxStackallocSize)
+				Utils.Free(nativeText);
 			// Freeing textEnd native string
-			if (byteCount_textEnd > Utils.MaxStackallocSize)
-				Utils.Free(native_textEnd);
+			if (byteCountTextEnd > Utils.MaxStackallocSize)
+				Utils.Free(nativeTextEnd);
+		}
+
+		public void InsertChars(int pos, ReadOnlySpan<char> text)
+		{
+			// defining omitted parameters
+			byte* textEnd = null;
+			// Marshaling text to native string
+			byte* nativeText;
+			var byteCountText = 0;
+			if (text != null)
+			{
+				byteCountText = Encoding.UTF8.GetByteCount(text);
+				if(byteCountText > Utils.MaxStackallocSize)
+				{
+					nativeText = Utils.Alloc<byte>(byteCountText + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountText + 1];
+					nativeText = stackallocBytes;
+				}
+				var offsetText = Utils.EncodeStringUTF8(text, nativeText, byteCountText);
+				nativeText[offsetText] = 0;
+			}
+			else nativeText = null;
+
+			ImGuiNative.ImGuiInputTextCallbackDataInsertChars(NativePtr, pos, nativeText, textEnd);
+			// Freeing text native string
+			if (byteCountText > Utils.MaxStackallocSize)
+				Utils.Free(nativeText);
 		}
 
 		public void DeleteChars(int pos, int bytesCount)

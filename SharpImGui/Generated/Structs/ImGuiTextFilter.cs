@@ -288,9 +288,10 @@ namespace SharpImGui
 		public static implicit operator ImGuiTextFilterPtr(ImGuiTextFilter* ptr) => new ImGuiTextFilterPtr(ptr);
 		public static implicit operator ImGuiTextFilterPtr(IntPtr ptr) => new ImGuiTextFilterPtr(ptr);
 		public static implicit operator ImGuiTextFilter*(ImGuiTextFilterPtr nativePtr) => nativePtr.NativePtr;
-		public byte IsActive()
+		public bool IsActive()
 		{
-			return ImGuiNative.ImGuiTextFilterIsActive(NativePtr);
+			var result = ImGuiNative.ImGuiTextFilterIsActive(NativePtr);
+			return result != 0;
 		}
 
 		public void Clear()
@@ -303,86 +304,201 @@ namespace SharpImGui
 			ImGuiNative.ImGuiTextFilterBuild(NativePtr);
 		}
 
-		public byte PassFilter(ReadOnlySpan<char> text, ReadOnlySpan<char> textEnd)
+		public bool PassFilter(ReadOnlySpan<byte> text, ReadOnlySpan<byte> textEnd)
+		{
+			fixed (byte* nativeText = text)
+			fixed (byte* nativeTextEnd = textEnd)
+			{
+				var result = ImGuiNative.ImGuiTextFilterPassFilter(NativePtr, nativeText, nativeTextEnd);
+				return result != 0;
+			}
+		}
+
+		public bool PassFilter(ReadOnlySpan<char> text, ReadOnlySpan<char> textEnd)
 		{
 			// Marshaling text to native string
-			byte* native_text;
-			var byteCount_text = 0;
+			byte* nativeText;
+			var byteCountText = 0;
 			if (text != null)
 			{
-				byteCount_text = Encoding.UTF8.GetByteCount(text);
-				if(byteCount_text > Utils.MaxStackallocSize)
+				byteCountText = Encoding.UTF8.GetByteCount(text);
+				if(byteCountText > Utils.MaxStackallocSize)
 				{
-					native_text = Utils.Alloc<byte>(byteCount_text + 1);
+					nativeText = Utils.Alloc<byte>(byteCountText + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_text + 1];
-					native_text = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountText + 1];
+					nativeText = stackallocBytes;
 				}
-				var text_offset = Utils.EncodeStringUTF8(text, native_text, byteCount_text);
-				native_text[text_offset] = 0;
+				var offsetText = Utils.EncodeStringUTF8(text, nativeText, byteCountText);
+				nativeText[offsetText] = 0;
 			}
-			else native_text = null;
+			else nativeText = null;
 
 			// Marshaling textEnd to native string
-			byte* native_textEnd;
-			var byteCount_textEnd = 0;
+			byte* nativeTextEnd;
+			var byteCountTextEnd = 0;
 			if (textEnd != null)
 			{
-				byteCount_textEnd = Encoding.UTF8.GetByteCount(textEnd);
-				if(byteCount_textEnd > Utils.MaxStackallocSize)
+				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
+				if(byteCountTextEnd > Utils.MaxStackallocSize)
 				{
-					native_textEnd = Utils.Alloc<byte>(byteCount_textEnd + 1);
+					nativeTextEnd = Utils.Alloc<byte>(byteCountTextEnd + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_textEnd + 1];
-					native_textEnd = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountTextEnd + 1];
+					nativeTextEnd = stackallocBytes;
 				}
-				var textEnd_offset = Utils.EncodeStringUTF8(textEnd, native_textEnd, byteCount_textEnd);
-				native_textEnd[textEnd_offset] = 0;
+				var offsetTextEnd = Utils.EncodeStringUTF8(textEnd, nativeTextEnd, byteCountTextEnd);
+				nativeTextEnd[offsetTextEnd] = 0;
 			}
-			else native_textEnd = null;
+			else nativeTextEnd = null;
 
-			return ImGuiNative.ImGuiTextFilterPassFilter(NativePtr, native_text, native_textEnd);
+			var result = ImGuiNative.ImGuiTextFilterPassFilter(NativePtr, nativeText, nativeTextEnd);
 			// Freeing text native string
-			if (byteCount_text > Utils.MaxStackallocSize)
-				Utils.Free(native_text);
+			if (byteCountText > Utils.MaxStackallocSize)
+				Utils.Free(nativeText);
 			// Freeing textEnd native string
-			if (byteCount_textEnd > Utils.MaxStackallocSize)
-				Utils.Free(native_textEnd);
+			if (byteCountTextEnd > Utils.MaxStackallocSize)
+				Utils.Free(nativeTextEnd);
+			return result != 0;
+		}
+
+		public bool PassFilter(ReadOnlySpan<char> text)
+		{
+			// defining omitted parameters
+			byte* textEnd = null;
+			// Marshaling text to native string
+			byte* nativeText;
+			var byteCountText = 0;
+			if (text != null)
+			{
+				byteCountText = Encoding.UTF8.GetByteCount(text);
+				if(byteCountText > Utils.MaxStackallocSize)
+				{
+					nativeText = Utils.Alloc<byte>(byteCountText + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountText + 1];
+					nativeText = stackallocBytes;
+				}
+				var offsetText = Utils.EncodeStringUTF8(text, nativeText, byteCountText);
+				nativeText[offsetText] = 0;
+			}
+			else nativeText = null;
+
+			var result = ImGuiNative.ImGuiTextFilterPassFilter(NativePtr, nativeText, textEnd);
+			// Freeing text native string
+			if (byteCountText > Utils.MaxStackallocSize)
+				Utils.Free(nativeText);
+			return result != 0;
 		}
 
 		/// <summary>
 		/// Helper calling InputText+Build<br/>
 		/// </summary>
-		public byte Draw(ReadOnlySpan<char> label, float width)
+		public bool Draw(ReadOnlySpan<byte> label, float width)
+		{
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImGuiNative.ImGuiTextFilterDraw(NativePtr, nativeLabel, width);
+				return result != 0;
+			}
+		}
+
+		/// <summary>
+		/// Helper calling InputText+Build<br/>
+		/// </summary>
+		public bool Draw(ReadOnlySpan<char> label, float width)
 		{
 			// Marshaling label to native string
-			byte* native_label;
-			var byteCount_label = 0;
+			byte* nativeLabel;
+			var byteCountLabel = 0;
 			if (label != null)
 			{
-				byteCount_label = Encoding.UTF8.GetByteCount(label);
-				if(byteCount_label > Utils.MaxStackallocSize)
+				byteCountLabel = Encoding.UTF8.GetByteCount(label);
+				if(byteCountLabel > Utils.MaxStackallocSize)
 				{
-					native_label = Utils.Alloc<byte>(byteCount_label + 1);
+					nativeLabel = Utils.Alloc<byte>(byteCountLabel + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_label + 1];
-					native_label = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabel + 1];
+					nativeLabel = stackallocBytes;
 				}
-				var label_offset = Utils.EncodeStringUTF8(label, native_label, byteCount_label);
-				native_label[label_offset] = 0;
+				var offsetLabel = Utils.EncodeStringUTF8(label, nativeLabel, byteCountLabel);
+				nativeLabel[offsetLabel] = 0;
 			}
-			else native_label = null;
+			else nativeLabel = null;
 
-			return ImGuiNative.ImGuiTextFilterDraw(NativePtr, native_label, width);
+			var result = ImGuiNative.ImGuiTextFilterDraw(NativePtr, nativeLabel, width);
 			// Freeing label native string
-			if (byteCount_label > Utils.MaxStackallocSize)
-				Utils.Free(native_label);
+			if (byteCountLabel > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabel);
+			return result != 0;
+		}
+
+		/// <summary>
+		/// Helper calling InputText+Build<br/>
+		/// </summary>
+		public bool Draw(ReadOnlySpan<char> label)
+		{
+			// defining omitted parameters
+			float width = 0.0f;
+			// Marshaling label to native string
+			byte* nativeLabel;
+			var byteCountLabel = 0;
+			if (label != null)
+			{
+				byteCountLabel = Encoding.UTF8.GetByteCount(label);
+				if(byteCountLabel > Utils.MaxStackallocSize)
+				{
+					nativeLabel = Utils.Alloc<byte>(byteCountLabel + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountLabel + 1];
+					nativeLabel = stackallocBytes;
+				}
+				var offsetLabel = Utils.EncodeStringUTF8(label, nativeLabel, byteCountLabel);
+				nativeLabel[offsetLabel] = 0;
+			}
+			else nativeLabel = null;
+
+			var result = ImGuiNative.ImGuiTextFilterDraw(NativePtr, nativeLabel, width);
+			// Freeing label native string
+			if (byteCountLabel > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabel);
+			return result != 0;
+		}
+
+		/// <summary>
+		/// Helper calling InputText+Build<br/>
+		/// </summary>
+		public bool Draw()
+		{
+			// defining omitted parameters
+			float width = 0.0f;
+			byte* nativeLabel = null;
+			var byteCountLabel = Encoding.UTF8.GetByteCount("Filter(inc,-exc)");
+			if(byteCountLabel > Utils.MaxStackallocSize)
+			{
+				nativeLabel = Utils.Alloc<byte>(byteCountLabel + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountLabel + 1];
+				nativeLabel = stackallocBytes;
+			}
+			var offsetNativeLabel = Utils.EncodeStringUTF8("Filter(inc,-exc)", nativeLabel, byteCountLabel);
+			nativeLabel[offsetNativeLabel] = 0;
+			var result = ImGuiNative.ImGuiTextFilterDraw(NativePtr, nativeLabel, width);
+			if (byteCountLabel > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabel);
+			return result != 0;
 		}
 
 		public void Destroy()
@@ -390,60 +506,99 @@ namespace SharpImGui
 			ImGuiNative.ImGuiTextFilterDestroy(NativePtr);
 		}
 
+		public void ImGuiTextFilterConstruct(ReadOnlySpan<byte> defaultFilter)
+		{
+			fixed (byte* nativeDefaultFilter = defaultFilter)
+			{
+				ImGuiNative.ImGuiTextFilterImGuiTextFilterConstruct(NativePtr, nativeDefaultFilter);
+			}
+		}
+
 		public void ImGuiTextFilterConstruct(ReadOnlySpan<char> defaultFilter)
 		{
 			// Marshaling defaultFilter to native string
-			byte* native_defaultFilter;
-			var byteCount_defaultFilter = 0;
+			byte* nativeDefaultFilter;
+			var byteCountDefaultFilter = 0;
 			if (defaultFilter != null)
 			{
-				byteCount_defaultFilter = Encoding.UTF8.GetByteCount(defaultFilter);
-				if(byteCount_defaultFilter > Utils.MaxStackallocSize)
+				byteCountDefaultFilter = Encoding.UTF8.GetByteCount(defaultFilter);
+				if(byteCountDefaultFilter > Utils.MaxStackallocSize)
 				{
-					native_defaultFilter = Utils.Alloc<byte>(byteCount_defaultFilter + 1);
+					nativeDefaultFilter = Utils.Alloc<byte>(byteCountDefaultFilter + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_defaultFilter + 1];
-					native_defaultFilter = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountDefaultFilter + 1];
+					nativeDefaultFilter = stackallocBytes;
 				}
-				var defaultFilter_offset = Utils.EncodeStringUTF8(defaultFilter, native_defaultFilter, byteCount_defaultFilter);
-				native_defaultFilter[defaultFilter_offset] = 0;
+				var offsetDefaultFilter = Utils.EncodeStringUTF8(defaultFilter, nativeDefaultFilter, byteCountDefaultFilter);
+				nativeDefaultFilter[offsetDefaultFilter] = 0;
 			}
-			else native_defaultFilter = null;
+			else nativeDefaultFilter = null;
 
-			ImGuiNative.ImGuiTextFilterImGuiTextFilterConstruct(NativePtr, native_defaultFilter);
+			ImGuiNative.ImGuiTextFilterImGuiTextFilterConstruct(NativePtr, nativeDefaultFilter);
 			// Freeing defaultFilter native string
-			if (byteCount_defaultFilter > Utils.MaxStackallocSize)
-				Utils.Free(native_defaultFilter);
+			if (byteCountDefaultFilter > Utils.MaxStackallocSize)
+				Utils.Free(nativeDefaultFilter);
+		}
+
+		public ImGuiTextFilterPtr ImGuiTextFilter(ReadOnlySpan<byte> defaultFilter)
+		{
+			fixed (byte* nativeDefaultFilter = defaultFilter)
+			{
+				return ImGuiNative.ImGuiTextFilterImGuiTextFilter(nativeDefaultFilter);
+			}
 		}
 
 		public ImGuiTextFilterPtr ImGuiTextFilter(ReadOnlySpan<char> defaultFilter)
 		{
 			// Marshaling defaultFilter to native string
-			byte* native_defaultFilter;
-			var byteCount_defaultFilter = 0;
+			byte* nativeDefaultFilter;
+			var byteCountDefaultFilter = 0;
 			if (defaultFilter != null)
 			{
-				byteCount_defaultFilter = Encoding.UTF8.GetByteCount(defaultFilter);
-				if(byteCount_defaultFilter > Utils.MaxStackallocSize)
+				byteCountDefaultFilter = Encoding.UTF8.GetByteCount(defaultFilter);
+				if(byteCountDefaultFilter > Utils.MaxStackallocSize)
 				{
-					native_defaultFilter = Utils.Alloc<byte>(byteCount_defaultFilter + 1);
+					nativeDefaultFilter = Utils.Alloc<byte>(byteCountDefaultFilter + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_defaultFilter + 1];
-					native_defaultFilter = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountDefaultFilter + 1];
+					nativeDefaultFilter = stackallocBytes;
 				}
-				var defaultFilter_offset = Utils.EncodeStringUTF8(defaultFilter, native_defaultFilter, byteCount_defaultFilter);
-				native_defaultFilter[defaultFilter_offset] = 0;
+				var offsetDefaultFilter = Utils.EncodeStringUTF8(defaultFilter, nativeDefaultFilter, byteCountDefaultFilter);
+				nativeDefaultFilter[offsetDefaultFilter] = 0;
 			}
-			else native_defaultFilter = null;
+			else nativeDefaultFilter = null;
 
-			return ImGuiNative.ImGuiTextFilterImGuiTextFilter(native_defaultFilter);
+			var result = ImGuiNative.ImGuiTextFilterImGuiTextFilter(nativeDefaultFilter);
 			// Freeing defaultFilter native string
-			if (byteCount_defaultFilter > Utils.MaxStackallocSize)
-				Utils.Free(native_defaultFilter);
+			if (byteCountDefaultFilter > Utils.MaxStackallocSize)
+				Utils.Free(nativeDefaultFilter);
+			return result;
+		}
+
+		public ImGuiTextFilterPtr ImGuiTextFilter()
+		{
+			// defining omitted parameters
+			byte* nativeDefaultFilter = null;
+			var byteCountDefaultFilter = Encoding.UTF8.GetByteCount("");
+			if(byteCountDefaultFilter > Utils.MaxStackallocSize)
+			{
+				nativeDefaultFilter = Utils.Alloc<byte>(byteCountDefaultFilter + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountDefaultFilter + 1];
+				nativeDefaultFilter = stackallocBytes;
+			}
+			var offsetNativeDefaultFilter = Utils.EncodeStringUTF8("", nativeDefaultFilter, byteCountDefaultFilter);
+			nativeDefaultFilter[offsetNativeDefaultFilter] = 0;
+			var result = ImGuiNative.ImGuiTextFilterImGuiTextFilter(nativeDefaultFilter);
+			if (byteCountDefaultFilter > Utils.MaxStackallocSize)
+				Utils.Free(nativeDefaultFilter);
+			return result;
 		}
 
 	}

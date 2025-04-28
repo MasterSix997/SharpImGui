@@ -88,13 +88,13 @@ namespace SharpImGui
 		/// <summary>
 		/// Iterate selection with 'void* it = NULL; ImGuiID id; while (selection.GetNextSelectedItem(&it, &id))  ... '<br/>
 		/// </summary>
-		public byte GetNextSelectedItem(ref void* opaqueIt, ref uint outId)
+		public bool GetNextSelectedItem(ref void* opaqueIt, ref uint outId)
 		{
-			fixed (void** native_opaqueIt = &opaqueIt)
-			fixed (uint* native_outId = &outId)
+			fixed (void** nativeOpaqueIt = &opaqueIt)
+			fixed (uint* nativeOutId = &outId)
 			{
-				var result = ImGuiNative.ImGuiSelectionBasicStorageGetNextSelectedItem(NativePtr, native_opaqueIt, native_outId);
-				return result;
+				var result = ImGuiNative.ImGuiSelectionBasicStorageGetNextSelectedItem(NativePtr, nativeOpaqueIt, nativeOutId);
+				return result != 0;
 			}
 		}
 
@@ -126,9 +126,10 @@ namespace SharpImGui
 		/// <summary>
 		/// Query if an item id is in selection.<br/>
 		/// </summary>
-		public byte Contains(uint id)
+		public bool Contains(uint id)
 		{
-			return ImGuiNative.ImGuiSelectionBasicStorageContains(NativePtr, id);
+			var result = ImGuiNative.ImGuiSelectionBasicStorageContains(NativePtr, id);
+			return result != 0;
 		}
 
 		/// <summary>

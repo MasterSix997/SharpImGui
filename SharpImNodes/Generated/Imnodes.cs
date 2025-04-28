@@ -24,6 +24,13 @@ namespace SharpImNodes
 			ImnodesNative.DestroyContext(ctx);
 		}
 
+		public static void DestroyContext()
+		{
+			// defining omitted parameters
+			ImNodesContext* ctx = null;
+			ImnodesNative.DestroyContext(ctx);
+		}
+
 		public static ImNodesContextPtr GetCurrentContext()
 		{
 			return ImnodesNative.GetCurrentContext();
@@ -49,11 +56,11 @@ namespace SharpImNodes
 			ImnodesNative.EditorContextSet(noname1);
 		}
 
-		public static void EditorContextGetPanning(ref Vector2 pOut)
+		public static void EditorContextGetPanning(out Vector2 pOut)
 		{
-			fixed (Vector2* native_pOut = &pOut)
+			fixed (Vector2* nativePOut = &pOut)
 			{
-				ImnodesNative.EditorContextGetPanning(native_pOut);
+				ImnodesNative.EditorContextGetPanning(nativePOut);
 			}
 		}
 
@@ -82,13 +89,34 @@ namespace SharpImNodes
 			ImnodesNative.StyleColorsDark(dest);
 		}
 
+		public static void StyleColorsDark()
+		{
+			// defining omitted parameters
+			ImNodesStyle* dest = null;
+			ImnodesNative.StyleColorsDark(dest);
+		}
+
 		public static void StyleColorsClassic(ImNodesStylePtr dest)
 		{
 			ImnodesNative.StyleColorsClassic(dest);
 		}
 
+		public static void StyleColorsClassic()
+		{
+			// defining omitted parameters
+			ImNodesStyle* dest = null;
+			ImnodesNative.StyleColorsClassic(dest);
+		}
+
 		public static void StyleColorsLight(ImNodesStylePtr dest)
 		{
+			ImnodesNative.StyleColorsLight(dest);
+		}
+
+		public static void StyleColorsLight()
+		{
+			// defining omitted parameters
+			ImNodesStyle* dest = null;
 			ImnodesNative.StyleColorsLight(dest);
 		}
 
@@ -105,6 +133,40 @@ namespace SharpImNodes
 		public static void MiniMap(float minimapSizeFraction, ImNodesMiniMapLocation location, ImNodesMiniMapNodeHoveringCallback nodeHoveringCallback, IntPtr nodeHoveringCallbackData)
 		{
 			ImnodesNative.MiniMap(minimapSizeFraction, location, nodeHoveringCallback, (void*)nodeHoveringCallbackData);
+		}
+
+		public static void MiniMap(float minimapSizeFraction, ImNodesMiniMapLocation location, ImNodesMiniMapNodeHoveringCallback nodeHoveringCallback)
+		{
+			// defining omitted parameters
+			void* nodeHoveringCallbackData = null;
+			ImnodesNative.MiniMap(minimapSizeFraction, location, nodeHoveringCallback, nodeHoveringCallbackData);
+		}
+
+		public static void MiniMap(float minimapSizeFraction, ImNodesMiniMapLocation location)
+		{
+			// defining omitted parameters
+			void* nodeHoveringCallbackData = null;
+			ImNodesMiniMapNodeHoveringCallback nodeHoveringCallback = null;
+			ImnodesNative.MiniMap(minimapSizeFraction, location, nodeHoveringCallback, nodeHoveringCallbackData);
+		}
+
+		public static void MiniMap(float minimapSizeFraction)
+		{
+			// defining omitted parameters
+			void* nodeHoveringCallbackData = null;
+			ImNodesMiniMapNodeHoveringCallback nodeHoveringCallback = null;
+			ImNodesMiniMapLocation location = ImNodesMiniMapLocation.TopLeft;
+			ImnodesNative.MiniMap(minimapSizeFraction, location, nodeHoveringCallback, nodeHoveringCallbackData);
+		}
+
+		public static void MiniMap()
+		{
+			// defining omitted parameters
+			float minimapSizeFraction = 0.2f;
+			void* nodeHoveringCallbackData = null;
+			ImNodesMiniMapNodeHoveringCallback nodeHoveringCallback = null;
+			ImNodesMiniMapLocation location = ImNodesMiniMapLocation.TopLeft;
+			ImnodesNative.MiniMap(minimapSizeFraction, location, nodeHoveringCallback, nodeHoveringCallbackData);
 		}
 
 		public static void PushColorStyle(ImNodesCol item, uint color)
@@ -132,6 +194,13 @@ namespace SharpImNodes
 			ImnodesNative.PopStyleVar(count);
 		}
 
+		public static void PopStyleVar()
+		{
+			// defining omitted parameters
+			int count = 1;
+			ImnodesNative.PopStyleVar(count);
+		}
+
 		public static void BeginNode(int id)
 		{
 			ImnodesNative.BeginNode(id);
@@ -142,11 +211,11 @@ namespace SharpImNodes
 			ImnodesNative.EndNode();
 		}
 
-		public static void GetNodeDimensions(ref Vector2 pOut, int id)
+		public static void GetNodeDimensions(out Vector2 pOut, int id)
 		{
-			fixed (Vector2* native_pOut = &pOut)
+			fixed (Vector2* nativePOut = &pOut)
 			{
-				ImnodesNative.GetNodeDimensions(native_pOut, id);
+				ImnodesNative.GetNodeDimensions(nativePOut, id);
 			}
 		}
 
@@ -165,6 +234,13 @@ namespace SharpImNodes
 			ImnodesNative.BeginInputAttribute(id, shape);
 		}
 
+		public static void BeginInputAttribute(int id)
+		{
+			// defining omitted parameters
+			ImNodesPinShape shape = ImNodesPinShape.CircleFilled;
+			ImnodesNative.BeginInputAttribute(id, shape);
+		}
+
 		public static void EndInputAttribute()
 		{
 			ImnodesNative.EndInputAttribute();
@@ -172,6 +248,13 @@ namespace SharpImNodes
 
 		public static void BeginOutputAttribute(int id, ImNodesPinShape shape)
 		{
+			ImnodesNative.BeginOutputAttribute(id, shape);
+		}
+
+		public static void BeginOutputAttribute(int id)
+		{
+			// defining omitted parameters
+			ImNodesPinShape shape = ImNodesPinShape.CircleFilled;
 			ImnodesNative.BeginOutputAttribute(id, shape);
 		}
 
@@ -226,27 +309,27 @@ namespace SharpImNodes
 			ImnodesNative.SetNodeGridSpacePos(nodeId, gridPos);
 		}
 
-		public static void GetNodeScreenSpacePos(ref Vector2 pOut, int nodeId)
+		public static void GetNodeScreenSpacePos(out Vector2 pOut, int nodeId)
 		{
-			fixed (Vector2* native_pOut = &pOut)
+			fixed (Vector2* nativePOut = &pOut)
 			{
-				ImnodesNative.GetNodeScreenSpacePos(native_pOut, nodeId);
+				ImnodesNative.GetNodeScreenSpacePos(nativePOut, nodeId);
 			}
 		}
 
-		public static void GetNodeEditorSpacePos(ref Vector2 pOut, int nodeId)
+		public static void GetNodeEditorSpacePos(out Vector2 pOut, int nodeId)
 		{
-			fixed (Vector2* native_pOut = &pOut)
+			fixed (Vector2* nativePOut = &pOut)
 			{
-				ImnodesNative.GetNodeEditorSpacePos(native_pOut, nodeId);
+				ImnodesNative.GetNodeEditorSpacePos(nativePOut, nodeId);
 			}
 		}
 
-		public static void GetNodeGridSpacePos(ref Vector2 pOut, int nodeId)
+		public static void GetNodeGridSpacePos(out Vector2 pOut, int nodeId)
 		{
-			fixed (Vector2* native_pOut = &pOut)
+			fixed (Vector2* nativePOut = &pOut)
 			{
-				ImnodesNative.GetNodeGridSpacePos(native_pOut, nodeId);
+				ImnodesNative.GetNodeGridSpacePos(nativePOut, nodeId);
 			}
 		}
 
@@ -255,35 +338,36 @@ namespace SharpImNodes
 			ImnodesNative.SnapNodeToGrid(nodeId);
 		}
 
-		public static byte IsEditorHovered()
+		public static bool IsEditorHovered()
 		{
-			return ImnodesNative.IsEditorHovered();
+			var result = ImnodesNative.IsEditorHovered();
+			return result != 0;
 		}
 
-		public static byte IsNodeHovered(ref int nodeId)
+		public static bool IsNodeHovered(ref int nodeId)
 		{
-			fixed (int* native_nodeId = &nodeId)
+			fixed (int* nativeNodeId = &nodeId)
 			{
-				var result = ImnodesNative.IsNodeHovered(native_nodeId);
-				return result;
+				var result = ImnodesNative.IsNodeHovered(nativeNodeId);
+				return result != 0;
 			}
 		}
 
-		public static byte IsLinkHovered(ref int linkId)
+		public static bool IsLinkHovered(ref int linkId)
 		{
-			fixed (int* native_linkId = &linkId)
+			fixed (int* nativeLinkId = &linkId)
 			{
-				var result = ImnodesNative.IsLinkHovered(native_linkId);
-				return result;
+				var result = ImnodesNative.IsLinkHovered(nativeLinkId);
+				return result != 0;
 			}
 		}
 
-		public static byte IsPinHovered(ref int attributeId)
+		public static bool IsPinHovered(ref int attributeId)
 		{
-			fixed (int* native_attributeId = &attributeId)
+			fixed (int* nativeAttributeId = &attributeId)
 			{
-				var result = ImnodesNative.IsPinHovered(native_attributeId);
-				return result;
+				var result = ImnodesNative.IsPinHovered(nativeAttributeId);
+				return result != 0;
 			}
 		}
 
@@ -299,17 +383,17 @@ namespace SharpImNodes
 
 		public static void GetSelectedNodes(ref int nodeIds)
 		{
-			fixed (int* native_nodeIds = &nodeIds)
+			fixed (int* nativeNodeIds = &nodeIds)
 			{
-				ImnodesNative.GetSelectedNodes(native_nodeIds);
+				ImnodesNative.GetSelectedNodes(nativeNodeIds);
 			}
 		}
 
 		public static void GetSelectedLinks(ref int linkIds)
 		{
-			fixed (int* native_linkIds = &linkIds)
+			fixed (int* nativeLinkIds = &linkIds)
 			{
-				ImnodesNative.GetSelectedLinks(native_linkIds);
+				ImnodesNative.GetSelectedLinks(nativeLinkIds);
 			}
 		}
 
@@ -333,9 +417,10 @@ namespace SharpImNodes
 			ImnodesNative.ClearNodeSelection(nodeId);
 		}
 
-		public static byte IsNodeSelected(int nodeId)
+		public static bool IsNodeSelected(int nodeId)
 		{
-			return ImnodesNative.IsNodeSelected(nodeId);
+			var result = ImnodesNative.IsNodeSelected(nodeId);
+			return result != 0;
 		}
 
 		public static void SelectLink(int linkId)
@@ -348,305 +433,359 @@ namespace SharpImNodes
 			ImnodesNative.ClearLinkSelection(linkId);
 		}
 
-		public static byte IsLinkSelected(int linkId)
+		public static bool IsLinkSelected(int linkId)
 		{
-			return ImnodesNative.IsLinkSelected(linkId);
+			var result = ImnodesNative.IsLinkSelected(linkId);
+			return result != 0;
 		}
 
-		public static byte IsAttributeActive()
+		public static bool IsAttributeActive()
 		{
-			return ImnodesNative.IsAttributeActive();
+			var result = ImnodesNative.IsAttributeActive();
+			return result != 0;
 		}
 
-		public static byte IsAnyAttributeActive(ref int attributeId)
+		public static bool IsAnyAttributeActive(ref int attributeId)
 		{
-			fixed (int* native_attributeId = &attributeId)
+			fixed (int* nativeAttributeId = &attributeId)
 			{
-				var result = ImnodesNative.IsAnyAttributeActive(native_attributeId);
-				return result;
+				var result = ImnodesNative.IsAnyAttributeActive(nativeAttributeId);
+				return result != 0;
 			}
 		}
 
-		public static byte IsLinkStarted(ref int startedAtAttributeId)
+		public static bool IsAnyAttributeActive()
 		{
-			fixed (int* native_startedAtAttributeId = &startedAtAttributeId)
+			// defining omitted parameters
+			int* attributeId = null;
+			var result = ImnodesNative.IsAnyAttributeActive(attributeId);
+			return result != 0;
+		}
+
+		public static bool IsLinkStarted(ref int startedAtAttributeId)
+		{
+			fixed (int* nativeStartedAtAttributeId = &startedAtAttributeId)
 			{
-				var result = ImnodesNative.IsLinkStarted(native_startedAtAttributeId);
-				return result;
+				var result = ImnodesNative.IsLinkStarted(nativeStartedAtAttributeId);
+				return result != 0;
 			}
 		}
 
-		public static byte IsLinkDropped(ref int startedAtAttributeId, bool includingDetachedLinks)
+		public static bool IsLinkDropped(ref int startedAtAttributeId, bool includingDetachedLinks)
 		{
 			var native_includingDetachedLinks = includingDetachedLinks ? (byte)1 : (byte)0;
-			fixed (int* native_startedAtAttributeId = &startedAtAttributeId)
+			fixed (int* nativeStartedAtAttributeId = &startedAtAttributeId)
 			{
-				var result = ImnodesNative.IsLinkDropped(native_startedAtAttributeId, native_includingDetachedLinks);
-				return result;
+				var result = ImnodesNative.IsLinkDropped(nativeStartedAtAttributeId, native_includingDetachedLinks);
+				return result != 0;
 			}
 		}
 
-		public static byte IsLinkCreated(ref int startedAtAttributeId, ref int endedAtAttributeId, ReadOnlySpan<char> createdFromSnap)
+		public static bool IsLinkDropped(ref int startedAtAttributeId)
 		{
-			// Marshaling createdFromSnap to native string
-			byte* native_createdFromSnap;
-			var byteCount_createdFromSnap = 0;
-			if (createdFromSnap != null)
+			// defining omitted parameters
+			byte includingDetachedLinks = 1;
+			fixed (int* nativeStartedAtAttributeId = &startedAtAttributeId)
 			{
-				byteCount_createdFromSnap = Encoding.UTF8.GetByteCount(createdFromSnap);
-				if(byteCount_createdFromSnap > Utils.MaxStackallocSize)
-				{
-					native_createdFromSnap = Utils.Alloc<byte>(byteCount_createdFromSnap + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_createdFromSnap + 1];
-					native_createdFromSnap = stackallocBytes;
-				}
-				var createdFromSnap_offset = Utils.EncodeStringUTF8(createdFromSnap, native_createdFromSnap, byteCount_createdFromSnap);
-				native_createdFromSnap[createdFromSnap_offset] = 0;
-			}
-			else native_createdFromSnap = null;
-
-			fixed (int* native_startedAtAttributeId = &startedAtAttributeId)
-			fixed (int* native_endedAtAttributeId = &endedAtAttributeId)
-			{
-				var result = ImnodesNative.IsLinkCreated(native_startedAtAttributeId, native_endedAtAttributeId, native_createdFromSnap);
-				// Freeing createdFromSnap native string
-				if (byteCount_createdFromSnap > Utils.MaxStackallocSize)
-					Utils.Free(native_createdFromSnap);
-				return result;
+				var result = ImnodesNative.IsLinkDropped(nativeStartedAtAttributeId, includingDetachedLinks);
+				return result != 0;
 			}
 		}
 
-		public static byte IsLinkCreated(ref int startedAtNodeId, ref int startedAtAttributeId, ref int endedAtNodeId, ref int endedAtAttributeId, ReadOnlySpan<char> createdFromSnap)
+		public static bool IsLinkDropped()
 		{
-			// Marshaling createdFromSnap to native string
-			byte* native_createdFromSnap;
-			var byteCount_createdFromSnap = 0;
-			if (createdFromSnap != null)
-			{
-				byteCount_createdFromSnap = Encoding.UTF8.GetByteCount(createdFromSnap);
-				if(byteCount_createdFromSnap > Utils.MaxStackallocSize)
-				{
-					native_createdFromSnap = Utils.Alloc<byte>(byteCount_createdFromSnap + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCount_createdFromSnap + 1];
-					native_createdFromSnap = stackallocBytes;
-				}
-				var createdFromSnap_offset = Utils.EncodeStringUTF8(createdFromSnap, native_createdFromSnap, byteCount_createdFromSnap);
-				native_createdFromSnap[createdFromSnap_offset] = 0;
-			}
-			else native_createdFromSnap = null;
+			// defining omitted parameters
+			byte includingDetachedLinks = 1;
+			int* startedAtAttributeId = null;
+			var result = ImnodesNative.IsLinkDropped(startedAtAttributeId, includingDetachedLinks);
+			return result != 0;
+		}
 
-			fixed (int* native_startedAtNodeId = &startedAtNodeId)
-			fixed (int* native_startedAtAttributeId = &startedAtAttributeId)
-			fixed (int* native_endedAtNodeId = &endedAtNodeId)
-			fixed (int* native_endedAtAttributeId = &endedAtAttributeId)
+		public static bool IsLinkCreated(ref int startedAtAttributeId, ref int endedAtAttributeId, ref bool createdFromSnap)
+		{
+			var nativeCreatedFromSnapVal = createdFromSnap ? (byte)1 : (byte)0;
+			var nativeCreatedFromSnap = &nativeCreatedFromSnapVal;
+			fixed (int* nativeStartedAtAttributeId = &startedAtAttributeId)
+			fixed (int* nativeEndedAtAttributeId = &endedAtAttributeId)
 			{
-				var result = ImnodesNative.IsLinkCreated(native_startedAtNodeId, native_startedAtAttributeId, native_endedAtNodeId, native_endedAtAttributeId, native_createdFromSnap);
-				// Freeing createdFromSnap native string
-				if (byteCount_createdFromSnap > Utils.MaxStackallocSize)
-					Utils.Free(native_createdFromSnap);
-				return result;
+				var result = ImnodesNative.IsLinkCreated(nativeStartedAtAttributeId, nativeEndedAtAttributeId, nativeCreatedFromSnap);
+				createdFromSnap = nativeCreatedFromSnapVal != 0;
+				return result != 0;
 			}
 		}
 
-		public static byte IsLinkDestroyed(ref int linkId)
+		public static bool IsLinkCreated(ref int startedAtNodeId, ref int startedAtAttributeId, ref int endedAtNodeId, ref int endedAtAttributeId, ref bool createdFromSnap)
 		{
-			fixed (int* native_linkId = &linkId)
+			var nativeCreatedFromSnapVal = createdFromSnap ? (byte)1 : (byte)0;
+			var nativeCreatedFromSnap = &nativeCreatedFromSnapVal;
+			fixed (int* nativeStartedAtNodeId = &startedAtNodeId)
+			fixed (int* nativeStartedAtAttributeId = &startedAtAttributeId)
+			fixed (int* nativeEndedAtNodeId = &endedAtNodeId)
+			fixed (int* nativeEndedAtAttributeId = &endedAtAttributeId)
 			{
-				var result = ImnodesNative.IsLinkDestroyed(native_linkId);
-				return result;
+				var result = ImnodesNative.IsLinkCreated(nativeStartedAtNodeId, nativeStartedAtAttributeId, nativeEndedAtNodeId, nativeEndedAtAttributeId, nativeCreatedFromSnap);
+				createdFromSnap = nativeCreatedFromSnapVal != 0;
+				return result != 0;
+			}
+		}
+
+		public static bool IsLinkDestroyed(ref int linkId)
+		{
+			fixed (int* nativeLinkId = &linkId)
+			{
+				var result = ImnodesNative.IsLinkDestroyed(nativeLinkId);
+				return result != 0;
 			}
 		}
 
 		public static ref byte SaveCurrentEditorStateToIniString(ref uint dataSize)
 		{
-			fixed (uint* native_dataSize = &dataSize)
+			fixed (uint* nativeDataSize = &dataSize)
 			{
-				var nativeResult = ImnodesNative.SaveCurrentEditorStateToIniString(native_dataSize);
+				var nativeResult = ImnodesNative.SaveCurrentEditorStateToIniString(nativeDataSize);
 				return ref *(byte*)&nativeResult;
 			}
 		}
 
+		public static ref byte SaveCurrentEditorStateToIniString()
+		{
+			// defining omitted parameters
+			uint* dataSize = null;
+			var nativeResult = ImnodesNative.SaveCurrentEditorStateToIniString(dataSize);
+			return ref *(byte*)&nativeResult;
+		}
+
 		public static ref byte SaveEditorStateToIniString(ImNodesEditorContextPtr editor, ref uint dataSize)
 		{
-			fixed (uint* native_dataSize = &dataSize)
+			fixed (uint* nativeDataSize = &dataSize)
 			{
-				var nativeResult = ImnodesNative.SaveEditorStateToIniString(editor, native_dataSize);
+				var nativeResult = ImnodesNative.SaveEditorStateToIniString(editor, nativeDataSize);
 				return ref *(byte*)&nativeResult;
+			}
+		}
+
+		public static ref byte SaveEditorStateToIniString(ImNodesEditorContextPtr editor)
+		{
+			// defining omitted parameters
+			uint* dataSize = null;
+			var nativeResult = ImnodesNative.SaveEditorStateToIniString(editor, dataSize);
+			return ref *(byte*)&nativeResult;
+		}
+
+		public static void LoadCurrentEditorStateFromIniString(ReadOnlySpan<byte> data, uint dataSize)
+		{
+			fixed (byte* nativeData = data)
+			{
+				ImnodesNative.LoadCurrentEditorStateFromIniString(nativeData, dataSize);
 			}
 		}
 
 		public static void LoadCurrentEditorStateFromIniString(ReadOnlySpan<char> data, uint dataSize)
 		{
 			// Marshaling data to native string
-			byte* native_data;
-			var byteCount_data = 0;
+			byte* nativeData;
+			var byteCountData = 0;
 			if (data != null)
 			{
-				byteCount_data = Encoding.UTF8.GetByteCount(data);
-				if(byteCount_data > Utils.MaxStackallocSize)
+				byteCountData = Encoding.UTF8.GetByteCount(data);
+				if(byteCountData > Utils.MaxStackallocSize)
 				{
-					native_data = Utils.Alloc<byte>(byteCount_data + 1);
+					nativeData = Utils.Alloc<byte>(byteCountData + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_data + 1];
-					native_data = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountData + 1];
+					nativeData = stackallocBytes;
 				}
-				var data_offset = Utils.EncodeStringUTF8(data, native_data, byteCount_data);
-				native_data[data_offset] = 0;
+				var offsetData = Utils.EncodeStringUTF8(data, nativeData, byteCountData);
+				nativeData[offsetData] = 0;
 			}
-			else native_data = null;
+			else nativeData = null;
 
-			ImnodesNative.LoadCurrentEditorStateFromIniString(native_data, dataSize);
+			ImnodesNative.LoadCurrentEditorStateFromIniString(nativeData, dataSize);
 			// Freeing data native string
-			if (byteCount_data > Utils.MaxStackallocSize)
-				Utils.Free(native_data);
+			if (byteCountData > Utils.MaxStackallocSize)
+				Utils.Free(nativeData);
+		}
+
+		public static void LoadEditorStateFromIniString(ImNodesEditorContextPtr editor, ReadOnlySpan<byte> data, uint dataSize)
+		{
+			fixed (byte* nativeData = data)
+			{
+				ImnodesNative.LoadEditorStateFromIniString(editor, nativeData, dataSize);
+			}
 		}
 
 		public static void LoadEditorStateFromIniString(ImNodesEditorContextPtr editor, ReadOnlySpan<char> data, uint dataSize)
 		{
 			// Marshaling data to native string
-			byte* native_data;
-			var byteCount_data = 0;
+			byte* nativeData;
+			var byteCountData = 0;
 			if (data != null)
 			{
-				byteCount_data = Encoding.UTF8.GetByteCount(data);
-				if(byteCount_data > Utils.MaxStackallocSize)
+				byteCountData = Encoding.UTF8.GetByteCount(data);
+				if(byteCountData > Utils.MaxStackallocSize)
 				{
-					native_data = Utils.Alloc<byte>(byteCount_data + 1);
+					nativeData = Utils.Alloc<byte>(byteCountData + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_data + 1];
-					native_data = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountData + 1];
+					nativeData = stackallocBytes;
 				}
-				var data_offset = Utils.EncodeStringUTF8(data, native_data, byteCount_data);
-				native_data[data_offset] = 0;
+				var offsetData = Utils.EncodeStringUTF8(data, nativeData, byteCountData);
+				nativeData[offsetData] = 0;
 			}
-			else native_data = null;
+			else nativeData = null;
 
-			ImnodesNative.LoadEditorStateFromIniString(editor, native_data, dataSize);
+			ImnodesNative.LoadEditorStateFromIniString(editor, nativeData, dataSize);
 			// Freeing data native string
-			if (byteCount_data > Utils.MaxStackallocSize)
-				Utils.Free(native_data);
+			if (byteCountData > Utils.MaxStackallocSize)
+				Utils.Free(nativeData);
+		}
+
+		public static void SaveCurrentEditorStateToIniFile(ReadOnlySpan<byte> fileName)
+		{
+			fixed (byte* nativeFileName = fileName)
+			{
+				ImnodesNative.SaveCurrentEditorStateToIniFile(nativeFileName);
+			}
 		}
 
 		public static void SaveCurrentEditorStateToIniFile(ReadOnlySpan<char> fileName)
 		{
 			// Marshaling fileName to native string
-			byte* native_fileName;
-			var byteCount_fileName = 0;
+			byte* nativeFileName;
+			var byteCountFileName = 0;
 			if (fileName != null)
 			{
-				byteCount_fileName = Encoding.UTF8.GetByteCount(fileName);
-				if(byteCount_fileName > Utils.MaxStackallocSize)
+				byteCountFileName = Encoding.UTF8.GetByteCount(fileName);
+				if(byteCountFileName > Utils.MaxStackallocSize)
 				{
-					native_fileName = Utils.Alloc<byte>(byteCount_fileName + 1);
+					nativeFileName = Utils.Alloc<byte>(byteCountFileName + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_fileName + 1];
-					native_fileName = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountFileName + 1];
+					nativeFileName = stackallocBytes;
 				}
-				var fileName_offset = Utils.EncodeStringUTF8(fileName, native_fileName, byteCount_fileName);
-				native_fileName[fileName_offset] = 0;
+				var offsetFileName = Utils.EncodeStringUTF8(fileName, nativeFileName, byteCountFileName);
+				nativeFileName[offsetFileName] = 0;
 			}
-			else native_fileName = null;
+			else nativeFileName = null;
 
-			ImnodesNative.SaveCurrentEditorStateToIniFile(native_fileName);
+			ImnodesNative.SaveCurrentEditorStateToIniFile(nativeFileName);
 			// Freeing fileName native string
-			if (byteCount_fileName > Utils.MaxStackallocSize)
-				Utils.Free(native_fileName);
+			if (byteCountFileName > Utils.MaxStackallocSize)
+				Utils.Free(nativeFileName);
+		}
+
+		public static void SaveEditorStateToIniFile(ImNodesEditorContextPtr editor, ReadOnlySpan<byte> fileName)
+		{
+			fixed (byte* nativeFileName = fileName)
+			{
+				ImnodesNative.SaveEditorStateToIniFile(editor, nativeFileName);
+			}
 		}
 
 		public static void SaveEditorStateToIniFile(ImNodesEditorContextPtr editor, ReadOnlySpan<char> fileName)
 		{
 			// Marshaling fileName to native string
-			byte* native_fileName;
-			var byteCount_fileName = 0;
+			byte* nativeFileName;
+			var byteCountFileName = 0;
 			if (fileName != null)
 			{
-				byteCount_fileName = Encoding.UTF8.GetByteCount(fileName);
-				if(byteCount_fileName > Utils.MaxStackallocSize)
+				byteCountFileName = Encoding.UTF8.GetByteCount(fileName);
+				if(byteCountFileName > Utils.MaxStackallocSize)
 				{
-					native_fileName = Utils.Alloc<byte>(byteCount_fileName + 1);
+					nativeFileName = Utils.Alloc<byte>(byteCountFileName + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_fileName + 1];
-					native_fileName = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountFileName + 1];
+					nativeFileName = stackallocBytes;
 				}
-				var fileName_offset = Utils.EncodeStringUTF8(fileName, native_fileName, byteCount_fileName);
-				native_fileName[fileName_offset] = 0;
+				var offsetFileName = Utils.EncodeStringUTF8(fileName, nativeFileName, byteCountFileName);
+				nativeFileName[offsetFileName] = 0;
 			}
-			else native_fileName = null;
+			else nativeFileName = null;
 
-			ImnodesNative.SaveEditorStateToIniFile(editor, native_fileName);
+			ImnodesNative.SaveEditorStateToIniFile(editor, nativeFileName);
 			// Freeing fileName native string
-			if (byteCount_fileName > Utils.MaxStackallocSize)
-				Utils.Free(native_fileName);
+			if (byteCountFileName > Utils.MaxStackallocSize)
+				Utils.Free(nativeFileName);
+		}
+
+		public static void LoadCurrentEditorStateFromIniFile(ReadOnlySpan<byte> fileName)
+		{
+			fixed (byte* nativeFileName = fileName)
+			{
+				ImnodesNative.LoadCurrentEditorStateFromIniFile(nativeFileName);
+			}
 		}
 
 		public static void LoadCurrentEditorStateFromIniFile(ReadOnlySpan<char> fileName)
 		{
 			// Marshaling fileName to native string
-			byte* native_fileName;
-			var byteCount_fileName = 0;
+			byte* nativeFileName;
+			var byteCountFileName = 0;
 			if (fileName != null)
 			{
-				byteCount_fileName = Encoding.UTF8.GetByteCount(fileName);
-				if(byteCount_fileName > Utils.MaxStackallocSize)
+				byteCountFileName = Encoding.UTF8.GetByteCount(fileName);
+				if(byteCountFileName > Utils.MaxStackallocSize)
 				{
-					native_fileName = Utils.Alloc<byte>(byteCount_fileName + 1);
+					nativeFileName = Utils.Alloc<byte>(byteCountFileName + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_fileName + 1];
-					native_fileName = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountFileName + 1];
+					nativeFileName = stackallocBytes;
 				}
-				var fileName_offset = Utils.EncodeStringUTF8(fileName, native_fileName, byteCount_fileName);
-				native_fileName[fileName_offset] = 0;
+				var offsetFileName = Utils.EncodeStringUTF8(fileName, nativeFileName, byteCountFileName);
+				nativeFileName[offsetFileName] = 0;
 			}
-			else native_fileName = null;
+			else nativeFileName = null;
 
-			ImnodesNative.LoadCurrentEditorStateFromIniFile(native_fileName);
+			ImnodesNative.LoadCurrentEditorStateFromIniFile(nativeFileName);
 			// Freeing fileName native string
-			if (byteCount_fileName > Utils.MaxStackallocSize)
-				Utils.Free(native_fileName);
+			if (byteCountFileName > Utils.MaxStackallocSize)
+				Utils.Free(nativeFileName);
+		}
+
+		public static void LoadEditorStateFromIniFile(ImNodesEditorContextPtr editor, ReadOnlySpan<byte> fileName)
+		{
+			fixed (byte* nativeFileName = fileName)
+			{
+				ImnodesNative.LoadEditorStateFromIniFile(editor, nativeFileName);
+			}
 		}
 
 		public static void LoadEditorStateFromIniFile(ImNodesEditorContextPtr editor, ReadOnlySpan<char> fileName)
 		{
 			// Marshaling fileName to native string
-			byte* native_fileName;
-			var byteCount_fileName = 0;
+			byte* nativeFileName;
+			var byteCountFileName = 0;
 			if (fileName != null)
 			{
-				byteCount_fileName = Encoding.UTF8.GetByteCount(fileName);
-				if(byteCount_fileName > Utils.MaxStackallocSize)
+				byteCountFileName = Encoding.UTF8.GetByteCount(fileName);
+				if(byteCountFileName > Utils.MaxStackallocSize)
 				{
-					native_fileName = Utils.Alloc<byte>(byteCount_fileName + 1);
+					nativeFileName = Utils.Alloc<byte>(byteCountFileName + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_fileName + 1];
-					native_fileName = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountFileName + 1];
+					nativeFileName = stackallocBytes;
 				}
-				var fileName_offset = Utils.EncodeStringUTF8(fileName, native_fileName, byteCount_fileName);
-				native_fileName[fileName_offset] = 0;
+				var offsetFileName = Utils.EncodeStringUTF8(fileName, nativeFileName, byteCountFileName);
+				nativeFileName[offsetFileName] = 0;
 			}
-			else native_fileName = null;
+			else nativeFileName = null;
 
-			ImnodesNative.LoadEditorStateFromIniFile(editor, native_fileName);
+			ImnodesNative.LoadEditorStateFromIniFile(editor, nativeFileName);
 			// Freeing fileName native string
-			if (byteCount_fileName > Utils.MaxStackallocSize)
-				Utils.Free(native_fileName);
+			if (byteCountFileName > Utils.MaxStackallocSize)
+				Utils.Free(nativeFileName);
 		}
 
 		public static ref byte GetIoKeyCtrlPtr()

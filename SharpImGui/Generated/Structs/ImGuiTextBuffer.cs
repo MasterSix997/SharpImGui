@@ -29,83 +29,130 @@ namespace SharpImGui
 		public static implicit operator ImGuiTextBufferPtr(ImGuiTextBuffer* ptr) => new ImGuiTextBufferPtr(ptr);
 		public static implicit operator ImGuiTextBufferPtr(IntPtr ptr) => new ImGuiTextBufferPtr(ptr);
 		public static implicit operator ImGuiTextBuffer*(ImGuiTextBufferPtr nativePtr) => nativePtr.NativePtr;
+		public void Appendf(ReadOnlySpan<byte> fmt)
+		{
+			fixed (byte* nativeFmt = fmt)
+			{
+				ImGuiNative.ImGuiTextBufferAppendf(NativePtr, nativeFmt);
+			}
+		}
+
 		public void Appendf(ReadOnlySpan<char> fmt)
 		{
 			// Marshaling fmt to native string
-			byte* native_fmt;
-			var byteCount_fmt = 0;
+			byte* nativeFmt;
+			var byteCountFmt = 0;
 			if (fmt != null)
 			{
-				byteCount_fmt = Encoding.UTF8.GetByteCount(fmt);
-				if(byteCount_fmt > Utils.MaxStackallocSize)
+				byteCountFmt = Encoding.UTF8.GetByteCount(fmt);
+				if(byteCountFmt > Utils.MaxStackallocSize)
 				{
-					native_fmt = Utils.Alloc<byte>(byteCount_fmt + 1);
+					nativeFmt = Utils.Alloc<byte>(byteCountFmt + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_fmt + 1];
-					native_fmt = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountFmt + 1];
+					nativeFmt = stackallocBytes;
 				}
-				var fmt_offset = Utils.EncodeStringUTF8(fmt, native_fmt, byteCount_fmt);
-				native_fmt[fmt_offset] = 0;
+				var offsetFmt = Utils.EncodeStringUTF8(fmt, nativeFmt, byteCountFmt);
+				nativeFmt[offsetFmt] = 0;
 			}
-			else native_fmt = null;
+			else nativeFmt = null;
 
-			ImGuiNative.ImGuiTextBufferAppendf(NativePtr, native_fmt);
+			ImGuiNative.ImGuiTextBufferAppendf(NativePtr, nativeFmt);
 			// Freeing fmt native string
-			if (byteCount_fmt > Utils.MaxStackallocSize)
-				Utils.Free(native_fmt);
+			if (byteCountFmt > Utils.MaxStackallocSize)
+				Utils.Free(nativeFmt);
+		}
+
+		public void Append(ReadOnlySpan<byte> str, ReadOnlySpan<byte> strEnd)
+		{
+			fixed (byte* nativeStr = str)
+			fixed (byte* nativeStrEnd = strEnd)
+			{
+				ImGuiNative.ImGuiTextBufferAppend(NativePtr, nativeStr, nativeStrEnd);
+			}
 		}
 
 		public void Append(ReadOnlySpan<char> str, ReadOnlySpan<char> strEnd)
 		{
 			// Marshaling str to native string
-			byte* native_str;
-			var byteCount_str = 0;
+			byte* nativeStr;
+			var byteCountStr = 0;
 			if (str != null)
 			{
-				byteCount_str = Encoding.UTF8.GetByteCount(str);
-				if(byteCount_str > Utils.MaxStackallocSize)
+				byteCountStr = Encoding.UTF8.GetByteCount(str);
+				if(byteCountStr > Utils.MaxStackallocSize)
 				{
-					native_str = Utils.Alloc<byte>(byteCount_str + 1);
+					nativeStr = Utils.Alloc<byte>(byteCountStr + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_str + 1];
-					native_str = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountStr + 1];
+					nativeStr = stackallocBytes;
 				}
-				var str_offset = Utils.EncodeStringUTF8(str, native_str, byteCount_str);
-				native_str[str_offset] = 0;
+				var offsetStr = Utils.EncodeStringUTF8(str, nativeStr, byteCountStr);
+				nativeStr[offsetStr] = 0;
 			}
-			else native_str = null;
+			else nativeStr = null;
 
 			// Marshaling strEnd to native string
-			byte* native_strEnd;
-			var byteCount_strEnd = 0;
+			byte* nativeStrEnd;
+			var byteCountStrEnd = 0;
 			if (strEnd != null)
 			{
-				byteCount_strEnd = Encoding.UTF8.GetByteCount(strEnd);
-				if(byteCount_strEnd > Utils.MaxStackallocSize)
+				byteCountStrEnd = Encoding.UTF8.GetByteCount(strEnd);
+				if(byteCountStrEnd > Utils.MaxStackallocSize)
 				{
-					native_strEnd = Utils.Alloc<byte>(byteCount_strEnd + 1);
+					nativeStrEnd = Utils.Alloc<byte>(byteCountStrEnd + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_strEnd + 1];
-					native_strEnd = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountStrEnd + 1];
+					nativeStrEnd = stackallocBytes;
 				}
-				var strEnd_offset = Utils.EncodeStringUTF8(strEnd, native_strEnd, byteCount_strEnd);
-				native_strEnd[strEnd_offset] = 0;
+				var offsetStrEnd = Utils.EncodeStringUTF8(strEnd, nativeStrEnd, byteCountStrEnd);
+				nativeStrEnd[offsetStrEnd] = 0;
 			}
-			else native_strEnd = null;
+			else nativeStrEnd = null;
 
-			ImGuiNative.ImGuiTextBufferAppend(NativePtr, native_str, native_strEnd);
+			ImGuiNative.ImGuiTextBufferAppend(NativePtr, nativeStr, nativeStrEnd);
 			// Freeing str native string
-			if (byteCount_str > Utils.MaxStackallocSize)
-				Utils.Free(native_str);
+			if (byteCountStr > Utils.MaxStackallocSize)
+				Utils.Free(nativeStr);
 			// Freeing strEnd native string
-			if (byteCount_strEnd > Utils.MaxStackallocSize)
-				Utils.Free(native_strEnd);
+			if (byteCountStrEnd > Utils.MaxStackallocSize)
+				Utils.Free(nativeStrEnd);
+		}
+
+		public void Append(ReadOnlySpan<char> str)
+		{
+			// defining omitted parameters
+			byte* strEnd = null;
+			// Marshaling str to native string
+			byte* nativeStr;
+			var byteCountStr = 0;
+			if (str != null)
+			{
+				byteCountStr = Encoding.UTF8.GetByteCount(str);
+				if(byteCountStr > Utils.MaxStackallocSize)
+				{
+					nativeStr = Utils.Alloc<byte>(byteCountStr + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountStr + 1];
+					nativeStr = stackallocBytes;
+				}
+				var offsetStr = Utils.EncodeStringUTF8(str, nativeStr, byteCountStr);
+				nativeStr[offsetStr] = 0;
+			}
+			else nativeStr = null;
+
+			ImGuiNative.ImGuiTextBufferAppend(NativePtr, nativeStr, strEnd);
+			// Freeing str native string
+			if (byteCountStr > Utils.MaxStackallocSize)
+				Utils.Free(nativeStr);
 		}
 
 		public ref byte CStr()
@@ -132,9 +179,10 @@ namespace SharpImGui
 			ImGuiNative.ImGuiTextBufferClear(NativePtr);
 		}
 
-		public byte Empty()
+		public bool Empty()
 		{
-			return ImGuiNative.ImGuiTextBufferEmpty(NativePtr);
+			var result = ImGuiNative.ImGuiTextBufferEmpty(NativePtr);
+			return result != 0;
 		}
 
 		public int Size()

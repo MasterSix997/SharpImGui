@@ -193,9 +193,10 @@ namespace SharpImGui
 		public static implicit operator ImFontPtr(ImFont* ptr) => new ImFontPtr(ptr);
 		public static implicit operator ImFontPtr(IntPtr ptr) => new ImFontPtr(ptr);
 		public static implicit operator ImFont*(ImFontPtr nativePtr) => nativePtr.NativePtr;
-		public byte IsGlyphRangeUnused(uint cBegin, uint cLast)
+		public bool IsGlyphRangeUnused(uint cBegin, uint cLast)
 		{
-			return ImGuiNative.ImFontIsGlyphRangeUnused(NativePtr, cBegin, cLast);
+			var result = ImGuiNative.ImFontIsGlyphRangeUnused(NativePtr, cBegin, cLast);
+			return result != 0;
 		}
 
 		/// <summary>
@@ -205,6 +206,16 @@ namespace SharpImGui
 		{
 			var native_overwriteDst = overwriteDst ? (byte)1 : (byte)0;
 			ImGuiNative.ImFontAddRemapChar(NativePtr, dst, src, native_overwriteDst);
+		}
+
+		/// <summary>
+		/// Makes 'dst' character/glyph points to 'src' character/glyph. Currently needs to be called AFTER fonts have been built.<br/>
+		/// </summary>
+		public void AddRemapChar(ushort dst, ushort src)
+		{
+			// defining omitted parameters
+			byte overwriteDst = 1;
+			ImGuiNative.ImFontAddRemapChar(NativePtr, dst, src, overwriteDst);
 		}
 
 		public void AddGlyph(ImFontConfigPtr srcCfg, ushort c, float x0, float y0, float x1, float y1, float u0, float v0, float u1, float v1, float advanceX)
@@ -227,56 +238,173 @@ namespace SharpImGui
 			ImGuiNative.ImFontBuildLookupTable(NativePtr);
 		}
 
+		public void RenderText(ImDrawListPtr drawList, float size, Vector2 pos, uint col, Vector4 clipRect, ReadOnlySpan<byte> textBegin, ReadOnlySpan<byte> textEnd, float wrapWidth, bool cpuFineClip)
+		{
+			var native_cpuFineClip = cpuFineClip ? (byte)1 : (byte)0;
+			fixed (byte* nativeTextBegin = textBegin)
+			fixed (byte* nativeTextEnd = textEnd)
+			{
+				ImGuiNative.ImFontRenderText(NativePtr, drawList, size, pos, col, clipRect, nativeTextBegin, nativeTextEnd, wrapWidth, native_cpuFineClip);
+			}
+		}
+
 		public void RenderText(ImDrawListPtr drawList, float size, Vector2 pos, uint col, Vector4 clipRect, ReadOnlySpan<char> textBegin, ReadOnlySpan<char> textEnd, float wrapWidth, bool cpuFineClip)
 		{
 			// Marshaling textBegin to native string
-			byte* native_textBegin;
-			var byteCount_textBegin = 0;
+			byte* nativeTextBegin;
+			var byteCountTextBegin = 0;
 			if (textBegin != null)
 			{
-				byteCount_textBegin = Encoding.UTF8.GetByteCount(textBegin);
-				if(byteCount_textBegin > Utils.MaxStackallocSize)
+				byteCountTextBegin = Encoding.UTF8.GetByteCount(textBegin);
+				if(byteCountTextBegin > Utils.MaxStackallocSize)
 				{
-					native_textBegin = Utils.Alloc<byte>(byteCount_textBegin + 1);
+					nativeTextBegin = Utils.Alloc<byte>(byteCountTextBegin + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_textBegin + 1];
-					native_textBegin = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountTextBegin + 1];
+					nativeTextBegin = stackallocBytes;
 				}
-				var textBegin_offset = Utils.EncodeStringUTF8(textBegin, native_textBegin, byteCount_textBegin);
-				native_textBegin[textBegin_offset] = 0;
+				var offsetTextBegin = Utils.EncodeStringUTF8(textBegin, nativeTextBegin, byteCountTextBegin);
+				nativeTextBegin[offsetTextBegin] = 0;
 			}
-			else native_textBegin = null;
+			else nativeTextBegin = null;
 
 			// Marshaling textEnd to native string
-			byte* native_textEnd;
-			var byteCount_textEnd = 0;
+			byte* nativeTextEnd;
+			var byteCountTextEnd = 0;
 			if (textEnd != null)
 			{
-				byteCount_textEnd = Encoding.UTF8.GetByteCount(textEnd);
-				if(byteCount_textEnd > Utils.MaxStackallocSize)
+				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
+				if(byteCountTextEnd > Utils.MaxStackallocSize)
 				{
-					native_textEnd = Utils.Alloc<byte>(byteCount_textEnd + 1);
+					nativeTextEnd = Utils.Alloc<byte>(byteCountTextEnd + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_textEnd + 1];
-					native_textEnd = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountTextEnd + 1];
+					nativeTextEnd = stackallocBytes;
 				}
-				var textEnd_offset = Utils.EncodeStringUTF8(textEnd, native_textEnd, byteCount_textEnd);
-				native_textEnd[textEnd_offset] = 0;
+				var offsetTextEnd = Utils.EncodeStringUTF8(textEnd, nativeTextEnd, byteCountTextEnd);
+				nativeTextEnd[offsetTextEnd] = 0;
 			}
-			else native_textEnd = null;
+			else nativeTextEnd = null;
 
 			var native_cpuFineClip = cpuFineClip ? (byte)1 : (byte)0;
-			ImGuiNative.ImFontRenderText(NativePtr, drawList, size, pos, col, clipRect, native_textBegin, native_textEnd, wrapWidth, native_cpuFineClip);
+			ImGuiNative.ImFontRenderText(NativePtr, drawList, size, pos, col, clipRect, nativeTextBegin, nativeTextEnd, wrapWidth, native_cpuFineClip);
 			// Freeing textBegin native string
-			if (byteCount_textBegin > Utils.MaxStackallocSize)
-				Utils.Free(native_textBegin);
+			if (byteCountTextBegin > Utils.MaxStackallocSize)
+				Utils.Free(nativeTextBegin);
 			// Freeing textEnd native string
-			if (byteCount_textEnd > Utils.MaxStackallocSize)
-				Utils.Free(native_textEnd);
+			if (byteCountTextEnd > Utils.MaxStackallocSize)
+				Utils.Free(nativeTextEnd);
+		}
+
+		public void RenderText(ImDrawListPtr drawList, float size, Vector2 pos, uint col, Vector4 clipRect, ReadOnlySpan<char> textBegin, ReadOnlySpan<char> textEnd, float wrapWidth)
+		{
+			// defining omitted parameters
+			byte cpuFineClip = 0;
+			// Marshaling textBegin to native string
+			byte* nativeTextBegin;
+			var byteCountTextBegin = 0;
+			if (textBegin != null)
+			{
+				byteCountTextBegin = Encoding.UTF8.GetByteCount(textBegin);
+				if(byteCountTextBegin > Utils.MaxStackallocSize)
+				{
+					nativeTextBegin = Utils.Alloc<byte>(byteCountTextBegin + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountTextBegin + 1];
+					nativeTextBegin = stackallocBytes;
+				}
+				var offsetTextBegin = Utils.EncodeStringUTF8(textBegin, nativeTextBegin, byteCountTextBegin);
+				nativeTextBegin[offsetTextBegin] = 0;
+			}
+			else nativeTextBegin = null;
+
+			// Marshaling textEnd to native string
+			byte* nativeTextEnd;
+			var byteCountTextEnd = 0;
+			if (textEnd != null)
+			{
+				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
+				if(byteCountTextEnd > Utils.MaxStackallocSize)
+				{
+					nativeTextEnd = Utils.Alloc<byte>(byteCountTextEnd + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountTextEnd + 1];
+					nativeTextEnd = stackallocBytes;
+				}
+				var offsetTextEnd = Utils.EncodeStringUTF8(textEnd, nativeTextEnd, byteCountTextEnd);
+				nativeTextEnd[offsetTextEnd] = 0;
+			}
+			else nativeTextEnd = null;
+
+			ImGuiNative.ImFontRenderText(NativePtr, drawList, size, pos, col, clipRect, nativeTextBegin, nativeTextEnd, wrapWidth, cpuFineClip);
+			// Freeing textBegin native string
+			if (byteCountTextBegin > Utils.MaxStackallocSize)
+				Utils.Free(nativeTextBegin);
+			// Freeing textEnd native string
+			if (byteCountTextEnd > Utils.MaxStackallocSize)
+				Utils.Free(nativeTextEnd);
+		}
+
+		public void RenderText(ImDrawListPtr drawList, float size, Vector2 pos, uint col, Vector4 clipRect, ReadOnlySpan<char> textBegin, ReadOnlySpan<char> textEnd)
+		{
+			// defining omitted parameters
+			float wrapWidth = 0.0f;
+			byte cpuFineClip = 0;
+			// Marshaling textBegin to native string
+			byte* nativeTextBegin;
+			var byteCountTextBegin = 0;
+			if (textBegin != null)
+			{
+				byteCountTextBegin = Encoding.UTF8.GetByteCount(textBegin);
+				if(byteCountTextBegin > Utils.MaxStackallocSize)
+				{
+					nativeTextBegin = Utils.Alloc<byte>(byteCountTextBegin + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountTextBegin + 1];
+					nativeTextBegin = stackallocBytes;
+				}
+				var offsetTextBegin = Utils.EncodeStringUTF8(textBegin, nativeTextBegin, byteCountTextBegin);
+				nativeTextBegin[offsetTextBegin] = 0;
+			}
+			else nativeTextBegin = null;
+
+			// Marshaling textEnd to native string
+			byte* nativeTextEnd;
+			var byteCountTextEnd = 0;
+			if (textEnd != null)
+			{
+				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
+				if(byteCountTextEnd > Utils.MaxStackallocSize)
+				{
+					nativeTextEnd = Utils.Alloc<byte>(byteCountTextEnd + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountTextEnd + 1];
+					nativeTextEnd = stackallocBytes;
+				}
+				var offsetTextEnd = Utils.EncodeStringUTF8(textEnd, nativeTextEnd, byteCountTextEnd);
+				nativeTextEnd[offsetTextEnd] = 0;
+			}
+			else nativeTextEnd = null;
+
+			ImGuiNative.ImFontRenderText(NativePtr, drawList, size, pos, col, clipRect, nativeTextBegin, nativeTextEnd, wrapWidth, cpuFineClip);
+			// Freeing textBegin native string
+			if (byteCountTextBegin > Utils.MaxStackallocSize)
+				Utils.Free(nativeTextBegin);
+			// Freeing textEnd native string
+			if (byteCountTextEnd > Utils.MaxStackallocSize)
+				Utils.Free(nativeTextEnd);
 		}
 
 		public void RenderChar(ImDrawListPtr drawList, float size, Vector2 pos, uint col, ushort c)
@@ -284,113 +412,233 @@ namespace SharpImGui
 			ImGuiNative.ImFontRenderChar(NativePtr, drawList, size, pos, col, c);
 		}
 
+		public ref byte CalcWordWrapPositionA(float scale, ReadOnlySpan<byte> text, ReadOnlySpan<byte> textEnd, float wrapWidth)
+		{
+			fixed (byte* nativeText = text)
+			fixed (byte* nativeTextEnd = textEnd)
+			{
+				var nativeResult = ImGuiNative.ImFontCalcWordWrapPositionA(NativePtr, scale, nativeText, nativeTextEnd, wrapWidth);
+				return ref *(byte*)&nativeResult;
+			}
+		}
+
 		public ref byte CalcWordWrapPositionA(float scale, ReadOnlySpan<char> text, ReadOnlySpan<char> textEnd, float wrapWidth)
 		{
 			// Marshaling text to native string
-			byte* native_text;
-			var byteCount_text = 0;
+			byte* nativeText;
+			var byteCountText = 0;
 			if (text != null)
 			{
-				byteCount_text = Encoding.UTF8.GetByteCount(text);
-				if(byteCount_text > Utils.MaxStackallocSize)
+				byteCountText = Encoding.UTF8.GetByteCount(text);
+				if(byteCountText > Utils.MaxStackallocSize)
 				{
-					native_text = Utils.Alloc<byte>(byteCount_text + 1);
+					nativeText = Utils.Alloc<byte>(byteCountText + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_text + 1];
-					native_text = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountText + 1];
+					nativeText = stackallocBytes;
 				}
-				var text_offset = Utils.EncodeStringUTF8(text, native_text, byteCount_text);
-				native_text[text_offset] = 0;
+				var offsetText = Utils.EncodeStringUTF8(text, nativeText, byteCountText);
+				nativeText[offsetText] = 0;
 			}
-			else native_text = null;
+			else nativeText = null;
 
 			// Marshaling textEnd to native string
-			byte* native_textEnd;
-			var byteCount_textEnd = 0;
+			byte* nativeTextEnd;
+			var byteCountTextEnd = 0;
 			if (textEnd != null)
 			{
-				byteCount_textEnd = Encoding.UTF8.GetByteCount(textEnd);
-				if(byteCount_textEnd > Utils.MaxStackallocSize)
+				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
+				if(byteCountTextEnd > Utils.MaxStackallocSize)
 				{
-					native_textEnd = Utils.Alloc<byte>(byteCount_textEnd + 1);
+					nativeTextEnd = Utils.Alloc<byte>(byteCountTextEnd + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_textEnd + 1];
-					native_textEnd = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountTextEnd + 1];
+					nativeTextEnd = stackallocBytes;
 				}
-				var textEnd_offset = Utils.EncodeStringUTF8(textEnd, native_textEnd, byteCount_textEnd);
-				native_textEnd[textEnd_offset] = 0;
+				var offsetTextEnd = Utils.EncodeStringUTF8(textEnd, nativeTextEnd, byteCountTextEnd);
+				nativeTextEnd[offsetTextEnd] = 0;
 			}
-			else native_textEnd = null;
+			else nativeTextEnd = null;
 
-			var nativeResult = ImGuiNative.ImFontCalcWordWrapPositionA(NativePtr, scale, native_text, native_textEnd, wrapWidth);
+			var nativeResult = ImGuiNative.ImFontCalcWordWrapPositionA(NativePtr, scale, nativeText, nativeTextEnd, wrapWidth);
 			// Freeing text native string
-			if (byteCount_text > Utils.MaxStackallocSize)
-				Utils.Free(native_text);
+			if (byteCountText > Utils.MaxStackallocSize)
+				Utils.Free(nativeText);
 			// Freeing textEnd native string
-			if (byteCount_textEnd > Utils.MaxStackallocSize)
-				Utils.Free(native_textEnd);
+			if (byteCountTextEnd > Utils.MaxStackallocSize)
+				Utils.Free(nativeTextEnd);
 			return ref *(byte*)&nativeResult;
 		}
 
 		/// <summary>
 		/// utf8<br/>
 		/// </summary>
-		public void CalcTextSizeA(ref Vector2 pOut, float size, float maxWidth, float wrapWidth, ReadOnlySpan<char> textBegin, ReadOnlySpan<char> textEnd, ref byte* remaining)
+		public void CalcTextSizeA(out Vector2 pOut, float size, float maxWidth, float wrapWidth, ReadOnlySpan<byte> textBegin, ReadOnlySpan<byte> textEnd, ref byte* remaining)
+		{
+			fixed (Vector2* nativePOut = &pOut)
+			fixed (byte* nativeTextBegin = textBegin)
+			fixed (byte* nativeTextEnd = textEnd)
+			fixed (byte** nativeRemaining = &remaining)
+			{
+				ImGuiNative.ImFontCalcTextSizeA(nativePOut, NativePtr, size, maxWidth, wrapWidth, nativeTextBegin, nativeTextEnd, nativeRemaining);
+			}
+		}
+
+		/// <summary>
+		/// utf8<br/>
+		/// </summary>
+		public void CalcTextSizeA(out Vector2 pOut, float size, float maxWidth, float wrapWidth, ReadOnlySpan<char> textBegin, ReadOnlySpan<char> textEnd, ref byte* remaining)
 		{
 			// Marshaling textBegin to native string
-			byte* native_textBegin;
-			var byteCount_textBegin = 0;
+			byte* nativeTextBegin;
+			var byteCountTextBegin = 0;
 			if (textBegin != null)
 			{
-				byteCount_textBegin = Encoding.UTF8.GetByteCount(textBegin);
-				if(byteCount_textBegin > Utils.MaxStackallocSize)
+				byteCountTextBegin = Encoding.UTF8.GetByteCount(textBegin);
+				if(byteCountTextBegin > Utils.MaxStackallocSize)
 				{
-					native_textBegin = Utils.Alloc<byte>(byteCount_textBegin + 1);
+					nativeTextBegin = Utils.Alloc<byte>(byteCountTextBegin + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_textBegin + 1];
-					native_textBegin = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountTextBegin + 1];
+					nativeTextBegin = stackallocBytes;
 				}
-				var textBegin_offset = Utils.EncodeStringUTF8(textBegin, native_textBegin, byteCount_textBegin);
-				native_textBegin[textBegin_offset] = 0;
+				var offsetTextBegin = Utils.EncodeStringUTF8(textBegin, nativeTextBegin, byteCountTextBegin);
+				nativeTextBegin[offsetTextBegin] = 0;
 			}
-			else native_textBegin = null;
+			else nativeTextBegin = null;
 
 			// Marshaling textEnd to native string
-			byte* native_textEnd;
-			var byteCount_textEnd = 0;
+			byte* nativeTextEnd;
+			var byteCountTextEnd = 0;
 			if (textEnd != null)
 			{
-				byteCount_textEnd = Encoding.UTF8.GetByteCount(textEnd);
-				if(byteCount_textEnd > Utils.MaxStackallocSize)
+				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
+				if(byteCountTextEnd > Utils.MaxStackallocSize)
 				{
-					native_textEnd = Utils.Alloc<byte>(byteCount_textEnd + 1);
+					nativeTextEnd = Utils.Alloc<byte>(byteCountTextEnd + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_textEnd + 1];
-					native_textEnd = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountTextEnd + 1];
+					nativeTextEnd = stackallocBytes;
 				}
-				var textEnd_offset = Utils.EncodeStringUTF8(textEnd, native_textEnd, byteCount_textEnd);
-				native_textEnd[textEnd_offset] = 0;
+				var offsetTextEnd = Utils.EncodeStringUTF8(textEnd, nativeTextEnd, byteCountTextEnd);
+				nativeTextEnd[offsetTextEnd] = 0;
 			}
-			else native_textEnd = null;
+			else nativeTextEnd = null;
 
-			fixed (Vector2* native_pOut = &pOut)
-			fixed (byte** native_remaining = &remaining)
+			fixed (Vector2* nativePOut = &pOut)
+			fixed (byte** nativeRemaining = &remaining)
 			{
-				ImGuiNative.ImFontCalcTextSizeA(native_pOut, NativePtr, size, maxWidth, wrapWidth, native_textBegin, native_textEnd, native_remaining);
+				ImGuiNative.ImFontCalcTextSizeA(nativePOut, NativePtr, size, maxWidth, wrapWidth, nativeTextBegin, nativeTextEnd, nativeRemaining);
 				// Freeing textBegin native string
-				if (byteCount_textBegin > Utils.MaxStackallocSize)
-					Utils.Free(native_textBegin);
+				if (byteCountTextBegin > Utils.MaxStackallocSize)
+					Utils.Free(nativeTextBegin);
 				// Freeing textEnd native string
-				if (byteCount_textEnd > Utils.MaxStackallocSize)
-					Utils.Free(native_textEnd);
+				if (byteCountTextEnd > Utils.MaxStackallocSize)
+					Utils.Free(nativeTextEnd);
+			}
+		}
+
+		/// <summary>
+		/// utf8<br/>
+		/// </summary>
+		public void CalcTextSizeA(out Vector2 pOut, float size, float maxWidth, float wrapWidth, ReadOnlySpan<char> textBegin, ReadOnlySpan<char> textEnd)
+		{
+			// defining omitted parameters
+			byte** remaining = null;
+			// Marshaling textBegin to native string
+			byte* nativeTextBegin;
+			var byteCountTextBegin = 0;
+			if (textBegin != null)
+			{
+				byteCountTextBegin = Encoding.UTF8.GetByteCount(textBegin);
+				if(byteCountTextBegin > Utils.MaxStackallocSize)
+				{
+					nativeTextBegin = Utils.Alloc<byte>(byteCountTextBegin + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountTextBegin + 1];
+					nativeTextBegin = stackallocBytes;
+				}
+				var offsetTextBegin = Utils.EncodeStringUTF8(textBegin, nativeTextBegin, byteCountTextBegin);
+				nativeTextBegin[offsetTextBegin] = 0;
+			}
+			else nativeTextBegin = null;
+
+			// Marshaling textEnd to native string
+			byte* nativeTextEnd;
+			var byteCountTextEnd = 0;
+			if (textEnd != null)
+			{
+				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
+				if(byteCountTextEnd > Utils.MaxStackallocSize)
+				{
+					nativeTextEnd = Utils.Alloc<byte>(byteCountTextEnd + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountTextEnd + 1];
+					nativeTextEnd = stackallocBytes;
+				}
+				var offsetTextEnd = Utils.EncodeStringUTF8(textEnd, nativeTextEnd, byteCountTextEnd);
+				nativeTextEnd[offsetTextEnd] = 0;
+			}
+			else nativeTextEnd = null;
+
+			fixed (Vector2* nativePOut = &pOut)
+			{
+				ImGuiNative.ImFontCalcTextSizeA(nativePOut, NativePtr, size, maxWidth, wrapWidth, nativeTextBegin, nativeTextEnd, remaining);
+				// Freeing textBegin native string
+				if (byteCountTextBegin > Utils.MaxStackallocSize)
+					Utils.Free(nativeTextBegin);
+				// Freeing textEnd native string
+				if (byteCountTextEnd > Utils.MaxStackallocSize)
+					Utils.Free(nativeTextEnd);
+			}
+		}
+
+		/// <summary>
+		/// utf8<br/>
+		/// </summary>
+		public void CalcTextSizeA(out Vector2 pOut, float size, float maxWidth, float wrapWidth, ReadOnlySpan<char> textBegin)
+		{
+			// defining omitted parameters
+			byte** remaining = null;
+			byte* textEnd = null;
+			// Marshaling textBegin to native string
+			byte* nativeTextBegin;
+			var byteCountTextBegin = 0;
+			if (textBegin != null)
+			{
+				byteCountTextBegin = Encoding.UTF8.GetByteCount(textBegin);
+				if(byteCountTextBegin > Utils.MaxStackallocSize)
+				{
+					nativeTextBegin = Utils.Alloc<byte>(byteCountTextBegin + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountTextBegin + 1];
+					nativeTextBegin = stackallocBytes;
+				}
+				var offsetTextBegin = Utils.EncodeStringUTF8(textBegin, nativeTextBegin, byteCountTextBegin);
+				nativeTextBegin[offsetTextBegin] = 0;
+			}
+			else nativeTextBegin = null;
+
+			fixed (Vector2* nativePOut = &pOut)
+			{
+				ImGuiNative.ImFontCalcTextSizeA(nativePOut, NativePtr, size, maxWidth, wrapWidth, nativeTextBegin, textEnd, remaining);
+				// Freeing textBegin native string
+				if (byteCountTextBegin > Utils.MaxStackallocSize)
+					Utils.Free(nativeTextBegin);
 			}
 		}
 
@@ -400,9 +648,10 @@ namespace SharpImGui
 			return ref *(byte*)&nativeResult;
 		}
 
-		public byte IsLoaded()
+		public bool IsLoaded()
 		{
-			return ImGuiNative.ImFontIsLoaded(NativePtr);
+			var result = ImGuiNative.ImFontIsLoaded(NativePtr);
+			return result != 0;
 		}
 
 		public float GetCharAdvance(ushort c)

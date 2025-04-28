@@ -71,34 +71,45 @@ namespace SharpImPlot
 			return ImPlotNative.TickerAddTickDoublePlotFormatter(NativePtr, value, native_major, level, native_showLabel, formatter, (void*)data);
 		}
 
+		public ImPlotTickPtr TickerAddTickDoubleStr(double value, bool major, int level, bool showLabel, ReadOnlySpan<byte> label)
+		{
+			var native_major = major ? (byte)1 : (byte)0;
+			var native_showLabel = showLabel ? (byte)1 : (byte)0;
+			fixed (byte* nativeLabel = label)
+			{
+				return ImPlotNative.TickerAddTickDoubleStr(NativePtr, value, native_major, level, native_showLabel, nativeLabel);
+			}
+		}
+
 		public ImPlotTickPtr TickerAddTickDoubleStr(double value, bool major, int level, bool showLabel, ReadOnlySpan<char> label)
 		{
 			var native_major = major ? (byte)1 : (byte)0;
 			var native_showLabel = showLabel ? (byte)1 : (byte)0;
 			// Marshaling label to native string
-			byte* native_label;
-			var byteCount_label = 0;
+			byte* nativeLabel;
+			var byteCountLabel = 0;
 			if (label != null)
 			{
-				byteCount_label = Encoding.UTF8.GetByteCount(label);
-				if(byteCount_label > Utils.MaxStackallocSize)
+				byteCountLabel = Encoding.UTF8.GetByteCount(label);
+				if(byteCountLabel > Utils.MaxStackallocSize)
 				{
-					native_label = Utils.Alloc<byte>(byteCount_label + 1);
+					nativeLabel = Utils.Alloc<byte>(byteCountLabel + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_label + 1];
-					native_label = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabel + 1];
+					nativeLabel = stackallocBytes;
 				}
-				var label_offset = Utils.EncodeStringUTF8(label, native_label, byteCount_label);
-				native_label[label_offset] = 0;
+				var offsetLabel = Utils.EncodeStringUTF8(label, nativeLabel, byteCountLabel);
+				nativeLabel[offsetLabel] = 0;
 			}
-			else native_label = null;
+			else nativeLabel = null;
 
-			return ImPlotNative.TickerAddTickDoubleStr(NativePtr, value, native_major, level, native_showLabel, native_label);
+			var result = ImPlotNative.TickerAddTickDoubleStr(NativePtr, value, native_major, level, native_showLabel, nativeLabel);
 			// Freeing label native string
-			if (byteCount_label > Utils.MaxStackallocSize)
-				Utils.Free(native_label);
+			if (byteCountLabel > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabel);
+			return result;
 		}
 
 		public void TickerDestroy()

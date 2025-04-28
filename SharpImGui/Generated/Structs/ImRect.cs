@@ -43,17 +43,18 @@ namespace SharpImGui
 		public static implicit operator ImRectPtr(ImRect* ptr) => new ImRectPtr(ptr);
 		public static implicit operator ImRectPtr(IntPtr ptr) => new ImRectPtr(ptr);
 		public static implicit operator ImRect*(ImRectPtr nativePtr) => nativePtr.NativePtr;
-		public void ToVec4(ref Vector4 pOut)
+		public void ToVec4(out Vector4 pOut)
 		{
-			fixed (Vector4* native_pOut = &pOut)
+			fixed (Vector4* nativePOut = &pOut)
 			{
-				ImGuiNative.ImRectToVec4(native_pOut, NativePtr);
+				ImGuiNative.ImRectToVec4(nativePOut, NativePtr);
 			}
 		}
 
-		public byte IsInverted()
+		public bool IsInverted()
 		{
-			return ImGuiNative.ImRectIsInverted(NativePtr);
+			var result = ImGuiNative.ImRectIsInverted(NativePtr);
+			return result != 0;
 		}
 
 		public void Floor()
@@ -112,67 +113,71 @@ namespace SharpImGui
 			ImGuiNative.ImRectAddVec2(NativePtr, p);
 		}
 
-		public byte Overlaps(ImRect r)
+		public bool Overlaps(ImRect r)
 		{
-			return ImGuiNative.ImRectOverlaps(NativePtr, r);
+			var result = ImGuiNative.ImRectOverlaps(NativePtr, r);
+			return result != 0;
 		}
 
-		public byte ContainsWithPad(Vector2 p, Vector2 pad)
+		public bool ContainsWithPad(Vector2 p, Vector2 pad)
 		{
-			return ImGuiNative.ImRectContainsWithPad(NativePtr, p, pad);
+			var result = ImGuiNative.ImRectContainsWithPad(NativePtr, p, pad);
+			return result != 0;
 		}
 
-		public byte ContainsRect(ImRect r)
+		public bool ContainsRect(ImRect r)
 		{
-			return ImGuiNative.ImRectContainsRect(NativePtr, r);
+			var result = ImGuiNative.ImRectContainsRect(NativePtr, r);
+			return result != 0;
 		}
 
-		public byte ContainsVec2(Vector2 p)
+		public bool ContainsVec2(Vector2 p)
 		{
-			return ImGuiNative.ImRectContainsVec2(NativePtr, p);
+			var result = ImGuiNative.ImRectContainsVec2(NativePtr, p);
+			return result != 0;
 		}
 
 		/// <summary>
 		/// Bottom-right<br/>
 		/// </summary>
-		public void GetBR(ref Vector2 pOut)
+		public void GetBR(out Vector2 pOut)
 		{
-			fixed (Vector2* native_pOut = &pOut)
+			fixed (Vector2* nativePOut = &pOut)
 			{
-				ImGuiNative.ImRectGetBR(native_pOut, NativePtr);
+				ImGuiNative.ImRectGetBR(nativePOut, NativePtr);
 			}
 		}
 
 		/// <summary>
 		/// Bottom-left<br/>
 		/// </summary>
-		public void GetBL(ref Vector2 pOut)
+		public void GetBL(out Vector2 pOut)
 		{
-			fixed (Vector2* native_pOut = &pOut)
+			fixed (Vector2* nativePOut = &pOut)
 			{
-				ImGuiNative.ImRectGetBL(native_pOut, NativePtr);
+				ImGuiNative.ImRectGetBL(nativePOut, NativePtr);
 			}
 		}
 
 		/// <summary>
 		/// Top-right<br/>
 		/// </summary>
-		public void GetTR(ref Vector2 pOut)
+		public void GetTR(out Vector2 pOut)
 		{
-			fixed (Vector2* native_pOut = &pOut)
+			fixed (Vector2* nativePOut = &pOut)
 			{
-				ImGuiNative.ImRectGetTR(native_pOut, NativePtr);
+				ImGuiNative.ImRectGetTR(nativePOut, NativePtr);
 			}
 		}
 
 		/// <summary>
 		/// Top-left<br/>
 		/// </summary>
-		public void GetTL(ref Vector2 pOut)
+		public void GetTL(out Vector2 pOut)
 		{
-			fixed (Vector2* native_pOut = &pOut)
+			fixed (Vector2* nativePOut = &pOut)
 			{
-				ImGuiNative.ImRectGetTL(native_pOut, NativePtr);
+				ImGuiNative.ImRectGetTL(nativePOut, NativePtr);
 			}
 		}
 
@@ -191,19 +196,19 @@ namespace SharpImGui
 			return ImGuiNative.ImRectGetWidth(NativePtr);
 		}
 
-		public void GetSize(ref Vector2 pOut)
+		public void GetSize(out Vector2 pOut)
 		{
-			fixed (Vector2* native_pOut = &pOut)
+			fixed (Vector2* nativePOut = &pOut)
 			{
-				ImGuiNative.ImRectGetSize(native_pOut, NativePtr);
+				ImGuiNative.ImRectGetSize(nativePOut, NativePtr);
 			}
 		}
 
-		public void GetCenter(ref Vector2 pOut)
+		public void GetCenter(out Vector2 pOut)
 		{
-			fixed (Vector2* native_pOut = &pOut)
+			fixed (Vector2* nativePOut = &pOut)
 			{
-				ImGuiNative.ImRectGetCenter(native_pOut, NativePtr);
+				ImGuiNative.ImRectGetCenter(nativePOut, NativePtr);
 			}
 		}
 

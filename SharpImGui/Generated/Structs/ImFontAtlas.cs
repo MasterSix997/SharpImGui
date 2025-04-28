@@ -245,10 +245,10 @@ namespace SharpImGui
 		public static implicit operator ImFontAtlas*(ImFontAtlasPtr nativePtr) => nativePtr.NativePtr;
 		public void CalcCustomRectUV(ImFontAtlasCustomRectPtr rect, ref Vector2 outUvMin, ref Vector2 outUvMax)
 		{
-			fixed (Vector2* native_outUvMin = &outUvMin)
-			fixed (Vector2* native_outUvMax = &outUvMax)
+			fixed (Vector2* nativeOutUvMin = &outUvMin)
+			fixed (Vector2* nativeOutUvMax = &outUvMax)
 			{
-				ImGuiNative.ImFontAtlasCalcCustomRectUV(NativePtr, rect, native_outUvMin, native_outUvMax);
+				ImGuiNative.ImFontAtlasCalcCustomRectUV(NativePtr, rect, nativeOutUvMin, nativeOutUvMax);
 			}
 		}
 
@@ -259,6 +259,13 @@ namespace SharpImGui
 
 		public int AddCustomRectFontGlyph(ImFontPtr font, ushort id, int width, int height, float advanceX, Vector2 offset)
 		{
+			return ImGuiNative.ImFontAtlasAddCustomRectFontGlyph(NativePtr, font, id, width, height, advanceX, offset);
+		}
+
+		public int AddCustomRectFontGlyph(ImFontPtr font, ushort id, int width, int height, float advanceX)
+		{
+			// defining omitted parameters
+			Vector2 offset = new Vector2(0,0);
 			return ImGuiNative.ImFontAtlasAddCustomRectFontGlyph(NativePtr, font, id, width, height, advanceX, offset);
 		}
 
@@ -356,9 +363,10 @@ namespace SharpImGui
 		/// <summary>
 		/// Bit ambiguous: used to detect when user didn't build texture but effectively we should check TexID != 0 except that would be backend dependent...<br/>
 		/// </summary>
-		public byte IsBuilt()
+		public bool IsBuilt()
 		{
-			return ImGuiNative.ImFontAtlasIsBuilt(NativePtr);
+			var result = ImGuiNative.ImFontAtlasIsBuilt(NativePtr);
+			return result != 0;
 		}
 
 		/// <summary>
@@ -366,12 +374,27 @@ namespace SharpImGui
 		/// </summary>
 		public void GetTexDataAsRgba32(ref byte* outPixels, ref int outWidth, ref int outHeight, ref int outBytesPerPixel)
 		{
-			fixed (byte** native_outPixels = &outPixels)
-			fixed (int* native_outWidth = &outWidth)
-			fixed (int* native_outHeight = &outHeight)
-			fixed (int* native_outBytesPerPixel = &outBytesPerPixel)
+			fixed (byte** nativeOutPixels = &outPixels)
+			fixed (int* nativeOutWidth = &outWidth)
+			fixed (int* nativeOutHeight = &outHeight)
+			fixed (int* nativeOutBytesPerPixel = &outBytesPerPixel)
 			{
-				ImGuiNative.ImFontAtlasGetTexDataAsRgba32(NativePtr, native_outPixels, native_outWidth, native_outHeight, native_outBytesPerPixel);
+				ImGuiNative.ImFontAtlasGetTexDataAsRgba32(NativePtr, nativeOutPixels, nativeOutWidth, nativeOutHeight, nativeOutBytesPerPixel);
+			}
+		}
+
+		/// <summary>
+		/// 4 bytes-per-pixel<br/>
+		/// </summary>
+		public void GetTexDataAsRgba32(ref byte* outPixels, ref int outWidth, ref int outHeight)
+		{
+			// defining omitted parameters
+			int* outBytesPerPixel = null;
+			fixed (byte** nativeOutPixels = &outPixels)
+			fixed (int* nativeOutWidth = &outWidth)
+			fixed (int* nativeOutHeight = &outHeight)
+			{
+				ImGuiNative.ImFontAtlasGetTexDataAsRgba32(NativePtr, nativeOutPixels, nativeOutWidth, nativeOutHeight, outBytesPerPixel);
 			}
 		}
 
@@ -380,21 +403,37 @@ namespace SharpImGui
 		/// </summary>
 		public void GetTexDataAsAlpha8(ref byte* outPixels, ref int outWidth, ref int outHeight, ref int outBytesPerPixel)
 		{
-			fixed (byte** native_outPixels = &outPixels)
-			fixed (int* native_outWidth = &outWidth)
-			fixed (int* native_outHeight = &outHeight)
-			fixed (int* native_outBytesPerPixel = &outBytesPerPixel)
+			fixed (byte** nativeOutPixels = &outPixels)
+			fixed (int* nativeOutWidth = &outWidth)
+			fixed (int* nativeOutHeight = &outHeight)
+			fixed (int* nativeOutBytesPerPixel = &outBytesPerPixel)
 			{
-				ImGuiNative.ImFontAtlasGetTexDataAsAlpha8(NativePtr, native_outPixels, native_outWidth, native_outHeight, native_outBytesPerPixel);
+				ImGuiNative.ImFontAtlasGetTexDataAsAlpha8(NativePtr, nativeOutPixels, nativeOutWidth, nativeOutHeight, nativeOutBytesPerPixel);
+			}
+		}
+
+		/// <summary>
+		/// 1 byte per-pixel<br/>
+		/// </summary>
+		public void GetTexDataAsAlpha8(ref byte* outPixels, ref int outWidth, ref int outHeight)
+		{
+			// defining omitted parameters
+			int* outBytesPerPixel = null;
+			fixed (byte** nativeOutPixels = &outPixels)
+			fixed (int* nativeOutWidth = &outWidth)
+			fixed (int* nativeOutHeight = &outHeight)
+			{
+				ImGuiNative.ImFontAtlasGetTexDataAsAlpha8(NativePtr, nativeOutPixels, nativeOutWidth, nativeOutHeight, outBytesPerPixel);
 			}
 		}
 
 		/// <summary>
 		/// Build pixels data. This is called automatically for you by the GetTexData*** functions.<br/>
 		/// </summary>
-		public byte Build()
+		public bool Build()
 		{
-			return ImGuiNative.ImFontAtlasBuild(NativePtr);
+			var result = ImGuiNative.ImFontAtlasBuild(NativePtr);
+			return result != 0;
 		}
 
 		/// <summary>
@@ -432,36 +471,117 @@ namespace SharpImGui
 		/// <summary>
 		/// 'compressed_font_data_base85' still owned by caller. Compress with binary_to_compressed_c.cpp with -base85 parameter.<br/>
 		/// </summary>
+		public ImFontPtr AddFontFromMemoryCompressedBase85TTF(ReadOnlySpan<byte> compressedFontDataBase85, float sizePixels, ImFontConfigPtr fontCfg, ref ushort glyphRanges)
+		{
+			fixed (byte* nativeCompressedFontDataBase85 = compressedFontDataBase85)
+			fixed (ushort* nativeGlyphRanges = &glyphRanges)
+			{
+				return ImGuiNative.ImFontAtlasAddFontFromMemoryCompressedBase85TTF(NativePtr, nativeCompressedFontDataBase85, sizePixels, fontCfg, nativeGlyphRanges);
+			}
+		}
+
+		/// <summary>
+		/// 'compressed_font_data_base85' still owned by caller. Compress with binary_to_compressed_c.cpp with -base85 parameter.<br/>
+		/// </summary>
 		public ImFontPtr AddFontFromMemoryCompressedBase85TTF(ReadOnlySpan<char> compressedFontDataBase85, float sizePixels, ImFontConfigPtr fontCfg, ref ushort glyphRanges)
 		{
 			// Marshaling compressedFontDataBase85 to native string
-			byte* native_compressedFontDataBase85;
-			var byteCount_compressedFontDataBase85 = 0;
+			byte* nativeCompressedFontDataBase85;
+			var byteCountCompressedFontDataBase85 = 0;
 			if (compressedFontDataBase85 != null)
 			{
-				byteCount_compressedFontDataBase85 = Encoding.UTF8.GetByteCount(compressedFontDataBase85);
-				if(byteCount_compressedFontDataBase85 > Utils.MaxStackallocSize)
+				byteCountCompressedFontDataBase85 = Encoding.UTF8.GetByteCount(compressedFontDataBase85);
+				if(byteCountCompressedFontDataBase85 > Utils.MaxStackallocSize)
 				{
-					native_compressedFontDataBase85 = Utils.Alloc<byte>(byteCount_compressedFontDataBase85 + 1);
+					nativeCompressedFontDataBase85 = Utils.Alloc<byte>(byteCountCompressedFontDataBase85 + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_compressedFontDataBase85 + 1];
-					native_compressedFontDataBase85 = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountCompressedFontDataBase85 + 1];
+					nativeCompressedFontDataBase85 = stackallocBytes;
 				}
-				var compressedFontDataBase85_offset = Utils.EncodeStringUTF8(compressedFontDataBase85, native_compressedFontDataBase85, byteCount_compressedFontDataBase85);
-				native_compressedFontDataBase85[compressedFontDataBase85_offset] = 0;
+				var offsetCompressedFontDataBase85 = Utils.EncodeStringUTF8(compressedFontDataBase85, nativeCompressedFontDataBase85, byteCountCompressedFontDataBase85);
+				nativeCompressedFontDataBase85[offsetCompressedFontDataBase85] = 0;
 			}
-			else native_compressedFontDataBase85 = null;
+			else nativeCompressedFontDataBase85 = null;
 
-			fixed (ushort* native_glyphRanges = &glyphRanges)
+			fixed (ushort* nativeGlyphRanges = &glyphRanges)
 			{
-				var result = ImGuiNative.ImFontAtlasAddFontFromMemoryCompressedBase85TTF(NativePtr, native_compressedFontDataBase85, sizePixels, fontCfg, native_glyphRanges);
+				var result = ImGuiNative.ImFontAtlasAddFontFromMemoryCompressedBase85TTF(NativePtr, nativeCompressedFontDataBase85, sizePixels, fontCfg, nativeGlyphRanges);
 				// Freeing compressedFontDataBase85 native string
-				if (byteCount_compressedFontDataBase85 > Utils.MaxStackallocSize)
-					Utils.Free(native_compressedFontDataBase85);
+				if (byteCountCompressedFontDataBase85 > Utils.MaxStackallocSize)
+					Utils.Free(nativeCompressedFontDataBase85);
 				return result;
 			}
+		}
+
+		/// <summary>
+		/// 'compressed_font_data_base85' still owned by caller. Compress with binary_to_compressed_c.cpp with -base85 parameter.<br/>
+		/// </summary>
+		public ImFontPtr AddFontFromMemoryCompressedBase85TTF(ReadOnlySpan<char> compressedFontDataBase85, float sizePixels, ImFontConfigPtr fontCfg)
+		{
+			// defining omitted parameters
+			ushort* glyphRanges = null;
+			// Marshaling compressedFontDataBase85 to native string
+			byte* nativeCompressedFontDataBase85;
+			var byteCountCompressedFontDataBase85 = 0;
+			if (compressedFontDataBase85 != null)
+			{
+				byteCountCompressedFontDataBase85 = Encoding.UTF8.GetByteCount(compressedFontDataBase85);
+				if(byteCountCompressedFontDataBase85 > Utils.MaxStackallocSize)
+				{
+					nativeCompressedFontDataBase85 = Utils.Alloc<byte>(byteCountCompressedFontDataBase85 + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountCompressedFontDataBase85 + 1];
+					nativeCompressedFontDataBase85 = stackallocBytes;
+				}
+				var offsetCompressedFontDataBase85 = Utils.EncodeStringUTF8(compressedFontDataBase85, nativeCompressedFontDataBase85, byteCountCompressedFontDataBase85);
+				nativeCompressedFontDataBase85[offsetCompressedFontDataBase85] = 0;
+			}
+			else nativeCompressedFontDataBase85 = null;
+
+			var result = ImGuiNative.ImFontAtlasAddFontFromMemoryCompressedBase85TTF(NativePtr, nativeCompressedFontDataBase85, sizePixels, fontCfg, glyphRanges);
+			// Freeing compressedFontDataBase85 native string
+			if (byteCountCompressedFontDataBase85 > Utils.MaxStackallocSize)
+				Utils.Free(nativeCompressedFontDataBase85);
+			return result;
+		}
+
+		/// <summary>
+		/// 'compressed_font_data_base85' still owned by caller. Compress with binary_to_compressed_c.cpp with -base85 parameter.<br/>
+		/// </summary>
+		public ImFontPtr AddFontFromMemoryCompressedBase85TTF(ReadOnlySpan<char> compressedFontDataBase85, float sizePixels)
+		{
+			// defining omitted parameters
+			ushort* glyphRanges = null;
+			ImFontConfig* fontCfg = null;
+			// Marshaling compressedFontDataBase85 to native string
+			byte* nativeCompressedFontDataBase85;
+			var byteCountCompressedFontDataBase85 = 0;
+			if (compressedFontDataBase85 != null)
+			{
+				byteCountCompressedFontDataBase85 = Encoding.UTF8.GetByteCount(compressedFontDataBase85);
+				if(byteCountCompressedFontDataBase85 > Utils.MaxStackallocSize)
+				{
+					nativeCompressedFontDataBase85 = Utils.Alloc<byte>(byteCountCompressedFontDataBase85 + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountCompressedFontDataBase85 + 1];
+					nativeCompressedFontDataBase85 = stackallocBytes;
+				}
+				var offsetCompressedFontDataBase85 = Utils.EncodeStringUTF8(compressedFontDataBase85, nativeCompressedFontDataBase85, byteCountCompressedFontDataBase85);
+				nativeCompressedFontDataBase85[offsetCompressedFontDataBase85] = 0;
+			}
+			else nativeCompressedFontDataBase85 = null;
+
+			var result = ImGuiNative.ImFontAtlasAddFontFromMemoryCompressedBase85TTF(NativePtr, nativeCompressedFontDataBase85, sizePixels, fontCfg, glyphRanges);
+			// Freeing compressedFontDataBase85 native string
+			if (byteCountCompressedFontDataBase85 > Utils.MaxStackallocSize)
+				Utils.Free(nativeCompressedFontDataBase85);
+			return result;
 		}
 
 		/// <summary>
@@ -469,11 +589,31 @@ namespace SharpImGui
 		/// </summary>
 		public ImFontPtr AddFontFromMemoryCompressedTTF(IntPtr compressedFontData, int compressedFontDataSize, float sizePixels, ImFontConfigPtr fontCfg, ref ushort glyphRanges)
 		{
-			fixed (ushort* native_glyphRanges = &glyphRanges)
+			fixed (ushort* nativeGlyphRanges = &glyphRanges)
 			{
-				var result = ImGuiNative.ImFontAtlasAddFontFromMemoryCompressedTTF(NativePtr, (void*)compressedFontData, compressedFontDataSize, sizePixels, fontCfg, native_glyphRanges);
-				return result;
+				return ImGuiNative.ImFontAtlasAddFontFromMemoryCompressedTTF(NativePtr, (void*)compressedFontData, compressedFontDataSize, sizePixels, fontCfg, nativeGlyphRanges);
 			}
+		}
+
+		/// <summary>
+		/// 'compressed_font_data' still owned by caller. Compress with binary_to_compressed_c.cpp.<br/>
+		/// </summary>
+		public ImFontPtr AddFontFromMemoryCompressedTTF(IntPtr compressedFontData, int compressedFontDataSize, float sizePixels, ImFontConfigPtr fontCfg)
+		{
+			// defining omitted parameters
+			ushort* glyphRanges = null;
+			return ImGuiNative.ImFontAtlasAddFontFromMemoryCompressedTTF(NativePtr, (void*)compressedFontData, compressedFontDataSize, sizePixels, fontCfg, glyphRanges);
+		}
+
+		/// <summary>
+		/// 'compressed_font_data' still owned by caller. Compress with binary_to_compressed_c.cpp.<br/>
+		/// </summary>
+		public ImFontPtr AddFontFromMemoryCompressedTTF(IntPtr compressedFontData, int compressedFontDataSize, float sizePixels)
+		{
+			// defining omitted parameters
+			ushort* glyphRanges = null;
+			ImFontConfig* fontCfg = null;
+			return ImGuiNative.ImFontAtlasAddFontFromMemoryCompressedTTF(NativePtr, (void*)compressedFontData, compressedFontDataSize, sizePixels, fontCfg, glyphRanges);
 		}
 
 		/// <summary>
@@ -481,47 +621,146 @@ namespace SharpImGui
 		/// </summary>
 		public ImFontPtr AddFontFromMemoryTTF(IntPtr fontData, int fontDataSize, float sizePixels, ImFontConfigPtr fontCfg, ref ushort glyphRanges)
 		{
-			fixed (ushort* native_glyphRanges = &glyphRanges)
+			fixed (ushort* nativeGlyphRanges = &glyphRanges)
 			{
-				var result = ImGuiNative.ImFontAtlasAddFontFromMemoryTTF(NativePtr, (void*)fontData, fontDataSize, sizePixels, fontCfg, native_glyphRanges);
-				return result;
+				return ImGuiNative.ImFontAtlasAddFontFromMemoryTTF(NativePtr, (void*)fontData, fontDataSize, sizePixels, fontCfg, nativeGlyphRanges);
+			}
+		}
+
+		/// <summary>
+		/// Note: Transfer ownership of 'ttf_data' to ImFontAtlas! Will be deleted after destruction of the atlas. Set font_cfg-&gt;FontDataOwnedByAtlas=false to keep ownership of your data and it won't be freed.<br/>
+		/// </summary>
+		public ImFontPtr AddFontFromMemoryTTF(IntPtr fontData, int fontDataSize, float sizePixels, ImFontConfigPtr fontCfg)
+		{
+			// defining omitted parameters
+			ushort* glyphRanges = null;
+			return ImGuiNative.ImFontAtlasAddFontFromMemoryTTF(NativePtr, (void*)fontData, fontDataSize, sizePixels, fontCfg, glyphRanges);
+		}
+
+		/// <summary>
+		/// Note: Transfer ownership of 'ttf_data' to ImFontAtlas! Will be deleted after destruction of the atlas. Set font_cfg-&gt;FontDataOwnedByAtlas=false to keep ownership of your data and it won't be freed.<br/>
+		/// </summary>
+		public ImFontPtr AddFontFromMemoryTTF(IntPtr fontData, int fontDataSize, float sizePixels)
+		{
+			// defining omitted parameters
+			ushort* glyphRanges = null;
+			ImFontConfig* fontCfg = null;
+			return ImGuiNative.ImFontAtlasAddFontFromMemoryTTF(NativePtr, (void*)fontData, fontDataSize, sizePixels, fontCfg, glyphRanges);
+		}
+
+		public ImFontPtr AddFontFromFileTTF(ReadOnlySpan<byte> filename, float sizePixels, ImFontConfigPtr fontCfg, ref ushort glyphRanges)
+		{
+			fixed (byte* nativeFilename = filename)
+			fixed (ushort* nativeGlyphRanges = &glyphRanges)
+			{
+				return ImGuiNative.ImFontAtlasAddFontFromFileTTF(NativePtr, nativeFilename, sizePixels, fontCfg, nativeGlyphRanges);
 			}
 		}
 
 		public ImFontPtr AddFontFromFileTTF(ReadOnlySpan<char> filename, float sizePixels, ImFontConfigPtr fontCfg, ref ushort glyphRanges)
 		{
 			// Marshaling filename to native string
-			byte* native_filename;
-			var byteCount_filename = 0;
+			byte* nativeFilename;
+			var byteCountFilename = 0;
 			if (filename != null)
 			{
-				byteCount_filename = Encoding.UTF8.GetByteCount(filename);
-				if(byteCount_filename > Utils.MaxStackallocSize)
+				byteCountFilename = Encoding.UTF8.GetByteCount(filename);
+				if(byteCountFilename > Utils.MaxStackallocSize)
 				{
-					native_filename = Utils.Alloc<byte>(byteCount_filename + 1);
+					nativeFilename = Utils.Alloc<byte>(byteCountFilename + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_filename + 1];
-					native_filename = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountFilename + 1];
+					nativeFilename = stackallocBytes;
 				}
-				var filename_offset = Utils.EncodeStringUTF8(filename, native_filename, byteCount_filename);
-				native_filename[filename_offset] = 0;
+				var offsetFilename = Utils.EncodeStringUTF8(filename, nativeFilename, byteCountFilename);
+				nativeFilename[offsetFilename] = 0;
 			}
-			else native_filename = null;
+			else nativeFilename = null;
 
-			fixed (ushort* native_glyphRanges = &glyphRanges)
+			fixed (ushort* nativeGlyphRanges = &glyphRanges)
 			{
-				var result = ImGuiNative.ImFontAtlasAddFontFromFileTTF(NativePtr, native_filename, sizePixels, fontCfg, native_glyphRanges);
+				var result = ImGuiNative.ImFontAtlasAddFontFromFileTTF(NativePtr, nativeFilename, sizePixels, fontCfg, nativeGlyphRanges);
 				// Freeing filename native string
-				if (byteCount_filename > Utils.MaxStackallocSize)
-					Utils.Free(native_filename);
+				if (byteCountFilename > Utils.MaxStackallocSize)
+					Utils.Free(nativeFilename);
 				return result;
 			}
 		}
 
+		public ImFontPtr AddFontFromFileTTF(ReadOnlySpan<char> filename, float sizePixels, ImFontConfigPtr fontCfg)
+		{
+			// defining omitted parameters
+			ushort* glyphRanges = null;
+			// Marshaling filename to native string
+			byte* nativeFilename;
+			var byteCountFilename = 0;
+			if (filename != null)
+			{
+				byteCountFilename = Encoding.UTF8.GetByteCount(filename);
+				if(byteCountFilename > Utils.MaxStackallocSize)
+				{
+					nativeFilename = Utils.Alloc<byte>(byteCountFilename + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountFilename + 1];
+					nativeFilename = stackallocBytes;
+				}
+				var offsetFilename = Utils.EncodeStringUTF8(filename, nativeFilename, byteCountFilename);
+				nativeFilename[offsetFilename] = 0;
+			}
+			else nativeFilename = null;
+
+			var result = ImGuiNative.ImFontAtlasAddFontFromFileTTF(NativePtr, nativeFilename, sizePixels, fontCfg, glyphRanges);
+			// Freeing filename native string
+			if (byteCountFilename > Utils.MaxStackallocSize)
+				Utils.Free(nativeFilename);
+			return result;
+		}
+
+		public ImFontPtr AddFontFromFileTTF(ReadOnlySpan<char> filename, float sizePixels)
+		{
+			// defining omitted parameters
+			ushort* glyphRanges = null;
+			ImFontConfig* fontCfg = null;
+			// Marshaling filename to native string
+			byte* nativeFilename;
+			var byteCountFilename = 0;
+			if (filename != null)
+			{
+				byteCountFilename = Encoding.UTF8.GetByteCount(filename);
+				if(byteCountFilename > Utils.MaxStackallocSize)
+				{
+					nativeFilename = Utils.Alloc<byte>(byteCountFilename + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountFilename + 1];
+					nativeFilename = stackallocBytes;
+				}
+				var offsetFilename = Utils.EncodeStringUTF8(filename, nativeFilename, byteCountFilename);
+				nativeFilename[offsetFilename] = 0;
+			}
+			else nativeFilename = null;
+
+			var result = ImGuiNative.ImFontAtlasAddFontFromFileTTF(NativePtr, nativeFilename, sizePixels, fontCfg, glyphRanges);
+			// Freeing filename native string
+			if (byteCountFilename > Utils.MaxStackallocSize)
+				Utils.Free(nativeFilename);
+			return result;
+		}
+
 		public ImFontPtr AddFontDefault(ImFontConfigPtr fontCfg)
 		{
+			return ImGuiNative.ImFontAtlasAddFontDefault(NativePtr, fontCfg);
+		}
+
+		public ImFontPtr AddFontDefault()
+		{
+			// defining omitted parameters
+			ImFontConfig* fontCfg = null;
 			return ImGuiNative.ImFontAtlasAddFontDefault(NativePtr, fontCfg);
 		}
 

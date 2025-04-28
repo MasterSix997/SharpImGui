@@ -27,9 +27,9 @@ namespace SharpImGui
 		public static implicit operator ImVec2*(ImVec2Ptr nativePtr) => nativePtr.NativePtr;
 		public void ImVec2FloatConstruct(ref Vector2 self, float x, float y)
 		{
-			fixed (Vector2* native_self = &self)
+			fixed (Vector2* nativeSelf = &self)
 			{
-				ImGuiNative.ImVec2ImVec2FloatConstruct(native_self, x, y);
+				ImGuiNative.ImVec2ImVec2FloatConstruct(nativeSelf, x, y);
 			}
 		}
 
@@ -41,17 +41,17 @@ namespace SharpImGui
 
 		public void Destroy(ref Vector2 self)
 		{
-			fixed (Vector2* native_self = &self)
+			fixed (Vector2* nativeSelf = &self)
 			{
-				ImGuiNative.ImVec2Destroy(native_self);
+				ImGuiNative.ImVec2Destroy(nativeSelf);
 			}
 		}
 
 		public void ImVec2NilConstruct(ref Vector2 self)
 		{
-			fixed (Vector2* native_self = &self)
+			fixed (Vector2* nativeSelf = &self)
 			{
-				ImGuiNative.ImVec2ImVec2NilConstruct(native_self);
+				ImGuiNative.ImVec2ImVec2NilConstruct(nativeSelf);
 			}
 		}
 

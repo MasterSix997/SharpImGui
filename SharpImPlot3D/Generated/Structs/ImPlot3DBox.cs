@@ -26,14 +26,16 @@ namespace SharpImPlot3D
 		public static implicit operator ImPlot3DBoxPtr(ImPlot3DBox* ptr) => new ImPlot3DBoxPtr(ptr);
 		public static implicit operator ImPlot3DBoxPtr(IntPtr ptr) => new ImPlot3DBoxPtr(ptr);
 		public static implicit operator ImPlot3DBox*(ImPlot3DBoxPtr nativePtr) => nativePtr.NativePtr;
-		public byte BoxClipLineSegment(ImPlot3DPoint p0, ImPlot3DPoint p1, ImPlot3DPointPtr p0Clipped, ImPlot3DPointPtr p1Clipped)
+		public bool BoxClipLineSegment(ImPlot3DPoint p0, ImPlot3DPoint p1, ImPlot3DPointPtr p0Clipped, ImPlot3DPointPtr p1Clipped)
 		{
-			return ImPlot3DNative.BoxClipLineSegment(NativePtr, p0, p1, p0Clipped, p1Clipped);
+			var result = ImPlot3DNative.BoxClipLineSegment(NativePtr, p0, p1, p0Clipped, p1Clipped);
+			return result != 0;
 		}
 
-		public byte BoxContains(ImPlot3DPoint point)
+		public bool BoxContains(ImPlot3DPoint point)
 		{
-			return ImPlot3DNative.BoxContains(NativePtr, point);
+			var result = ImPlot3DNative.BoxContains(NativePtr, point);
+			return result != 0;
 		}
 
 		public void BoxExpand(ImPlot3DPoint point)

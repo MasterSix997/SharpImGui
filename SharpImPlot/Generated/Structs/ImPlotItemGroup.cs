@@ -66,32 +66,41 @@ namespace SharpImPlot
 			return ImPlotNative.ItemGroupGetOrAddItem(NativePtr, id);
 		}
 
+		public ImPlotItemPtr ItemGroupGetItemStr(ReadOnlySpan<byte> labelId)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			{
+				return ImPlotNative.ItemGroupGetItemStr(NativePtr, nativeLabelId);
+			}
+		}
+
 		public ImPlotItemPtr ItemGroupGetItemStr(ReadOnlySpan<char> labelId)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			return ImPlotNative.ItemGroupGetItemStr(NativePtr, native_labelId);
+			var result = ImPlotNative.ItemGroupGetItemStr(NativePtr, nativeLabelId);
 			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+			return result;
 		}
 
 		public ImPlotItemPtr ItemGroupGetItemID(uint id)
@@ -99,32 +108,41 @@ namespace SharpImPlot
 			return ImPlotNative.ItemGroupGetItemID(NativePtr, id);
 		}
 
+		public uint ItemGroupGetItemID(ReadOnlySpan<byte> labelId)
+		{
+			fixed (byte* nativeLabelId = labelId)
+			{
+				return ImPlotNative.ItemGroupGetItemID(NativePtr, nativeLabelId);
+			}
+		}
+
 		public uint ItemGroupGetItemID(ReadOnlySpan<char> labelId)
 		{
 			// Marshaling labelId to native string
-			byte* native_labelId;
-			var byteCount_labelId = 0;
+			byte* nativeLabelId;
+			var byteCountLabelId = 0;
 			if (labelId != null)
 			{
-				byteCount_labelId = Encoding.UTF8.GetByteCount(labelId);
-				if(byteCount_labelId > Utils.MaxStackallocSize)
+				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
+				if(byteCountLabelId > Utils.MaxStackallocSize)
 				{
-					native_labelId = Utils.Alloc<byte>(byteCount_labelId + 1);
+					nativeLabelId = Utils.Alloc<byte>(byteCountLabelId + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount_labelId + 1];
-					native_labelId = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountLabelId + 1];
+					nativeLabelId = stackallocBytes;
 				}
-				var labelId_offset = Utils.EncodeStringUTF8(labelId, native_labelId, byteCount_labelId);
-				native_labelId[labelId_offset] = 0;
+				var offsetLabelId = Utils.EncodeStringUTF8(labelId, nativeLabelId, byteCountLabelId);
+				nativeLabelId[offsetLabelId] = 0;
 			}
-			else native_labelId = null;
+			else nativeLabelId = null;
 
-			return ImPlotNative.ItemGroupGetItemID(NativePtr, native_labelId);
+			var result = ImPlotNative.ItemGroupGetItemID(NativePtr, nativeLabelId);
 			// Freeing labelId native string
-			if (byteCount_labelId > Utils.MaxStackallocSize)
-				Utils.Free(native_labelId);
+			if (byteCountLabelId > Utils.MaxStackallocSize)
+				Utils.Free(nativeLabelId);
+			return result;
 		}
 
 		public int ItemGroupGetItemCount()

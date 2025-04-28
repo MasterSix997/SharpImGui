@@ -346,7 +346,10 @@ public class CppToCSharp
                     argName = string.Concat("@", argName);
                 
                 var argumentType = new CsUnresolvedType(cppParameter.Type.FullName);
-                var csParam = new CsParameter(argumentType, argName);
+                var csParam = new CsParameter(argumentType, argName)
+                {
+                    Metadata = cppParameter
+                };
                 csMethod.Parameters.Add(csParam);
 
                 // if (cppParameter.InitExpression != null)

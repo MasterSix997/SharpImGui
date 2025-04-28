@@ -44,12 +44,12 @@ namespace SharpImPlot
 
 		public void AlignmentDataUpdate(ref float padA, ref float padB, ref float deltaA, ref float deltaB)
 		{
-			fixed (float* native_padA = &padA)
-			fixed (float* native_padB = &padB)
-			fixed (float* native_deltaA = &deltaA)
-			fixed (float* native_deltaB = &deltaB)
+			fixed (float* nativePadA = &padA)
+			fixed (float* nativePadB = &padB)
+			fixed (float* nativeDeltaA = &deltaA)
+			fixed (float* nativeDeltaB = &deltaB)
 			{
-				ImPlotNative.AlignmentDataUpdate(NativePtr, native_padA, native_padB, native_deltaA, native_deltaB);
+				ImPlotNative.AlignmentDataUpdate(NativePtr, nativePadA, nativePadB, nativeDeltaA, nativeDeltaB);
 			}
 		}
 

@@ -37,89 +37,115 @@ namespace SharpImGui
 		public static implicit operator ImGuiTextIndexPtr(ImGuiTextIndex* ptr) => new ImGuiTextIndexPtr(ptr);
 		public static implicit operator ImGuiTextIndexPtr(IntPtr ptr) => new ImGuiTextIndexPtr(ptr);
 		public static implicit operator ImGuiTextIndex*(ImGuiTextIndexPtr nativePtr) => nativePtr.NativePtr;
+		public void Append(ReadOnlySpan<byte> _base, int oldSize, int newSize)
+		{
+			fixed (byte* nativeBase = _base)
+			{
+				ImGuiNative.ImGuiTextIndexAppend(NativePtr, nativeBase, oldSize, newSize);
+			}
+		}
+
 		public void Append(ReadOnlySpan<char> _base, int oldSize, int newSize)
 		{
 			// Marshaling _base to native string
-			byte* native__base;
-			var byteCount__base = 0;
+			byte* nativeBase;
+			var byteCountBase = 0;
 			if (_base != null)
 			{
-				byteCount__base = Encoding.UTF8.GetByteCount(_base);
-				if(byteCount__base > Utils.MaxStackallocSize)
+				byteCountBase = Encoding.UTF8.GetByteCount(_base);
+				if(byteCountBase > Utils.MaxStackallocSize)
 				{
-					native__base = Utils.Alloc<byte>(byteCount__base + 1);
+					nativeBase = Utils.Alloc<byte>(byteCountBase + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount__base + 1];
-					native__base = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountBase + 1];
+					nativeBase = stackallocBytes;
 				}
-				var _base_offset = Utils.EncodeStringUTF8(_base, native__base, byteCount__base);
-				native__base[_base_offset] = 0;
+				var offsetBase = Utils.EncodeStringUTF8(_base, nativeBase, byteCountBase);
+				nativeBase[offsetBase] = 0;
 			}
-			else native__base = null;
+			else nativeBase = null;
 
-			ImGuiNative.ImGuiTextIndexAppend(NativePtr, native__base, oldSize, newSize);
+			ImGuiNative.ImGuiTextIndexAppend(NativePtr, nativeBase, oldSize, newSize);
 			// Freeing _base native string
-			if (byteCount__base > Utils.MaxStackallocSize)
-				Utils.Free(native__base);
+			if (byteCountBase > Utils.MaxStackallocSize)
+				Utils.Free(nativeBase);
+		}
+
+		public ref byte GetLineEnd(ReadOnlySpan<byte> _base, int n)
+		{
+			fixed (byte* nativeBase = _base)
+			{
+				var nativeResult = ImGuiNative.ImGuiTextIndexGetLineEnd(NativePtr, nativeBase, n);
+				return ref *(byte*)&nativeResult;
+			}
 		}
 
 		public ref byte GetLineEnd(ReadOnlySpan<char> _base, int n)
 		{
 			// Marshaling _base to native string
-			byte* native__base;
-			var byteCount__base = 0;
+			byte* nativeBase;
+			var byteCountBase = 0;
 			if (_base != null)
 			{
-				byteCount__base = Encoding.UTF8.GetByteCount(_base);
-				if(byteCount__base > Utils.MaxStackallocSize)
+				byteCountBase = Encoding.UTF8.GetByteCount(_base);
+				if(byteCountBase > Utils.MaxStackallocSize)
 				{
-					native__base = Utils.Alloc<byte>(byteCount__base + 1);
+					nativeBase = Utils.Alloc<byte>(byteCountBase + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount__base + 1];
-					native__base = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountBase + 1];
+					nativeBase = stackallocBytes;
 				}
-				var _base_offset = Utils.EncodeStringUTF8(_base, native__base, byteCount__base);
-				native__base[_base_offset] = 0;
+				var offsetBase = Utils.EncodeStringUTF8(_base, nativeBase, byteCountBase);
+				nativeBase[offsetBase] = 0;
 			}
-			else native__base = null;
+			else nativeBase = null;
 
-			var nativeResult = ImGuiNative.ImGuiTextIndexGetLineEnd(NativePtr, native__base, n);
+			var nativeResult = ImGuiNative.ImGuiTextIndexGetLineEnd(NativePtr, nativeBase, n);
 			// Freeing _base native string
-			if (byteCount__base > Utils.MaxStackallocSize)
-				Utils.Free(native__base);
+			if (byteCountBase > Utils.MaxStackallocSize)
+				Utils.Free(nativeBase);
 			return ref *(byte*)&nativeResult;
+		}
+
+		public ref byte GetLineBegin(ReadOnlySpan<byte> _base, int n)
+		{
+			fixed (byte* nativeBase = _base)
+			{
+				var nativeResult = ImGuiNative.ImGuiTextIndexGetLineBegin(NativePtr, nativeBase, n);
+				return ref *(byte*)&nativeResult;
+			}
 		}
 
 		public ref byte GetLineBegin(ReadOnlySpan<char> _base, int n)
 		{
 			// Marshaling _base to native string
-			byte* native__base;
-			var byteCount__base = 0;
+			byte* nativeBase;
+			var byteCountBase = 0;
 			if (_base != null)
 			{
-				byteCount__base = Encoding.UTF8.GetByteCount(_base);
-				if(byteCount__base > Utils.MaxStackallocSize)
+				byteCountBase = Encoding.UTF8.GetByteCount(_base);
+				if(byteCountBase > Utils.MaxStackallocSize)
 				{
-					native__base = Utils.Alloc<byte>(byteCount__base + 1);
+					nativeBase = Utils.Alloc<byte>(byteCountBase + 1);
 				}
 				else
 				{
-					var stackallocBytes = stackalloc byte[byteCount__base + 1];
-					native__base = stackallocBytes;
+					var stackallocBytes = stackalloc byte[byteCountBase + 1];
+					nativeBase = stackallocBytes;
 				}
-				var _base_offset = Utils.EncodeStringUTF8(_base, native__base, byteCount__base);
-				native__base[_base_offset] = 0;
+				var offsetBase = Utils.EncodeStringUTF8(_base, nativeBase, byteCountBase);
+				nativeBase[offsetBase] = 0;
 			}
-			else native__base = null;
+			else nativeBase = null;
 
-			var nativeResult = ImGuiNative.ImGuiTextIndexGetLineBegin(NativePtr, native__base, n);
+			var nativeResult = ImGuiNative.ImGuiTextIndexGetLineBegin(NativePtr, nativeBase, n);
 			// Freeing _base native string
-			if (byteCount__base > Utils.MaxStackallocSize)
-				Utils.Free(native__base);
+			if (byteCountBase > Utils.MaxStackallocSize)
+				Utils.Free(nativeBase);
 			return ref *(byte*)&nativeResult;
 		}
 

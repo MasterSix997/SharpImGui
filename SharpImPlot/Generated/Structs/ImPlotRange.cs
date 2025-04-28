@@ -36,9 +36,10 @@ namespace SharpImPlot
 			return ImPlotNative.RangeSize(NativePtr);
 		}
 
-		public byte RangeContains(double value)
+		public bool RangeContains(double value)
 		{
-			return ImPlotNative.RangeContains(NativePtr, value);
+			var result = ImPlotNative.RangeContains(NativePtr, value);
+			return result != 0;
 		}
 
 		public ImPlotRangePtr RangeRangeDouble(double min, double max)

@@ -35,6 +35,14 @@ public sealed class StructPtrProcessor : IPostProcessor
         var mainNamespace = new CsNamespace(_generated.Settings.Namespace);
         mainNamespace.Classes.Add(mainStruct);
         _generated.Output.AddFile($"{_generated.Settings.OriginalLibraryName}.cs", mainNamespace, usings: _generated.Settings.Usings);
+
+        var internalStruct = ExtractInternalMethods(mainStruct);
+        if (internalStruct is not null)
+        {
+            var internalNamespace = new CsNamespace(_generated.Settings.Namespace);
+            internalNamespace.Classes.Add(internalStruct);
+            _generated.Output.AddFile($"{_generated.Settings.OriginalLibraryName}Internal.cs", internalNamespace, "Internal", usings: _generated.Settings.Usings);
+        }
     }
 
     private CsClass GenerateMainStruct(CsClass nativeLibrary)
@@ -60,6 +68,36 @@ public sealed class StructPtrProcessor : IPostProcessor
             }
         }
         return managedStruct;
+    }
+
+    private CsClass? ExtractInternalMethods(CsClass csClass)
+    {
+        var overloads = _generated.NativeDefinitionProvider?.NativeDefinitions.Functions;
+        if (overloads is null)
+            return null;
+        
+        var internalStruct = new CsClass($"{_generated.Settings.OriginalLibraryName}Internal")
+        {
+            Visibility = CsVisibility.Public,
+            IsPartial = true,
+            IsUnsafe = true,
+            IsStatic = true,
+        };
+        
+        foreach (var overload in overloads)
+        {
+            foreach (var function in overload.Functions.Where(f => f.IsInternal))
+            {
+                var csMethod = csClass.Methods.FirstOrDefault(m => m.Metadata is CppFunction cppFunction && cppFunction.Name == function.Name);
+                if (csMethod is null)
+                    continue;
+                
+                csClass.Methods.Remove(csMethod);
+                internalStruct.Methods.Add(csMethod);
+            }
+        }
+
+        return internalStruct.Methods.Count > 0 ? internalStruct : null;
     }
 
     private CsClass GeneratePtrStruct(CsClass csStruct)
@@ -177,7 +215,7 @@ public sealed class StructPtrProcessor : IPostProcessor
             _notUsedNativeMethods.Remove(nativeMethods[i]);
             
             var originalMethod = nativeMethods[i];
-            foreach (var managedMethod in GenerateManagedMethodOverloads(ptrStruct, originalMethod, csStruct))
+            foreach (var managedMethod in GenerateManagedMethodOverloads(ptrStruct, originalMethod, csStruct).ToImmutableArray())
             {
                 if (managedMethod.Name.StartsWith(csStruct.Name))
                     managedMethod.Name = managedMethod.Name[csStruct.Name.Length..];
@@ -245,7 +283,8 @@ public sealed class StructPtrProcessor : IPostProcessor
     private IEnumerable<CsMethod> GenerateManagedMethodOverloads(CsClass managedStruct, CsMethod originalMethod, CsClass originalStruct)
     {
         var overloadsGenerators = new HashSet<ICSharpMarshalling>();
-        MethodOverloadInfo overloadInfo = default;
+        var overloadInfos = new List<MethodOverloadInfo>();
+        
         foreach (var methodParameter in originalMethod.Parameters)
         {
             foreach (var marshalling in TypeMarshallings)
@@ -257,35 +296,63 @@ public sealed class StructPtrProcessor : IPostProcessor
                 if (!overloadsGenerators.Add(marshalling)) continue;
                 for (var i = 0; i < marshalling.OverloadsCount; i++)
                 {
-                    overloadInfo = new MethodOverloadInfo
+                    var overloadInfo = new MethodOverloadInfo
                     {
                         OriginalMethod = originalMethod,
                         OriginalStruct = originalStruct,
                         OverloadMarshalling = marshalling,
                         OverloadIndex = i,
                     };
-                    var managedMethod = GenerateManagedMethod(overloadInfo);
-                    yield return managedMethod;
-                    
+                    yield return GenerateManagedMethod(overloadInfo);
+                    overloadInfos.Add(overloadInfo);
                 }
             }
         }
         if (overloadsGenerators.Count == 0)
         {
-            overloadInfo = new MethodOverloadInfo
+            var overloadInfo = new MethodOverloadInfo
             {
                 OriginalMethod = originalMethod,
                 OriginalStruct = originalStruct
             };
+            overloadInfos.Add(overloadInfo);
             yield return GenerateManagedMethod(overloadInfo);
         }
         var defaultValuesOverloads = GenerateOverloadsByDefaultValues(originalMethod, (originalMethod.Metadata as CppFunction)!, managedStruct).ToImmutableArray();
-        if (defaultValuesOverloads.Length > 0)
+        if (defaultValuesOverloads.Length <= 0) 
+            yield break;
+
+        var methodsWithoutParameter = new HashSet<string>();
+        var defaultValueMethods = new List<CsMethod>();
+        foreach (var defaultValuesOverload in defaultValuesOverloads)
         {
-            foreach (var defaultValuesOverload in defaultValuesOverloads)
+            var overload = defaultValuesOverload.Method;
+            foreach (var overloadInfo in overloadInfos)
             {
-                MarshallMethod(defaultValuesOverload.Method, overloadInfo, defaultValuesOverload.OmittedParameters);
-                yield return defaultValuesOverload.Method;
+                var copyMethod = new CsMethod(overload.Name)
+                {
+                    Visibility = CsVisibility.Public,
+                    Comment = overload.Comment,
+                    Metadata = overload.Metadata,
+                    IsStatic = overload.IsStatic,
+                    ReturnType = overload.ReturnType,
+                };
+                copyMethod.Parameters.AddRange(overload.Parameters.Select(p => new CsParameter(p.Type, p.Name) { Metadata = p.Metadata }));
+                MarshallMethod(copyMethod, overloadInfo, defaultValuesOverload.OmittedParameters);
+                // if (copyMethod.Parameters.Count <= 0)
+                // {
+                //     if(!methodsWithoutParameter.Add(copyMethod.Name))
+                //        continue;
+                // }
+                if (originalStruct.Name == "ImGuiTextFilter")
+                {
+                    
+                }
+                if (defaultValueMethods.Any(m => HasSameSignature(copyMethod, m)))
+                    continue;
+                
+                defaultValueMethods.Add(copyMethod);
+                yield return copyMethod;
             }
         }
     }
@@ -298,8 +365,6 @@ public sealed class StructPtrProcessor : IPostProcessor
         public ICSharpMarshalling? OverloadMarshalling;
         public int OverloadIndex;
     }
-
-    // private IEnumerable<CsMethod> 
     
     private CsMethod GenerateManagedMethod(MethodOverloadInfo overloadInfo)
     {

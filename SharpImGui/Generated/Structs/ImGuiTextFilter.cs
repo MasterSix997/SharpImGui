@@ -366,6 +366,17 @@ namespace SharpImGui
 			return result != 0;
 		}
 
+		public bool PassFilter(ReadOnlySpan<byte> text)
+		{
+			// defining omitted parameters
+			byte* textEnd = null;
+			fixed (byte* nativeText = text)
+			{
+				var result = ImGuiNative.ImGuiTextFilterPassFilter(NativePtr, nativeText, textEnd);
+				return result != 0;
+			}
+		}
+
 		public bool PassFilter(ReadOnlySpan<char> text)
 		{
 			// defining omitted parameters
@@ -439,6 +450,20 @@ namespace SharpImGui
 			if (byteCountLabel > Utils.MaxStackallocSize)
 				Utils.Free(nativeLabel);
 			return result != 0;
+		}
+
+		/// <summary>
+		/// Helper calling InputText+Build<br/>
+		/// </summary>
+		public bool Draw(ReadOnlySpan<byte> label)
+		{
+			// defining omitted parameters
+			float width = 0.0f;
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImGuiNative.ImGuiTextFilterDraw(NativePtr, nativeLabel, width);
+				return result != 0;
+			}
 		}
 
 		/// <summary>

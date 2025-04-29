@@ -74,6 +74,17 @@ namespace SharpImPlot3D
 			return result != 0;
 		}
 
+		public static bool BeginPlot(ReadOnlySpan<byte> titleId, Vector2 size)
+		{
+			// defining omitted parameters
+			ImPlot3DFlags flags = ImPlot3DFlags.None;
+			fixed (byte* nativeTitleId = titleId)
+			{
+				var result = ImPlot3DNative.BeginPlot(nativeTitleId, size, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool BeginPlot(ReadOnlySpan<char> titleId, Vector2 size)
 		{
 			// defining omitted parameters
@@ -103,6 +114,18 @@ namespace SharpImPlot3D
 			if (byteCountTitleId > Utils.MaxStackallocSize)
 				Utils.Free(nativeTitleId);
 			return result != 0;
+		}
+
+		public static bool BeginPlot(ReadOnlySpan<byte> titleId)
+		{
+			// defining omitted parameters
+			ImPlot3DFlags flags = ImPlot3DFlags.None;
+			Vector2 size = new Vector2(-1,0);
+			fixed (byte* nativeTitleId = titleId)
+			{
+				var result = ImPlot3DNative.BeginPlot(nativeTitleId, size, flags);
+				return result != 0;
+			}
 		}
 
 		public static bool BeginPlot(ReadOnlySpan<char> titleId)
@@ -179,6 +202,16 @@ namespace SharpImPlot3D
 			// Freeing label native string
 			if (byteCountLabel > Utils.MaxStackallocSize)
 				Utils.Free(nativeLabel);
+		}
+
+		public static void SetupAxis(ImAxis3D axis, ReadOnlySpan<byte> label)
+		{
+			// defining omitted parameters
+			ImPlot3DAxisFlags flags = ImPlot3DAxisFlags.None;
+			fixed (byte* nativeLabel = label)
+			{
+				ImPlot3DNative.SetupAxis(axis, nativeLabel, flags);
+			}
 		}
 
 		public static void SetupAxis(ImAxis3D axis, ReadOnlySpan<char> label)
@@ -346,6 +379,18 @@ namespace SharpImPlot3D
 				Utils.Free(nativeZLabel);
 		}
 
+		public static void SetupAxes(ReadOnlySpan<byte> xLabel, ReadOnlySpan<byte> yLabel, ReadOnlySpan<byte> zLabel, ImPlot3DAxisFlags xFlags, ImPlot3DAxisFlags yFlags)
+		{
+			// defining omitted parameters
+			ImPlot3DAxisFlags zFlags = ImPlot3DAxisFlags.None;
+			fixed (byte* nativeXLabel = xLabel)
+			fixed (byte* nativeYLabel = yLabel)
+			fixed (byte* nativeZLabel = zLabel)
+			{
+				ImPlot3DNative.SetupAxes(nativeXLabel, nativeYLabel, nativeZLabel, xFlags, yFlags, zFlags);
+			}
+		}
+
 		public static void SetupAxes(ReadOnlySpan<char> xLabel, ReadOnlySpan<char> yLabel, ReadOnlySpan<char> zLabel, ImPlot3DAxisFlags xFlags, ImPlot3DAxisFlags yFlags)
 		{
 			// defining omitted parameters
@@ -420,6 +465,19 @@ namespace SharpImPlot3D
 			// Freeing zLabel native string
 			if (byteCountZLabel > Utils.MaxStackallocSize)
 				Utils.Free(nativeZLabel);
+		}
+
+		public static void SetupAxes(ReadOnlySpan<byte> xLabel, ReadOnlySpan<byte> yLabel, ReadOnlySpan<byte> zLabel, ImPlot3DAxisFlags xFlags)
+		{
+			// defining omitted parameters
+			ImPlot3DAxisFlags zFlags = ImPlot3DAxisFlags.None;
+			ImPlot3DAxisFlags yFlags = ImPlot3DAxisFlags.None;
+			fixed (byte* nativeXLabel = xLabel)
+			fixed (byte* nativeYLabel = yLabel)
+			fixed (byte* nativeZLabel = zLabel)
+			{
+				ImPlot3DNative.SetupAxes(nativeXLabel, nativeYLabel, nativeZLabel, xFlags, yFlags, zFlags);
+			}
 		}
 
 		public static void SetupAxes(ReadOnlySpan<char> xLabel, ReadOnlySpan<char> yLabel, ReadOnlySpan<char> zLabel, ImPlot3DAxisFlags xFlags)
@@ -497,6 +555,20 @@ namespace SharpImPlot3D
 			// Freeing zLabel native string
 			if (byteCountZLabel > Utils.MaxStackallocSize)
 				Utils.Free(nativeZLabel);
+		}
+
+		public static void SetupAxes(ReadOnlySpan<byte> xLabel, ReadOnlySpan<byte> yLabel, ReadOnlySpan<byte> zLabel)
+		{
+			// defining omitted parameters
+			ImPlot3DAxisFlags zFlags = ImPlot3DAxisFlags.None;
+			ImPlot3DAxisFlags yFlags = ImPlot3DAxisFlags.None;
+			ImPlot3DAxisFlags xFlags = ImPlot3DAxisFlags.None;
+			fixed (byte* nativeXLabel = xLabel)
+			fixed (byte* nativeYLabel = yLabel)
+			fixed (byte* nativeZLabel = zLabel)
+			{
+				ImPlot3DNative.SetupAxes(nativeXLabel, nativeYLabel, nativeZLabel, xFlags, yFlags, zFlags);
+			}
 		}
 
 		public static void SetupAxes(ReadOnlySpan<char> xLabel, ReadOnlySpan<char> yLabel, ReadOnlySpan<char> zLabel)
@@ -2868,6 +2940,17 @@ namespace SharpImPlot3D
 			}
 		}
 
+		public static void PlotMesh(ReadOnlySpan<byte> labelId, ImPlot3DPointPtr vtx, ref uint idx, int vtxCount, int idxCount)
+		{
+			// defining omitted parameters
+			ImPlot3DMeshFlags flags = ImPlot3DMeshFlags.None;
+			fixed (byte* nativeLabelId = labelId)
+			fixed (uint* nativeIdx = &idx)
+			{
+				ImPlot3DNative.PlotMesh(nativeLabelId, vtx, nativeIdx, vtxCount, idxCount, flags);
+			}
+		}
+
 		public static void PlotMesh(ReadOnlySpan<char> labelId, ImPlot3DPointPtr vtx, ref uint idx, int vtxCount, int idxCount)
 		{
 			// defining omitted parameters
@@ -2937,6 +3020,16 @@ namespace SharpImPlot3D
 				Utils.Free(nativeText);
 		}
 
+		public static void PlotText(ReadOnlySpan<byte> text, float x, float y, float z, float angle)
+		{
+			// defining omitted parameters
+			Vector2 pixOffset = new Vector2(0,0);
+			fixed (byte* nativeText = text)
+			{
+				ImPlot3DNative.PlotText(nativeText, x, y, z, angle, pixOffset);
+			}
+		}
+
 		public static void PlotText(ReadOnlySpan<char> text, float x, float y, float z, float angle)
 		{
 			// defining omitted parameters
@@ -2965,6 +3058,17 @@ namespace SharpImPlot3D
 			// Freeing text native string
 			if (byteCountText > Utils.MaxStackallocSize)
 				Utils.Free(nativeText);
+		}
+
+		public static void PlotText(ReadOnlySpan<byte> text, float x, float y, float z)
+		{
+			// defining omitted parameters
+			float angle = 0.0f;
+			Vector2 pixOffset = new Vector2(0,0);
+			fixed (byte* nativeText = text)
+			{
+				ImPlot3DNative.PlotText(nativeText, x, y, z, angle, pixOffset);
+			}
 		}
 
 		public static void PlotText(ReadOnlySpan<char> text, float x, float y, float z)

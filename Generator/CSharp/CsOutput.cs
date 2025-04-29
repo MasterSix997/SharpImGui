@@ -78,6 +78,11 @@ public class CsOutput(GeneratorSettings settings)
 
         foreach (var file in Files)
         {
+            if (!file.Container.Children().Any())
+            {
+                Console.WriteLine($"The file '{file.FileName}' has no definitions inside! skipping.");
+                continue;
+            }
             file.SaveToFile();
         }
     }

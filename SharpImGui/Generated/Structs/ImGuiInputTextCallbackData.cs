@@ -209,6 +209,16 @@ namespace SharpImGui
 				Utils.Free(nativeTextEnd);
 		}
 
+		public void InsertChars(int pos, ReadOnlySpan<byte> text)
+		{
+			// defining omitted parameters
+			byte* textEnd = null;
+			fixed (byte* nativeText = text)
+			{
+				ImGuiNative.ImGuiInputTextCallbackDataInsertChars(NativePtr, pos, nativeText, textEnd);
+			}
+		}
+
 		public void InsertChars(int pos, ReadOnlySpan<char> text)
 		{
 			// defining omitted parameters

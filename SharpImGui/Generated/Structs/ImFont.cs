@@ -300,6 +300,17 @@ namespace SharpImGui
 				Utils.Free(nativeTextEnd);
 		}
 
+		public void RenderText(ImDrawListPtr drawList, float size, Vector2 pos, uint col, Vector4 clipRect, ReadOnlySpan<byte> textBegin, ReadOnlySpan<byte> textEnd, float wrapWidth)
+		{
+			// defining omitted parameters
+			byte cpuFineClip = 0;
+			fixed (byte* nativeTextBegin = textBegin)
+			fixed (byte* nativeTextEnd = textEnd)
+			{
+				ImGuiNative.ImFontRenderText(NativePtr, drawList, size, pos, col, clipRect, nativeTextBegin, nativeTextEnd, wrapWidth, cpuFineClip);
+			}
+		}
+
 		public void RenderText(ImDrawListPtr drawList, float size, Vector2 pos, uint col, Vector4 clipRect, ReadOnlySpan<char> textBegin, ReadOnlySpan<char> textEnd, float wrapWidth)
 		{
 			// defining omitted parameters
@@ -351,6 +362,18 @@ namespace SharpImGui
 			// Freeing textEnd native string
 			if (byteCountTextEnd > Utils.MaxStackallocSize)
 				Utils.Free(nativeTextEnd);
+		}
+
+		public void RenderText(ImDrawListPtr drawList, float size, Vector2 pos, uint col, Vector4 clipRect, ReadOnlySpan<byte> textBegin, ReadOnlySpan<byte> textEnd)
+		{
+			// defining omitted parameters
+			float wrapWidth = 0.0f;
+			byte cpuFineClip = 0;
+			fixed (byte* nativeTextBegin = textBegin)
+			fixed (byte* nativeTextEnd = textEnd)
+			{
+				ImGuiNative.ImFontRenderText(NativePtr, drawList, size, pos, col, clipRect, nativeTextBegin, nativeTextEnd, wrapWidth, cpuFineClip);
+			}
 		}
 
 		public void RenderText(ImDrawListPtr drawList, float size, Vector2 pos, uint col, Vector4 clipRect, ReadOnlySpan<char> textBegin, ReadOnlySpan<char> textEnd)
@@ -549,6 +572,21 @@ namespace SharpImGui
 		/// <summary>
 		/// utf8<br/>
 		/// </summary>
+		public void CalcTextSizeA(out Vector2 pOut, float size, float maxWidth, float wrapWidth, ReadOnlySpan<byte> textBegin, ReadOnlySpan<byte> textEnd)
+		{
+			// defining omitted parameters
+			byte** remaining = null;
+			fixed (Vector2* nativePOut = &pOut)
+			fixed (byte* nativeTextBegin = textBegin)
+			fixed (byte* nativeTextEnd = textEnd)
+			{
+				ImGuiNative.ImFontCalcTextSizeA(nativePOut, NativePtr, size, maxWidth, wrapWidth, nativeTextBegin, nativeTextEnd, remaining);
+			}
+		}
+
+		/// <summary>
+		/// utf8<br/>
+		/// </summary>
 		public void CalcTextSizeA(out Vector2 pOut, float size, float maxWidth, float wrapWidth, ReadOnlySpan<char> textBegin, ReadOnlySpan<char> textEnd)
 		{
 			// defining omitted parameters
@@ -602,6 +640,21 @@ namespace SharpImGui
 				// Freeing textEnd native string
 				if (byteCountTextEnd > Utils.MaxStackallocSize)
 					Utils.Free(nativeTextEnd);
+			}
+		}
+
+		/// <summary>
+		/// utf8<br/>
+		/// </summary>
+		public void CalcTextSizeA(out Vector2 pOut, float size, float maxWidth, float wrapWidth, ReadOnlySpan<byte> textBegin)
+		{
+			// defining omitted parameters
+			byte** remaining = null;
+			byte* textEnd = null;
+			fixed (Vector2* nativePOut = &pOut)
+			fixed (byte* nativeTextBegin = textBegin)
+			{
+				ImGuiNative.ImFontCalcTextSizeA(nativePOut, NativePtr, size, maxWidth, wrapWidth, nativeTextBegin, textEnd, remaining);
 			}
 		}
 

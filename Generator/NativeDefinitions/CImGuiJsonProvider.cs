@@ -89,7 +89,7 @@ public class CImGuiJsonProvider : INativeDefinitionProvider
         }
         
         var location = element.GetProperty(locationKey).GetString();
-        var isInternal = location?.StartsWith("imgui_internal");
+        var isInternal = location?.Contains("internal") ?? false;
         
         return new NativeFunction(
             element.TryGetProperty(cImGuiNameKey, out var name) ? name.GetString() : null,
@@ -98,7 +98,7 @@ public class CImGuiJsonProvider : INativeDefinitionProvider
             element.TryGetProperty(constructorKey, out var constructor) && constructor.GetBoolean(),
             element.TryGetProperty(destructorKey, out var destructor) && destructor.GetBoolean(),
             element.TryGetProperty(commentKey, out var comment) && comment.GetString() is not null? comment.GetString() : null,
-            isInternal ?? false
+            isInternal
         );
     }
     
@@ -155,7 +155,7 @@ public class CImGuiJsonProvider : INativeDefinitionProvider
         var comment = enumCommentElement?.GetProperty(aboveCommentKey).ToString();
         var type = enumTypeElement?.ToString();
         var isFlags = enumProperty.Name.Contains("Flags");
-        var isInternal = location?.StartsWith("imgui_internal") ?? false;
+        var isInternal = location?.Contains("internal") ?? false;
 
         return new NativeEnum(enumProperty.Name, nativeEnumItems.ToArray(), comment, isFlags, isInternal);
 
@@ -184,7 +184,7 @@ public class CImGuiJsonProvider : INativeDefinitionProvider
         }
         
         var comment = structCommentElement?.GetProperty(aboveCommentKey).ToString();
-        var isInternal = location?.StartsWith("imgui_internal") ?? false;
+        var isInternal = location?.Contains("internal") ?? false;
         
         return new NativeStruct(structProperty.Name, nativeFields.ToArray(), comment, isInternal);
     }

@@ -79,6 +79,17 @@ namespace SharpImPlot
 			return result != 0;
 		}
 
+		public static bool BeginPlot(ReadOnlySpan<byte> titleId, Vector2 size)
+		{
+			// defining omitted parameters
+			ImPlotFlags flags = ImPlotFlags.None;
+			fixed (byte* nativeTitleId = titleId)
+			{
+				var result = ImPlotNative.BeginPlot(nativeTitleId, size, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool BeginPlot(ReadOnlySpan<char> titleId, Vector2 size)
 		{
 			// defining omitted parameters
@@ -108,6 +119,18 @@ namespace SharpImPlot
 			if (byteCountTitleId > Utils.MaxStackallocSize)
 				Utils.Free(nativeTitleId);
 			return result != 0;
+		}
+
+		public static bool BeginPlot(ReadOnlySpan<byte> titleId)
+		{
+			// defining omitted parameters
+			ImPlotFlags flags = ImPlotFlags.None;
+			Vector2 size = new Vector2(-1,0);
+			fixed (byte* nativeTitleId = titleId)
+			{
+				var result = ImPlotNative.BeginPlot(nativeTitleId, size, flags);
+				return result != 0;
+			}
 		}
 
 		public static bool BeginPlot(ReadOnlySpan<char> titleId)
@@ -191,6 +214,18 @@ namespace SharpImPlot
 			}
 		}
 
+		public static bool BeginSubplots(ReadOnlySpan<byte> titleId, int rows, int cols, Vector2 size, ImPlotSubplotFlags flags, ref float rowRatios)
+		{
+			// defining omitted parameters
+			float* colRatios = null;
+			fixed (byte* nativeTitleId = titleId)
+			fixed (float* nativeRowRatios = &rowRatios)
+			{
+				var result = ImPlotNative.BeginSubplots(nativeTitleId, rows, cols, size, flags, nativeRowRatios, colRatios);
+				return result != 0;
+			}
+		}
+
 		public static bool BeginSubplots(ReadOnlySpan<char> titleId, int rows, int cols, Vector2 size, ImPlotSubplotFlags flags, ref float rowRatios)
 		{
 			// defining omitted parameters
@@ -225,6 +260,18 @@ namespace SharpImPlot
 			}
 		}
 
+		public static bool BeginSubplots(ReadOnlySpan<byte> titleId, int rows, int cols, Vector2 size, ImPlotSubplotFlags flags)
+		{
+			// defining omitted parameters
+			float* colRatios = null;
+			float* rowRatios = null;
+			fixed (byte* nativeTitleId = titleId)
+			{
+				var result = ImPlotNative.BeginSubplots(nativeTitleId, rows, cols, size, flags, rowRatios, colRatios);
+				return result != 0;
+			}
+		}
+
 		public static bool BeginSubplots(ReadOnlySpan<char> titleId, int rows, int cols, Vector2 size, ImPlotSubplotFlags flags)
 		{
 			// defining omitted parameters
@@ -255,6 +302,19 @@ namespace SharpImPlot
 			if (byteCountTitleId > Utils.MaxStackallocSize)
 				Utils.Free(nativeTitleId);
 			return result != 0;
+		}
+
+		public static bool BeginSubplots(ReadOnlySpan<byte> titleId, int rows, int cols, Vector2 size)
+		{
+			// defining omitted parameters
+			float* colRatios = null;
+			float* rowRatios = null;
+			ImPlotSubplotFlags flags = ImPlotSubplotFlags.None;
+			fixed (byte* nativeTitleId = titleId)
+			{
+				var result = ImPlotNative.BeginSubplots(nativeTitleId, rows, cols, size, flags, rowRatios, colRatios);
+				return result != 0;
+			}
 		}
 
 		public static bool BeginSubplots(ReadOnlySpan<char> titleId, int rows, int cols, Vector2 size)
@@ -329,6 +389,16 @@ namespace SharpImPlot
 			// Freeing label native string
 			if (byteCountLabel > Utils.MaxStackallocSize)
 				Utils.Free(nativeLabel);
+		}
+
+		public static void SetupAxis(ImAxis axis, ReadOnlySpan<byte> label)
+		{
+			// defining omitted parameters
+			ImPlotAxisFlags flags = ImPlotAxisFlags.None;
+			fixed (byte* nativeLabel = label)
+			{
+				ImPlotNative.SetupAxis(axis, nativeLabel, flags);
+			}
 		}
 
 		public static void SetupAxis(ImAxis axis, ReadOnlySpan<char> label)
@@ -530,6 +600,17 @@ namespace SharpImPlot
 				Utils.Free(nativeYLabel);
 		}
 
+		public static void SetupAxes(ReadOnlySpan<byte> xLabel, ReadOnlySpan<byte> yLabel, ImPlotAxisFlags xFlags)
+		{
+			// defining omitted parameters
+			ImPlotAxisFlags yFlags = ImPlotAxisFlags.None;
+			fixed (byte* nativeXLabel = xLabel)
+			fixed (byte* nativeYLabel = yLabel)
+			{
+				ImPlotNative.SetupAxes(nativeXLabel, nativeYLabel, xFlags, yFlags);
+			}
+		}
+
 		public static void SetupAxes(ReadOnlySpan<char> xLabel, ReadOnlySpan<char> yLabel, ImPlotAxisFlags xFlags)
 		{
 			// defining omitted parameters
@@ -581,6 +662,18 @@ namespace SharpImPlot
 			// Freeing yLabel native string
 			if (byteCountYLabel > Utils.MaxStackallocSize)
 				Utils.Free(nativeYLabel);
+		}
+
+		public static void SetupAxes(ReadOnlySpan<byte> xLabel, ReadOnlySpan<byte> yLabel)
+		{
+			// defining omitted parameters
+			ImPlotAxisFlags yFlags = ImPlotAxisFlags.None;
+			ImPlotAxisFlags xFlags = ImPlotAxisFlags.None;
+			fixed (byte* nativeXLabel = xLabel)
+			fixed (byte* nativeYLabel = yLabel)
+			{
+				ImPlotNative.SetupAxes(nativeXLabel, nativeYLabel, xFlags, yFlags);
+			}
 		}
 
 		public static void SetupAxes(ReadOnlySpan<char> xLabel, ReadOnlySpan<char> yLabel)
@@ -1577,6 +1670,16 @@ namespace SharpImPlot
 				Utils.Free(nativeLabelId);
 		}
 
+		public static void PlotLineG(ReadOnlySpan<byte> labelId, ImPlotPointGetter getter, IntPtr data, int count)
+		{
+			// defining omitted parameters
+			ImPlotLineFlags flags = ImPlotLineFlags.None;
+			fixed (byte* nativeLabelId = labelId)
+			{
+				ImPlotNative.PlotLineG(nativeLabelId, getter, (void*)data, count, flags);
+			}
+		}
+
 		public static void PlotLineG(ReadOnlySpan<char> labelId, ImPlotPointGetter getter, IntPtr data, int count)
 		{
 			// defining omitted parameters
@@ -2463,6 +2566,16 @@ namespace SharpImPlot
 				Utils.Free(nativeLabelId);
 		}
 
+		public static void PlotScatterG(ReadOnlySpan<byte> labelId, ImPlotPointGetter getter, IntPtr data, int count)
+		{
+			// defining omitted parameters
+			ImPlotScatterFlags flags = ImPlotScatterFlags.None;
+			fixed (byte* nativeLabelId = labelId)
+			{
+				ImPlotNative.PlotScatterG(nativeLabelId, getter, (void*)data, count, flags);
+			}
+		}
+
 		public static void PlotScatterG(ReadOnlySpan<char> labelId, ImPlotPointGetter getter, IntPtr data, int count)
 		{
 			// defining omitted parameters
@@ -3347,6 +3460,16 @@ namespace SharpImPlot
 			// Freeing labelId native string
 			if (byteCountLabelId > Utils.MaxStackallocSize)
 				Utils.Free(nativeLabelId);
+		}
+
+		public static void PlotStairsG(ReadOnlySpan<byte> labelId, ImPlotPointGetter getter, IntPtr data, int count)
+		{
+			// defining omitted parameters
+			ImPlotStairsFlags flags = ImPlotStairsFlags.None;
+			fixed (byte* nativeLabelId = labelId)
+			{
+				ImPlotNative.PlotStairsG(nativeLabelId, getter, (void*)data, count, flags);
+			}
 		}
 
 		public static void PlotStairsG(ReadOnlySpan<char> labelId, ImPlotPointGetter getter, IntPtr data, int count)
@@ -4675,6 +4798,16 @@ namespace SharpImPlot
 				Utils.Free(nativeLabelId);
 		}
 
+		public static void PlotShadedG(ReadOnlySpan<byte> labelId, ImPlotPointGetter getter1, IntPtr data1, ImPlotPointGetter getter2, IntPtr data2, int count)
+		{
+			// defining omitted parameters
+			ImPlotShadedFlags flags = ImPlotShadedFlags.None;
+			fixed (byte* nativeLabelId = labelId)
+			{
+				ImPlotNative.PlotShadedG(nativeLabelId, getter1, (void*)data1, getter2, (void*)data2, count, flags);
+			}
+		}
+
 		public static void PlotShadedG(ReadOnlySpan<char> labelId, ImPlotPointGetter getter1, IntPtr data1, ImPlotPointGetter getter2, IntPtr data2, int count)
 		{
 			// defining omitted parameters
@@ -5559,6 +5692,16 @@ namespace SharpImPlot
 			// Freeing labelId native string
 			if (byteCountLabelId > Utils.MaxStackallocSize)
 				Utils.Free(nativeLabelId);
+		}
+
+		public static void PlotBarsG(ReadOnlySpan<byte> labelId, ImPlotPointGetter getter, IntPtr data, int count, double barSize)
+		{
+			// defining omitted parameters
+			ImPlotBarsFlags flags = ImPlotBarsFlags.None;
+			fixed (byte* nativeLabelId = labelId)
+			{
+				ImPlotNative.PlotBarsG(nativeLabelId, getter, (void*)data, count, barSize, flags);
+			}
 		}
 
 		public static void PlotBarsG(ReadOnlySpan<char> labelId, ImPlotPointGetter getter, IntPtr data, int count, double barSize)
@@ -10247,6 +10390,16 @@ namespace SharpImPlot
 				Utils.Free(nativeLabelId);
 		}
 
+		public static void PlotDigitalG(ReadOnlySpan<byte> labelId, ImPlotPointGetter getter, IntPtr data, int count)
+		{
+			// defining omitted parameters
+			ImPlotDigitalFlags flags = ImPlotDigitalFlags.None;
+			fixed (byte* nativeLabelId = labelId)
+			{
+				ImPlotNative.PlotDigitalG(nativeLabelId, getter, (void*)data, count, flags);
+			}
+		}
+
 		public static void PlotDigitalG(ReadOnlySpan<char> labelId, ImPlotPointGetter getter, IntPtr data, int count)
 		{
 			// defining omitted parameters
@@ -10313,6 +10466,16 @@ namespace SharpImPlot
 				Utils.Free(nativeLabelId);
 		}
 
+		public static void PlotImage(ReadOnlySpan<byte> labelId, ulong userTextureId, ImPlotPoint boundsMin, ImPlotPoint boundsMax, Vector2 uv0, Vector2 uv1, Vector4 tintCol)
+		{
+			// defining omitted parameters
+			ImPlotImageFlags flags = ImPlotImageFlags.None;
+			fixed (byte* nativeLabelId = labelId)
+			{
+				ImPlotNative.PlotImage(nativeLabelId, userTextureId, boundsMin, boundsMax, uv0, uv1, tintCol, flags);
+			}
+		}
+
 		public static void PlotImage(ReadOnlySpan<char> labelId, ulong userTextureId, ImPlotPoint boundsMin, ImPlotPoint boundsMax, Vector2 uv0, Vector2 uv1, Vector4 tintCol)
 		{
 			// defining omitted parameters
@@ -10341,6 +10504,17 @@ namespace SharpImPlot
 			// Freeing labelId native string
 			if (byteCountLabelId > Utils.MaxStackallocSize)
 				Utils.Free(nativeLabelId);
+		}
+
+		public static void PlotImage(ReadOnlySpan<byte> labelId, ulong userTextureId, ImPlotPoint boundsMin, ImPlotPoint boundsMax, Vector2 uv0, Vector2 uv1)
+		{
+			// defining omitted parameters
+			ImPlotImageFlags flags = ImPlotImageFlags.None;
+			Vector4 tintCol = new Vector4(1,1,1,1);
+			fixed (byte* nativeLabelId = labelId)
+			{
+				ImPlotNative.PlotImage(nativeLabelId, userTextureId, boundsMin, boundsMax, uv0, uv1, tintCol, flags);
+			}
 		}
 
 		public static void PlotImage(ReadOnlySpan<char> labelId, ulong userTextureId, ImPlotPoint boundsMin, ImPlotPoint boundsMax, Vector2 uv0, Vector2 uv1)
@@ -10374,6 +10548,18 @@ namespace SharpImPlot
 				Utils.Free(nativeLabelId);
 		}
 
+		public static void PlotImage(ReadOnlySpan<byte> labelId, ulong userTextureId, ImPlotPoint boundsMin, ImPlotPoint boundsMax, Vector2 uv0)
+		{
+			// defining omitted parameters
+			ImPlotImageFlags flags = ImPlotImageFlags.None;
+			Vector4 tintCol = new Vector4(1,1,1,1);
+			Vector2 uv1 = new Vector2(1,1);
+			fixed (byte* nativeLabelId = labelId)
+			{
+				ImPlotNative.PlotImage(nativeLabelId, userTextureId, boundsMin, boundsMax, uv0, uv1, tintCol, flags);
+			}
+		}
+
 		public static void PlotImage(ReadOnlySpan<char> labelId, ulong userTextureId, ImPlotPoint boundsMin, ImPlotPoint boundsMax, Vector2 uv0)
 		{
 			// defining omitted parameters
@@ -10404,6 +10590,19 @@ namespace SharpImPlot
 			// Freeing labelId native string
 			if (byteCountLabelId > Utils.MaxStackallocSize)
 				Utils.Free(nativeLabelId);
+		}
+
+		public static void PlotImage(ReadOnlySpan<byte> labelId, ulong userTextureId, ImPlotPoint boundsMin, ImPlotPoint boundsMax)
+		{
+			// defining omitted parameters
+			ImPlotImageFlags flags = ImPlotImageFlags.None;
+			Vector4 tintCol = new Vector4(1,1,1,1);
+			Vector2 uv1 = new Vector2(1,1);
+			Vector2 uv0 = new Vector2(0,0);
+			fixed (byte* nativeLabelId = labelId)
+			{
+				ImPlotNative.PlotImage(nativeLabelId, userTextureId, boundsMin, boundsMax, uv0, uv1, tintCol, flags);
+			}
 		}
 
 		public static void PlotImage(ReadOnlySpan<char> labelId, ulong userTextureId, ImPlotPoint boundsMin, ImPlotPoint boundsMax)
@@ -10475,6 +10674,16 @@ namespace SharpImPlot
 				Utils.Free(nativeText);
 		}
 
+		public static void PlotText(ReadOnlySpan<byte> text, double x, double y, Vector2 pixOffset)
+		{
+			// defining omitted parameters
+			ImPlotTextFlags flags = ImPlotTextFlags.None;
+			fixed (byte* nativeText = text)
+			{
+				ImPlotNative.PlotText(nativeText, x, y, pixOffset, flags);
+			}
+		}
+
 		public static void PlotText(ReadOnlySpan<char> text, double x, double y, Vector2 pixOffset)
 		{
 			// defining omitted parameters
@@ -10503,6 +10712,17 @@ namespace SharpImPlot
 			// Freeing text native string
 			if (byteCountText > Utils.MaxStackallocSize)
 				Utils.Free(nativeText);
+		}
+
+		public static void PlotText(ReadOnlySpan<byte> text, double x, double y)
+		{
+			// defining omitted parameters
+			ImPlotTextFlags flags = ImPlotTextFlags.None;
+			Vector2 pixOffset = new Vector2(0,0);
+			fixed (byte* nativeText = text)
+			{
+				ImPlotNative.PlotText(nativeText, x, y, pixOffset, flags);
+			}
 		}
 
 		public static void PlotText(ReadOnlySpan<char> text, double x, double y)
@@ -10570,6 +10790,16 @@ namespace SharpImPlot
 			// Freeing labelId native string
 			if (byteCountLabelId > Utils.MaxStackallocSize)
 				Utils.Free(nativeLabelId);
+		}
+
+		public static void PlotDummy(ReadOnlySpan<byte> labelId)
+		{
+			// defining omitted parameters
+			ImPlotDummyFlags flags = ImPlotDummyFlags.None;
+			fixed (byte* nativeLabelId = labelId)
+			{
+				ImPlotNative.PlotDummy(nativeLabelId, flags);
+			}
 		}
 
 		public static void PlotDummy(ReadOnlySpan<char> labelId)
@@ -11308,6 +11538,17 @@ namespace SharpImPlot
 			return result != 0;
 		}
 
+		public static bool BeginAlignedPlots(ReadOnlySpan<byte> groupId)
+		{
+			// defining omitted parameters
+			byte vertical = 1;
+			fixed (byte* nativeGroupId = groupId)
+			{
+				var result = ImPlotNative.BeginAlignedPlots(nativeGroupId, vertical);
+				return result != 0;
+			}
+		}
+
 		public static bool BeginAlignedPlots(ReadOnlySpan<char> groupId)
 		{
 			// defining omitted parameters
@@ -11380,6 +11621,17 @@ namespace SharpImPlot
 			if (byteCountLabelId > Utils.MaxStackallocSize)
 				Utils.Free(nativeLabelId);
 			return result != 0;
+		}
+
+		public static bool BeginLegendPopup(ReadOnlySpan<byte> labelId)
+		{
+			// defining omitted parameters
+			ImGuiMouseButton mouseButton = ImGuiMouseButton.Right;
+			fixed (byte* nativeLabelId = labelId)
+			{
+				var result = ImPlotNative.BeginLegendPopup(nativeLabelId, mouseButton);
+				return result != 0;
+			}
 		}
 
 		public static bool BeginLegendPopup(ReadOnlySpan<char> labelId)
@@ -11543,6 +11795,17 @@ namespace SharpImPlot
 			if (byteCountLabelId > Utils.MaxStackallocSize)
 				Utils.Free(nativeLabelId);
 			return result != 0;
+		}
+
+		public static bool BeginDragDropSourceItem(ReadOnlySpan<byte> labelId)
+		{
+			// defining omitted parameters
+			ImGuiDragDropFlags flags = ImGuiDragDropFlags.None;
+			fixed (byte* nativeLabelId = labelId)
+			{
+				var result = ImPlotNative.BeginDragDropSourceItem(nativeLabelId, flags);
+				return result != 0;
+			}
 		}
 
 		public static bool BeginDragDropSourceItem(ReadOnlySpan<char> labelId)
@@ -12125,6 +12388,17 @@ namespace SharpImPlot
 				Utils.Free(nativeFormat);
 		}
 
+		public static void ColormapScale(ReadOnlySpan<byte> label, double scaleMin, double scaleMax, Vector2 size, ReadOnlySpan<byte> format, ImPlotColormapScaleFlags flags)
+		{
+			// defining omitted parameters
+			ImPlotColormap cmap = (ImPlotColormap)0;
+			fixed (byte* nativeLabel = label)
+			fixed (byte* nativeFormat = format)
+			{
+				ImPlotNative.ColormapScale(nativeLabel, scaleMin, scaleMax, size, nativeFormat, flags, cmap);
+			}
+		}
+
 		public static void ColormapScale(ReadOnlySpan<char> label, double scaleMin, double scaleMax, Vector2 size, ReadOnlySpan<char> format, ImPlotColormapScaleFlags flags)
 		{
 			// defining omitted parameters
@@ -12176,6 +12450,18 @@ namespace SharpImPlot
 			// Freeing format native string
 			if (byteCountFormat > Utils.MaxStackallocSize)
 				Utils.Free(nativeFormat);
+		}
+
+		public static void ColormapScale(ReadOnlySpan<byte> label, double scaleMin, double scaleMax, Vector2 size, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImPlotColormap cmap = (ImPlotColormap)0;
+			ImPlotColormapScaleFlags flags = ImPlotColormapScaleFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (byte* nativeFormat = format)
+			{
+				ImPlotNative.ColormapScale(nativeLabel, scaleMin, scaleMax, size, nativeFormat, flags, cmap);
+			}
 		}
 
 		public static void ColormapScale(ReadOnlySpan<char> label, double scaleMin, double scaleMax, Vector2 size, ReadOnlySpan<char> format)
@@ -12232,7 +12518,7 @@ namespace SharpImPlot
 				Utils.Free(nativeFormat);
 		}
 
-		public static void ColormapScale(ReadOnlySpan<char> label, double scaleMin, double scaleMax, Vector2 size)
+		public static void ColormapScale(ReadOnlySpan<byte> label, double scaleMin, double scaleMax, Vector2 size)
 		{
 			// defining omitted parameters
 			ImPlotColormap cmap = (ImPlotColormap)0;
@@ -12250,6 +12536,32 @@ namespace SharpImPlot
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%g", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			{
+				ImPlotNative.ColormapScale(nativeLabel, scaleMin, scaleMax, size, nativeFormat, flags, cmap);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+			}
+		}
+
+		public static void ColormapScale(ReadOnlySpan<char> label, double scaleMin, double scaleMax, Vector2 size)
+		{
+			// defining omitted parameters
+			ImPlotColormap cmap = (ImPlotColormap)0;
+			ImPlotColormapScaleFlags flags = ImPlotColormapScaleFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%g");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%g", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -12270,15 +12582,15 @@ namespace SharpImPlot
 			}
 			else nativeLabel = null;
 
-			ImPlotNative.ColormapScale(nativeLabel, scaleMin, scaleMax, size, nativeFormat, flags, cmap);
-			if (byteCountFormat > Utils.MaxStackallocSize)
-				Utils.Free(nativeFormat);
+			ImPlotNative.ColormapScale(nativeLabel, scaleMin, scaleMax, size, nativeNativeFormat, flags, cmap);
+			if (byteCountNativeFormat > Utils.MaxStackallocSize)
+				Utils.Free(nativeNativeFormat);
 			// Freeing label native string
 			if (byteCountLabel > Utils.MaxStackallocSize)
 				Utils.Free(nativeLabel);
 		}
 
-		public static void ColormapScale(ReadOnlySpan<char> label, double scaleMin, double scaleMax)
+		public static void ColormapScale(ReadOnlySpan<byte> label, double scaleMin, double scaleMax)
 		{
 			// defining omitted parameters
 			ImPlotColormap cmap = (ImPlotColormap)0;
@@ -12296,6 +12608,33 @@ namespace SharpImPlot
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%g", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			Vector2 size = new Vector2(0,0);
+			fixed (byte* nativeLabel = label)
+			{
+				ImPlotNative.ColormapScale(nativeLabel, scaleMin, scaleMax, size, nativeFormat, flags, cmap);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+			}
+		}
+
+		public static void ColormapScale(ReadOnlySpan<char> label, double scaleMin, double scaleMax)
+		{
+			// defining omitted parameters
+			ImPlotColormap cmap = (ImPlotColormap)0;
+			ImPlotColormapScaleFlags flags = ImPlotColormapScaleFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%g");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%g", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			Vector2 size = new Vector2(0,0);
 			// Marshaling label to native string
 			byte* nativeLabel;
@@ -12317,9 +12656,9 @@ namespace SharpImPlot
 			}
 			else nativeLabel = null;
 
-			ImPlotNative.ColormapScale(nativeLabel, scaleMin, scaleMax, size, nativeFormat, flags, cmap);
-			if (byteCountFormat > Utils.MaxStackallocSize)
-				Utils.Free(nativeFormat);
+			ImPlotNative.ColormapScale(nativeLabel, scaleMin, scaleMax, size, nativeNativeFormat, flags, cmap);
+			if (byteCountNativeFormat > Utils.MaxStackallocSize)
+				Utils.Free(nativeNativeFormat);
 			// Freeing label native string
 			if (byteCountLabel > Utils.MaxStackallocSize)
 				Utils.Free(nativeLabel);
@@ -12393,6 +12732,20 @@ namespace SharpImPlot
 			}
 		}
 
+		public static bool ColormapSlider(ReadOnlySpan<byte> label, ref float t, ref Vector4 _out, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImPlotColormap cmap = (ImPlotColormap)0;
+			fixed (byte* nativeLabel = label)
+			fixed (float* nativeT = &t)
+			fixed (Vector4* nativeOut = &_out)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImPlotNative.ColormapSlider(nativeLabel, nativeT, nativeOut, nativeFormat, cmap);
+				return result != 0;
+			}
+		}
+
 		public static bool ColormapSlider(ReadOnlySpan<char> label, ref float t, ref Vector4 _out, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -12451,7 +12804,7 @@ namespace SharpImPlot
 			}
 		}
 
-		public static bool ColormapSlider(ReadOnlySpan<char> label, ref float t, ref Vector4 _out)
+		public static bool ColormapSlider(ReadOnlySpan<byte> label, ref float t, ref Vector4 _out)
 		{
 			// defining omitted parameters
 			ImPlotColormap cmap = (ImPlotColormap)0;
@@ -12468,6 +12821,34 @@ namespace SharpImPlot
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (float* nativeT = &t)
+			fixed (Vector4* nativeOut = &_out)
+			{
+				var result = ImPlotNative.ColormapSlider(nativeLabel, nativeT, nativeOut, nativeFormat, cmap);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool ColormapSlider(ReadOnlySpan<char> label, ref float t, ref Vector4 _out)
+		{
+			// defining omitted parameters
+			ImPlotColormap cmap = (ImPlotColormap)0;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -12491,9 +12872,9 @@ namespace SharpImPlot
 			fixed (float* nativeT = &t)
 			fixed (Vector4* nativeOut = &_out)
 			{
-				var result = ImPlotNative.ColormapSlider(nativeLabel, nativeT, nativeOut, nativeFormat, cmap);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImPlotNative.ColormapSlider(nativeLabel, nativeT, nativeOut, nativeNativeFormat, cmap);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -12501,7 +12882,7 @@ namespace SharpImPlot
 			}
 		}
 
-		public static bool ColormapSlider(ReadOnlySpan<char> label, ref float t)
+		public static bool ColormapSlider(ReadOnlySpan<byte> label, ref float t)
 		{
 			// defining omitted parameters
 			ImPlotColormap cmap = (ImPlotColormap)0;
@@ -12518,6 +12899,34 @@ namespace SharpImPlot
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			Vector4* _out = null;
+			fixed (byte* nativeLabel = label)
+			fixed (float* nativeT = &t)
+			{
+				var result = ImPlotNative.ColormapSlider(nativeLabel, nativeT, _out, nativeFormat, cmap);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool ColormapSlider(ReadOnlySpan<char> label, ref float t)
+		{
+			// defining omitted parameters
+			ImPlotColormap cmap = (ImPlotColormap)0;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			Vector4* _out = null;
 			// Marshaling label to native string
 			byte* nativeLabel;
@@ -12541,9 +12950,9 @@ namespace SharpImPlot
 
 			fixed (float* nativeT = &t)
 			{
-				var result = ImPlotNative.ColormapSlider(nativeLabel, nativeT, _out, nativeFormat, cmap);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImPlotNative.ColormapSlider(nativeLabel, nativeT, _out, nativeNativeFormat, cmap);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -12589,6 +12998,17 @@ namespace SharpImPlot
 			return result != 0;
 		}
 
+		public static bool ColormapButton(ReadOnlySpan<byte> label, Vector2 size)
+		{
+			// defining omitted parameters
+			ImPlotColormap cmap = (ImPlotColormap)0;
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImPlotNative.ColormapButton(nativeLabel, size, cmap);
+				return result != 0;
+			}
+		}
+
 		public static bool ColormapButton(ReadOnlySpan<char> label, Vector2 size)
 		{
 			// defining omitted parameters
@@ -12618,6 +13038,18 @@ namespace SharpImPlot
 			if (byteCountLabel > Utils.MaxStackallocSize)
 				Utils.Free(nativeLabel);
 			return result != 0;
+		}
+
+		public static bool ColormapButton(ReadOnlySpan<byte> label)
+		{
+			// defining omitted parameters
+			ImPlotColormap cmap = (ImPlotColormap)0;
+			Vector2 size = new Vector2(0,0);
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImPlotNative.ColormapButton(nativeLabel, size, cmap);
+				return result != 0;
+			}
 		}
 
 		public static bool ColormapButton(ReadOnlySpan<char> label)
@@ -13101,14 +13533,6 @@ namespace SharpImPlot
 
 		public static bool ImAlmostEqual(double v1, double v2, int ulp)
 		{
-			var result = ImPlotNative.ImAlmostEqual(v1, v2, ulp);
-			return result != 0;
-		}
-
-		public static bool ImAlmostEqual(double v1, double v2)
-		{
-			// defining omitted parameters
-			int ulp = 2;
 			var result = ImPlotNative.ImAlmostEqual(v1, v2, ulp);
 			return result != 0;
 		}
@@ -13854,6 +14278,18 @@ namespace SharpImPlot
 			return result != 0;
 		}
 
+		public static bool BeginItem(ReadOnlySpan<byte> labelId)
+		{
+			// defining omitted parameters
+			ImPlotCol recolorFrom = (ImPlotCol)0;
+			ImPlotItemFlags flags = ImPlotItemFlags.None;
+			fixed (byte* nativeLabelId = labelId)
+			{
+				var result = ImPlotNative.BeginItem(nativeLabelId, flags, recolorFrom);
+				return result != 0;
+			}
+		}
+
 		public static bool BeginItem(ReadOnlySpan<char> labelId)
 		{
 			// defining omitted parameters
@@ -14070,25 +14506,8 @@ namespace SharpImPlot
 			ImPlotNative.ShowAxisContextMenu(axis, equalAxis, native_timeAllowed);
 		}
 
-		public static void ShowAxisContextMenu(ImPlotAxisPtr axis, ImPlotAxisPtr equalAxis)
-		{
-			// defining omitted parameters
-			byte timeAllowed = 0;
-			ImPlotNative.ShowAxisContextMenu(axis, equalAxis, timeAllowed);
-		}
-
 		public static void GetLocationPos(out Vector2 pOut, ImRect outerRect, Vector2 innerSize, ImPlotLocation location, Vector2 pad)
 		{
-			fixed (Vector2* nativePOut = &pOut)
-			{
-				ImPlotNative.GetLocationPos(nativePOut, outerRect, innerSize, location, pad);
-			}
-		}
-
-		public static void GetLocationPos(out Vector2 pOut, ImRect outerRect, Vector2 innerSize, ImPlotLocation location)
-		{
-			// defining omitted parameters
-			Vector2 pad = new Vector2(0,0);
 			fixed (Vector2* nativePOut = &pOut)
 			{
 				ImPlotNative.GetLocationPos(nativePOut, outerRect, innerSize, location, pad);
@@ -14189,6 +14608,18 @@ namespace SharpImPlot
 				Utils.Free(nativeTitleId);
 		}
 
+		public static void ShowAltLegend(ReadOnlySpan<byte> titleId, bool vertical)
+		{
+			// defining omitted parameters
+			byte interactable = 1;
+			Vector2 size = new Vector2(0,0);
+			var native_vertical = vertical ? (byte)1 : (byte)0;
+			fixed (byte* nativeTitleId = titleId)
+			{
+				ImPlotNative.ShowAltLegend(nativeTitleId, native_vertical, size, interactable);
+			}
+		}
+
 		public static void ShowAltLegend(ReadOnlySpan<char> titleId, bool vertical)
 		{
 			// defining omitted parameters
@@ -14219,6 +14650,18 @@ namespace SharpImPlot
 			// Freeing titleId native string
 			if (byteCountTitleId > Utils.MaxStackallocSize)
 				Utils.Free(nativeTitleId);
+		}
+
+		public static void ShowAltLegend(ReadOnlySpan<byte> titleId)
+		{
+			// defining omitted parameters
+			byte interactable = 1;
+			Vector2 size = new Vector2(0,0);
+			byte vertical = 1;
+			fixed (byte* nativeTitleId = titleId)
+			{
+				ImPlotNative.ShowAltLegend(nativeTitleId, vertical, size, interactable);
+			}
 		}
 
 		public static void ShowAltLegend(ReadOnlySpan<char> titleId)
@@ -14266,16 +14709,6 @@ namespace SharpImPlot
 			fixed (byte* nativeBuff = &buff)
 			{
 				ImPlotNative.LabelAxisValue(axis, value, nativeBuff, size, native_round);
-			}
-		}
-
-		public static void LabelAxisValue(ImPlotAxis axis, double value, ref byte buff, int size)
-		{
-			// defining omitted parameters
-			byte round = 0;
-			fixed (byte* nativeBuff = &buff)
-			{
-				ImPlotNative.LabelAxisValue(axis, value, nativeBuff, size, round);
 			}
 		}
 
@@ -14848,13 +15281,6 @@ namespace SharpImPlot
 			ImPlotNative.MakeTime(pOut, year, month, day, hour, min, sec, us);
 		}
 
-		public static void MakeTime(ImPlotTimePtr pOut, int year, int month, int day, int hour, int min, int sec)
-		{
-			// defining omitted parameters
-			int us = 0;
-			ImPlotNative.MakeTime(pOut, year, month, day, hour, min, sec, us);
-		}
-
 		public static void MakeTime(ImPlotTimePtr pOut, int year, int month, int day, int hour, int min)
 		{
 			// defining omitted parameters
@@ -15048,6 +15474,19 @@ namespace SharpImPlot
 				// Freeing id native string
 				if (byteCountId > Utils.MaxStackallocSize)
 					Utils.Free(nativeId);
+				return result != 0;
+			}
+		}
+
+		public static bool ShowDatePicker(ReadOnlySpan<byte> id, ref int level, ImPlotTimePtr t)
+		{
+			// defining omitted parameters
+			ImPlotTime* t2 = null;
+			ImPlotTime* t1 = null;
+			fixed (byte* nativeId = id)
+			fixed (int* nativeLevel = &level)
+			{
+				var result = ImPlotNative.ShowDatePicker(nativeId, nativeLevel, t, t1, t2);
 				return result != 0;
 			}
 		}

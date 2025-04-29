@@ -125,6 +125,16 @@ namespace SharpImGui
 				Utils.Free(nativeStrEnd);
 		}
 
+		public void Append(ReadOnlySpan<byte> str)
+		{
+			// defining omitted parameters
+			byte* strEnd = null;
+			fixed (byte* nativeStr = str)
+			{
+				ImGuiNative.ImGuiTextBufferAppend(NativePtr, nativeStr, strEnd);
+			}
+		}
+
 		public void Append(ReadOnlySpan<char> str)
 		{
 			// defining omitted parameters

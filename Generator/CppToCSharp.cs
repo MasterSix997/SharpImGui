@@ -183,7 +183,7 @@ public class CppToCSharp
             {"signed int", "int"},
             {"signed long long", "long"},
             
-            {"ImBitArrayForNamedKeys", "nuint"}, //Pode não ser o tipo correto (c# 9.0: nuint)
+            {"ImBitArrayForNamedKeys", "nuint"},
             {"ImGuiDockRequest", "EmptyStruct"},
             {"ImGuiDockNodeSettings", "EmptyStruct"},
             {"ImBitArrayPtr", "void*"},
@@ -313,12 +313,6 @@ public class CppToCSharp
 
         foreach (var cppFunction in _cppCompilation.Functions)
         {
-            // if (nativeFunction.CImGuiName.StartsWith("ImVector") || 
-            //     nativeFunction.CImGuiName.StartsWith("ImPool") ||
-            //     nativeFunction.CImGuiName.StartsWith("ImSpan") ||
-            //     nativeFunction.CImGuiName.StartsWith("ImChunkStream") ||
-            //     nativeFunction.CImGuiName.StartsWith("ImBitArray"))
-            //     continue;
             var returnType = new CsUnresolvedType(cppFunction.ReturnType.FullName ?? "void");
             var csMethod = new CsMethod(cppFunction.Name ?? "Unknown");
             methods.Add(csMethod);
@@ -332,9 +326,6 @@ public class CppToCSharp
 
             foreach (var cppParameter in cppFunction.Parameters)
             {
-                // if (cppParameter.Type.FullName == "...")
-                //     continue;
-                //
                 if (cppParameter.Type.FullName == "va_list")
                 {
                     methods.Remove(csMethod);

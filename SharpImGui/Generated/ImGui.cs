@@ -422,6 +422,20 @@ namespace SharpImGui
 			return result != 0;
 		}
 
+		public static bool Begin(ReadOnlySpan<byte> name, ref bool pOpen)
+		{
+			// defining omitted parameters
+			ImGuiWindowFlags flags = ImGuiWindowFlags.None;
+			var nativePOpenVal = pOpen ? (byte)1 : (byte)0;
+			var nativePOpen = &nativePOpenVal;
+			fixed (byte* nativeName = name)
+			{
+				var result = ImGuiNative.Begin(nativeName, nativePOpen, flags);
+				pOpen = nativePOpenVal != 0;
+				return result != 0;
+			}
+		}
+
 		public static bool Begin(ReadOnlySpan<char> name, ref bool pOpen)
 		{
 			// defining omitted parameters
@@ -454,6 +468,18 @@ namespace SharpImGui
 				Utils.Free(nativeName);
 			pOpen = nativePOpenVal != 0;
 			return result != 0;
+		}
+
+		public static bool Begin(ReadOnlySpan<byte> name)
+		{
+			// defining omitted parameters
+			ImGuiWindowFlags flags = ImGuiWindowFlags.None;
+			byte* pOpen = null;
+			fixed (byte* nativeName = name)
+			{
+				var result = ImGuiNative.Begin(nativeName, pOpen, flags);
+				return result != 0;
+			}
 		}
 
 		public static bool Begin(ReadOnlySpan<char> name)
@@ -1796,6 +1822,19 @@ namespace SharpImGui
 		/// <summary>
 		/// raw text without formatting. Roughly equivalent to Text("%s", text) but: A) doesn't require null terminated string if 'text_end' is specified, B) it's faster, no memory copy is done, no buffer size limits, recommended for long chunks of text.<br/>
 		/// </summary>
+		public static void TextUnformatted(ReadOnlySpan<byte> text)
+		{
+			// defining omitted parameters
+			byte* textEnd = null;
+			fixed (byte* nativeText = text)
+			{
+				ImGuiNative.TextUnformatted(nativeText, textEnd);
+			}
+		}
+
+		/// <summary>
+		/// raw text without formatting. Roughly equivalent to Text("%s", text) but: A) doesn't require null terminated string if 'text_end' is specified, B) it's faster, no memory copy is done, no buffer size limits, recommended for long chunks of text.<br/>
+		/// </summary>
 		public static void TextUnformatted(ReadOnlySpan<char> text)
 		{
 			// defining omitted parameters
@@ -2191,6 +2230,20 @@ namespace SharpImGui
 		/// <summary>
 		/// button<br/>
 		/// </summary>
+		public static bool Button(ReadOnlySpan<byte> label)
+		{
+			// defining omitted parameters
+			Vector2 size = new Vector2(0,0);
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImGuiNative.Button(nativeLabel, size);
+				return result != 0;
+			}
+		}
+
+		/// <summary>
+		/// button<br/>
+		/// </summary>
 		public static bool Button(ReadOnlySpan<char> label)
 		{
 			// defining omitted parameters
@@ -2308,6 +2361,20 @@ namespace SharpImGui
 			if (byteCountStrId > Utils.MaxStackallocSize)
 				Utils.Free(nativeStrId);
 			return result != 0;
+		}
+
+		/// <summary>
+		/// flexible button behavior without the visuals, frequently useful to build custom behaviors using the public api (along with IsItemActive, IsItemHovered, etc.)<br/>
+		/// </summary>
+		public static bool InvisibleButton(ReadOnlySpan<byte> strId, Vector2 size)
+		{
+			// defining omitted parameters
+			ImGuiButtonFlags flags = ImGuiButtonFlags.None;
+			fixed (byte* nativeStrId = strId)
+			{
+				var result = ImGuiNative.InvisibleButton(nativeStrId, size, flags);
+				return result != 0;
+			}
 		}
 
 		/// <summary>
@@ -2776,6 +2843,19 @@ namespace SharpImGui
 		/// <summary>
 		/// hyperlink text button, automatically open file/url when clicked<br/>
 		/// </summary>
+		public static void TextLinkOpenURL(ReadOnlySpan<byte> label)
+		{
+			// defining omitted parameters
+			byte* url = null;
+			fixed (byte* nativeLabel = label)
+			{
+				ImGuiNative.TextLinkOpenURL(nativeLabel, url);
+			}
+		}
+
+		/// <summary>
+		/// hyperlink text button, automatically open file/url when clicked<br/>
+		/// </summary>
 		public static void TextLinkOpenURL(ReadOnlySpan<char> label)
 		{
 			// defining omitted parameters
@@ -2903,6 +2983,17 @@ namespace SharpImGui
 			return result != 0;
 		}
 
+		public static bool ImageButton(ReadOnlySpan<byte> strId, ulong userTextureId, Vector2 imageSize, Vector2 uv0, Vector2 uv1, Vector4 bgCol)
+		{
+			// defining omitted parameters
+			Vector4 tintCol = new Vector4(1,1,1,1);
+			fixed (byte* nativeStrId = strId)
+			{
+				var result = ImGuiNative.ImageButton(nativeStrId, userTextureId, imageSize, uv0, uv1, bgCol, tintCol);
+				return result != 0;
+			}
+		}
+
 		public static bool ImageButton(ReadOnlySpan<char> strId, ulong userTextureId, Vector2 imageSize, Vector2 uv0, Vector2 uv1, Vector4 bgCol)
 		{
 			// defining omitted parameters
@@ -2932,6 +3023,18 @@ namespace SharpImGui
 			if (byteCountStrId > Utils.MaxStackallocSize)
 				Utils.Free(nativeStrId);
 			return result != 0;
+		}
+
+		public static bool ImageButton(ReadOnlySpan<byte> strId, ulong userTextureId, Vector2 imageSize, Vector2 uv0, Vector2 uv1)
+		{
+			// defining omitted parameters
+			Vector4 tintCol = new Vector4(1,1,1,1);
+			Vector4 bgCol = new Vector4(0,0,0,0);
+			fixed (byte* nativeStrId = strId)
+			{
+				var result = ImGuiNative.ImageButton(nativeStrId, userTextureId, imageSize, uv0, uv1, bgCol, tintCol);
+				return result != 0;
+			}
 		}
 
 		public static bool ImageButton(ReadOnlySpan<char> strId, ulong userTextureId, Vector2 imageSize, Vector2 uv0, Vector2 uv1)
@@ -2966,6 +3069,19 @@ namespace SharpImGui
 			return result != 0;
 		}
 
+		public static bool ImageButton(ReadOnlySpan<byte> strId, ulong userTextureId, Vector2 imageSize, Vector2 uv0)
+		{
+			// defining omitted parameters
+			Vector4 tintCol = new Vector4(1,1,1,1);
+			Vector4 bgCol = new Vector4(0,0,0,0);
+			Vector2 uv1 = new Vector2(1,1);
+			fixed (byte* nativeStrId = strId)
+			{
+				var result = ImGuiNative.ImageButton(nativeStrId, userTextureId, imageSize, uv0, uv1, bgCol, tintCol);
+				return result != 0;
+			}
+		}
+
 		public static bool ImageButton(ReadOnlySpan<char> strId, ulong userTextureId, Vector2 imageSize, Vector2 uv0)
 		{
 			// defining omitted parameters
@@ -2997,6 +3113,20 @@ namespace SharpImGui
 			if (byteCountStrId > Utils.MaxStackallocSize)
 				Utils.Free(nativeStrId);
 			return result != 0;
+		}
+
+		public static bool ImageButton(ReadOnlySpan<byte> strId, ulong userTextureId, Vector2 imageSize)
+		{
+			// defining omitted parameters
+			Vector4 tintCol = new Vector4(1,1,1,1);
+			Vector4 bgCol = new Vector4(0,0,0,0);
+			Vector2 uv1 = new Vector2(1,1);
+			Vector2 uv0 = new Vector2(0,0);
+			fixed (byte* nativeStrId = strId)
+			{
+				var result = ImGuiNative.ImageButton(nativeStrId, userTextureId, imageSize, uv0, uv1, bgCol, tintCol);
+				return result != 0;
+			}
 		}
 
 		public static bool ImageButton(ReadOnlySpan<char> strId, ulong userTextureId, Vector2 imageSize)
@@ -3093,6 +3223,18 @@ namespace SharpImGui
 			if (byteCountPreviewValue > Utils.MaxStackallocSize)
 				Utils.Free(nativePreviewValue);
 			return result != 0;
+		}
+
+		public static bool BeginCombo(ReadOnlySpan<byte> label, ReadOnlySpan<byte> previewValue)
+		{
+			// defining omitted parameters
+			ImGuiComboFlags flags = ImGuiComboFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (byte* nativePreviewValue = previewValue)
+			{
+				var result = ImGuiNative.BeginCombo(nativeLabel, nativePreviewValue, flags);
+				return result != 0;
+			}
 		}
 
 		public static bool BeginCombo(ReadOnlySpan<char> label, ReadOnlySpan<char> previewValue)
@@ -3384,6 +3526,22 @@ namespace SharpImGui
 		/// <summary>
 		/// If v_min &gt;= v_max we have no bound<br/>
 		/// </summary>
+		public static bool DragFloat(ReadOnlySpan<byte> label, ref float v, float vSpeed, float vMin, float vMax, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (float* nativeV = &v)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.DragFloat(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
+		/// <summary>
+		/// If v_min &gt;= v_max we have no bound<br/>
+		/// </summary>
 		public static bool DragFloat(ReadOnlySpan<char> label, ref float v, float vSpeed, float vMin, float vMax, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -3444,7 +3602,7 @@ namespace SharpImGui
 		/// <summary>
 		/// If v_min &gt;= v_max we have no bound<br/>
 		/// </summary>
-		public static bool DragFloat(ReadOnlySpan<char> label, ref float v, float vSpeed, float vMin, float vMax)
+		public static bool DragFloat(ReadOnlySpan<byte> label, ref float v, float vSpeed, float vMin, float vMax)
 		{
 			// defining omitted parameters
 			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
@@ -3461,6 +3619,36 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (float* nativeV = &v)
+			{
+				var result = ImGuiNative.DragFloat(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		/// <summary>
+		/// If v_min &gt;= v_max we have no bound<br/>
+		/// </summary>
+		public static bool DragFloat(ReadOnlySpan<char> label, ref float v, float vSpeed, float vMin, float vMax)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -3483,9 +3671,9 @@ namespace SharpImGui
 
 			fixed (float* nativeV = &v)
 			{
-				var result = ImGuiNative.DragFloat(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragFloat(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -3496,7 +3684,7 @@ namespace SharpImGui
 		/// <summary>
 		/// If v_min &gt;= v_max we have no bound<br/>
 		/// </summary>
-		public static bool DragFloat(ReadOnlySpan<char> label, ref float v, float vSpeed, float vMin)
+		public static bool DragFloat(ReadOnlySpan<byte> label, ref float v, float vSpeed, float vMin)
 		{
 			// defining omitted parameters
 			float vMax = 0.0f;
@@ -3514,6 +3702,37 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (float* nativeV = &v)
+			{
+				var result = ImGuiNative.DragFloat(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		/// <summary>
+		/// If v_min &gt;= v_max we have no bound<br/>
+		/// </summary>
+		public static bool DragFloat(ReadOnlySpan<char> label, ref float v, float vSpeed, float vMin)
+		{
+			// defining omitted parameters
+			float vMax = 0.0f;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -3536,9 +3755,9 @@ namespace SharpImGui
 
 			fixed (float* nativeV = &v)
 			{
-				var result = ImGuiNative.DragFloat(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragFloat(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -3549,7 +3768,7 @@ namespace SharpImGui
 		/// <summary>
 		/// If v_min &gt;= v_max we have no bound<br/>
 		/// </summary>
-		public static bool DragFloat(ReadOnlySpan<char> label, ref float v, float vSpeed)
+		public static bool DragFloat(ReadOnlySpan<byte> label, ref float v, float vSpeed)
 		{
 			// defining omitted parameters
 			float vMax = 0.0f;
@@ -3568,6 +3787,38 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (float* nativeV = &v)
+			{
+				var result = ImGuiNative.DragFloat(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		/// <summary>
+		/// If v_min &gt;= v_max we have no bound<br/>
+		/// </summary>
+		public static bool DragFloat(ReadOnlySpan<char> label, ref float v, float vSpeed)
+		{
+			// defining omitted parameters
+			float vMax = 0.0f;
+			float vMin = 0.0f;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -3590,9 +3841,9 @@ namespace SharpImGui
 
 			fixed (float* nativeV = &v)
 			{
-				var result = ImGuiNative.DragFloat(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragFloat(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -3603,7 +3854,7 @@ namespace SharpImGui
 		/// <summary>
 		/// If v_min &gt;= v_max we have no bound<br/>
 		/// </summary>
-		public static bool DragFloat(ReadOnlySpan<char> label, ref float v)
+		public static bool DragFloat(ReadOnlySpan<byte> label, ref float v)
 		{
 			// defining omitted parameters
 			float vMax = 0.0f;
@@ -3623,6 +3874,39 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (float* nativeV = &v)
+			{
+				var result = ImGuiNative.DragFloat(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		/// <summary>
+		/// If v_min &gt;= v_max we have no bound<br/>
+		/// </summary>
+		public static bool DragFloat(ReadOnlySpan<char> label, ref float v)
+		{
+			// defining omitted parameters
+			float vMax = 0.0f;
+			float vMin = 0.0f;
+			float vSpeed = 1.0f;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -3645,9 +3929,9 @@ namespace SharpImGui
 
 			fixed (float* nativeV = &v)
 			{
-				var result = ImGuiNative.DragFloat(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragFloat(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -3721,6 +4005,19 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool DragFloat2(ReadOnlySpan<byte> label, ref Vector2 v, float vSpeed, float vMin, float vMax, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector2* nativeV = &v)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.DragFloat2(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool DragFloat2(ReadOnlySpan<char> label, ref Vector2 v, float vSpeed, float vMin, float vMax, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -3778,7 +4075,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragFloat2(ReadOnlySpan<char> label, ref Vector2 v, float vSpeed, float vMin, float vMax)
+		public static bool DragFloat2(ReadOnlySpan<byte> label, ref Vector2 v, float vSpeed, float vMin, float vMax)
 		{
 			// defining omitted parameters
 			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
@@ -3795,6 +4092,33 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector2* nativeV = &v)
+			{
+				var result = ImGuiNative.DragFloat2(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragFloat2(ReadOnlySpan<char> label, ref Vector2 v, float vSpeed, float vMin, float vMax)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -3817,9 +4141,9 @@ namespace SharpImGui
 
 			fixed (Vector2* nativeV = &v)
 			{
-				var result = ImGuiNative.DragFloat2(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragFloat2(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -3827,7 +4151,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragFloat2(ReadOnlySpan<char> label, ref Vector2 v, float vSpeed, float vMin)
+		public static bool DragFloat2(ReadOnlySpan<byte> label, ref Vector2 v, float vSpeed, float vMin)
 		{
 			// defining omitted parameters
 			float vMax = 0.0f;
@@ -3845,6 +4169,34 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector2* nativeV = &v)
+			{
+				var result = ImGuiNative.DragFloat2(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragFloat2(ReadOnlySpan<char> label, ref Vector2 v, float vSpeed, float vMin)
+		{
+			// defining omitted parameters
+			float vMax = 0.0f;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -3867,9 +4219,9 @@ namespace SharpImGui
 
 			fixed (Vector2* nativeV = &v)
 			{
-				var result = ImGuiNative.DragFloat2(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragFloat2(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -3877,7 +4229,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragFloat2(ReadOnlySpan<char> label, ref Vector2 v, float vSpeed)
+		public static bool DragFloat2(ReadOnlySpan<byte> label, ref Vector2 v, float vSpeed)
 		{
 			// defining omitted parameters
 			float vMax = 0.0f;
@@ -3896,6 +4248,35 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector2* nativeV = &v)
+			{
+				var result = ImGuiNative.DragFloat2(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragFloat2(ReadOnlySpan<char> label, ref Vector2 v, float vSpeed)
+		{
+			// defining omitted parameters
+			float vMax = 0.0f;
+			float vMin = 0.0f;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -3918,9 +4299,9 @@ namespace SharpImGui
 
 			fixed (Vector2* nativeV = &v)
 			{
-				var result = ImGuiNative.DragFloat2(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragFloat2(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -3928,7 +4309,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragFloat2(ReadOnlySpan<char> label, ref Vector2 v)
+		public static bool DragFloat2(ReadOnlySpan<byte> label, ref Vector2 v)
 		{
 			// defining omitted parameters
 			float vMax = 0.0f;
@@ -3948,6 +4329,36 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector2* nativeV = &v)
+			{
+				var result = ImGuiNative.DragFloat2(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragFloat2(ReadOnlySpan<char> label, ref Vector2 v)
+		{
+			// defining omitted parameters
+			float vMax = 0.0f;
+			float vMin = 0.0f;
+			float vSpeed = 1.0f;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -3970,9 +4381,9 @@ namespace SharpImGui
 
 			fixed (Vector2* nativeV = &v)
 			{
-				var result = ImGuiNative.DragFloat2(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragFloat2(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -4046,6 +4457,19 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool DragFloat3(ReadOnlySpan<byte> label, ref Vector3 v, float vSpeed, float vMin, float vMax, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector3* nativeV = &v)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.DragFloat3(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool DragFloat3(ReadOnlySpan<char> label, ref Vector3 v, float vSpeed, float vMin, float vMax, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -4103,7 +4527,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragFloat3(ReadOnlySpan<char> label, ref Vector3 v, float vSpeed, float vMin, float vMax)
+		public static bool DragFloat3(ReadOnlySpan<byte> label, ref Vector3 v, float vSpeed, float vMin, float vMax)
 		{
 			// defining omitted parameters
 			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
@@ -4120,6 +4544,33 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector3* nativeV = &v)
+			{
+				var result = ImGuiNative.DragFloat3(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragFloat3(ReadOnlySpan<char> label, ref Vector3 v, float vSpeed, float vMin, float vMax)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -4142,9 +4593,9 @@ namespace SharpImGui
 
 			fixed (Vector3* nativeV = &v)
 			{
-				var result = ImGuiNative.DragFloat3(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragFloat3(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -4152,7 +4603,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragFloat3(ReadOnlySpan<char> label, ref Vector3 v, float vSpeed, float vMin)
+		public static bool DragFloat3(ReadOnlySpan<byte> label, ref Vector3 v, float vSpeed, float vMin)
 		{
 			// defining omitted parameters
 			float vMax = 0.0f;
@@ -4170,6 +4621,34 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector3* nativeV = &v)
+			{
+				var result = ImGuiNative.DragFloat3(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragFloat3(ReadOnlySpan<char> label, ref Vector3 v, float vSpeed, float vMin)
+		{
+			// defining omitted parameters
+			float vMax = 0.0f;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -4192,9 +4671,9 @@ namespace SharpImGui
 
 			fixed (Vector3* nativeV = &v)
 			{
-				var result = ImGuiNative.DragFloat3(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragFloat3(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -4202,7 +4681,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragFloat3(ReadOnlySpan<char> label, ref Vector3 v, float vSpeed)
+		public static bool DragFloat3(ReadOnlySpan<byte> label, ref Vector3 v, float vSpeed)
 		{
 			// defining omitted parameters
 			float vMax = 0.0f;
@@ -4221,6 +4700,35 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector3* nativeV = &v)
+			{
+				var result = ImGuiNative.DragFloat3(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragFloat3(ReadOnlySpan<char> label, ref Vector3 v, float vSpeed)
+		{
+			// defining omitted parameters
+			float vMax = 0.0f;
+			float vMin = 0.0f;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -4243,9 +4751,9 @@ namespace SharpImGui
 
 			fixed (Vector3* nativeV = &v)
 			{
-				var result = ImGuiNative.DragFloat3(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragFloat3(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -4253,7 +4761,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragFloat3(ReadOnlySpan<char> label, ref Vector3 v)
+		public static bool DragFloat3(ReadOnlySpan<byte> label, ref Vector3 v)
 		{
 			// defining omitted parameters
 			float vMax = 0.0f;
@@ -4273,6 +4781,36 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector3* nativeV = &v)
+			{
+				var result = ImGuiNative.DragFloat3(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragFloat3(ReadOnlySpan<char> label, ref Vector3 v)
+		{
+			// defining omitted parameters
+			float vMax = 0.0f;
+			float vMin = 0.0f;
+			float vSpeed = 1.0f;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -4295,9 +4833,9 @@ namespace SharpImGui
 
 			fixed (Vector3* nativeV = &v)
 			{
-				var result = ImGuiNative.DragFloat3(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragFloat3(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -4371,6 +4909,19 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool DragFloat4(ReadOnlySpan<byte> label, ref Vector4 v, float vSpeed, float vMin, float vMax, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector4* nativeV = &v)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.DragFloat4(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool DragFloat4(ReadOnlySpan<char> label, ref Vector4 v, float vSpeed, float vMin, float vMax, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -4428,7 +4979,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragFloat4(ReadOnlySpan<char> label, ref Vector4 v, float vSpeed, float vMin, float vMax)
+		public static bool DragFloat4(ReadOnlySpan<byte> label, ref Vector4 v, float vSpeed, float vMin, float vMax)
 		{
 			// defining omitted parameters
 			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
@@ -4445,6 +4996,33 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector4* nativeV = &v)
+			{
+				var result = ImGuiNative.DragFloat4(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragFloat4(ReadOnlySpan<char> label, ref Vector4 v, float vSpeed, float vMin, float vMax)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -4467,9 +5045,9 @@ namespace SharpImGui
 
 			fixed (Vector4* nativeV = &v)
 			{
-				var result = ImGuiNative.DragFloat4(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragFloat4(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -4477,7 +5055,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragFloat4(ReadOnlySpan<char> label, ref Vector4 v, float vSpeed, float vMin)
+		public static bool DragFloat4(ReadOnlySpan<byte> label, ref Vector4 v, float vSpeed, float vMin)
 		{
 			// defining omitted parameters
 			float vMax = 0.0f;
@@ -4495,6 +5073,34 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector4* nativeV = &v)
+			{
+				var result = ImGuiNative.DragFloat4(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragFloat4(ReadOnlySpan<char> label, ref Vector4 v, float vSpeed, float vMin)
+		{
+			// defining omitted parameters
+			float vMax = 0.0f;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -4517,9 +5123,9 @@ namespace SharpImGui
 
 			fixed (Vector4* nativeV = &v)
 			{
-				var result = ImGuiNative.DragFloat4(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragFloat4(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -4527,7 +5133,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragFloat4(ReadOnlySpan<char> label, ref Vector4 v, float vSpeed)
+		public static bool DragFloat4(ReadOnlySpan<byte> label, ref Vector4 v, float vSpeed)
 		{
 			// defining omitted parameters
 			float vMax = 0.0f;
@@ -4546,6 +5152,35 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector4* nativeV = &v)
+			{
+				var result = ImGuiNative.DragFloat4(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragFloat4(ReadOnlySpan<char> label, ref Vector4 v, float vSpeed)
+		{
+			// defining omitted parameters
+			float vMax = 0.0f;
+			float vMin = 0.0f;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -4568,9 +5203,9 @@ namespace SharpImGui
 
 			fixed (Vector4* nativeV = &v)
 			{
-				var result = ImGuiNative.DragFloat4(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragFloat4(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -4578,7 +5213,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragFloat4(ReadOnlySpan<char> label, ref Vector4 v)
+		public static bool DragFloat4(ReadOnlySpan<byte> label, ref Vector4 v)
 		{
 			// defining omitted parameters
 			float vMax = 0.0f;
@@ -4598,6 +5233,36 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector4* nativeV = &v)
+			{
+				var result = ImGuiNative.DragFloat4(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragFloat4(ReadOnlySpan<char> label, ref Vector4 v)
+		{
+			// defining omitted parameters
+			float vMax = 0.0f;
+			float vMin = 0.0f;
+			float vSpeed = 1.0f;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -4620,9 +5285,9 @@ namespace SharpImGui
 
 			fixed (Vector4* nativeV = &v)
 			{
-				var result = ImGuiNative.DragFloat4(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragFloat4(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -4722,6 +5387,21 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool DragFloatRange2(ReadOnlySpan<byte> label, ref float vCurrentMin, ref float vCurrentMax, float vSpeed, float vMin, float vMax, ReadOnlySpan<byte> format, ReadOnlySpan<byte> formatMax)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (float* nativeVCurrentMin = &vCurrentMin)
+			fixed (float* nativeVCurrentMax = &vCurrentMax)
+			fixed (byte* nativeFormat = format)
+			fixed (byte* nativeFormatMax = formatMax)
+			{
+				var result = ImGuiNative.DragFloatRange2(nativeLabel, nativeVCurrentMin, nativeVCurrentMax, vSpeed, vMin, vMax, nativeFormat, nativeFormatMax, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool DragFloatRange2(ReadOnlySpan<char> label, ref float vCurrentMin, ref float vCurrentMax, float vSpeed, float vMin, float vMax, ReadOnlySpan<char> format, ReadOnlySpan<char> formatMax)
 		{
 			// defining omitted parameters
@@ -4803,6 +5483,21 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool DragFloatRange2(ReadOnlySpan<byte> label, ref float vCurrentMin, ref float vCurrentMax, float vSpeed, float vMin, float vMax, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* formatMax = null;
+			fixed (byte* nativeLabel = label)
+			fixed (float* nativeVCurrentMin = &vCurrentMin)
+			fixed (float* nativeVCurrentMax = &vCurrentMax)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.DragFloatRange2(nativeLabel, nativeVCurrentMin, nativeVCurrentMax, vSpeed, vMin, vMax, nativeFormat, formatMax, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool DragFloatRange2(ReadOnlySpan<char> label, ref float vCurrentMin, ref float vCurrentMax, float vSpeed, float vMin, float vMax, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -4862,7 +5557,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragFloatRange2(ReadOnlySpan<char> label, ref float vCurrentMin, ref float vCurrentMax, float vSpeed, float vMin, float vMax)
+		public static bool DragFloatRange2(ReadOnlySpan<byte> label, ref float vCurrentMin, ref float vCurrentMax, float vSpeed, float vMin, float vMax)
 		{
 			// defining omitted parameters
 			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
@@ -4880,6 +5575,35 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (float* nativeVCurrentMin = &vCurrentMin)
+			fixed (float* nativeVCurrentMax = &vCurrentMax)
+			{
+				var result = ImGuiNative.DragFloatRange2(nativeLabel, nativeVCurrentMin, nativeVCurrentMax, vSpeed, vMin, vMax, nativeFormat, formatMax, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragFloatRange2(ReadOnlySpan<char> label, ref float vCurrentMin, ref float vCurrentMax, float vSpeed, float vMin, float vMax)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* formatMax = null;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -4903,9 +5627,9 @@ namespace SharpImGui
 			fixed (float* nativeVCurrentMin = &vCurrentMin)
 			fixed (float* nativeVCurrentMax = &vCurrentMax)
 			{
-				var result = ImGuiNative.DragFloatRange2(nativeLabel, nativeVCurrentMin, nativeVCurrentMax, vSpeed, vMin, vMax, nativeFormat, formatMax, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragFloatRange2(nativeLabel, nativeVCurrentMin, nativeVCurrentMax, vSpeed, vMin, vMax, nativeNativeFormat, formatMax, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -4913,7 +5637,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragFloatRange2(ReadOnlySpan<char> label, ref float vCurrentMin, ref float vCurrentMax, float vSpeed, float vMin)
+		public static bool DragFloatRange2(ReadOnlySpan<byte> label, ref float vCurrentMin, ref float vCurrentMax, float vSpeed, float vMin)
 		{
 			// defining omitted parameters
 			float vMax = 0.0f;
@@ -4932,6 +5656,36 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (float* nativeVCurrentMin = &vCurrentMin)
+			fixed (float* nativeVCurrentMax = &vCurrentMax)
+			{
+				var result = ImGuiNative.DragFloatRange2(nativeLabel, nativeVCurrentMin, nativeVCurrentMax, vSpeed, vMin, vMax, nativeFormat, formatMax, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragFloatRange2(ReadOnlySpan<char> label, ref float vCurrentMin, ref float vCurrentMax, float vSpeed, float vMin)
+		{
+			// defining omitted parameters
+			float vMax = 0.0f;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* formatMax = null;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -4955,9 +5709,9 @@ namespace SharpImGui
 			fixed (float* nativeVCurrentMin = &vCurrentMin)
 			fixed (float* nativeVCurrentMax = &vCurrentMax)
 			{
-				var result = ImGuiNative.DragFloatRange2(nativeLabel, nativeVCurrentMin, nativeVCurrentMax, vSpeed, vMin, vMax, nativeFormat, formatMax, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragFloatRange2(nativeLabel, nativeVCurrentMin, nativeVCurrentMax, vSpeed, vMin, vMax, nativeNativeFormat, formatMax, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -4965,7 +5719,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragFloatRange2(ReadOnlySpan<char> label, ref float vCurrentMin, ref float vCurrentMax, float vSpeed)
+		public static bool DragFloatRange2(ReadOnlySpan<byte> label, ref float vCurrentMin, ref float vCurrentMax, float vSpeed)
 		{
 			// defining omitted parameters
 			float vMax = 0.0f;
@@ -4985,6 +5739,37 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (float* nativeVCurrentMin = &vCurrentMin)
+			fixed (float* nativeVCurrentMax = &vCurrentMax)
+			{
+				var result = ImGuiNative.DragFloatRange2(nativeLabel, nativeVCurrentMin, nativeVCurrentMax, vSpeed, vMin, vMax, nativeFormat, formatMax, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragFloatRange2(ReadOnlySpan<char> label, ref float vCurrentMin, ref float vCurrentMax, float vSpeed)
+		{
+			// defining omitted parameters
+			float vMax = 0.0f;
+			float vMin = 0.0f;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* formatMax = null;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -5008,9 +5793,9 @@ namespace SharpImGui
 			fixed (float* nativeVCurrentMin = &vCurrentMin)
 			fixed (float* nativeVCurrentMax = &vCurrentMax)
 			{
-				var result = ImGuiNative.DragFloatRange2(nativeLabel, nativeVCurrentMin, nativeVCurrentMax, vSpeed, vMin, vMax, nativeFormat, formatMax, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragFloatRange2(nativeLabel, nativeVCurrentMin, nativeVCurrentMax, vSpeed, vMin, vMax, nativeNativeFormat, formatMax, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -5018,7 +5803,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragFloatRange2(ReadOnlySpan<char> label, ref float vCurrentMin, ref float vCurrentMax)
+		public static bool DragFloatRange2(ReadOnlySpan<byte> label, ref float vCurrentMin, ref float vCurrentMax)
 		{
 			// defining omitted parameters
 			float vMax = 0.0f;
@@ -5039,6 +5824,38 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (float* nativeVCurrentMin = &vCurrentMin)
+			fixed (float* nativeVCurrentMax = &vCurrentMax)
+			{
+				var result = ImGuiNative.DragFloatRange2(nativeLabel, nativeVCurrentMin, nativeVCurrentMax, vSpeed, vMin, vMax, nativeFormat, formatMax, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragFloatRange2(ReadOnlySpan<char> label, ref float vCurrentMin, ref float vCurrentMax)
+		{
+			// defining omitted parameters
+			float vMax = 0.0f;
+			float vMin = 0.0f;
+			float vSpeed = 1.0f;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* formatMax = null;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -5062,9 +5879,9 @@ namespace SharpImGui
 			fixed (float* nativeVCurrentMin = &vCurrentMin)
 			fixed (float* nativeVCurrentMax = &vCurrentMax)
 			{
-				var result = ImGuiNative.DragFloatRange2(nativeLabel, nativeVCurrentMin, nativeVCurrentMax, vSpeed, vMin, vMax, nativeFormat, formatMax, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragFloatRange2(nativeLabel, nativeVCurrentMin, nativeVCurrentMax, vSpeed, vMin, vMax, nativeNativeFormat, formatMax, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -5147,6 +5964,22 @@ namespace SharpImGui
 		/// <summary>
 		/// If v_min &gt;= v_max we have no bound<br/>
 		/// </summary>
+		public static bool DragInt(ReadOnlySpan<byte> label, ref int v, float vSpeed, int vMin, int vMax, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.DragInt(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
+		/// <summary>
+		/// If v_min &gt;= v_max we have no bound<br/>
+		/// </summary>
 		public static bool DragInt(ReadOnlySpan<char> label, ref int v, float vSpeed, int vMin, int vMax, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -5207,7 +6040,7 @@ namespace SharpImGui
 		/// <summary>
 		/// If v_min &gt;= v_max we have no bound<br/>
 		/// </summary>
-		public static bool DragInt(ReadOnlySpan<char> label, ref int v, float vSpeed, int vMin, int vMax)
+		public static bool DragInt(ReadOnlySpan<byte> label, ref int v, float vSpeed, int vMin, int vMax)
 		{
 			// defining omitted parameters
 			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
@@ -5224,6 +6057,36 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%d", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			{
+				var result = ImGuiNative.DragInt(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		/// <summary>
+		/// If v_min &gt;= v_max we have no bound<br/>
+		/// </summary>
+		public static bool DragInt(ReadOnlySpan<char> label, ref int v, float vSpeed, int vMin, int vMax)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%d");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%d", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -5246,9 +6109,9 @@ namespace SharpImGui
 
 			fixed (int* nativeV = &v)
 			{
-				var result = ImGuiNative.DragInt(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragInt(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -5259,7 +6122,7 @@ namespace SharpImGui
 		/// <summary>
 		/// If v_min &gt;= v_max we have no bound<br/>
 		/// </summary>
-		public static bool DragInt(ReadOnlySpan<char> label, ref int v, float vSpeed, int vMin)
+		public static bool DragInt(ReadOnlySpan<byte> label, ref int v, float vSpeed, int vMin)
 		{
 			// defining omitted parameters
 			int vMax = 0;
@@ -5277,6 +6140,37 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%d", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			{
+				var result = ImGuiNative.DragInt(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		/// <summary>
+		/// If v_min &gt;= v_max we have no bound<br/>
+		/// </summary>
+		public static bool DragInt(ReadOnlySpan<char> label, ref int v, float vSpeed, int vMin)
+		{
+			// defining omitted parameters
+			int vMax = 0;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%d");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%d", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -5299,9 +6193,9 @@ namespace SharpImGui
 
 			fixed (int* nativeV = &v)
 			{
-				var result = ImGuiNative.DragInt(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragInt(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -5312,7 +6206,7 @@ namespace SharpImGui
 		/// <summary>
 		/// If v_min &gt;= v_max we have no bound<br/>
 		/// </summary>
-		public static bool DragInt(ReadOnlySpan<char> label, ref int v, float vSpeed)
+		public static bool DragInt(ReadOnlySpan<byte> label, ref int v, float vSpeed)
 		{
 			// defining omitted parameters
 			int vMax = 0;
@@ -5331,6 +6225,38 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%d", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			{
+				var result = ImGuiNative.DragInt(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		/// <summary>
+		/// If v_min &gt;= v_max we have no bound<br/>
+		/// </summary>
+		public static bool DragInt(ReadOnlySpan<char> label, ref int v, float vSpeed)
+		{
+			// defining omitted parameters
+			int vMax = 0;
+			int vMin = 0;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%d");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%d", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -5353,9 +6279,9 @@ namespace SharpImGui
 
 			fixed (int* nativeV = &v)
 			{
-				var result = ImGuiNative.DragInt(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragInt(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -5366,7 +6292,7 @@ namespace SharpImGui
 		/// <summary>
 		/// If v_min &gt;= v_max we have no bound<br/>
 		/// </summary>
-		public static bool DragInt(ReadOnlySpan<char> label, ref int v)
+		public static bool DragInt(ReadOnlySpan<byte> label, ref int v)
 		{
 			// defining omitted parameters
 			int vMax = 0;
@@ -5386,6 +6312,39 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%d", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			{
+				var result = ImGuiNative.DragInt(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		/// <summary>
+		/// If v_min &gt;= v_max we have no bound<br/>
+		/// </summary>
+		public static bool DragInt(ReadOnlySpan<char> label, ref int v)
+		{
+			// defining omitted parameters
+			int vMax = 0;
+			int vMin = 0;
+			float vSpeed = 1.0f;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%d");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%d", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -5408,9 +6367,9 @@ namespace SharpImGui
 
 			fixed (int* nativeV = &v)
 			{
-				var result = ImGuiNative.DragInt(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragInt(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -5484,6 +6443,19 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool DragInt2(ReadOnlySpan<byte> label, ref int v, float vSpeed, int vMin, int vMax, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.DragInt2(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool DragInt2(ReadOnlySpan<char> label, ref int v, float vSpeed, int vMin, int vMax, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -5541,7 +6513,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragInt2(ReadOnlySpan<char> label, ref int v, float vSpeed, int vMin, int vMax)
+		public static bool DragInt2(ReadOnlySpan<byte> label, ref int v, float vSpeed, int vMin, int vMax)
 		{
 			// defining omitted parameters
 			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
@@ -5558,6 +6530,33 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%d", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			{
+				var result = ImGuiNative.DragInt2(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragInt2(ReadOnlySpan<char> label, ref int v, float vSpeed, int vMin, int vMax)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%d");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%d", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -5580,9 +6579,9 @@ namespace SharpImGui
 
 			fixed (int* nativeV = &v)
 			{
-				var result = ImGuiNative.DragInt2(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragInt2(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -5590,7 +6589,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragInt2(ReadOnlySpan<char> label, ref int v, float vSpeed, int vMin)
+		public static bool DragInt2(ReadOnlySpan<byte> label, ref int v, float vSpeed, int vMin)
 		{
 			// defining omitted parameters
 			int vMax = 0;
@@ -5608,6 +6607,34 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%d", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			{
+				var result = ImGuiNative.DragInt2(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragInt2(ReadOnlySpan<char> label, ref int v, float vSpeed, int vMin)
+		{
+			// defining omitted parameters
+			int vMax = 0;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%d");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%d", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -5630,9 +6657,9 @@ namespace SharpImGui
 
 			fixed (int* nativeV = &v)
 			{
-				var result = ImGuiNative.DragInt2(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragInt2(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -5640,7 +6667,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragInt2(ReadOnlySpan<char> label, ref int v, float vSpeed)
+		public static bool DragInt2(ReadOnlySpan<byte> label, ref int v, float vSpeed)
 		{
 			// defining omitted parameters
 			int vMax = 0;
@@ -5659,6 +6686,35 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%d", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			{
+				var result = ImGuiNative.DragInt2(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragInt2(ReadOnlySpan<char> label, ref int v, float vSpeed)
+		{
+			// defining omitted parameters
+			int vMax = 0;
+			int vMin = 0;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%d");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%d", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -5681,9 +6737,9 @@ namespace SharpImGui
 
 			fixed (int* nativeV = &v)
 			{
-				var result = ImGuiNative.DragInt2(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragInt2(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -5691,7 +6747,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragInt2(ReadOnlySpan<char> label, ref int v)
+		public static bool DragInt2(ReadOnlySpan<byte> label, ref int v)
 		{
 			// defining omitted parameters
 			int vMax = 0;
@@ -5711,6 +6767,36 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%d", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			{
+				var result = ImGuiNative.DragInt2(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragInt2(ReadOnlySpan<char> label, ref int v)
+		{
+			// defining omitted parameters
+			int vMax = 0;
+			int vMin = 0;
+			float vSpeed = 1.0f;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%d");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%d", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -5733,9 +6819,9 @@ namespace SharpImGui
 
 			fixed (int* nativeV = &v)
 			{
-				var result = ImGuiNative.DragInt2(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragInt2(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -5809,6 +6895,19 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool DragInt3(ReadOnlySpan<byte> label, ref int v, float vSpeed, int vMin, int vMax, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.DragInt3(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool DragInt3(ReadOnlySpan<char> label, ref int v, float vSpeed, int vMin, int vMax, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -5866,7 +6965,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragInt3(ReadOnlySpan<char> label, ref int v, float vSpeed, int vMin, int vMax)
+		public static bool DragInt3(ReadOnlySpan<byte> label, ref int v, float vSpeed, int vMin, int vMax)
 		{
 			// defining omitted parameters
 			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
@@ -5883,6 +6982,33 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%d", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			{
+				var result = ImGuiNative.DragInt3(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragInt3(ReadOnlySpan<char> label, ref int v, float vSpeed, int vMin, int vMax)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%d");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%d", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -5905,9 +7031,9 @@ namespace SharpImGui
 
 			fixed (int* nativeV = &v)
 			{
-				var result = ImGuiNative.DragInt3(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragInt3(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -5915,7 +7041,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragInt3(ReadOnlySpan<char> label, ref int v, float vSpeed, int vMin)
+		public static bool DragInt3(ReadOnlySpan<byte> label, ref int v, float vSpeed, int vMin)
 		{
 			// defining omitted parameters
 			int vMax = 0;
@@ -5933,6 +7059,34 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%d", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			{
+				var result = ImGuiNative.DragInt3(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragInt3(ReadOnlySpan<char> label, ref int v, float vSpeed, int vMin)
+		{
+			// defining omitted parameters
+			int vMax = 0;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%d");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%d", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -5955,9 +7109,9 @@ namespace SharpImGui
 
 			fixed (int* nativeV = &v)
 			{
-				var result = ImGuiNative.DragInt3(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragInt3(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -5965,7 +7119,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragInt3(ReadOnlySpan<char> label, ref int v, float vSpeed)
+		public static bool DragInt3(ReadOnlySpan<byte> label, ref int v, float vSpeed)
 		{
 			// defining omitted parameters
 			int vMax = 0;
@@ -5984,6 +7138,35 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%d", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			{
+				var result = ImGuiNative.DragInt3(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragInt3(ReadOnlySpan<char> label, ref int v, float vSpeed)
+		{
+			// defining omitted parameters
+			int vMax = 0;
+			int vMin = 0;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%d");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%d", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -6006,9 +7189,9 @@ namespace SharpImGui
 
 			fixed (int* nativeV = &v)
 			{
-				var result = ImGuiNative.DragInt3(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragInt3(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -6016,7 +7199,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragInt3(ReadOnlySpan<char> label, ref int v)
+		public static bool DragInt3(ReadOnlySpan<byte> label, ref int v)
 		{
 			// defining omitted parameters
 			int vMax = 0;
@@ -6036,6 +7219,36 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%d", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			{
+				var result = ImGuiNative.DragInt3(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragInt3(ReadOnlySpan<char> label, ref int v)
+		{
+			// defining omitted parameters
+			int vMax = 0;
+			int vMin = 0;
+			float vSpeed = 1.0f;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%d");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%d", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -6058,9 +7271,9 @@ namespace SharpImGui
 
 			fixed (int* nativeV = &v)
 			{
-				var result = ImGuiNative.DragInt3(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragInt3(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -6134,6 +7347,19 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool DragInt4(ReadOnlySpan<byte> label, ref int v, float vSpeed, int vMin, int vMax, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.DragInt4(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool DragInt4(ReadOnlySpan<char> label, ref int v, float vSpeed, int vMin, int vMax, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -6191,7 +7417,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragInt4(ReadOnlySpan<char> label, ref int v, float vSpeed, int vMin, int vMax)
+		public static bool DragInt4(ReadOnlySpan<byte> label, ref int v, float vSpeed, int vMin, int vMax)
 		{
 			// defining omitted parameters
 			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
@@ -6208,6 +7434,33 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%d", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			{
+				var result = ImGuiNative.DragInt4(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragInt4(ReadOnlySpan<char> label, ref int v, float vSpeed, int vMin, int vMax)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%d");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%d", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -6230,9 +7483,9 @@ namespace SharpImGui
 
 			fixed (int* nativeV = &v)
 			{
-				var result = ImGuiNative.DragInt4(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragInt4(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -6240,7 +7493,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragInt4(ReadOnlySpan<char> label, ref int v, float vSpeed, int vMin)
+		public static bool DragInt4(ReadOnlySpan<byte> label, ref int v, float vSpeed, int vMin)
 		{
 			// defining omitted parameters
 			int vMax = 0;
@@ -6258,6 +7511,34 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%d", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			{
+				var result = ImGuiNative.DragInt4(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragInt4(ReadOnlySpan<char> label, ref int v, float vSpeed, int vMin)
+		{
+			// defining omitted parameters
+			int vMax = 0;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%d");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%d", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -6280,9 +7561,9 @@ namespace SharpImGui
 
 			fixed (int* nativeV = &v)
 			{
-				var result = ImGuiNative.DragInt4(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragInt4(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -6290,7 +7571,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragInt4(ReadOnlySpan<char> label, ref int v, float vSpeed)
+		public static bool DragInt4(ReadOnlySpan<byte> label, ref int v, float vSpeed)
 		{
 			// defining omitted parameters
 			int vMax = 0;
@@ -6309,6 +7590,35 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%d", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			{
+				var result = ImGuiNative.DragInt4(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragInt4(ReadOnlySpan<char> label, ref int v, float vSpeed)
+		{
+			// defining omitted parameters
+			int vMax = 0;
+			int vMin = 0;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%d");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%d", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -6331,9 +7641,9 @@ namespace SharpImGui
 
 			fixed (int* nativeV = &v)
 			{
-				var result = ImGuiNative.DragInt4(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragInt4(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -6341,7 +7651,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragInt4(ReadOnlySpan<char> label, ref int v)
+		public static bool DragInt4(ReadOnlySpan<byte> label, ref int v)
 		{
 			// defining omitted parameters
 			int vMax = 0;
@@ -6361,6 +7671,36 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%d", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			{
+				var result = ImGuiNative.DragInt4(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragInt4(ReadOnlySpan<char> label, ref int v)
+		{
+			// defining omitted parameters
+			int vMax = 0;
+			int vMin = 0;
+			float vSpeed = 1.0f;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%d");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%d", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -6383,9 +7723,9 @@ namespace SharpImGui
 
 			fixed (int* nativeV = &v)
 			{
-				var result = ImGuiNative.DragInt4(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragInt4(nativeLabel, nativeV, vSpeed, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -6485,6 +7825,21 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool DragIntRange2(ReadOnlySpan<byte> label, ref int vCurrentMin, ref int vCurrentMax, float vSpeed, int vMin, int vMax, ReadOnlySpan<byte> format, ReadOnlySpan<byte> formatMax)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeVCurrentMin = &vCurrentMin)
+			fixed (int* nativeVCurrentMax = &vCurrentMax)
+			fixed (byte* nativeFormat = format)
+			fixed (byte* nativeFormatMax = formatMax)
+			{
+				var result = ImGuiNative.DragIntRange2(nativeLabel, nativeVCurrentMin, nativeVCurrentMax, vSpeed, vMin, vMax, nativeFormat, nativeFormatMax, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool DragIntRange2(ReadOnlySpan<char> label, ref int vCurrentMin, ref int vCurrentMax, float vSpeed, int vMin, int vMax, ReadOnlySpan<char> format, ReadOnlySpan<char> formatMax)
 		{
 			// defining omitted parameters
@@ -6566,6 +7921,21 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool DragIntRange2(ReadOnlySpan<byte> label, ref int vCurrentMin, ref int vCurrentMax, float vSpeed, int vMin, int vMax, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* formatMax = null;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeVCurrentMin = &vCurrentMin)
+			fixed (int* nativeVCurrentMax = &vCurrentMax)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.DragIntRange2(nativeLabel, nativeVCurrentMin, nativeVCurrentMax, vSpeed, vMin, vMax, nativeFormat, formatMax, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool DragIntRange2(ReadOnlySpan<char> label, ref int vCurrentMin, ref int vCurrentMax, float vSpeed, int vMin, int vMax, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -6625,7 +7995,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragIntRange2(ReadOnlySpan<char> label, ref int vCurrentMin, ref int vCurrentMax, float vSpeed, int vMin, int vMax)
+		public static bool DragIntRange2(ReadOnlySpan<byte> label, ref int vCurrentMin, ref int vCurrentMax, float vSpeed, int vMin, int vMax)
 		{
 			// defining omitted parameters
 			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
@@ -6643,6 +8013,35 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%d", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeVCurrentMin = &vCurrentMin)
+			fixed (int* nativeVCurrentMax = &vCurrentMax)
+			{
+				var result = ImGuiNative.DragIntRange2(nativeLabel, nativeVCurrentMin, nativeVCurrentMax, vSpeed, vMin, vMax, nativeFormat, formatMax, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragIntRange2(ReadOnlySpan<char> label, ref int vCurrentMin, ref int vCurrentMax, float vSpeed, int vMin, int vMax)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* formatMax = null;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%d");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%d", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -6666,9 +8065,9 @@ namespace SharpImGui
 			fixed (int* nativeVCurrentMin = &vCurrentMin)
 			fixed (int* nativeVCurrentMax = &vCurrentMax)
 			{
-				var result = ImGuiNative.DragIntRange2(nativeLabel, nativeVCurrentMin, nativeVCurrentMax, vSpeed, vMin, vMax, nativeFormat, formatMax, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragIntRange2(nativeLabel, nativeVCurrentMin, nativeVCurrentMax, vSpeed, vMin, vMax, nativeNativeFormat, formatMax, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -6676,7 +8075,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragIntRange2(ReadOnlySpan<char> label, ref int vCurrentMin, ref int vCurrentMax, float vSpeed, int vMin)
+		public static bool DragIntRange2(ReadOnlySpan<byte> label, ref int vCurrentMin, ref int vCurrentMax, float vSpeed, int vMin)
 		{
 			// defining omitted parameters
 			int vMax = 0;
@@ -6695,6 +8094,36 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%d", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeVCurrentMin = &vCurrentMin)
+			fixed (int* nativeVCurrentMax = &vCurrentMax)
+			{
+				var result = ImGuiNative.DragIntRange2(nativeLabel, nativeVCurrentMin, nativeVCurrentMax, vSpeed, vMin, vMax, nativeFormat, formatMax, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragIntRange2(ReadOnlySpan<char> label, ref int vCurrentMin, ref int vCurrentMax, float vSpeed, int vMin)
+		{
+			// defining omitted parameters
+			int vMax = 0;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* formatMax = null;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%d");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%d", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -6718,9 +8147,9 @@ namespace SharpImGui
 			fixed (int* nativeVCurrentMin = &vCurrentMin)
 			fixed (int* nativeVCurrentMax = &vCurrentMax)
 			{
-				var result = ImGuiNative.DragIntRange2(nativeLabel, nativeVCurrentMin, nativeVCurrentMax, vSpeed, vMin, vMax, nativeFormat, formatMax, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragIntRange2(nativeLabel, nativeVCurrentMin, nativeVCurrentMax, vSpeed, vMin, vMax, nativeNativeFormat, formatMax, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -6728,7 +8157,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragIntRange2(ReadOnlySpan<char> label, ref int vCurrentMin, ref int vCurrentMax, float vSpeed)
+		public static bool DragIntRange2(ReadOnlySpan<byte> label, ref int vCurrentMin, ref int vCurrentMax, float vSpeed)
 		{
 			// defining omitted parameters
 			int vMax = 0;
@@ -6748,6 +8177,37 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%d", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeVCurrentMin = &vCurrentMin)
+			fixed (int* nativeVCurrentMax = &vCurrentMax)
+			{
+				var result = ImGuiNative.DragIntRange2(nativeLabel, nativeVCurrentMin, nativeVCurrentMax, vSpeed, vMin, vMax, nativeFormat, formatMax, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragIntRange2(ReadOnlySpan<char> label, ref int vCurrentMin, ref int vCurrentMax, float vSpeed)
+		{
+			// defining omitted parameters
+			int vMax = 0;
+			int vMin = 0;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* formatMax = null;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%d");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%d", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -6771,9 +8231,9 @@ namespace SharpImGui
 			fixed (int* nativeVCurrentMin = &vCurrentMin)
 			fixed (int* nativeVCurrentMax = &vCurrentMax)
 			{
-				var result = ImGuiNative.DragIntRange2(nativeLabel, nativeVCurrentMin, nativeVCurrentMax, vSpeed, vMin, vMax, nativeFormat, formatMax, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragIntRange2(nativeLabel, nativeVCurrentMin, nativeVCurrentMax, vSpeed, vMin, vMax, nativeNativeFormat, formatMax, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -6781,7 +8241,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool DragIntRange2(ReadOnlySpan<char> label, ref int vCurrentMin, ref int vCurrentMax)
+		public static bool DragIntRange2(ReadOnlySpan<byte> label, ref int vCurrentMin, ref int vCurrentMax)
 		{
 			// defining omitted parameters
 			int vMax = 0;
@@ -6802,6 +8262,38 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%d", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeVCurrentMin = &vCurrentMin)
+			fixed (int* nativeVCurrentMax = &vCurrentMax)
+			{
+				var result = ImGuiNative.DragIntRange2(nativeLabel, nativeVCurrentMin, nativeVCurrentMax, vSpeed, vMin, vMax, nativeFormat, formatMax, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool DragIntRange2(ReadOnlySpan<char> label, ref int vCurrentMin, ref int vCurrentMax)
+		{
+			// defining omitted parameters
+			int vMax = 0;
+			int vMin = 0;
+			float vSpeed = 1.0f;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* formatMax = null;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%d");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%d", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -6825,9 +8317,9 @@ namespace SharpImGui
 			fixed (int* nativeVCurrentMin = &vCurrentMin)
 			fixed (int* nativeVCurrentMax = &vCurrentMax)
 			{
-				var result = ImGuiNative.DragIntRange2(nativeLabel, nativeVCurrentMin, nativeVCurrentMax, vSpeed, vMin, vMax, nativeFormat, formatMax, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.DragIntRange2(nativeLabel, nativeVCurrentMin, nativeVCurrentMax, vSpeed, vMin, vMax, nativeNativeFormat, formatMax, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -6897,6 +8389,18 @@ namespace SharpImGui
 			return result != 0;
 		}
 
+		public static bool DragScalar(ReadOnlySpan<byte> label, ImGuiDataType dataType, IntPtr pData, float vSpeed, IntPtr pMin, IntPtr pMax, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.DragScalar(nativeLabel, dataType, (void*)pData, vSpeed, (void*)pMin, (void*)pMax, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool DragScalar(ReadOnlySpan<char> label, ImGuiDataType dataType, IntPtr pData, float vSpeed, IntPtr pMin, IntPtr pMax, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -6951,6 +8455,18 @@ namespace SharpImGui
 			return result != 0;
 		}
 
+		public static bool DragScalar(ReadOnlySpan<byte> label, ImGuiDataType dataType, IntPtr pData, float vSpeed, IntPtr pMin, IntPtr pMax)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* format = null;
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImGuiNative.DragScalar(nativeLabel, dataType, (void*)pData, vSpeed, (void*)pMin, (void*)pMax, format, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool DragScalar(ReadOnlySpan<char> label, ImGuiDataType dataType, IntPtr pData, float vSpeed, IntPtr pMin, IntPtr pMax)
 		{
 			// defining omitted parameters
@@ -6981,6 +8497,19 @@ namespace SharpImGui
 			if (byteCountLabel > Utils.MaxStackallocSize)
 				Utils.Free(nativeLabel);
 			return result != 0;
+		}
+
+		public static bool DragScalar(ReadOnlySpan<byte> label, ImGuiDataType dataType, IntPtr pData, float vSpeed, IntPtr pMin)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* format = null;
+			void* pMax = null;
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImGuiNative.DragScalar(nativeLabel, dataType, (void*)pData, vSpeed, (void*)pMin, pMax, format, flags);
+				return result != 0;
+			}
 		}
 
 		public static bool DragScalar(ReadOnlySpan<char> label, ImGuiDataType dataType, IntPtr pData, float vSpeed, IntPtr pMin)
@@ -7016,6 +8545,20 @@ namespace SharpImGui
 			return result != 0;
 		}
 
+		public static bool DragScalar(ReadOnlySpan<byte> label, ImGuiDataType dataType, IntPtr pData, float vSpeed)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* format = null;
+			void* pMax = null;
+			void* pMin = null;
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImGuiNative.DragScalar(nativeLabel, dataType, (void*)pData, vSpeed, pMin, pMax, format, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool DragScalar(ReadOnlySpan<char> label, ImGuiDataType dataType, IntPtr pData, float vSpeed)
 		{
 			// defining omitted parameters
@@ -7048,6 +8591,21 @@ namespace SharpImGui
 			if (byteCountLabel > Utils.MaxStackallocSize)
 				Utils.Free(nativeLabel);
 			return result != 0;
+		}
+
+		public static bool DragScalar(ReadOnlySpan<byte> label, ImGuiDataType dataType, IntPtr pData)
+		{
+			// defining omitted parameters
+			float vSpeed = 1.0f;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* format = null;
+			void* pMax = null;
+			void* pMin = null;
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImGuiNative.DragScalar(nativeLabel, dataType, (void*)pData, vSpeed, pMin, pMax, format, flags);
+				return result != 0;
+			}
 		}
 
 		public static bool DragScalar(ReadOnlySpan<char> label, ImGuiDataType dataType, IntPtr pData)
@@ -7147,6 +8705,18 @@ namespace SharpImGui
 			return result != 0;
 		}
 
+		public static bool DragScalarN(ReadOnlySpan<byte> label, ImGuiDataType dataType, IntPtr pData, int components, float vSpeed, IntPtr pMin, IntPtr pMax, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.DragScalarN(nativeLabel, dataType, (void*)pData, components, vSpeed, (void*)pMin, (void*)pMax, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool DragScalarN(ReadOnlySpan<char> label, ImGuiDataType dataType, IntPtr pData, int components, float vSpeed, IntPtr pMin, IntPtr pMax, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -7201,6 +8771,18 @@ namespace SharpImGui
 			return result != 0;
 		}
 
+		public static bool DragScalarN(ReadOnlySpan<byte> label, ImGuiDataType dataType, IntPtr pData, int components, float vSpeed, IntPtr pMin, IntPtr pMax)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* format = null;
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImGuiNative.DragScalarN(nativeLabel, dataType, (void*)pData, components, vSpeed, (void*)pMin, (void*)pMax, format, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool DragScalarN(ReadOnlySpan<char> label, ImGuiDataType dataType, IntPtr pData, int components, float vSpeed, IntPtr pMin, IntPtr pMax)
 		{
 			// defining omitted parameters
@@ -7231,6 +8813,19 @@ namespace SharpImGui
 			if (byteCountLabel > Utils.MaxStackallocSize)
 				Utils.Free(nativeLabel);
 			return result != 0;
+		}
+
+		public static bool DragScalarN(ReadOnlySpan<byte> label, ImGuiDataType dataType, IntPtr pData, int components, float vSpeed, IntPtr pMin)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* format = null;
+			void* pMax = null;
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImGuiNative.DragScalarN(nativeLabel, dataType, (void*)pData, components, vSpeed, (void*)pMin, pMax, format, flags);
+				return result != 0;
+			}
 		}
 
 		public static bool DragScalarN(ReadOnlySpan<char> label, ImGuiDataType dataType, IntPtr pData, int components, float vSpeed, IntPtr pMin)
@@ -7266,6 +8861,20 @@ namespace SharpImGui
 			return result != 0;
 		}
 
+		public static bool DragScalarN(ReadOnlySpan<byte> label, ImGuiDataType dataType, IntPtr pData, int components, float vSpeed)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* format = null;
+			void* pMax = null;
+			void* pMin = null;
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImGuiNative.DragScalarN(nativeLabel, dataType, (void*)pData, components, vSpeed, pMin, pMax, format, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool DragScalarN(ReadOnlySpan<char> label, ImGuiDataType dataType, IntPtr pData, int components, float vSpeed)
 		{
 			// defining omitted parameters
@@ -7298,6 +8907,21 @@ namespace SharpImGui
 			if (byteCountLabel > Utils.MaxStackallocSize)
 				Utils.Free(nativeLabel);
 			return result != 0;
+		}
+
+		public static bool DragScalarN(ReadOnlySpan<byte> label, ImGuiDataType dataType, IntPtr pData, int components)
+		{
+			// defining omitted parameters
+			float vSpeed = 1.0f;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* format = null;
+			void* pMax = null;
+			void* pMin = null;
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImGuiNative.DragScalarN(nativeLabel, dataType, (void*)pData, components, vSpeed, pMin, pMax, format, flags);
+				return result != 0;
+			}
 		}
 
 		public static bool DragScalarN(ReadOnlySpan<char> label, ImGuiDataType dataType, IntPtr pData, int components)
@@ -7410,6 +9034,22 @@ namespace SharpImGui
 		/// <summary>
 		/// adjust format to decorate the value with a prefix or a suffix for in-slider labels or unit display.<br/>
 		/// </summary>
+		public static bool SliderFloat(ReadOnlySpan<byte> label, ref float v, float vMin, float vMax, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (float* nativeV = &v)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.SliderFloat(nativeLabel, nativeV, vMin, vMax, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
+		/// <summary>
+		/// adjust format to decorate the value with a prefix or a suffix for in-slider labels or unit display.<br/>
+		/// </summary>
 		public static bool SliderFloat(ReadOnlySpan<char> label, ref float v, float vMin, float vMax, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -7470,7 +9110,7 @@ namespace SharpImGui
 		/// <summary>
 		/// adjust format to decorate the value with a prefix or a suffix for in-slider labels or unit display.<br/>
 		/// </summary>
-		public static bool SliderFloat(ReadOnlySpan<char> label, ref float v, float vMin, float vMax)
+		public static bool SliderFloat(ReadOnlySpan<byte> label, ref float v, float vMin, float vMax)
 		{
 			// defining omitted parameters
 			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
@@ -7487,6 +9127,36 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (float* nativeV = &v)
+			{
+				var result = ImGuiNative.SliderFloat(nativeLabel, nativeV, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		/// <summary>
+		/// adjust format to decorate the value with a prefix or a suffix for in-slider labels or unit display.<br/>
+		/// </summary>
+		public static bool SliderFloat(ReadOnlySpan<char> label, ref float v, float vMin, float vMax)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -7509,9 +9179,9 @@ namespace SharpImGui
 
 			fixed (float* nativeV = &v)
 			{
-				var result = ImGuiNative.SliderFloat(nativeLabel, nativeV, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.SliderFloat(nativeLabel, nativeV, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -7585,6 +9255,19 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool SliderFloat2(ReadOnlySpan<byte> label, ref Vector2 v, float vMin, float vMax, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector2* nativeV = &v)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.SliderFloat2(nativeLabel, nativeV, vMin, vMax, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool SliderFloat2(ReadOnlySpan<char> label, ref Vector2 v, float vMin, float vMax, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -7642,7 +9325,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool SliderFloat2(ReadOnlySpan<char> label, ref Vector2 v, float vMin, float vMax)
+		public static bool SliderFloat2(ReadOnlySpan<byte> label, ref Vector2 v, float vMin, float vMax)
 		{
 			// defining omitted parameters
 			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
@@ -7659,6 +9342,33 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector2* nativeV = &v)
+			{
+				var result = ImGuiNative.SliderFloat2(nativeLabel, nativeV, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool SliderFloat2(ReadOnlySpan<char> label, ref Vector2 v, float vMin, float vMax)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -7681,9 +9391,9 @@ namespace SharpImGui
 
 			fixed (Vector2* nativeV = &v)
 			{
-				var result = ImGuiNative.SliderFloat2(nativeLabel, nativeV, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.SliderFloat2(nativeLabel, nativeV, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -7757,6 +9467,19 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool SliderFloat3(ReadOnlySpan<byte> label, ref Vector3 v, float vMin, float vMax, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector3* nativeV = &v)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.SliderFloat3(nativeLabel, nativeV, vMin, vMax, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool SliderFloat3(ReadOnlySpan<char> label, ref Vector3 v, float vMin, float vMax, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -7814,7 +9537,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool SliderFloat3(ReadOnlySpan<char> label, ref Vector3 v, float vMin, float vMax)
+		public static bool SliderFloat3(ReadOnlySpan<byte> label, ref Vector3 v, float vMin, float vMax)
 		{
 			// defining omitted parameters
 			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
@@ -7831,6 +9554,33 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector3* nativeV = &v)
+			{
+				var result = ImGuiNative.SliderFloat3(nativeLabel, nativeV, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool SliderFloat3(ReadOnlySpan<char> label, ref Vector3 v, float vMin, float vMax)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -7853,9 +9603,9 @@ namespace SharpImGui
 
 			fixed (Vector3* nativeV = &v)
 			{
-				var result = ImGuiNative.SliderFloat3(nativeLabel, nativeV, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.SliderFloat3(nativeLabel, nativeV, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -7929,6 +9679,19 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool SliderFloat4(ReadOnlySpan<byte> label, ref Vector4 v, float vMin, float vMax, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector4* nativeV = &v)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.SliderFloat4(nativeLabel, nativeV, vMin, vMax, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool SliderFloat4(ReadOnlySpan<char> label, ref Vector4 v, float vMin, float vMax, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -7986,7 +9749,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool SliderFloat4(ReadOnlySpan<char> label, ref Vector4 v, float vMin, float vMax)
+		public static bool SliderFloat4(ReadOnlySpan<byte> label, ref Vector4 v, float vMin, float vMax)
 		{
 			// defining omitted parameters
 			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
@@ -8003,6 +9766,33 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector4* nativeV = &v)
+			{
+				var result = ImGuiNative.SliderFloat4(nativeLabel, nativeV, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool SliderFloat4(ReadOnlySpan<char> label, ref Vector4 v, float vMin, float vMax)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -8025,9 +9815,9 @@ namespace SharpImGui
 
 			fixed (Vector4* nativeV = &v)
 			{
-				var result = ImGuiNative.SliderFloat4(nativeLabel, nativeV, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.SliderFloat4(nativeLabel, nativeV, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -8101,6 +9891,19 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool SliderAngle(ReadOnlySpan<byte> label, ref float vRad, float vDegreesMin, float vDegreesMax, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (float* nativeVRad = &vRad)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.SliderAngle(nativeLabel, nativeVRad, vDegreesMin, vDegreesMax, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool SliderAngle(ReadOnlySpan<char> label, ref float vRad, float vDegreesMin, float vDegreesMax, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -8158,7 +9961,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool SliderAngle(ReadOnlySpan<char> label, ref float vRad, float vDegreesMin, float vDegreesMax)
+		public static bool SliderAngle(ReadOnlySpan<byte> label, ref float vRad, float vDegreesMin, float vDegreesMax)
 		{
 			// defining omitted parameters
 			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
@@ -8175,6 +9978,33 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.0f deg", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (float* nativeVRad = &vRad)
+			{
+				var result = ImGuiNative.SliderAngle(nativeLabel, nativeVRad, vDegreesMin, vDegreesMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool SliderAngle(ReadOnlySpan<char> label, ref float vRad, float vDegreesMin, float vDegreesMax)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.0f deg");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.0f deg", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -8197,9 +10027,9 @@ namespace SharpImGui
 
 			fixed (float* nativeVRad = &vRad)
 			{
-				var result = ImGuiNative.SliderAngle(nativeLabel, nativeVRad, vDegreesMin, vDegreesMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.SliderAngle(nativeLabel, nativeVRad, vDegreesMin, vDegreesMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -8207,7 +10037,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool SliderAngle(ReadOnlySpan<char> label, ref float vRad, float vDegreesMin)
+		public static bool SliderAngle(ReadOnlySpan<byte> label, ref float vRad, float vDegreesMin)
 		{
 			// defining omitted parameters
 			float vDegreesMax = +360.0f;
@@ -8225,6 +10055,34 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.0f deg", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (float* nativeVRad = &vRad)
+			{
+				var result = ImGuiNative.SliderAngle(nativeLabel, nativeVRad, vDegreesMin, vDegreesMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool SliderAngle(ReadOnlySpan<char> label, ref float vRad, float vDegreesMin)
+		{
+			// defining omitted parameters
+			float vDegreesMax = +360.0f;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.0f deg");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.0f deg", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -8247,9 +10105,9 @@ namespace SharpImGui
 
 			fixed (float* nativeVRad = &vRad)
 			{
-				var result = ImGuiNative.SliderAngle(nativeLabel, nativeVRad, vDegreesMin, vDegreesMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.SliderAngle(nativeLabel, nativeVRad, vDegreesMin, vDegreesMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -8257,7 +10115,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool SliderAngle(ReadOnlySpan<char> label, ref float vRad)
+		public static bool SliderAngle(ReadOnlySpan<byte> label, ref float vRad)
 		{
 			// defining omitted parameters
 			float vDegreesMax = +360.0f;
@@ -8276,6 +10134,35 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.0f deg", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (float* nativeVRad = &vRad)
+			{
+				var result = ImGuiNative.SliderAngle(nativeLabel, nativeVRad, vDegreesMin, vDegreesMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool SliderAngle(ReadOnlySpan<char> label, ref float vRad)
+		{
+			// defining omitted parameters
+			float vDegreesMax = +360.0f;
+			float vDegreesMin = -360.0f;
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.0f deg");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.0f deg", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -8298,9 +10185,9 @@ namespace SharpImGui
 
 			fixed (float* nativeVRad = &vRad)
 			{
-				var result = ImGuiNative.SliderAngle(nativeLabel, nativeVRad, vDegreesMin, vDegreesMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.SliderAngle(nativeLabel, nativeVRad, vDegreesMin, vDegreesMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -8374,6 +10261,19 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool SliderInt(ReadOnlySpan<byte> label, ref int v, int vMin, int vMax, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.SliderInt(nativeLabel, nativeV, vMin, vMax, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool SliderInt(ReadOnlySpan<char> label, ref int v, int vMin, int vMax, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -8431,7 +10331,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool SliderInt(ReadOnlySpan<char> label, ref int v, int vMin, int vMax)
+		public static bool SliderInt(ReadOnlySpan<byte> label, ref int v, int vMin, int vMax)
 		{
 			// defining omitted parameters
 			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
@@ -8448,6 +10348,33 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%d", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			{
+				var result = ImGuiNative.SliderInt(nativeLabel, nativeV, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool SliderInt(ReadOnlySpan<char> label, ref int v, int vMin, int vMax)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%d");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%d", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -8470,9 +10397,9 @@ namespace SharpImGui
 
 			fixed (int* nativeV = &v)
 			{
-				var result = ImGuiNative.SliderInt(nativeLabel, nativeV, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.SliderInt(nativeLabel, nativeV, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -8546,6 +10473,19 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool SliderInt2(ReadOnlySpan<byte> label, ref int v, int vMin, int vMax, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.SliderInt2(nativeLabel, nativeV, vMin, vMax, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool SliderInt2(ReadOnlySpan<char> label, ref int v, int vMin, int vMax, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -8603,7 +10543,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool SliderInt2(ReadOnlySpan<char> label, ref int v, int vMin, int vMax)
+		public static bool SliderInt2(ReadOnlySpan<byte> label, ref int v, int vMin, int vMax)
 		{
 			// defining omitted parameters
 			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
@@ -8620,6 +10560,33 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%d", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			{
+				var result = ImGuiNative.SliderInt2(nativeLabel, nativeV, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool SliderInt2(ReadOnlySpan<char> label, ref int v, int vMin, int vMax)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%d");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%d", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -8642,9 +10609,9 @@ namespace SharpImGui
 
 			fixed (int* nativeV = &v)
 			{
-				var result = ImGuiNative.SliderInt2(nativeLabel, nativeV, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.SliderInt2(nativeLabel, nativeV, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -8718,6 +10685,19 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool SliderInt3(ReadOnlySpan<byte> label, ref int v, int vMin, int vMax, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.SliderInt3(nativeLabel, nativeV, vMin, vMax, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool SliderInt3(ReadOnlySpan<char> label, ref int v, int vMin, int vMax, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -8775,7 +10755,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool SliderInt3(ReadOnlySpan<char> label, ref int v, int vMin, int vMax)
+		public static bool SliderInt3(ReadOnlySpan<byte> label, ref int v, int vMin, int vMax)
 		{
 			// defining omitted parameters
 			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
@@ -8792,6 +10772,33 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%d", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			{
+				var result = ImGuiNative.SliderInt3(nativeLabel, nativeV, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool SliderInt3(ReadOnlySpan<char> label, ref int v, int vMin, int vMax)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%d");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%d", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -8814,9 +10821,9 @@ namespace SharpImGui
 
 			fixed (int* nativeV = &v)
 			{
-				var result = ImGuiNative.SliderInt3(nativeLabel, nativeV, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.SliderInt3(nativeLabel, nativeV, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -8890,6 +10897,19 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool SliderInt4(ReadOnlySpan<byte> label, ref int v, int vMin, int vMax, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.SliderInt4(nativeLabel, nativeV, vMin, vMax, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool SliderInt4(ReadOnlySpan<char> label, ref int v, int vMin, int vMax, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -8947,7 +10967,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool SliderInt4(ReadOnlySpan<char> label, ref int v, int vMin, int vMax)
+		public static bool SliderInt4(ReadOnlySpan<byte> label, ref int v, int vMin, int vMax)
 		{
 			// defining omitted parameters
 			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
@@ -8964,6 +10984,33 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%d", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			{
+				var result = ImGuiNative.SliderInt4(nativeLabel, nativeV, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool SliderInt4(ReadOnlySpan<char> label, ref int v, int vMin, int vMax)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%d");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%d", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -8986,9 +11033,9 @@ namespace SharpImGui
 
 			fixed (int* nativeV = &v)
 			{
-				var result = ImGuiNative.SliderInt4(nativeLabel, nativeV, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.SliderInt4(nativeLabel, nativeV, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -9058,6 +11105,18 @@ namespace SharpImGui
 			return result != 0;
 		}
 
+		public static bool SliderScalar(ReadOnlySpan<byte> label, ImGuiDataType dataType, IntPtr pData, IntPtr pMin, IntPtr pMax, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.SliderScalar(nativeLabel, dataType, (void*)pData, (void*)pMin, (void*)pMax, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool SliderScalar(ReadOnlySpan<char> label, ImGuiDataType dataType, IntPtr pData, IntPtr pMin, IntPtr pMax, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -9110,6 +11169,18 @@ namespace SharpImGui
 			if (byteCountFormat > Utils.MaxStackallocSize)
 				Utils.Free(nativeFormat);
 			return result != 0;
+		}
+
+		public static bool SliderScalar(ReadOnlySpan<byte> label, ImGuiDataType dataType, IntPtr pData, IntPtr pMin, IntPtr pMax)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* format = null;
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImGuiNative.SliderScalar(nativeLabel, dataType, (void*)pData, (void*)pMin, (void*)pMax, format, flags);
+				return result != 0;
+			}
 		}
 
 		public static bool SliderScalar(ReadOnlySpan<char> label, ImGuiDataType dataType, IntPtr pData, IntPtr pMin, IntPtr pMax)
@@ -9206,6 +11277,18 @@ namespace SharpImGui
 			return result != 0;
 		}
 
+		public static bool SliderScalarN(ReadOnlySpan<byte> label, ImGuiDataType dataType, IntPtr pData, int components, IntPtr pMin, IntPtr pMax, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.SliderScalarN(nativeLabel, dataType, (void*)pData, components, (void*)pMin, (void*)pMax, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool SliderScalarN(ReadOnlySpan<char> label, ImGuiDataType dataType, IntPtr pData, int components, IntPtr pMin, IntPtr pMax, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -9258,6 +11341,18 @@ namespace SharpImGui
 			if (byteCountFormat > Utils.MaxStackallocSize)
 				Utils.Free(nativeFormat);
 			return result != 0;
+		}
+
+		public static bool SliderScalarN(ReadOnlySpan<byte> label, ImGuiDataType dataType, IntPtr pData, int components, IntPtr pMin, IntPtr pMax)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* format = null;
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImGuiNative.SliderScalarN(nativeLabel, dataType, (void*)pData, components, (void*)pMin, (void*)pMax, format, flags);
+				return result != 0;
+			}
 		}
 
 		public static bool SliderScalarN(ReadOnlySpan<char> label, ImGuiDataType dataType, IntPtr pData, int components, IntPtr pMin, IntPtr pMax)
@@ -9358,6 +11453,19 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool VSliderFloat(ReadOnlySpan<byte> label, Vector2 size, ref float v, float vMin, float vMax, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (float* nativeV = &v)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.VSliderFloat(nativeLabel, size, nativeV, vMin, vMax, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool VSliderFloat(ReadOnlySpan<char> label, Vector2 size, ref float v, float vMin, float vMax, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -9415,7 +11523,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool VSliderFloat(ReadOnlySpan<char> label, Vector2 size, ref float v, float vMin, float vMax)
+		public static bool VSliderFloat(ReadOnlySpan<byte> label, Vector2 size, ref float v, float vMin, float vMax)
 		{
 			// defining omitted parameters
 			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
@@ -9432,6 +11540,33 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (float* nativeV = &v)
+			{
+				var result = ImGuiNative.VSliderFloat(nativeLabel, size, nativeV, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool VSliderFloat(ReadOnlySpan<char> label, Vector2 size, ref float v, float vMin, float vMax)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -9454,9 +11589,9 @@ namespace SharpImGui
 
 			fixed (float* nativeV = &v)
 			{
-				var result = ImGuiNative.VSliderFloat(nativeLabel, size, nativeV, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.VSliderFloat(nativeLabel, size, nativeV, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -9530,6 +11665,19 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool VSliderInt(ReadOnlySpan<byte> label, Vector2 size, ref int v, int vMin, int vMax, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.VSliderInt(nativeLabel, size, nativeV, vMin, vMax, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool VSliderInt(ReadOnlySpan<char> label, Vector2 size, ref int v, int vMin, int vMax, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -9587,7 +11735,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool VSliderInt(ReadOnlySpan<char> label, Vector2 size, ref int v, int vMin, int vMax)
+		public static bool VSliderInt(ReadOnlySpan<byte> label, Vector2 size, ref int v, int vMin, int vMax)
 		{
 			// defining omitted parameters
 			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
@@ -9604,6 +11752,33 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%d", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			{
+				var result = ImGuiNative.VSliderInt(nativeLabel, size, nativeV, vMin, vMax, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool VSliderInt(ReadOnlySpan<char> label, Vector2 size, ref int v, int vMin, int vMax)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%d");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%d", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -9626,9 +11801,9 @@ namespace SharpImGui
 
 			fixed (int* nativeV = &v)
 			{
-				var result = ImGuiNative.VSliderInt(nativeLabel, size, nativeV, vMin, vMax, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.VSliderInt(nativeLabel, size, nativeV, vMin, vMax, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -9698,6 +11873,18 @@ namespace SharpImGui
 			return result != 0;
 		}
 
+		public static bool VSliderScalar(ReadOnlySpan<byte> label, Vector2 size, ImGuiDataType dataType, IntPtr pData, IntPtr pMin, IntPtr pMax, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.VSliderScalar(nativeLabel, size, dataType, (void*)pData, (void*)pMin, (void*)pMax, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool VSliderScalar(ReadOnlySpan<char> label, Vector2 size, ImGuiDataType dataType, IntPtr pData, IntPtr pMin, IntPtr pMax, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -9750,6 +11937,18 @@ namespace SharpImGui
 			if (byteCountFormat > Utils.MaxStackallocSize)
 				Utils.Free(nativeFormat);
 			return result != 0;
+		}
+
+		public static bool VSliderScalar(ReadOnlySpan<byte> label, Vector2 size, ImGuiDataType dataType, IntPtr pData, IntPtr pMin, IntPtr pMax)
+		{
+			// defining omitted parameters
+			ImGuiSliderFlags flags = ImGuiSliderFlags.None;
+			byte* format = null;
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImGuiNative.VSliderScalar(nativeLabel, size, dataType, (void*)pData, (void*)pMin, (void*)pMax, format, flags);
+				return result != 0;
+			}
 		}
 
 		public static bool VSliderScalar(ReadOnlySpan<char> label, Vector2 size, ImGuiDataType dataType, IntPtr pData, IntPtr pMin, IntPtr pMax)
@@ -9826,6 +12025,18 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool InputText(ReadOnlySpan<byte> label, ref byte buf, uint bufSize, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback)
+		{
+			// defining omitted parameters
+			void* userData = null;
+			fixed (byte* nativeLabel = label)
+			fixed (byte* nativeBuf = &buf)
+			{
+				var result = ImGuiNative.InputText(nativeLabel, nativeBuf, bufSize, flags, callback, userData);
+				return result != 0;
+			}
+		}
+
 		public static bool InputText(ReadOnlySpan<char> label, ref byte buf, uint bufSize, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback)
 		{
 			// defining omitted parameters
@@ -9856,6 +12067,19 @@ namespace SharpImGui
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
+				return result != 0;
+			}
+		}
+
+		public static bool InputText(ReadOnlySpan<byte> label, ref byte buf, uint bufSize, ImGuiInputTextFlags flags)
+		{
+			// defining omitted parameters
+			void* userData = null;
+			ImGuiInputTextCallback callback = null;
+			fixed (byte* nativeLabel = label)
+			fixed (byte* nativeBuf = &buf)
+			{
+				var result = ImGuiNative.InputText(nativeLabel, nativeBuf, bufSize, flags, callback, userData);
 				return result != 0;
 			}
 		}
@@ -9891,6 +12115,20 @@ namespace SharpImGui
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
+				return result != 0;
+			}
+		}
+
+		public static bool InputText(ReadOnlySpan<byte> label, ref byte buf, uint bufSize)
+		{
+			// defining omitted parameters
+			void* userData = null;
+			ImGuiInputTextCallback callback = null;
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (byte* nativeBuf = &buf)
+			{
+				var result = ImGuiNative.InputText(nativeLabel, nativeBuf, bufSize, flags, callback, userData);
 				return result != 0;
 			}
 		}
@@ -9973,6 +12211,18 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool InputTextMultiline(ReadOnlySpan<byte> label, ref byte buf, uint bufSize, Vector2 size, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback)
+		{
+			// defining omitted parameters
+			void* userData = null;
+			fixed (byte* nativeLabel = label)
+			fixed (byte* nativeBuf = &buf)
+			{
+				var result = ImGuiNative.InputTextMultiline(nativeLabel, nativeBuf, bufSize, size, flags, callback, userData);
+				return result != 0;
+			}
+		}
+
 		public static bool InputTextMultiline(ReadOnlySpan<char> label, ref byte buf, uint bufSize, Vector2 size, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback)
 		{
 			// defining omitted parameters
@@ -10003,6 +12253,19 @@ namespace SharpImGui
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
+				return result != 0;
+			}
+		}
+
+		public static bool InputTextMultiline(ReadOnlySpan<byte> label, ref byte buf, uint bufSize, Vector2 size, ImGuiInputTextFlags flags)
+		{
+			// defining omitted parameters
+			void* userData = null;
+			ImGuiInputTextCallback callback = null;
+			fixed (byte* nativeLabel = label)
+			fixed (byte* nativeBuf = &buf)
+			{
+				var result = ImGuiNative.InputTextMultiline(nativeLabel, nativeBuf, bufSize, size, flags, callback, userData);
 				return result != 0;
 			}
 		}
@@ -10042,6 +12305,20 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool InputTextMultiline(ReadOnlySpan<byte> label, ref byte buf, uint bufSize, Vector2 size)
+		{
+			// defining omitted parameters
+			void* userData = null;
+			ImGuiInputTextCallback callback = null;
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (byte* nativeBuf = &buf)
+			{
+				var result = ImGuiNative.InputTextMultiline(nativeLabel, nativeBuf, bufSize, size, flags, callback, userData);
+				return result != 0;
+			}
+		}
+
 		public static bool InputTextMultiline(ReadOnlySpan<char> label, ref byte buf, uint bufSize, Vector2 size)
 		{
 			// defining omitted parameters
@@ -10074,6 +12351,21 @@ namespace SharpImGui
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
+				return result != 0;
+			}
+		}
+
+		public static bool InputTextMultiline(ReadOnlySpan<byte> label, ref byte buf, uint bufSize)
+		{
+			// defining omitted parameters
+			void* userData = null;
+			ImGuiInputTextCallback callback = null;
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			Vector2 size = new Vector2(0,0);
+			fixed (byte* nativeLabel = label)
+			fixed (byte* nativeBuf = &buf)
+			{
+				var result = ImGuiNative.InputTextMultiline(nativeLabel, nativeBuf, bufSize, size, flags, callback, userData);
 				return result != 0;
 			}
 		}
@@ -10181,6 +12473,19 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool InputTextWithHint(ReadOnlySpan<byte> label, ReadOnlySpan<byte> hint, ref byte buf, uint bufSize, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback)
+		{
+			// defining omitted parameters
+			void* userData = null;
+			fixed (byte* nativeLabel = label)
+			fixed (byte* nativeHint = hint)
+			fixed (byte* nativeBuf = &buf)
+			{
+				var result = ImGuiNative.InputTextWithHint(nativeLabel, nativeHint, nativeBuf, bufSize, flags, callback, userData);
+				return result != 0;
+			}
+		}
+
 		public static bool InputTextWithHint(ReadOnlySpan<char> label, ReadOnlySpan<char> hint, ref byte buf, uint bufSize, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback)
 		{
 			// defining omitted parameters
@@ -10234,6 +12539,20 @@ namespace SharpImGui
 				// Freeing hint native string
 				if (byteCountHint > Utils.MaxStackallocSize)
 					Utils.Free(nativeHint);
+				return result != 0;
+			}
+		}
+
+		public static bool InputTextWithHint(ReadOnlySpan<byte> label, ReadOnlySpan<byte> hint, ref byte buf, uint bufSize, ImGuiInputTextFlags flags)
+		{
+			// defining omitted parameters
+			void* userData = null;
+			ImGuiInputTextCallback callback = null;
+			fixed (byte* nativeLabel = label)
+			fixed (byte* nativeHint = hint)
+			fixed (byte* nativeBuf = &buf)
+			{
+				var result = ImGuiNative.InputTextWithHint(nativeLabel, nativeHint, nativeBuf, bufSize, flags, callback, userData);
 				return result != 0;
 			}
 		}
@@ -10292,6 +12611,21 @@ namespace SharpImGui
 				// Freeing hint native string
 				if (byteCountHint > Utils.MaxStackallocSize)
 					Utils.Free(nativeHint);
+				return result != 0;
+			}
+		}
+
+		public static bool InputTextWithHint(ReadOnlySpan<byte> label, ReadOnlySpan<byte> hint, ref byte buf, uint bufSize)
+		{
+			// defining omitted parameters
+			void* userData = null;
+			ImGuiInputTextCallback callback = null;
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (byte* nativeHint = hint)
+			fixed (byte* nativeBuf = &buf)
+			{
+				var result = ImGuiNative.InputTextWithHint(nativeLabel, nativeHint, nativeBuf, bufSize, flags, callback, userData);
 				return result != 0;
 			}
 		}
@@ -10421,6 +12755,19 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool InputFloat(ReadOnlySpan<byte> label, ref float v, float step, float stepFast, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (float* nativeV = &v)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.InputFloat(nativeLabel, nativeV, step, stepFast, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool InputFloat(ReadOnlySpan<char> label, ref float v, float step, float stepFast, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -10478,7 +12825,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool InputFloat(ReadOnlySpan<char> label, ref float v, float step, float stepFast)
+		public static bool InputFloat(ReadOnlySpan<byte> label, ref float v, float step, float stepFast)
 		{
 			// defining omitted parameters
 			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
@@ -10495,6 +12842,33 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (float* nativeV = &v)
+			{
+				var result = ImGuiNative.InputFloat(nativeLabel, nativeV, step, stepFast, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool InputFloat(ReadOnlySpan<char> label, ref float v, float step, float stepFast)
+		{
+			// defining omitted parameters
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -10517,9 +12891,9 @@ namespace SharpImGui
 
 			fixed (float* nativeV = &v)
 			{
-				var result = ImGuiNative.InputFloat(nativeLabel, nativeV, step, stepFast, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.InputFloat(nativeLabel, nativeV, step, stepFast, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -10527,7 +12901,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool InputFloat(ReadOnlySpan<char> label, ref float v, float step)
+		public static bool InputFloat(ReadOnlySpan<byte> label, ref float v, float step)
 		{
 			// defining omitted parameters
 			float stepFast = 0.0f;
@@ -10545,6 +12919,34 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (float* nativeV = &v)
+			{
+				var result = ImGuiNative.InputFloat(nativeLabel, nativeV, step, stepFast, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool InputFloat(ReadOnlySpan<char> label, ref float v, float step)
+		{
+			// defining omitted parameters
+			float stepFast = 0.0f;
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -10567,9 +12969,9 @@ namespace SharpImGui
 
 			fixed (float* nativeV = &v)
 			{
-				var result = ImGuiNative.InputFloat(nativeLabel, nativeV, step, stepFast, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.InputFloat(nativeLabel, nativeV, step, stepFast, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -10577,7 +12979,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool InputFloat(ReadOnlySpan<char> label, ref float v)
+		public static bool InputFloat(ReadOnlySpan<byte> label, ref float v)
 		{
 			// defining omitted parameters
 			float stepFast = 0.0f;
@@ -10596,6 +12998,35 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (float* nativeV = &v)
+			{
+				var result = ImGuiNative.InputFloat(nativeLabel, nativeV, step, stepFast, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool InputFloat(ReadOnlySpan<char> label, ref float v)
+		{
+			// defining omitted parameters
+			float stepFast = 0.0f;
+			float step = 0.0f;
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -10618,9 +13049,9 @@ namespace SharpImGui
 
 			fixed (float* nativeV = &v)
 			{
-				var result = ImGuiNative.InputFloat(nativeLabel, nativeV, step, stepFast, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.InputFloat(nativeLabel, nativeV, step, stepFast, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -10694,6 +13125,19 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool InputFloat2(ReadOnlySpan<byte> label, ref Vector2 v, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector2* nativeV = &v)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.InputFloat2(nativeLabel, nativeV, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool InputFloat2(ReadOnlySpan<char> label, ref Vector2 v, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -10751,7 +13195,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool InputFloat2(ReadOnlySpan<char> label, ref Vector2 v)
+		public static bool InputFloat2(ReadOnlySpan<byte> label, ref Vector2 v)
 		{
 			// defining omitted parameters
 			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
@@ -10768,6 +13212,33 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector2* nativeV = &v)
+			{
+				var result = ImGuiNative.InputFloat2(nativeLabel, nativeV, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool InputFloat2(ReadOnlySpan<char> label, ref Vector2 v)
+		{
+			// defining omitted parameters
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -10790,9 +13261,9 @@ namespace SharpImGui
 
 			fixed (Vector2* nativeV = &v)
 			{
-				var result = ImGuiNative.InputFloat2(nativeLabel, nativeV, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.InputFloat2(nativeLabel, nativeV, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -10866,6 +13337,19 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool InputFloat3(ReadOnlySpan<byte> label, ref Vector3 v, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector3* nativeV = &v)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.InputFloat3(nativeLabel, nativeV, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool InputFloat3(ReadOnlySpan<char> label, ref Vector3 v, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -10923,7 +13407,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool InputFloat3(ReadOnlySpan<char> label, ref Vector3 v)
+		public static bool InputFloat3(ReadOnlySpan<byte> label, ref Vector3 v)
 		{
 			// defining omitted parameters
 			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
@@ -10940,6 +13424,33 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector3* nativeV = &v)
+			{
+				var result = ImGuiNative.InputFloat3(nativeLabel, nativeV, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool InputFloat3(ReadOnlySpan<char> label, ref Vector3 v)
+		{
+			// defining omitted parameters
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -10962,9 +13473,9 @@ namespace SharpImGui
 
 			fixed (Vector3* nativeV = &v)
 			{
-				var result = ImGuiNative.InputFloat3(nativeLabel, nativeV, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.InputFloat3(nativeLabel, nativeV, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -11038,6 +13549,19 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool InputFloat4(ReadOnlySpan<byte> label, ref Vector4 v, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector4* nativeV = &v)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.InputFloat4(nativeLabel, nativeV, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool InputFloat4(ReadOnlySpan<char> label, ref Vector4 v, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -11095,7 +13619,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool InputFloat4(ReadOnlySpan<char> label, ref Vector4 v)
+		public static bool InputFloat4(ReadOnlySpan<byte> label, ref Vector4 v)
 		{
 			// defining omitted parameters
 			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
@@ -11112,6 +13636,33 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector4* nativeV = &v)
+			{
+				var result = ImGuiNative.InputFloat4(nativeLabel, nativeV, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool InputFloat4(ReadOnlySpan<char> label, ref Vector4 v)
+		{
+			// defining omitted parameters
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.3f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.3f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -11134,9 +13685,9 @@ namespace SharpImGui
 
 			fixed (Vector4* nativeV = &v)
 			{
-				var result = ImGuiNative.InputFloat4(nativeLabel, nativeV, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.InputFloat4(nativeLabel, nativeV, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -11186,6 +13737,18 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool InputInt(ReadOnlySpan<byte> label, ref int v, int step, int stepFast)
+		{
+			// defining omitted parameters
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			{
+				var result = ImGuiNative.InputInt(nativeLabel, nativeV, step, stepFast, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool InputInt(ReadOnlySpan<char> label, ref int v, int step, int stepFast)
 		{
 			// defining omitted parameters
@@ -11216,6 +13779,19 @@ namespace SharpImGui
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
+				return result != 0;
+			}
+		}
+
+		public static bool InputInt(ReadOnlySpan<byte> label, ref int v, int step)
+		{
+			// defining omitted parameters
+			int stepFast = 100;
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			{
+				var result = ImGuiNative.InputInt(nativeLabel, nativeV, step, stepFast, flags);
 				return result != 0;
 			}
 		}
@@ -11251,6 +13827,20 @@ namespace SharpImGui
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
+				return result != 0;
+			}
+		}
+
+		public static bool InputInt(ReadOnlySpan<byte> label, ref int v)
+		{
+			// defining omitted parameters
+			int stepFast = 100;
+			int step = 1;
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			{
+				var result = ImGuiNative.InputInt(nativeLabel, nativeV, step, stepFast, flags);
 				return result != 0;
 			}
 		}
@@ -11333,6 +13923,18 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool InputInt2(ReadOnlySpan<byte> label, ref int v)
+		{
+			// defining omitted parameters
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			{
+				var result = ImGuiNative.InputInt2(nativeLabel, nativeV, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool InputInt2(ReadOnlySpan<char> label, ref int v)
 		{
 			// defining omitted parameters
@@ -11409,6 +14011,18 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool InputInt3(ReadOnlySpan<byte> label, ref int v)
+		{
+			// defining omitted parameters
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			{
+				var result = ImGuiNative.InputInt3(nativeLabel, nativeV, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool InputInt3(ReadOnlySpan<char> label, ref int v)
 		{
 			// defining omitted parameters
@@ -11481,6 +14095,18 @@ namespace SharpImGui
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
+				return result != 0;
+			}
+		}
+
+		public static bool InputInt4(ReadOnlySpan<byte> label, ref int v)
+		{
+			// defining omitted parameters
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (int* nativeV = &v)
+			{
+				var result = ImGuiNative.InputInt4(nativeLabel, nativeV, flags);
 				return result != 0;
 			}
 		}
@@ -11585,6 +14211,19 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool InputDouble(ReadOnlySpan<byte> label, ref double v, double step, double stepFast, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (double* nativeV = &v)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.InputDouble(nativeLabel, nativeV, step, stepFast, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool InputDouble(ReadOnlySpan<char> label, ref double v, double step, double stepFast, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -11642,7 +14281,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool InputDouble(ReadOnlySpan<char> label, ref double v, double step, double stepFast)
+		public static bool InputDouble(ReadOnlySpan<byte> label, ref double v, double step, double stepFast)
 		{
 			// defining omitted parameters
 			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
@@ -11659,6 +14298,33 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.6f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (double* nativeV = &v)
+			{
+				var result = ImGuiNative.InputDouble(nativeLabel, nativeV, step, stepFast, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool InputDouble(ReadOnlySpan<char> label, ref double v, double step, double stepFast)
+		{
+			// defining omitted parameters
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.6f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.6f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -11681,9 +14347,9 @@ namespace SharpImGui
 
 			fixed (double* nativeV = &v)
 			{
-				var result = ImGuiNative.InputDouble(nativeLabel, nativeV, step, stepFast, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.InputDouble(nativeLabel, nativeV, step, stepFast, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -11691,7 +14357,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool InputDouble(ReadOnlySpan<char> label, ref double v, double step)
+		public static bool InputDouble(ReadOnlySpan<byte> label, ref double v, double step)
 		{
 			// defining omitted parameters
 			double stepFast = 0.0;
@@ -11709,6 +14375,34 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.6f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (double* nativeV = &v)
+			{
+				var result = ImGuiNative.InputDouble(nativeLabel, nativeV, step, stepFast, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool InputDouble(ReadOnlySpan<char> label, ref double v, double step)
+		{
+			// defining omitted parameters
+			double stepFast = 0.0;
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.6f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.6f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -11731,9 +14425,9 @@ namespace SharpImGui
 
 			fixed (double* nativeV = &v)
 			{
-				var result = ImGuiNative.InputDouble(nativeLabel, nativeV, step, stepFast, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.InputDouble(nativeLabel, nativeV, step, stepFast, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -11741,7 +14435,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool InputDouble(ReadOnlySpan<char> label, ref double v)
+		public static bool InputDouble(ReadOnlySpan<byte> label, ref double v)
 		{
 			// defining omitted parameters
 			double stepFast = 0.0;
@@ -11760,6 +14454,35 @@ namespace SharpImGui
 			}
 			var offsetNativeFormat = Utils.EncodeStringUTF8("%.6f", nativeFormat, byteCountFormat);
 			nativeFormat[offsetNativeFormat] = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (double* nativeV = &v)
+			{
+				var result = ImGuiNative.InputDouble(nativeLabel, nativeV, step, stepFast, nativeFormat, flags);
+				if (byteCountFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeFormat);
+				return result != 0;
+			}
+		}
+
+		public static bool InputDouble(ReadOnlySpan<char> label, ref double v)
+		{
+			// defining omitted parameters
+			double stepFast = 0.0;
+			double step = 0.0;
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			byte* nativeNativeFormat = null;
+			var byteCountNativeFormat = Encoding.UTF8.GetByteCount("%.6f");
+			if(byteCountNativeFormat > Utils.MaxStackallocSize)
+			{
+				nativeNativeFormat = Utils.Alloc<byte>(byteCountNativeFormat + 1);
+			}
+			else
+			{
+				var stackallocBytes = stackalloc byte[byteCountNativeFormat + 1];
+				nativeNativeFormat = stackallocBytes;
+			}
+			var offsetNativeNativeFormat = Utils.EncodeStringUTF8("%.6f", nativeNativeFormat, byteCountNativeFormat);
+			nativeNativeFormat[offsetNativeNativeFormat] = 0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
@@ -11782,9 +14505,9 @@ namespace SharpImGui
 
 			fixed (double* nativeV = &v)
 			{
-				var result = ImGuiNative.InputDouble(nativeLabel, nativeV, step, stepFast, nativeFormat, flags);
-				if (byteCountFormat > Utils.MaxStackallocSize)
-					Utils.Free(nativeFormat);
+				var result = ImGuiNative.InputDouble(nativeLabel, nativeV, step, stepFast, nativeNativeFormat, flags);
+				if (byteCountNativeFormat > Utils.MaxStackallocSize)
+					Utils.Free(nativeNativeFormat);
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
@@ -11854,6 +14577,18 @@ namespace SharpImGui
 			return result != 0;
 		}
 
+		public static bool InputScalar(ReadOnlySpan<byte> label, ImGuiDataType dataType, IntPtr pData, IntPtr pStep, IntPtr pStepFast, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.InputScalar(nativeLabel, dataType, (void*)pData, (void*)pStep, (void*)pStepFast, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool InputScalar(ReadOnlySpan<char> label, ImGuiDataType dataType, IntPtr pData, IntPtr pStep, IntPtr pStepFast, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -11908,6 +14643,18 @@ namespace SharpImGui
 			return result != 0;
 		}
 
+		public static bool InputScalar(ReadOnlySpan<byte> label, ImGuiDataType dataType, IntPtr pData, IntPtr pStep, IntPtr pStepFast)
+		{
+			// defining omitted parameters
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			byte* format = null;
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImGuiNative.InputScalar(nativeLabel, dataType, (void*)pData, (void*)pStep, (void*)pStepFast, format, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool InputScalar(ReadOnlySpan<char> label, ImGuiDataType dataType, IntPtr pData, IntPtr pStep, IntPtr pStepFast)
 		{
 			// defining omitted parameters
@@ -11938,6 +14685,19 @@ namespace SharpImGui
 			if (byteCountLabel > Utils.MaxStackallocSize)
 				Utils.Free(nativeLabel);
 			return result != 0;
+		}
+
+		public static bool InputScalar(ReadOnlySpan<byte> label, ImGuiDataType dataType, IntPtr pData, IntPtr pStep)
+		{
+			// defining omitted parameters
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			byte* format = null;
+			void* pStepFast = null;
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImGuiNative.InputScalar(nativeLabel, dataType, (void*)pData, (void*)pStep, pStepFast, format, flags);
+				return result != 0;
+			}
 		}
 
 		public static bool InputScalar(ReadOnlySpan<char> label, ImGuiDataType dataType, IntPtr pData, IntPtr pStep)
@@ -11971,6 +14731,20 @@ namespace SharpImGui
 			if (byteCountLabel > Utils.MaxStackallocSize)
 				Utils.Free(nativeLabel);
 			return result != 0;
+		}
+
+		public static bool InputScalar(ReadOnlySpan<byte> label, ImGuiDataType dataType, IntPtr pData)
+		{
+			// defining omitted parameters
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			byte* format = null;
+			void* pStepFast = null;
+			void* pStep = null;
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImGuiNative.InputScalar(nativeLabel, dataType, (void*)pData, pStep, pStepFast, format, flags);
+				return result != 0;
+			}
 		}
 
 		public static bool InputScalar(ReadOnlySpan<char> label, ImGuiDataType dataType, IntPtr pData)
@@ -12069,6 +14843,18 @@ namespace SharpImGui
 			return result != 0;
 		}
 
+		public static bool InputScalarN(ReadOnlySpan<byte> label, ImGuiDataType dataType, IntPtr pData, int components, IntPtr pStep, IntPtr pStepFast, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.InputScalarN(nativeLabel, dataType, (void*)pData, components, (void*)pStep, (void*)pStepFast, nativeFormat, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool InputScalarN(ReadOnlySpan<char> label, ImGuiDataType dataType, IntPtr pData, int components, IntPtr pStep, IntPtr pStepFast, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
@@ -12123,6 +14909,18 @@ namespace SharpImGui
 			return result != 0;
 		}
 
+		public static bool InputScalarN(ReadOnlySpan<byte> label, ImGuiDataType dataType, IntPtr pData, int components, IntPtr pStep, IntPtr pStepFast)
+		{
+			// defining omitted parameters
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			byte* format = null;
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImGuiNative.InputScalarN(nativeLabel, dataType, (void*)pData, components, (void*)pStep, (void*)pStepFast, format, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool InputScalarN(ReadOnlySpan<char> label, ImGuiDataType dataType, IntPtr pData, int components, IntPtr pStep, IntPtr pStepFast)
 		{
 			// defining omitted parameters
@@ -12153,6 +14951,19 @@ namespace SharpImGui
 			if (byteCountLabel > Utils.MaxStackallocSize)
 				Utils.Free(nativeLabel);
 			return result != 0;
+		}
+
+		public static bool InputScalarN(ReadOnlySpan<byte> label, ImGuiDataType dataType, IntPtr pData, int components, IntPtr pStep)
+		{
+			// defining omitted parameters
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			byte* format = null;
+			void* pStepFast = null;
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImGuiNative.InputScalarN(nativeLabel, dataType, (void*)pData, components, (void*)pStep, pStepFast, format, flags);
+				return result != 0;
+			}
 		}
 
 		public static bool InputScalarN(ReadOnlySpan<char> label, ImGuiDataType dataType, IntPtr pData, int components, IntPtr pStep)
@@ -12186,6 +14997,20 @@ namespace SharpImGui
 			if (byteCountLabel > Utils.MaxStackallocSize)
 				Utils.Free(nativeLabel);
 			return result != 0;
+		}
+
+		public static bool InputScalarN(ReadOnlySpan<byte> label, ImGuiDataType dataType, IntPtr pData, int components)
+		{
+			// defining omitted parameters
+			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
+			byte* format = null;
+			void* pStepFast = null;
+			void* pStep = null;
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImGuiNative.InputScalarN(nativeLabel, dataType, (void*)pData, components, pStep, pStepFast, format, flags);
+				return result != 0;
+			}
 		}
 
 		public static bool InputScalarN(ReadOnlySpan<char> label, ImGuiDataType dataType, IntPtr pData, int components)
@@ -12260,6 +15085,18 @@ namespace SharpImGui
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
+				return result != 0;
+			}
+		}
+
+		public static bool ColorEdit3(ReadOnlySpan<byte> label, ref Vector3 col)
+		{
+			// defining omitted parameters
+			ImGuiColorEditFlags flags = ImGuiColorEditFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector3* nativeCol = &col)
+			{
+				var result = ImGuiNative.ColorEdit3(nativeLabel, nativeCol, flags);
 				return result != 0;
 			}
 		}
@@ -12340,6 +15177,18 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool ColorEdit4(ReadOnlySpan<byte> label, ref Vector4 col)
+		{
+			// defining omitted parameters
+			ImGuiColorEditFlags flags = ImGuiColorEditFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector4* nativeCol = &col)
+			{
+				var result = ImGuiNative.ColorEdit4(nativeLabel, nativeCol, flags);
+				return result != 0;
+			}
+		}
+
 		public static bool ColorEdit4(ReadOnlySpan<char> label, ref Vector4 col)
 		{
 			// defining omitted parameters
@@ -12412,6 +15261,18 @@ namespace SharpImGui
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
+				return result != 0;
+			}
+		}
+
+		public static bool ColorPicker3(ReadOnlySpan<byte> label, ref Vector3 col)
+		{
+			// defining omitted parameters
+			ImGuiColorEditFlags flags = ImGuiColorEditFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector3* nativeCol = &col)
+			{
+				var result = ImGuiNative.ColorPicker3(nativeLabel, nativeCol, flags);
 				return result != 0;
 			}
 		}
@@ -12494,6 +15355,18 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool ColorPicker4(ReadOnlySpan<byte> label, ref Vector4 col, ImGuiColorEditFlags flags)
+		{
+			// defining omitted parameters
+			float* refCol = null;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector4* nativeCol = &col)
+			{
+				var result = ImGuiNative.ColorPicker4(nativeLabel, nativeCol, flags, refCol);
+				return result != 0;
+			}
+		}
+
 		public static bool ColorPicker4(ReadOnlySpan<char> label, ref Vector4 col, ImGuiColorEditFlags flags)
 		{
 			// defining omitted parameters
@@ -12524,6 +15397,19 @@ namespace SharpImGui
 				// Freeing label native string
 				if (byteCountLabel > Utils.MaxStackallocSize)
 					Utils.Free(nativeLabel);
+				return result != 0;
+			}
+		}
+
+		public static bool ColorPicker4(ReadOnlySpan<byte> label, ref Vector4 col)
+		{
+			// defining omitted parameters
+			float* refCol = null;
+			ImGuiColorEditFlags flags = ImGuiColorEditFlags.None;
+			fixed (byte* nativeLabel = label)
+			fixed (Vector4* nativeCol = &col)
+			{
+				var result = ImGuiNative.ColorPicker4(nativeLabel, nativeCol, flags, refCol);
 				return result != 0;
 			}
 		}
@@ -12610,6 +15496,20 @@ namespace SharpImGui
 		/// <summary>
 		/// display a color square/button, hover for details, return true when pressed.<br/>
 		/// </summary>
+		public static bool ColorButton(ReadOnlySpan<byte> descId, Vector4 col, ImGuiColorEditFlags flags)
+		{
+			// defining omitted parameters
+			Vector2 size = new Vector2(0,0);
+			fixed (byte* nativeDescId = descId)
+			{
+				var result = ImGuiNative.ColorButton(nativeDescId, col, flags, size);
+				return result != 0;
+			}
+		}
+
+		/// <summary>
+		/// display a color square/button, hover for details, return true when pressed.<br/>
+		/// </summary>
 		public static bool ColorButton(ReadOnlySpan<char> descId, Vector4 col, ImGuiColorEditFlags flags)
 		{
 			// defining omitted parameters
@@ -12639,6 +15539,21 @@ namespace SharpImGui
 			if (byteCountDescId > Utils.MaxStackallocSize)
 				Utils.Free(nativeDescId);
 			return result != 0;
+		}
+
+		/// <summary>
+		/// display a color square/button, hover for details, return true when pressed.<br/>
+		/// </summary>
+		public static bool ColorButton(ReadOnlySpan<byte> descId, Vector4 col)
+		{
+			// defining omitted parameters
+			Vector2 size = new Vector2(0,0);
+			ImGuiColorEditFlags flags = ImGuiColorEditFlags.None;
+			fixed (byte* nativeDescId = descId)
+			{
+				var result = ImGuiNative.ColorButton(nativeDescId, col, flags, size);
+				return result != 0;
+			}
 		}
 
 		/// <summary>
@@ -13321,6 +16236,20 @@ namespace SharpImGui
 		/// <summary>
 		/// open a framed scrolling region<br/>
 		/// </summary>
+		public static bool BeginListBox(ReadOnlySpan<byte> label)
+		{
+			// defining omitted parameters
+			Vector2 size = new Vector2(0,0);
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImGuiNative.BeginListBox(nativeLabel, size);
+				return result != 0;
+			}
+		}
+
+		/// <summary>
+		/// open a framed scrolling region<br/>
+		/// </summary>
 		public static bool BeginListBox(ReadOnlySpan<char> label)
 		{
 			// defining omitted parameters
@@ -13947,6 +16876,20 @@ namespace SharpImGui
 		/// <summary>
 		/// create a sub-menu entry. only call EndMenu() if this returns true!<br/>
 		/// </summary>
+		public static bool BeginMenu(ReadOnlySpan<byte> label)
+		{
+			// defining omitted parameters
+			byte enabled = 1;
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImGuiNative.BeginMenu(nativeLabel, enabled);
+				return result != 0;
+			}
+		}
+
+		/// <summary>
+		/// create a sub-menu entry. only call EndMenu() if this returns true!<br/>
+		/// </summary>
 		public static bool BeginMenu(ReadOnlySpan<char> label)
 		{
 			// defining omitted parameters
@@ -14285,6 +17228,20 @@ namespace SharpImGui
 		/// <summary>
 		/// return true if the popup is open, and you can start outputting to it.<br/>
 		/// </summary>
+		public static bool BeginPopup(ReadOnlySpan<byte> strId)
+		{
+			// defining omitted parameters
+			ImGuiWindowFlags flags = ImGuiWindowFlags.None;
+			fixed (byte* nativeStrId = strId)
+			{
+				var result = ImGuiNative.BeginPopup(nativeStrId, flags);
+				return result != 0;
+			}
+		}
+
+		/// <summary>
+		/// return true if the popup is open, and you can start outputting to it.<br/>
+		/// </summary>
 		public static bool BeginPopup(ReadOnlySpan<char> strId)
 		{
 			// defining omitted parameters
@@ -14369,6 +17326,23 @@ namespace SharpImGui
 		/// <summary>
 		/// return true if the modal is open, and you can start outputting to it.<br/>
 		/// </summary>
+		public static bool BeginPopupModal(ReadOnlySpan<byte> name, ref bool pOpen)
+		{
+			// defining omitted parameters
+			ImGuiWindowFlags flags = ImGuiWindowFlags.None;
+			var nativePOpenVal = pOpen ? (byte)1 : (byte)0;
+			var nativePOpen = &nativePOpenVal;
+			fixed (byte* nativeName = name)
+			{
+				var result = ImGuiNative.BeginPopupModal(nativeName, nativePOpen, flags);
+				pOpen = nativePOpenVal != 0;
+				return result != 0;
+			}
+		}
+
+		/// <summary>
+		/// return true if the modal is open, and you can start outputting to it.<br/>
+		/// </summary>
 		public static bool BeginPopupModal(ReadOnlySpan<char> name, ref bool pOpen)
 		{
 			// defining omitted parameters
@@ -14401,6 +17375,21 @@ namespace SharpImGui
 				Utils.Free(nativeName);
 			pOpen = nativePOpenVal != 0;
 			return result != 0;
+		}
+
+		/// <summary>
+		/// return true if the modal is open, and you can start outputting to it.<br/>
+		/// </summary>
+		public static bool BeginPopupModal(ReadOnlySpan<byte> name)
+		{
+			// defining omitted parameters
+			ImGuiWindowFlags flags = ImGuiWindowFlags.None;
+			byte* pOpen = null;
+			fixed (byte* nativeName = name)
+			{
+				var result = ImGuiNative.BeginPopupModal(nativeName, pOpen, flags);
+				return result != 0;
+			}
 		}
 
 		/// <summary>
@@ -14538,6 +17527,19 @@ namespace SharpImGui
 		/// <summary>
 		/// helper to open popup when clicked on last item. Default to ImGuiPopupFlags_MouseButtonRight == 1. (note: actually triggers on the mouse _released_ event to be consistent with popup behaviors)<br/>
 		/// </summary>
+		public static void OpenPopupOnItemClick(ReadOnlySpan<byte> strId)
+		{
+			// defining omitted parameters
+			ImGuiPopupFlags popupFlags = ImGuiPopupFlags.MouseButtonRight;
+			fixed (byte* nativeStrId = strId)
+			{
+				ImGuiNative.OpenPopupOnItemClick(nativeStrId, popupFlags);
+			}
+		}
+
+		/// <summary>
+		/// helper to open popup when clicked on last item. Default to ImGuiPopupFlags_MouseButtonRight == 1. (note: actually triggers on the mouse _released_ event to be consistent with popup behaviors)<br/>
+		/// </summary>
 		public static void OpenPopupOnItemClick(ReadOnlySpan<char> strId)
 		{
 			// defining omitted parameters
@@ -14634,6 +17636,20 @@ namespace SharpImGui
 		/// <summary>
 		/// open+begin popup when clicked on last item. Use str_id==NULL to associate the popup to previous item. If you want to use that on a non-interactive item such as Text() you need to pass in an explicit ID here. read comments in .cpp!<br/>
 		/// </summary>
+		public static bool BeginPopupContextItem(ReadOnlySpan<byte> strId)
+		{
+			// defining omitted parameters
+			ImGuiPopupFlags popupFlags = ImGuiPopupFlags.MouseButtonRight;
+			fixed (byte* nativeStrId = strId)
+			{
+				var result = ImGuiNative.BeginPopupContextItem(nativeStrId, popupFlags);
+				return result != 0;
+			}
+		}
+
+		/// <summary>
+		/// open+begin popup when clicked on last item. Use str_id==NULL to associate the popup to previous item. If you want to use that on a non-interactive item such as Text() you need to pass in an explicit ID here. read comments in .cpp!<br/>
+		/// </summary>
 		public static bool BeginPopupContextItem(ReadOnlySpan<char> strId)
 		{
 			// defining omitted parameters
@@ -14724,6 +17740,20 @@ namespace SharpImGui
 		/// <summary>
 		/// open+begin popup when clicked on current window.<br/>
 		/// </summary>
+		public static bool BeginPopupContextWindow(ReadOnlySpan<byte> strId)
+		{
+			// defining omitted parameters
+			ImGuiPopupFlags popupFlags = ImGuiPopupFlags.MouseButtonRight;
+			fixed (byte* nativeStrId = strId)
+			{
+				var result = ImGuiNative.BeginPopupContextWindow(nativeStrId, popupFlags);
+				return result != 0;
+			}
+		}
+
+		/// <summary>
+		/// open+begin popup when clicked on current window.<br/>
+		/// </summary>
 		public static bool BeginPopupContextWindow(ReadOnlySpan<char> strId)
 		{
 			// defining omitted parameters
@@ -14809,6 +17839,20 @@ namespace SharpImGui
 			if (byteCountStrId > Utils.MaxStackallocSize)
 				Utils.Free(nativeStrId);
 			return result != 0;
+		}
+
+		/// <summary>
+		/// open+begin popup when clicked in void (where there are no windows).<br/>
+		/// </summary>
+		public static bool BeginPopupContextVoid(ReadOnlySpan<byte> strId)
+		{
+			// defining omitted parameters
+			ImGuiPopupFlags popupFlags = ImGuiPopupFlags.MouseButtonRight;
+			fixed (byte* nativeStrId = strId)
+			{
+				var result = ImGuiNative.BeginPopupContextVoid(nativeStrId, popupFlags);
+				return result != 0;
+			}
 		}
 
 		/// <summary>
@@ -14933,6 +17977,17 @@ namespace SharpImGui
 			return result != 0;
 		}
 
+		public static bool BeginTable(ReadOnlySpan<byte> strId, int columns, ImGuiTableFlags flags, Vector2 outerSize)
+		{
+			// defining omitted parameters
+			float innerWidth = 0.0f;
+			fixed (byte* nativeStrId = strId)
+			{
+				var result = ImGuiNative.BeginTable(nativeStrId, columns, flags, outerSize, innerWidth);
+				return result != 0;
+			}
+		}
+
 		public static bool BeginTable(ReadOnlySpan<char> strId, int columns, ImGuiTableFlags flags, Vector2 outerSize)
 		{
 			// defining omitted parameters
@@ -14962,6 +18017,18 @@ namespace SharpImGui
 			if (byteCountStrId > Utils.MaxStackallocSize)
 				Utils.Free(nativeStrId);
 			return result != 0;
+		}
+
+		public static bool BeginTable(ReadOnlySpan<byte> strId, int columns, ImGuiTableFlags flags)
+		{
+			// defining omitted parameters
+			float innerWidth = 0.0f;
+			Vector2 outerSize = new Vector2(0.0f,0.0f);
+			fixed (byte* nativeStrId = strId)
+			{
+				var result = ImGuiNative.BeginTable(nativeStrId, columns, flags, outerSize, innerWidth);
+				return result != 0;
+			}
 		}
 
 		public static bool BeginTable(ReadOnlySpan<char> strId, int columns, ImGuiTableFlags flags)
@@ -14994,6 +18061,19 @@ namespace SharpImGui
 			if (byteCountStrId > Utils.MaxStackallocSize)
 				Utils.Free(nativeStrId);
 			return result != 0;
+		}
+
+		public static bool BeginTable(ReadOnlySpan<byte> strId, int columns)
+		{
+			// defining omitted parameters
+			float innerWidth = 0.0f;
+			Vector2 outerSize = new Vector2(0.0f,0.0f);
+			ImGuiTableFlags flags = ImGuiTableFlags.None;
+			fixed (byte* nativeStrId = strId)
+			{
+				var result = ImGuiNative.BeginTable(nativeStrId, columns, flags, outerSize, innerWidth);
+				return result != 0;
+			}
 		}
 
 		public static bool BeginTable(ReadOnlySpan<char> strId, int columns)
@@ -15120,6 +18200,16 @@ namespace SharpImGui
 				Utils.Free(nativeLabel);
 		}
 
+		public static void TableSetupColumn(ReadOnlySpan<byte> label, ImGuiTableColumnFlags flags, float initWidthOrWeight)
+		{
+			// defining omitted parameters
+			uint userId = 0;
+			fixed (byte* nativeLabel = label)
+			{
+				ImGuiNative.TableSetupColumn(nativeLabel, flags, initWidthOrWeight, userId);
+			}
+		}
+
 		public static void TableSetupColumn(ReadOnlySpan<char> label, ImGuiTableColumnFlags flags, float initWidthOrWeight)
 		{
 			// defining omitted parameters
@@ -15148,6 +18238,17 @@ namespace SharpImGui
 			// Freeing label native string
 			if (byteCountLabel > Utils.MaxStackallocSize)
 				Utils.Free(nativeLabel);
+		}
+
+		public static void TableSetupColumn(ReadOnlySpan<byte> label, ImGuiTableColumnFlags flags)
+		{
+			// defining omitted parameters
+			uint userId = 0;
+			float initWidthOrWeight = 0.0f;
+			fixed (byte* nativeLabel = label)
+			{
+				ImGuiNative.TableSetupColumn(nativeLabel, flags, initWidthOrWeight, userId);
+			}
 		}
 
 		public static void TableSetupColumn(ReadOnlySpan<char> label, ImGuiTableColumnFlags flags)
@@ -15179,6 +18280,18 @@ namespace SharpImGui
 			// Freeing label native string
 			if (byteCountLabel > Utils.MaxStackallocSize)
 				Utils.Free(nativeLabel);
+		}
+
+		public static void TableSetupColumn(ReadOnlySpan<byte> label)
+		{
+			// defining omitted parameters
+			uint userId = 0;
+			float initWidthOrWeight = 0.0f;
+			ImGuiTableColumnFlags flags = ImGuiTableColumnFlags.None;
+			fixed (byte* nativeLabel = label)
+			{
+				ImGuiNative.TableSetupColumn(nativeLabel, flags, initWidthOrWeight, userId);
+			}
 		}
 
 		public static void TableSetupColumn(ReadOnlySpan<char> label)
@@ -15408,6 +18521,16 @@ namespace SharpImGui
 				Utils.Free(nativeId);
 		}
 
+		public static void Columns(int count, ReadOnlySpan<byte> id)
+		{
+			// defining omitted parameters
+			byte borders = 1;
+			fixed (byte* nativeId = id)
+			{
+				ImGuiNative.Columns(count, nativeId, borders);
+			}
+		}
+
 		public static void Columns(int count, ReadOnlySpan<char> id)
 		{
 			// defining omitted parameters
@@ -15575,6 +18698,20 @@ namespace SharpImGui
 		/// <summary>
 		/// create and append into a TabBar<br/>
 		/// </summary>
+		public static bool BeginTabBar(ReadOnlySpan<byte> strId)
+		{
+			// defining omitted parameters
+			ImGuiTabBarFlags flags = ImGuiTabBarFlags.None;
+			fixed (byte* nativeStrId = strId)
+			{
+				var result = ImGuiNative.BeginTabBar(nativeStrId, flags);
+				return result != 0;
+			}
+		}
+
+		/// <summary>
+		/// create and append into a TabBar<br/>
+		/// </summary>
 		public static bool BeginTabBar(ReadOnlySpan<char> strId)
 		{
 			// defining omitted parameters
@@ -15667,6 +18804,23 @@ namespace SharpImGui
 		/// <summary>
 		/// create a Tab. Returns true if the Tab is selected.<br/>
 		/// </summary>
+		public static bool BeginTabItem(ReadOnlySpan<byte> label, ref bool pOpen)
+		{
+			// defining omitted parameters
+			ImGuiTabItemFlags flags = ImGuiTabItemFlags.None;
+			var nativePOpenVal = pOpen ? (byte)1 : (byte)0;
+			var nativePOpen = &nativePOpenVal;
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImGuiNative.BeginTabItem(nativeLabel, nativePOpen, flags);
+				pOpen = nativePOpenVal != 0;
+				return result != 0;
+			}
+		}
+
+		/// <summary>
+		/// create a Tab. Returns true if the Tab is selected.<br/>
+		/// </summary>
 		public static bool BeginTabItem(ReadOnlySpan<char> label, ref bool pOpen)
 		{
 			// defining omitted parameters
@@ -15699,6 +18853,21 @@ namespace SharpImGui
 				Utils.Free(nativeLabel);
 			pOpen = nativePOpenVal != 0;
 			return result != 0;
+		}
+
+		/// <summary>
+		/// create a Tab. Returns true if the Tab is selected.<br/>
+		/// </summary>
+		public static bool BeginTabItem(ReadOnlySpan<byte> label)
+		{
+			// defining omitted parameters
+			ImGuiTabItemFlags flags = ImGuiTabItemFlags.None;
+			byte* pOpen = null;
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImGuiNative.BeginTabItem(nativeLabel, pOpen, flags);
+				return result != 0;
+			}
 		}
 
 		/// <summary>
@@ -15786,6 +18955,20 @@ namespace SharpImGui
 			if (byteCountLabel > Utils.MaxStackallocSize)
 				Utils.Free(nativeLabel);
 			return result != 0;
+		}
+
+		/// <summary>
+		/// create a Tab behaving like a button. return true when clicked. cannot be selected in the tab bar.<br/>
+		/// </summary>
+		public static bool TabItemButton(ReadOnlySpan<byte> label)
+		{
+			// defining omitted parameters
+			ImGuiTabItemFlags flags = ImGuiTabItemFlags.None;
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImGuiNative.TabItemButton(nativeLabel, flags);
+				return result != 0;
+			}
 		}
 
 		/// <summary>
@@ -16196,6 +19379,20 @@ namespace SharpImGui
 		/// <summary>
 		/// type is a user defined string of maximum 32 characters. Strings starting with '_' are reserved for dear imgui internal types. Data is copied and held by imgui. Return true when payload has been accepted.<br/>
 		/// </summary>
+		public static bool SetDragDropPayload(ReadOnlySpan<byte> type, IntPtr data, uint sz)
+		{
+			// defining omitted parameters
+			ImGuiCond cond = ImGuiCond.None;
+			fixed (byte* nativeType = type)
+			{
+				var result = ImGuiNative.SetDragDropPayload(nativeType, (void*)data, sz, cond);
+				return result != 0;
+			}
+		}
+
+		/// <summary>
+		/// type is a user defined string of maximum 32 characters. Strings starting with '_' are reserved for dear imgui internal types. Data is copied and held by imgui. Return true when payload has been accepted.<br/>
+		/// </summary>
 		public static bool SetDragDropPayload(ReadOnlySpan<char> type, IntPtr data, uint sz)
 		{
 			// defining omitted parameters
@@ -16285,6 +19482,19 @@ namespace SharpImGui
 			if (byteCountType > Utils.MaxStackallocSize)
 				Utils.Free(nativeType);
 			return result;
+		}
+
+		/// <summary>
+		/// accept contents of a given type. If ImGuiDragDropFlags_AcceptBeforeDelivery is set you can peek into the payload before the mouse button is released.<br/>
+		/// </summary>
+		public static ImGuiPayloadPtr AcceptDragDropPayload(ReadOnlySpan<byte> type)
+		{
+			// defining omitted parameters
+			ImGuiDragDropFlags flags = ImGuiDragDropFlags.None;
+			fixed (byte* nativeType = type)
+			{
+				return ImGuiNative.AcceptDragDropPayload(nativeType, flags);
+			}
 		}
 
 		/// <summary>
@@ -16747,6 +19957,19 @@ namespace SharpImGui
 			}
 		}
 
+		public static void CalcTextSize(out Vector2 pOut, ReadOnlySpan<byte> text, ReadOnlySpan<byte> textEnd, bool hideTextAfterDoubleHash)
+		{
+			// defining omitted parameters
+			float wrapWidth = -1.0f;
+			var native_hideTextAfterDoubleHash = hideTextAfterDoubleHash ? (byte)1 : (byte)0;
+			fixed (Vector2* nativePOut = &pOut)
+			fixed (byte* nativeText = text)
+			fixed (byte* nativeTextEnd = textEnd)
+			{
+				ImGuiNative.CalcTextSize(nativePOut, nativeText, nativeTextEnd, native_hideTextAfterDoubleHash, wrapWidth);
+			}
+		}
+
 		public static void CalcTextSize(out Vector2 pOut, ReadOnlySpan<char> text, ReadOnlySpan<char> textEnd, bool hideTextAfterDoubleHash)
 		{
 			// defining omitted parameters
@@ -16804,6 +20027,19 @@ namespace SharpImGui
 			}
 		}
 
+		public static void CalcTextSize(out Vector2 pOut, ReadOnlySpan<byte> text, ReadOnlySpan<byte> textEnd)
+		{
+			// defining omitted parameters
+			float wrapWidth = -1.0f;
+			byte hideTextAfterDoubleHash = 0;
+			fixed (Vector2* nativePOut = &pOut)
+			fixed (byte* nativeText = text)
+			fixed (byte* nativeTextEnd = textEnd)
+			{
+				ImGuiNative.CalcTextSize(nativePOut, nativeText, nativeTextEnd, hideTextAfterDoubleHash, wrapWidth);
+			}
+		}
+
 		public static void CalcTextSize(out Vector2 pOut, ReadOnlySpan<char> text, ReadOnlySpan<char> textEnd)
 		{
 			// defining omitted parameters
@@ -16858,6 +20094,19 @@ namespace SharpImGui
 				// Freeing textEnd native string
 				if (byteCountTextEnd > Utils.MaxStackallocSize)
 					Utils.Free(nativeTextEnd);
+			}
+		}
+
+		public static void CalcTextSize(out Vector2 pOut, ReadOnlySpan<byte> text)
+		{
+			// defining omitted parameters
+			float wrapWidth = -1.0f;
+			byte hideTextAfterDoubleHash = 0;
+			byte* textEnd = null;
+			fixed (Vector2* nativePOut = &pOut)
+			fixed (byte* nativeText = text)
+			{
+				ImGuiNative.CalcTextSize(nativePOut, nativeText, textEnd, hideTextAfterDoubleHash, wrapWidth);
 			}
 		}
 
@@ -17356,6 +20605,19 @@ namespace SharpImGui
 		/// <summary>
 		/// call after CreateContext() and before the first call to NewFrame() to provide .ini data from your own data source.<br/>
 		/// </summary>
+		public static void LoadIniSettingsFromMemory(ReadOnlySpan<byte> iniData)
+		{
+			// defining omitted parameters
+			uint iniSize = 0;
+			fixed (byte* nativeIniData = iniData)
+			{
+				ImGuiNative.LoadIniSettingsFromMemory(nativeIniData, iniSize);
+			}
+		}
+
+		/// <summary>
+		/// call after CreateContext() and before the first call to NewFrame() to provide .ini data from your own data source.<br/>
+		/// </summary>
 		public static void LoadIniSettingsFromMemory(ReadOnlySpan<char> iniData)
 		{
 			// defining omitted parameters
@@ -17681,13 +20943,6 @@ namespace SharpImGui
 			return ImGuiNative.ImHashData((void*)data, dataSize, seed);
 		}
 
-		public static uint ImHashData(IntPtr data, uint dataSize)
-		{
-			// defining omitted parameters
-			uint seed = 0;
-			return ImGuiNative.ImHashData((void*)data, dataSize, seed);
-		}
-
 		public static uint ImHashStr(ReadOnlySpan<byte> data, uint dataSize, uint seed)
 		{
 			fixed (byte* nativeData = data)
@@ -17754,6 +21009,17 @@ namespace SharpImGui
 			if (byteCountData > Utils.MaxStackallocSize)
 				Utils.Free(nativeData);
 			return result;
+		}
+
+		public static uint ImHashStr(ReadOnlySpan<byte> data)
+		{
+			// defining omitted parameters
+			uint seed = 0;
+			uint dataSize = 0;
+			fixed (byte* nativeData = data)
+			{
+				return ImGuiNative.ImHashStr(nativeData, dataSize, seed);
+			}
 		}
 
 		public static uint ImHashStr(ReadOnlySpan<char> data)
@@ -19543,6 +22809,18 @@ namespace SharpImGui
 			}
 		}
 
+		public static IntPtr ImFileLoadToMemory(ReadOnlySpan<byte> filename, ReadOnlySpan<byte> mode)
+		{
+			// defining omitted parameters
+			int paddingBytes = 0;
+			uint* outFileSize = null;
+			fixed (byte* nativeFilename = filename)
+			fixed (byte* nativeMode = mode)
+			{
+				return (IntPtr)ImGuiNative.ImFileLoadToMemory(nativeFilename, nativeMode, outFileSize, paddingBytes);
+			}
+		}
+
 		public static IntPtr ImFileLoadToMemory(ReadOnlySpan<char> filename, ReadOnlySpan<char> mode)
 		{
 			// defining omitted parameters
@@ -20147,13 +23425,6 @@ namespace SharpImGui
 			ImGuiNative.FocusWindow(window, flags);
 		}
 
-		public static void FocusWindow(ImGuiWindowPtr window)
-		{
-			// defining omitted parameters
-			ImGuiFocusRequestFlags flags = ImGuiFocusRequestFlags.None;
-			ImGuiNative.FocusWindow(window, flags);
-		}
-
 		public static void FocusTopMostWindowUnderOne(ImGuiWindowPtr underThisWindow, ImGuiWindowPtr ignoreWindow, ImGuiViewportPtr filterViewport, ImGuiFocusRequestFlags flags)
 		{
 			ImGuiNative.FocusTopMostWindowUnderOne(underThisWindow, ignoreWindow, filterViewport, flags);
@@ -20539,37 +23810,13 @@ namespace SharpImGui
 			ImGuiNative.ScrollToItem(flags);
 		}
 
-		public static void ScrollToItem()
-		{
-			// defining omitted parameters
-			ImGuiScrollFlags flags = ImGuiScrollFlags.None;
-			ImGuiNative.ScrollToItem(flags);
-		}
-
 		public static void ScrollToRect(ImGuiWindowPtr window, ImRect rect, ImGuiScrollFlags flags)
 		{
 			ImGuiNative.ScrollToRect(window, rect, flags);
 		}
 
-		public static void ScrollToRect(ImGuiWindowPtr window, ImRect rect)
-		{
-			// defining omitted parameters
-			ImGuiScrollFlags flags = ImGuiScrollFlags.None;
-			ImGuiNative.ScrollToRect(window, rect, flags);
-		}
-
 		public static void ScrollToRectEx(out Vector2 pOut, ImGuiWindowPtr window, ImRect rect, ImGuiScrollFlags flags)
 		{
-			fixed (Vector2* nativePOut = &pOut)
-			{
-				ImGuiNative.ScrollToRectEx(nativePOut, window, rect, flags);
-			}
-		}
-
-		public static void ScrollToRectEx(out Vector2 pOut, ImGuiWindowPtr window, ImRect rect)
-		{
-			// defining omitted parameters
-			ImGuiScrollFlags flags = ImGuiScrollFlags.None;
 			fixed (Vector2* nativePOut = &pOut)
 			{
 				ImGuiNative.ScrollToRectEx(nativePOut, window, rect, flags);
@@ -20732,14 +23979,6 @@ namespace SharpImGui
 			return result != 0;
 		}
 
-		public static bool ItemAdd(ImRect bb, uint id, ImRectPtr navBb)
-		{
-			// defining omitted parameters
-			ImGuiItemFlags extraFlags = ImGuiItemFlags.None;
-			var result = ImGuiNative.ItemAdd(bb, id, navBb, extraFlags);
-			return result != 0;
-		}
-
 		public static bool ItemAdd(ImRect bb, uint id)
 		{
 			// defining omitted parameters
@@ -20757,14 +23996,6 @@ namespace SharpImGui
 
 		public static bool IsWindowContentHoverable(ImGuiWindowPtr window, ImGuiHoveredFlags flags)
 		{
-			var result = ImGuiNative.IsWindowContentHoverable(window, flags);
-			return result != 0;
-		}
-
-		public static bool IsWindowContentHoverable(ImGuiWindowPtr window)
-		{
-			// defining omitted parameters
-			ImGuiHoveredFlags flags = ImGuiHoveredFlags.None;
 			var result = ImGuiNative.IsWindowContentHoverable(window, flags);
 			return result != 0;
 		}
@@ -20831,16 +24062,6 @@ namespace SharpImGui
 		/// </summary>
 		public static void LogToBuffer(int autoOpenDepth)
 		{
-			ImGuiNative.LogToBuffer(autoOpenDepth);
-		}
-
-		/// <summary>
-		/// Start logging/capturing to internal buffer<br/>
-		/// </summary>
-		public static void LogToBuffer()
-		{
-			// defining omitted parameters
-			int autoOpenDepth = -1;
 			ImGuiNative.LogToBuffer(autoOpenDepth);
 		}
 
@@ -21085,13 +24306,6 @@ namespace SharpImGui
 
 		public static void OpenPopupEx(uint id, ImGuiPopupFlags popupFlags)
 		{
-			ImGuiNative.OpenPopupEx(id, popupFlags);
-		}
-
-		public static void OpenPopupEx(uint id)
-		{
-			// defining omitted parameters
-			ImGuiPopupFlags popupFlags = ImGuiPopupFlags.None;
 			ImGuiNative.OpenPopupEx(id, popupFlags);
 		}
 
@@ -21491,6 +24705,20 @@ namespace SharpImGui
 			return result != 0;
 		}
 
+		public static bool MenuItemEx(ReadOnlySpan<byte> label, ReadOnlySpan<byte> icon, ReadOnlySpan<byte> shortcut)
+		{
+			// defining omitted parameters
+			byte enabled = 1;
+			byte selected = 0;
+			fixed (byte* nativeLabel = label)
+			fixed (byte* nativeIcon = icon)
+			fixed (byte* nativeShortcut = shortcut)
+			{
+				var result = ImGuiNative.MenuItemEx(nativeLabel, nativeIcon, nativeShortcut, selected, enabled);
+				return result != 0;
+			}
+		}
+
 		public static bool MenuItemEx(ReadOnlySpan<char> label, ReadOnlySpan<char> icon, ReadOnlySpan<char> shortcut)
 		{
 			// defining omitted parameters
@@ -21567,6 +24795,20 @@ namespace SharpImGui
 			if (byteCountShortcut > Utils.MaxStackallocSize)
 				Utils.Free(nativeShortcut);
 			return result != 0;
+		}
+
+		public static bool MenuItemEx(ReadOnlySpan<byte> label, ReadOnlySpan<byte> icon)
+		{
+			// defining omitted parameters
+			byte enabled = 1;
+			byte selected = 0;
+			byte* shortcut = null;
+			fixed (byte* nativeLabel = label)
+			fixed (byte* nativeIcon = icon)
+			{
+				var result = ImGuiNative.MenuItemEx(nativeLabel, nativeIcon, shortcut, selected, enabled);
+				return result != 0;
+			}
 		}
 
 		public static bool MenuItemEx(ReadOnlySpan<char> label, ReadOnlySpan<char> icon)
@@ -21830,14 +25072,6 @@ namespace SharpImGui
 			return result != 0;
 		}
 
-		public static bool IsMouseDragPastThreshold(ImGuiMouseButton button)
-		{
-			// defining omitted parameters
-			float lockThreshold = -1.0f;
-			var result = ImGuiNative.IsMouseDragPastThreshold(button, lockThreshold);
-			return result != 0;
-		}
-
 		public static void GetKeyMagnitude2D(out Vector2 pOut, ImGuiKey keyLeft, ImGuiKey keyRight, ImGuiKey keyUp, ImGuiKey keyDown)
 		{
 			fixed (Vector2* nativePOut = &pOut)
@@ -21891,22 +25125,8 @@ namespace SharpImGui
 			ImGuiNative.SetKeyOwner(key, ownerId, flags);
 		}
 
-		public static void SetKeyOwner(ImGuiKey key, uint ownerId)
-		{
-			// defining omitted parameters
-			ImGuiInputFlags flags = ImGuiInputFlags.None;
-			ImGuiNative.SetKeyOwner(key, ownerId, flags);
-		}
-
 		public static void SetKeyOwnersForKeyChord(int key, uint ownerId, ImGuiInputFlags flags)
 		{
-			ImGuiNative.SetKeyOwnersForKeyChord(key, ownerId, flags);
-		}
-
-		public static void SetKeyOwnersForKeyChord(int key, uint ownerId)
-		{
-			// defining omitted parameters
-			ImGuiInputFlags flags = ImGuiInputFlags.None;
 			ImGuiNative.SetKeyOwnersForKeyChord(key, ownerId, flags);
 		}
 
@@ -22069,13 +25289,6 @@ namespace SharpImGui
 			ImGuiNative.DockContextProcessUndockWindow(ctx, window, native_clearPersistentDockingRef);
 		}
 
-		public static void DockContextProcessUndockWindow(ImGuiContextPtr ctx, ImGuiWindowPtr window)
-		{
-			// defining omitted parameters
-			byte clearPersistentDockingRef = 1;
-			ImGuiNative.DockContextProcessUndockWindow(ctx, window, clearPersistentDockingRef);
-		}
-
 		public static void DockContextProcessUndockNode(ImGuiContextPtr ctx, ImGuiDockNodePtr node)
 		{
 			ImGuiNative.DockContextProcessUndockNode(ctx, node);
@@ -22218,13 +25431,6 @@ namespace SharpImGui
 			return ImGuiNative.DockBuilderAddNode(nodeId, flags);
 		}
 
-		public static uint DockBuilderAddNode(uint nodeId)
-		{
-			// defining omitted parameters
-			ImGuiDockNodeFlags flags = ImGuiDockNodeFlags.None;
-			return ImGuiNative.DockBuilderAddNode(nodeId, flags);
-		}
-
 		public static uint DockBuilderAddNode()
 		{
 			// defining omitted parameters
@@ -22245,13 +25451,6 @@ namespace SharpImGui
 		{
 			var native_clearSettingsRefs = clearSettingsRefs ? (byte)1 : (byte)0;
 			ImGuiNative.DockBuilderRemoveNodeDockedWindows(nodeId, native_clearSettingsRefs);
-		}
-
-		public static void DockBuilderRemoveNodeDockedWindows(uint nodeId)
-		{
-			// defining omitted parameters
-			byte clearSettingsRefs = 1;
-			ImGuiNative.DockBuilderRemoveNodeDockedWindows(nodeId, clearSettingsRefs);
 		}
 
 		/// <summary>
@@ -22413,13 +25612,6 @@ namespace SharpImGui
 
 		public static ImGuiTypingSelectRequestPtr GetTypingSelectRequest(ImGuiTypingSelectFlags flags)
 		{
-			return ImGuiNative.GetTypingSelectRequest(flags);
-		}
-
-		public static ImGuiTypingSelectRequestPtr GetTypingSelectRequest()
-		{
-			// defining omitted parameters
-			ImGuiTypingSelectFlags flags = ImGuiTypingSelectFlags.None;
 			return ImGuiNative.GetTypingSelectRequest(flags);
 		}
 
@@ -22653,13 +25845,6 @@ namespace SharpImGui
 			ImGuiNative.TableOpenContextMenu(columnN);
 		}
 
-		public static void TableOpenContextMenu()
-		{
-			// defining omitted parameters
-			int columnN = -1;
-			ImGuiNative.TableOpenContextMenu(columnN);
-		}
-
 		public static void TableSetColumnWidth(int columnN, float width)
 		{
 			ImGuiNative.TableSetColumnWidth(columnN, width);
@@ -22783,6 +25968,18 @@ namespace SharpImGui
 			return result != 0;
 		}
 
+		public static bool BeginTableEx(ReadOnlySpan<byte> name, uint id, int columnsCount, ImGuiTableFlags flags)
+		{
+			// defining omitted parameters
+			float innerWidth = 0.0f;
+			Vector2 outerSize = new Vector2(0,0);
+			fixed (byte* nativeName = name)
+			{
+				var result = ImGuiNative.BeginTableEx(nativeName, id, columnsCount, flags, outerSize, innerWidth);
+				return result != 0;
+			}
+		}
+
 		public static bool BeginTableEx(ReadOnlySpan<char> name, uint id, int columnsCount, ImGuiTableFlags flags)
 		{
 			// defining omitted parameters
@@ -22813,6 +26010,19 @@ namespace SharpImGui
 			if (byteCountName > Utils.MaxStackallocSize)
 				Utils.Free(nativeName);
 			return result != 0;
+		}
+
+		public static bool BeginTableEx(ReadOnlySpan<byte> name, uint id, int columnsCount)
+		{
+			// defining omitted parameters
+			float innerWidth = 0.0f;
+			Vector2 outerSize = new Vector2(0,0);
+			ImGuiTableFlags flags = ImGuiTableFlags.None;
+			fixed (byte* nativeName = name)
+			{
+				var result = ImGuiNative.BeginTableEx(nativeName, id, columnsCount, flags, outerSize, innerWidth);
+				return result != 0;
+			}
 		}
 
 		public static bool BeginTableEx(ReadOnlySpan<char> name, uint id, int columnsCount)
@@ -22967,13 +26177,6 @@ namespace SharpImGui
 
 		public static uint TableGetColumnResizeID(ImGuiTablePtr table, int columnN, int instanceNo)
 		{
-			return ImGuiNative.TableGetColumnResizeID(table, columnN, instanceNo);
-		}
-
-		public static uint TableGetColumnResizeID(ImGuiTablePtr table, int columnN)
-		{
-			// defining omitted parameters
-			int instanceNo = 0;
 			return ImGuiNative.TableGetColumnResizeID(table, columnN, instanceNo);
 		}
 
@@ -23461,6 +26664,17 @@ namespace SharpImGui
 				Utils.Free(nativeTextEnd);
 		}
 
+		public static void RenderText(Vector2 pos, ReadOnlySpan<byte> text)
+		{
+			// defining omitted parameters
+			byte hideTextAfterHash = 1;
+			byte* textEnd = null;
+			fixed (byte* nativeText = text)
+			{
+				ImGuiNative.RenderText(pos, nativeText, textEnd, hideTextAfterHash);
+			}
+		}
+
 		public static void RenderText(Vector2 pos, ReadOnlySpan<char> text)
 		{
 			// defining omitted parameters
@@ -23672,6 +26886,19 @@ namespace SharpImGui
 			}
 		}
 
+		public static void RenderTextClipped(Vector2 posMin, Vector2 posMax, ReadOnlySpan<byte> text, ReadOnlySpan<byte> textEnd, ref Vector2 textSizeIfKnown)
+		{
+			// defining omitted parameters
+			ImRect* clipRect = null;
+			Vector2 align = new Vector2(0,0);
+			fixed (byte* nativeText = text)
+			fixed (byte* nativeTextEnd = textEnd)
+			fixed (Vector2* nativeTextSizeIfKnown = &textSizeIfKnown)
+			{
+				ImGuiNative.RenderTextClipped(posMin, posMax, nativeText, nativeTextEnd, nativeTextSizeIfKnown, align, clipRect);
+			}
+		}
+
 		public static void RenderTextClipped(Vector2 posMin, Vector2 posMax, ReadOnlySpan<char> text, ReadOnlySpan<char> textEnd, ref Vector2 textSizeIfKnown)
 		{
 			// defining omitted parameters
@@ -23849,6 +27076,19 @@ namespace SharpImGui
 			}
 		}
 
+		public static void RenderTextClippedEx(ImDrawListPtr drawList, Vector2 posMin, Vector2 posMax, ReadOnlySpan<byte> text, ReadOnlySpan<byte> textEnd, ref Vector2 textSizeIfKnown)
+		{
+			// defining omitted parameters
+			ImRect* clipRect = null;
+			Vector2 align = new Vector2(0,0);
+			fixed (byte* nativeText = text)
+			fixed (byte* nativeTextEnd = textEnd)
+			fixed (Vector2* nativeTextSizeIfKnown = &textSizeIfKnown)
+			{
+				ImGuiNative.RenderTextClippedEx(drawList, posMin, posMax, nativeText, nativeTextEnd, nativeTextSizeIfKnown, align, clipRect);
+			}
+		}
+
 		public static void RenderTextClippedEx(ImDrawListPtr drawList, Vector2 posMin, Vector2 posMax, ReadOnlySpan<char> text, ReadOnlySpan<char> textEnd, ref Vector2 textSizeIfKnown)
 		{
 			// defining omitted parameters
@@ -23976,14 +27216,6 @@ namespace SharpImGui
 			ImGuiNative.RenderFrame(pMin, pMax, fillCol, native_borders, rounding);
 		}
 
-		public static void RenderFrame(Vector2 pMin, Vector2 pMax, uint fillCol, bool borders)
-		{
-			// defining omitted parameters
-			float rounding = 0.0f;
-			var native_borders = borders ? (byte)1 : (byte)0;
-			ImGuiNative.RenderFrame(pMin, pMax, fillCol, native_borders, rounding);
-		}
-
 		public static void RenderFrame(Vector2 pMin, Vector2 pMax, uint fillCol)
 		{
 			// defining omitted parameters
@@ -23997,22 +27229,8 @@ namespace SharpImGui
 			ImGuiNative.RenderFrameBorder(pMin, pMax, rounding);
 		}
 
-		public static void RenderFrameBorder(Vector2 pMin, Vector2 pMax)
-		{
-			// defining omitted parameters
-			float rounding = 0.0f;
-			ImGuiNative.RenderFrameBorder(pMin, pMax, rounding);
-		}
-
 		public static void RenderColorRectWithAlphaCheckerboard(ImDrawListPtr drawList, Vector2 pMin, Vector2 pMax, uint fillCol, float gridStep, Vector2 gridOff, float rounding, ImDrawFlags flags)
 		{
-			ImGuiNative.RenderColorRectWithAlphaCheckerboard(drawList, pMin, pMax, fillCol, gridStep, gridOff, rounding, flags);
-		}
-
-		public static void RenderColorRectWithAlphaCheckerboard(ImDrawListPtr drawList, Vector2 pMin, Vector2 pMax, uint fillCol, float gridStep, Vector2 gridOff, float rounding)
-		{
-			// defining omitted parameters
-			ImDrawFlags flags = ImDrawFlags.None;
 			ImGuiNative.RenderColorRectWithAlphaCheckerboard(drawList, pMin, pMax, fillCol, gridStep, gridOff, rounding, flags);
 		}
 
@@ -24029,16 +27247,6 @@ namespace SharpImGui
 		/// </summary>
 		public static void RenderNavCursor(ImRect bb, uint id, ImGuiNavRenderCursorFlags flags)
 		{
-			ImGuiNative.RenderNavCursor(bb, id, flags);
-		}
-
-		/// <summary>
-		/// Navigation highlight<br/>
-		/// </summary>
-		public static void RenderNavCursor(ImRect bb, uint id)
-		{
-			// defining omitted parameters
-			ImGuiNavRenderCursorFlags flags = ImGuiNavRenderCursorFlags.None;
 			ImGuiNative.RenderNavCursor(bb, id, flags);
 		}
 
@@ -24151,13 +27359,6 @@ namespace SharpImGui
 
 		public static void RenderArrow(ImDrawListPtr drawList, Vector2 pos, uint col, ImGuiDir dir, float scale)
 		{
-			ImGuiNative.RenderArrow(drawList, pos, col, dir, scale);
-		}
-
-		public static void RenderArrow(ImDrawListPtr drawList, Vector2 pos, uint col, ImGuiDir dir)
-		{
-			// defining omitted parameters
-			float scale = 1.0f;
 			ImGuiNative.RenderArrow(drawList, pos, col, dir, scale);
 		}
 
@@ -24309,6 +27510,17 @@ namespace SharpImGui
 				Utils.Free(nativeTextEnd);
 		}
 
+		public static void TextEx(ReadOnlySpan<byte> text)
+		{
+			// defining omitted parameters
+			ImGuiTextFlags flags = ImGuiTextFlags.None;
+			byte* textEnd = null;
+			fixed (byte* nativeText = text)
+			{
+				ImGuiNative.TextEx(nativeText, textEnd, flags);
+			}
+		}
+
 		public static void TextEx(ReadOnlySpan<char> text)
 		{
 			// defining omitted parameters
@@ -24407,6 +27619,18 @@ namespace SharpImGui
 			if (byteCountLabel > Utils.MaxStackallocSize)
 				Utils.Free(nativeLabel);
 			return result != 0;
+		}
+
+		public static bool ButtonEx(ReadOnlySpan<byte> label)
+		{
+			// defining omitted parameters
+			ImGuiButtonFlags flags = ImGuiButtonFlags.None;
+			Vector2 sizeArg = new Vector2(0,0);
+			fixed (byte* nativeLabel = label)
+			{
+				var result = ImGuiNative.ButtonEx(nativeLabel, sizeArg, flags);
+				return result != 0;
+			}
 		}
 
 		public static bool ButtonEx(ReadOnlySpan<char> label)
@@ -24516,23 +27740,8 @@ namespace SharpImGui
 			return result != 0;
 		}
 
-		public static bool ImageButtonEx(uint id, ulong userTextureId, Vector2 imageSize, Vector2 uv0, Vector2 uv1, Vector4 bgCol, Vector4 tintCol)
-		{
-			// defining omitted parameters
-			ImGuiButtonFlags flags = ImGuiButtonFlags.None;
-			var result = ImGuiNative.ImageButtonEx(id, userTextureId, imageSize, uv0, uv1, bgCol, tintCol, flags);
-			return result != 0;
-		}
-
 		public static void SeparatorEx(ImGuiSeparatorFlags flags, float thickness)
 		{
-			ImGuiNative.SeparatorEx(flags, thickness);
-		}
-
-		public static void SeparatorEx(ImGuiSeparatorFlags flags)
-		{
-			// defining omitted parameters
-			float thickness = 1.0f;
 			ImGuiNative.SeparatorEx(flags, thickness);
 		}
 
@@ -24706,17 +27915,6 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool ScrollbarEx(ImRect bb, uint id, ImGuiAxis axis, ref long pScrollV, long availV, long contentsV)
-		{
-			// defining omitted parameters
-			ImDrawFlags drawRoundingFlags = ImDrawFlags.None;
-			fixed (long* nativePScrollV = &pScrollV)
-			{
-				var result = ImGuiNative.ScrollbarEx(bb, id, axis, nativePScrollV, availV, contentsV, drawRoundingFlags);
-				return result != 0;
-			}
-		}
-
 		public static void GetWindowScrollbarRect(ImRectPtr pOut, ImGuiWindowPtr window, ImGuiAxis axis)
 		{
 			ImGuiNative.GetWindowScrollbarRect(pOut, window, axis);
@@ -24742,20 +27940,6 @@ namespace SharpImGui
 
 		public static bool ButtonBehavior(ImRect bb, uint id, ref bool outHovered, ref bool outHeld, ImGuiButtonFlags flags)
 		{
-			var nativeOutHoveredVal = outHovered ? (byte)1 : (byte)0;
-			var nativeOutHovered = &nativeOutHoveredVal;
-			var nativeOutHeldVal = outHeld ? (byte)1 : (byte)0;
-			var nativeOutHeld = &nativeOutHeldVal;
-			var result = ImGuiNative.ButtonBehavior(bb, id, nativeOutHovered, nativeOutHeld, flags);
-			outHovered = nativeOutHoveredVal != 0;
-			outHeld = nativeOutHeldVal != 0;
-			return result != 0;
-		}
-
-		public static bool ButtonBehavior(ImRect bb, uint id, ref bool outHovered, ref bool outHeld)
-		{
-			// defining omitted parameters
-			ImGuiButtonFlags flags = ImGuiButtonFlags.None;
 			var nativeOutHoveredVal = outHovered ? (byte)1 : (byte)0;
 			var nativeOutHovered = &nativeOutHoveredVal;
 			var nativeOutHeldVal = outHeld ? (byte)1 : (byte)0;
@@ -24844,18 +28028,6 @@ namespace SharpImGui
 
 		public static bool SplitterBehavior(ImRect bb, uint id, ImGuiAxis axis, ref float size1, ref float size2, float minSize1, float minSize2, float hoverExtend, float hoverVisibilityDelay, uint bgCol)
 		{
-			fixed (float* nativeSize1 = &size1)
-			fixed (float* nativeSize2 = &size2)
-			{
-				var result = ImGuiNative.SplitterBehavior(bb, id, axis, nativeSize1, nativeSize2, minSize1, minSize2, hoverExtend, hoverVisibilityDelay, bgCol);
-				return result != 0;
-			}
-		}
-
-		public static bool SplitterBehavior(ImRect bb, uint id, ImGuiAxis axis, ref float size1, ref float size2, float minSize1, float minSize2, float hoverExtend, float hoverVisibilityDelay)
-		{
-			// defining omitted parameters
-			uint bgCol = 0;
 			fixed (float* nativeSize1 = &size1)
 			fixed (float* nativeSize2 = &size2)
 			{
@@ -25317,6 +28489,20 @@ namespace SharpImGui
 			}
 		}
 
+		public static bool InputTextEx(ReadOnlySpan<byte> label, ReadOnlySpan<byte> hint, ref byte buf, int bufSize, Vector2 sizeArg, ImGuiInputTextFlags flags)
+		{
+			// defining omitted parameters
+			void* userData = null;
+			ImGuiInputTextCallback callback = null;
+			fixed (byte* nativeLabel = label)
+			fixed (byte* nativeHint = hint)
+			fixed (byte* nativeBuf = &buf)
+			{
+				var result = ImGuiNative.InputTextEx(nativeLabel, nativeHint, nativeBuf, bufSize, sizeArg, flags, callback, userData);
+				return result != 0;
+			}
+		}
+
 		public static bool InputTextEx(ReadOnlySpan<char> label, ReadOnlySpan<char> hint, ref byte buf, int bufSize, Vector2 sizeArg, ImGuiInputTextFlags flags)
 		{
 			// defining omitted parameters
@@ -25536,6 +28722,19 @@ namespace SharpImGui
 			if (byteCountFormat > Utils.MaxStackallocSize)
 				Utils.Free(nativeFormat);
 			return result != 0;
+		}
+
+		public static bool TempInputScalar(ImRect bb, uint id, ReadOnlySpan<byte> label, ImGuiDataType dataType, IntPtr pData, ReadOnlySpan<byte> format)
+		{
+			// defining omitted parameters
+			void* pClampMax = null;
+			void* pClampMin = null;
+			fixed (byte* nativeLabel = label)
+			fixed (byte* nativeFormat = format)
+			{
+				var result = ImGuiNative.TempInputScalar(bb, id, nativeLabel, dataType, (void*)pData, nativeFormat, pClampMin, pClampMax);
+				return result != 0;
+			}
 		}
 
 		public static bool TempInputScalar(ImRect bb, uint id, ReadOnlySpan<char> label, ImGuiDataType dataType, IntPtr pData, ReadOnlySpan<char> format)
@@ -25856,34 +29055,13 @@ namespace SharpImGui
 			ImGuiNative.DebugDrawCursorPos(col);
 		}
 
-		public static void DebugDrawCursorPos()
-		{
-			// defining omitted parameters
-			uint col = 4278190335;
-			ImGuiNative.DebugDrawCursorPos(col);
-		}
-
 		public static void DebugDrawLineExtents(uint col)
 		{
 			ImGuiNative.DebugDrawLineExtents(col);
 		}
 
-		public static void DebugDrawLineExtents()
-		{
-			// defining omitted parameters
-			uint col = 4278190335;
-			ImGuiNative.DebugDrawLineExtents(col);
-		}
-
 		public static void DebugDrawItemRect(uint col)
 		{
-			ImGuiNative.DebugDrawItemRect(col);
-		}
-
-		public static void DebugDrawItemRect()
-		{
-			// defining omitted parameters
-			uint col = 4278190335;
 			ImGuiNative.DebugDrawItemRect(col);
 		}
 

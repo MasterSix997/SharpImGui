@@ -126,6 +126,19 @@ namespace SharpImGui
 		/// <summary>
 		/// Add string (each character of the UTF-8 string are added)<br/>
 		/// </summary>
+		public void AddText(ReadOnlySpan<byte> text)
+		{
+			// defining omitted parameters
+			byte* textEnd = null;
+			fixed (byte* nativeText = text)
+			{
+				ImGuiNative.ImFontGlyphRangesBuilderAddText(NativePtr, nativeText, textEnd);
+			}
+		}
+
+		/// <summary>
+		/// Add string (each character of the UTF-8 string are added)<br/>
+		/// </summary>
 		public void AddText(ReadOnlySpan<char> text)
 		{
 			// defining omitted parameters

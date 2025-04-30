@@ -1,0 +1,132 @@
+name: Build cimgui
+
+on:
+  # Executa apenas manualmente através do botão na interface do GitHub
+  workflow_dispatch:
+    inputs:
+      cimgui_version:
+        description: 'Versão/Tag/Branch do cimgui a ser compilada'
+        required: false
+        default: 'master'
+        type: string
+
+jobs:
+  build:
+    name: Build cimgui
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Windows builds
+          - os: windows-latest
+            platform: windows
+            arch: x64
+            cmake_args: -A x64
+            artifact_path: |
+              cimgui/build/Release/*.dll
+              cimgui/build/Release/*.lib
+              cimgui/cimgui.h
+          - os: windows-latest
+            platform: windows
+            arch: x86
+            cmake_args: -A Win32
+            artifact_path: |
+              cimgui/build/Release/*.dll
+              cimgui/build/Release/*.lib
+              cimgui/cimgui.h
+            
+          # Linux builds
+          - os: ubuntu-latest
+            platform: linux
+            arch: x64
+            cmake_args: ""
+            deps: libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
+            artifact_path: |
+              cimgui/build/libcimgui.so
+              cimgui/cimgui.h
+          - os: ubuntu-latest
+            platform: linux
+            arch: arm64
+            cmake_args: -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_PROCESSOR=aarch64 -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc -DCMAKE_CXX_COMPILER=aarch64-linux-gnu-g++
+            deps: libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
+            artifact_path: |
+              cimgui/build/libcimgui.so
+              cimgui/cimgui.h
+            
+          # macOS builds
+          - os: macos-latest
+            platform: macos
+            arch: x64
+            cmake_args: -DCMAKE_OSX_ARCHITECTURES=x86_64
+            artifact_path: |
+              cimgui/build/libcimgui.dylib
+              cimgui/cimgui.h
+          - os: macos-latest
+            platform: macos
+            arch: arm64
+            cmake_args: -DCMAKE_OSX_ARCHITECTURES=arm64
+            artifact_path: |
+              cimgui/build/libcimgui.dylib
+              cimgui/cimgui.h
+            
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+      # Não fazemos checkout do repositório atual, pois vamos clonar o cimgui diretamente
+      
+      # Clone o repositório cimgui
+      - name: Clone cimgui repository
+        run: git clone --recursive https://github.com/cimgui/cimgui.git
+        
+      # Checkout da versão específica se informada
+      - name: Checkout specific version
+        if: github.event.inputs.cimgui_version != 'master'
+        working-directory: ./cimgui
+        run: git checkout ${{ github.event.inputs.cimgui_version }}
+      
+      - name: Install dependencies (Linux)
+        if: matrix.platform == 'linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake ${{ matrix.deps }}
+      
+      - name: Setup CMake (Windows)
+        if: matrix.platform == 'windows'
+        uses: jwlawson/actions-setup-cmake@v1.13
+      
+      - name: Configure CMake
+        shell: bash
+        working-directory: ./cimgui
+        run: cmake -S . -B build ${{ matrix.cmake_args }}
+      
+      - name: Build
+        shell: bash
+        working-directory: ./cimgui
+        run: cmake --build build --config Release
+      
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: cimgui-${{ matrix.platform }}-${{ matrix.arch }}
+          path: ${{ matrix.artifact_path }}
+  
+  # Job para criar um único arquivo zip com todos os artefatos juntos
+  pack-all:
+    name: Package All Builds
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: all-builds
+      
+      - name: Create single ZIP with all builds
+        run: |
+          zip -r cimgui-all-platforms.zip all-builds/
+      
+      - name: Upload combined artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: cimgui-all-platforms
+          path: cimgui-all-platforms.zip

@@ -126,7 +126,7 @@ public struct StaticVTableProcessor : IPostProcessor
         };
         vTableClass.Fields.Add(funcTableField);
 
-        var methodsOriginalNames = methods.Select(m => m.Name).ToArray();
+        var methodsOriginalNames = methods.Select(m => (m.Metadata as CppFunction).Name).ToArray();
         var initApiMethod = new CsMethod("InitApi")
         {
             Visibility = CsVisibility.Public,

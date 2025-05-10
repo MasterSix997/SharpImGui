@@ -27,7 +27,7 @@ public class GeneratorSettings
     public string CLibraryName { get; set; }
     public string CLibraryHeaderFile { get; set; }
 
-    public string CHeaderFilePath => Path.GetFullPath($"{MetadataDirectory}/{HeadersFolder}/{CLibraryHeaderFile}");
+    public string CHeaderFilePath;
     public string DefinitionsDirectory => Path.GetFullPath($"{MetadataDirectory}/{DefinitionsFolder}");
 
     public GeneratorSettings(string originalLibraryName, string generatedLibraryName, string @namespace)
@@ -41,5 +41,7 @@ public class GeneratorSettings
         OutputDirectory = $"{RootProjectDirectory}/{GeneratedLibraryName}/Generated";
         MetadataDirectory = $"{DockerDirectory}/{CLibraryName}";
         CLibraryHeaderFile = $"{CLibraryName}.h";
+        
+        CHeaderFilePath = Path.GetFullPath($"{MetadataDirectory}/{HeadersFolder}/{CLibraryHeaderFile}");
     }
 }

@@ -22,7 +22,7 @@ class Program
         {
             CppParserOptions =
             {
-                Defines = { "CIMGUI_DEFINE_ENUMS_AND_STRUCTS" },
+                Defines = { "CIMGUI_DEFINE_ENUMS_AND_STRUCTS", "IMGUI_HAS_DOCK"},
             },
             FunctionsPrefix = "ig",
             MergeOverloads = true,

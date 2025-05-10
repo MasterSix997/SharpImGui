@@ -339,15 +339,7 @@ public sealed class StructPtrProcessor : IPostProcessor
                 };
                 copyMethod.Parameters.AddRange(overload.Parameters.Select(p => new CsParameter(p.Type, p.Name) { Metadata = p.Metadata }));
                 MarshallMethod(copyMethod, overloadInfo, defaultValuesOverload.OmittedParameters);
-                // if (copyMethod.Parameters.Count <= 0)
-                // {
-                //     if(!methodsWithoutParameter.Add(copyMethod.Name))
-                //        continue;
-                // }
-                if (originalStruct.Name == "ImGuiTextFilter")
-                {
-                    
-                }
+                
                 if (defaultValueMethods.Any(m => HasSameSignature(copyMethod, m)))
                     continue;
                 

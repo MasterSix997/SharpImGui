@@ -55,7 +55,7 @@ namespace SharpImPlot
 			// Marshaling titleId to native string
 			byte* nativeTitleId;
 			var byteCountTitleId = 0;
-			if (titleId != null)
+			if (titleId != null && !titleId.IsEmpty)
 			{
 				byteCountTitleId = Encoding.UTF8.GetByteCount(titleId);
 				if(byteCountTitleId > Utils.MaxStackallocSize)
@@ -97,7 +97,7 @@ namespace SharpImPlot
 			// Marshaling titleId to native string
 			byte* nativeTitleId;
 			var byteCountTitleId = 0;
-			if (titleId != null)
+			if (titleId != null && !titleId.IsEmpty)
 			{
 				byteCountTitleId = Encoding.UTF8.GetByteCount(titleId);
 				if(byteCountTitleId > Utils.MaxStackallocSize)
@@ -141,7 +141,7 @@ namespace SharpImPlot
 			// Marshaling titleId to native string
 			byte* nativeTitleId;
 			var byteCountTitleId = 0;
-			if (titleId != null)
+			if (titleId != null && !titleId.IsEmpty)
 			{
 				byteCountTitleId = Encoding.UTF8.GetByteCount(titleId);
 				if(byteCountTitleId > Utils.MaxStackallocSize)
@@ -186,7 +186,7 @@ namespace SharpImPlot
 			// Marshaling titleId to native string
 			byte* nativeTitleId;
 			var byteCountTitleId = 0;
-			if (titleId != null)
+			if (titleId != null && !titleId.IsEmpty)
 			{
 				byteCountTitleId = Encoding.UTF8.GetByteCount(titleId);
 				if(byteCountTitleId > Utils.MaxStackallocSize)
@@ -233,7 +233,7 @@ namespace SharpImPlot
 			// Marshaling titleId to native string
 			byte* nativeTitleId;
 			var byteCountTitleId = 0;
-			if (titleId != null)
+			if (titleId != null && !titleId.IsEmpty)
 			{
 				byteCountTitleId = Encoding.UTF8.GetByteCount(titleId);
 				if(byteCountTitleId > Utils.MaxStackallocSize)
@@ -280,7 +280,7 @@ namespace SharpImPlot
 			// Marshaling titleId to native string
 			byte* nativeTitleId;
 			var byteCountTitleId = 0;
-			if (titleId != null)
+			if (titleId != null && !titleId.IsEmpty)
 			{
 				byteCountTitleId = Encoding.UTF8.GetByteCount(titleId);
 				if(byteCountTitleId > Utils.MaxStackallocSize)
@@ -326,7 +326,7 @@ namespace SharpImPlot
 			// Marshaling titleId to native string
 			byte* nativeTitleId;
 			var byteCountTitleId = 0;
-			if (titleId != null)
+			if (titleId != null && !titleId.IsEmpty)
 			{
 				byteCountTitleId = Encoding.UTF8.GetByteCount(titleId);
 				if(byteCountTitleId > Utils.MaxStackallocSize)
@@ -368,7 +368,7 @@ namespace SharpImPlot
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -408,7 +408,7 @@ namespace SharpImPlot
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -473,7 +473,7 @@ namespace SharpImPlot
 			// Marshaling fmt to native string
 			byte* nativeFmt;
 			var byteCountFmt = 0;
-			if (fmt != null)
+			if (fmt != null && !fmt.IsEmpty)
 			{
 				byteCountFmt = Encoding.UTF8.GetByteCount(fmt);
 				if(byteCountFmt > Utils.MaxStackallocSize)
@@ -554,7 +554,7 @@ namespace SharpImPlot
 			// Marshaling xLabel to native string
 			byte* nativeXLabel;
 			var byteCountXLabel = 0;
-			if (xLabel != null)
+			if (xLabel != null && !xLabel.IsEmpty)
 			{
 				byteCountXLabel = Encoding.UTF8.GetByteCount(xLabel);
 				if(byteCountXLabel > Utils.MaxStackallocSize)
@@ -574,7 +574,7 @@ namespace SharpImPlot
 			// Marshaling yLabel to native string
 			byte* nativeYLabel;
 			var byteCountYLabel = 0;
-			if (yLabel != null)
+			if (yLabel != null && !yLabel.IsEmpty)
 			{
 				byteCountYLabel = Encoding.UTF8.GetByteCount(yLabel);
 				if(byteCountYLabel > Utils.MaxStackallocSize)
@@ -618,7 +618,7 @@ namespace SharpImPlot
 			// Marshaling xLabel to native string
 			byte* nativeXLabel;
 			var byteCountXLabel = 0;
-			if (xLabel != null)
+			if (xLabel != null && !xLabel.IsEmpty)
 			{
 				byteCountXLabel = Encoding.UTF8.GetByteCount(xLabel);
 				if(byteCountXLabel > Utils.MaxStackallocSize)
@@ -638,7 +638,7 @@ namespace SharpImPlot
 			// Marshaling yLabel to native string
 			byte* nativeYLabel;
 			var byteCountYLabel = 0;
-			if (yLabel != null)
+			if (yLabel != null && !yLabel.IsEmpty)
 			{
 				byteCountYLabel = Encoding.UTF8.GetByteCount(yLabel);
 				if(byteCountYLabel > Utils.MaxStackallocSize)
@@ -684,7 +684,7 @@ namespace SharpImPlot
 			// Marshaling xLabel to native string
 			byte* nativeXLabel;
 			var byteCountXLabel = 0;
-			if (xLabel != null)
+			if (xLabel != null && !xLabel.IsEmpty)
 			{
 				byteCountXLabel = Encoding.UTF8.GetByteCount(xLabel);
 				if(byteCountXLabel > Utils.MaxStackallocSize)
@@ -704,7 +704,7 @@ namespace SharpImPlot
 			// Marshaling yLabel to native string
 			byte* nativeYLabel;
 			var byteCountYLabel = 0;
-			if (yLabel != null)
+			if (yLabel != null && !yLabel.IsEmpty)
 			{
 				byteCountYLabel = Encoding.UTF8.GetByteCount(yLabel);
 				if(byteCountYLabel > Utils.MaxStackallocSize)
@@ -828,7 +828,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -868,7 +868,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -908,7 +908,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -948,7 +948,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -988,7 +988,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1028,7 +1028,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1068,7 +1068,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1108,7 +1108,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1148,7 +1148,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1188,7 +1188,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1229,7 +1229,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1271,7 +1271,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1313,7 +1313,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1355,7 +1355,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1397,7 +1397,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1439,7 +1439,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1481,7 +1481,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1523,7 +1523,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1565,7 +1565,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1607,7 +1607,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1647,7 +1647,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1687,7 +1687,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1724,7 +1724,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1764,7 +1764,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1804,7 +1804,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1844,7 +1844,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1884,7 +1884,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1924,7 +1924,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1964,7 +1964,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2004,7 +2004,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2044,7 +2044,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2084,7 +2084,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2125,7 +2125,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2167,7 +2167,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2209,7 +2209,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2251,7 +2251,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2293,7 +2293,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2335,7 +2335,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2377,7 +2377,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2419,7 +2419,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2461,7 +2461,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2503,7 +2503,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2543,7 +2543,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2583,7 +2583,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2620,7 +2620,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2660,7 +2660,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2700,7 +2700,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2740,7 +2740,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2780,7 +2780,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2820,7 +2820,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2860,7 +2860,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2900,7 +2900,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2940,7 +2940,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2980,7 +2980,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -3021,7 +3021,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -3063,7 +3063,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -3105,7 +3105,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -3147,7 +3147,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -3189,7 +3189,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -3231,7 +3231,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -3273,7 +3273,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -3315,7 +3315,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -3357,7 +3357,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -3399,7 +3399,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -3439,7 +3439,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -3479,7 +3479,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -3516,7 +3516,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -3556,7 +3556,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -3596,7 +3596,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -3636,7 +3636,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -3676,7 +3676,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -3716,7 +3716,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -3756,7 +3756,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -3796,7 +3796,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -3836,7 +3836,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -3876,7 +3876,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -3917,7 +3917,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -3959,7 +3959,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -4001,7 +4001,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -4043,7 +4043,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -4085,7 +4085,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -4127,7 +4127,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -4169,7 +4169,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -4211,7 +4211,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -4253,7 +4253,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -4295,7 +4295,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -4338,7 +4338,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -4382,7 +4382,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -4426,7 +4426,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -4470,7 +4470,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -4514,7 +4514,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -4558,7 +4558,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -4602,7 +4602,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -4646,7 +4646,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -4690,7 +4690,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -4734,7 +4734,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -4775,7 +4775,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -4815,7 +4815,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -4852,7 +4852,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -4892,7 +4892,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -4932,7 +4932,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -4972,7 +4972,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -5012,7 +5012,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -5052,7 +5052,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -5092,7 +5092,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -5132,7 +5132,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -5172,7 +5172,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -5212,7 +5212,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -5253,7 +5253,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -5295,7 +5295,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -5337,7 +5337,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -5379,7 +5379,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -5421,7 +5421,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -5463,7 +5463,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -5505,7 +5505,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -5547,7 +5547,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -5589,7 +5589,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -5631,7 +5631,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -5671,7 +5671,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -5711,7 +5711,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -5840,7 +5840,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -5884,7 +5884,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -5928,7 +5928,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -5972,7 +5972,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -6016,7 +6016,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -6060,7 +6060,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -6104,7 +6104,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -6148,7 +6148,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -6192,7 +6192,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -6236,7 +6236,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -6281,7 +6281,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -6327,7 +6327,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -6373,7 +6373,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -6419,7 +6419,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -6465,7 +6465,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -6511,7 +6511,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -6557,7 +6557,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -6603,7 +6603,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -6649,7 +6649,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -6695,7 +6695,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -6738,7 +6738,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -6778,7 +6778,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -6818,7 +6818,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -6858,7 +6858,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -6898,7 +6898,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -6938,7 +6938,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -6978,7 +6978,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -7018,7 +7018,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -7058,7 +7058,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -7098,7 +7098,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -7139,7 +7139,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -7181,7 +7181,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -7223,7 +7223,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -7265,7 +7265,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -7307,7 +7307,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -7349,7 +7349,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -7391,7 +7391,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -7433,7 +7433,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -7475,7 +7475,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -7517,7 +7517,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -7558,7 +7558,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -7598,7 +7598,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -7638,7 +7638,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -7678,7 +7678,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -7718,7 +7718,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -7758,7 +7758,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -7798,7 +7798,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -7838,7 +7838,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -7878,7 +7878,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -7918,7 +7918,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -8049,7 +8049,7 @@ namespace SharpImPlot
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
 			var byteCountLabelFmt = 0;
-			if (labelFmt != null)
+			if (labelFmt != null && !labelFmt.IsEmpty)
 			{
 				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
 				if(byteCountLabelFmt > Utils.MaxStackallocSize)
@@ -8091,7 +8091,7 @@ namespace SharpImPlot
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
 			var byteCountLabelFmt = 0;
-			if (labelFmt != null)
+			if (labelFmt != null && !labelFmt.IsEmpty)
 			{
 				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
 				if(byteCountLabelFmt > Utils.MaxStackallocSize)
@@ -8133,7 +8133,7 @@ namespace SharpImPlot
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
 			var byteCountLabelFmt = 0;
-			if (labelFmt != null)
+			if (labelFmt != null && !labelFmt.IsEmpty)
 			{
 				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
 				if(byteCountLabelFmt > Utils.MaxStackallocSize)
@@ -8175,7 +8175,7 @@ namespace SharpImPlot
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
 			var byteCountLabelFmt = 0;
-			if (labelFmt != null)
+			if (labelFmt != null && !labelFmt.IsEmpty)
 			{
 				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
 				if(byteCountLabelFmt > Utils.MaxStackallocSize)
@@ -8217,7 +8217,7 @@ namespace SharpImPlot
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
 			var byteCountLabelFmt = 0;
-			if (labelFmt != null)
+			if (labelFmt != null && !labelFmt.IsEmpty)
 			{
 				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
 				if(byteCountLabelFmt > Utils.MaxStackallocSize)
@@ -8259,7 +8259,7 @@ namespace SharpImPlot
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
 			var byteCountLabelFmt = 0;
-			if (labelFmt != null)
+			if (labelFmt != null && !labelFmt.IsEmpty)
 			{
 				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
 				if(byteCountLabelFmt > Utils.MaxStackallocSize)
@@ -8301,7 +8301,7 @@ namespace SharpImPlot
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
 			var byteCountLabelFmt = 0;
-			if (labelFmt != null)
+			if (labelFmt != null && !labelFmt.IsEmpty)
 			{
 				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
 				if(byteCountLabelFmt > Utils.MaxStackallocSize)
@@ -8343,7 +8343,7 @@ namespace SharpImPlot
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
 			var byteCountLabelFmt = 0;
-			if (labelFmt != null)
+			if (labelFmt != null && !labelFmt.IsEmpty)
 			{
 				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
 				if(byteCountLabelFmt > Utils.MaxStackallocSize)
@@ -8385,7 +8385,7 @@ namespace SharpImPlot
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
 			var byteCountLabelFmt = 0;
-			if (labelFmt != null)
+			if (labelFmt != null && !labelFmt.IsEmpty)
 			{
 				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
 				if(byteCountLabelFmt > Utils.MaxStackallocSize)
@@ -8427,7 +8427,7 @@ namespace SharpImPlot
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
 			var byteCountLabelFmt = 0;
-			if (labelFmt != null)
+			if (labelFmt != null && !labelFmt.IsEmpty)
 			{
 				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
 				if(byteCountLabelFmt > Utils.MaxStackallocSize)
@@ -8469,7 +8469,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -8489,7 +8489,7 @@ namespace SharpImPlot
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
 			var byteCountLabelFmt = 0;
-			if (labelFmt != null)
+			if (labelFmt != null && !labelFmt.IsEmpty)
 			{
 				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
 				if(byteCountLabelFmt > Utils.MaxStackallocSize)
@@ -8533,7 +8533,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -8553,7 +8553,7 @@ namespace SharpImPlot
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
 			var byteCountLabelFmt = 0;
-			if (labelFmt != null)
+			if (labelFmt != null && !labelFmt.IsEmpty)
 			{
 				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
 				if(byteCountLabelFmt > Utils.MaxStackallocSize)
@@ -8597,7 +8597,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -8617,7 +8617,7 @@ namespace SharpImPlot
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
 			var byteCountLabelFmt = 0;
-			if (labelFmt != null)
+			if (labelFmt != null && !labelFmt.IsEmpty)
 			{
 				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
 				if(byteCountLabelFmt > Utils.MaxStackallocSize)
@@ -8661,7 +8661,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -8681,7 +8681,7 @@ namespace SharpImPlot
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
 			var byteCountLabelFmt = 0;
-			if (labelFmt != null)
+			if (labelFmt != null && !labelFmt.IsEmpty)
 			{
 				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
 				if(byteCountLabelFmt > Utils.MaxStackallocSize)
@@ -8725,7 +8725,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -8745,7 +8745,7 @@ namespace SharpImPlot
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
 			var byteCountLabelFmt = 0;
-			if (labelFmt != null)
+			if (labelFmt != null && !labelFmt.IsEmpty)
 			{
 				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
 				if(byteCountLabelFmt > Utils.MaxStackallocSize)
@@ -8789,7 +8789,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -8809,7 +8809,7 @@ namespace SharpImPlot
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
 			var byteCountLabelFmt = 0;
-			if (labelFmt != null)
+			if (labelFmt != null && !labelFmt.IsEmpty)
 			{
 				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
 				if(byteCountLabelFmt > Utils.MaxStackallocSize)
@@ -8853,7 +8853,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -8873,7 +8873,7 @@ namespace SharpImPlot
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
 			var byteCountLabelFmt = 0;
-			if (labelFmt != null)
+			if (labelFmt != null && !labelFmt.IsEmpty)
 			{
 				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
 				if(byteCountLabelFmt > Utils.MaxStackallocSize)
@@ -8917,7 +8917,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -8937,7 +8937,7 @@ namespace SharpImPlot
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
 			var byteCountLabelFmt = 0;
-			if (labelFmt != null)
+			if (labelFmt != null && !labelFmt.IsEmpty)
 			{
 				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
 				if(byteCountLabelFmt > Utils.MaxStackallocSize)
@@ -8981,7 +8981,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -9001,7 +9001,7 @@ namespace SharpImPlot
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
 			var byteCountLabelFmt = 0;
-			if (labelFmt != null)
+			if (labelFmt != null && !labelFmt.IsEmpty)
 			{
 				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
 				if(byteCountLabelFmt > Utils.MaxStackallocSize)
@@ -9045,7 +9045,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -9065,7 +9065,7 @@ namespace SharpImPlot
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
 			var byteCountLabelFmt = 0;
-			if (labelFmt != null)
+			if (labelFmt != null && !labelFmt.IsEmpty)
 			{
 				byteCountLabelFmt = Encoding.UTF8.GetByteCount(labelFmt);
 				if(byteCountLabelFmt > Utils.MaxStackallocSize)
@@ -9108,7 +9108,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -9149,7 +9149,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -9190,7 +9190,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -9231,7 +9231,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -9272,7 +9272,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -9313,7 +9313,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -9354,7 +9354,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -9395,7 +9395,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -9436,7 +9436,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -9477,7 +9477,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -9519,7 +9519,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -9562,7 +9562,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -9605,7 +9605,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -9648,7 +9648,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -9691,7 +9691,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -9734,7 +9734,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -9777,7 +9777,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -9820,7 +9820,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -9863,7 +9863,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -9906,7 +9906,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -9949,7 +9949,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -9991,7 +9991,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -10033,7 +10033,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -10075,7 +10075,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -10117,7 +10117,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -10159,7 +10159,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -10201,7 +10201,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -10243,7 +10243,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -10285,7 +10285,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -10327,7 +10327,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -10367,7 +10367,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -10407,7 +10407,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -10443,7 +10443,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -10483,7 +10483,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -10525,7 +10525,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -10569,7 +10569,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -10615,7 +10615,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -10651,7 +10651,7 @@ namespace SharpImPlot
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -10691,7 +10691,7 @@ namespace SharpImPlot
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -10733,7 +10733,7 @@ namespace SharpImPlot
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -10769,7 +10769,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -10809,7 +10809,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -11228,7 +11228,7 @@ namespace SharpImPlot
 			// Marshaling fmt to native string
 			byte* nativeFmt;
 			var byteCountFmt = 0;
-			if (fmt != null)
+			if (fmt != null && !fmt.IsEmpty)
 			{
 				byteCountFmt = Encoding.UTF8.GetByteCount(fmt);
 				if(byteCountFmt > Utils.MaxStackallocSize)
@@ -11270,7 +11270,7 @@ namespace SharpImPlot
 			// Marshaling fmt to native string
 			byte* nativeFmt;
 			var byteCountFmt = 0;
-			if (fmt != null)
+			if (fmt != null && !fmt.IsEmpty)
 			{
 				byteCountFmt = Encoding.UTF8.GetByteCount(fmt);
 				if(byteCountFmt > Utils.MaxStackallocSize)
@@ -11312,7 +11312,7 @@ namespace SharpImPlot
 			// Marshaling fmt to native string
 			byte* nativeFmt;
 			var byteCountFmt = 0;
-			if (fmt != null)
+			if (fmt != null && !fmt.IsEmpty)
 			{
 				byteCountFmt = Encoding.UTF8.GetByteCount(fmt);
 				if(byteCountFmt > Utils.MaxStackallocSize)
@@ -11513,7 +11513,7 @@ namespace SharpImPlot
 			// Marshaling groupId to native string
 			byte* nativeGroupId;
 			var byteCountGroupId = 0;
-			if (groupId != null)
+			if (groupId != null && !groupId.IsEmpty)
 			{
 				byteCountGroupId = Encoding.UTF8.GetByteCount(groupId);
 				if(byteCountGroupId > Utils.MaxStackallocSize)
@@ -11556,7 +11556,7 @@ namespace SharpImPlot
 			// Marshaling groupId to native string
 			byte* nativeGroupId;
 			var byteCountGroupId = 0;
-			if (groupId != null)
+			if (groupId != null && !groupId.IsEmpty)
 			{
 				byteCountGroupId = Encoding.UTF8.GetByteCount(groupId);
 				if(byteCountGroupId > Utils.MaxStackallocSize)
@@ -11599,7 +11599,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -11641,7 +11641,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -11684,7 +11684,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -11773,7 +11773,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -11815,7 +11815,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -12100,7 +12100,7 @@ namespace SharpImPlot
 			// Marshaling name to native string
 			byte* nativeName;
 			var byteCountName = 0;
-			if (name != null)
+			if (name != null && !name.IsEmpty)
 			{
 				byteCountName = Encoding.UTF8.GetByteCount(name);
 				if(byteCountName > Utils.MaxStackallocSize)
@@ -12143,7 +12143,7 @@ namespace SharpImPlot
 			// Marshaling name to native string
 			byte* nativeName;
 			var byteCountName = 0;
-			if (name != null)
+			if (name != null && !name.IsEmpty)
 			{
 				byteCountName = Encoding.UTF8.GetByteCount(name);
 				if(byteCountName > Utils.MaxStackallocSize)
@@ -12195,7 +12195,7 @@ namespace SharpImPlot
 			// Marshaling name to native string
 			byte* nativeName;
 			var byteCountName = 0;
-			if (name != null)
+			if (name != null && !name.IsEmpty)
 			{
 				byteCountName = Encoding.UTF8.GetByteCount(name);
 				if(byteCountName > Utils.MaxStackallocSize)
@@ -12237,7 +12237,7 @@ namespace SharpImPlot
 			// Marshaling name to native string
 			byte* nativeName;
 			var byteCountName = 0;
-			if (name != null)
+			if (name != null && !name.IsEmpty)
 			{
 				byteCountName = Encoding.UTF8.GetByteCount(name);
 				if(byteCountName > Utils.MaxStackallocSize)
@@ -12342,7 +12342,7 @@ namespace SharpImPlot
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -12362,7 +12362,7 @@ namespace SharpImPlot
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -12406,7 +12406,7 @@ namespace SharpImPlot
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -12426,7 +12426,7 @@ namespace SharpImPlot
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -12472,7 +12472,7 @@ namespace SharpImPlot
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -12492,7 +12492,7 @@ namespace SharpImPlot
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -12565,7 +12565,7 @@ namespace SharpImPlot
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -12639,7 +12639,7 @@ namespace SharpImPlot
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -12664,7 +12664,7 @@ namespace SharpImPlot
 				Utils.Free(nativeLabel);
 		}
 
-		public static bool ColormapSlider(ReadOnlySpan<byte> label, ref float t, ref Vector4 _out, ReadOnlySpan<byte> format, ImPlotColormap cmap)
+		public static bool ColormapSlider(ReadOnlySpan<byte> label, ref float t, out Vector4 _out, ReadOnlySpan<byte> format, ImPlotColormap cmap)
 		{
 			fixed (byte* nativeLabel = label)
 			fixed (float* nativeT = &t)
@@ -12676,12 +12676,12 @@ namespace SharpImPlot
 			}
 		}
 
-		public static bool ColormapSlider(ReadOnlySpan<char> label, ref float t, ref Vector4 _out, ReadOnlySpan<char> format, ImPlotColormap cmap)
+		public static bool ColormapSlider(ReadOnlySpan<char> label, ref float t, out Vector4 _out, ReadOnlySpan<char> format, ImPlotColormap cmap)
 		{
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -12701,7 +12701,7 @@ namespace SharpImPlot
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -12732,7 +12732,7 @@ namespace SharpImPlot
 			}
 		}
 
-		public static bool ColormapSlider(ReadOnlySpan<byte> label, ref float t, ref Vector4 _out, ReadOnlySpan<byte> format)
+		public static bool ColormapSlider(ReadOnlySpan<byte> label, ref float t, out Vector4 _out, ReadOnlySpan<byte> format)
 		{
 			// defining omitted parameters
 			ImPlotColormap cmap = (ImPlotColormap)0;
@@ -12746,14 +12746,14 @@ namespace SharpImPlot
 			}
 		}
 
-		public static bool ColormapSlider(ReadOnlySpan<char> label, ref float t, ref Vector4 _out, ReadOnlySpan<char> format)
+		public static bool ColormapSlider(ReadOnlySpan<char> label, ref float t, out Vector4 _out, ReadOnlySpan<char> format)
 		{
 			// defining omitted parameters
 			ImPlotColormap cmap = (ImPlotColormap)0;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -12773,7 +12773,7 @@ namespace SharpImPlot
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -12804,7 +12804,7 @@ namespace SharpImPlot
 			}
 		}
 
-		public static bool ColormapSlider(ReadOnlySpan<byte> label, ref float t, ref Vector4 _out)
+		public static bool ColormapSlider(ReadOnlySpan<byte> label, ref float t, out Vector4 _out)
 		{
 			// defining omitted parameters
 			ImPlotColormap cmap = (ImPlotColormap)0;
@@ -12832,7 +12832,7 @@ namespace SharpImPlot
 			}
 		}
 
-		public static bool ColormapSlider(ReadOnlySpan<char> label, ref float t, ref Vector4 _out)
+		public static bool ColormapSlider(ReadOnlySpan<char> label, ref float t, out Vector4 _out)
 		{
 			// defining omitted parameters
 			ImPlotColormap cmap = (ImPlotColormap)0;
@@ -12852,7 +12852,7 @@ namespace SharpImPlot
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -12931,7 +12931,7 @@ namespace SharpImPlot
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -12974,7 +12974,7 @@ namespace SharpImPlot
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -13016,7 +13016,7 @@ namespace SharpImPlot
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -13060,7 +13060,7 @@ namespace SharpImPlot
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -13097,7 +13097,7 @@ namespace SharpImPlot
 			// Marshaling plotTitleId to native string
 			byte* nativePlotTitleId;
 			var byteCountPlotTitleId = 0;
-			if (plotTitleId != null)
+			if (plotTitleId != null && !plotTitleId.IsEmpty)
 			{
 				byteCountPlotTitleId = Encoding.UTF8.GetByteCount(plotTitleId);
 				if(byteCountPlotTitleId > Utils.MaxStackallocSize)
@@ -13207,7 +13207,7 @@ namespace SharpImPlot
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -13245,7 +13245,7 @@ namespace SharpImPlot
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -13283,7 +13283,7 @@ namespace SharpImPlot
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -13699,7 +13699,7 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void ImMinMaxArrayFloatPtr(ref float values, int count, ref float minOut, ref float maxOut)
+		public static void ImMinMaxArrayFloatPtr(ref float values, int count, out float minOut, out float maxOut)
 		{
 			fixed (float* nativeValues = &values)
 			fixed (float* nativeMinOut = &minOut)
@@ -13709,7 +13709,7 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void ImMinMaxArrayDoublePtr(ref double values, int count, ref double minOut, ref double maxOut)
+		public static void ImMinMaxArrayDoublePtr(ref double values, int count, out double minOut, out double maxOut)
 		{
 			fixed (double* nativeValues = &values)
 			fixed (double* nativeMinOut = &minOut)
@@ -13719,7 +13719,7 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void ImMinMaxArrayS8Ptr(ref sbyte values, int count, ref sbyte minOut, ref sbyte maxOut)
+		public static void ImMinMaxArrayS8Ptr(ref sbyte values, int count, out sbyte minOut, out sbyte maxOut)
 		{
 			fixed (sbyte* nativeValues = &values)
 			fixed (sbyte* nativeMinOut = &minOut)
@@ -13729,7 +13729,7 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void ImMinMaxArrayU8Ptr(ref byte values, int count, ref byte minOut, ref byte maxOut)
+		public static void ImMinMaxArrayU8Ptr(ref byte values, int count, out byte minOut, out byte maxOut)
 		{
 			fixed (byte* nativeValues = &values)
 			fixed (byte* nativeMinOut = &minOut)
@@ -13739,7 +13739,7 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void ImMinMaxArrayS16Ptr(ref short values, int count, ref short minOut, ref short maxOut)
+		public static void ImMinMaxArrayS16Ptr(ref short values, int count, out short minOut, out short maxOut)
 		{
 			fixed (short* nativeValues = &values)
 			fixed (short* nativeMinOut = &minOut)
@@ -13749,7 +13749,7 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void ImMinMaxArrayU16Ptr(ref ushort values, int count, ref ushort minOut, ref ushort maxOut)
+		public static void ImMinMaxArrayU16Ptr(ref ushort values, int count, out ushort minOut, out ushort maxOut)
 		{
 			fixed (ushort* nativeValues = &values)
 			fixed (ushort* nativeMinOut = &minOut)
@@ -13759,7 +13759,7 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void ImMinMaxArrayS32Ptr(ref int values, int count, ref int minOut, ref int maxOut)
+		public static void ImMinMaxArrayS32Ptr(ref int values, int count, out int minOut, out int maxOut)
 		{
 			fixed (int* nativeValues = &values)
 			fixed (int* nativeMinOut = &minOut)
@@ -13769,7 +13769,7 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void ImMinMaxArrayU32Ptr(ref uint values, int count, ref uint minOut, ref uint maxOut)
+		public static void ImMinMaxArrayU32Ptr(ref uint values, int count, out uint minOut, out uint maxOut)
 		{
 			fixed (uint* nativeValues = &values)
 			fixed (uint* nativeMinOut = &minOut)
@@ -13779,7 +13779,7 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void ImMinMaxArrayS64Ptr(ref long values, int count, ref long minOut, ref long maxOut)
+		public static void ImMinMaxArrayS64Ptr(ref long values, int count, out long minOut, out long maxOut)
 		{
 			fixed (long* nativeValues = &values)
 			fixed (long* nativeMinOut = &minOut)
@@ -13789,7 +13789,7 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void ImMinMaxArrayU64Ptr(ref ulong values, int count, ref ulong minOut, ref ulong maxOut)
+		public static void ImMinMaxArrayU64Ptr(ref ulong values, int count, out ulong minOut, out ulong maxOut)
 		{
 			fixed (ulong* nativeValues = &values)
 			fixed (ulong* nativeMinOut = &minOut)
@@ -14155,7 +14155,7 @@ namespace SharpImPlot
 			// Marshaling title to native string
 			byte* nativeTitle;
 			var byteCountTitle = 0;
-			if (title != null)
+			if (title != null && !title.IsEmpty)
 			{
 				byteCountTitle = Encoding.UTF8.GetByteCount(title);
 				if(byteCountTitle > Utils.MaxStackallocSize)
@@ -14223,7 +14223,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -14254,7 +14254,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -14298,7 +14298,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -14344,7 +14344,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -14378,7 +14378,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -14415,7 +14415,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -14552,7 +14552,7 @@ namespace SharpImPlot
 			// Marshaling titleId to native string
 			byte* nativeTitleId;
 			var byteCountTitleId = 0;
-			if (titleId != null)
+			if (titleId != null && !titleId.IsEmpty)
 			{
 				byteCountTitleId = Encoding.UTF8.GetByteCount(titleId);
 				if(byteCountTitleId > Utils.MaxStackallocSize)
@@ -14584,7 +14584,7 @@ namespace SharpImPlot
 			// Marshaling titleId to native string
 			byte* nativeTitleId;
 			var byteCountTitleId = 0;
-			if (titleId != null)
+			if (titleId != null && !titleId.IsEmpty)
 			{
 				byteCountTitleId = Encoding.UTF8.GetByteCount(titleId);
 				if(byteCountTitleId > Utils.MaxStackallocSize)
@@ -14628,7 +14628,7 @@ namespace SharpImPlot
 			// Marshaling titleId to native string
 			byte* nativeTitleId;
 			var byteCountTitleId = 0;
-			if (titleId != null)
+			if (titleId != null && !titleId.IsEmpty)
 			{
 				byteCountTitleId = Encoding.UTF8.GetByteCount(titleId);
 				if(byteCountTitleId > Utils.MaxStackallocSize)
@@ -14673,7 +14673,7 @@ namespace SharpImPlot
 			// Marshaling titleId to native string
 			byte* nativeTitleId;
 			var byteCountTitleId = 0;
-			if (titleId != null)
+			if (titleId != null && !titleId.IsEmpty)
 			{
 				byteCountTitleId = Encoding.UTF8.GetByteCount(titleId);
 				if(byteCountTitleId > Utils.MaxStackallocSize)
@@ -14703,10 +14703,10 @@ namespace SharpImPlot
 			return result != 0;
 		}
 
-		public static void LabelAxisValue(ImPlotAxis axis, double value, ref byte buff, int size, bool round)
+		public static void LabelAxisValue(ImPlotAxis axis, double value, byte[] buff, int size, bool round)
 		{
 			var native_round = round ? (byte)1 : (byte)0;
-			fixed (byte* nativeBuff = &buff)
+			fixed (byte* nativeBuff = buff)
 			{
 				ImPlotNative.LabelAxisValue(axis, value, nativeBuff, size, native_round);
 			}
@@ -14764,7 +14764,7 @@ namespace SharpImPlot
 			// Marshaling textBegin to native string
 			byte* nativeTextBegin;
 			var byteCountTextBegin = 0;
-			if (textBegin != null)
+			if (textBegin != null && !textBegin.IsEmpty)
 			{
 				byteCountTextBegin = Encoding.UTF8.GetByteCount(textBegin);
 				if(byteCountTextBegin > Utils.MaxStackallocSize)
@@ -14784,7 +14784,7 @@ namespace SharpImPlot
 			// Marshaling textEnd to native string
 			byte* nativeTextEnd;
 			var byteCountTextEnd = 0;
-			if (textEnd != null)
+			if (textEnd != null && !textEnd.IsEmpty)
 			{
 				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
 				if(byteCountTextEnd > Utils.MaxStackallocSize)
@@ -14817,7 +14817,7 @@ namespace SharpImPlot
 			// Marshaling textBegin to native string
 			byte* nativeTextBegin;
 			var byteCountTextBegin = 0;
-			if (textBegin != null)
+			if (textBegin != null && !textBegin.IsEmpty)
 			{
 				byteCountTextBegin = Encoding.UTF8.GetByteCount(textBegin);
 				if(byteCountTextBegin > Utils.MaxStackallocSize)
@@ -14854,7 +14854,7 @@ namespace SharpImPlot
 			// Marshaling textBegin to native string
 			byte* nativeTextBegin;
 			var byteCountTextBegin = 0;
-			if (textBegin != null)
+			if (textBegin != null && !textBegin.IsEmpty)
 			{
 				byteCountTextBegin = Encoding.UTF8.GetByteCount(textBegin);
 				if(byteCountTextBegin > Utils.MaxStackallocSize)
@@ -14874,7 +14874,7 @@ namespace SharpImPlot
 			// Marshaling textEnd to native string
 			byte* nativeTextEnd;
 			var byteCountTextEnd = 0;
-			if (textEnd != null)
+			if (textEnd != null && !textEnd.IsEmpty)
 			{
 				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
 				if(byteCountTextEnd > Utils.MaxStackallocSize)
@@ -14907,7 +14907,7 @@ namespace SharpImPlot
 			// Marshaling textBegin to native string
 			byte* nativeTextBegin;
 			var byteCountTextBegin = 0;
-			if (textBegin != null)
+			if (textBegin != null && !textBegin.IsEmpty)
 			{
 				byteCountTextBegin = Encoding.UTF8.GetByteCount(textBegin);
 				if(byteCountTextBegin > Utils.MaxStackallocSize)
@@ -14944,7 +14944,7 @@ namespace SharpImPlot
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -15135,7 +15135,7 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void CalculateBinsFloatPtr(ref float values, int count, ImPlotBin meth, ImPlotRange range, ref int binsOut, ref double widthOut)
+		public static void CalculateBinsFloatPtr(ref float values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
 		{
 			fixed (float* nativeValues = &values)
 			fixed (int* nativeBinsOut = &binsOut)
@@ -15145,7 +15145,7 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void CalculateBinsDoublePtr(ref double values, int count, ImPlotBin meth, ImPlotRange range, ref int binsOut, ref double widthOut)
+		public static void CalculateBinsDoublePtr(ref double values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
 		{
 			fixed (double* nativeValues = &values)
 			fixed (int* nativeBinsOut = &binsOut)
@@ -15155,7 +15155,7 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void CalculateBinsS8Ptr(ref sbyte values, int count, ImPlotBin meth, ImPlotRange range, ref int binsOut, ref double widthOut)
+		public static void CalculateBinsS8Ptr(ref sbyte values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
 		{
 			fixed (sbyte* nativeValues = &values)
 			fixed (int* nativeBinsOut = &binsOut)
@@ -15165,7 +15165,7 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void CalculateBinsU8Ptr(ref byte values, int count, ImPlotBin meth, ImPlotRange range, ref int binsOut, ref double widthOut)
+		public static void CalculateBinsU8Ptr(ref byte values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
 		{
 			fixed (byte* nativeValues = &values)
 			fixed (int* nativeBinsOut = &binsOut)
@@ -15175,7 +15175,7 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void CalculateBinsS16Ptr(ref short values, int count, ImPlotBin meth, ImPlotRange range, ref int binsOut, ref double widthOut)
+		public static void CalculateBinsS16Ptr(ref short values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
 		{
 			fixed (short* nativeValues = &values)
 			fixed (int* nativeBinsOut = &binsOut)
@@ -15185,7 +15185,7 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void CalculateBinsU16Ptr(ref ushort values, int count, ImPlotBin meth, ImPlotRange range, ref int binsOut, ref double widthOut)
+		public static void CalculateBinsU16Ptr(ref ushort values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
 		{
 			fixed (ushort* nativeValues = &values)
 			fixed (int* nativeBinsOut = &binsOut)
@@ -15195,7 +15195,7 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void CalculateBinsS32Ptr(ref int values, int count, ImPlotBin meth, ImPlotRange range, ref int binsOut, ref double widthOut)
+		public static void CalculateBinsS32Ptr(ref int values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
 		{
 			fixed (int* nativeValues = &values)
 			fixed (int* nativeBinsOut = &binsOut)
@@ -15205,7 +15205,7 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void CalculateBinsU32Ptr(ref uint values, int count, ImPlotBin meth, ImPlotRange range, ref int binsOut, ref double widthOut)
+		public static void CalculateBinsU32Ptr(ref uint values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
 		{
 			fixed (uint* nativeValues = &values)
 			fixed (int* nativeBinsOut = &binsOut)
@@ -15215,7 +15215,7 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void CalculateBinsS64Ptr(ref long values, int count, ImPlotBin meth, ImPlotRange range, ref int binsOut, ref double widthOut)
+		public static void CalculateBinsS64Ptr(ref long values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
 		{
 			fixed (long* nativeValues = &values)
 			fixed (int* nativeBinsOut = &binsOut)
@@ -15225,7 +15225,7 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void CalculateBinsU64Ptr(ref ulong values, int count, ImPlotBin meth, ImPlotRange range, ref int binsOut, ref double widthOut)
+		public static void CalculateBinsU64Ptr(ref ulong values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
 		{
 			fixed (ulong* nativeValues = &values)
 			fixed (int* nativeBinsOut = &binsOut)
@@ -15376,27 +15376,27 @@ namespace SharpImPlot
 			ImPlotNative.Today(pOut);
 		}
 
-		public static int FormatTime(ImPlotTime t, ref byte buffer, int size, ImPlotTimeFmt fmt, bool use_24HrClk)
+		public static int FormatTime(ImPlotTime t, byte[] buffer, int size, ImPlotTimeFmt fmt, bool use_24HrClk)
 		{
 			var native_use_24HrClk = use_24HrClk ? (byte)1 : (byte)0;
-			fixed (byte* nativeBuffer = &buffer)
+			fixed (byte* nativeBuffer = buffer)
 			{
 				return ImPlotNative.FormatTime(t, nativeBuffer, size, fmt, native_use_24HrClk);
 			}
 		}
 
-		public static int FormatDate(ImPlotTime t, ref byte buffer, int size, ImPlotDateFmt fmt, bool useIso_8601)
+		public static int FormatDate(ImPlotTime t, byte[] buffer, int size, ImPlotDateFmt fmt, bool useIso_8601)
 		{
 			var native_useIso_8601 = useIso_8601 ? (byte)1 : (byte)0;
-			fixed (byte* nativeBuffer = &buffer)
+			fixed (byte* nativeBuffer = buffer)
 			{
 				return ImPlotNative.FormatDate(t, nativeBuffer, size, fmt, native_useIso_8601);
 			}
 		}
 
-		public static int FormatDateTime(ImPlotTime t, ref byte buffer, int size, ImPlotDateTimeSpec fmt)
+		public static int FormatDateTime(ImPlotTime t, byte[] buffer, int size, ImPlotDateTimeSpec fmt)
 		{
-			fixed (byte* nativeBuffer = &buffer)
+			fixed (byte* nativeBuffer = buffer)
 			{
 				return ImPlotNative.FormatDateTime(t, nativeBuffer, size, fmt);
 			}
@@ -15417,7 +15417,7 @@ namespace SharpImPlot
 			// Marshaling id to native string
 			byte* nativeId;
 			var byteCountId = 0;
-			if (id != null)
+			if (id != null && !id.IsEmpty)
 			{
 				byteCountId = Encoding.UTF8.GetByteCount(id);
 				if(byteCountId > Utils.MaxStackallocSize)
@@ -15451,7 +15451,7 @@ namespace SharpImPlot
 			// Marshaling id to native string
 			byte* nativeId;
 			var byteCountId = 0;
-			if (id != null)
+			if (id != null && !id.IsEmpty)
 			{
 				byteCountId = Encoding.UTF8.GetByteCount(id);
 				if(byteCountId > Utils.MaxStackallocSize)
@@ -15499,7 +15499,7 @@ namespace SharpImPlot
 			// Marshaling id to native string
 			byte* nativeId;
 			var byteCountId = 0;
-			if (id != null)
+			if (id != null && !id.IsEmpty)
 			{
 				byteCountId = Encoding.UTF8.GetByteCount(id);
 				if(byteCountId > Utils.MaxStackallocSize)
@@ -15540,7 +15540,7 @@ namespace SharpImPlot
 			// Marshaling id to native string
 			byte* nativeId;
 			var byteCountId = 0;
-			if (id != null)
+			if (id != null && !id.IsEmpty)
 			{
 				byteCountId = Encoding.UTF8.GetByteCount(id);
 				if(byteCountId > Utils.MaxStackallocSize)
@@ -15594,25 +15594,25 @@ namespace SharpImPlot
 			return ImPlotNative.TransformInverseLogit(v, (void*)noname1);
 		}
 
-		public static int FormatterDefault(double value, ref byte buff, int size, IntPtr data)
+		public static int FormatterDefault(double value, byte[] buff, int size, IntPtr data)
 		{
-			fixed (byte* nativeBuff = &buff)
+			fixed (byte* nativeBuff = buff)
 			{
 				return ImPlotNative.FormatterDefault(value, nativeBuff, size, (void*)data);
 			}
 		}
 
-		public static int FormatterLogit(double value, ref byte buff, int size, IntPtr noname1)
+		public static int FormatterLogit(double value, byte[] buff, int size, IntPtr noname1)
 		{
-			fixed (byte* nativeBuff = &buff)
+			fixed (byte* nativeBuff = buff)
 			{
 				return ImPlotNative.FormatterLogit(value, nativeBuff, size, (void*)noname1);
 			}
 		}
 
-		public static int FormatterTime(double noname1, ref byte buff, int size, IntPtr data)
+		public static int FormatterTime(double noname1, byte[] buff, int size, IntPtr data)
 		{
-			fixed (byte* nativeBuff = &buff)
+			fixed (byte* nativeBuff = buff)
 			{
 				return ImPlotNative.FormatterTime(noname1, nativeBuff, size, (void*)data);
 			}

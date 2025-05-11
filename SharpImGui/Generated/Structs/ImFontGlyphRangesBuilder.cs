@@ -38,7 +38,7 @@ namespace SharpImGui
 		/// <summary>
 		/// Output new ranges<br/>
 		/// </summary>
-		public void BuildRanges(ref ImVector<ushort> outRanges)
+		public void BuildRanges(out ImVector<ushort> outRanges)
 		{
 			fixed (ImVector<ushort>* nativeOutRanges = &outRanges)
 			{
@@ -77,7 +77,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -97,7 +97,7 @@ namespace SharpImGui
 			// Marshaling textEnd to native string
 			byte* nativeTextEnd;
 			var byteCountTextEnd = 0;
-			if (textEnd != null)
+			if (textEnd != null && !textEnd.IsEmpty)
 			{
 				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
 				if(byteCountTextEnd > Utils.MaxStackallocSize)
@@ -146,7 +146,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)

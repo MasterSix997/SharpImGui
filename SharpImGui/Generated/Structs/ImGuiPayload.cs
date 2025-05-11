@@ -153,7 +153,7 @@ namespace SharpImGui
 			// Marshaling type to native string
 			byte* nativeType;
 			var byteCountType = 0;
-			if (type != null)
+			if (type != null && !type.IsEmpty)
 			{
 				byteCountType = Encoding.UTF8.GetByteCount(type);
 				if(byteCountType > Utils.MaxStackallocSize)

@@ -52,7 +52,7 @@ namespace SharpImPlot
 			// Marshaling fmt to native string
 			byte* nativeFmt;
 			var byteCountFmt = 0;
-			if (fmt != null)
+			if (fmt != null && !fmt.IsEmpty)
 			{
 				byteCountFmt = Encoding.UTF8.GetByteCount(fmt);
 				if(byteCountFmt > Utils.MaxStackallocSize)

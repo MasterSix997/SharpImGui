@@ -241,7 +241,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -284,7 +284,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -395,7 +395,7 @@ namespace SharpImGui
 			// Marshaling name to native string
 			byte* nativeName;
 			var byteCountName = 0;
-			if (name != null)
+			if (name != null && !name.IsEmpty)
 			{
 				byteCountName = Encoding.UTF8.GetByteCount(name);
 				if(byteCountName > Utils.MaxStackallocSize)
@@ -443,7 +443,7 @@ namespace SharpImGui
 			// Marshaling name to native string
 			byte* nativeName;
 			var byteCountName = 0;
-			if (name != null)
+			if (name != null && !name.IsEmpty)
 			{
 				byteCountName = Encoding.UTF8.GetByteCount(name);
 				if(byteCountName > Utils.MaxStackallocSize)
@@ -490,7 +490,7 @@ namespace SharpImGui
 			// Marshaling name to native string
 			byte* nativeName;
 			var byteCountName = 0;
-			if (name != null)
+			if (name != null && !name.IsEmpty)
 			{
 				byteCountName = Encoding.UTF8.GetByteCount(name);
 				if(byteCountName > Utils.MaxStackallocSize)
@@ -533,7 +533,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -863,7 +863,7 @@ namespace SharpImGui
 			// Marshaling name to native string
 			byte* nativeName;
 			var byteCountName = 0;
-			if (name != null)
+			if (name != null && !name.IsEmpty)
 			{
 				byteCountName = Encoding.UTF8.GetByteCount(name);
 				if(byteCountName > Utils.MaxStackallocSize)
@@ -899,7 +899,7 @@ namespace SharpImGui
 			// Marshaling name to native string
 			byte* nativeName;
 			var byteCountName = 0;
-			if (name != null)
+			if (name != null && !name.IsEmpty)
 			{
 				byteCountName = Encoding.UTF8.GetByteCount(name);
 				if(byteCountName > Utils.MaxStackallocSize)
@@ -936,7 +936,7 @@ namespace SharpImGui
 			// Marshaling name to native string
 			byte* nativeName;
 			var byteCountName = 0;
-			if (name != null)
+			if (name != null && !name.IsEmpty)
 			{
 				byteCountName = Encoding.UTF8.GetByteCount(name);
 				if(byteCountName > Utils.MaxStackallocSize)
@@ -973,7 +973,7 @@ namespace SharpImGui
 			// Marshaling name to native string
 			byte* nativeName;
 			var byteCountName = 0;
-			if (name != null)
+			if (name != null && !name.IsEmpty)
 			{
 				byteCountName = Encoding.UTF8.GetByteCount(name);
 				if(byteCountName > Utils.MaxStackallocSize)
@@ -1544,7 +1544,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -1581,7 +1581,7 @@ namespace SharpImGui
 			// Marshaling strIdBegin to native string
 			byte* nativeStrIdBegin;
 			var byteCountStrIdBegin = 0;
-			if (strIdBegin != null)
+			if (strIdBegin != null && !strIdBegin.IsEmpty)
 			{
 				byteCountStrIdBegin = Encoding.UTF8.GetByteCount(strIdBegin);
 				if(byteCountStrIdBegin > Utils.MaxStackallocSize)
@@ -1601,7 +1601,7 @@ namespace SharpImGui
 			// Marshaling strIdEnd to native string
 			byte* nativeStrIdEnd;
 			var byteCountStrIdEnd = 0;
-			if (strIdEnd != null)
+			if (strIdEnd != null && !strIdEnd.IsEmpty)
 			{
 				byteCountStrIdEnd = Encoding.UTF8.GetByteCount(strIdEnd);
 				if(byteCountStrIdEnd > Utils.MaxStackallocSize)
@@ -1658,7 +1658,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -1696,7 +1696,7 @@ namespace SharpImGui
 			// Marshaling strIdBegin to native string
 			byte* nativeStrIdBegin;
 			var byteCountStrIdBegin = 0;
-			if (strIdBegin != null)
+			if (strIdBegin != null && !strIdBegin.IsEmpty)
 			{
 				byteCountStrIdBegin = Encoding.UTF8.GetByteCount(strIdBegin);
 				if(byteCountStrIdBegin > Utils.MaxStackallocSize)
@@ -1716,7 +1716,7 @@ namespace SharpImGui
 			// Marshaling strIdEnd to native string
 			byte* nativeStrIdEnd;
 			var byteCountStrIdEnd = 0;
-			if (strIdEnd != null)
+			if (strIdEnd != null && !strIdEnd.IsEmpty)
 			{
 				byteCountStrIdEnd = Encoding.UTF8.GetByteCount(strIdEnd);
 				if(byteCountStrIdEnd > Utils.MaxStackallocSize)
@@ -1773,7 +1773,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -1793,7 +1793,7 @@ namespace SharpImGui
 			// Marshaling textEnd to native string
 			byte* nativeTextEnd;
 			var byteCountTextEnd = 0;
-			if (textEnd != null)
+			if (textEnd != null && !textEnd.IsEmpty)
 			{
 				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
 				if(byteCountTextEnd > Utils.MaxStackallocSize)
@@ -1842,7 +1842,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -1884,7 +1884,7 @@ namespace SharpImGui
 			// Marshaling fmt to native string
 			byte* nativeFmt;
 			var byteCountFmt = 0;
-			if (fmt != null)
+			if (fmt != null && !fmt.IsEmpty)
 			{
 				byteCountFmt = Encoding.UTF8.GetByteCount(fmt);
 				if(byteCountFmt > Utils.MaxStackallocSize)
@@ -1926,7 +1926,7 @@ namespace SharpImGui
 			// Marshaling fmt to native string
 			byte* nativeFmt;
 			var byteCountFmt = 0;
-			if (fmt != null)
+			if (fmt != null && !fmt.IsEmpty)
 			{
 				byteCountFmt = Encoding.UTF8.GetByteCount(fmt);
 				if(byteCountFmt > Utils.MaxStackallocSize)
@@ -1968,7 +1968,7 @@ namespace SharpImGui
 			// Marshaling fmt to native string
 			byte* nativeFmt;
 			var byteCountFmt = 0;
-			if (fmt != null)
+			if (fmt != null && !fmt.IsEmpty)
 			{
 				byteCountFmt = Encoding.UTF8.GetByteCount(fmt);
 				if(byteCountFmt > Utils.MaxStackallocSize)
@@ -2010,7 +2010,7 @@ namespace SharpImGui
 			// Marshaling fmt to native string
 			byte* nativeFmt;
 			var byteCountFmt = 0;
-			if (fmt != null)
+			if (fmt != null && !fmt.IsEmpty)
 			{
 				byteCountFmt = Encoding.UTF8.GetByteCount(fmt);
 				if(byteCountFmt > Utils.MaxStackallocSize)
@@ -2053,7 +2053,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -2073,7 +2073,7 @@ namespace SharpImGui
 			// Marshaling fmt to native string
 			byte* nativeFmt;
 			var byteCountFmt = 0;
-			if (fmt != null)
+			if (fmt != null && !fmt.IsEmpty)
 			{
 				byteCountFmt = Encoding.UTF8.GetByteCount(fmt);
 				if(byteCountFmt > Utils.MaxStackallocSize)
@@ -2118,7 +2118,7 @@ namespace SharpImGui
 			// Marshaling fmt to native string
 			byte* nativeFmt;
 			var byteCountFmt = 0;
-			if (fmt != null)
+			if (fmt != null && !fmt.IsEmpty)
 			{
 				byteCountFmt = Encoding.UTF8.GetByteCount(fmt);
 				if(byteCountFmt > Utils.MaxStackallocSize)
@@ -2160,7 +2160,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -2203,7 +2203,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -2251,7 +2251,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -2295,7 +2295,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -2339,7 +2339,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -2387,7 +2387,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -2431,7 +2431,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -2472,7 +2472,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -2514,7 +2514,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -2556,7 +2556,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -2604,7 +2604,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -2644,7 +2644,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -2684,7 +2684,7 @@ namespace SharpImGui
 			// Marshaling overlay to native string
 			byte* nativeOverlay;
 			var byteCountOverlay = 0;
-			if (overlay != null)
+			if (overlay != null && !overlay.IsEmpty)
 			{
 				byteCountOverlay = Encoding.UTF8.GetByteCount(overlay);
 				if(byteCountOverlay > Utils.MaxStackallocSize)
@@ -2750,7 +2750,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -2794,7 +2794,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -2814,7 +2814,7 @@ namespace SharpImGui
 			// Marshaling url to native string
 			byte* nativeUrl;
 			var byteCountUrl = 0;
-			if (url != null)
+			if (url != null && !url.IsEmpty)
 			{
 				byteCountUrl = Encoding.UTF8.GetByteCount(url);
 				if(byteCountUrl > Utils.MaxStackallocSize)
@@ -2863,7 +2863,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -2959,7 +2959,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -3001,7 +3001,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -3045,7 +3045,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -3091,7 +3091,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -3139,7 +3139,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -3178,7 +3178,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -3198,7 +3198,7 @@ namespace SharpImGui
 			// Marshaling previewValue to native string
 			byte* nativePreviewValue;
 			var byteCountPreviewValue = 0;
-			if (previewValue != null)
+			if (previewValue != null && !previewValue.IsEmpty)
 			{
 				byteCountPreviewValue = Encoding.UTF8.GetByteCount(previewValue);
 				if(byteCountPreviewValue > Utils.MaxStackallocSize)
@@ -3244,7 +3244,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -3264,7 +3264,7 @@ namespace SharpImGui
 			// Marshaling previewValue to native string
 			byte* nativePreviewValue;
 			var byteCountPreviewValue = 0;
-			if (previewValue != null)
+			if (previewValue != null && !previewValue.IsEmpty)
 			{
 				byteCountPreviewValue = Encoding.UTF8.GetByteCount(previewValue);
 				if(byteCountPreviewValue > Utils.MaxStackallocSize)
@@ -3315,7 +3315,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -3359,7 +3359,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -3379,7 +3379,7 @@ namespace SharpImGui
 			// Marshaling itemsSeparatedByZeros to native string
 			byte* nativeItemsSeparatedByZeros;
 			var byteCountItemsSeparatedByZeros = 0;
-			if (itemsSeparatedByZeros != null)
+			if (itemsSeparatedByZeros != null && !itemsSeparatedByZeros.IsEmpty)
 			{
 				byteCountItemsSeparatedByZeros = Encoding.UTF8.GetByteCount(itemsSeparatedByZeros);
 				if(byteCountItemsSeparatedByZeros > Utils.MaxStackallocSize)
@@ -3424,7 +3424,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -3473,7 +3473,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -3493,7 +3493,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -3549,7 +3549,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -3569,7 +3569,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -3652,7 +3652,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -3736,7 +3736,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -3822,7 +3822,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -3910,7 +3910,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -3955,7 +3955,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -3975,7 +3975,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -4025,7 +4025,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -4045,7 +4045,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -4122,7 +4122,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -4200,7 +4200,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -4280,7 +4280,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -4362,7 +4362,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -4407,7 +4407,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -4427,7 +4427,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -4477,7 +4477,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -4497,7 +4497,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -4574,7 +4574,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -4652,7 +4652,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -4732,7 +4732,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -4814,7 +4814,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -4859,7 +4859,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -4879,7 +4879,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -4929,7 +4929,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -4949,7 +4949,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -5026,7 +5026,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -5104,7 +5104,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -5184,7 +5184,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -5266,7 +5266,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -5313,7 +5313,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -5333,7 +5333,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -5353,7 +5353,7 @@ namespace SharpImGui
 			// Marshaling formatMax to native string
 			byte* nativeFormatMax;
 			var byteCountFormatMax = 0;
-			if (formatMax != null)
+			if (formatMax != null && !formatMax.IsEmpty)
 			{
 				byteCountFormatMax = Encoding.UTF8.GetByteCount(formatMax);
 				if(byteCountFormatMax > Utils.MaxStackallocSize)
@@ -5409,7 +5409,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -5429,7 +5429,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -5449,7 +5449,7 @@ namespace SharpImGui
 			// Marshaling formatMax to native string
 			byte* nativeFormatMax;
 			var byteCountFormatMax = 0;
-			if (formatMax != null)
+			if (formatMax != null && !formatMax.IsEmpty)
 			{
 				byteCountFormatMax = Encoding.UTF8.GetByteCount(formatMax);
 				if(byteCountFormatMax > Utils.MaxStackallocSize)
@@ -5506,7 +5506,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -5526,7 +5526,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -5607,7 +5607,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -5689,7 +5689,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -5773,7 +5773,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -5859,7 +5859,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -5911,7 +5911,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -5931,7 +5931,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -5987,7 +5987,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -6007,7 +6007,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -6090,7 +6090,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -6174,7 +6174,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -6260,7 +6260,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -6348,7 +6348,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -6393,7 +6393,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -6413,7 +6413,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -6463,7 +6463,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -6483,7 +6483,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -6560,7 +6560,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -6638,7 +6638,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -6718,7 +6718,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -6800,7 +6800,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -6845,7 +6845,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -6865,7 +6865,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -6915,7 +6915,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -6935,7 +6935,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -7012,7 +7012,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -7090,7 +7090,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -7170,7 +7170,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -7252,7 +7252,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -7297,7 +7297,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -7317,7 +7317,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -7367,7 +7367,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -7387,7 +7387,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -7464,7 +7464,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -7542,7 +7542,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -7622,7 +7622,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -7704,7 +7704,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -7751,7 +7751,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -7771,7 +7771,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -7791,7 +7791,7 @@ namespace SharpImGui
 			// Marshaling formatMax to native string
 			byte* nativeFormatMax;
 			var byteCountFormatMax = 0;
-			if (formatMax != null)
+			if (formatMax != null && !formatMax.IsEmpty)
 			{
 				byteCountFormatMax = Encoding.UTF8.GetByteCount(formatMax);
 				if(byteCountFormatMax > Utils.MaxStackallocSize)
@@ -7847,7 +7847,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -7867,7 +7867,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -7887,7 +7887,7 @@ namespace SharpImGui
 			// Marshaling formatMax to native string
 			byte* nativeFormatMax;
 			var byteCountFormatMax = 0;
-			if (formatMax != null)
+			if (formatMax != null && !formatMax.IsEmpty)
 			{
 				byteCountFormatMax = Encoding.UTF8.GetByteCount(formatMax);
 				if(byteCountFormatMax > Utils.MaxStackallocSize)
@@ -7944,7 +7944,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -7964,7 +7964,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -8045,7 +8045,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -8127,7 +8127,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -8211,7 +8211,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -8297,7 +8297,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -8342,7 +8342,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -8362,7 +8362,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -8408,7 +8408,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -8428,7 +8428,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -8475,7 +8475,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -8521,7 +8521,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -8569,7 +8569,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -8619,7 +8619,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -8658,7 +8658,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -8678,7 +8678,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -8724,7 +8724,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -8744,7 +8744,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -8791,7 +8791,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -8837,7 +8837,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -8885,7 +8885,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -8935,7 +8935,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -8981,7 +8981,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -9001,7 +9001,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -9057,7 +9057,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -9077,7 +9077,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -9160,7 +9160,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -9205,7 +9205,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -9225,7 +9225,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -9275,7 +9275,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -9295,7 +9295,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -9372,7 +9372,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -9417,7 +9417,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -9437,7 +9437,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -9487,7 +9487,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -9507,7 +9507,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -9584,7 +9584,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -9629,7 +9629,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -9649,7 +9649,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -9699,7 +9699,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -9719,7 +9719,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -9796,7 +9796,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -9841,7 +9841,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -9861,7 +9861,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -9911,7 +9911,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -9931,7 +9931,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -10008,7 +10008,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -10086,7 +10086,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -10166,7 +10166,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -10211,7 +10211,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -10231,7 +10231,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -10281,7 +10281,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -10301,7 +10301,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -10378,7 +10378,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -10423,7 +10423,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -10443,7 +10443,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -10493,7 +10493,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -10513,7 +10513,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -10590,7 +10590,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -10635,7 +10635,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -10655,7 +10655,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -10705,7 +10705,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -10725,7 +10725,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -10802,7 +10802,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -10847,7 +10847,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -10867,7 +10867,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -10917,7 +10917,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -10937,7 +10937,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -11014,7 +11014,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -11058,7 +11058,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -11078,7 +11078,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -11124,7 +11124,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -11144,7 +11144,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -11191,7 +11191,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -11230,7 +11230,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -11250,7 +11250,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -11296,7 +11296,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -11316,7 +11316,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -11363,7 +11363,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -11403,7 +11403,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -11423,7 +11423,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -11473,7 +11473,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -11493,7 +11493,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -11570,7 +11570,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -11615,7 +11615,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -11635,7 +11635,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -11685,7 +11685,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -11705,7 +11705,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -11782,7 +11782,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -11826,7 +11826,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -11846,7 +11846,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -11892,7 +11892,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -11912,7 +11912,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -11959,7 +11959,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -11983,22 +11983,22 @@ namespace SharpImGui
 			return result != 0;
 		}
 
-		public static bool InputText(ReadOnlySpan<byte> label, ref byte buf, uint bufSize, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, IntPtr userData)
+		public static bool InputText(ReadOnlySpan<byte> label, byte[] buf, uint bufSize, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, IntPtr userData)
 		{
 			fixed (byte* nativeLabel = label)
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputText(nativeLabel, nativeBuf, bufSize, flags, callback, (void*)userData);
 				return result != 0;
 			}
 		}
 
-		public static bool InputText(ReadOnlySpan<char> label, ref byte buf, uint bufSize, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, IntPtr userData)
+		public static bool InputText(ReadOnlySpan<char> label, byte[] buf, uint bufSize, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, IntPtr userData)
 		{
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -12015,7 +12015,7 @@ namespace SharpImGui
 			}
 			else nativeLabel = null;
 
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputText(nativeLabel, nativeBuf, bufSize, flags, callback, (void*)userData);
 				// Freeing label native string
@@ -12025,26 +12025,26 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool InputText(ReadOnlySpan<byte> label, ref byte buf, uint bufSize, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback)
+		public static bool InputText(ReadOnlySpan<byte> label, byte[] buf, uint bufSize, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback)
 		{
 			// defining omitted parameters
 			void* userData = null;
 			fixed (byte* nativeLabel = label)
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputText(nativeLabel, nativeBuf, bufSize, flags, callback, userData);
 				return result != 0;
 			}
 		}
 
-		public static bool InputText(ReadOnlySpan<char> label, ref byte buf, uint bufSize, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback)
+		public static bool InputText(ReadOnlySpan<char> label, byte[] buf, uint bufSize, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback)
 		{
 			// defining omitted parameters
 			void* userData = null;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -12061,7 +12061,7 @@ namespace SharpImGui
 			}
 			else nativeLabel = null;
 
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputText(nativeLabel, nativeBuf, bufSize, flags, callback, userData);
 				// Freeing label native string
@@ -12071,20 +12071,20 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool InputText(ReadOnlySpan<byte> label, ref byte buf, uint bufSize, ImGuiInputTextFlags flags)
+		public static bool InputText(ReadOnlySpan<byte> label, byte[] buf, uint bufSize, ImGuiInputTextFlags flags)
 		{
 			// defining omitted parameters
 			void* userData = null;
 			ImGuiInputTextCallback callback = null;
 			fixed (byte* nativeLabel = label)
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputText(nativeLabel, nativeBuf, bufSize, flags, callback, userData);
 				return result != 0;
 			}
 		}
 
-		public static bool InputText(ReadOnlySpan<char> label, ref byte buf, uint bufSize, ImGuiInputTextFlags flags)
+		public static bool InputText(ReadOnlySpan<char> label, byte[] buf, uint bufSize, ImGuiInputTextFlags flags)
 		{
 			// defining omitted parameters
 			void* userData = null;
@@ -12092,7 +12092,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -12109,7 +12109,7 @@ namespace SharpImGui
 			}
 			else nativeLabel = null;
 
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputText(nativeLabel, nativeBuf, bufSize, flags, callback, userData);
 				// Freeing label native string
@@ -12119,21 +12119,21 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool InputText(ReadOnlySpan<byte> label, ref byte buf, uint bufSize)
+		public static bool InputText(ReadOnlySpan<byte> label, byte[] buf, uint bufSize)
 		{
 			// defining omitted parameters
 			void* userData = null;
 			ImGuiInputTextCallback callback = null;
 			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
 			fixed (byte* nativeLabel = label)
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputText(nativeLabel, nativeBuf, bufSize, flags, callback, userData);
 				return result != 0;
 			}
 		}
 
-		public static bool InputText(ReadOnlySpan<char> label, ref byte buf, uint bufSize)
+		public static bool InputText(ReadOnlySpan<char> label, byte[] buf, uint bufSize)
 		{
 			// defining omitted parameters
 			void* userData = null;
@@ -12142,7 +12142,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -12159,7 +12159,7 @@ namespace SharpImGui
 			}
 			else nativeLabel = null;
 
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputText(nativeLabel, nativeBuf, bufSize, flags, callback, userData);
 				// Freeing label native string
@@ -12169,22 +12169,22 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool InputTextMultiline(ReadOnlySpan<byte> label, ref byte buf, uint bufSize, Vector2 size, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, IntPtr userData)
+		public static bool InputTextMultiline(ReadOnlySpan<byte> label, byte[] buf, uint bufSize, Vector2 size, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, IntPtr userData)
 		{
 			fixed (byte* nativeLabel = label)
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputTextMultiline(nativeLabel, nativeBuf, bufSize, size, flags, callback, (void*)userData);
 				return result != 0;
 			}
 		}
 
-		public static bool InputTextMultiline(ReadOnlySpan<char> label, ref byte buf, uint bufSize, Vector2 size, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, IntPtr userData)
+		public static bool InputTextMultiline(ReadOnlySpan<char> label, byte[] buf, uint bufSize, Vector2 size, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, IntPtr userData)
 		{
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -12201,7 +12201,7 @@ namespace SharpImGui
 			}
 			else nativeLabel = null;
 
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputTextMultiline(nativeLabel, nativeBuf, bufSize, size, flags, callback, (void*)userData);
 				// Freeing label native string
@@ -12211,26 +12211,26 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool InputTextMultiline(ReadOnlySpan<byte> label, ref byte buf, uint bufSize, Vector2 size, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback)
+		public static bool InputTextMultiline(ReadOnlySpan<byte> label, byte[] buf, uint bufSize, Vector2 size, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback)
 		{
 			// defining omitted parameters
 			void* userData = null;
 			fixed (byte* nativeLabel = label)
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputTextMultiline(nativeLabel, nativeBuf, bufSize, size, flags, callback, userData);
 				return result != 0;
 			}
 		}
 
-		public static bool InputTextMultiline(ReadOnlySpan<char> label, ref byte buf, uint bufSize, Vector2 size, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback)
+		public static bool InputTextMultiline(ReadOnlySpan<char> label, byte[] buf, uint bufSize, Vector2 size, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback)
 		{
 			// defining omitted parameters
 			void* userData = null;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -12247,7 +12247,7 @@ namespace SharpImGui
 			}
 			else nativeLabel = null;
 
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputTextMultiline(nativeLabel, nativeBuf, bufSize, size, flags, callback, userData);
 				// Freeing label native string
@@ -12257,20 +12257,20 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool InputTextMultiline(ReadOnlySpan<byte> label, ref byte buf, uint bufSize, Vector2 size, ImGuiInputTextFlags flags)
+		public static bool InputTextMultiline(ReadOnlySpan<byte> label, byte[] buf, uint bufSize, Vector2 size, ImGuiInputTextFlags flags)
 		{
 			// defining omitted parameters
 			void* userData = null;
 			ImGuiInputTextCallback callback = null;
 			fixed (byte* nativeLabel = label)
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputTextMultiline(nativeLabel, nativeBuf, bufSize, size, flags, callback, userData);
 				return result != 0;
 			}
 		}
 
-		public static bool InputTextMultiline(ReadOnlySpan<char> label, ref byte buf, uint bufSize, Vector2 size, ImGuiInputTextFlags flags)
+		public static bool InputTextMultiline(ReadOnlySpan<char> label, byte[] buf, uint bufSize, Vector2 size, ImGuiInputTextFlags flags)
 		{
 			// defining omitted parameters
 			void* userData = null;
@@ -12278,7 +12278,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -12295,7 +12295,7 @@ namespace SharpImGui
 			}
 			else nativeLabel = null;
 
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputTextMultiline(nativeLabel, nativeBuf, bufSize, size, flags, callback, userData);
 				// Freeing label native string
@@ -12305,21 +12305,21 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool InputTextMultiline(ReadOnlySpan<byte> label, ref byte buf, uint bufSize, Vector2 size)
+		public static bool InputTextMultiline(ReadOnlySpan<byte> label, byte[] buf, uint bufSize, Vector2 size)
 		{
 			// defining omitted parameters
 			void* userData = null;
 			ImGuiInputTextCallback callback = null;
 			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
 			fixed (byte* nativeLabel = label)
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputTextMultiline(nativeLabel, nativeBuf, bufSize, size, flags, callback, userData);
 				return result != 0;
 			}
 		}
 
-		public static bool InputTextMultiline(ReadOnlySpan<char> label, ref byte buf, uint bufSize, Vector2 size)
+		public static bool InputTextMultiline(ReadOnlySpan<char> label, byte[] buf, uint bufSize, Vector2 size)
 		{
 			// defining omitted parameters
 			void* userData = null;
@@ -12328,7 +12328,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -12345,7 +12345,7 @@ namespace SharpImGui
 			}
 			else nativeLabel = null;
 
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputTextMultiline(nativeLabel, nativeBuf, bufSize, size, flags, callback, userData);
 				// Freeing label native string
@@ -12355,7 +12355,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool InputTextMultiline(ReadOnlySpan<byte> label, ref byte buf, uint bufSize)
+		public static bool InputTextMultiline(ReadOnlySpan<byte> label, byte[] buf, uint bufSize)
 		{
 			// defining omitted parameters
 			void* userData = null;
@@ -12363,14 +12363,14 @@ namespace SharpImGui
 			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
 			Vector2 size = new Vector2(0,0);
 			fixed (byte* nativeLabel = label)
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputTextMultiline(nativeLabel, nativeBuf, bufSize, size, flags, callback, userData);
 				return result != 0;
 			}
 		}
 
-		public static bool InputTextMultiline(ReadOnlySpan<char> label, ref byte buf, uint bufSize)
+		public static bool InputTextMultiline(ReadOnlySpan<char> label, byte[] buf, uint bufSize)
 		{
 			// defining omitted parameters
 			void* userData = null;
@@ -12380,7 +12380,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -12397,7 +12397,7 @@ namespace SharpImGui
 			}
 			else nativeLabel = null;
 
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputTextMultiline(nativeLabel, nativeBuf, bufSize, size, flags, callback, userData);
 				// Freeing label native string
@@ -12407,23 +12407,23 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool InputTextWithHint(ReadOnlySpan<byte> label, ReadOnlySpan<byte> hint, ref byte buf, uint bufSize, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, IntPtr userData)
+		public static bool InputTextWithHint(ReadOnlySpan<byte> label, ReadOnlySpan<byte> hint, byte[] buf, uint bufSize, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, IntPtr userData)
 		{
 			fixed (byte* nativeLabel = label)
 			fixed (byte* nativeHint = hint)
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputTextWithHint(nativeLabel, nativeHint, nativeBuf, bufSize, flags, callback, (void*)userData);
 				return result != 0;
 			}
 		}
 
-		public static bool InputTextWithHint(ReadOnlySpan<char> label, ReadOnlySpan<char> hint, ref byte buf, uint bufSize, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, IntPtr userData)
+		public static bool InputTextWithHint(ReadOnlySpan<char> label, ReadOnlySpan<char> hint, byte[] buf, uint bufSize, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, IntPtr userData)
 		{
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -12443,7 +12443,7 @@ namespace SharpImGui
 			// Marshaling hint to native string
 			byte* nativeHint;
 			var byteCountHint = 0;
-			if (hint != null)
+			if (hint != null && !hint.IsEmpty)
 			{
 				byteCountHint = Encoding.UTF8.GetByteCount(hint);
 				if(byteCountHint > Utils.MaxStackallocSize)
@@ -12460,7 +12460,7 @@ namespace SharpImGui
 			}
 			else nativeHint = null;
 
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputTextWithHint(nativeLabel, nativeHint, nativeBuf, bufSize, flags, callback, (void*)userData);
 				// Freeing label native string
@@ -12473,27 +12473,27 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool InputTextWithHint(ReadOnlySpan<byte> label, ReadOnlySpan<byte> hint, ref byte buf, uint bufSize, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback)
+		public static bool InputTextWithHint(ReadOnlySpan<byte> label, ReadOnlySpan<byte> hint, byte[] buf, uint bufSize, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback)
 		{
 			// defining omitted parameters
 			void* userData = null;
 			fixed (byte* nativeLabel = label)
 			fixed (byte* nativeHint = hint)
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputTextWithHint(nativeLabel, nativeHint, nativeBuf, bufSize, flags, callback, userData);
 				return result != 0;
 			}
 		}
 
-		public static bool InputTextWithHint(ReadOnlySpan<char> label, ReadOnlySpan<char> hint, ref byte buf, uint bufSize, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback)
+		public static bool InputTextWithHint(ReadOnlySpan<char> label, ReadOnlySpan<char> hint, byte[] buf, uint bufSize, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback)
 		{
 			// defining omitted parameters
 			void* userData = null;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -12513,7 +12513,7 @@ namespace SharpImGui
 			// Marshaling hint to native string
 			byte* nativeHint;
 			var byteCountHint = 0;
-			if (hint != null)
+			if (hint != null && !hint.IsEmpty)
 			{
 				byteCountHint = Encoding.UTF8.GetByteCount(hint);
 				if(byteCountHint > Utils.MaxStackallocSize)
@@ -12530,7 +12530,7 @@ namespace SharpImGui
 			}
 			else nativeHint = null;
 
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputTextWithHint(nativeLabel, nativeHint, nativeBuf, bufSize, flags, callback, userData);
 				// Freeing label native string
@@ -12543,21 +12543,21 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool InputTextWithHint(ReadOnlySpan<byte> label, ReadOnlySpan<byte> hint, ref byte buf, uint bufSize, ImGuiInputTextFlags flags)
+		public static bool InputTextWithHint(ReadOnlySpan<byte> label, ReadOnlySpan<byte> hint, byte[] buf, uint bufSize, ImGuiInputTextFlags flags)
 		{
 			// defining omitted parameters
 			void* userData = null;
 			ImGuiInputTextCallback callback = null;
 			fixed (byte* nativeLabel = label)
 			fixed (byte* nativeHint = hint)
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputTextWithHint(nativeLabel, nativeHint, nativeBuf, bufSize, flags, callback, userData);
 				return result != 0;
 			}
 		}
 
-		public static bool InputTextWithHint(ReadOnlySpan<char> label, ReadOnlySpan<char> hint, ref byte buf, uint bufSize, ImGuiInputTextFlags flags)
+		public static bool InputTextWithHint(ReadOnlySpan<char> label, ReadOnlySpan<char> hint, byte[] buf, uint bufSize, ImGuiInputTextFlags flags)
 		{
 			// defining omitted parameters
 			void* userData = null;
@@ -12565,7 +12565,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -12585,7 +12585,7 @@ namespace SharpImGui
 			// Marshaling hint to native string
 			byte* nativeHint;
 			var byteCountHint = 0;
-			if (hint != null)
+			if (hint != null && !hint.IsEmpty)
 			{
 				byteCountHint = Encoding.UTF8.GetByteCount(hint);
 				if(byteCountHint > Utils.MaxStackallocSize)
@@ -12602,7 +12602,7 @@ namespace SharpImGui
 			}
 			else nativeHint = null;
 
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputTextWithHint(nativeLabel, nativeHint, nativeBuf, bufSize, flags, callback, userData);
 				// Freeing label native string
@@ -12615,7 +12615,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool InputTextWithHint(ReadOnlySpan<byte> label, ReadOnlySpan<byte> hint, ref byte buf, uint bufSize)
+		public static bool InputTextWithHint(ReadOnlySpan<byte> label, ReadOnlySpan<byte> hint, byte[] buf, uint bufSize)
 		{
 			// defining omitted parameters
 			void* userData = null;
@@ -12623,14 +12623,14 @@ namespace SharpImGui
 			ImGuiInputTextFlags flags = ImGuiInputTextFlags.None;
 			fixed (byte* nativeLabel = label)
 			fixed (byte* nativeHint = hint)
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputTextWithHint(nativeLabel, nativeHint, nativeBuf, bufSize, flags, callback, userData);
 				return result != 0;
 			}
 		}
 
-		public static bool InputTextWithHint(ReadOnlySpan<char> label, ReadOnlySpan<char> hint, ref byte buf, uint bufSize)
+		public static bool InputTextWithHint(ReadOnlySpan<char> label, ReadOnlySpan<char> hint, byte[] buf, uint bufSize)
 		{
 			// defining omitted parameters
 			void* userData = null;
@@ -12639,7 +12639,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -12659,7 +12659,7 @@ namespace SharpImGui
 			// Marshaling hint to native string
 			byte* nativeHint;
 			var byteCountHint = 0;
-			if (hint != null)
+			if (hint != null && !hint.IsEmpty)
 			{
 				byteCountHint = Encoding.UTF8.GetByteCount(hint);
 				if(byteCountHint > Utils.MaxStackallocSize)
@@ -12676,7 +12676,7 @@ namespace SharpImGui
 			}
 			else nativeHint = null;
 
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputTextWithHint(nativeLabel, nativeHint, nativeBuf, bufSize, flags, callback, userData);
 				// Freeing label native string
@@ -12705,7 +12705,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -12725,7 +12725,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -12775,7 +12775,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -12795,7 +12795,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -12872,7 +12872,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -12950,7 +12950,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -13030,7 +13030,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -13075,7 +13075,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -13095,7 +13095,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -13145,7 +13145,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -13165,7 +13165,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -13242,7 +13242,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -13287,7 +13287,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -13307,7 +13307,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -13357,7 +13357,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -13377,7 +13377,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -13454,7 +13454,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -13499,7 +13499,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -13519,7 +13519,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -13569,7 +13569,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -13589,7 +13589,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -13666,7 +13666,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -13710,7 +13710,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -13756,7 +13756,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -13804,7 +13804,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -13854,7 +13854,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -13896,7 +13896,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -13942,7 +13942,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -13984,7 +13984,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -14030,7 +14030,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -14072,7 +14072,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -14118,7 +14118,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -14161,7 +14161,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -14181,7 +14181,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -14231,7 +14231,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -14251,7 +14251,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -14328,7 +14328,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -14406,7 +14406,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -14486,7 +14486,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -14530,7 +14530,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -14550,7 +14550,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -14596,7 +14596,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -14616,7 +14616,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -14663,7 +14663,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -14709,7 +14709,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -14757,7 +14757,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -14796,7 +14796,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -14816,7 +14816,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -14862,7 +14862,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -14882,7 +14882,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -14929,7 +14929,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -14975,7 +14975,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -15023,7 +15023,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -15062,7 +15062,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -15108,7 +15108,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -15150,7 +15150,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -15196,7 +15196,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -15238,7 +15238,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -15284,7 +15284,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -15327,7 +15327,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -15374,7 +15374,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -15422,7 +15422,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -15469,7 +15469,7 @@ namespace SharpImGui
 			// Marshaling descId to native string
 			byte* nativeDescId;
 			var byteCountDescId = 0;
-			if (descId != null)
+			if (descId != null && !descId.IsEmpty)
 			{
 				byteCountDescId = Encoding.UTF8.GetByteCount(descId);
 				if(byteCountDescId > Utils.MaxStackallocSize)
@@ -15517,7 +15517,7 @@ namespace SharpImGui
 			// Marshaling descId to native string
 			byte* nativeDescId;
 			var byteCountDescId = 0;
-			if (descId != null)
+			if (descId != null && !descId.IsEmpty)
 			{
 				byteCountDescId = Encoding.UTF8.GetByteCount(descId);
 				if(byteCountDescId > Utils.MaxStackallocSize)
@@ -15567,7 +15567,7 @@ namespace SharpImGui
 			// Marshaling descId to native string
 			byte* nativeDescId;
 			var byteCountDescId = 0;
-			if (descId != null)
+			if (descId != null && !descId.IsEmpty)
 			{
 				byteCountDescId = Encoding.UTF8.GetByteCount(descId);
 				if(byteCountDescId > Utils.MaxStackallocSize)
@@ -15619,7 +15619,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -15658,7 +15658,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -15678,7 +15678,7 @@ namespace SharpImGui
 			// Marshaling fmt to native string
 			byte* nativeFmt;
 			var byteCountFmt = 0;
-			if (fmt != null)
+			if (fmt != null && !fmt.IsEmpty)
 			{
 				byteCountFmt = Encoding.UTF8.GetByteCount(fmt);
 				if(byteCountFmt > Utils.MaxStackallocSize)
@@ -15719,7 +15719,7 @@ namespace SharpImGui
 			// Marshaling fmt to native string
 			byte* nativeFmt;
 			var byteCountFmt = 0;
-			if (fmt != null)
+			if (fmt != null && !fmt.IsEmpty)
 			{
 				byteCountFmt = Encoding.UTF8.GetByteCount(fmt);
 				if(byteCountFmt > Utils.MaxStackallocSize)
@@ -15757,7 +15757,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -15796,7 +15796,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -15816,7 +15816,7 @@ namespace SharpImGui
 			// Marshaling fmt to native string
 			byte* nativeFmt;
 			var byteCountFmt = 0;
-			if (fmt != null)
+			if (fmt != null && !fmt.IsEmpty)
 			{
 				byteCountFmt = Encoding.UTF8.GetByteCount(fmt);
 				if(byteCountFmt > Utils.MaxStackallocSize)
@@ -15857,7 +15857,7 @@ namespace SharpImGui
 			// Marshaling fmt to native string
 			byte* nativeFmt;
 			var byteCountFmt = 0;
-			if (fmt != null)
+			if (fmt != null && !fmt.IsEmpty)
 			{
 				byteCountFmt = Encoding.UTF8.GetByteCount(fmt);
 				if(byteCountFmt > Utils.MaxStackallocSize)
@@ -15900,7 +15900,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -15964,7 +15964,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -16005,7 +16005,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -16081,7 +16081,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -16123,7 +16123,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -16209,7 +16209,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -16257,7 +16257,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -16305,7 +16305,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -16348,7 +16348,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -16390,7 +16390,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -16410,7 +16410,7 @@ namespace SharpImGui
 			// Marshaling overlayText to native string
 			byte* nativeOverlayText;
 			var byteCountOverlayText = 0;
-			if (overlayText != null)
+			if (overlayText != null && !overlayText.IsEmpty)
 			{
 				byteCountOverlayText = Encoding.UTF8.GetByteCount(overlayText);
 				if(byteCountOverlayText > Utils.MaxStackallocSize)
@@ -16453,7 +16453,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -16473,7 +16473,7 @@ namespace SharpImGui
 			// Marshaling overlayText to native string
 			byte* nativeOverlayText;
 			var byteCountOverlayText = 0;
-			if (overlayText != null)
+			if (overlayText != null && !overlayText.IsEmpty)
 			{
 				byteCountOverlayText = Encoding.UTF8.GetByteCount(overlayText);
 				if(byteCountOverlayText > Utils.MaxStackallocSize)
@@ -16514,7 +16514,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -16534,7 +16534,7 @@ namespace SharpImGui
 			// Marshaling overlayText to native string
 			byte* nativeOverlayText;
 			var byteCountOverlayText = 0;
-			if (overlayText != null)
+			if (overlayText != null && !overlayText.IsEmpty)
 			{
 				byteCountOverlayText = Encoding.UTF8.GetByteCount(overlayText);
 				if(byteCountOverlayText > Utils.MaxStackallocSize)
@@ -16577,7 +16577,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -16597,7 +16597,7 @@ namespace SharpImGui
 			// Marshaling overlayText to native string
 			byte* nativeOverlayText;
 			var byteCountOverlayText = 0;
-			if (overlayText != null)
+			if (overlayText != null && !overlayText.IsEmpty)
 			{
 				byteCountOverlayText = Encoding.UTF8.GetByteCount(overlayText);
 				if(byteCountOverlayText > Utils.MaxStackallocSize)
@@ -16637,7 +16637,7 @@ namespace SharpImGui
 			// Marshaling prefix to native string
 			byte* nativePrefix;
 			var byteCountPrefix = 0;
-			if (prefix != null)
+			if (prefix != null && !prefix.IsEmpty)
 			{
 				byteCountPrefix = Encoding.UTF8.GetByteCount(prefix);
 				if(byteCountPrefix > Utils.MaxStackallocSize)
@@ -16674,7 +16674,7 @@ namespace SharpImGui
 			// Marshaling prefix to native string
 			byte* nativePrefix;
 			var byteCountPrefix = 0;
-			if (prefix != null)
+			if (prefix != null && !prefix.IsEmpty)
 			{
 				byteCountPrefix = Encoding.UTF8.GetByteCount(prefix);
 				if(byteCountPrefix > Utils.MaxStackallocSize)
@@ -16710,7 +16710,7 @@ namespace SharpImGui
 			// Marshaling prefix to native string
 			byte* nativePrefix;
 			var byteCountPrefix = 0;
-			if (prefix != null)
+			if (prefix != null && !prefix.IsEmpty)
 			{
 				byteCountPrefix = Encoding.UTF8.GetByteCount(prefix);
 				if(byteCountPrefix > Utils.MaxStackallocSize)
@@ -16747,7 +16747,7 @@ namespace SharpImGui
 			// Marshaling prefix to native string
 			byte* nativePrefix;
 			var byteCountPrefix = 0;
-			if (prefix != null)
+			if (prefix != null && !prefix.IsEmpty)
 			{
 				byteCountPrefix = Encoding.UTF8.GetByteCount(prefix);
 				if(byteCountPrefix > Utils.MaxStackallocSize)
@@ -16767,7 +16767,7 @@ namespace SharpImGui
 			// Marshaling floatFormat to native string
 			byte* nativeFloatFormat;
 			var byteCountFloatFormat = 0;
-			if (floatFormat != null)
+			if (floatFormat != null && !floatFormat.IsEmpty)
 			{
 				byteCountFloatFormat = Encoding.UTF8.GetByteCount(floatFormat);
 				if(byteCountFloatFormat > Utils.MaxStackallocSize)
@@ -16848,7 +16848,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -16897,7 +16897,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -16952,7 +16952,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -16972,7 +16972,7 @@ namespace SharpImGui
 			// Marshaling shortcut to native string
 			byte* nativeShortcut;
 			var byteCountShortcut = 0;
-			if (shortcut != null)
+			if (shortcut != null && !shortcut.IsEmpty)
 			{
 				byteCountShortcut = Encoding.UTF8.GetByteCount(shortcut);
 				if(byteCountShortcut > Utils.MaxStackallocSize)
@@ -17020,7 +17020,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -17040,7 +17040,7 @@ namespace SharpImGui
 			// Marshaling shortcut to native string
 			byte* nativeShortcut;
 			var byteCountShortcut = 0;
-			if (shortcut != null)
+			if (shortcut != null && !shortcut.IsEmpty)
 			{
 				byteCountShortcut = Encoding.UTF8.GetByteCount(shortcut);
 				if(byteCountShortcut > Utils.MaxStackallocSize)
@@ -17107,7 +17107,7 @@ namespace SharpImGui
 			// Marshaling fmt to native string
 			byte* nativeFmt;
 			var byteCountFmt = 0;
-			if (fmt != null)
+			if (fmt != null && !fmt.IsEmpty)
 			{
 				byteCountFmt = Encoding.UTF8.GetByteCount(fmt);
 				if(byteCountFmt > Utils.MaxStackallocSize)
@@ -17158,7 +17158,7 @@ namespace SharpImGui
 			// Marshaling fmt to native string
 			byte* nativeFmt;
 			var byteCountFmt = 0;
-			if (fmt != null)
+			if (fmt != null && !fmt.IsEmpty)
 			{
 				byteCountFmt = Encoding.UTF8.GetByteCount(fmt);
 				if(byteCountFmt > Utils.MaxStackallocSize)
@@ -17201,7 +17201,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -17249,7 +17249,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -17296,7 +17296,7 @@ namespace SharpImGui
 			// Marshaling name to native string
 			byte* nativeName;
 			var byteCountName = 0;
-			if (name != null)
+			if (name != null && !name.IsEmpty)
 			{
 				byteCountName = Encoding.UTF8.GetByteCount(name);
 				if(byteCountName > Utils.MaxStackallocSize)
@@ -17350,7 +17350,7 @@ namespace SharpImGui
 			// Marshaling name to native string
 			byte* nativeName;
 			var byteCountName = 0;
-			if (name != null)
+			if (name != null && !name.IsEmpty)
 			{
 				byteCountName = Encoding.UTF8.GetByteCount(name);
 				if(byteCountName > Utils.MaxStackallocSize)
@@ -17403,7 +17403,7 @@ namespace SharpImGui
 			// Marshaling name to native string
 			byte* nativeName;
 			var byteCountName = 0;
-			if (name != null)
+			if (name != null && !name.IsEmpty)
 			{
 				byteCountName = Encoding.UTF8.GetByteCount(name);
 				if(byteCountName > Utils.MaxStackallocSize)
@@ -17454,7 +17454,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -17501,7 +17501,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -17547,7 +17547,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -17609,7 +17609,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -17657,7 +17657,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -17713,7 +17713,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -17761,7 +17761,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -17817,7 +17817,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -17865,7 +17865,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -17915,7 +17915,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -17953,7 +17953,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -17995,7 +17995,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -18039,7 +18039,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -18085,7 +18085,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -18177,7 +18177,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -18217,7 +18217,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -18259,7 +18259,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -18303,7 +18303,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -18353,7 +18353,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -18497,7 +18497,7 @@ namespace SharpImGui
 			// Marshaling id to native string
 			byte* nativeId;
 			var byteCountId = 0;
-			if (id != null)
+			if (id != null && !id.IsEmpty)
 			{
 				byteCountId = Encoding.UTF8.GetByteCount(id);
 				if(byteCountId > Utils.MaxStackallocSize)
@@ -18538,7 +18538,7 @@ namespace SharpImGui
 			// Marshaling id to native string
 			byte* nativeId;
 			var byteCountId = 0;
-			if (id != null)
+			if (id != null && !id.IsEmpty)
 			{
 				byteCountId = Encoding.UTF8.GetByteCount(id);
 				if(byteCountId > Utils.MaxStackallocSize)
@@ -18671,7 +18671,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -18719,7 +18719,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -18774,7 +18774,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -18828,7 +18828,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -18881,7 +18881,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -18933,7 +18933,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -18981,7 +18981,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -19024,7 +19024,7 @@ namespace SharpImGui
 			// Marshaling tabOrDockedWindowLabel to native string
 			byte* nativeTabOrDockedWindowLabel;
 			var byteCountTabOrDockedWindowLabel = 0;
-			if (tabOrDockedWindowLabel != null)
+			if (tabOrDockedWindowLabel != null && !tabOrDockedWindowLabel.IsEmpty)
 			{
 				byteCountTabOrDockedWindowLabel = Encoding.UTF8.GetByteCount(tabOrDockedWindowLabel);
 				if(byteCountTabOrDockedWindowLabel > Utils.MaxStackallocSize)
@@ -19192,7 +19192,7 @@ namespace SharpImGui
 			// Marshaling filename to native string
 			byte* nativeFilename;
 			var byteCountFilename = 0;
-			if (filename != null)
+			if (filename != null && !filename.IsEmpty)
 			{
 				byteCountFilename = Encoding.UTF8.GetByteCount(filename);
 				if(byteCountFilename > Utils.MaxStackallocSize)
@@ -19289,7 +19289,7 @@ namespace SharpImGui
 			// Marshaling fmt to native string
 			byte* nativeFmt;
 			var byteCountFmt = 0;
-			if (fmt != null)
+			if (fmt != null && !fmt.IsEmpty)
 			{
 				byteCountFmt = Encoding.UTF8.GetByteCount(fmt);
 				if(byteCountFmt > Utils.MaxStackallocSize)
@@ -19352,7 +19352,7 @@ namespace SharpImGui
 			// Marshaling type to native string
 			byte* nativeType;
 			var byteCountType = 0;
-			if (type != null)
+			if (type != null && !type.IsEmpty)
 			{
 				byteCountType = Encoding.UTF8.GetByteCount(type);
 				if(byteCountType > Utils.MaxStackallocSize)
@@ -19400,7 +19400,7 @@ namespace SharpImGui
 			// Marshaling type to native string
 			byte* nativeType;
 			var byteCountType = 0;
-			if (type != null)
+			if (type != null && !type.IsEmpty)
 			{
 				byteCountType = Encoding.UTF8.GetByteCount(type);
 				if(byteCountType > Utils.MaxStackallocSize)
@@ -19460,7 +19460,7 @@ namespace SharpImGui
 			// Marshaling type to native string
 			byte* nativeType;
 			var byteCountType = 0;
-			if (type != null)
+			if (type != null && !type.IsEmpty)
 			{
 				byteCountType = Encoding.UTF8.GetByteCount(type);
 				if(byteCountType > Utils.MaxStackallocSize)
@@ -19507,7 +19507,7 @@ namespace SharpImGui
 			// Marshaling type to native string
 			byte* nativeType;
 			var byteCountType = 0;
-			if (type != null)
+			if (type != null && !type.IsEmpty)
 			{
 				byteCountType = Encoding.UTF8.GetByteCount(type);
 				if(byteCountType > Utils.MaxStackallocSize)
@@ -19907,7 +19907,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -19927,7 +19927,7 @@ namespace SharpImGui
 			// Marshaling textEnd to native string
 			byte* nativeTextEnd;
 			var byteCountTextEnd = 0;
-			if (textEnd != null)
+			if (textEnd != null && !textEnd.IsEmpty)
 			{
 				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
 				if(byteCountTextEnd > Utils.MaxStackallocSize)
@@ -19977,7 +19977,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -19997,7 +19997,7 @@ namespace SharpImGui
 			// Marshaling textEnd to native string
 			byte* nativeTextEnd;
 			var byteCountTextEnd = 0;
-			if (textEnd != null)
+			if (textEnd != null && !textEnd.IsEmpty)
 			{
 				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
 				if(byteCountTextEnd > Utils.MaxStackallocSize)
@@ -20048,7 +20048,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -20068,7 +20068,7 @@ namespace SharpImGui
 			// Marshaling textEnd to native string
 			byte* nativeTextEnd;
 			var byteCountTextEnd = 0;
-			if (textEnd != null)
+			if (textEnd != null && !textEnd.IsEmpty)
 			{
 				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
 				if(byteCountTextEnd > Utils.MaxStackallocSize)
@@ -20119,7 +20119,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -20158,7 +20158,7 @@ namespace SharpImGui
 			return ImGuiNative.ColorConvertFloat4ToU32(_in);
 		}
 
-		public static void ColorConvertRgBtoHSV(float r, float g, float b, ref float outH, ref float outS, ref float outV)
+		public static void ColorConvertRgBtoHSV(float r, float g, float b, out float outH, out float outS, out float outV)
 		{
 			fixed (float* nativeOutH = &outH)
 			fixed (float* nativeOutS = &outS)
@@ -20168,7 +20168,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static void ColorConvertHsVtoRGB(float h, float s, float v, ref float outR, ref float outG, ref float outB)
+		public static void ColorConvertHsVtoRGB(float h, float s, float v, out float outR, out float outG, out float outB)
 		{
 			fixed (float* nativeOutR = &outR)
 			fixed (float* nativeOutG = &outG)
@@ -20495,7 +20495,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -20537,7 +20537,7 @@ namespace SharpImGui
 			// Marshaling iniFilename to native string
 			byte* nativeIniFilename;
 			var byteCountIniFilename = 0;
-			if (iniFilename != null)
+			if (iniFilename != null && !iniFilename.IsEmpty)
 			{
 				byteCountIniFilename = Encoding.UTF8.GetByteCount(iniFilename);
 				if(byteCountIniFilename > Utils.MaxStackallocSize)
@@ -20579,7 +20579,7 @@ namespace SharpImGui
 			// Marshaling iniData to native string
 			byte* nativeIniData;
 			var byteCountIniData = 0;
-			if (iniData != null)
+			if (iniData != null && !iniData.IsEmpty)
 			{
 				byteCountIniData = Encoding.UTF8.GetByteCount(iniData);
 				if(byteCountIniData > Utils.MaxStackallocSize)
@@ -20625,7 +20625,7 @@ namespace SharpImGui
 			// Marshaling iniData to native string
 			byte* nativeIniData;
 			var byteCountIniData = 0;
-			if (iniData != null)
+			if (iniData != null && !iniData.IsEmpty)
 			{
 				byteCountIniData = Encoding.UTF8.GetByteCount(iniData);
 				if(byteCountIniData > Utils.MaxStackallocSize)
@@ -20667,7 +20667,7 @@ namespace SharpImGui
 			// Marshaling iniFilename to native string
 			byte* nativeIniFilename;
 			var byteCountIniFilename = 0;
-			if (iniFilename != null)
+			if (iniFilename != null && !iniFilename.IsEmpty)
 			{
 				byteCountIniFilename = Encoding.UTF8.GetByteCount(iniFilename);
 				if(byteCountIniFilename > Utils.MaxStackallocSize)
@@ -20693,7 +20693,7 @@ namespace SharpImGui
 		/// <summary>
 		/// return a zero-terminated string with the .ini data which you can save by your own mean. call when io.WantSaveIniSettings is set, then save data by your own mean and clear io.WantSaveIniSettings.<br/>
 		/// </summary>
-		public static ref byte SaveIniSettingsToMemory(ref uint outIniSize)
+		public static ref byte SaveIniSettingsToMemory(out uint outIniSize)
 		{
 			fixed (uint* nativeOutIniSize = &outIniSize)
 			{
@@ -20726,7 +20726,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -20779,7 +20779,7 @@ namespace SharpImGui
 			// Marshaling versionStr to native string
 			byte* nativeVersionStr;
 			var byteCountVersionStr = 0;
-			if (versionStr != null)
+			if (versionStr != null && !versionStr.IsEmpty)
 			{
 				byteCountVersionStr = Encoding.UTF8.GetByteCount(versionStr);
 				if(byteCountVersionStr > Utils.MaxStackallocSize)
@@ -20822,7 +20822,7 @@ namespace SharpImGui
 			// Marshaling fmt to native string
 			byte* nativeFmt;
 			var byteCountFmt = 0;
-			if (fmt != null)
+			if (fmt != null && !fmt.IsEmpty)
 			{
 				byteCountFmt = Encoding.UTF8.GetByteCount(fmt);
 				if(byteCountFmt > Utils.MaxStackallocSize)
@@ -20956,7 +20956,7 @@ namespace SharpImGui
 			// Marshaling data to native string
 			byte* nativeData;
 			var byteCountData = 0;
-			if (data != null)
+			if (data != null && !data.IsEmpty)
 			{
 				byteCountData = Encoding.UTF8.GetByteCount(data);
 				if(byteCountData > Utils.MaxStackallocSize)
@@ -20987,7 +20987,7 @@ namespace SharpImGui
 			// Marshaling data to native string
 			byte* nativeData;
 			var byteCountData = 0;
-			if (data != null)
+			if (data != null && !data.IsEmpty)
 			{
 				byteCountData = Encoding.UTF8.GetByteCount(data);
 				if(byteCountData > Utils.MaxStackallocSize)
@@ -21030,7 +21030,7 @@ namespace SharpImGui
 			// Marshaling data to native string
 			byte* nativeData;
 			var byteCountData = 0;
-			if (data != null)
+			if (data != null && !data.IsEmpty)
 			{
 				byteCountData = Encoding.UTF8.GetByteCount(data);
 				if(byteCountData > Utils.MaxStackallocSize)
@@ -21106,7 +21106,7 @@ namespace SharpImGui
 			// Marshaling str1 to native string
 			byte* nativeStr1;
 			var byteCountStr1 = 0;
-			if (str1 != null)
+			if (str1 != null && !str1.IsEmpty)
 			{
 				byteCountStr1 = Encoding.UTF8.GetByteCount(str1);
 				if(byteCountStr1 > Utils.MaxStackallocSize)
@@ -21126,7 +21126,7 @@ namespace SharpImGui
 			// Marshaling str2 to native string
 			byte* nativeStr2;
 			var byteCountStr2 = 0;
-			if (str2 != null)
+			if (str2 != null && !str2.IsEmpty)
 			{
 				byteCountStr2 = Encoding.UTF8.GetByteCount(str2);
 				if(byteCountStr2 > Utils.MaxStackallocSize)
@@ -21173,7 +21173,7 @@ namespace SharpImGui
 			// Marshaling str1 to native string
 			byte* nativeStr1;
 			var byteCountStr1 = 0;
-			if (str1 != null)
+			if (str1 != null && !str1.IsEmpty)
 			{
 				byteCountStr1 = Encoding.UTF8.GetByteCount(str1);
 				if(byteCountStr1 > Utils.MaxStackallocSize)
@@ -21193,7 +21193,7 @@ namespace SharpImGui
 			// Marshaling str2 to native string
 			byte* nativeStr2;
 			var byteCountStr2 = 0;
-			if (str2 != null)
+			if (str2 != null && !str2.IsEmpty)
 			{
 				byteCountStr2 = Encoding.UTF8.GetByteCount(str2);
 				if(byteCountStr2 > Utils.MaxStackallocSize)
@@ -21223,9 +21223,9 @@ namespace SharpImGui
 		/// <summary>
 		/// Copy to a certain count and always zero terminate (strncpy doesn't).<br/>
 		/// </summary>
-		public static void ImStrncpy(ref byte dst, ReadOnlySpan<byte> src, uint count)
+		public static void ImStrncpy(byte[] dst, ReadOnlySpan<byte> src, uint count)
 		{
-			fixed (byte* nativeDst = &dst)
+			fixed (byte* nativeDst = dst)
 			fixed (byte* nativeSrc = src)
 			{
 				ImGuiNative.ImStrncpy(nativeDst, nativeSrc, count);
@@ -21235,12 +21235,12 @@ namespace SharpImGui
 		/// <summary>
 		/// Copy to a certain count and always zero terminate (strncpy doesn't).<br/>
 		/// </summary>
-		public static void ImStrncpy(ref byte dst, ReadOnlySpan<char> src, uint count)
+		public static void ImStrncpy(byte[] dst, ReadOnlySpan<char> src, uint count)
 		{
 			// Marshaling src to native string
 			byte* nativeSrc;
 			var byteCountSrc = 0;
-			if (src != null)
+			if (src != null && !src.IsEmpty)
 			{
 				byteCountSrc = Encoding.UTF8.GetByteCount(src);
 				if(byteCountSrc > Utils.MaxStackallocSize)
@@ -21257,7 +21257,7 @@ namespace SharpImGui
 			}
 			else nativeSrc = null;
 
-			fixed (byte* nativeDst = &dst)
+			fixed (byte* nativeDst = dst)
 			{
 				ImGuiNative.ImStrncpy(nativeDst, nativeSrc, count);
 				// Freeing src native string
@@ -21286,7 +21286,7 @@ namespace SharpImGui
 			// Marshaling str to native string
 			byte* nativeStr;
 			var byteCountStr = 0;
-			if (str != null)
+			if (str != null && !str.IsEmpty)
 			{
 				byteCountStr = Encoding.UTF8.GetByteCount(str);
 				if(byteCountStr > Utils.MaxStackallocSize)
@@ -21313,9 +21313,9 @@ namespace SharpImGui
 		/// <summary>
 		/// Copy in provided buffer, recreate buffer if needed.<br/>
 		/// </summary>
-		public static ref byte ImStrdupcpy(ref byte dst, ref uint pDstSize, ReadOnlySpan<byte> str)
+		public static ref byte ImStrdupcpy(byte[] dst, ref uint pDstSize, ReadOnlySpan<byte> str)
 		{
-			fixed (byte* nativeDst = &dst)
+			fixed (byte* nativeDst = dst)
 			fixed (uint* nativePDstSize = &pDstSize)
 			fixed (byte* nativeStr = str)
 			{
@@ -21327,12 +21327,12 @@ namespace SharpImGui
 		/// <summary>
 		/// Copy in provided buffer, recreate buffer if needed.<br/>
 		/// </summary>
-		public static ref byte ImStrdupcpy(ref byte dst, ref uint pDstSize, ReadOnlySpan<char> str)
+		public static ref byte ImStrdupcpy(byte[] dst, ref uint pDstSize, ReadOnlySpan<char> str)
 		{
 			// Marshaling str to native string
 			byte* nativeStr;
 			var byteCountStr = 0;
-			if (str != null)
+			if (str != null && !str.IsEmpty)
 			{
 				byteCountStr = Encoding.UTF8.GetByteCount(str);
 				if(byteCountStr > Utils.MaxStackallocSize)
@@ -21349,7 +21349,7 @@ namespace SharpImGui
 			}
 			else nativeStr = null;
 
-			fixed (byte* nativeDst = &dst)
+			fixed (byte* nativeDst = dst)
 			fixed (uint* nativePDstSize = &pDstSize)
 			{
 				var nativeResult = ImGuiNative.ImStrdupcpy(nativeDst, nativePDstSize, nativeStr);
@@ -21382,7 +21382,7 @@ namespace SharpImGui
 			// Marshaling strBegin to native string
 			byte* nativeStrBegin;
 			var byteCountStrBegin = 0;
-			if (strBegin != null)
+			if (strBegin != null && !strBegin.IsEmpty)
 			{
 				byteCountStrBegin = Encoding.UTF8.GetByteCount(strBegin);
 				if(byteCountStrBegin > Utils.MaxStackallocSize)
@@ -21402,7 +21402,7 @@ namespace SharpImGui
 			// Marshaling strEnd to native string
 			byte* nativeStrEnd;
 			var byteCountStrEnd = 0;
-			if (strEnd != null)
+			if (strEnd != null && !strEnd.IsEmpty)
 			{
 				byteCountStrEnd = Encoding.UTF8.GetByteCount(strEnd);
 				if(byteCountStrEnd > Utils.MaxStackallocSize)
@@ -21451,7 +21451,7 @@ namespace SharpImGui
 			// Marshaling str to native string
 			byte* nativeStr;
 			var byteCountStr = 0;
-			if (str != null)
+			if (str != null && !str.IsEmpty)
 			{
 				byteCountStr = Encoding.UTF8.GetByteCount(str);
 				if(byteCountStr > Utils.MaxStackallocSize)
@@ -21471,7 +21471,7 @@ namespace SharpImGui
 			// Marshaling strEnd to native string
 			byte* nativeStrEnd;
 			var byteCountStrEnd = 0;
-			if (strEnd != null)
+			if (strEnd != null && !strEnd.IsEmpty)
 			{
 				byteCountStrEnd = Encoding.UTF8.GetByteCount(strEnd);
 				if(byteCountStrEnd > Utils.MaxStackallocSize)
@@ -21521,7 +21521,7 @@ namespace SharpImGui
 			// Marshaling haystack to native string
 			byte* nativeHaystack;
 			var byteCountHaystack = 0;
-			if (haystack != null)
+			if (haystack != null && !haystack.IsEmpty)
 			{
 				byteCountHaystack = Encoding.UTF8.GetByteCount(haystack);
 				if(byteCountHaystack > Utils.MaxStackallocSize)
@@ -21541,7 +21541,7 @@ namespace SharpImGui
 			// Marshaling haystackEnd to native string
 			byte* nativeHaystackEnd;
 			var byteCountHaystackEnd = 0;
-			if (haystackEnd != null)
+			if (haystackEnd != null && !haystackEnd.IsEmpty)
 			{
 				byteCountHaystackEnd = Encoding.UTF8.GetByteCount(haystackEnd);
 				if(byteCountHaystackEnd > Utils.MaxStackallocSize)
@@ -21561,7 +21561,7 @@ namespace SharpImGui
 			// Marshaling needle to native string
 			byte* nativeNeedle;
 			var byteCountNeedle = 0;
-			if (needle != null)
+			if (needle != null && !needle.IsEmpty)
 			{
 				byteCountNeedle = Encoding.UTF8.GetByteCount(needle);
 				if(byteCountNeedle > Utils.MaxStackallocSize)
@@ -21581,7 +21581,7 @@ namespace SharpImGui
 			// Marshaling needleEnd to native string
 			byte* nativeNeedleEnd;
 			var byteCountNeedleEnd = 0;
-			if (needleEnd != null)
+			if (needleEnd != null && !needleEnd.IsEmpty)
 			{
 				byteCountNeedleEnd = Encoding.UTF8.GetByteCount(needleEnd);
 				if(byteCountNeedleEnd > Utils.MaxStackallocSize)
@@ -21617,9 +21617,9 @@ namespace SharpImGui
 		/// <summary>
 		/// Remove leading and trailing blanks from a buffer.<br/>
 		/// </summary>
-		public static void ImStrTrimBlanks(ref byte str)
+		public static void ImStrTrimBlanks(byte[] str)
 		{
-			fixed (byte* nativeStr = &str)
+			fixed (byte* nativeStr = str)
 			{
 				ImGuiNative.ImStrTrimBlanks(nativeStr);
 			}
@@ -21645,7 +21645,7 @@ namespace SharpImGui
 			// Marshaling str to native string
 			byte* nativeStr;
 			var byteCountStr = 0;
-			if (str != null)
+			if (str != null && !str.IsEmpty)
 			{
 				byteCountStr = Encoding.UTF8.GetByteCount(str);
 				if(byteCountStr > Utils.MaxStackallocSize)
@@ -21701,7 +21701,7 @@ namespace SharpImGui
 			// Marshaling bufMidLine to native string
 			byte* nativeBufMidLine;
 			var byteCountBufMidLine = 0;
-			if (bufMidLine != null)
+			if (bufMidLine != null && !bufMidLine.IsEmpty)
 			{
 				byteCountBufMidLine = Encoding.UTF8.GetByteCount(bufMidLine);
 				if(byteCountBufMidLine > Utils.MaxStackallocSize)
@@ -21721,7 +21721,7 @@ namespace SharpImGui
 			// Marshaling bufBegin to native string
 			byte* nativeBufBegin;
 			var byteCountBufBegin = 0;
-			if (bufBegin != null)
+			if (bufBegin != null && !bufBegin.IsEmpty)
 			{
 				byteCountBufBegin = Encoding.UTF8.GetByteCount(bufBegin);
 				if(byteCountBufBegin > Utils.MaxStackallocSize)
@@ -21775,21 +21775,21 @@ namespace SharpImGui
 			return result != 0;
 		}
 
-		public static int ImFormatString(ref byte buf, uint bufSize, ReadOnlySpan<byte> fmt)
+		public static int ImFormatString(byte[] buf, uint bufSize, ReadOnlySpan<byte> fmt)
 		{
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			fixed (byte* nativeFmt = fmt)
 			{
 				return ImGuiNative.ImFormatString(nativeBuf, bufSize, nativeFmt);
 			}
 		}
 
-		public static int ImFormatString(ref byte buf, uint bufSize, ReadOnlySpan<char> fmt)
+		public static int ImFormatString(byte[] buf, uint bufSize, ReadOnlySpan<char> fmt)
 		{
 			// Marshaling fmt to native string
 			byte* nativeFmt;
 			var byteCountFmt = 0;
-			if (fmt != null)
+			if (fmt != null && !fmt.IsEmpty)
 			{
 				byteCountFmt = Encoding.UTF8.GetByteCount(fmt);
 				if(byteCountFmt > Utils.MaxStackallocSize)
@@ -21806,7 +21806,7 @@ namespace SharpImGui
 			}
 			else nativeFmt = null;
 
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.ImFormatString(nativeBuf, bufSize, nativeFmt);
 				// Freeing fmt native string
@@ -21816,7 +21816,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static void ImFormatStringToTempBuffer(ref byte* outBuf, ref byte* outBufEnd, ReadOnlySpan<byte> fmt)
+		public static void ImFormatStringToTempBuffer(out byte* outBuf, out byte* outBufEnd, ReadOnlySpan<byte> fmt)
 		{
 			fixed (byte** nativeOutBuf = &outBuf)
 			fixed (byte** nativeOutBufEnd = &outBufEnd)
@@ -21826,12 +21826,12 @@ namespace SharpImGui
 			}
 		}
 
-		public static void ImFormatStringToTempBuffer(ref byte* outBuf, ref byte* outBufEnd, ReadOnlySpan<char> fmt)
+		public static void ImFormatStringToTempBuffer(out byte* outBuf, out byte* outBufEnd, ReadOnlySpan<char> fmt)
 		{
 			// Marshaling fmt to native string
 			byte* nativeFmt;
 			var byteCountFmt = 0;
-			if (fmt != null)
+			if (fmt != null && !fmt.IsEmpty)
 			{
 				byteCountFmt = Encoding.UTF8.GetByteCount(fmt);
 				if(byteCountFmt > Utils.MaxStackallocSize)
@@ -21872,7 +21872,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -21910,7 +21910,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -21934,22 +21934,22 @@ namespace SharpImGui
 			return ref *(byte*)&nativeResult;
 		}
 
-		public static ref byte ImParseFormatTrimDecorations(ReadOnlySpan<byte> format, ref byte buf, uint bufSize)
+		public static ref byte ImParseFormatTrimDecorations(ReadOnlySpan<byte> format, byte[] buf, uint bufSize)
 		{
 			fixed (byte* nativeFormat = format)
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var nativeResult = ImGuiNative.ImParseFormatTrimDecorations(nativeFormat, nativeBuf, bufSize);
 				return ref *(byte*)&nativeResult;
 			}
 		}
 
-		public static ref byte ImParseFormatTrimDecorations(ReadOnlySpan<char> format, ref byte buf, uint bufSize)
+		public static ref byte ImParseFormatTrimDecorations(ReadOnlySpan<char> format, byte[] buf, uint bufSize)
 		{
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -21966,7 +21966,7 @@ namespace SharpImGui
 			}
 			else nativeFormat = null;
 
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var nativeResult = ImGuiNative.ImParseFormatTrimDecorations(nativeFormat, nativeBuf, bufSize);
 				// Freeing format native string
@@ -21976,21 +21976,21 @@ namespace SharpImGui
 			}
 		}
 
-		public static void ImParseFormatSanitizeForPrinting(ReadOnlySpan<byte> fmtIn, ref byte fmtOut, uint fmtOutSize)
+		public static void ImParseFormatSanitizeForPrinting(ReadOnlySpan<byte> fmtIn, byte[] fmtOut, uint fmtOutSize)
 		{
 			fixed (byte* nativeFmtIn = fmtIn)
-			fixed (byte* nativeFmtOut = &fmtOut)
+			fixed (byte* nativeFmtOut = fmtOut)
 			{
 				ImGuiNative.ImParseFormatSanitizeForPrinting(nativeFmtIn, nativeFmtOut, fmtOutSize);
 			}
 		}
 
-		public static void ImParseFormatSanitizeForPrinting(ReadOnlySpan<char> fmtIn, ref byte fmtOut, uint fmtOutSize)
+		public static void ImParseFormatSanitizeForPrinting(ReadOnlySpan<char> fmtIn, byte[] fmtOut, uint fmtOutSize)
 		{
 			// Marshaling fmtIn to native string
 			byte* nativeFmtIn;
 			var byteCountFmtIn = 0;
-			if (fmtIn != null)
+			if (fmtIn != null && !fmtIn.IsEmpty)
 			{
 				byteCountFmtIn = Encoding.UTF8.GetByteCount(fmtIn);
 				if(byteCountFmtIn > Utils.MaxStackallocSize)
@@ -22007,7 +22007,7 @@ namespace SharpImGui
 			}
 			else nativeFmtIn = null;
 
-			fixed (byte* nativeFmtOut = &fmtOut)
+			fixed (byte* nativeFmtOut = fmtOut)
 			{
 				ImGuiNative.ImParseFormatSanitizeForPrinting(nativeFmtIn, nativeFmtOut, fmtOutSize);
 				// Freeing fmtIn native string
@@ -22016,22 +22016,22 @@ namespace SharpImGui
 			}
 		}
 
-		public static ref byte ImParseFormatSanitizeForScanning(ReadOnlySpan<byte> fmtIn, ref byte fmtOut, uint fmtOutSize)
+		public static ref byte ImParseFormatSanitizeForScanning(ReadOnlySpan<byte> fmtIn, byte[] fmtOut, uint fmtOutSize)
 		{
 			fixed (byte* nativeFmtIn = fmtIn)
-			fixed (byte* nativeFmtOut = &fmtOut)
+			fixed (byte* nativeFmtOut = fmtOut)
 			{
 				var nativeResult = ImGuiNative.ImParseFormatSanitizeForScanning(nativeFmtIn, nativeFmtOut, fmtOutSize);
 				return ref *(byte*)&nativeResult;
 			}
 		}
 
-		public static ref byte ImParseFormatSanitizeForScanning(ReadOnlySpan<char> fmtIn, ref byte fmtOut, uint fmtOutSize)
+		public static ref byte ImParseFormatSanitizeForScanning(ReadOnlySpan<char> fmtIn, byte[] fmtOut, uint fmtOutSize)
 		{
 			// Marshaling fmtIn to native string
 			byte* nativeFmtIn;
 			var byteCountFmtIn = 0;
-			if (fmtIn != null)
+			if (fmtIn != null && !fmtIn.IsEmpty)
 			{
 				byteCountFmtIn = Encoding.UTF8.GetByteCount(fmtIn);
 				if(byteCountFmtIn > Utils.MaxStackallocSize)
@@ -22048,7 +22048,7 @@ namespace SharpImGui
 			}
 			else nativeFmtIn = null;
 
-			fixed (byte* nativeFmtOut = &fmtOut)
+			fixed (byte* nativeFmtOut = fmtOut)
 			{
 				var nativeResult = ImGuiNative.ImParseFormatSanitizeForScanning(nativeFmtIn, nativeFmtOut, fmtOutSize);
 				// Freeing fmtIn native string
@@ -22071,7 +22071,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -22098,7 +22098,7 @@ namespace SharpImGui
 		/// <summary>
 		/// return out_buf<br/>
 		/// </summary>
-		public static ref byte ImTextCharToUtf8(ref byte outBuf, uint c)
+		public static ref byte ImTextCharToUtf8(out byte outBuf, uint c)
 		{
 			fixed (byte* nativeOutBuf = &outBuf)
 			{
@@ -22110,9 +22110,9 @@ namespace SharpImGui
 		/// <summary>
 		/// return output UTF-8 bytes count<br/>
 		/// </summary>
-		public static int ImTextStrToUtf8(ref byte outBuf, int outBufSize, ref ushort inText, ref ushort inTextEnd)
+		public static int ImTextStrToUtf8(byte[] outBuf, int outBufSize, ref ushort inText, ref ushort inTextEnd)
 		{
-			fixed (byte* nativeOutBuf = &outBuf)
+			fixed (byte* nativeOutBuf = outBuf)
 			fixed (ushort* nativeInText = &inText)
 			fixed (ushort* nativeInTextEnd = &inTextEnd)
 			{
@@ -22123,7 +22123,7 @@ namespace SharpImGui
 		/// <summary>
 		/// read one character. return input UTF-8 bytes count<br/>
 		/// </summary>
-		public static int ImTextCharFromUtf8(ref uint outChar, ReadOnlySpan<byte> inText, ReadOnlySpan<byte> inTextEnd)
+		public static int ImTextCharFromUtf8(out uint outChar, ReadOnlySpan<byte> inText, ReadOnlySpan<byte> inTextEnd)
 		{
 			fixed (uint* nativeOutChar = &outChar)
 			fixed (byte* nativeInText = inText)
@@ -22136,12 +22136,12 @@ namespace SharpImGui
 		/// <summary>
 		/// read one character. return input UTF-8 bytes count<br/>
 		/// </summary>
-		public static int ImTextCharFromUtf8(ref uint outChar, ReadOnlySpan<char> inText, ReadOnlySpan<char> inTextEnd)
+		public static int ImTextCharFromUtf8(out uint outChar, ReadOnlySpan<char> inText, ReadOnlySpan<char> inTextEnd)
 		{
 			// Marshaling inText to native string
 			byte* nativeInText;
 			var byteCountInText = 0;
-			if (inText != null)
+			if (inText != null && !inText.IsEmpty)
 			{
 				byteCountInText = Encoding.UTF8.GetByteCount(inText);
 				if(byteCountInText > Utils.MaxStackallocSize)
@@ -22161,7 +22161,7 @@ namespace SharpImGui
 			// Marshaling inTextEnd to native string
 			byte* nativeInTextEnd;
 			var byteCountInTextEnd = 0;
-			if (inTextEnd != null)
+			if (inTextEnd != null && !inTextEnd.IsEmpty)
 			{
 				byteCountInTextEnd = Encoding.UTF8.GetByteCount(inTextEnd);
 				if(byteCountInTextEnd > Utils.MaxStackallocSize)
@@ -22194,7 +22194,7 @@ namespace SharpImGui
 		/// <summary>
 		/// return input UTF-8 bytes count<br/>
 		/// </summary>
-		public static int ImTextStrFromUtf8(ref ushort outBuf, int outBufSize, ReadOnlySpan<byte> inText, ReadOnlySpan<byte> inTextEnd, ref byte* inRemaining)
+		public static int ImTextStrFromUtf8(out ushort outBuf, int outBufSize, ReadOnlySpan<byte> inText, ReadOnlySpan<byte> inTextEnd, ref byte* inRemaining)
 		{
 			fixed (ushort* nativeOutBuf = &outBuf)
 			fixed (byte* nativeInText = inText)
@@ -22208,12 +22208,12 @@ namespace SharpImGui
 		/// <summary>
 		/// return input UTF-8 bytes count<br/>
 		/// </summary>
-		public static int ImTextStrFromUtf8(ref ushort outBuf, int outBufSize, ReadOnlySpan<char> inText, ReadOnlySpan<char> inTextEnd, ref byte* inRemaining)
+		public static int ImTextStrFromUtf8(out ushort outBuf, int outBufSize, ReadOnlySpan<char> inText, ReadOnlySpan<char> inTextEnd, ref byte* inRemaining)
 		{
 			// Marshaling inText to native string
 			byte* nativeInText;
 			var byteCountInText = 0;
-			if (inText != null)
+			if (inText != null && !inText.IsEmpty)
 			{
 				byteCountInText = Encoding.UTF8.GetByteCount(inText);
 				if(byteCountInText > Utils.MaxStackallocSize)
@@ -22233,7 +22233,7 @@ namespace SharpImGui
 			// Marshaling inTextEnd to native string
 			byte* nativeInTextEnd;
 			var byteCountInTextEnd = 0;
-			if (inTextEnd != null)
+			if (inTextEnd != null && !inTextEnd.IsEmpty)
 			{
 				byteCountInTextEnd = Encoding.UTF8.GetByteCount(inTextEnd);
 				if(byteCountInTextEnd > Utils.MaxStackallocSize)
@@ -22267,14 +22267,14 @@ namespace SharpImGui
 		/// <summary>
 		/// return input UTF-8 bytes count<br/>
 		/// </summary>
-		public static int ImTextStrFromUtf8(ref ushort outBuf, int outBufSize, ReadOnlySpan<char> inText, ReadOnlySpan<char> inTextEnd)
+		public static int ImTextStrFromUtf8(out ushort outBuf, int outBufSize, ReadOnlySpan<char> inText, ReadOnlySpan<char> inTextEnd)
 		{
 			// defining omitted parameters
 			byte** inRemaining = null;
 			// Marshaling inText to native string
 			byte* nativeInText;
 			var byteCountInText = 0;
-			if (inText != null)
+			if (inText != null && !inText.IsEmpty)
 			{
 				byteCountInText = Encoding.UTF8.GetByteCount(inText);
 				if(byteCountInText > Utils.MaxStackallocSize)
@@ -22294,7 +22294,7 @@ namespace SharpImGui
 			// Marshaling inTextEnd to native string
 			byte* nativeInTextEnd;
 			var byteCountInTextEnd = 0;
-			if (inTextEnd != null)
+			if (inTextEnd != null && !inTextEnd.IsEmpty)
 			{
 				byteCountInTextEnd = Encoding.UTF8.GetByteCount(inTextEnd);
 				if(byteCountInTextEnd > Utils.MaxStackallocSize)
@@ -22344,7 +22344,7 @@ namespace SharpImGui
 			// Marshaling inText to native string
 			byte* nativeInText;
 			var byteCountInText = 0;
-			if (inText != null)
+			if (inText != null && !inText.IsEmpty)
 			{
 				byteCountInText = Encoding.UTF8.GetByteCount(inText);
 				if(byteCountInText > Utils.MaxStackallocSize)
@@ -22364,7 +22364,7 @@ namespace SharpImGui
 			// Marshaling inTextEnd to native string
 			byte* nativeInTextEnd;
 			var byteCountInTextEnd = 0;
-			if (inTextEnd != null)
+			if (inTextEnd != null && !inTextEnd.IsEmpty)
 			{
 				byteCountInTextEnd = Encoding.UTF8.GetByteCount(inTextEnd);
 				if(byteCountInTextEnd > Utils.MaxStackallocSize)
@@ -22411,7 +22411,7 @@ namespace SharpImGui
 			// Marshaling inText to native string
 			byte* nativeInText;
 			var byteCountInText = 0;
-			if (inText != null)
+			if (inText != null && !inText.IsEmpty)
 			{
 				byteCountInText = Encoding.UTF8.GetByteCount(inText);
 				if(byteCountInText > Utils.MaxStackallocSize)
@@ -22431,7 +22431,7 @@ namespace SharpImGui
 			// Marshaling inTextEnd to native string
 			byte* nativeInTextEnd;
 			var byteCountInTextEnd = 0;
-			if (inTextEnd != null)
+			if (inTextEnd != null && !inTextEnd.IsEmpty)
 			{
 				byteCountInTextEnd = Encoding.UTF8.GetByteCount(inTextEnd);
 				if(byteCountInTextEnd > Utils.MaxStackallocSize)
@@ -22491,7 +22491,7 @@ namespace SharpImGui
 			// Marshaling inTextStart to native string
 			byte* nativeInTextStart;
 			var byteCountInTextStart = 0;
-			if (inTextStart != null)
+			if (inTextStart != null && !inTextStart.IsEmpty)
 			{
 				byteCountInTextStart = Encoding.UTF8.GetByteCount(inTextStart);
 				if(byteCountInTextStart > Utils.MaxStackallocSize)
@@ -22511,7 +22511,7 @@ namespace SharpImGui
 			// Marshaling inTextCurr to native string
 			byte* nativeInTextCurr;
 			var byteCountInTextCurr = 0;
-			if (inTextCurr != null)
+			if (inTextCurr != null && !inTextCurr.IsEmpty)
 			{
 				byteCountInTextCurr = Encoding.UTF8.GetByteCount(inTextCurr);
 				if(byteCountInTextCurr > Utils.MaxStackallocSize)
@@ -22558,7 +22558,7 @@ namespace SharpImGui
 			// Marshaling inText to native string
 			byte* nativeInText;
 			var byteCountInText = 0;
-			if (inText != null)
+			if (inText != null && !inText.IsEmpty)
 			{
 				byteCountInText = Encoding.UTF8.GetByteCount(inText);
 				if(byteCountInText > Utils.MaxStackallocSize)
@@ -22578,7 +22578,7 @@ namespace SharpImGui
 			// Marshaling inTextEnd to native string
 			byte* nativeInTextEnd;
 			var byteCountInTextEnd = 0;
-			if (inTextEnd != null)
+			if (inTextEnd != null && !inTextEnd.IsEmpty)
 			{
 				byteCountInTextEnd = Encoding.UTF8.GetByteCount(inTextEnd);
 				if(byteCountInTextEnd > Utils.MaxStackallocSize)
@@ -22619,7 +22619,7 @@ namespace SharpImGui
 			// Marshaling filename to native string
 			byte* nativeFilename;
 			var byteCountFilename = 0;
-			if (filename != null)
+			if (filename != null && !filename.IsEmpty)
 			{
 				byteCountFilename = Encoding.UTF8.GetByteCount(filename);
 				if(byteCountFilename > Utils.MaxStackallocSize)
@@ -22639,7 +22639,7 @@ namespace SharpImGui
 			// Marshaling mode to native string
 			byte* nativeMode;
 			var byteCountMode = 0;
-			if (mode != null)
+			if (mode != null && !mode.IsEmpty)
 			{
 				byteCountMode = Encoding.UTF8.GetByteCount(mode);
 				if(byteCountMode > Utils.MaxStackallocSize)
@@ -22687,7 +22687,7 @@ namespace SharpImGui
 			return ImGuiNative.ImFileWrite((void*)data, size, count, (void*)file);
 		}
 
-		public static IntPtr ImFileLoadToMemory(ReadOnlySpan<byte> filename, ReadOnlySpan<byte> mode, ref uint outFileSize, int paddingBytes)
+		public static IntPtr ImFileLoadToMemory(ReadOnlySpan<byte> filename, ReadOnlySpan<byte> mode, out uint outFileSize, int paddingBytes)
 		{
 			fixed (byte* nativeFilename = filename)
 			fixed (byte* nativeMode = mode)
@@ -22697,12 +22697,12 @@ namespace SharpImGui
 			}
 		}
 
-		public static IntPtr ImFileLoadToMemory(ReadOnlySpan<char> filename, ReadOnlySpan<char> mode, ref uint outFileSize, int paddingBytes)
+		public static IntPtr ImFileLoadToMemory(ReadOnlySpan<char> filename, ReadOnlySpan<char> mode, out uint outFileSize, int paddingBytes)
 		{
 			// Marshaling filename to native string
 			byte* nativeFilename;
 			var byteCountFilename = 0;
-			if (filename != null)
+			if (filename != null && !filename.IsEmpty)
 			{
 				byteCountFilename = Encoding.UTF8.GetByteCount(filename);
 				if(byteCountFilename > Utils.MaxStackallocSize)
@@ -22722,7 +22722,7 @@ namespace SharpImGui
 			// Marshaling mode to native string
 			byte* nativeMode;
 			var byteCountMode = 0;
-			if (mode != null)
+			if (mode != null && !mode.IsEmpty)
 			{
 				byteCountMode = Encoding.UTF8.GetByteCount(mode);
 				if(byteCountMode > Utils.MaxStackallocSize)
@@ -22752,14 +22752,14 @@ namespace SharpImGui
 			}
 		}
 
-		public static IntPtr ImFileLoadToMemory(ReadOnlySpan<char> filename, ReadOnlySpan<char> mode, ref uint outFileSize)
+		public static IntPtr ImFileLoadToMemory(ReadOnlySpan<char> filename, ReadOnlySpan<char> mode, out uint outFileSize)
 		{
 			// defining omitted parameters
 			int paddingBytes = 0;
 			// Marshaling filename to native string
 			byte* nativeFilename;
 			var byteCountFilename = 0;
-			if (filename != null)
+			if (filename != null && !filename.IsEmpty)
 			{
 				byteCountFilename = Encoding.UTF8.GetByteCount(filename);
 				if(byteCountFilename > Utils.MaxStackallocSize)
@@ -22779,7 +22779,7 @@ namespace SharpImGui
 			// Marshaling mode to native string
 			byte* nativeMode;
 			var byteCountMode = 0;
-			if (mode != null)
+			if (mode != null && !mode.IsEmpty)
 			{
 				byteCountMode = Encoding.UTF8.GetByteCount(mode);
 				if(byteCountMode > Utils.MaxStackallocSize)
@@ -22829,7 +22829,7 @@ namespace SharpImGui
 			// Marshaling filename to native string
 			byte* nativeFilename;
 			var byteCountFilename = 0;
-			if (filename != null)
+			if (filename != null && !filename.IsEmpty)
 			{
 				byteCountFilename = Encoding.UTF8.GetByteCount(filename);
 				if(byteCountFilename > Utils.MaxStackallocSize)
@@ -22849,7 +22849,7 @@ namespace SharpImGui
 			// Marshaling mode to native string
 			byte* nativeMode;
 			var byteCountMode = 0;
-			if (mode != null)
+			if (mode != null && !mode.IsEmpty)
 			{
 				byteCountMode = Encoding.UTF8.GetByteCount(mode);
 				if(byteCountMode > Utils.MaxStackallocSize)
@@ -23132,7 +23132,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static void ImTriangleBarycentricCoords(Vector2 a, Vector2 b, Vector2 c, Vector2 p, ref float outU, ref float outV, ref float outW)
+		public static void ImTriangleBarycentricCoords(Vector2 a, Vector2 b, Vector2 c, Vector2 p, out float outU, out float outV, out float outW)
 		{
 			fixed (float* nativeOutU = &outU)
 			fixed (float* nativeOutV = &outV)
@@ -23292,7 +23292,7 @@ namespace SharpImGui
 			// Marshaling name to native string
 			byte* nativeName;
 			var byteCountName = 0;
-			if (name != null)
+			if (name != null && !name.IsEmpty)
 			{
 				byteCountName = Encoding.UTF8.GetByteCount(name);
 				if(byteCountName > Utils.MaxStackallocSize)
@@ -23485,7 +23485,7 @@ namespace SharpImGui
 			return ImGuiNative.GetForegroundDrawList(window);
 		}
 
-		public static void AddDrawListToDrawDataEx(ImDrawDataPtr drawData, ref ImVector<ImDrawListPtr> outList, ImDrawListPtr drawList)
+		public static void AddDrawListToDrawDataEx(ImDrawDataPtr drawData, out ImVector<ImDrawListPtr> outList, ImDrawListPtr drawList)
 		{
 			fixed (ImVector<ImDrawListPtr>* nativeOutList = &outList)
 			{
@@ -23517,7 +23517,7 @@ namespace SharpImGui
 			ImGuiNative.UpdateHoveredWindowAndCaptureFlags();
 		}
 
-		public static void FindHoveredWindowEx(Vector2 pos, bool findFirstAndInAnyViewport, ref ImGuiWindow* outHoveredWindow, ref ImGuiWindow* outHoveredWindowUnderMovingWindow)
+		public static void FindHoveredWindowEx(Vector2 pos, bool findFirstAndInAnyViewport, out ImGuiWindow* outHoveredWindow, out ImGuiWindow* outHoveredWindowUnderMovingWindow)
 		{
 			var native_findFirstAndInAnyViewport = findFirstAndInAnyViewport ? (byte)1 : (byte)0;
 			fixed (ImGuiWindow** nativeOutHoveredWindow = &outHoveredWindow)
@@ -23631,7 +23631,7 @@ namespace SharpImGui
 			// Marshaling typeName to native string
 			byte* nativeTypeName;
 			var byteCountTypeName = 0;
-			if (typeName != null)
+			if (typeName != null && !typeName.IsEmpty)
 			{
 				byteCountTypeName = Encoding.UTF8.GetByteCount(typeName);
 				if(byteCountTypeName > Utils.MaxStackallocSize)
@@ -23667,7 +23667,7 @@ namespace SharpImGui
 			// Marshaling typeName to native string
 			byte* nativeTypeName;
 			var byteCountTypeName = 0;
-			if (typeName != null)
+			if (typeName != null && !typeName.IsEmpty)
 			{
 				byteCountTypeName = Encoding.UTF8.GetByteCount(typeName);
 				if(byteCountTypeName > Utils.MaxStackallocSize)
@@ -23704,7 +23704,7 @@ namespace SharpImGui
 			// Marshaling name to native string
 			byte* nativeName;
 			var byteCountName = 0;
-			if (name != null)
+			if (name != null && !name.IsEmpty)
 			{
 				byteCountName = Encoding.UTF8.GetByteCount(name);
 				if(byteCountName > Utils.MaxStackallocSize)
@@ -23751,7 +23751,7 @@ namespace SharpImGui
 			// Marshaling name to native string
 			byte* nativeName;
 			var byteCountName = 0;
-			if (name != null)
+			if (name != null && !name.IsEmpty)
 			{
 				byteCountName = Encoding.UTF8.GetByteCount(name);
 				if(byteCountName > Utils.MaxStackallocSize)
@@ -23908,7 +23908,7 @@ namespace SharpImGui
 			// Marshaling strIdBegin to native string
 			byte* nativeStrIdBegin;
 			var byteCountStrIdBegin = 0;
-			if (strIdBegin != null)
+			if (strIdBegin != null && !strIdBegin.IsEmpty)
 			{
 				byteCountStrIdBegin = Encoding.UTF8.GetByteCount(strIdBegin);
 				if(byteCountStrIdBegin > Utils.MaxStackallocSize)
@@ -23928,7 +23928,7 @@ namespace SharpImGui
 			// Marshaling strIdEnd to native string
 			byte* nativeStrIdEnd;
 			var byteCountStrIdEnd = 0;
-			if (strIdEnd != null)
+			if (strIdEnd != null && !strIdEnd.IsEmpty)
 			{
 				byteCountStrIdEnd = Encoding.UTF8.GetByteCount(strIdEnd);
 				if(byteCountStrIdEnd > Utils.MaxStackallocSize)
@@ -24080,7 +24080,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -24100,7 +24100,7 @@ namespace SharpImGui
 			// Marshaling textEnd to native string
 			byte* nativeTextEnd;
 			var byteCountTextEnd = 0;
-			if (textEnd != null)
+			if (textEnd != null && !textEnd.IsEmpty)
 			{
 				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
 				if(byteCountTextEnd > Utils.MaxStackallocSize)
@@ -24136,7 +24136,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -24176,7 +24176,7 @@ namespace SharpImGui
 			// Marshaling prefix to native string
 			byte* nativePrefix;
 			var byteCountPrefix = 0;
-			if (prefix != null)
+			if (prefix != null && !prefix.IsEmpty)
 			{
 				byteCountPrefix = Encoding.UTF8.GetByteCount(prefix);
 				if(byteCountPrefix > Utils.MaxStackallocSize)
@@ -24196,7 +24196,7 @@ namespace SharpImGui
 			// Marshaling suffix to native string
 			byte* nativeSuffix;
 			var byteCountSuffix = 0;
-			if (suffix != null)
+			if (suffix != null && !suffix.IsEmpty)
 			{
 				byteCountSuffix = Encoding.UTF8.GetByteCount(suffix);
 				if(byteCountSuffix > Utils.MaxStackallocSize)
@@ -24236,7 +24236,7 @@ namespace SharpImGui
 			// Marshaling name to native string
 			byte* nativeName;
 			var byteCountName = 0;
-			if (name != null)
+			if (name != null && !name.IsEmpty)
 			{
 				byteCountName = Encoding.UTF8.GetByteCount(name);
 				if(byteCountName > Utils.MaxStackallocSize)
@@ -24280,7 +24280,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -24395,7 +24395,7 @@ namespace SharpImGui
 			// Marshaling name to native string
 			byte* nativeName;
 			var byteCountName = 0;
-			if (name != null)
+			if (name != null && !name.IsEmpty)
 			{
 				byteCountName = Encoding.UTF8.GetByteCount(name);
 				if(byteCountName > Utils.MaxStackallocSize)
@@ -24435,7 +24435,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -24455,7 +24455,7 @@ namespace SharpImGui
 			// Marshaling icon to native string
 			byte* nativeIcon;
 			var byteCountIcon = 0;
-			if (icon != null)
+			if (icon != null && !icon.IsEmpty)
 			{
 				byteCountIcon = Encoding.UTF8.GetByteCount(icon);
 				if(byteCountIcon > Utils.MaxStackallocSize)
@@ -24490,7 +24490,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -24510,7 +24510,7 @@ namespace SharpImGui
 			// Marshaling icon to native string
 			byte* nativeIcon;
 			var byteCountIcon = 0;
-			if (icon != null)
+			if (icon != null && !icon.IsEmpty)
 			{
 				byteCountIcon = Encoding.UTF8.GetByteCount(icon);
 				if(byteCountIcon > Utils.MaxStackallocSize)
@@ -24555,7 +24555,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -24575,7 +24575,7 @@ namespace SharpImGui
 			// Marshaling icon to native string
 			byte* nativeIcon;
 			var byteCountIcon = 0;
-			if (icon != null)
+			if (icon != null && !icon.IsEmpty)
 			{
 				byteCountIcon = Encoding.UTF8.GetByteCount(icon);
 				if(byteCountIcon > Utils.MaxStackallocSize)
@@ -24595,7 +24595,7 @@ namespace SharpImGui
 			// Marshaling shortcut to native string
 			byte* nativeShortcut;
 			var byteCountShortcut = 0;
-			if (shortcut != null)
+			if (shortcut != null && !shortcut.IsEmpty)
 			{
 				byteCountShortcut = Encoding.UTF8.GetByteCount(shortcut);
 				if(byteCountShortcut > Utils.MaxStackallocSize)
@@ -24634,7 +24634,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -24654,7 +24654,7 @@ namespace SharpImGui
 			// Marshaling icon to native string
 			byte* nativeIcon;
 			var byteCountIcon = 0;
-			if (icon != null)
+			if (icon != null && !icon.IsEmpty)
 			{
 				byteCountIcon = Encoding.UTF8.GetByteCount(icon);
 				if(byteCountIcon > Utils.MaxStackallocSize)
@@ -24674,7 +24674,7 @@ namespace SharpImGui
 			// Marshaling shortcut to native string
 			byte* nativeShortcut;
 			var byteCountShortcut = 0;
-			if (shortcut != null)
+			if (shortcut != null && !shortcut.IsEmpty)
 			{
 				byteCountShortcut = Encoding.UTF8.GetByteCount(shortcut);
 				if(byteCountShortcut > Utils.MaxStackallocSize)
@@ -24727,7 +24727,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -24747,7 +24747,7 @@ namespace SharpImGui
 			// Marshaling icon to native string
 			byte* nativeIcon;
 			var byteCountIcon = 0;
-			if (icon != null)
+			if (icon != null && !icon.IsEmpty)
 			{
 				byteCountIcon = Encoding.UTF8.GetByteCount(icon);
 				if(byteCountIcon > Utils.MaxStackallocSize)
@@ -24767,7 +24767,7 @@ namespace SharpImGui
 			// Marshaling shortcut to native string
 			byte* nativeShortcut;
 			var byteCountShortcut = 0;
-			if (shortcut != null)
+			if (shortcut != null && !shortcut.IsEmpty)
 			{
 				byteCountShortcut = Encoding.UTF8.GetByteCount(shortcut);
 				if(byteCountShortcut > Utils.MaxStackallocSize)
@@ -24820,7 +24820,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -24840,7 +24840,7 @@ namespace SharpImGui
 			// Marshaling icon to native string
 			byte* nativeIcon;
 			var byteCountIcon = 0;
-			if (icon != null)
+			if (icon != null && !icon.IsEmpty)
 			{
 				byteCountIcon = Encoding.UTF8.GetByteCount(icon);
 				if(byteCountIcon > Utils.MaxStackallocSize)
@@ -25294,7 +25294,7 @@ namespace SharpImGui
 			ImGuiNative.DockContextProcessUndockNode(ctx, node);
 		}
 
-		public static bool DockContextCalcDropPosForDocking(ImGuiWindowPtr target, ImGuiDockNodePtr targetNode, ImGuiWindowPtr payloadWindow, ImGuiDockNodePtr payloadNode, ImGuiDir splitDir, bool splitOuter, ref Vector2 outPos)
+		public static bool DockContextCalcDropPosForDocking(ImGuiWindowPtr target, ImGuiDockNodePtr targetNode, ImGuiWindowPtr payloadWindow, ImGuiDockNodePtr payloadNode, ImGuiDir splitDir, bool splitOuter, out Vector2 outPos)
 		{
 			var native_splitOuter = splitOuter ? (byte)1 : (byte)0;
 			fixed (Vector2* nativeOutPos = &outPos)
@@ -25393,7 +25393,7 @@ namespace SharpImGui
 			// Marshaling windowName to native string
 			byte* nativeWindowName;
 			var byteCountWindowName = 0;
-			if (windowName != null)
+			if (windowName != null && !windowName.IsEmpty)
 			{
 				byteCountWindowName = Encoding.UTF8.GetByteCount(windowName);
 				if(byteCountWindowName > Utils.MaxStackallocSize)
@@ -25474,7 +25474,7 @@ namespace SharpImGui
 		/// <summary>
 		/// Create 2 child nodes in this parent node.<br/>
 		/// </summary>
-		public static uint DockBuilderSplitNode(uint nodeId, ImGuiDir splitDir, float sizeRatioForNodeAtDir, ref uint outIdAtDir, ref uint outIdAtOppositeDir)
+		public static uint DockBuilderSplitNode(uint nodeId, ImGuiDir splitDir, float sizeRatioForNodeAtDir, out uint outIdAtDir, out uint outIdAtOppositeDir)
 		{
 			fixed (uint* nativeOutIdAtDir = &outIdAtDir)
 			fixed (uint* nativeOutIdAtOppositeDir = &outIdAtOppositeDir)
@@ -25491,7 +25491,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static void DockBuilderCopyNode(uint srcNodeId, uint dstNodeId, ref ImVector<uint> outNodeRemapPairs)
+		public static void DockBuilderCopyNode(uint srcNodeId, uint dstNodeId, out ImVector<uint> outNodeRemapPairs)
 		{
 			fixed (ImVector<uint>* nativeOutNodeRemapPairs = &outNodeRemapPairs)
 			{
@@ -25513,7 +25513,7 @@ namespace SharpImGui
 			// Marshaling srcName to native string
 			byte* nativeSrcName;
 			var byteCountSrcName = 0;
-			if (srcName != null)
+			if (srcName != null && !srcName.IsEmpty)
 			{
 				byteCountSrcName = Encoding.UTF8.GetByteCount(srcName);
 				if(byteCountSrcName > Utils.MaxStackallocSize)
@@ -25533,7 +25533,7 @@ namespace SharpImGui
 			// Marshaling dstName to native string
 			byte* nativeDstName;
 			var byteCountDstName = 0;
-			if (dstName != null)
+			if (dstName != null && !dstName.IsEmpty)
 			{
 				byteCountDstName = Encoding.UTF8.GetByteCount(dstName);
 				if(byteCountDstName > Utils.MaxStackallocSize)
@@ -25709,7 +25709,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -25742,7 +25742,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -25801,7 +25801,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -25913,7 +25913,7 @@ namespace SharpImGui
 			// Marshaling name to native string
 			byte* nativeName;
 			var byteCountName = 0;
-			if (name != null)
+			if (name != null && !name.IsEmpty)
 			{
 				byteCountName = Encoding.UTF8.GetByteCount(name);
 				if(byteCountName > Utils.MaxStackallocSize)
@@ -25944,7 +25944,7 @@ namespace SharpImGui
 			// Marshaling name to native string
 			byte* nativeName;
 			var byteCountName = 0;
-			if (name != null)
+			if (name != null && !name.IsEmpty)
 			{
 				byteCountName = Encoding.UTF8.GetByteCount(name);
 				if(byteCountName > Utils.MaxStackallocSize)
@@ -25988,7 +25988,7 @@ namespace SharpImGui
 			// Marshaling name to native string
 			byte* nativeName;
 			var byteCountName = 0;
-			if (name != null)
+			if (name != null && !name.IsEmpty)
 			{
 				byteCountName = Encoding.UTF8.GetByteCount(name);
 				if(byteCountName > Utils.MaxStackallocSize)
@@ -26034,7 +26034,7 @@ namespace SharpImGui
 			// Marshaling name to native string
 			byte* nativeName;
 			var byteCountName = 0;
-			if (name != null)
+			if (name != null && !name.IsEmpty)
 			{
 				byteCountName = Encoding.UTF8.GetByteCount(name);
 				if(byteCountName > Utils.MaxStackallocSize)
@@ -26325,7 +26325,7 @@ namespace SharpImGui
 			// Marshaling tabName to native string
 			byte* nativeTabName;
 			var byteCountTabName = 0;
-			if (tabName != null)
+			if (tabName != null && !tabName.IsEmpty)
 			{
 				byteCountTabName = Encoding.UTF8.GetByteCount(tabName);
 				if(byteCountTabName > Utils.MaxStackallocSize)
@@ -26381,7 +26381,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -26421,7 +26421,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -26459,7 +26459,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -26519,7 +26519,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -26564,7 +26564,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -26584,7 +26584,7 @@ namespace SharpImGui
 			// Marshaling textEnd to native string
 			byte* nativeTextEnd;
 			var byteCountTextEnd = 0;
-			if (textEnd != null)
+			if (textEnd != null && !textEnd.IsEmpty)
 			{
 				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
 				if(byteCountTextEnd > Utils.MaxStackallocSize)
@@ -26618,7 +26618,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -26638,7 +26638,7 @@ namespace SharpImGui
 			// Marshaling textEnd to native string
 			byte* nativeTextEnd;
 			var byteCountTextEnd = 0;
-			if (textEnd != null)
+			if (textEnd != null && !textEnd.IsEmpty)
 			{
 				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
 				if(byteCountTextEnd > Utils.MaxStackallocSize)
@@ -26683,7 +26683,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -26720,7 +26720,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -26740,7 +26740,7 @@ namespace SharpImGui
 			// Marshaling textEnd to native string
 			byte* nativeTextEnd;
 			var byteCountTextEnd = 0;
-			if (textEnd != null)
+			if (textEnd != null && !textEnd.IsEmpty)
 			{
 				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
 				if(byteCountTextEnd > Utils.MaxStackallocSize)
@@ -26781,7 +26781,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -26801,7 +26801,7 @@ namespace SharpImGui
 			// Marshaling textEnd to native string
 			byte* nativeTextEnd;
 			var byteCountTextEnd = 0;
-			if (textEnd != null)
+			if (textEnd != null && !textEnd.IsEmpty)
 			{
 				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
 				if(byteCountTextEnd > Utils.MaxStackallocSize)
@@ -26837,7 +26837,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -26857,7 +26857,7 @@ namespace SharpImGui
 			// Marshaling textEnd to native string
 			byte* nativeTextEnd;
 			var byteCountTextEnd = 0;
-			if (textEnd != null)
+			if (textEnd != null && !textEnd.IsEmpty)
 			{
 				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
 				if(byteCountTextEnd > Utils.MaxStackallocSize)
@@ -26907,7 +26907,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -26927,7 +26927,7 @@ namespace SharpImGui
 			// Marshaling textEnd to native string
 			byte* nativeTextEnd;
 			var byteCountTextEnd = 0;
-			if (textEnd != null)
+			if (textEnd != null && !textEnd.IsEmpty)
 			{
 				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
 				if(byteCountTextEnd > Utils.MaxStackallocSize)
@@ -26971,7 +26971,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -26991,7 +26991,7 @@ namespace SharpImGui
 			// Marshaling textEnd to native string
 			byte* nativeTextEnd;
 			var byteCountTextEnd = 0;
-			if (textEnd != null)
+			if (textEnd != null && !textEnd.IsEmpty)
 			{
 				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
 				if(byteCountTextEnd > Utils.MaxStackallocSize)
@@ -27027,7 +27027,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -27047,7 +27047,7 @@ namespace SharpImGui
 			// Marshaling textEnd to native string
 			byte* nativeTextEnd;
 			var byteCountTextEnd = 0;
-			if (textEnd != null)
+			if (textEnd != null && !textEnd.IsEmpty)
 			{
 				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
 				if(byteCountTextEnd > Utils.MaxStackallocSize)
@@ -27097,7 +27097,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -27117,7 +27117,7 @@ namespace SharpImGui
 			// Marshaling textEnd to native string
 			byte* nativeTextEnd;
 			var byteCountTextEnd = 0;
-			if (textEnd != null)
+			if (textEnd != null && !textEnd.IsEmpty)
 			{
 				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
 				if(byteCountTextEnd > Utils.MaxStackallocSize)
@@ -27161,7 +27161,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -27181,7 +27181,7 @@ namespace SharpImGui
 			// Marshaling textEnd to native string
 			byte* nativeTextEnd;
 			var byteCountTextEnd = 0;
-			if (textEnd != null)
+			if (textEnd != null && !textEnd.IsEmpty)
 			{
 				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
 				if(byteCountTextEnd > Utils.MaxStackallocSize)
@@ -27271,7 +27271,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -27291,7 +27291,7 @@ namespace SharpImGui
 			// Marshaling textEnd to native string
 			byte* nativeTextEnd;
 			var byteCountTextEnd = 0;
-			if (textEnd != null)
+			if (textEnd != null && !textEnd.IsEmpty)
 			{
 				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
 				if(byteCountTextEnd > Utils.MaxStackallocSize)
@@ -27328,7 +27328,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -27411,7 +27411,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -27431,7 +27431,7 @@ namespace SharpImGui
 			// Marshaling textEnd to native string
 			byte* nativeTextEnd;
 			var byteCountTextEnd = 0;
-			if (textEnd != null)
+			if (textEnd != null && !textEnd.IsEmpty)
 			{
 				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
 				if(byteCountTextEnd > Utils.MaxStackallocSize)
@@ -27464,7 +27464,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -27484,7 +27484,7 @@ namespace SharpImGui
 			// Marshaling textEnd to native string
 			byte* nativeTextEnd;
 			var byteCountTextEnd = 0;
-			if (textEnd != null)
+			if (textEnd != null && !textEnd.IsEmpty)
 			{
 				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
 				if(byteCountTextEnd > Utils.MaxStackallocSize)
@@ -27529,7 +27529,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -27566,7 +27566,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -27597,7 +27597,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -27641,7 +27641,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -27679,7 +27679,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -27710,7 +27710,7 @@ namespace SharpImGui
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -27759,7 +27759,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -27779,7 +27779,7 @@ namespace SharpImGui
 			// Marshaling labelEnd to native string
 			byte* nativeLabelEnd;
 			var byteCountLabelEnd = 0;
-			if (labelEnd != null)
+			if (labelEnd != null && !labelEnd.IsEmpty)
 			{
 				byteCountLabelEnd = Encoding.UTF8.GetByteCount(labelEnd);
 				if(byteCountLabelEnd > Utils.MaxStackallocSize)
@@ -27820,7 +27820,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -27862,7 +27862,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -27964,7 +27964,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -28002,7 +28002,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -28078,7 +28078,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -28098,7 +28098,7 @@ namespace SharpImGui
 			// Marshaling labelEnd to native string
 			byte* nativeLabelEnd;
 			var byteCountLabelEnd = 0;
-			if (labelEnd != null)
+			if (labelEnd != null && !labelEnd.IsEmpty)
 			{
 				byteCountLabelEnd = Encoding.UTF8.GetByteCount(labelEnd);
 				if(byteCountLabelEnd > Utils.MaxStackallocSize)
@@ -28132,7 +28132,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -28187,21 +28187,21 @@ namespace SharpImGui
 			return ImGuiNative.DataTypeGetInfo(dataType);
 		}
 
-		public static int DataTypeFormatString(ref byte buf, int bufSize, ImGuiDataType dataType, IntPtr pData, ReadOnlySpan<byte> format)
+		public static int DataTypeFormatString(byte[] buf, int bufSize, ImGuiDataType dataType, IntPtr pData, ReadOnlySpan<byte> format)
 		{
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			fixed (byte* nativeFormat = format)
 			{
 				return ImGuiNative.DataTypeFormatString(nativeBuf, bufSize, dataType, (void*)pData, nativeFormat);
 			}
 		}
 
-		public static int DataTypeFormatString(ref byte buf, int bufSize, ImGuiDataType dataType, IntPtr pData, ReadOnlySpan<char> format)
+		public static int DataTypeFormatString(byte[] buf, int bufSize, ImGuiDataType dataType, IntPtr pData, ReadOnlySpan<char> format)
 		{
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -28218,7 +28218,7 @@ namespace SharpImGui
 			}
 			else nativeFormat = null;
 
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.DataTypeFormatString(nativeBuf, bufSize, dataType, (void*)pData, nativeFormat);
 				// Freeing format native string
@@ -28248,7 +28248,7 @@ namespace SharpImGui
 			// Marshaling buf to native string
 			byte* nativeBuf;
 			var byteCountBuf = 0;
-			if (buf != null)
+			if (buf != null && !buf.IsEmpty)
 			{
 				byteCountBuf = Encoding.UTF8.GetByteCount(buf);
 				if(byteCountBuf > Utils.MaxStackallocSize)
@@ -28268,7 +28268,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -28302,7 +28302,7 @@ namespace SharpImGui
 			// Marshaling buf to native string
 			byte* nativeBuf;
 			var byteCountBuf = 0;
-			if (buf != null)
+			if (buf != null && !buf.IsEmpty)
 			{
 				byteCountBuf = Encoding.UTF8.GetByteCount(buf);
 				if(byteCountBuf > Utils.MaxStackallocSize)
@@ -28322,7 +28322,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -28366,23 +28366,23 @@ namespace SharpImGui
 			return result != 0;
 		}
 
-		public static bool InputTextEx(ReadOnlySpan<byte> label, ReadOnlySpan<byte> hint, ref byte buf, int bufSize, Vector2 sizeArg, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, IntPtr userData)
+		public static bool InputTextEx(ReadOnlySpan<byte> label, ReadOnlySpan<byte> hint, byte[] buf, int bufSize, Vector2 sizeArg, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, IntPtr userData)
 		{
 			fixed (byte* nativeLabel = label)
 			fixed (byte* nativeHint = hint)
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputTextEx(nativeLabel, nativeHint, nativeBuf, bufSize, sizeArg, flags, callback, (void*)userData);
 				return result != 0;
 			}
 		}
 
-		public static bool InputTextEx(ReadOnlySpan<char> label, ReadOnlySpan<char> hint, ref byte buf, int bufSize, Vector2 sizeArg, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, IntPtr userData)
+		public static bool InputTextEx(ReadOnlySpan<char> label, ReadOnlySpan<char> hint, byte[] buf, int bufSize, Vector2 sizeArg, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback, IntPtr userData)
 		{
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -28402,7 +28402,7 @@ namespace SharpImGui
 			// Marshaling hint to native string
 			byte* nativeHint;
 			var byteCountHint = 0;
-			if (hint != null)
+			if (hint != null && !hint.IsEmpty)
 			{
 				byteCountHint = Encoding.UTF8.GetByteCount(hint);
 				if(byteCountHint > Utils.MaxStackallocSize)
@@ -28419,7 +28419,7 @@ namespace SharpImGui
 			}
 			else nativeHint = null;
 
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputTextEx(nativeLabel, nativeHint, nativeBuf, bufSize, sizeArg, flags, callback, (void*)userData);
 				// Freeing label native string
@@ -28432,14 +28432,14 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool InputTextEx(ReadOnlySpan<char> label, ReadOnlySpan<char> hint, ref byte buf, int bufSize, Vector2 sizeArg, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback)
+		public static bool InputTextEx(ReadOnlySpan<char> label, ReadOnlySpan<char> hint, byte[] buf, int bufSize, Vector2 sizeArg, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback)
 		{
 			// defining omitted parameters
 			void* userData = null;
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -28459,7 +28459,7 @@ namespace SharpImGui
 			// Marshaling hint to native string
 			byte* nativeHint;
 			var byteCountHint = 0;
-			if (hint != null)
+			if (hint != null && !hint.IsEmpty)
 			{
 				byteCountHint = Encoding.UTF8.GetByteCount(hint);
 				if(byteCountHint > Utils.MaxStackallocSize)
@@ -28476,7 +28476,7 @@ namespace SharpImGui
 			}
 			else nativeHint = null;
 
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputTextEx(nativeLabel, nativeHint, nativeBuf, bufSize, sizeArg, flags, callback, userData);
 				// Freeing label native string
@@ -28489,21 +28489,21 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool InputTextEx(ReadOnlySpan<byte> label, ReadOnlySpan<byte> hint, ref byte buf, int bufSize, Vector2 sizeArg, ImGuiInputTextFlags flags)
+		public static bool InputTextEx(ReadOnlySpan<byte> label, ReadOnlySpan<byte> hint, byte[] buf, int bufSize, Vector2 sizeArg, ImGuiInputTextFlags flags)
 		{
 			// defining omitted parameters
 			void* userData = null;
 			ImGuiInputTextCallback callback = null;
 			fixed (byte* nativeLabel = label)
 			fixed (byte* nativeHint = hint)
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputTextEx(nativeLabel, nativeHint, nativeBuf, bufSize, sizeArg, flags, callback, userData);
 				return result != 0;
 			}
 		}
 
-		public static bool InputTextEx(ReadOnlySpan<char> label, ReadOnlySpan<char> hint, ref byte buf, int bufSize, Vector2 sizeArg, ImGuiInputTextFlags flags)
+		public static bool InputTextEx(ReadOnlySpan<char> label, ReadOnlySpan<char> hint, byte[] buf, int bufSize, Vector2 sizeArg, ImGuiInputTextFlags flags)
 		{
 			// defining omitted parameters
 			void* userData = null;
@@ -28511,7 +28511,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -28531,7 +28531,7 @@ namespace SharpImGui
 			// Marshaling hint to native string
 			byte* nativeHint;
 			var byteCountHint = 0;
-			if (hint != null)
+			if (hint != null && !hint.IsEmpty)
 			{
 				byteCountHint = Encoding.UTF8.GetByteCount(hint);
 				if(byteCountHint > Utils.MaxStackallocSize)
@@ -28548,7 +28548,7 @@ namespace SharpImGui
 			}
 			else nativeHint = null;
 
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputTextEx(nativeLabel, nativeHint, nativeBuf, bufSize, sizeArg, flags, callback, userData);
 				// Freeing label native string
@@ -28566,22 +28566,22 @@ namespace SharpImGui
 			ImGuiNative.InputTextDeactivateHook(id);
 		}
 
-		public static bool TempInputText(ImRect bb, uint id, ReadOnlySpan<byte> label, ref byte buf, int bufSize, ImGuiInputTextFlags flags)
+		public static bool TempInputText(ImRect bb, uint id, ReadOnlySpan<byte> label, byte[] buf, int bufSize, ImGuiInputTextFlags flags)
 		{
 			fixed (byte* nativeLabel = label)
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.TempInputText(bb, id, nativeLabel, nativeBuf, bufSize, flags);
 				return result != 0;
 			}
 		}
 
-		public static bool TempInputText(ImRect bb, uint id, ReadOnlySpan<char> label, ref byte buf, int bufSize, ImGuiInputTextFlags flags)
+		public static bool TempInputText(ImRect bb, uint id, ReadOnlySpan<char> label, byte[] buf, int bufSize, ImGuiInputTextFlags flags)
 		{
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -28598,7 +28598,7 @@ namespace SharpImGui
 			}
 			else nativeLabel = null;
 
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.TempInputText(bb, id, nativeLabel, nativeBuf, bufSize, flags);
 				// Freeing label native string
@@ -28623,7 +28623,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -28643,7 +28643,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -28677,7 +28677,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -28697,7 +28697,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -28745,7 +28745,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -28765,7 +28765,7 @@ namespace SharpImGui
 			// Marshaling format to native string
 			byte* nativeFormat;
 			var byteCountFormat = 0;
-			if (format != null)
+			if (format != null && !format.IsEmpty)
 			{
 				byteCountFormat = Encoding.UTF8.GetByteCount(format);
 				if(byteCountFormat > Utils.MaxStackallocSize)
@@ -28834,7 +28834,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -28890,7 +28890,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -28910,7 +28910,7 @@ namespace SharpImGui
 			// Marshaling overlayText to native string
 			byte* nativeOverlayText;
 			var byteCountOverlayText = 0;
-			if (overlayText != null)
+			if (overlayText != null && !overlayText.IsEmpty)
 			{
 				byteCountOverlayText = Encoding.UTF8.GetByteCount(overlayText);
 				if(byteCountOverlayText > Utils.MaxStackallocSize)
@@ -28982,7 +28982,7 @@ namespace SharpImGui
 			// Marshaling msg to native string
 			byte* nativeMsg;
 			var byteCountMsg = 0;
-			if (msg != null)
+			if (msg != null && !msg.IsEmpty)
 			{
 				byteCountMsg = Encoding.UTF8.GetByteCount(msg);
 				if(byteCountMsg > Utils.MaxStackallocSize)
@@ -29079,7 +29079,7 @@ namespace SharpImGui
 			// Marshaling lineBegin to native string
 			byte* nativeLineBegin;
 			var byteCountLineBegin = 0;
-			if (lineBegin != null)
+			if (lineBegin != null && !lineBegin.IsEmpty)
 			{
 				byteCountLineBegin = Encoding.UTF8.GetByteCount(lineBegin);
 				if(byteCountLineBegin > Utils.MaxStackallocSize)
@@ -29099,7 +29099,7 @@ namespace SharpImGui
 			// Marshaling lineEnd to native string
 			byte* nativeLineEnd;
 			var byteCountLineEnd = 0;
-			if (lineEnd != null)
+			if (lineEnd != null && !lineEnd.IsEmpty)
 			{
 				byteCountLineEnd = Encoding.UTF8.GetByteCount(lineEnd);
 				if(byteCountLineEnd > Utils.MaxStackallocSize)
@@ -29166,7 +29166,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -29186,7 +29186,7 @@ namespace SharpImGui
 			// Marshaling descriptionOfLocation to native string
 			byte* nativeDescriptionOfLocation;
 			var byteCountDescriptionOfLocation = 0;
-			if (descriptionOfLocation != null)
+			if (descriptionOfLocation != null && !descriptionOfLocation.IsEmpty)
 			{
 				byteCountDescriptionOfLocation = Encoding.UTF8.GetByteCount(descriptionOfLocation);
 				if(byteCountDescriptionOfLocation > Utils.MaxStackallocSize)
@@ -29228,7 +29228,7 @@ namespace SharpImGui
 			// Marshaling descriptionOfLocation to native string
 			byte* nativeDescriptionOfLocation;
 			var byteCountDescriptionOfLocation = 0;
-			if (descriptionOfLocation != null)
+			if (descriptionOfLocation != null && !descriptionOfLocation.IsEmpty)
 			{
 				byteCountDescriptionOfLocation = Encoding.UTF8.GetByteCount(descriptionOfLocation);
 				if(byteCountDescriptionOfLocation > Utils.MaxStackallocSize)
@@ -29279,7 +29279,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -29315,7 +29315,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -29368,7 +29368,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -29404,7 +29404,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -29465,7 +29465,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -29507,7 +29507,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -29559,7 +29559,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -29637,7 +29637,7 @@ namespace SharpImGui
 			// Marshaling inStr to native string
 			byte* nativeInStr;
 			var byteCountInStr = 0;
-			if (inStr != null)
+			if (inStr != null && !inStr.IsEmpty)
 			{
 				byteCountInStr = Encoding.UTF8.GetByteCount(inStr);
 				if(byteCountInStr > Utils.MaxStackallocSize)
@@ -29676,7 +29676,7 @@ namespace SharpImGui
 			// Marshaling inStr to native string
 			byte* nativeInStr;
 			var byteCountInStr = 0;
-			if (inStr != null)
+			if (inStr != null && !inStr.IsEmpty)
 			{
 				byteCountInStr = Encoding.UTF8.GetByteCount(inStr);
 				if(byteCountInStr > Utils.MaxStackallocSize)
@@ -29700,7 +29700,7 @@ namespace SharpImGui
 				Utils.Free(nativeInStr);
 		}
 
-		public static void ImFontAtlasBuildMultiplyCalcLookupTable(ref byte outTable, float inMultiplyFactor)
+		public static void ImFontAtlasBuildMultiplyCalcLookupTable(out byte outTable, float inMultiplyFactor)
 		{
 			fixed (byte* nativeOutTable = &outTable)
 			{
@@ -29717,7 +29717,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static void ImFontAtlasBuildGetOversampleFactors(ImFontConfigPtr src, ref int outOversampleH, ref int outOversampleV)
+		public static void ImFontAtlasBuildGetOversampleFactors(ImFontConfigPtr src, out int outOversampleH, out int outOversampleV)
 		{
 			fixed (int* nativeOutOversampleH = &outOversampleH)
 			fixed (int* nativeOutOversampleV = &outOversampleV)
@@ -29726,7 +29726,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool ImFontAtlasGetMouseCursorTexData(ImFontAtlasPtr atlas, ImGuiMouseCursor cursorType, ref Vector2 outOffset, ref Vector2 outSize, ref Vector2 outUvBorder, ref Vector2 outUvFill)
+		public static bool ImFontAtlasGetMouseCursorTexData(ImFontAtlasPtr atlas, ImGuiMouseCursor cursorType, out Vector2 outOffset, out Vector2 outSize, out Vector2 outUvBorder, out Vector2 outUvFill)
 		{
 			fixed (Vector2* nativeOutOffset = &outOffset)
 			fixed (Vector2* nativeOutSize = &outSize)

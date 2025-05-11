@@ -585,7 +585,7 @@ namespace SharpImNodes
 			// Marshaling data to native string
 			byte* nativeData;
 			var byteCountData = 0;
-			if (data != null)
+			if (data != null && !data.IsEmpty)
 			{
 				byteCountData = Encoding.UTF8.GetByteCount(data);
 				if(byteCountData > Utils.MaxStackallocSize)
@@ -621,7 +621,7 @@ namespace SharpImNodes
 			// Marshaling data to native string
 			byte* nativeData;
 			var byteCountData = 0;
-			if (data != null)
+			if (data != null && !data.IsEmpty)
 			{
 				byteCountData = Encoding.UTF8.GetByteCount(data);
 				if(byteCountData > Utils.MaxStackallocSize)
@@ -657,7 +657,7 @@ namespace SharpImNodes
 			// Marshaling fileName to native string
 			byte* nativeFileName;
 			var byteCountFileName = 0;
-			if (fileName != null)
+			if (fileName != null && !fileName.IsEmpty)
 			{
 				byteCountFileName = Encoding.UTF8.GetByteCount(fileName);
 				if(byteCountFileName > Utils.MaxStackallocSize)
@@ -693,7 +693,7 @@ namespace SharpImNodes
 			// Marshaling fileName to native string
 			byte* nativeFileName;
 			var byteCountFileName = 0;
-			if (fileName != null)
+			if (fileName != null && !fileName.IsEmpty)
 			{
 				byteCountFileName = Encoding.UTF8.GetByteCount(fileName);
 				if(byteCountFileName > Utils.MaxStackallocSize)
@@ -729,7 +729,7 @@ namespace SharpImNodes
 			// Marshaling fileName to native string
 			byte* nativeFileName;
 			var byteCountFileName = 0;
-			if (fileName != null)
+			if (fileName != null && !fileName.IsEmpty)
 			{
 				byteCountFileName = Encoding.UTF8.GetByteCount(fileName);
 				if(byteCountFileName > Utils.MaxStackallocSize)
@@ -765,7 +765,7 @@ namespace SharpImNodes
 			// Marshaling fileName to native string
 			byte* nativeFileName;
 			var byteCountFileName = 0;
-			if (fileName != null)
+			if (fileName != null && !fileName.IsEmpty)
 			{
 				byteCountFileName = Encoding.UTF8.GetByteCount(fileName);
 				if(byteCountFileName > Utils.MaxStackallocSize)

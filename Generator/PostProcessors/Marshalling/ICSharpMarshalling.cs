@@ -284,6 +284,10 @@ public struct AnyPtrMarshal : ICSharpMarshalling
                 when parameter.Metadata is CppParameter { Type: CppPointerType { ElementType: CppPrimitiveType { Kind: CppPrimitiveKind.Bool } } }:
                 MarshalRefBool(parameter, ref info, pointerType);
                 break;
+            case CsPrimitiveType { Kind: CsPrimitiveKind.Byte } 
+                when parameter.Metadata is CppParameter { Type: CppPointerType { ElementType: CppPrimitiveType { Kind: CppPrimitiveKind.Char } } }:
+                MarshalByteArray(parameter, ref info, pointerType);
+                break;
             default:
                 MarshalDefault(parameter, ref info, pointerType);
                 break;
@@ -291,9 +295,16 @@ public struct AnyPtrMarshal : ICSharpMarshalling
         return true;
     }
 
+    private void MarshalByteArray(CsParameter parameter, ref ParameterMarshalledInfo info, CsPointerType pointerType)
+    {
+        parameter.Type = new CsUnresolvedType("byte[]");
+        info.OverrideCallName = CleanupNamesProcessor.ToCamelCase($"native_{parameter.Name}");
+        info.fixedCode = $"{pointerType.TypeName} {info.OverrideCallName} = {parameter.Name}";
+    }
+
     private static void MarshalDefault(CsParameter parameter, ref ParameterMarshalledInfo info, CsPointerType pointerType)
     {
-        var isOut = parameter.Name.Equals("pOut"); 
+        var isOut = parameter.Name.ToLower().Contains("out"); 
         parameter.Type = new CsKeywordType(pointerType.OriginalType, isOut? CsKeywordType.CsKeyword.Out : CsKeywordType.CsKeyword.Ref);
         info.OverrideCallName = CleanupNamesProcessor.ToCamelCase($"native_{parameter.Name}");
         info.fixedCode = $"{pointerType.TypeName} {info.OverrideCallName} = &{parameter.Name}";
@@ -481,7 +492,7 @@ public struct StringMarshal : ICSharpMarshalling
             writer.WriteLine($"// Marshaling {paramName} to native string");
             writer.WriteLine($"byte* {nativeParam};");
             writer.WriteLine($"var {paramByteCount} = 0;");
-            writer.WriteLine($"if ({paramName} != null)");
+            writer.WriteLine($"if ({paramName} != null && !{paramName}.IsEmpty)");
             writer.PushBlock();
 
             writer.WriteLine($"{paramByteCount} = Encoding.UTF8.GetByteCount({paramName});");

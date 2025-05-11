@@ -319,7 +319,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -339,7 +339,7 @@ namespace SharpImGui
 			// Marshaling textEnd to native string
 			byte* nativeTextEnd;
 			var byteCountTextEnd = 0;
-			if (textEnd != null)
+			if (textEnd != null && !textEnd.IsEmpty)
 			{
 				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
 				if(byteCountTextEnd > Utils.MaxStackallocSize)
@@ -384,7 +384,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -428,7 +428,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -476,7 +476,7 @@ namespace SharpImGui
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -544,7 +544,7 @@ namespace SharpImGui
 			// Marshaling defaultFilter to native string
 			byte* nativeDefaultFilter;
 			var byteCountDefaultFilter = 0;
-			if (defaultFilter != null)
+			if (defaultFilter != null && !defaultFilter.IsEmpty)
 			{
 				byteCountDefaultFilter = Encoding.UTF8.GetByteCount(defaultFilter);
 				if(byteCountDefaultFilter > Utils.MaxStackallocSize)
@@ -580,7 +580,7 @@ namespace SharpImGui
 			// Marshaling defaultFilter to native string
 			byte* nativeDefaultFilter;
 			var byteCountDefaultFilter = 0;
-			if (defaultFilter != null)
+			if (defaultFilter != null && !defaultFilter.IsEmpty)
 			{
 				byteCountDefaultFilter = Encoding.UTF8.GetByteCount(defaultFilter);
 				if(byteCountDefaultFilter > Utils.MaxStackallocSize)

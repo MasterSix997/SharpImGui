@@ -50,7 +50,7 @@ namespace SharpImPlot3D
 			// Marshaling titleId to native string
 			byte* nativeTitleId;
 			var byteCountTitleId = 0;
-			if (titleId != null)
+			if (titleId != null && !titleId.IsEmpty)
 			{
 				byteCountTitleId = Encoding.UTF8.GetByteCount(titleId);
 				if(byteCountTitleId > Utils.MaxStackallocSize)
@@ -92,7 +92,7 @@ namespace SharpImPlot3D
 			// Marshaling titleId to native string
 			byte* nativeTitleId;
 			var byteCountTitleId = 0;
-			if (titleId != null)
+			if (titleId != null && !titleId.IsEmpty)
 			{
 				byteCountTitleId = Encoding.UTF8.GetByteCount(titleId);
 				if(byteCountTitleId > Utils.MaxStackallocSize)
@@ -136,7 +136,7 @@ namespace SharpImPlot3D
 			// Marshaling titleId to native string
 			byte* nativeTitleId;
 			var byteCountTitleId = 0;
-			if (titleId != null)
+			if (titleId != null && !titleId.IsEmpty)
 			{
 				byteCountTitleId = Encoding.UTF8.GetByteCount(titleId);
 				if(byteCountTitleId > Utils.MaxStackallocSize)
@@ -181,7 +181,7 @@ namespace SharpImPlot3D
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -221,7 +221,7 @@ namespace SharpImPlot3D
 			// Marshaling label to native string
 			byte* nativeLabel;
 			var byteCountLabel = 0;
-			if (label != null)
+			if (label != null && !label.IsEmpty)
 			{
 				byteCountLabel = Encoding.UTF8.GetByteCount(label);
 				if(byteCountLabel > Utils.MaxStackallocSize)
@@ -310,7 +310,7 @@ namespace SharpImPlot3D
 			// Marshaling xLabel to native string
 			byte* nativeXLabel;
 			var byteCountXLabel = 0;
-			if (xLabel != null)
+			if (xLabel != null && !xLabel.IsEmpty)
 			{
 				byteCountXLabel = Encoding.UTF8.GetByteCount(xLabel);
 				if(byteCountXLabel > Utils.MaxStackallocSize)
@@ -330,7 +330,7 @@ namespace SharpImPlot3D
 			// Marshaling yLabel to native string
 			byte* nativeYLabel;
 			var byteCountYLabel = 0;
-			if (yLabel != null)
+			if (yLabel != null && !yLabel.IsEmpty)
 			{
 				byteCountYLabel = Encoding.UTF8.GetByteCount(yLabel);
 				if(byteCountYLabel > Utils.MaxStackallocSize)
@@ -350,7 +350,7 @@ namespace SharpImPlot3D
 			// Marshaling zLabel to native string
 			byte* nativeZLabel;
 			var byteCountZLabel = 0;
-			if (zLabel != null)
+			if (zLabel != null && !zLabel.IsEmpty)
 			{
 				byteCountZLabel = Encoding.UTF8.GetByteCount(zLabel);
 				if(byteCountZLabel > Utils.MaxStackallocSize)
@@ -398,7 +398,7 @@ namespace SharpImPlot3D
 			// Marshaling xLabel to native string
 			byte* nativeXLabel;
 			var byteCountXLabel = 0;
-			if (xLabel != null)
+			if (xLabel != null && !xLabel.IsEmpty)
 			{
 				byteCountXLabel = Encoding.UTF8.GetByteCount(xLabel);
 				if(byteCountXLabel > Utils.MaxStackallocSize)
@@ -418,7 +418,7 @@ namespace SharpImPlot3D
 			// Marshaling yLabel to native string
 			byte* nativeYLabel;
 			var byteCountYLabel = 0;
-			if (yLabel != null)
+			if (yLabel != null && !yLabel.IsEmpty)
 			{
 				byteCountYLabel = Encoding.UTF8.GetByteCount(yLabel);
 				if(byteCountYLabel > Utils.MaxStackallocSize)
@@ -438,7 +438,7 @@ namespace SharpImPlot3D
 			// Marshaling zLabel to native string
 			byte* nativeZLabel;
 			var byteCountZLabel = 0;
-			if (zLabel != null)
+			if (zLabel != null && !zLabel.IsEmpty)
 			{
 				byteCountZLabel = Encoding.UTF8.GetByteCount(zLabel);
 				if(byteCountZLabel > Utils.MaxStackallocSize)
@@ -488,7 +488,7 @@ namespace SharpImPlot3D
 			// Marshaling xLabel to native string
 			byte* nativeXLabel;
 			var byteCountXLabel = 0;
-			if (xLabel != null)
+			if (xLabel != null && !xLabel.IsEmpty)
 			{
 				byteCountXLabel = Encoding.UTF8.GetByteCount(xLabel);
 				if(byteCountXLabel > Utils.MaxStackallocSize)
@@ -508,7 +508,7 @@ namespace SharpImPlot3D
 			// Marshaling yLabel to native string
 			byte* nativeYLabel;
 			var byteCountYLabel = 0;
-			if (yLabel != null)
+			if (yLabel != null && !yLabel.IsEmpty)
 			{
 				byteCountYLabel = Encoding.UTF8.GetByteCount(yLabel);
 				if(byteCountYLabel > Utils.MaxStackallocSize)
@@ -528,7 +528,7 @@ namespace SharpImPlot3D
 			// Marshaling zLabel to native string
 			byte* nativeZLabel;
 			var byteCountZLabel = 0;
-			if (zLabel != null)
+			if (zLabel != null && !zLabel.IsEmpty)
 			{
 				byteCountZLabel = Encoding.UTF8.GetByteCount(zLabel);
 				if(byteCountZLabel > Utils.MaxStackallocSize)
@@ -580,7 +580,7 @@ namespace SharpImPlot3D
 			// Marshaling xLabel to native string
 			byte* nativeXLabel;
 			var byteCountXLabel = 0;
-			if (xLabel != null)
+			if (xLabel != null && !xLabel.IsEmpty)
 			{
 				byteCountXLabel = Encoding.UTF8.GetByteCount(xLabel);
 				if(byteCountXLabel > Utils.MaxStackallocSize)
@@ -600,7 +600,7 @@ namespace SharpImPlot3D
 			// Marshaling yLabel to native string
 			byte* nativeYLabel;
 			var byteCountYLabel = 0;
-			if (yLabel != null)
+			if (yLabel != null && !yLabel.IsEmpty)
 			{
 				byteCountYLabel = Encoding.UTF8.GetByteCount(yLabel);
 				if(byteCountYLabel > Utils.MaxStackallocSize)
@@ -620,7 +620,7 @@ namespace SharpImPlot3D
 			// Marshaling zLabel to native string
 			byte* nativeZLabel;
 			var byteCountZLabel = 0;
-			if (zLabel != null)
+			if (zLabel != null && !zLabel.IsEmpty)
 			{
 				byteCountZLabel = Encoding.UTF8.GetByteCount(zLabel);
 				if(byteCountZLabel > Utils.MaxStackallocSize)
@@ -716,7 +716,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -760,7 +760,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -804,7 +804,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -848,7 +848,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -892,7 +892,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -936,7 +936,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -980,7 +980,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1024,7 +1024,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1068,7 +1068,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1112,7 +1112,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1156,7 +1156,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1200,7 +1200,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1244,7 +1244,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1288,7 +1288,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1332,7 +1332,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1376,7 +1376,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1420,7 +1420,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1464,7 +1464,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1508,7 +1508,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1552,7 +1552,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1596,7 +1596,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1640,7 +1640,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1684,7 +1684,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1728,7 +1728,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1772,7 +1772,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1816,7 +1816,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1860,7 +1860,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1904,7 +1904,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1948,7 +1948,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -1992,7 +1992,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2036,7 +2036,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2080,7 +2080,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2124,7 +2124,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2168,7 +2168,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2212,7 +2212,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2256,7 +2256,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2300,7 +2300,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2344,7 +2344,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2388,7 +2388,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2432,7 +2432,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2476,7 +2476,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2520,7 +2520,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2564,7 +2564,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2608,7 +2608,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2652,7 +2652,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2696,7 +2696,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2740,7 +2740,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2784,7 +2784,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2828,7 +2828,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2872,7 +2872,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2914,7 +2914,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2958,7 +2958,7 @@ namespace SharpImPlot3D
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -2997,7 +2997,7 @@ namespace SharpImPlot3D
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -3037,7 +3037,7 @@ namespace SharpImPlot3D
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -3079,7 +3079,7 @@ namespace SharpImPlot3D
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -3411,7 +3411,7 @@ namespace SharpImPlot3D
 			// Marshaling name to native string
 			byte* nativeName;
 			var byteCountName = 0;
-			if (name != null)
+			if (name != null && !name.IsEmpty)
 			{
 				byteCountName = Encoding.UTF8.GetByteCount(name);
 				if(byteCountName > Utils.MaxStackallocSize)
@@ -3454,7 +3454,7 @@ namespace SharpImPlot3D
 			// Marshaling name to native string
 			byte* nativeName;
 			var byteCountName = 0;
-			if (name != null)
+			if (name != null && !name.IsEmpty)
 			{
 				byteCountName = Encoding.UTF8.GetByteCount(name);
 				if(byteCountName > Utils.MaxStackallocSize)
@@ -3506,7 +3506,7 @@ namespace SharpImPlot3D
 			// Marshaling name to native string
 			byte* nativeName;
 			var byteCountName = 0;
-			if (name != null)
+			if (name != null && !name.IsEmpty)
 			{
 				byteCountName = Encoding.UTF8.GetByteCount(name);
 				if(byteCountName > Utils.MaxStackallocSize)
@@ -3548,7 +3548,7 @@ namespace SharpImPlot3D
 			// Marshaling name to native string
 			byte* nativeName;
 			var byteCountName = 0;
-			if (name != null)
+			if (name != null && !name.IsEmpty)
 			{
 				byteCountName = Encoding.UTF8.GetByteCount(name);
 				if(byteCountName > Utils.MaxStackallocSize)

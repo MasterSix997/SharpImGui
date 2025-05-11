@@ -79,7 +79,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)
@@ -121,7 +121,7 @@ namespace SharpImPlot
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
 			var byteCountLabelId = 0;
-			if (labelId != null)
+			if (labelId != null && !labelId.IsEmpty)
 			{
 				byteCountLabelId = Encoding.UTF8.GetByteCount(labelId);
 				if(byteCountLabelId > Utils.MaxStackallocSize)

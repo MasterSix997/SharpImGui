@@ -1222,7 +1222,7 @@ namespace SharpImGui
 			// Marshaling str to native string
 			byte* nativeStr;
 			var byteCountStr = 0;
-			if (str != null)
+			if (str != null && !str.IsEmpty)
 			{
 				byteCountStr = Encoding.UTF8.GetByteCount(str);
 				if(byteCountStr > Utils.MaxStackallocSize)

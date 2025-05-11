@@ -162,7 +162,7 @@ namespace SharpImGui
 			return ImGuiNative.GetTypingSelectRequest(flags);
 		}
 
-		public static IntPtr ImFileLoadToMemory(ReadOnlySpan<byte> filename, ReadOnlySpan<byte> mode, ref uint outFileSize)
+		public static IntPtr ImFileLoadToMemory(ReadOnlySpan<byte> filename, ReadOnlySpan<byte> mode, out uint outFileSize)
 		{
 			// defining omitted parameters
 			int paddingBytes = 0;
@@ -194,7 +194,7 @@ namespace SharpImGui
 		/// <summary>
 		/// return input UTF-8 bytes count<br/>
 		/// </summary>
-		public static int ImTextStrFromUtf8(ref ushort outBuf, int outBufSize, ReadOnlySpan<byte> inText, ReadOnlySpan<byte> inTextEnd)
+		public static int ImTextStrFromUtf8(out ushort outBuf, int outBufSize, ReadOnlySpan<byte> inText, ReadOnlySpan<byte> inTextEnd)
 		{
 			// defining omitted parameters
 			byte** inRemaining = null;
@@ -214,13 +214,13 @@ namespace SharpImGui
 			return result != 0;
 		}
 
-		public static bool InputTextEx(ReadOnlySpan<byte> label, ReadOnlySpan<byte> hint, ref byte buf, int bufSize, Vector2 sizeArg, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback)
+		public static bool InputTextEx(ReadOnlySpan<byte> label, ReadOnlySpan<byte> hint, byte[] buf, int bufSize, Vector2 sizeArg, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback)
 		{
 			// defining omitted parameters
 			void* userData = null;
 			fixed (byte* nativeLabel = label)
 			fixed (byte* nativeHint = hint)
-			fixed (byte* nativeBuf = &buf)
+			fixed (byte* nativeBuf = buf)
 			{
 				var result = ImGuiNative.InputTextEx(nativeLabel, nativeHint, nativeBuf, bufSize, sizeArg, flags, callback, userData);
 				return result != 0;

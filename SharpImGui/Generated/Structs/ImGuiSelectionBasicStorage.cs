@@ -88,7 +88,7 @@ namespace SharpImGui
 		/// <summary>
 		/// Iterate selection with 'void* it = NULL; ImGuiID id; while (selection.GetNextSelectedItem(&it, &id))  ... '<br/>
 		/// </summary>
-		public bool GetNextSelectedItem(ref void* opaqueIt, ref uint outId)
+		public bool GetNextSelectedItem(ref void* opaqueIt, out uint outId)
 		{
 			fixed (void** nativeOpaqueIt = &opaqueIt)
 			fixed (uint* nativeOutId = &outId)

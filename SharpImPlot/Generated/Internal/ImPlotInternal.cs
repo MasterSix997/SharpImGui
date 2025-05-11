@@ -58,11 +58,11 @@ namespace SharpImPlot
 			return result != 0;
 		}
 
-		public static void LabelAxisValue(ImPlotAxis axis, double value, ref byte buff, int size)
+		public static void LabelAxisValue(ImPlotAxis axis, double value, byte[] buff, int size)
 		{
 			// defining omitted parameters
 			byte round = 0;
-			fixed (byte* nativeBuff = &buff)
+			fixed (byte* nativeBuff = buff)
 			{
 				ImPlotNative.LabelAxisValue(axis, value, nativeBuff, size, round);
 			}

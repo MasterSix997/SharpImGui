@@ -253,7 +253,7 @@ namespace SharpImGui
 			// Marshaling textBegin to native string
 			byte* nativeTextBegin;
 			var byteCountTextBegin = 0;
-			if (textBegin != null)
+			if (textBegin != null && !textBegin.IsEmpty)
 			{
 				byteCountTextBegin = Encoding.UTF8.GetByteCount(textBegin);
 				if(byteCountTextBegin > Utils.MaxStackallocSize)
@@ -273,7 +273,7 @@ namespace SharpImGui
 			// Marshaling textEnd to native string
 			byte* nativeTextEnd;
 			var byteCountTextEnd = 0;
-			if (textEnd != null)
+			if (textEnd != null && !textEnd.IsEmpty)
 			{
 				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
 				if(byteCountTextEnd > Utils.MaxStackallocSize)
@@ -318,7 +318,7 @@ namespace SharpImGui
 			// Marshaling textBegin to native string
 			byte* nativeTextBegin;
 			var byteCountTextBegin = 0;
-			if (textBegin != null)
+			if (textBegin != null && !textBegin.IsEmpty)
 			{
 				byteCountTextBegin = Encoding.UTF8.GetByteCount(textBegin);
 				if(byteCountTextBegin > Utils.MaxStackallocSize)
@@ -338,7 +338,7 @@ namespace SharpImGui
 			// Marshaling textEnd to native string
 			byte* nativeTextEnd;
 			var byteCountTextEnd = 0;
-			if (textEnd != null)
+			if (textEnd != null && !textEnd.IsEmpty)
 			{
 				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
 				if(byteCountTextEnd > Utils.MaxStackallocSize)
@@ -384,7 +384,7 @@ namespace SharpImGui
 			// Marshaling textBegin to native string
 			byte* nativeTextBegin;
 			var byteCountTextBegin = 0;
-			if (textBegin != null)
+			if (textBegin != null && !textBegin.IsEmpty)
 			{
 				byteCountTextBegin = Encoding.UTF8.GetByteCount(textBegin);
 				if(byteCountTextBegin > Utils.MaxStackallocSize)
@@ -404,7 +404,7 @@ namespace SharpImGui
 			// Marshaling textEnd to native string
 			byte* nativeTextEnd;
 			var byteCountTextEnd = 0;
-			if (textEnd != null)
+			if (textEnd != null && !textEnd.IsEmpty)
 			{
 				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
 				if(byteCountTextEnd > Utils.MaxStackallocSize)
@@ -450,7 +450,7 @@ namespace SharpImGui
 			// Marshaling text to native string
 			byte* nativeText;
 			var byteCountText = 0;
-			if (text != null)
+			if (text != null && !text.IsEmpty)
 			{
 				byteCountText = Encoding.UTF8.GetByteCount(text);
 				if(byteCountText > Utils.MaxStackallocSize)
@@ -470,7 +470,7 @@ namespace SharpImGui
 			// Marshaling textEnd to native string
 			byte* nativeTextEnd;
 			var byteCountTextEnd = 0;
-			if (textEnd != null)
+			if (textEnd != null && !textEnd.IsEmpty)
 			{
 				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
 				if(byteCountTextEnd > Utils.MaxStackallocSize)
@@ -519,7 +519,7 @@ namespace SharpImGui
 			// Marshaling textBegin to native string
 			byte* nativeTextBegin;
 			var byteCountTextBegin = 0;
-			if (textBegin != null)
+			if (textBegin != null && !textBegin.IsEmpty)
 			{
 				byteCountTextBegin = Encoding.UTF8.GetByteCount(textBegin);
 				if(byteCountTextBegin > Utils.MaxStackallocSize)
@@ -539,7 +539,7 @@ namespace SharpImGui
 			// Marshaling textEnd to native string
 			byte* nativeTextEnd;
 			var byteCountTextEnd = 0;
-			if (textEnd != null)
+			if (textEnd != null && !textEnd.IsEmpty)
 			{
 				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
 				if(byteCountTextEnd > Utils.MaxStackallocSize)
@@ -594,7 +594,7 @@ namespace SharpImGui
 			// Marshaling textBegin to native string
 			byte* nativeTextBegin;
 			var byteCountTextBegin = 0;
-			if (textBegin != null)
+			if (textBegin != null && !textBegin.IsEmpty)
 			{
 				byteCountTextBegin = Encoding.UTF8.GetByteCount(textBegin);
 				if(byteCountTextBegin > Utils.MaxStackallocSize)
@@ -614,7 +614,7 @@ namespace SharpImGui
 			// Marshaling textEnd to native string
 			byte* nativeTextEnd;
 			var byteCountTextEnd = 0;
-			if (textEnd != null)
+			if (textEnd != null && !textEnd.IsEmpty)
 			{
 				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
 				if(byteCountTextEnd > Utils.MaxStackallocSize)
@@ -669,7 +669,7 @@ namespace SharpImGui
 			// Marshaling textBegin to native string
 			byte* nativeTextBegin;
 			var byteCountTextBegin = 0;
-			if (textBegin != null)
+			if (textBegin != null && !textBegin.IsEmpty)
 			{
 				byteCountTextBegin = Encoding.UTF8.GetByteCount(textBegin);
 				if(byteCountTextBegin > Utils.MaxStackallocSize)

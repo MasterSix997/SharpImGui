@@ -240,7 +240,7 @@ namespace SharpImGuizmo
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -277,7 +277,7 @@ namespace SharpImGuizmo
 			// Marshaling strIdBegin to native string
 			byte* nativeStrIdBegin;
 			var byteCountStrIdBegin = 0;
-			if (strIdBegin != null)
+			if (strIdBegin != null && !strIdBegin.IsEmpty)
 			{
 				byteCountStrIdBegin = Encoding.UTF8.GetByteCount(strIdBegin);
 				if(byteCountStrIdBegin > Utils.MaxStackallocSize)
@@ -297,7 +297,7 @@ namespace SharpImGuizmo
 			// Marshaling strIdEnd to native string
 			byte* nativeStrIdEnd;
 			var byteCountStrIdEnd = 0;
-			if (strIdEnd != null)
+			if (strIdEnd != null && !strIdEnd.IsEmpty)
 			{
 				byteCountStrIdEnd = Encoding.UTF8.GetByteCount(strIdEnd);
 				if(byteCountStrIdEnd > Utils.MaxStackallocSize)
@@ -354,7 +354,7 @@ namespace SharpImGuizmo
 			// Marshaling strId to native string
 			byte* nativeStrId;
 			var byteCountStrId = 0;
-			if (strId != null)
+			if (strId != null && !strId.IsEmpty)
 			{
 				byteCountStrId = Encoding.UTF8.GetByteCount(strId);
 				if(byteCountStrId > Utils.MaxStackallocSize)
@@ -392,7 +392,7 @@ namespace SharpImGuizmo
 			// Marshaling strIdBegin to native string
 			byte* nativeStrIdBegin;
 			var byteCountStrIdBegin = 0;
-			if (strIdBegin != null)
+			if (strIdBegin != null && !strIdBegin.IsEmpty)
 			{
 				byteCountStrIdBegin = Encoding.UTF8.GetByteCount(strIdBegin);
 				if(byteCountStrIdBegin > Utils.MaxStackallocSize)
@@ -412,7 +412,7 @@ namespace SharpImGuizmo
 			// Marshaling strIdEnd to native string
 			byte* nativeStrIdEnd;
 			var byteCountStrIdEnd = 0;
-			if (strIdEnd != null)
+			if (strIdEnd != null && !strIdEnd.IsEmpty)
 			{
 				byteCountStrIdEnd = Encoding.UTF8.GetByteCount(strIdEnd);
 				if(byteCountStrIdEnd > Utils.MaxStackallocSize)

@@ -243,7 +243,7 @@ namespace SharpImGui
 		public static implicit operator ImFontAtlasPtr(ImFontAtlas* ptr) => new ImFontAtlasPtr(ptr);
 		public static implicit operator ImFontAtlasPtr(IntPtr ptr) => new ImFontAtlasPtr(ptr);
 		public static implicit operator ImFontAtlas*(ImFontAtlasPtr nativePtr) => nativePtr.NativePtr;
-		public void CalcCustomRectUV(ImFontAtlasCustomRectPtr rect, ref Vector2 outUvMin, ref Vector2 outUvMax)
+		public void CalcCustomRectUV(ImFontAtlasCustomRectPtr rect, out Vector2 outUvMin, out Vector2 outUvMax)
 		{
 			fixed (Vector2* nativeOutUvMin = &outUvMin)
 			fixed (Vector2* nativeOutUvMax = &outUvMax)
@@ -372,7 +372,7 @@ namespace SharpImGui
 		/// <summary>
 		/// 4 bytes-per-pixel<br/>
 		/// </summary>
-		public void GetTexDataAsRgba32(ref byte* outPixels, ref int outWidth, ref int outHeight, ref int outBytesPerPixel)
+		public void GetTexDataAsRgba32(out byte* outPixels, out int outWidth, out int outHeight, out int outBytesPerPixel)
 		{
 			fixed (byte** nativeOutPixels = &outPixels)
 			fixed (int* nativeOutWidth = &outWidth)
@@ -386,7 +386,7 @@ namespace SharpImGui
 		/// <summary>
 		/// 4 bytes-per-pixel<br/>
 		/// </summary>
-		public void GetTexDataAsRgba32(ref byte* outPixels, ref int outWidth, ref int outHeight)
+		public void GetTexDataAsRgba32(out byte* outPixels, out int outWidth, out int outHeight)
 		{
 			// defining omitted parameters
 			int* outBytesPerPixel = null;
@@ -401,7 +401,7 @@ namespace SharpImGui
 		/// <summary>
 		/// 1 byte per-pixel<br/>
 		/// </summary>
-		public void GetTexDataAsAlpha8(ref byte* outPixels, ref int outWidth, ref int outHeight, ref int outBytesPerPixel)
+		public void GetTexDataAsAlpha8(out byte* outPixels, out int outWidth, out int outHeight, out int outBytesPerPixel)
 		{
 			fixed (byte** nativeOutPixels = &outPixels)
 			fixed (int* nativeOutWidth = &outWidth)
@@ -415,7 +415,7 @@ namespace SharpImGui
 		/// <summary>
 		/// 1 byte per-pixel<br/>
 		/// </summary>
-		public void GetTexDataAsAlpha8(ref byte* outPixels, ref int outWidth, ref int outHeight)
+		public void GetTexDataAsAlpha8(out byte* outPixels, out int outWidth, out int outHeight)
 		{
 			// defining omitted parameters
 			int* outBytesPerPixel = null;
@@ -488,7 +488,7 @@ namespace SharpImGui
 			// Marshaling compressedFontDataBase85 to native string
 			byte* nativeCompressedFontDataBase85;
 			var byteCountCompressedFontDataBase85 = 0;
-			if (compressedFontDataBase85 != null)
+			if (compressedFontDataBase85 != null && !compressedFontDataBase85.IsEmpty)
 			{
 				byteCountCompressedFontDataBase85 = Encoding.UTF8.GetByteCount(compressedFontDataBase85);
 				if(byteCountCompressedFontDataBase85 > Utils.MaxStackallocSize)
@@ -538,7 +538,7 @@ namespace SharpImGui
 			// Marshaling compressedFontDataBase85 to native string
 			byte* nativeCompressedFontDataBase85;
 			var byteCountCompressedFontDataBase85 = 0;
-			if (compressedFontDataBase85 != null)
+			if (compressedFontDataBase85 != null && !compressedFontDataBase85.IsEmpty)
 			{
 				byteCountCompressedFontDataBase85 = Encoding.UTF8.GetByteCount(compressedFontDataBase85);
 				if(byteCountCompressedFontDataBase85 > Utils.MaxStackallocSize)
@@ -587,7 +587,7 @@ namespace SharpImGui
 			// Marshaling compressedFontDataBase85 to native string
 			byte* nativeCompressedFontDataBase85;
 			var byteCountCompressedFontDataBase85 = 0;
-			if (compressedFontDataBase85 != null)
+			if (compressedFontDataBase85 != null && !compressedFontDataBase85.IsEmpty)
 			{
 				byteCountCompressedFontDataBase85 = Encoding.UTF8.GetByteCount(compressedFontDataBase85);
 				if(byteCountCompressedFontDataBase85 > Utils.MaxStackallocSize)
@@ -689,7 +689,7 @@ namespace SharpImGui
 			// Marshaling filename to native string
 			byte* nativeFilename;
 			var byteCountFilename = 0;
-			if (filename != null)
+			if (filename != null && !filename.IsEmpty)
 			{
 				byteCountFilename = Encoding.UTF8.GetByteCount(filename);
 				if(byteCountFilename > Utils.MaxStackallocSize)
@@ -733,7 +733,7 @@ namespace SharpImGui
 			// Marshaling filename to native string
 			byte* nativeFilename;
 			var byteCountFilename = 0;
-			if (filename != null)
+			if (filename != null && !filename.IsEmpty)
 			{
 				byteCountFilename = Encoding.UTF8.GetByteCount(filename);
 				if(byteCountFilename > Utils.MaxStackallocSize)
@@ -776,7 +776,7 @@ namespace SharpImGui
 			// Marshaling filename to native string
 			byte* nativeFilename;
 			var byteCountFilename = 0;
-			if (filename != null)
+			if (filename != null && !filename.IsEmpty)
 			{
 				byteCountFilename = Encoding.UTF8.GetByteCount(filename);
 				if(byteCountFilename > Utils.MaxStackallocSize)

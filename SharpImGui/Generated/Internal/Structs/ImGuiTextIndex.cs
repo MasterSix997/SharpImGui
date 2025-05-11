@@ -50,7 +50,7 @@ namespace SharpImGui
 			// Marshaling _base to native string
 			byte* nativeBase;
 			var byteCountBase = 0;
-			if (_base != null)
+			if (_base != null && !_base.IsEmpty)
 			{
 				byteCountBase = Encoding.UTF8.GetByteCount(_base);
 				if(byteCountBase > Utils.MaxStackallocSize)
@@ -87,7 +87,7 @@ namespace SharpImGui
 			// Marshaling _base to native string
 			byte* nativeBase;
 			var byteCountBase = 0;
-			if (_base != null)
+			if (_base != null && !_base.IsEmpty)
 			{
 				byteCountBase = Encoding.UTF8.GetByteCount(_base);
 				if(byteCountBase > Utils.MaxStackallocSize)
@@ -125,7 +125,7 @@ namespace SharpImGui
 			// Marshaling _base to native string
 			byte* nativeBase;
 			var byteCountBase = 0;
-			if (_base != null)
+			if (_base != null && !_base.IsEmpty)
 			{
 				byteCountBase = Encoding.UTF8.GetByteCount(_base);
 				if(byteCountBase > Utils.MaxStackallocSize)

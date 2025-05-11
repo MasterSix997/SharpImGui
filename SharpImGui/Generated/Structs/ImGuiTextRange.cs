@@ -31,7 +31,7 @@ namespace SharpImGui
 		public static implicit operator ImGuiTextRangePtr(ImGuiTextRange* ptr) => new ImGuiTextRangePtr(ptr);
 		public static implicit operator ImGuiTextRangePtr(IntPtr ptr) => new ImGuiTextRangePtr(ptr);
 		public static implicit operator ImGuiTextRange*(ImGuiTextRangePtr nativePtr) => nativePtr.NativePtr;
-		public void Split(bool separator, ref ImVector<ImGuiTextRange> _out)
+		public void Split(bool separator, out ImVector<ImGuiTextRange> _out)
 		{
 			var native_separator = separator ? (byte)1 : (byte)0;
 			fixed (ImVector<ImGuiTextRange>* nativeOut = &_out)
@@ -60,7 +60,7 @@ namespace SharpImGui
 			// Marshaling b to native string
 			byte* nativeB;
 			var byteCountB = 0;
-			if (b != null)
+			if (b != null && !b.IsEmpty)
 			{
 				byteCountB = Encoding.UTF8.GetByteCount(b);
 				if(byteCountB > Utils.MaxStackallocSize)
@@ -80,7 +80,7 @@ namespace SharpImGui
 			// Marshaling e to native string
 			byte* nativeE;
 			var byteCountE = 0;
-			if (e != null)
+			if (e != null && !e.IsEmpty)
 			{
 				byteCountE = Encoding.UTF8.GetByteCount(e);
 				if(byteCountE > Utils.MaxStackallocSize)
@@ -120,7 +120,7 @@ namespace SharpImGui
 			// Marshaling b to native string
 			byte* nativeB;
 			var byteCountB = 0;
-			if (b != null)
+			if (b != null && !b.IsEmpty)
 			{
 				byteCountB = Encoding.UTF8.GetByteCount(b);
 				if(byteCountB > Utils.MaxStackallocSize)
@@ -140,7 +140,7 @@ namespace SharpImGui
 			// Marshaling e to native string
 			byte* nativeE;
 			var byteCountE = 0;
-			if (e != null)
+			if (e != null && !e.IsEmpty)
 			{
 				byteCountE = Encoding.UTF8.GetByteCount(e);
 				if(byteCountE > Utils.MaxStackallocSize)

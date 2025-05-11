@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpImPlot3D", "SharpImPlo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpImNodes", "SharpImNodes\SharpImNodes.csproj", "{9A3A7CBB-B478-4E04-87A4-1EB9CB0F2D12}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.XNA", "Example.XNA\Example.XNA.csproj", "{0150D428-9CF3-43BB-B363-00743638B350}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,5 +50,9 @@ Global
 		{9A3A7CBB-B478-4E04-87A4-1EB9CB0F2D12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A3A7CBB-B478-4E04-87A4-1EB9CB0F2D12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A3A7CBB-B478-4E04-87A4-1EB9CB0F2D12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0150D428-9CF3-43BB-B363-00743638B350}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0150D428-9CF3-43BB-B363-00743638B350}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0150D428-9CF3-43BB-B363-00743638B350}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0150D428-9CF3-43BB-B363-00743638B350}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

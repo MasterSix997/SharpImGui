@@ -10,7 +10,7 @@ echo running from %scriptPath%
 set cimplotPath=%scriptPath%cimplot
 
 :: Build docker image for building natives
-docker build -f build_cimplot.Dockerfile -t build_cimplot:cimplot .
+docker build -f build_cimplot.Dockerfile -t build_cimplot:cimplot --build-arg BUILD_TYPE=Debug .
 
 echo --- BUILT ---
 

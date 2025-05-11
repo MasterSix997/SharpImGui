@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SharpImGui;
+using SharpImPlot;
 using Num = System.Numerics;
 
 namespace Example.XNA
@@ -72,6 +73,7 @@ namespace Example.XNA
 
         private bool show_test_window;
         private bool show_another_window;
+        private bool show_implot;
         private Num.Vector3 clear_color = new(114f / 255f, 144f / 255f, 154f / 255f);
         private byte[] _textBuffer = new byte[100];
 
@@ -85,6 +87,7 @@ namespace Example.XNA
                 ImGui.ColorEdit3("clear color", ref clear_color);
                 if (ImGui.Button("Test Window")) show_test_window = !show_test_window;
                 if (ImGui.Button("Another Window")) show_another_window = !show_another_window;
+                if (ImGui.Button("ImPlot")) show_implot = !show_implot;
                 ImGui.Text($"Application average {1000f / ImGui.GetIO().Framerate:F3} ms/frame ({ImGui.GetIO().Framerate:F1} FPS)");
                 
                 ImGui.InputText("Text input", _textBuffer, 100);
@@ -107,6 +110,38 @@ namespace Example.XNA
             {
                 ImGui.SetNextWindowPos(new Num.Vector2(650, 20), ImGuiCond.FirstUseEver);
                 ImGui.ShowDemoWindow(ref show_test_window);
+            }
+
+            if (show_implot)
+            {
+	            ImPlot.ShowDemoWindow(ref show_implot);
+	            // ImGui.Begin("ImPlot", ref show_implot);
+
+	      //       if (ImPlot.BeginPlot("My Plot"))
+	      //       {
+		     //        var labelId = "My plots"u8;
+		     //        ReadOnlySpan<int> xs = [1, 10, 20, 32];
+		     //        ReadOnlySpan<int> ys = [0, 5, 5, 15];
+		     //        var count = 4;
+		     //        var barSize = 5;
+		     //        var flags = ImPlotBarsFlags.None;
+		     //        var offset = 0;
+		     //        var stride = 4;
+	      //
+		     //        unsafe
+		     //        {
+			    //         fixed (byte* nativeLabelId = labelId)
+			    //         fixed (int* nativeXs = xs)
+			    //         fixed (int* nativeYs = ys)
+			    //         {
+							// ImPlotNative.PlotBarsS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
+			    //         }
+		     //        }
+		     //        
+		     //        ImPlot.EndPlot();
+	      //       }
+	            
+	            // ImGui.End();
             }
         }
 

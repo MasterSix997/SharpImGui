@@ -21,10 +21,12 @@
 
     <ItemGroup>
       <ProjectReference Include="..\SharpImGui\SharpImGui.csproj" />
+      <ProjectReference Include="..\SharpImPlot\SharpImPlot.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <None Include="bin\Debug\net9.0\cimgui.dll" />
+      <None Include="bin\Debug\net9.0\cimplot.dll" />
     </ItemGroup>
 
 </Project>

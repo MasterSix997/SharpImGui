@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SharpImGui;
+using SharpImPlot;
 
 namespace Example.XNA
 {
@@ -43,6 +44,7 @@ namespace Example.XNA
         {
             var context = ImGui.CreateContext();
             ImGui.SetCurrentContext(context);
+            var implotCtx = ImPlot.CreateContext();
 
             _game = game ?? throw new ArgumentNullException(nameof(game));
             _graphicsDevice = game.GraphicsDevice;

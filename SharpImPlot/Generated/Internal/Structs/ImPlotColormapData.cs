@@ -123,10 +123,10 @@ namespace SharpImPlot
 			return result;
 		}
 
-		public ref byte ColormapDataGetName(ImPlotColormap cmap)
+		public string ColormapDataGetName(ImPlotColormap cmap)
 		{
-			var nativeResult = ImPlotNative.ColormapDataGetName(NativePtr, cmap);
-			return ref *(byte*)&nativeResult;
+			var result = ImPlotNative.ColormapDataGetName(NativePtr, cmap);
+			return Utils.DecodeStringUTF8(result);
 		}
 
 		public bool ColormapDataIsQual(ImPlotColormap cmap)

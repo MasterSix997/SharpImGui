@@ -367,6 +367,7 @@ public sealed class StructPtrProcessor : IPostProcessor
             Visibility = CsVisibility.Public,
             ReturnType = csMethod.ReturnType,
             Comment = csMethod.Comment,
+            Metadata = csMethod.Metadata
         };
         managedMethod.Parameters.AddRange(csMethod.Parameters.Select(p => new CsParameter(p.Type, p.Name) { Metadata = p.Metadata }));
         

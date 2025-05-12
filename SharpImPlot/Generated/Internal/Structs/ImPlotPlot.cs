@@ -79,10 +79,10 @@ namespace SharpImPlot
 		public static implicit operator ImPlotPlotPtr(ImPlotPlot* ptr) => new ImPlotPlotPtr(ptr);
 		public static implicit operator ImPlotPlotPtr(IntPtr ptr) => new ImPlotPlotPtr(ptr);
 		public static implicit operator ImPlotPlot*(ImPlotPlotPtr nativePtr) => nativePtr.NativePtr;
-		public ref byte PlotGetAxisLabel(ImPlotAxis axis)
+		public string PlotGetAxisLabel(ImPlotAxis axis)
 		{
-			var nativeResult = ImPlotNative.PlotGetAxisLabel(NativePtr, axis);
-			return ref *(byte*)&nativeResult;
+			var result = ImPlotNative.PlotGetAxisLabel(NativePtr, axis);
+			return Utils.DecodeStringUTF8(result);
 		}
 
 		public void PlotSetAxisLabel(ImPlotAxisPtr axis, ReadOnlySpan<byte> label)
@@ -151,10 +151,10 @@ namespace SharpImPlot
 			return ImPlotNative.PlotXAxisNil(NativePtr, i);
 		}
 
-		public ref byte PlotGetTitle()
+		public string PlotGetTitle()
 		{
-			var nativeResult = ImPlotNative.PlotGetTitle(NativePtr);
-			return ref *(byte*)&nativeResult;
+			var result = ImPlotNative.PlotGetTitle(NativePtr);
+			return Utils.DecodeStringUTF8(result);
 		}
 
 		public bool PlotHasTitle()

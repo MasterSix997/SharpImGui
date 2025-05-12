@@ -47,16 +47,16 @@ namespace SharpImPlot
 			ImPlotNative.TickerOverrideSizeLate(NativePtr, size);
 		}
 
-		public ref byte TickerGetTextPlotTick(ImPlotTick tick)
+		public string TickerGetTextPlotTick(ImPlotTick tick)
 		{
-			var nativeResult = ImPlotNative.TickerGetTextPlotTick(NativePtr, tick);
-			return ref *(byte*)&nativeResult;
+			var result = ImPlotNative.TickerGetTextPlotTick(NativePtr, tick);
+			return Utils.DecodeStringUTF8(result);
 		}
 
-		public ref byte TickerGetTextInt(int idx)
+		public string TickerGetTextInt(int idx)
 		{
-			var nativeResult = ImPlotNative.TickerGetTextInt(NativePtr, idx);
-			return ref *(byte*)&nativeResult;
+			var result = ImPlotNative.TickerGetTextInt(NativePtr, idx);
+			return Utils.DecodeStringUTF8(result);
 		}
 
 		public ImPlotTickPtr TickerAddTickPlotTick(ImPlotTick tick)

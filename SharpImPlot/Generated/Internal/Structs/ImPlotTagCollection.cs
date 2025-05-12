@@ -33,10 +33,10 @@ namespace SharpImPlot
 			ImPlotNative.TagCollectionReset(NativePtr);
 		}
 
-		public ref byte TagCollectionGetText(int idx)
+		public string TagCollectionGetText(int idx)
 		{
-			var nativeResult = ImPlotNative.TagCollectionGetText(NativePtr, idx);
-			return ref *(byte*)&nativeResult;
+			var result = ImPlotNative.TagCollectionGetText(NativePtr, idx);
+			return Utils.DecodeStringUTF8(result);
 		}
 
 		public void TagCollectionAppend(ImAxis axis, double value, uint bg, uint fg, ReadOnlySpan<byte> fmt)

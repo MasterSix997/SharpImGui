@@ -3487,10 +3487,10 @@ namespace SharpImPlot3D
 			return ImPlot3DNative.GetColormapCount();
 		}
 
-		public static ref byte GetColormapName(ImPlot3DColormap cmap)
+		public static string GetColormapName(ImPlot3DColormap cmap)
 		{
-			var nativeResult = ImPlot3DNative.GetColormapName(cmap);
-			return ref *(byte*)&nativeResult;
+			var result = ImPlot3DNative.GetColormapName(cmap);
+			return Utils.DecodeStringUTF8(result);
 		}
 
 		public static ImPlot3DColormap GetColormapIndex(ReadOnlySpan<byte> name)

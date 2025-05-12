@@ -582,7 +582,7 @@ public struct StringMarshal : ICSharpMarshalling
     public bool TryMarshalReturnValue(CsMethod method, in StructPtrProcessor.MethodOverloadInfo methodInfo, CSharpGenerated generated, out ReturnMarshalledInfo info)
     {
         info = default;
-        if (method.Metadata is not CppFunction
+        if (methodInfo.OriginalMethod.Metadata is not CppFunction
             {
                 ReturnType: CppPointerType
                 {

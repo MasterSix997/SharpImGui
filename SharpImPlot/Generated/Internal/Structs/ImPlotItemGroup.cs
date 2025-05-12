@@ -35,10 +35,10 @@ namespace SharpImPlot
 			ImPlotNative.ItemGroupReset(NativePtr);
 		}
 
-		public ref byte ItemGroupGetLegendLabel(int i)
+		public string ItemGroupGetLegendLabel(int i)
 		{
-			var nativeResult = ImPlotNative.ItemGroupGetLegendLabel(NativePtr, i);
-			return ref *(byte*)&nativeResult;
+			var result = ImPlotNative.ItemGroupGetLegendLabel(NativePtr, i);
+			return Utils.DecodeStringUTF8(result);
 		}
 
 		public ImPlotItemPtr ItemGroupGetLegendItem(int i)

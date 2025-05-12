@@ -435,17 +435,17 @@ namespace SharpImGui
 			ImGuiNative.ImFontRenderChar(NativePtr, drawList, size, pos, col, c);
 		}
 
-		public ref byte CalcWordWrapPositionA(float scale, ReadOnlySpan<byte> text, ReadOnlySpan<byte> textEnd, float wrapWidth)
+		public string CalcWordWrapPositionA(float scale, ReadOnlySpan<byte> text, ReadOnlySpan<byte> textEnd, float wrapWidth)
 		{
 			fixed (byte* nativeText = text)
 			fixed (byte* nativeTextEnd = textEnd)
 			{
-				var nativeResult = ImGuiNative.ImFontCalcWordWrapPositionA(NativePtr, scale, nativeText, nativeTextEnd, wrapWidth);
-				return ref *(byte*)&nativeResult;
+				var result = ImGuiNative.ImFontCalcWordWrapPositionA(NativePtr, scale, nativeText, nativeTextEnd, wrapWidth);
+				return Utils.DecodeStringUTF8(result);
 			}
 		}
 
-		public ref byte CalcWordWrapPositionA(float scale, ReadOnlySpan<char> text, ReadOnlySpan<char> textEnd, float wrapWidth)
+		public string CalcWordWrapPositionA(float scale, ReadOnlySpan<char> text, ReadOnlySpan<char> textEnd, float wrapWidth)
 		{
 			// Marshaling text to native string
 			byte* nativeText;
@@ -487,14 +487,14 @@ namespace SharpImGui
 			}
 			else nativeTextEnd = null;
 
-			var nativeResult = ImGuiNative.ImFontCalcWordWrapPositionA(NativePtr, scale, nativeText, nativeTextEnd, wrapWidth);
+			var result = ImGuiNative.ImFontCalcWordWrapPositionA(NativePtr, scale, nativeText, nativeTextEnd, wrapWidth);
 			// Freeing text native string
 			if (byteCountText > Utils.MaxStackallocSize)
 				Utils.Free(nativeText);
 			// Freeing textEnd native string
 			if (byteCountTextEnd > Utils.MaxStackallocSize)
 				Utils.Free(nativeTextEnd);
-			return ref *(byte*)&nativeResult;
+			return Utils.DecodeStringUTF8(result);
 		}
 
 		/// <summary>
@@ -695,10 +695,10 @@ namespace SharpImGui
 			}
 		}
 
-		public ref byte GetDebugName()
+		public string GetDebugName()
 		{
-			var nativeResult = ImGuiNative.ImFontGetDebugName(NativePtr);
-			return ref *(byte*)&nativeResult;
+			var result = ImGuiNative.ImFontGetDebugName(NativePtr);
+			return Utils.DecodeStringUTF8(result);
 		}
 
 		public bool IsLoaded()

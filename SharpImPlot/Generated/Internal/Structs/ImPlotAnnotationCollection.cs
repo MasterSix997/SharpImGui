@@ -33,10 +33,10 @@ namespace SharpImPlot
 			ImPlotNative.AnnotationCollectionReset(NativePtr);
 		}
 
-		public ref byte AnnotationCollectionGetText(int idx)
+		public string AnnotationCollectionGetText(int idx)
 		{
-			var nativeResult = ImPlotNative.AnnotationCollectionGetText(NativePtr, idx);
-			return ref *(byte*)&nativeResult;
+			var result = ImPlotNative.AnnotationCollectionGetText(NativePtr, idx);
+			return Utils.DecodeStringUTF8(result);
 		}
 
 		public void AnnotationCollectionAppend(Vector2 pos, Vector2 off, uint bg, uint fg, bool clamp, ReadOnlySpan<byte> fmt)

@@ -165,10 +165,10 @@ namespace SharpImGui
 				Utils.Free(nativeStr);
 		}
 
-		public ref byte CStr()
+		public string CStr()
 		{
-			var nativeResult = ImGuiNative.ImGuiTextBufferCStr(NativePtr);
-			return ref *(byte*)&nativeResult;
+			var result = ImGuiNative.ImGuiTextBufferCStr(NativePtr);
+			return Utils.DecodeStringUTF8(result);
 		}
 
 		public void Reserve(int capacity)
@@ -203,16 +203,16 @@ namespace SharpImGui
 		/// <summary>
 		/// Buf is zero-terminated, so end() will point on the zero-terminator<br/>
 		/// </summary>
-		public ref byte End()
+		public string End()
 		{
-			var nativeResult = ImGuiNative.ImGuiTextBufferEnd(NativePtr);
-			return ref *(byte*)&nativeResult;
+			var result = ImGuiNative.ImGuiTextBufferEnd(NativePtr);
+			return Utils.DecodeStringUTF8(result);
 		}
 
-		public ref byte Begin()
+		public string Begin()
 		{
-			var nativeResult = ImGuiNative.ImGuiTextBufferBegin(NativePtr);
-			return ref *(byte*)&nativeResult;
+			var result = ImGuiNative.ImGuiTextBufferBegin(NativePtr);
+			return Utils.DecodeStringUTF8(result);
 		}
 
 		public void Destroy()

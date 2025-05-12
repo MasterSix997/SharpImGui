@@ -73,16 +73,16 @@ namespace SharpImGui
 				Utils.Free(nativeBase);
 		}
 
-		public ref byte GetLineEnd(ReadOnlySpan<byte> _base, int n)
+		public string GetLineEnd(ReadOnlySpan<byte> _base, int n)
 		{
 			fixed (byte* nativeBase = _base)
 			{
-				var nativeResult = ImGuiNative.ImGuiTextIndexGetLineEnd(NativePtr, nativeBase, n);
-				return ref *(byte*)&nativeResult;
+				var result = ImGuiNative.ImGuiTextIndexGetLineEnd(NativePtr, nativeBase, n);
+				return Utils.DecodeStringUTF8(result);
 			}
 		}
 
-		public ref byte GetLineEnd(ReadOnlySpan<char> _base, int n)
+		public string GetLineEnd(ReadOnlySpan<char> _base, int n)
 		{
 			// Marshaling _base to native string
 			byte* nativeBase;
@@ -104,23 +104,23 @@ namespace SharpImGui
 			}
 			else nativeBase = null;
 
-			var nativeResult = ImGuiNative.ImGuiTextIndexGetLineEnd(NativePtr, nativeBase, n);
+			var result = ImGuiNative.ImGuiTextIndexGetLineEnd(NativePtr, nativeBase, n);
 			// Freeing _base native string
 			if (byteCountBase > Utils.MaxStackallocSize)
 				Utils.Free(nativeBase);
-			return ref *(byte*)&nativeResult;
+			return Utils.DecodeStringUTF8(result);
 		}
 
-		public ref byte GetLineBegin(ReadOnlySpan<byte> _base, int n)
+		public string GetLineBegin(ReadOnlySpan<byte> _base, int n)
 		{
 			fixed (byte* nativeBase = _base)
 			{
-				var nativeResult = ImGuiNative.ImGuiTextIndexGetLineBegin(NativePtr, nativeBase, n);
-				return ref *(byte*)&nativeResult;
+				var result = ImGuiNative.ImGuiTextIndexGetLineBegin(NativePtr, nativeBase, n);
+				return Utils.DecodeStringUTF8(result);
 			}
 		}
 
-		public ref byte GetLineBegin(ReadOnlySpan<char> _base, int n)
+		public string GetLineBegin(ReadOnlySpan<char> _base, int n)
 		{
 			// Marshaling _base to native string
 			byte* nativeBase;
@@ -142,11 +142,11 @@ namespace SharpImGui
 			}
 			else nativeBase = null;
 
-			var nativeResult = ImGuiNative.ImGuiTextIndexGetLineBegin(NativePtr, nativeBase, n);
+			var result = ImGuiNative.ImGuiTextIndexGetLineBegin(NativePtr, nativeBase, n);
 			// Freeing _base native string
 			if (byteCountBase > Utils.MaxStackallocSize)
 				Utils.Free(nativeBase);
-			return ref *(byte*)&nativeResult;
+			return Utils.DecodeStringUTF8(result);
 		}
 
 		public int Size()

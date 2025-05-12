@@ -538,12 +538,12 @@ namespace SharpImNodes
 			}
 		}
 
-		public static ref byte ImNodesSaveCurrentEditorStateToIniString(ref uint dataSize)
+		public static string ImNodesSaveCurrentEditorStateToIniString(ref uint dataSize)
 		{
 			fixed (uint* nativeDataSize = &dataSize)
 			{
-				var nativeResult = ImNodesNative.ImNodesSaveCurrentEditorStateToIniString(nativeDataSize);
-				return ref *(byte*)&nativeResult;
+				var result = ImNodesNative.ImNodesSaveCurrentEditorStateToIniString(nativeDataSize);
+				return Utils.DecodeStringUTF8(result);
 			}
 		}
 
@@ -555,12 +555,12 @@ namespace SharpImNodes
 			return Utils.DecodeStringUTF8(result);
 		}
 
-		public static ref byte ImNodesSaveEditorStateToIniString(ImNodesEditorContextPtr editor, ref uint dataSize)
+		public static string ImNodesSaveEditorStateToIniString(ImNodesEditorContextPtr editor, ref uint dataSize)
 		{
 			fixed (uint* nativeDataSize = &dataSize)
 			{
-				var nativeResult = ImNodesNative.ImNodesSaveEditorStateToIniString(editor, nativeDataSize);
-				return ref *(byte*)&nativeResult;
+				var result = ImNodesNative.ImNodesSaveEditorStateToIniString(editor, nativeDataSize);
+				return Utils.DecodeStringUTF8(result);
 			}
 		}
 

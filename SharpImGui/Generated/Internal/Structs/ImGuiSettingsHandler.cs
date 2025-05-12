@@ -60,27 +60,27 @@ namespace SharpImGui
 		/// <summary>
 		/// Clear all settings data<br/>
 		/// </summary>
-		public IntPtr ClearAllFn { get => (IntPtr)NativePtr->ClearAllFn; set => NativePtr->ClearAllFn = (void*)value; }
+		public ClearAllFn ClearAllFn { get => (ClearAllFn) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->ClearAllFn, typeof(ClearAllFn)); set => NativePtr->ClearAllFn = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		/// Read: Called before reading (in registration order)<br/>
 		/// </summary>
-		public IntPtr ReadInitFn { get => (IntPtr)NativePtr->ReadInitFn; set => NativePtr->ReadInitFn = (void*)value; }
+		public ReadInitFn ReadInitFn { get => (ReadInitFn) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->ReadInitFn, typeof(ReadInitFn)); set => NativePtr->ReadInitFn = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		/// Read: Called when entering into a new ini entry e.g. "[Window][Name]"<br/>
 		/// </summary>
-		public IntPtr ReadOpenFn { get => (IntPtr)NativePtr->ReadOpenFn; set => NativePtr->ReadOpenFn = (void*)value; }
+		public ReadOpenFn ReadOpenFn { get => (ReadOpenFn) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->ReadOpenFn, typeof(ReadOpenFn)); set => NativePtr->ReadOpenFn = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		/// Read: Called for every line of text within an ini entry<br/>
 		/// </summary>
-		public IntPtr ReadLineFn { get => (IntPtr)NativePtr->ReadLineFn; set => NativePtr->ReadLineFn = (void*)value; }
+		public ReadLineFn ReadLineFn { get => (ReadLineFn) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->ReadLineFn, typeof(ReadLineFn)); set => NativePtr->ReadLineFn = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		/// Read: Called after reading (in registration order)<br/>
 		/// </summary>
-		public IntPtr ApplyAllFn { get => (IntPtr)NativePtr->ApplyAllFn; set => NativePtr->ApplyAllFn = (void*)value; }
+		public ApplyAllFn ApplyAllFn { get => (ApplyAllFn) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->ApplyAllFn, typeof(ApplyAllFn)); set => NativePtr->ApplyAllFn = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		/// Write: Output every entries into 'out_buf'<br/>
 		/// </summary>
-		public IntPtr WriteAllFn { get => (IntPtr)NativePtr->WriteAllFn; set => NativePtr->WriteAllFn = (void*)value; }
+		public WriteAllFn WriteAllFn { get => (WriteAllFn) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->WriteAllFn, typeof(WriteAllFn)); set => NativePtr->WriteAllFn = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		public IntPtr UserData { get => (IntPtr)NativePtr->UserData; set => NativePtr->UserData = (void*)value; }
 		public ImGuiSettingsHandlerPtr(ImGuiSettingsHandler* nativePtr) => NativePtr = nativePtr;
 		public ImGuiSettingsHandlerPtr(IntPtr nativePtr) => NativePtr = (ImGuiSettingsHandler*)nativePtr;

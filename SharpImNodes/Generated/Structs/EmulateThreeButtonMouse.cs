@@ -26,12 +26,12 @@ namespace SharpImNodes
 		public static implicit operator EmulateThreeButtonMouse*(EmulateThreeButtonMousePtr nativePtr) => nativePtr.NativePtr;
 		public void Destroy()
 		{
-			ImnodesNative.EmulateThreeButtonMouseDestroy(NativePtr);
+			ImNodesNative.EmulateThreeButtonMouseDestroy(NativePtr);
 		}
 
 		public EmulateThreeButtonMousePtr EmulateThreeButtonMouse()
 		{
-			return ImnodesNative.EmulateThreeButtonMouseEmulateThreeButtonMouse();
+			return ImNodesNative.EmulateThreeButtonMouseEmulateThreeButtonMouse();
 		}
 
 	}

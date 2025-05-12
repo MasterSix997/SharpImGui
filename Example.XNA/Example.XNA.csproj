@@ -20,13 +20,19 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\SharpImGuizmo\SharpImGuizmo.csproj" />
       <ProjectReference Include="..\SharpImGui\SharpImGui.csproj" />
+      <ProjectReference Include="..\SharpImNodes\SharpImNodes.csproj" />
+      <ProjectReference Include="..\SharpImPlot3D\SharpImPlot3D.csproj" />
       <ProjectReference Include="..\SharpImPlot\SharpImPlot.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <None Include="bin\Debug\net9.0\cimgui.dll" />
+      <None Include="bin\Debug\net9.0\cimguizmo.dll" />
+      <None Include="bin\Debug\net9.0\cimnodes.dll" />
       <None Include="bin\Debug\net9.0\cimplot.dll" />
+      <None Include="bin\Debug\net9.0\cimplot3d.dll" />
     </ItemGroup>
 
 </Project>

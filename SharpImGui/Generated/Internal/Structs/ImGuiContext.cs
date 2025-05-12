@@ -2089,7 +2089,7 @@ namespace SharpImGui
 		///     Extensions<br/>    FIXME: We could provide an API to register one slot in an array held in ImGuiContext?<br/>
 		/// </summary>
 		public ref ImGuiDockContext DockContext => ref Unsafe.AsRef<ImGuiDockContext>(&NativePtr->DockContext);
-		public IntPtr DockNodeWindowMenuHandler { get => (IntPtr)NativePtr->DockNodeWindowMenuHandler; set => NativePtr->DockNodeWindowMenuHandler = (void*)value; }
+		public DockNodeWindowMenuHandler DockNodeWindowMenuHandler { get => (DockNodeWindowMenuHandler) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->DockNodeWindowMenuHandler, typeof(DockNodeWindowMenuHandler)); set => NativePtr->DockNodeWindowMenuHandler = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		///     Settings<br/>
 		/// </summary>

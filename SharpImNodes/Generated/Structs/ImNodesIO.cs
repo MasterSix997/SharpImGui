@@ -34,12 +34,12 @@ namespace SharpImNodes
 		public static implicit operator ImNodesIO*(ImNodesIOPtr nativePtr) => nativePtr.NativePtr;
 		public void Destroy()
 		{
-			ImnodesNative.ImNodesIODestroy(NativePtr);
+			ImNodesNative.ImNodesIODestroy(NativePtr);
 		}
 
 		public ImNodesIOPtr ImNodesIO()
 		{
-			return ImnodesNative.ImNodesIOImNodesIO();
+			return ImNodesNative.ImNodesIOImNodesIO();
 		}
 
 	}

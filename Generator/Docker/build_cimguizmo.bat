@@ -27,6 +27,3 @@ if not exist "%folder%" (
 docker run --rm -i -v "%scriptPath%cimguizmo:/cimgui_build" build_cimguizmo:cimguizmo
 
 echo --- RAN ---
-
-echo Press any key to exit...
-pause >nul

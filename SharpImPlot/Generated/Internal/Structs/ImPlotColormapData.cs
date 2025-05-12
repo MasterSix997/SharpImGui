@@ -145,17 +145,17 @@ namespace SharpImPlot
 			ImPlotNative.ColormapDataAppendTable(NativePtr, cmap);
 		}
 
-		public int ColormapDataAppend(ReadOnlySpan<byte> name, ref uint keys, int count, bool qual)
+		public int ColormapDataAppend(ReadOnlySpan<byte> name, uint[] keys, int count, bool qual)
 		{
 			var native_qual = qual ? (byte)1 : (byte)0;
 			fixed (byte* nativeName = name)
-			fixed (uint* nativeKeys = &keys)
+			fixed (uint* nativeKeys = keys)
 			{
 				return ImPlotNative.ColormapDataAppend(NativePtr, nativeName, nativeKeys, count, native_qual);
 			}
 		}
 
-		public int ColormapDataAppend(ReadOnlySpan<char> name, ref uint keys, int count, bool qual)
+		public int ColormapDataAppend(ReadOnlySpan<char> name, uint[] keys, int count, bool qual)
 		{
 			// Marshaling name to native string
 			byte* nativeName;
@@ -178,7 +178,7 @@ namespace SharpImPlot
 			else nativeName = null;
 
 			var native_qual = qual ? (byte)1 : (byte)0;
-			fixed (uint* nativeKeys = &keys)
+			fixed (uint* nativeKeys = keys)
 			{
 				var result = ImPlotNative.ColormapDataAppend(NativePtr, nativeName, nativeKeys, count, native_qual);
 				// Freeing name native string

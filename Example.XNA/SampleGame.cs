@@ -1,7 +1,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SharpImGui;
+using SharpImGuizmo;
+using SharpImNodes;
 using SharpImPlot;
+using SharpImPlot3D;
 using Num = System.Numerics;
 
 namespace Example.XNA
@@ -74,6 +77,9 @@ namespace Example.XNA
         private bool show_test_window;
         private bool show_another_window;
         private bool show_implot;
+        private bool show_implot3d;
+        private bool show_imnodes;
+        private bool show_imguizmo;
         private Num.Vector3 clear_color = new(114f / 255f, 144f / 255f, 154f / 255f);
         private byte[] _textBuffer = new byte[100];
 
@@ -88,6 +94,9 @@ namespace Example.XNA
                 if (ImGui.Button("Test Window")) show_test_window = !show_test_window;
                 if (ImGui.Button("Another Window")) show_another_window = !show_another_window;
                 if (ImGui.Button("ImPlot")) show_implot = !show_implot;
+                if (ImGui.Button("ImPlot3D")) show_implot3d = !show_implot3d;
+                if (ImGui.Button("Imnodes")) show_imnodes = !show_imnodes;
+                if (ImGui.Button("ImGuizmo")) show_imguizmo = !show_imguizmo;
                 ImGui.Text($"Application average {1000f / ImGui.GetIO().Framerate:F3} ms/frame ({ImGui.GetIO().Framerate:F1} FPS)");
                 
                 ImGui.InputText("Text input", _textBuffer, 100);
@@ -114,34 +123,57 @@ namespace Example.XNA
 
             if (show_implot)
             {
-	            ImPlot.ShowDemoWindow(ref show_implot);
-	            // ImGui.Begin("ImPlot", ref show_implot);
+	            // ImPlot.ShowDemoWindow(ref show_implot);
+	            ImGui.Begin("ImPlot", ref show_implot);
 
-	      //       if (ImPlot.BeginPlot("My Plot"))
-	      //       {
-		     //        var labelId = "My plots"u8;
-		     //        ReadOnlySpan<int> xs = [1, 10, 20, 32];
-		     //        ReadOnlySpan<int> ys = [0, 5, 5, 15];
-		     //        var count = 4;
-		     //        var barSize = 5;
-		     //        var flags = ImPlotBarsFlags.None;
-		     //        var offset = 0;
-		     //        var stride = 4;
-	      //
-		     //        unsafe
-		     //        {
-			    //         fixed (byte* nativeLabelId = labelId)
-			    //         fixed (int* nativeXs = xs)
-			    //         fixed (int* nativeYs = ys)
-			    //         {
-							// ImPlotNative.PlotBarsS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
-			    //         }
-		     //        }
-		     //        
-		     //        ImPlot.EndPlot();
-	      //       }
+	            if (ImPlot.BeginPlot("My Plot", new Num.Vector2(-1, 0), ImPlotFlags.NoInputs))
+	            {
+		            var labelId = "My plots"u8;
+		            ReadOnlySpan<int> xs = [1, 10, 20, 32];
+		            ReadOnlySpan<int> ys = [0, 5, 5, 15];
+		            var count = 4;
+		            var barSize = 5;
+		            var flags = ImPlotBarsFlags.None;
+		            var offset = 0;
+		            var stride = 4;
+	      
+		            unsafe
+		            {
+			            fixed (byte* nativeLabelId = labelId)
+			            fixed (int* nativeXs = xs)
+			            fixed (int* nativeYs = ys)
+			            {
+							ImPlotNative.PlotBarsS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
+			            }
+		            }
+		            
+		            ImPlot.EndPlot();
+	            }
 	            
-	            // ImGui.End();
+	            ImGui.End();
+            }
+
+            if (show_implot3d)
+            {
+	            ImPlot3D.ShowDemoWindow();
+            }
+            
+            if (show_imnodes)
+            {
+	            ImGui.Begin("node editor");
+	            ImNodes.ImNodesBeginNodeEditor();
+	            
+	            ImNodes.ImNodesBeginNode(1);
+	            ImGui.Dummy(new Num.Vector2(80, 45));
+	            ImNodes.ImNodesEndNode();
+	            
+	            ImNodes.ImNodesEndNodeEditor();
+	            ImGui.End();
+            }
+            
+            if (show_imguizmo)
+            {
+	            
             }
         }
 

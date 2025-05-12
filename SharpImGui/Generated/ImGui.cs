@@ -15311,18 +15311,18 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool ColorPicker4(ReadOnlySpan<byte> label, ref Vector4 col, ImGuiColorEditFlags flags, ref float refCol)
+		public static bool ColorPicker4(ReadOnlySpan<byte> label, ref Vector4 col, ImGuiColorEditFlags flags, float[] refCol)
 		{
 			fixed (byte* nativeLabel = label)
 			fixed (Vector4* nativeCol = &col)
-			fixed (float* nativeRefCol = &refCol)
+			fixed (float* nativeRefCol = refCol)
 			{
 				var result = ImGuiNative.ColorPicker4(nativeLabel, nativeCol, flags, nativeRefCol);
 				return result != 0;
 			}
 		}
 
-		public static bool ColorPicker4(ReadOnlySpan<char> label, ref Vector4 col, ImGuiColorEditFlags flags, ref float refCol)
+		public static bool ColorPicker4(ReadOnlySpan<char> label, ref Vector4 col, ImGuiColorEditFlags flags, float[] refCol)
 		{
 			// Marshaling label to native string
 			byte* nativeLabel;
@@ -15345,7 +15345,7 @@ namespace SharpImGui
 			else nativeLabel = null;
 
 			fixed (Vector4* nativeCol = &col)
-			fixed (float* nativeRefCol = &refCol)
+			fixed (float* nativeRefCol = refCol)
 			{
 				var result = ImGuiNative.ColorPicker4(nativeLabel, nativeCol, flags, nativeRefCol);
 				// Freeing label native string
@@ -16375,17 +16375,17 @@ namespace SharpImGui
 			}
 		}
 
-		public static void PlotLines(ReadOnlySpan<byte> label, ref float values, int valuesCount, int valuesOffset, ReadOnlySpan<byte> overlayText, float scaleMin, float scaleMax, Vector2 graphSize, int stride)
+		public static void PlotLines(ReadOnlySpan<byte> label, float[] values, int valuesCount, int valuesOffset, ReadOnlySpan<byte> overlayText, float scaleMin, float scaleMax, Vector2 graphSize, int stride)
 		{
 			fixed (byte* nativeLabel = label)
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			fixed (byte* nativeOverlayText = overlayText)
 			{
 				ImGuiNative.PlotLines(nativeLabel, nativeValues, valuesCount, valuesOffset, nativeOverlayText, scaleMin, scaleMax, graphSize, stride);
 			}
 		}
 
-		public static void PlotLines(ReadOnlySpan<char> label, ref float values, int valuesCount, int valuesOffset, ReadOnlySpan<char> overlayText, float scaleMin, float scaleMax, Vector2 graphSize, int stride)
+		public static void PlotLines(ReadOnlySpan<char> label, float[] values, int valuesCount, int valuesOffset, ReadOnlySpan<char> overlayText, float scaleMin, float scaleMax, Vector2 graphSize, int stride)
 		{
 			// Marshaling label to native string
 			byte* nativeLabel;
@@ -16427,7 +16427,7 @@ namespace SharpImGui
 			}
 			else nativeOverlayText = null;
 
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			{
 				ImGuiNative.PlotLines(nativeLabel, nativeValues, valuesCount, valuesOffset, nativeOverlayText, scaleMin, scaleMax, graphSize, stride);
 				// Freeing label native string
@@ -16499,17 +16499,17 @@ namespace SharpImGui
 				Utils.Free(nativeOverlayText);
 		}
 
-		public static void PlotHistogram(ReadOnlySpan<byte> label, ref float values, int valuesCount, int valuesOffset, ReadOnlySpan<byte> overlayText, float scaleMin, float scaleMax, Vector2 graphSize, int stride)
+		public static void PlotHistogram(ReadOnlySpan<byte> label, float[] values, int valuesCount, int valuesOffset, ReadOnlySpan<byte> overlayText, float scaleMin, float scaleMax, Vector2 graphSize, int stride)
 		{
 			fixed (byte* nativeLabel = label)
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			fixed (byte* nativeOverlayText = overlayText)
 			{
 				ImGuiNative.PlotHistogram(nativeLabel, nativeValues, valuesCount, valuesOffset, nativeOverlayText, scaleMin, scaleMax, graphSize, stride);
 			}
 		}
 
-		public static void PlotHistogram(ReadOnlySpan<char> label, ref float values, int valuesCount, int valuesOffset, ReadOnlySpan<char> overlayText, float scaleMin, float scaleMax, Vector2 graphSize, int stride)
+		public static void PlotHistogram(ReadOnlySpan<char> label, float[] values, int valuesCount, int valuesOffset, ReadOnlySpan<char> overlayText, float scaleMin, float scaleMax, Vector2 graphSize, int stride)
 		{
 			// Marshaling label to native string
 			byte* nativeLabel;
@@ -16551,7 +16551,7 @@ namespace SharpImGui
 			}
 			else nativeOverlayText = null;
 
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			{
 				ImGuiNative.PlotHistogram(nativeLabel, nativeValues, valuesCount, valuesOffset, nativeOverlayText, scaleMin, scaleMax, graphSize, stride);
 				// Freeing label native string
@@ -20324,9 +20324,9 @@ namespace SharpImGui
 		/// <summary>
 		/// by convention we use (-FLT_MAX,-FLT_MAX) to denote that there is no mouse available<br/>
 		/// </summary>
-		public static bool IsMousePosValid(ref Vector2 mousePos)
+		public static bool IsMousePosValid(Vector2[] mousePos)
 		{
-			fixed (Vector2* nativeMousePos = &mousePos)
+			fixed (Vector2* nativeMousePos = mousePos)
 			{
 				var result = ImGuiNative.IsMousePosValid(nativeMousePos);
 				return result != 0;
@@ -20705,12 +20705,12 @@ namespace SharpImGui
 		/// <summary>
 		/// return a zero-terminated string with the .ini data which you can save by your own mean. call when io.WantSaveIniSettings is set, then save data by your own mean and clear io.WantSaveIniSettings.<br/>
 		/// </summary>
-		public static ref byte SaveIniSettingsToMemory()
+		public static string SaveIniSettingsToMemory()
 		{
 			// defining omitted parameters
 			uint* outIniSize = null;
-			var nativeResult = ImGuiNative.SaveIniSettingsToMemory(outIniSize);
-			return ref *(byte*)&nativeResult;
+			var result = ImGuiNative.SaveIniSettingsToMemory(outIniSize);
+			return Utils.DecodeStringUTF8(result);
 		}
 
 		public static void DebugTextEncoding(ReadOnlySpan<byte> text)
@@ -21672,9 +21672,9 @@ namespace SharpImGui
 		/// <summary>
 		/// Computer string length (ImWchar string)<br/>
 		/// </summary>
-		public static int ImStrlenW(ref ushort str)
+		public static int ImStrlenW(ushort[] str)
 		{
-			fixed (ushort* nativeStr = &str)
+			fixed (ushort* nativeStr = str)
 			{
 				return ImGuiNative.ImStrlenW(nativeStr);
 			}
@@ -22110,11 +22110,11 @@ namespace SharpImGui
 		/// <summary>
 		/// return output UTF-8 bytes count<br/>
 		/// </summary>
-		public static int ImTextStrToUtf8(byte[] outBuf, int outBufSize, ref ushort inText, ref ushort inTextEnd)
+		public static int ImTextStrToUtf8(byte[] outBuf, int outBufSize, ushort[] inText, ushort[] inTextEnd)
 		{
 			fixed (byte* nativeOutBuf = outBuf)
-			fixed (ushort* nativeInText = &inText)
-			fixed (ushort* nativeInTextEnd = &inTextEnd)
+			fixed (ushort* nativeInText = inText)
+			fixed (ushort* nativeInTextEnd = inTextEnd)
 			{
 				return ImGuiNative.ImTextStrToUtf8(nativeOutBuf, outBufSize, nativeInText, nativeInTextEnd);
 			}
@@ -22461,10 +22461,10 @@ namespace SharpImGui
 		/// <summary>
 		/// return number of bytes to express string in UTF-8<br/>
 		/// </summary>
-		public static int ImTextCountUtf8BytesFromStr(ref ushort inText, ref ushort inTextEnd)
+		public static int ImTextCountUtf8BytesFromStr(ushort[] inText, ushort[] inTextEnd)
 		{
-			fixed (ushort* nativeInText = &inText)
-			fixed (ushort* nativeInTextEnd = &inTextEnd)
+			fixed (ushort* nativeInText = inText)
+			fixed (ushort* nativeInTextEnd = inTextEnd)
 			{
 				return ImGuiNative.ImTextCountUtf8BytesFromStr(nativeInText, nativeInTextEnd);
 			}
@@ -23201,9 +23201,9 @@ namespace SharpImGui
 			}
 		}
 
-		public static bool ImBitArrayTestBit(ref uint arr, int n)
+		public static bool ImBitArrayTestBit(uint[] arr, int n)
 		{
-			fixed (uint* nativeArr = &arr)
+			fixed (uint* nativeArr = arr)
 			{
 				var result = ImGuiNative.ImBitArrayTestBit(nativeArr, n);
 				return result != 0;
@@ -24065,9 +24065,9 @@ namespace SharpImGui
 			ImGuiNative.LogToBuffer(autoOpenDepth);
 		}
 
-		public static void LogRenderedText(ref Vector2 refPos, ReadOnlySpan<byte> text, ReadOnlySpan<byte> textEnd)
+		public static void LogRenderedText(Vector2[] refPos, ReadOnlySpan<byte> text, ReadOnlySpan<byte> textEnd)
 		{
-			fixed (Vector2* nativeRefPos = &refPos)
+			fixed (Vector2* nativeRefPos = refPos)
 			fixed (byte* nativeText = text)
 			fixed (byte* nativeTextEnd = textEnd)
 			{
@@ -24075,7 +24075,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static void LogRenderedText(ref Vector2 refPos, ReadOnlySpan<char> text, ReadOnlySpan<char> textEnd)
+		public static void LogRenderedText(Vector2[] refPos, ReadOnlySpan<char> text, ReadOnlySpan<char> textEnd)
 		{
 			// Marshaling text to native string
 			byte* nativeText;
@@ -24117,7 +24117,7 @@ namespace SharpImGui
 			}
 			else nativeTextEnd = null;
 
-			fixed (Vector2* nativeRefPos = &refPos)
+			fixed (Vector2* nativeRefPos = refPos)
 			{
 				ImGuiNative.LogRenderedText(nativeRefPos, nativeText, nativeTextEnd);
 				// Freeing text native string
@@ -24129,7 +24129,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static void LogRenderedText(ref Vector2 refPos, ReadOnlySpan<char> text)
+		public static void LogRenderedText(Vector2[] refPos, ReadOnlySpan<char> text)
 		{
 			// defining omitted parameters
 			byte* textEnd = null;
@@ -24153,7 +24153,7 @@ namespace SharpImGui
 			}
 			else nativeText = null;
 
-			fixed (Vector2* nativeRefPos = &refPos)
+			fixed (Vector2* nativeRefPos = refPos)
 			{
 				ImGuiNative.LogRenderedText(nativeRefPos, nativeText, textEnd);
 				// Freeing text native string
@@ -26766,17 +26766,17 @@ namespace SharpImGui
 				Utils.Free(nativeTextEnd);
 		}
 
-		public static void RenderTextClipped(Vector2 posMin, Vector2 posMax, ReadOnlySpan<byte> text, ReadOnlySpan<byte> textEnd, ref Vector2 textSizeIfKnown, Vector2 align, ImRectPtr clipRect)
+		public static void RenderTextClipped(Vector2 posMin, Vector2 posMax, ReadOnlySpan<byte> text, ReadOnlySpan<byte> textEnd, Vector2[] textSizeIfKnown, Vector2 align, ImRectPtr clipRect)
 		{
 			fixed (byte* nativeText = text)
 			fixed (byte* nativeTextEnd = textEnd)
-			fixed (Vector2* nativeTextSizeIfKnown = &textSizeIfKnown)
+			fixed (Vector2* nativeTextSizeIfKnown = textSizeIfKnown)
 			{
 				ImGuiNative.RenderTextClipped(posMin, posMax, nativeText, nativeTextEnd, nativeTextSizeIfKnown, align, clipRect);
 			}
 		}
 
-		public static void RenderTextClipped(Vector2 posMin, Vector2 posMax, ReadOnlySpan<char> text, ReadOnlySpan<char> textEnd, ref Vector2 textSizeIfKnown, Vector2 align, ImRectPtr clipRect)
+		public static void RenderTextClipped(Vector2 posMin, Vector2 posMax, ReadOnlySpan<char> text, ReadOnlySpan<char> textEnd, Vector2[] textSizeIfKnown, Vector2 align, ImRectPtr clipRect)
 		{
 			// Marshaling text to native string
 			byte* nativeText;
@@ -26818,7 +26818,7 @@ namespace SharpImGui
 			}
 			else nativeTextEnd = null;
 
-			fixed (Vector2* nativeTextSizeIfKnown = &textSizeIfKnown)
+			fixed (Vector2* nativeTextSizeIfKnown = textSizeIfKnown)
 			{
 				ImGuiNative.RenderTextClipped(posMin, posMax, nativeText, nativeTextEnd, nativeTextSizeIfKnown, align, clipRect);
 				// Freeing text native string
@@ -26830,7 +26830,7 @@ namespace SharpImGui
 			}
 		}
 
-		public static void RenderTextClipped(Vector2 posMin, Vector2 posMax, ReadOnlySpan<char> text, ReadOnlySpan<char> textEnd, ref Vector2 textSizeIfKnown, Vector2 align)
+		public static void RenderTextClipped(Vector2 posMin, Vector2 posMax, ReadOnlySpan<char> text, ReadOnlySpan<char> textEnd, Vector2[] textSizeIfKnown, Vector2 align)
 		{
 			// defining omitted parameters
 			ImRect* clipRect = null;
@@ -26874,7 +26874,7 @@ namespace SharpImGui
 			}
 			else nativeTextEnd = null;
 
-			fixed (Vector2* nativeTextSizeIfKnown = &textSizeIfKnown)
+			fixed (Vector2* nativeTextSizeIfKnown = textSizeIfKnown)
 			{
 				ImGuiNative.RenderTextClipped(posMin, posMax, nativeText, nativeTextEnd, nativeTextSizeIfKnown, align, clipRect);
 				// Freeing text native string
@@ -26886,210 +26886,20 @@ namespace SharpImGui
 			}
 		}
 
-		public static void RenderTextClipped(Vector2 posMin, Vector2 posMax, ReadOnlySpan<byte> text, ReadOnlySpan<byte> textEnd, ref Vector2 textSizeIfKnown)
+		public static void RenderTextClipped(Vector2 posMin, Vector2 posMax, ReadOnlySpan<byte> text, ReadOnlySpan<byte> textEnd, Vector2[] textSizeIfKnown)
 		{
 			// defining omitted parameters
 			ImRect* clipRect = null;
 			Vector2 align = new Vector2(0,0);
 			fixed (byte* nativeText = text)
 			fixed (byte* nativeTextEnd = textEnd)
-			fixed (Vector2* nativeTextSizeIfKnown = &textSizeIfKnown)
+			fixed (Vector2* nativeTextSizeIfKnown = textSizeIfKnown)
 			{
 				ImGuiNative.RenderTextClipped(posMin, posMax, nativeText, nativeTextEnd, nativeTextSizeIfKnown, align, clipRect);
 			}
 		}
 
-		public static void RenderTextClipped(Vector2 posMin, Vector2 posMax, ReadOnlySpan<char> text, ReadOnlySpan<char> textEnd, ref Vector2 textSizeIfKnown)
-		{
-			// defining omitted parameters
-			ImRect* clipRect = null;
-			Vector2 align = new Vector2(0,0);
-			// Marshaling text to native string
-			byte* nativeText;
-			var byteCountText = 0;
-			if (text != null && !text.IsEmpty)
-			{
-				byteCountText = Encoding.UTF8.GetByteCount(text);
-				if(byteCountText > Utils.MaxStackallocSize)
-				{
-					nativeText = Utils.Alloc<byte>(byteCountText + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCountText + 1];
-					nativeText = stackallocBytes;
-				}
-				var offsetText = Utils.EncodeStringUTF8(text, nativeText, byteCountText);
-				nativeText[offsetText] = 0;
-			}
-			else nativeText = null;
-
-			// Marshaling textEnd to native string
-			byte* nativeTextEnd;
-			var byteCountTextEnd = 0;
-			if (textEnd != null && !textEnd.IsEmpty)
-			{
-				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
-				if(byteCountTextEnd > Utils.MaxStackallocSize)
-				{
-					nativeTextEnd = Utils.Alloc<byte>(byteCountTextEnd + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCountTextEnd + 1];
-					nativeTextEnd = stackallocBytes;
-				}
-				var offsetTextEnd = Utils.EncodeStringUTF8(textEnd, nativeTextEnd, byteCountTextEnd);
-				nativeTextEnd[offsetTextEnd] = 0;
-			}
-			else nativeTextEnd = null;
-
-			fixed (Vector2* nativeTextSizeIfKnown = &textSizeIfKnown)
-			{
-				ImGuiNative.RenderTextClipped(posMin, posMax, nativeText, nativeTextEnd, nativeTextSizeIfKnown, align, clipRect);
-				// Freeing text native string
-				if (byteCountText > Utils.MaxStackallocSize)
-					Utils.Free(nativeText);
-				// Freeing textEnd native string
-				if (byteCountTextEnd > Utils.MaxStackallocSize)
-					Utils.Free(nativeTextEnd);
-			}
-		}
-
-		public static void RenderTextClippedEx(ImDrawListPtr drawList, Vector2 posMin, Vector2 posMax, ReadOnlySpan<byte> text, ReadOnlySpan<byte> textEnd, ref Vector2 textSizeIfKnown, Vector2 align, ImRectPtr clipRect)
-		{
-			fixed (byte* nativeText = text)
-			fixed (byte* nativeTextEnd = textEnd)
-			fixed (Vector2* nativeTextSizeIfKnown = &textSizeIfKnown)
-			{
-				ImGuiNative.RenderTextClippedEx(drawList, posMin, posMax, nativeText, nativeTextEnd, nativeTextSizeIfKnown, align, clipRect);
-			}
-		}
-
-		public static void RenderTextClippedEx(ImDrawListPtr drawList, Vector2 posMin, Vector2 posMax, ReadOnlySpan<char> text, ReadOnlySpan<char> textEnd, ref Vector2 textSizeIfKnown, Vector2 align, ImRectPtr clipRect)
-		{
-			// Marshaling text to native string
-			byte* nativeText;
-			var byteCountText = 0;
-			if (text != null && !text.IsEmpty)
-			{
-				byteCountText = Encoding.UTF8.GetByteCount(text);
-				if(byteCountText > Utils.MaxStackallocSize)
-				{
-					nativeText = Utils.Alloc<byte>(byteCountText + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCountText + 1];
-					nativeText = stackallocBytes;
-				}
-				var offsetText = Utils.EncodeStringUTF8(text, nativeText, byteCountText);
-				nativeText[offsetText] = 0;
-			}
-			else nativeText = null;
-
-			// Marshaling textEnd to native string
-			byte* nativeTextEnd;
-			var byteCountTextEnd = 0;
-			if (textEnd != null && !textEnd.IsEmpty)
-			{
-				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
-				if(byteCountTextEnd > Utils.MaxStackallocSize)
-				{
-					nativeTextEnd = Utils.Alloc<byte>(byteCountTextEnd + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCountTextEnd + 1];
-					nativeTextEnd = stackallocBytes;
-				}
-				var offsetTextEnd = Utils.EncodeStringUTF8(textEnd, nativeTextEnd, byteCountTextEnd);
-				nativeTextEnd[offsetTextEnd] = 0;
-			}
-			else nativeTextEnd = null;
-
-			fixed (Vector2* nativeTextSizeIfKnown = &textSizeIfKnown)
-			{
-				ImGuiNative.RenderTextClippedEx(drawList, posMin, posMax, nativeText, nativeTextEnd, nativeTextSizeIfKnown, align, clipRect);
-				// Freeing text native string
-				if (byteCountText > Utils.MaxStackallocSize)
-					Utils.Free(nativeText);
-				// Freeing textEnd native string
-				if (byteCountTextEnd > Utils.MaxStackallocSize)
-					Utils.Free(nativeTextEnd);
-			}
-		}
-
-		public static void RenderTextClippedEx(ImDrawListPtr drawList, Vector2 posMin, Vector2 posMax, ReadOnlySpan<char> text, ReadOnlySpan<char> textEnd, ref Vector2 textSizeIfKnown, Vector2 align)
-		{
-			// defining omitted parameters
-			ImRect* clipRect = null;
-			// Marshaling text to native string
-			byte* nativeText;
-			var byteCountText = 0;
-			if (text != null && !text.IsEmpty)
-			{
-				byteCountText = Encoding.UTF8.GetByteCount(text);
-				if(byteCountText > Utils.MaxStackallocSize)
-				{
-					nativeText = Utils.Alloc<byte>(byteCountText + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCountText + 1];
-					nativeText = stackallocBytes;
-				}
-				var offsetText = Utils.EncodeStringUTF8(text, nativeText, byteCountText);
-				nativeText[offsetText] = 0;
-			}
-			else nativeText = null;
-
-			// Marshaling textEnd to native string
-			byte* nativeTextEnd;
-			var byteCountTextEnd = 0;
-			if (textEnd != null && !textEnd.IsEmpty)
-			{
-				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
-				if(byteCountTextEnd > Utils.MaxStackallocSize)
-				{
-					nativeTextEnd = Utils.Alloc<byte>(byteCountTextEnd + 1);
-				}
-				else
-				{
-					var stackallocBytes = stackalloc byte[byteCountTextEnd + 1];
-					nativeTextEnd = stackallocBytes;
-				}
-				var offsetTextEnd = Utils.EncodeStringUTF8(textEnd, nativeTextEnd, byteCountTextEnd);
-				nativeTextEnd[offsetTextEnd] = 0;
-			}
-			else nativeTextEnd = null;
-
-			fixed (Vector2* nativeTextSizeIfKnown = &textSizeIfKnown)
-			{
-				ImGuiNative.RenderTextClippedEx(drawList, posMin, posMax, nativeText, nativeTextEnd, nativeTextSizeIfKnown, align, clipRect);
-				// Freeing text native string
-				if (byteCountText > Utils.MaxStackallocSize)
-					Utils.Free(nativeText);
-				// Freeing textEnd native string
-				if (byteCountTextEnd > Utils.MaxStackallocSize)
-					Utils.Free(nativeTextEnd);
-			}
-		}
-
-		public static void RenderTextClippedEx(ImDrawListPtr drawList, Vector2 posMin, Vector2 posMax, ReadOnlySpan<byte> text, ReadOnlySpan<byte> textEnd, ref Vector2 textSizeIfKnown)
-		{
-			// defining omitted parameters
-			ImRect* clipRect = null;
-			Vector2 align = new Vector2(0,0);
-			fixed (byte* nativeText = text)
-			fixed (byte* nativeTextEnd = textEnd)
-			fixed (Vector2* nativeTextSizeIfKnown = &textSizeIfKnown)
-			{
-				ImGuiNative.RenderTextClippedEx(drawList, posMin, posMax, nativeText, nativeTextEnd, nativeTextSizeIfKnown, align, clipRect);
-			}
-		}
-
-		public static void RenderTextClippedEx(ImDrawListPtr drawList, Vector2 posMin, Vector2 posMax, ReadOnlySpan<char> text, ReadOnlySpan<char> textEnd, ref Vector2 textSizeIfKnown)
+		public static void RenderTextClipped(Vector2 posMin, Vector2 posMax, ReadOnlySpan<char> text, ReadOnlySpan<char> textEnd, Vector2[] textSizeIfKnown)
 		{
 			// defining omitted parameters
 			ImRect* clipRect = null;
@@ -27134,7 +26944,71 @@ namespace SharpImGui
 			}
 			else nativeTextEnd = null;
 
-			fixed (Vector2* nativeTextSizeIfKnown = &textSizeIfKnown)
+			fixed (Vector2* nativeTextSizeIfKnown = textSizeIfKnown)
+			{
+				ImGuiNative.RenderTextClipped(posMin, posMax, nativeText, nativeTextEnd, nativeTextSizeIfKnown, align, clipRect);
+				// Freeing text native string
+				if (byteCountText > Utils.MaxStackallocSize)
+					Utils.Free(nativeText);
+				// Freeing textEnd native string
+				if (byteCountTextEnd > Utils.MaxStackallocSize)
+					Utils.Free(nativeTextEnd);
+			}
+		}
+
+		public static void RenderTextClippedEx(ImDrawListPtr drawList, Vector2 posMin, Vector2 posMax, ReadOnlySpan<byte> text, ReadOnlySpan<byte> textEnd, Vector2[] textSizeIfKnown, Vector2 align, ImRectPtr clipRect)
+		{
+			fixed (byte* nativeText = text)
+			fixed (byte* nativeTextEnd = textEnd)
+			fixed (Vector2* nativeTextSizeIfKnown = textSizeIfKnown)
+			{
+				ImGuiNative.RenderTextClippedEx(drawList, posMin, posMax, nativeText, nativeTextEnd, nativeTextSizeIfKnown, align, clipRect);
+			}
+		}
+
+		public static void RenderTextClippedEx(ImDrawListPtr drawList, Vector2 posMin, Vector2 posMax, ReadOnlySpan<char> text, ReadOnlySpan<char> textEnd, Vector2[] textSizeIfKnown, Vector2 align, ImRectPtr clipRect)
+		{
+			// Marshaling text to native string
+			byte* nativeText;
+			var byteCountText = 0;
+			if (text != null && !text.IsEmpty)
+			{
+				byteCountText = Encoding.UTF8.GetByteCount(text);
+				if(byteCountText > Utils.MaxStackallocSize)
+				{
+					nativeText = Utils.Alloc<byte>(byteCountText + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountText + 1];
+					nativeText = stackallocBytes;
+				}
+				var offsetText = Utils.EncodeStringUTF8(text, nativeText, byteCountText);
+				nativeText[offsetText] = 0;
+			}
+			else nativeText = null;
+
+			// Marshaling textEnd to native string
+			byte* nativeTextEnd;
+			var byteCountTextEnd = 0;
+			if (textEnd != null && !textEnd.IsEmpty)
+			{
+				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
+				if(byteCountTextEnd > Utils.MaxStackallocSize)
+				{
+					nativeTextEnd = Utils.Alloc<byte>(byteCountTextEnd + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountTextEnd + 1];
+					nativeTextEnd = stackallocBytes;
+				}
+				var offsetTextEnd = Utils.EncodeStringUTF8(textEnd, nativeTextEnd, byteCountTextEnd);
+				nativeTextEnd[offsetTextEnd] = 0;
+			}
+			else nativeTextEnd = null;
+
+			fixed (Vector2* nativeTextSizeIfKnown = textSizeIfKnown)
 			{
 				ImGuiNative.RenderTextClippedEx(drawList, posMin, posMax, nativeText, nativeTextEnd, nativeTextSizeIfKnown, align, clipRect);
 				// Freeing text native string
@@ -27146,17 +27020,143 @@ namespace SharpImGui
 			}
 		}
 
-		public static void RenderTextEllipsis(ImDrawListPtr drawList, Vector2 posMin, Vector2 posMax, float clipMaxX, float ellipsisMaxX, ReadOnlySpan<byte> text, ReadOnlySpan<byte> textEnd, ref Vector2 textSizeIfKnown)
+		public static void RenderTextClippedEx(ImDrawListPtr drawList, Vector2 posMin, Vector2 posMax, ReadOnlySpan<char> text, ReadOnlySpan<char> textEnd, Vector2[] textSizeIfKnown, Vector2 align)
+		{
+			// defining omitted parameters
+			ImRect* clipRect = null;
+			// Marshaling text to native string
+			byte* nativeText;
+			var byteCountText = 0;
+			if (text != null && !text.IsEmpty)
+			{
+				byteCountText = Encoding.UTF8.GetByteCount(text);
+				if(byteCountText > Utils.MaxStackallocSize)
+				{
+					nativeText = Utils.Alloc<byte>(byteCountText + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountText + 1];
+					nativeText = stackallocBytes;
+				}
+				var offsetText = Utils.EncodeStringUTF8(text, nativeText, byteCountText);
+				nativeText[offsetText] = 0;
+			}
+			else nativeText = null;
+
+			// Marshaling textEnd to native string
+			byte* nativeTextEnd;
+			var byteCountTextEnd = 0;
+			if (textEnd != null && !textEnd.IsEmpty)
+			{
+				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
+				if(byteCountTextEnd > Utils.MaxStackallocSize)
+				{
+					nativeTextEnd = Utils.Alloc<byte>(byteCountTextEnd + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountTextEnd + 1];
+					nativeTextEnd = stackallocBytes;
+				}
+				var offsetTextEnd = Utils.EncodeStringUTF8(textEnd, nativeTextEnd, byteCountTextEnd);
+				nativeTextEnd[offsetTextEnd] = 0;
+			}
+			else nativeTextEnd = null;
+
+			fixed (Vector2* nativeTextSizeIfKnown = textSizeIfKnown)
+			{
+				ImGuiNative.RenderTextClippedEx(drawList, posMin, posMax, nativeText, nativeTextEnd, nativeTextSizeIfKnown, align, clipRect);
+				// Freeing text native string
+				if (byteCountText > Utils.MaxStackallocSize)
+					Utils.Free(nativeText);
+				// Freeing textEnd native string
+				if (byteCountTextEnd > Utils.MaxStackallocSize)
+					Utils.Free(nativeTextEnd);
+			}
+		}
+
+		public static void RenderTextClippedEx(ImDrawListPtr drawList, Vector2 posMin, Vector2 posMax, ReadOnlySpan<byte> text, ReadOnlySpan<byte> textEnd, Vector2[] textSizeIfKnown)
+		{
+			// defining omitted parameters
+			ImRect* clipRect = null;
+			Vector2 align = new Vector2(0,0);
+			fixed (byte* nativeText = text)
+			fixed (byte* nativeTextEnd = textEnd)
+			fixed (Vector2* nativeTextSizeIfKnown = textSizeIfKnown)
+			{
+				ImGuiNative.RenderTextClippedEx(drawList, posMin, posMax, nativeText, nativeTextEnd, nativeTextSizeIfKnown, align, clipRect);
+			}
+		}
+
+		public static void RenderTextClippedEx(ImDrawListPtr drawList, Vector2 posMin, Vector2 posMax, ReadOnlySpan<char> text, ReadOnlySpan<char> textEnd, Vector2[] textSizeIfKnown)
+		{
+			// defining omitted parameters
+			ImRect* clipRect = null;
+			Vector2 align = new Vector2(0,0);
+			// Marshaling text to native string
+			byte* nativeText;
+			var byteCountText = 0;
+			if (text != null && !text.IsEmpty)
+			{
+				byteCountText = Encoding.UTF8.GetByteCount(text);
+				if(byteCountText > Utils.MaxStackallocSize)
+				{
+					nativeText = Utils.Alloc<byte>(byteCountText + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountText + 1];
+					nativeText = stackallocBytes;
+				}
+				var offsetText = Utils.EncodeStringUTF8(text, nativeText, byteCountText);
+				nativeText[offsetText] = 0;
+			}
+			else nativeText = null;
+
+			// Marshaling textEnd to native string
+			byte* nativeTextEnd;
+			var byteCountTextEnd = 0;
+			if (textEnd != null && !textEnd.IsEmpty)
+			{
+				byteCountTextEnd = Encoding.UTF8.GetByteCount(textEnd);
+				if(byteCountTextEnd > Utils.MaxStackallocSize)
+				{
+					nativeTextEnd = Utils.Alloc<byte>(byteCountTextEnd + 1);
+				}
+				else
+				{
+					var stackallocBytes = stackalloc byte[byteCountTextEnd + 1];
+					nativeTextEnd = stackallocBytes;
+				}
+				var offsetTextEnd = Utils.EncodeStringUTF8(textEnd, nativeTextEnd, byteCountTextEnd);
+				nativeTextEnd[offsetTextEnd] = 0;
+			}
+			else nativeTextEnd = null;
+
+			fixed (Vector2* nativeTextSizeIfKnown = textSizeIfKnown)
+			{
+				ImGuiNative.RenderTextClippedEx(drawList, posMin, posMax, nativeText, nativeTextEnd, nativeTextSizeIfKnown, align, clipRect);
+				// Freeing text native string
+				if (byteCountText > Utils.MaxStackallocSize)
+					Utils.Free(nativeText);
+				// Freeing textEnd native string
+				if (byteCountTextEnd > Utils.MaxStackallocSize)
+					Utils.Free(nativeTextEnd);
+			}
+		}
+
+		public static void RenderTextEllipsis(ImDrawListPtr drawList, Vector2 posMin, Vector2 posMax, float clipMaxX, float ellipsisMaxX, ReadOnlySpan<byte> text, ReadOnlySpan<byte> textEnd, Vector2[] textSizeIfKnown)
 		{
 			fixed (byte* nativeText = text)
 			fixed (byte* nativeTextEnd = textEnd)
-			fixed (Vector2* nativeTextSizeIfKnown = &textSizeIfKnown)
+			fixed (Vector2* nativeTextSizeIfKnown = textSizeIfKnown)
 			{
 				ImGuiNative.RenderTextEllipsis(drawList, posMin, posMax, clipMaxX, ellipsisMaxX, nativeText, nativeTextEnd, nativeTextSizeIfKnown);
 			}
 		}
 
-		public static void RenderTextEllipsis(ImDrawListPtr drawList, Vector2 posMin, Vector2 posMax, float clipMaxX, float ellipsisMaxX, ReadOnlySpan<char> text, ReadOnlySpan<char> textEnd, ref Vector2 textSizeIfKnown)
+		public static void RenderTextEllipsis(ImDrawListPtr drawList, Vector2 posMin, Vector2 posMax, float clipMaxX, float ellipsisMaxX, ReadOnlySpan<char> text, ReadOnlySpan<char> textEnd, Vector2[] textSizeIfKnown)
 		{
 			// Marshaling text to native string
 			byte* nativeText;
@@ -27198,7 +27198,7 @@ namespace SharpImGui
 			}
 			else nativeTextEnd = null;
 
-			fixed (Vector2* nativeTextSizeIfKnown = &textSizeIfKnown)
+			fixed (Vector2* nativeTextSizeIfKnown = textSizeIfKnown)
 			{
 				ImGuiNative.RenderTextEllipsis(drawList, posMin, posMax, clipMaxX, ellipsisMaxX, nativeText, nativeTextEnd, nativeTextSizeIfKnown);
 				// Freeing text native string
@@ -27321,7 +27321,7 @@ namespace SharpImGui
 		/// <summary>
 		/// Find the optional ## from which we stop displaying text.<br/>
 		/// </summary>
-		public static ref byte FindRenderedTextEnd(ReadOnlySpan<char> text)
+		public static string FindRenderedTextEnd(ReadOnlySpan<char> text)
 		{
 			// defining omitted parameters
 			byte* textEnd = null;
@@ -27345,11 +27345,11 @@ namespace SharpImGui
 			}
 			else nativeText = null;
 
-			var nativeResult = ImGuiNative.FindRenderedTextEnd(nativeText, textEnd);
+			var result = ImGuiNative.FindRenderedTextEnd(nativeText, textEnd);
 			// Freeing text native string
 			if (byteCountText > Utils.MaxStackallocSize)
 				Utils.Free(nativeText);
-			return ref *(byte*)&nativeResult;
+			return Utils.DecodeStringUTF8(result);
 		}
 
 		public static void RenderMouseCursor(Vector2 pos, float scale, ImGuiMouseCursor mouseCursor, uint colFill, uint colBorder, uint colShadow)
@@ -28820,16 +28820,16 @@ namespace SharpImGui
 			return result != 0;
 		}
 
-		public static void ColorTooltip(ReadOnlySpan<byte> text, ref float col, ImGuiColorEditFlags flags)
+		public static void ColorTooltip(ReadOnlySpan<byte> text, float[] col, ImGuiColorEditFlags flags)
 		{
 			fixed (byte* nativeText = text)
-			fixed (float* nativeCol = &col)
+			fixed (float* nativeCol = col)
 			{
 				ImGuiNative.ColorTooltip(nativeText, nativeCol, flags);
 			}
 		}
 
-		public static void ColorTooltip(ReadOnlySpan<char> text, ref float col, ImGuiColorEditFlags flags)
+		public static void ColorTooltip(ReadOnlySpan<char> text, float[] col, ImGuiColorEditFlags flags)
 		{
 			// Marshaling text to native string
 			byte* nativeText;
@@ -28851,7 +28851,7 @@ namespace SharpImGui
 			}
 			else nativeText = null;
 
-			fixed (float* nativeCol = &col)
+			fixed (float* nativeCol = col)
 			{
 				ImGuiNative.ColorTooltip(nativeText, nativeCol, flags);
 				// Freeing text native string
@@ -28860,17 +28860,17 @@ namespace SharpImGui
 			}
 		}
 
-		public static void ColorEditOptionsPopup(ref float col, ImGuiColorEditFlags flags)
+		public static void ColorEditOptionsPopup(float[] col, ImGuiColorEditFlags flags)
 		{
-			fixed (float* nativeCol = &col)
+			fixed (float* nativeCol = col)
 			{
 				ImGuiNative.ColorEditOptionsPopup(nativeCol, flags);
 			}
 		}
 
-		public static void ColorPickerOptionsPopup(ref float refCol, ImGuiColorEditFlags flags)
+		public static void ColorPickerOptionsPopup(float[] refCol, ImGuiColorEditFlags flags)
 		{
-			fixed (float* nativeRefCol = &refCol)
+			fixed (float* nativeRefCol = refCol)
 			{
 				ImGuiNative.ColorPickerOptionsPopup(nativeRefCol, flags);
 			}

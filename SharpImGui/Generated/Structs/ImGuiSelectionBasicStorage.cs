@@ -63,7 +63,7 @@ namespace SharpImGui
 		/// <summary>
 		/// e.g. selection.AdapterIndexToStorageId = [](ImGuiSelectionBasicStorage* self, int idx)  return ((MyItems**)self-&gt;UserData)[idx]-&gt;ID; ;<br/>
 		/// </summary>
-		public IntPtr AdapterIndexToStorageId { get => (IntPtr)NativePtr->AdapterIndexToStorageId; set => NativePtr->AdapterIndexToStorageId = (void*)value; }
+		public AdapterIndexToStorageId AdapterIndexToStorageId { get => (AdapterIndexToStorageId) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->AdapterIndexToStorageId, typeof(AdapterIndexToStorageId)); set => NativePtr->AdapterIndexToStorageId = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		/// [Internal] Increasing counter to store selection order<br/>
 		/// </summary>

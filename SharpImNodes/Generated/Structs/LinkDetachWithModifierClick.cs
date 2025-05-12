@@ -26,12 +26,12 @@ namespace SharpImNodes
 		public static implicit operator LinkDetachWithModifierClick*(LinkDetachWithModifierClickPtr nativePtr) => nativePtr.NativePtr;
 		public void Destroy()
 		{
-			ImnodesNative.LinkDetachWithModifierClickDestroy(NativePtr);
+			ImNodesNative.LinkDetachWithModifierClickDestroy(NativePtr);
 		}
 
 		public LinkDetachWithModifierClickPtr LinkDetachWithModifierClick()
 		{
-			return ImnodesNative.LinkDetachWithModifierClickLinkDetachWithModifierClick();
+			return ImNodesNative.LinkDetachWithModifierClickLinkDetachWithModifierClick();
 		}
 
 	}

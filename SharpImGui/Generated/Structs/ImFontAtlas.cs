@@ -471,10 +471,10 @@ namespace SharpImGui
 		/// <summary>
 		/// 'compressed_font_data_base85' still owned by caller. Compress with binary_to_compressed_c.cpp with -base85 parameter.<br/>
 		/// </summary>
-		public ImFontPtr AddFontFromMemoryCompressedBase85TTF(ReadOnlySpan<byte> compressedFontDataBase85, float sizePixels, ImFontConfigPtr fontCfg, ref ushort glyphRanges)
+		public ImFontPtr AddFontFromMemoryCompressedBase85TTF(ReadOnlySpan<byte> compressedFontDataBase85, float sizePixels, ImFontConfigPtr fontCfg, ushort[] glyphRanges)
 		{
 			fixed (byte* nativeCompressedFontDataBase85 = compressedFontDataBase85)
-			fixed (ushort* nativeGlyphRanges = &glyphRanges)
+			fixed (ushort* nativeGlyphRanges = glyphRanges)
 			{
 				return ImGuiNative.ImFontAtlasAddFontFromMemoryCompressedBase85TTF(NativePtr, nativeCompressedFontDataBase85, sizePixels, fontCfg, nativeGlyphRanges);
 			}
@@ -483,7 +483,7 @@ namespace SharpImGui
 		/// <summary>
 		/// 'compressed_font_data_base85' still owned by caller. Compress with binary_to_compressed_c.cpp with -base85 parameter.<br/>
 		/// </summary>
-		public ImFontPtr AddFontFromMemoryCompressedBase85TTF(ReadOnlySpan<char> compressedFontDataBase85, float sizePixels, ImFontConfigPtr fontCfg, ref ushort glyphRanges)
+		public ImFontPtr AddFontFromMemoryCompressedBase85TTF(ReadOnlySpan<char> compressedFontDataBase85, float sizePixels, ImFontConfigPtr fontCfg, ushort[] glyphRanges)
 		{
 			// Marshaling compressedFontDataBase85 to native string
 			byte* nativeCompressedFontDataBase85;
@@ -505,7 +505,7 @@ namespace SharpImGui
 			}
 			else nativeCompressedFontDataBase85 = null;
 
-			fixed (ushort* nativeGlyphRanges = &glyphRanges)
+			fixed (ushort* nativeGlyphRanges = glyphRanges)
 			{
 				var result = ImGuiNative.ImFontAtlasAddFontFromMemoryCompressedBase85TTF(NativePtr, nativeCompressedFontDataBase85, sizePixels, fontCfg, nativeGlyphRanges);
 				// Freeing compressedFontDataBase85 native string
@@ -614,9 +614,9 @@ namespace SharpImGui
 		/// <summary>
 		/// 'compressed_font_data' still owned by caller. Compress with binary_to_compressed_c.cpp.<br/>
 		/// </summary>
-		public ImFontPtr AddFontFromMemoryCompressedTTF(IntPtr compressedFontData, int compressedFontDataSize, float sizePixels, ImFontConfigPtr fontCfg, ref ushort glyphRanges)
+		public ImFontPtr AddFontFromMemoryCompressedTTF(IntPtr compressedFontData, int compressedFontDataSize, float sizePixels, ImFontConfigPtr fontCfg, ushort[] glyphRanges)
 		{
-			fixed (ushort* nativeGlyphRanges = &glyphRanges)
+			fixed (ushort* nativeGlyphRanges = glyphRanges)
 			{
 				return ImGuiNative.ImFontAtlasAddFontFromMemoryCompressedTTF(NativePtr, (void*)compressedFontData, compressedFontDataSize, sizePixels, fontCfg, nativeGlyphRanges);
 			}
@@ -646,9 +646,9 @@ namespace SharpImGui
 		/// <summary>
 		/// Note: Transfer ownership of 'ttf_data' to ImFontAtlas! Will be deleted after destruction of the atlas. Set font_cfg-&gt;FontDataOwnedByAtlas=false to keep ownership of your data and it won't be freed.<br/>
 		/// </summary>
-		public ImFontPtr AddFontFromMemoryTTF(IntPtr fontData, int fontDataSize, float sizePixels, ImFontConfigPtr fontCfg, ref ushort glyphRanges)
+		public ImFontPtr AddFontFromMemoryTTF(IntPtr fontData, int fontDataSize, float sizePixels, ImFontConfigPtr fontCfg, ushort[] glyphRanges)
 		{
-			fixed (ushort* nativeGlyphRanges = &glyphRanges)
+			fixed (ushort* nativeGlyphRanges = glyphRanges)
 			{
 				return ImGuiNative.ImFontAtlasAddFontFromMemoryTTF(NativePtr, (void*)fontData, fontDataSize, sizePixels, fontCfg, nativeGlyphRanges);
 			}
@@ -675,16 +675,16 @@ namespace SharpImGui
 			return ImGuiNative.ImFontAtlasAddFontFromMemoryTTF(NativePtr, (void*)fontData, fontDataSize, sizePixels, fontCfg, glyphRanges);
 		}
 
-		public ImFontPtr AddFontFromFileTTF(ReadOnlySpan<byte> filename, float sizePixels, ImFontConfigPtr fontCfg, ref ushort glyphRanges)
+		public ImFontPtr AddFontFromFileTTF(ReadOnlySpan<byte> filename, float sizePixels, ImFontConfigPtr fontCfg, ushort[] glyphRanges)
 		{
 			fixed (byte* nativeFilename = filename)
-			fixed (ushort* nativeGlyphRanges = &glyphRanges)
+			fixed (ushort* nativeGlyphRanges = glyphRanges)
 			{
 				return ImGuiNative.ImFontAtlasAddFontFromFileTTF(NativePtr, nativeFilename, sizePixels, fontCfg, nativeGlyphRanges);
 			}
 		}
 
-		public ImFontPtr AddFontFromFileTTF(ReadOnlySpan<char> filename, float sizePixels, ImFontConfigPtr fontCfg, ref ushort glyphRanges)
+		public ImFontPtr AddFontFromFileTTF(ReadOnlySpan<char> filename, float sizePixels, ImFontConfigPtr fontCfg, ushort[] glyphRanges)
 		{
 			// Marshaling filename to native string
 			byte* nativeFilename;
@@ -706,7 +706,7 @@ namespace SharpImGui
 			}
 			else nativeFilename = null;
 
-			fixed (ushort* nativeGlyphRanges = &glyphRanges)
+			fixed (ushort* nativeGlyphRanges = glyphRanges)
 			{
 				var result = ImGuiNative.ImFontAtlasAddFontFromFileTTF(NativePtr, nativeFilename, sizePixels, fontCfg, nativeGlyphRanges);
 				// Freeing filename native string

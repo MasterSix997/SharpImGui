@@ -39,7 +39,7 @@ namespace SharpImGui
 		/// <summary>
 		/// e.g. AdapterSetItemSelected = [](ImGuiSelectionExternalStorage* self, int idx, bool selected)  ((MyItems**)self-&gt;UserData)[idx]-&gt;Selected = selected; <br/>
 		/// </summary>
-		public IntPtr AdapterSetItemSelected { get => (IntPtr)NativePtr->AdapterSetItemSelected; set => NativePtr->AdapterSetItemSelected = (void*)value; }
+		public AdapterSetItemSelected AdapterSetItemSelected { get => (AdapterSetItemSelected) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->AdapterSetItemSelected, typeof(AdapterSetItemSelected)); set => NativePtr->AdapterSetItemSelected = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		public ImGuiSelectionExternalStoragePtr(ImGuiSelectionExternalStorage* nativePtr) => NativePtr = nativePtr;
 		public ImGuiSelectionExternalStoragePtr(IntPtr nativePtr) => NativePtr = (ImGuiSelectionExternalStorage*)nativePtr;
 		public static implicit operator ImGuiSelectionExternalStoragePtr(ImGuiSelectionExternalStorage* ptr) => new ImGuiSelectionExternalStoragePtr(ptr);

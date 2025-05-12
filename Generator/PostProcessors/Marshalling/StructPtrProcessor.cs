@@ -247,6 +247,7 @@ public sealed class StructPtrProcessor : IPostProcessor
         {
             Visibility = CsVisibility.Public,
             Comment = csField.Comment,
+            Metadata = csField.Metadata
         };
         MarshallField(managedField);
         if (_marshallingErrors != null)

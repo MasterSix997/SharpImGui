@@ -157,18 +157,18 @@ namespace SharpImGui
 		/// <summary>
 		///     Optional: Access OS clipboard<br/>    (default to use native Win32 clipboard on Windows, otherwise uses a private clipboard. Override to access OS clipboard on other architectures)<br/>
 		/// </summary>
-		public IntPtr PlatformGetClipboardTextFn { get => (IntPtr)NativePtr->PlatformGetClipboardTextFn; set => NativePtr->PlatformGetClipboardTextFn = (void*)value; }
-		public IntPtr PlatformSetClipboardTextFn { get => (IntPtr)NativePtr->PlatformSetClipboardTextFn; set => NativePtr->PlatformSetClipboardTextFn = (void*)value; }
+		public PlatformGetClipboardTextFn PlatformGetClipboardTextFn { get => (PlatformGetClipboardTextFn) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->PlatformGetClipboardTextFn, typeof(PlatformGetClipboardTextFn)); set => NativePtr->PlatformGetClipboardTextFn = (void*)Marshal.GetFunctionPointerForDelegate(value); }
+		public PlatformSetClipboardTextFn PlatformSetClipboardTextFn { get => (PlatformSetClipboardTextFn) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->PlatformSetClipboardTextFn, typeof(PlatformSetClipboardTextFn)); set => NativePtr->PlatformSetClipboardTextFn = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		public IntPtr PlatformClipboardUserData { get => (IntPtr)NativePtr->PlatformClipboardUserData; set => NativePtr->PlatformClipboardUserData = (void*)value; }
 		/// <summary>
 		///     Optional: Open link/folder/file in OS Shell<br/>    (default to use ShellExecuteW() on Windows, system() on Linux/Mac)<br/>
 		/// </summary>
-		public IntPtr PlatformOpenInShellFn { get => (IntPtr)NativePtr->PlatformOpenInShellFn; set => NativePtr->PlatformOpenInShellFn = (void*)value; }
+		public PlatformOpenInShellFn PlatformOpenInShellFn { get => (PlatformOpenInShellFn) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->PlatformOpenInShellFn, typeof(PlatformOpenInShellFn)); set => NativePtr->PlatformOpenInShellFn = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		public IntPtr PlatformOpenInShellUserData { get => (IntPtr)NativePtr->PlatformOpenInShellUserData; set => NativePtr->PlatformOpenInShellUserData = (void*)value; }
 		/// <summary>
 		///     Optional: Notify OS Input Method Editor of the screen position of your cursor for text input position (e.g. when using Japanese/Chinese IME on Windows)<br/>    (default to use native imm32 api on Windows)<br/>
 		/// </summary>
-		public IntPtr PlatformSetImeDataFn { get => (IntPtr)NativePtr->PlatformSetImeDataFn; set => NativePtr->PlatformSetImeDataFn = (void*)value; }
+		public PlatformSetImeDataFn PlatformSetImeDataFn { get => (PlatformSetImeDataFn) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->PlatformSetImeDataFn, typeof(PlatformSetImeDataFn)); set => NativePtr->PlatformSetImeDataFn = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		public IntPtr PlatformImeUserData { get => (IntPtr)NativePtr->PlatformImeUserData; set => NativePtr->PlatformImeUserData = (void*)value; }
 		/// <summary>
 		///     Optional: Platform locale<br/>    [Experimental] Configure decimal point e.g. '.' or ',' useful for some languages (e.g. German), generally pulled from *localeconv()-&gt;decimal_point<br/>
@@ -183,100 +183,100 @@ namespace SharpImGui
 		///     Platform Backend functions (e.g. Win32, GLFW, SDL) ------------------- Called by -----<br/>
 		/// . . U . .  Create a new platform window for the given viewport<br/>
 		/// </summary>
-		public IntPtr PlatformCreateWindow { get => (IntPtr)NativePtr->PlatformCreateWindow; set => NativePtr->PlatformCreateWindow = (void*)value; }
+		public PlatformCreateWindow PlatformCreateWindow { get => (PlatformCreateWindow) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->PlatformCreateWindow, typeof(PlatformCreateWindow)); set => NativePtr->PlatformCreateWindow = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		/// N . U . D  //<br/>
 		/// </summary>
-		public IntPtr PlatformDestroyWindow { get => (IntPtr)NativePtr->PlatformDestroyWindow; set => NativePtr->PlatformDestroyWindow = (void*)value; }
+		public PlatformDestroyWindow PlatformDestroyWindow { get => (PlatformDestroyWindow) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->PlatformDestroyWindow, typeof(PlatformDestroyWindow)); set => NativePtr->PlatformDestroyWindow = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		/// . . U . .  Newly created windows are initially hidden so SetWindowPos/Size/Title can be called on them before showing the window<br/>
 		/// </summary>
-		public IntPtr PlatformShowWindow { get => (IntPtr)NativePtr->PlatformShowWindow; set => NativePtr->PlatformShowWindow = (void*)value; }
+		public PlatformShowWindow PlatformShowWindow { get => (PlatformShowWindow) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->PlatformShowWindow, typeof(PlatformShowWindow)); set => NativePtr->PlatformShowWindow = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		/// . . U . .  Set platform window position (given the upper-left corner of client area)<br/>
 		/// </summary>
-		public IntPtr PlatformSetWindowPos { get => (IntPtr)NativePtr->PlatformSetWindowPos; set => NativePtr->PlatformSetWindowPos = (void*)value; }
+		public PlatformSetWindowPos PlatformSetWindowPos { get => (PlatformSetWindowPos) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->PlatformSetWindowPos, typeof(PlatformSetWindowPos)); set => NativePtr->PlatformSetWindowPos = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		/// N . . . .  //<br/>
 		/// </summary>
-		public IntPtr PlatformGetWindowPos { get => (IntPtr)NativePtr->PlatformGetWindowPos; set => NativePtr->PlatformGetWindowPos = (void*)value; }
+		public PlatformGetWindowPos PlatformGetWindowPos { get => (PlatformGetWindowPos) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->PlatformGetWindowPos, typeof(PlatformGetWindowPos)); set => NativePtr->PlatformGetWindowPos = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		/// . . U . .  Set platform window client area size (ignoring OS decorations such as OS title bar etc.)<br/>
 		/// </summary>
-		public IntPtr PlatformSetWindowSize { get => (IntPtr)NativePtr->PlatformSetWindowSize; set => NativePtr->PlatformSetWindowSize = (void*)value; }
+		public PlatformSetWindowSize PlatformSetWindowSize { get => (PlatformSetWindowSize) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->PlatformSetWindowSize, typeof(PlatformSetWindowSize)); set => NativePtr->PlatformSetWindowSize = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		/// N . . . .  Get platform window client area size<br/>
 		/// </summary>
-		public IntPtr PlatformGetWindowSize { get => (IntPtr)NativePtr->PlatformGetWindowSize; set => NativePtr->PlatformGetWindowSize = (void*)value; }
+		public PlatformGetWindowSize PlatformGetWindowSize { get => (PlatformGetWindowSize) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->PlatformGetWindowSize, typeof(PlatformGetWindowSize)); set => NativePtr->PlatformGetWindowSize = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		/// N . . . .  Move window to front and set input focus<br/>
 		/// </summary>
-		public IntPtr PlatformSetWindowFocus { get => (IntPtr)NativePtr->PlatformSetWindowFocus; set => NativePtr->PlatformSetWindowFocus = (void*)value; }
+		public PlatformSetWindowFocus PlatformSetWindowFocus { get => (PlatformSetWindowFocus) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->PlatformSetWindowFocus, typeof(PlatformSetWindowFocus)); set => NativePtr->PlatformSetWindowFocus = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		/// . . U . .  //<br/>
 		/// </summary>
-		public IntPtr PlatformGetWindowFocus { get => (IntPtr)NativePtr->PlatformGetWindowFocus; set => NativePtr->PlatformGetWindowFocus = (void*)value; }
+		public PlatformGetWindowFocus PlatformGetWindowFocus { get => (PlatformGetWindowFocus) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->PlatformGetWindowFocus, typeof(PlatformGetWindowFocus)); set => NativePtr->PlatformGetWindowFocus = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		/// N . . . .  Get platform window minimized state. When minimized, we generally won't attempt to get/set size and contents will be culled more easily<br/>
 		/// </summary>
-		public IntPtr PlatformGetWindowMinimized { get => (IntPtr)NativePtr->PlatformGetWindowMinimized; set => NativePtr->PlatformGetWindowMinimized = (void*)value; }
+		public PlatformGetWindowMinimized PlatformGetWindowMinimized { get => (PlatformGetWindowMinimized) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->PlatformGetWindowMinimized, typeof(PlatformGetWindowMinimized)); set => NativePtr->PlatformGetWindowMinimized = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		/// . . U . .  Set platform window title (given an UTF-8 string)<br/>
 		/// </summary>
-		public IntPtr PlatformSetWindowTitle { get => (IntPtr)NativePtr->PlatformSetWindowTitle; set => NativePtr->PlatformSetWindowTitle = (void*)value; }
+		public PlatformSetWindowTitle PlatformSetWindowTitle { get => (PlatformSetWindowTitle) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->PlatformSetWindowTitle, typeof(PlatformSetWindowTitle)); set => NativePtr->PlatformSetWindowTitle = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		/// . . U . .  (Optional) Setup global transparency (not per-pixel transparency)<br/>
 		/// </summary>
-		public IntPtr PlatformSetWindowAlpha { get => (IntPtr)NativePtr->PlatformSetWindowAlpha; set => NativePtr->PlatformSetWindowAlpha = (void*)value; }
+		public PlatformSetWindowAlpha PlatformSetWindowAlpha { get => (PlatformSetWindowAlpha) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->PlatformSetWindowAlpha, typeof(PlatformSetWindowAlpha)); set => NativePtr->PlatformSetWindowAlpha = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		/// . . U . .  (Optional) Called by UpdatePlatformWindows(). Optional hook to allow the platform backend from doing general book-keeping every frame.<br/>
 		/// </summary>
-		public IntPtr PlatformUpdateWindow { get => (IntPtr)NativePtr->PlatformUpdateWindow; set => NativePtr->PlatformUpdateWindow = (void*)value; }
+		public PlatformUpdateWindow PlatformUpdateWindow { get => (PlatformUpdateWindow) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->PlatformUpdateWindow, typeof(PlatformUpdateWindow)); set => NativePtr->PlatformUpdateWindow = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		/// . . . R .  (Optional) Main rendering (platform side! This is often unused, or just setting a "current" context for OpenGL bindings). 'render_arg' is the value passed to RenderPlatformWindowsDefault().<br/>
 		/// </summary>
-		public IntPtr PlatformRenderWindow { get => (IntPtr)NativePtr->PlatformRenderWindow; set => NativePtr->PlatformRenderWindow = (void*)value; }
+		public PlatformRenderWindow PlatformRenderWindow { get => (PlatformRenderWindow) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->PlatformRenderWindow, typeof(PlatformRenderWindow)); set => NativePtr->PlatformRenderWindow = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		/// . . . R .  (Optional) Call Present/SwapBuffers (platform side! This is often unused!). 'render_arg' is the value passed to RenderPlatformWindowsDefault().<br/>
 		/// </summary>
-		public IntPtr PlatformSwapBuffers { get => (IntPtr)NativePtr->PlatformSwapBuffers; set => NativePtr->PlatformSwapBuffers = (void*)value; }
+		public PlatformSwapBuffers PlatformSwapBuffers { get => (PlatformSwapBuffers) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->PlatformSwapBuffers, typeof(PlatformSwapBuffers)); set => NativePtr->PlatformSwapBuffers = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		/// N . . . .  (Optional) [BETA] FIXME-DPI: DPI handling: Return DPI scale for this viewport. 1.0f = 96 DPI.<br/>
 		/// </summary>
-		public IntPtr PlatformGetWindowDpiScale { get => (IntPtr)NativePtr->PlatformGetWindowDpiScale; set => NativePtr->PlatformGetWindowDpiScale = (void*)value; }
+		public PlatformGetWindowDpiScale PlatformGetWindowDpiScale { get => (PlatformGetWindowDpiScale) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->PlatformGetWindowDpiScale, typeof(PlatformGetWindowDpiScale)); set => NativePtr->PlatformGetWindowDpiScale = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		/// . F . . .  (Optional) [BETA] FIXME-DPI: DPI handling: Called during Begin() every time the viewport we are outputting into changes, so backend has a chance to swap fonts to adjust style.<br/>
 		/// </summary>
-		public IntPtr PlatformOnChangedViewport { get => (IntPtr)NativePtr->PlatformOnChangedViewport; set => NativePtr->PlatformOnChangedViewport = (void*)value; }
+		public PlatformOnChangedViewport PlatformOnChangedViewport { get => (PlatformOnChangedViewport) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->PlatformOnChangedViewport, typeof(PlatformOnChangedViewport)); set => NativePtr->PlatformOnChangedViewport = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		/// N . . . .  (Optional) [BETA] Get initial work area inset for the viewport (won't be covered by main menu bar, dockspace over viewport etc.). Default to (0,0),(0,0). 'safeAreaInsets' in iOS land, 'DisplayCutout' in Android land.<br/>
 		/// </summary>
-		public IntPtr PlatformGetWindowWorkAreaInsets { get => (IntPtr)NativePtr->PlatformGetWindowWorkAreaInsets; set => NativePtr->PlatformGetWindowWorkAreaInsets = (void*)value; }
+		public PlatformGetWindowWorkAreaInsets PlatformGetWindowWorkAreaInsets { get => (PlatformGetWindowWorkAreaInsets) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->PlatformGetWindowWorkAreaInsets, typeof(PlatformGetWindowWorkAreaInsets)); set => NativePtr->PlatformGetWindowWorkAreaInsets = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		/// (Optional) For a Vulkan Renderer to call into Platform code (since the surface creation needs to tie them both).<br/>
 		/// </summary>
-		public IntPtr PlatformCreateVkSurface { get => (IntPtr)NativePtr->PlatformCreateVkSurface; set => NativePtr->PlatformCreateVkSurface = (void*)value; }
+		public PlatformCreateVkSurface PlatformCreateVkSurface { get => (PlatformCreateVkSurface) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->PlatformCreateVkSurface, typeof(PlatformCreateVkSurface)); set => NativePtr->PlatformCreateVkSurface = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		///     Renderer Backend functions (e.g. DirectX, OpenGL, Vulkan) ------------ Called by -----<br/>
 		/// . . U . .  Create swap chain, frame buffers etc. (called after Platform_CreateWindow)<br/>
 		/// </summary>
-		public IntPtr RendererCreateWindow { get => (IntPtr)NativePtr->RendererCreateWindow; set => NativePtr->RendererCreateWindow = (void*)value; }
+		public RendererCreateWindow RendererCreateWindow { get => (RendererCreateWindow) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->RendererCreateWindow, typeof(RendererCreateWindow)); set => NativePtr->RendererCreateWindow = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		/// N . U . D  Destroy swap chain, frame buffers etc. (called before Platform_DestroyWindow)<br/>
 		/// </summary>
-		public IntPtr RendererDestroyWindow { get => (IntPtr)NativePtr->RendererDestroyWindow; set => NativePtr->RendererDestroyWindow = (void*)value; }
+		public RendererDestroyWindow RendererDestroyWindow { get => (RendererDestroyWindow) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->RendererDestroyWindow, typeof(RendererDestroyWindow)); set => NativePtr->RendererDestroyWindow = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		/// . . U . .  Resize swap chain, frame buffers etc. (called after Platform_SetWindowSize)<br/>
 		/// </summary>
-		public IntPtr RendererSetWindowSize { get => (IntPtr)NativePtr->RendererSetWindowSize; set => NativePtr->RendererSetWindowSize = (void*)value; }
+		public RendererSetWindowSize RendererSetWindowSize { get => (RendererSetWindowSize) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->RendererSetWindowSize, typeof(RendererSetWindowSize)); set => NativePtr->RendererSetWindowSize = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		/// . . . R .  (Optional) Clear framebuffer, setup render target, then render the viewport-&gt;DrawData. 'render_arg' is the value passed to RenderPlatformWindowsDefault().<br/>
 		/// </summary>
-		public IntPtr RendererRenderWindow { get => (IntPtr)NativePtr->RendererRenderWindow; set => NativePtr->RendererRenderWindow = (void*)value; }
+		public RendererRenderWindow RendererRenderWindow { get => (RendererRenderWindow) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->RendererRenderWindow, typeof(RendererRenderWindow)); set => NativePtr->RendererRenderWindow = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		/// . . . R .  (Optional) Call Present/SwapBuffers. 'render_arg' is the value passed to RenderPlatformWindowsDefault().<br/>
 		/// </summary>
-		public IntPtr RendererSwapBuffers { get => (IntPtr)NativePtr->RendererSwapBuffers; set => NativePtr->RendererSwapBuffers = (void*)value; }
+		public RendererSwapBuffers RendererSwapBuffers { get => (RendererSwapBuffers) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->RendererSwapBuffers, typeof(RendererSwapBuffers)); set => NativePtr->RendererSwapBuffers = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		/// <summary>
 		///     (Optional) Monitor list<br/>    - Updated by: app/backend. Update every frame to dynamically support changing monitor or DPI configuration.<br/>    - Used by: dear imgui to query DPI info, clamp popups/tooltips within same monitor and not have them straddle monitors.<br/>
 		/// </summary>

@@ -26,12 +26,12 @@ namespace SharpImNodes
 		public static implicit operator MultipleSelectModifier*(MultipleSelectModifierPtr nativePtr) => nativePtr.NativePtr;
 		public void Destroy()
 		{
-			ImnodesNative.MultipleSelectModifierDestroy(NativePtr);
+			ImNodesNative.MultipleSelectModifierDestroy(NativePtr);
 		}
 
 		public MultipleSelectModifierPtr MultipleSelectModifier()
 		{
-			return ImnodesNative.MultipleSelectModifierMultipleSelectModifier();
+			return ImNodesNative.MultipleSelectModifierMultipleSelectModifier();
 		}
 
 	}

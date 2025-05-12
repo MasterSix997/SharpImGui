@@ -23,7 +23,7 @@ namespace SharpImGui
 		public ImFontBuilderIO* NativePtr { get; }
 		public bool IsNull => NativePtr == null;
 		public ImFontBuilderIO this[int index] { get => NativePtr[index]; set => NativePtr[index] = value; }
-		public IntPtr FontBuilderBuild { get => (IntPtr)NativePtr->FontBuilderBuild; set => NativePtr->FontBuilderBuild = (void*)value; }
+		public FontBuilderBuild FontBuilderBuild { get => (FontBuilderBuild) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->FontBuilderBuild, typeof(FontBuilderBuild)); set => NativePtr->FontBuilderBuild = (void*)Marshal.GetFunctionPointerForDelegate(value); }
 		public ImFontBuilderIOPtr(ImFontBuilderIO* nativePtr) => NativePtr = nativePtr;
 		public ImFontBuilderIOPtr(IntPtr nativePtr) => NativePtr = (ImFontBuilderIO*)nativePtr;
 		public static implicit operator ImFontBuilderIOPtr(ImFontBuilderIO* ptr) => new ImFontBuilderIOPtr(ptr);

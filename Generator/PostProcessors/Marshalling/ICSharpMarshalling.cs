@@ -215,10 +215,21 @@ public struct VoidPtrMarshal : ICSharpMarshalling
         if (field.Type.TypeName != "void*")
             return false;
 
-        field.Type = generated.GetCsType("IntPtr")!;
-        field.PropertyType = PropertyType.GetSet;
-        field.InlinePropertyGet = $"(IntPtr)NativePtr->{field.Name}";
-        field.InlinePropertySet = $"NativePtr->{field.Name} = (void*)value";
+        if (field.Metadata is CppField { Type: CppPointerType { ElementType: CppFunctionType }})
+        {
+            field.Type = new CsUnresolvedType(field.Name);
+            field.PropertyType = PropertyType.GetSet;
+            field.InlinePropertyGet = $"({field.Name}) Marshal.GetDelegateForFunctionPointer((IntPtr)NativePtr->{field.Name}, typeof({field.Name}))";
+            field.InlinePropertySet = $"NativePtr->{field.Name} = (void*)Marshal.GetFunctionPointerForDelegate(value)";
+        }
+        else
+        {
+            field.Type = generated.GetCsType("IntPtr")!;
+            field.PropertyType = PropertyType.GetSet;
+            field.InlinePropertyGet = $"(IntPtr)NativePtr->{field.Name}";
+            field.InlinePropertySet = $"NativePtr->{field.Name} = (void*)value";
+        }
+
         return true;
     }
 
@@ -289,6 +300,11 @@ public struct AnyPtrMarshal : ICSharpMarshalling
                 MarshalByteArray(parameter, ref info, pointerType);
                 break;
             default:
+                if (parameter.Metadata is CppParameter { Type: CppPointerType { ElementType: CppQualifiedType { Qualifier: CppTypeQualifier.Const }}})
+                {
+                    MarshalArray(parameter, ref info, pointerType);
+                    break;
+                }
                 MarshalDefault(parameter, ref info, pointerType);
                 break;
         }
@@ -308,6 +324,13 @@ public struct AnyPtrMarshal : ICSharpMarshalling
         parameter.Type = new CsKeywordType(pointerType.OriginalType, isOut? CsKeywordType.CsKeyword.Out : CsKeywordType.CsKeyword.Ref);
         info.OverrideCallName = CleanupNamesProcessor.ToCamelCase($"native_{parameter.Name}");
         info.fixedCode = $"{pointerType.TypeName} {info.OverrideCallName} = &{parameter.Name}";
+    }
+    
+    private static void MarshalArray(CsParameter parameter, ref ParameterMarshalledInfo info, CsPointerType pointerType)
+    {
+        parameter.Type = new CsUnresolvedType($"{pointerType.OriginalType}[]");
+        info.OverrideCallName = CleanupNamesProcessor.ToCamelCase($"native_{parameter.Name}");
+        info.fixedCode = $"{pointerType.OriginalType}* {info.OverrideCallName} = {parameter.Name}";
     }
 
     private static void MarshalRefBool(CsParameter parameter, ref ParameterMarshalledInfo info, CsPointerType pointerType)
@@ -553,6 +576,31 @@ public struct StringMarshal : ICSharpMarshalling
         };
 
         omittedParam.Name = nativeParam;
+        return true;
+    }
+    
+    public bool TryMarshalReturnValue(CsMethod method, in StructPtrProcessor.MethodOverloadInfo methodInfo, CSharpGenerated generated, out ReturnMarshalledInfo info)
+    {
+        info = default;
+        if (method.Metadata is not CppFunction
+            {
+                ReturnType: CppPointerType
+                {
+                    ElementType: CppQualifiedType
+                    {
+                        Qualifier: CppTypeQualifier.Const, 
+                        ElementType: CppPrimitiveType
+                        {
+                            Kind: CppPrimitiveKind.Char
+                        }
+                    }
+                }
+            })
+            return false;
+
+        method.ReturnType = new CsUnresolvedType("string");
+        info.UseReturnVariable = true;
+        info.CustomReturn = "Utils.DecodeStringUTF8(result)";
         return true;
     }
 

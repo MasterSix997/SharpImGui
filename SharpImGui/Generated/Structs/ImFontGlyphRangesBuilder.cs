@@ -49,9 +49,9 @@ namespace SharpImGui
 		/// <summary>
 		/// Add ranges, e.g. builder.AddRanges(ImFontAtlas::GetGlyphRangesDefault()) to force add all of ASCII/Latin+Ext<br/>
 		/// </summary>
-		public void AddRanges(ref ushort ranges)
+		public void AddRanges(ushort[] ranges)
 		{
-			fixed (ushort* nativeRanges = &ranges)
+			fixed (ushort* nativeRanges = ranges)
 			{
 				ImGuiNative.ImFontGlyphRangesBuilderAddRanges(NativePtr, nativeRanges);
 			}

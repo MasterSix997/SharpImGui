@@ -67,9 +67,9 @@ namespace SharpImGuizmo
 			ImGuizmoNative.Enable(native_enable);
 		}
 
-		public static void DecomposeMatrixToComponents(ref float matrix, ref float translation, ref float rotation, ref float scale)
+		public static void DecomposeMatrixToComponents(float[] matrix, ref float translation, ref float rotation, ref float scale)
 		{
-			fixed (float* nativeMatrix = &matrix)
+			fixed (float* nativeMatrix = matrix)
 			fixed (float* nativeTranslation = &translation)
 			fixed (float* nativeRotation = &rotation)
 			fixed (float* nativeScale = &scale)
@@ -78,11 +78,11 @@ namespace SharpImGuizmo
 			}
 		}
 
-		public static void RecomposeMatrixFromComponents(ref float translation, ref float rotation, ref float scale, ref float matrix)
+		public static void RecomposeMatrixFromComponents(float[] translation, float[] rotation, float[] scale, ref float matrix)
 		{
-			fixed (float* nativeTranslation = &translation)
-			fixed (float* nativeRotation = &rotation)
-			fixed (float* nativeScale = &scale)
+			fixed (float* nativeTranslation = translation)
+			fixed (float* nativeRotation = rotation)
+			fixed (float* nativeScale = scale)
 			fixed (float* nativeMatrix = &matrix)
 			{
 				ImGuizmoNative.RecomposeMatrixFromComponents(nativeTranslation, nativeRotation, nativeScale, nativeMatrix);
@@ -100,81 +100,81 @@ namespace SharpImGuizmo
 			ImGuizmoNative.SetOrthographic(native_isOrthographic);
 		}
 
-		public static void DrawCubes(ref float view, ref float projection, ref float matrices, int matrixCount)
+		public static void DrawCubes(float[] view, float[] projection, float[] matrices, int matrixCount)
 		{
-			fixed (float* nativeView = &view)
-			fixed (float* nativeProjection = &projection)
-			fixed (float* nativeMatrices = &matrices)
+			fixed (float* nativeView = view)
+			fixed (float* nativeProjection = projection)
+			fixed (float* nativeMatrices = matrices)
 			{
 				ImGuizmoNative.DrawCubes(nativeView, nativeProjection, nativeMatrices, matrixCount);
 			}
 		}
 
-		public static void DrawGrid(ref float view, ref float projection, ref float matrix, float gridSize)
+		public static void DrawGrid(float[] view, float[] projection, float[] matrix, float gridSize)
 		{
-			fixed (float* nativeView = &view)
-			fixed (float* nativeProjection = &projection)
-			fixed (float* nativeMatrix = &matrix)
+			fixed (float* nativeView = view)
+			fixed (float* nativeProjection = projection)
+			fixed (float* nativeMatrix = matrix)
 			{
 				ImGuizmoNative.DrawGrid(nativeView, nativeProjection, nativeMatrix, gridSize);
 			}
 		}
 
-		public static bool Manipulate(ref float view, ref float projection, OPERATION operation, MODE mode, ref float matrix, ref float deltaMatrix, ref float snap, ref float localBounds, ref float boundsSnap)
+		public static bool Manipulate(float[] view, float[] projection, OPERATION operation, MODE mode, ref float matrix, ref float deltaMatrix, float[] snap, float[] localBounds, float[] boundsSnap)
 		{
-			fixed (float* nativeView = &view)
-			fixed (float* nativeProjection = &projection)
+			fixed (float* nativeView = view)
+			fixed (float* nativeProjection = projection)
 			fixed (float* nativeMatrix = &matrix)
 			fixed (float* nativeDeltaMatrix = &deltaMatrix)
-			fixed (float* nativeSnap = &snap)
-			fixed (float* nativeLocalBounds = &localBounds)
-			fixed (float* nativeBoundsSnap = &boundsSnap)
+			fixed (float* nativeSnap = snap)
+			fixed (float* nativeLocalBounds = localBounds)
+			fixed (float* nativeBoundsSnap = boundsSnap)
 			{
 				var result = ImGuizmoNative.Manipulate(nativeView, nativeProjection, operation, mode, nativeMatrix, nativeDeltaMatrix, nativeSnap, nativeLocalBounds, nativeBoundsSnap);
 				return result != 0;
 			}
 		}
 
-		public static bool Manipulate(ref float view, ref float projection, OPERATION operation, MODE mode, ref float matrix, ref float deltaMatrix, ref float snap, ref float localBounds)
+		public static bool Manipulate(float[] view, float[] projection, OPERATION operation, MODE mode, ref float matrix, ref float deltaMatrix, float[] snap, float[] localBounds)
 		{
 			// defining omitted parameters
 			float* boundsSnap = null;
-			fixed (float* nativeView = &view)
-			fixed (float* nativeProjection = &projection)
+			fixed (float* nativeView = view)
+			fixed (float* nativeProjection = projection)
 			fixed (float* nativeMatrix = &matrix)
 			fixed (float* nativeDeltaMatrix = &deltaMatrix)
-			fixed (float* nativeSnap = &snap)
-			fixed (float* nativeLocalBounds = &localBounds)
+			fixed (float* nativeSnap = snap)
+			fixed (float* nativeLocalBounds = localBounds)
 			{
 				var result = ImGuizmoNative.Manipulate(nativeView, nativeProjection, operation, mode, nativeMatrix, nativeDeltaMatrix, nativeSnap, nativeLocalBounds, boundsSnap);
 				return result != 0;
 			}
 		}
 
-		public static bool Manipulate(ref float view, ref float projection, OPERATION operation, MODE mode, ref float matrix, ref float deltaMatrix, ref float snap)
+		public static bool Manipulate(float[] view, float[] projection, OPERATION operation, MODE mode, ref float matrix, ref float deltaMatrix, float[] snap)
 		{
 			// defining omitted parameters
 			float* boundsSnap = null;
 			float* localBounds = null;
-			fixed (float* nativeView = &view)
-			fixed (float* nativeProjection = &projection)
+			fixed (float* nativeView = view)
+			fixed (float* nativeProjection = projection)
 			fixed (float* nativeMatrix = &matrix)
 			fixed (float* nativeDeltaMatrix = &deltaMatrix)
-			fixed (float* nativeSnap = &snap)
+			fixed (float* nativeSnap = snap)
 			{
 				var result = ImGuizmoNative.Manipulate(nativeView, nativeProjection, operation, mode, nativeMatrix, nativeDeltaMatrix, nativeSnap, localBounds, boundsSnap);
 				return result != 0;
 			}
 		}
 
-		public static bool Manipulate(ref float view, ref float projection, OPERATION operation, MODE mode, ref float matrix, ref float deltaMatrix)
+		public static bool Manipulate(float[] view, float[] projection, OPERATION operation, MODE mode, ref float matrix, ref float deltaMatrix)
 		{
 			// defining omitted parameters
 			float* boundsSnap = null;
 			float* localBounds = null;
 			float* snap = null;
-			fixed (float* nativeView = &view)
-			fixed (float* nativeProjection = &projection)
+			fixed (float* nativeView = view)
+			fixed (float* nativeProjection = projection)
 			fixed (float* nativeMatrix = &matrix)
 			fixed (float* nativeDeltaMatrix = &deltaMatrix)
 			{
@@ -183,15 +183,15 @@ namespace SharpImGuizmo
 			}
 		}
 
-		public static bool Manipulate(ref float view, ref float projection, OPERATION operation, MODE mode, ref float matrix)
+		public static bool Manipulate(float[] view, float[] projection, OPERATION operation, MODE mode, ref float matrix)
 		{
 			// defining omitted parameters
 			float* boundsSnap = null;
 			float* localBounds = null;
 			float* snap = null;
 			float* deltaMatrix = null;
-			fixed (float* nativeView = &view)
-			fixed (float* nativeProjection = &projection)
+			fixed (float* nativeView = view)
+			fixed (float* nativeProjection = projection)
 			fixed (float* nativeMatrix = &matrix)
 			{
 				var result = ImGuizmoNative.Manipulate(nativeView, nativeProjection, operation, mode, nativeMatrix, deltaMatrix, snap, localBounds, boundsSnap);
@@ -207,10 +207,10 @@ namespace SharpImGuizmo
 			}
 		}
 
-		public static void ViewManipulateFloatPtr(ref float view, ref float projection, OPERATION operation, MODE mode, ref float matrix, float length, Vector2 position, Vector2 size, uint backgroundColor)
+		public static void ViewManipulateFloatPtr(ref float view, float[] projection, OPERATION operation, MODE mode, ref float matrix, float length, Vector2 position, Vector2 size, uint backgroundColor)
 		{
 			fixed (float* nativeView = &view)
-			fixed (float* nativeProjection = &projection)
+			fixed (float* nativeProjection = projection)
 			fixed (float* nativeMatrix = &matrix)
 			{
 				ImGuizmoNative.ViewManipulateFloatPtr(nativeView, nativeProjection, operation, mode, nativeMatrix, length, position, size, backgroundColor);

@@ -7,514 +7,514 @@ using System.Text;
 
 namespace SharpImNodes
 {
-	public static unsafe partial class Imnodes
+	public static unsafe partial class ImNodes
 	{
-		public static void SetImGuiContext(ImGuiContextPtr ctx)
+		public static void ImNodesSetImGuiContext(ImGuiContextPtr ctx)
 		{
-			ImnodesNative.SetImGuiContext(ctx);
+			ImNodesNative.ImNodesSetImGuiContext(ctx);
 		}
 
-		public static ImNodesContextPtr CreateContext()
+		public static ImNodesContextPtr ImNodesCreateContext()
 		{
-			return ImnodesNative.CreateContext();
+			return ImNodesNative.ImNodesCreateContext();
 		}
 
-		public static void DestroyContext(ImNodesContextPtr ctx)
+		public static void ImNodesDestroyContext(ImNodesContextPtr ctx)
 		{
-			ImnodesNative.DestroyContext(ctx);
+			ImNodesNative.ImNodesDestroyContext(ctx);
 		}
 
-		public static void DestroyContext()
+		public static void ImNodesDestroyContext()
 		{
 			// defining omitted parameters
 			ImNodesContext* ctx = null;
-			ImnodesNative.DestroyContext(ctx);
+			ImNodesNative.ImNodesDestroyContext(ctx);
 		}
 
-		public static ImNodesContextPtr GetCurrentContext()
+		public static ImNodesContextPtr ImNodesGetCurrentContext()
 		{
-			return ImnodesNative.GetCurrentContext();
+			return ImNodesNative.ImNodesGetCurrentContext();
 		}
 
-		public static void SetCurrentContext(ImNodesContextPtr ctx)
+		public static void ImNodesSetCurrentContext(ImNodesContextPtr ctx)
 		{
-			ImnodesNative.SetCurrentContext(ctx);
+			ImNodesNative.ImNodesSetCurrentContext(ctx);
 		}
 
-		public static ImNodesEditorContextPtr EditorContextCreate()
+		public static ImNodesEditorContextPtr ImNodesEditorContextCreate()
 		{
-			return ImnodesNative.EditorContextCreate();
+			return ImNodesNative.ImNodesEditorContextCreate();
 		}
 
-		public static void EditorContextFree(ImNodesEditorContextPtr noname1)
+		public static void ImNodesEditorContextFree(ImNodesEditorContextPtr noname1)
 		{
-			ImnodesNative.EditorContextFree(noname1);
+			ImNodesNative.ImNodesEditorContextFree(noname1);
 		}
 
-		public static void EditorContextSet(ImNodesEditorContextPtr noname1)
+		public static void ImNodesEditorContextSet(ImNodesEditorContextPtr noname1)
 		{
-			ImnodesNative.EditorContextSet(noname1);
+			ImNodesNative.ImNodesEditorContextSet(noname1);
 		}
 
-		public static void EditorContextGetPanning(out Vector2 pOut)
+		public static void ImNodesEditorContextGetPanning(out Vector2 pOut)
 		{
 			fixed (Vector2* nativePOut = &pOut)
 			{
-				ImnodesNative.EditorContextGetPanning(nativePOut);
+				ImNodesNative.ImNodesEditorContextGetPanning(nativePOut);
 			}
 		}
 
-		public static void EditorContextResetPanning(Vector2 pos)
+		public static void ImNodesEditorContextResetPanning(Vector2 pos)
 		{
-			ImnodesNative.EditorContextResetPanning(pos);
+			ImNodesNative.ImNodesEditorContextResetPanning(pos);
 		}
 
-		public static void EditorContextMoveToNode(int nodeId)
+		public static void ImNodesEditorContextMoveToNode(int nodeId)
 		{
-			ImnodesNative.EditorContextMoveToNode(nodeId);
+			ImNodesNative.ImNodesEditorContextMoveToNode(nodeId);
 		}
 
-		public static ImNodesIOPtr GetIO()
+		public static ImNodesIOPtr ImNodesGetIO()
 		{
-			return ImnodesNative.GetIO();
+			return ImNodesNative.ImNodesGetIO();
 		}
 
-		public static ImNodesStylePtr GetStyle()
+		public static ImNodesStylePtr ImNodesGetStyle()
 		{
-			return ImnodesNative.GetStyle();
+			return ImNodesNative.ImNodesGetStyle();
 		}
 
-		public static void StyleColorsDark(ImNodesStylePtr dest)
+		public static void ImNodesStyleColorsDark(ImNodesStylePtr dest)
 		{
-			ImnodesNative.StyleColorsDark(dest);
+			ImNodesNative.ImNodesStyleColorsDark(dest);
 		}
 
-		public static void StyleColorsDark()
-		{
-			// defining omitted parameters
-			ImNodesStyle* dest = null;
-			ImnodesNative.StyleColorsDark(dest);
-		}
-
-		public static void StyleColorsClassic(ImNodesStylePtr dest)
-		{
-			ImnodesNative.StyleColorsClassic(dest);
-		}
-
-		public static void StyleColorsClassic()
+		public static void ImNodesStyleColorsDark()
 		{
 			// defining omitted parameters
 			ImNodesStyle* dest = null;
-			ImnodesNative.StyleColorsClassic(dest);
+			ImNodesNative.ImNodesStyleColorsDark(dest);
 		}
 
-		public static void StyleColorsLight(ImNodesStylePtr dest)
+		public static void ImNodesStyleColorsClassic(ImNodesStylePtr dest)
 		{
-			ImnodesNative.StyleColorsLight(dest);
+			ImNodesNative.ImNodesStyleColorsClassic(dest);
 		}
 
-		public static void StyleColorsLight()
+		public static void ImNodesStyleColorsClassic()
 		{
 			// defining omitted parameters
 			ImNodesStyle* dest = null;
-			ImnodesNative.StyleColorsLight(dest);
+			ImNodesNative.ImNodesStyleColorsClassic(dest);
 		}
 
-		public static void BeginNodeEditor()
+		public static void ImNodesStyleColorsLight(ImNodesStylePtr dest)
 		{
-			ImnodesNative.BeginNodeEditor();
+			ImNodesNative.ImNodesStyleColorsLight(dest);
 		}
 
-		public static void EndNodeEditor()
+		public static void ImNodesStyleColorsLight()
 		{
-			ImnodesNative.EndNodeEditor();
+			// defining omitted parameters
+			ImNodesStyle* dest = null;
+			ImNodesNative.ImNodesStyleColorsLight(dest);
 		}
 
-		public static void MiniMap(float minimapSizeFraction, ImNodesMiniMapLocation location, ImNodesMiniMapNodeHoveringCallback nodeHoveringCallback, IntPtr nodeHoveringCallbackData)
+		public static void ImNodesBeginNodeEditor()
 		{
-			ImnodesNative.MiniMap(minimapSizeFraction, location, nodeHoveringCallback, (void*)nodeHoveringCallbackData);
+			ImNodesNative.ImNodesBeginNodeEditor();
 		}
 
-		public static void MiniMap(float minimapSizeFraction, ImNodesMiniMapLocation location, ImNodesMiniMapNodeHoveringCallback nodeHoveringCallback)
+		public static void ImNodesEndNodeEditor()
+		{
+			ImNodesNative.ImNodesEndNodeEditor();
+		}
+
+		public static void ImNodesMiniMap(float minimapSizeFraction, ImNodesMiniMapLocation location, ImNodesMiniMapNodeHoveringCallback nodeHoveringCallback, IntPtr nodeHoveringCallbackData)
+		{
+			ImNodesNative.ImNodesMiniMap(minimapSizeFraction, location, nodeHoveringCallback, (void*)nodeHoveringCallbackData);
+		}
+
+		public static void ImNodesMiniMap(float minimapSizeFraction, ImNodesMiniMapLocation location, ImNodesMiniMapNodeHoveringCallback nodeHoveringCallback)
 		{
 			// defining omitted parameters
 			void* nodeHoveringCallbackData = null;
-			ImnodesNative.MiniMap(minimapSizeFraction, location, nodeHoveringCallback, nodeHoveringCallbackData);
+			ImNodesNative.ImNodesMiniMap(minimapSizeFraction, location, nodeHoveringCallback, nodeHoveringCallbackData);
 		}
 
-		public static void MiniMap(float minimapSizeFraction, ImNodesMiniMapLocation location)
+		public static void ImNodesMiniMap(float minimapSizeFraction, ImNodesMiniMapLocation location)
 		{
 			// defining omitted parameters
 			void* nodeHoveringCallbackData = null;
 			ImNodesMiniMapNodeHoveringCallback nodeHoveringCallback = null;
-			ImnodesNative.MiniMap(minimapSizeFraction, location, nodeHoveringCallback, nodeHoveringCallbackData);
+			ImNodesNative.ImNodesMiniMap(minimapSizeFraction, location, nodeHoveringCallback, nodeHoveringCallbackData);
 		}
 
-		public static void MiniMap(float minimapSizeFraction)
+		public static void ImNodesMiniMap(float minimapSizeFraction)
 		{
 			// defining omitted parameters
 			void* nodeHoveringCallbackData = null;
 			ImNodesMiniMapNodeHoveringCallback nodeHoveringCallback = null;
 			ImNodesMiniMapLocation location = ImNodesMiniMapLocation.TopLeft;
-			ImnodesNative.MiniMap(minimapSizeFraction, location, nodeHoveringCallback, nodeHoveringCallbackData);
+			ImNodesNative.ImNodesMiniMap(minimapSizeFraction, location, nodeHoveringCallback, nodeHoveringCallbackData);
 		}
 
-		public static void MiniMap()
+		public static void ImNodesMiniMap()
 		{
 			// defining omitted parameters
 			float minimapSizeFraction = 0.2f;
 			void* nodeHoveringCallbackData = null;
 			ImNodesMiniMapNodeHoveringCallback nodeHoveringCallback = null;
 			ImNodesMiniMapLocation location = ImNodesMiniMapLocation.TopLeft;
-			ImnodesNative.MiniMap(minimapSizeFraction, location, nodeHoveringCallback, nodeHoveringCallbackData);
+			ImNodesNative.ImNodesMiniMap(minimapSizeFraction, location, nodeHoveringCallback, nodeHoveringCallbackData);
 		}
 
-		public static void PushColorStyle(ImNodesCol item, uint color)
+		public static void ImNodesPushColorStyle(ImNodesCol item, uint color)
 		{
-			ImnodesNative.PushColorStyle(item, color);
+			ImNodesNative.ImNodesPushColorStyle(item, color);
 		}
 
-		public static void PopColorStyle()
+		public static void ImNodesPopColorStyle()
 		{
-			ImnodesNative.PopColorStyle();
+			ImNodesNative.ImNodesPopColorStyle();
 		}
 
-		public static void PushStyleVar(ImNodesStyleVar styleItem, float value)
+		public static void ImNodesPushStyleVar(ImNodesStyleVar styleItem, float value)
 		{
-			ImnodesNative.PushStyleVar(styleItem, value);
+			ImNodesNative.ImNodesPushStyleVar(styleItem, value);
 		}
 
-		public static void PushStyleVar(ImNodesStyleVar styleItem, Vector2 value)
+		public static void ImNodesPushStyleVar(ImNodesStyleVar styleItem, Vector2 value)
 		{
-			ImnodesNative.PushStyleVar(styleItem, value);
+			ImNodesNative.ImNodesPushStyleVar(styleItem, value);
 		}
 
-		public static void PopStyleVar(int count)
+		public static void ImNodesPopStyleVar(int count)
 		{
-			ImnodesNative.PopStyleVar(count);
+			ImNodesNative.ImNodesPopStyleVar(count);
 		}
 
-		public static void PopStyleVar()
+		public static void ImNodesPopStyleVar()
 		{
 			// defining omitted parameters
 			int count = 1;
-			ImnodesNative.PopStyleVar(count);
+			ImNodesNative.ImNodesPopStyleVar(count);
 		}
 
-		public static void BeginNode(int id)
+		public static void ImNodesBeginNode(int id)
 		{
-			ImnodesNative.BeginNode(id);
+			ImNodesNative.ImNodesBeginNode(id);
 		}
 
-		public static void EndNode()
+		public static void ImNodesEndNode()
 		{
-			ImnodesNative.EndNode();
+			ImNodesNative.ImNodesEndNode();
 		}
 
-		public static void GetNodeDimensions(out Vector2 pOut, int id)
+		public static void ImNodesGetNodeDimensions(out Vector2 pOut, int id)
 		{
 			fixed (Vector2* nativePOut = &pOut)
 			{
-				ImnodesNative.GetNodeDimensions(nativePOut, id);
+				ImNodesNative.ImNodesGetNodeDimensions(nativePOut, id);
 			}
 		}
 
-		public static void BeginNodeTitleBar()
+		public static void ImNodesBeginNodeTitleBar()
 		{
-			ImnodesNative.BeginNodeTitleBar();
+			ImNodesNative.ImNodesBeginNodeTitleBar();
 		}
 
-		public static void EndNodeTitleBar()
+		public static void ImNodesEndNodeTitleBar()
 		{
-			ImnodesNative.EndNodeTitleBar();
+			ImNodesNative.ImNodesEndNodeTitleBar();
 		}
 
-		public static void BeginInputAttribute(int id, ImNodesPinShape shape)
+		public static void ImNodesBeginInputAttribute(int id, ImNodesPinShape shape)
 		{
-			ImnodesNative.BeginInputAttribute(id, shape);
+			ImNodesNative.ImNodesBeginInputAttribute(id, shape);
 		}
 
-		public static void BeginInputAttribute(int id)
-		{
-			// defining omitted parameters
-			ImNodesPinShape shape = ImNodesPinShape.CircleFilled;
-			ImnodesNative.BeginInputAttribute(id, shape);
-		}
-
-		public static void EndInputAttribute()
-		{
-			ImnodesNative.EndInputAttribute();
-		}
-
-		public static void BeginOutputAttribute(int id, ImNodesPinShape shape)
-		{
-			ImnodesNative.BeginOutputAttribute(id, shape);
-		}
-
-		public static void BeginOutputAttribute(int id)
+		public static void ImNodesBeginInputAttribute(int id)
 		{
 			// defining omitted parameters
 			ImNodesPinShape shape = ImNodesPinShape.CircleFilled;
-			ImnodesNative.BeginOutputAttribute(id, shape);
+			ImNodesNative.ImNodesBeginInputAttribute(id, shape);
 		}
 
-		public static void EndOutputAttribute()
+		public static void ImNodesEndInputAttribute()
 		{
-			ImnodesNative.EndOutputAttribute();
+			ImNodesNative.ImNodesEndInputAttribute();
 		}
 
-		public static void BeginStaticAttribute(int id)
+		public static void ImNodesBeginOutputAttribute(int id, ImNodesPinShape shape)
 		{
-			ImnodesNative.BeginStaticAttribute(id);
+			ImNodesNative.ImNodesBeginOutputAttribute(id, shape);
 		}
 
-		public static void EndStaticAttribute()
+		public static void ImNodesBeginOutputAttribute(int id)
 		{
-			ImnodesNative.EndStaticAttribute();
+			// defining omitted parameters
+			ImNodesPinShape shape = ImNodesPinShape.CircleFilled;
+			ImNodesNative.ImNodesBeginOutputAttribute(id, shape);
 		}
 
-		public static void PushAttributeFlag(ImNodesAttributeFlags flag)
+		public static void ImNodesEndOutputAttribute()
 		{
-			ImnodesNative.PushAttributeFlag(flag);
+			ImNodesNative.ImNodesEndOutputAttribute();
 		}
 
-		public static void PopAttributeFlag()
+		public static void ImNodesBeginStaticAttribute(int id)
 		{
-			ImnodesNative.PopAttributeFlag();
+			ImNodesNative.ImNodesBeginStaticAttribute(id);
 		}
 
-		public static void Link(int id, int startAttributeId, int endAttributeId)
+		public static void ImNodesEndStaticAttribute()
 		{
-			ImnodesNative.Link(id, startAttributeId, endAttributeId);
+			ImNodesNative.ImNodesEndStaticAttribute();
 		}
 
-		public static void SetNodeDraggable(int nodeId, bool draggable)
+		public static void ImNodesPushAttributeFlag(ImNodesAttributeFlags flag)
+		{
+			ImNodesNative.ImNodesPushAttributeFlag(flag);
+		}
+
+		public static void ImNodesPopAttributeFlag()
+		{
+			ImNodesNative.ImNodesPopAttributeFlag();
+		}
+
+		public static void ImNodesLink(int id, int startAttributeId, int endAttributeId)
+		{
+			ImNodesNative.ImNodesLink(id, startAttributeId, endAttributeId);
+		}
+
+		public static void ImNodesSetNodeDraggable(int nodeId, bool draggable)
 		{
 			var native_draggable = draggable ? (byte)1 : (byte)0;
-			ImnodesNative.SetNodeDraggable(nodeId, native_draggable);
+			ImNodesNative.ImNodesSetNodeDraggable(nodeId, native_draggable);
 		}
 
-		public static void SetNodeScreenSpacePos(int nodeId, Vector2 screenSpacePos)
+		public static void ImNodesSetNodeScreenSpacePos(int nodeId, Vector2 screenSpacePos)
 		{
-			ImnodesNative.SetNodeScreenSpacePos(nodeId, screenSpacePos);
+			ImNodesNative.ImNodesSetNodeScreenSpacePos(nodeId, screenSpacePos);
 		}
 
-		public static void SetNodeEditorSpacePos(int nodeId, Vector2 editorSpacePos)
+		public static void ImNodesSetNodeEditorSpacePos(int nodeId, Vector2 editorSpacePos)
 		{
-			ImnodesNative.SetNodeEditorSpacePos(nodeId, editorSpacePos);
+			ImNodesNative.ImNodesSetNodeEditorSpacePos(nodeId, editorSpacePos);
 		}
 
-		public static void SetNodeGridSpacePos(int nodeId, Vector2 gridPos)
+		public static void ImNodesSetNodeGridSpacePos(int nodeId, Vector2 gridPos)
 		{
-			ImnodesNative.SetNodeGridSpacePos(nodeId, gridPos);
+			ImNodesNative.ImNodesSetNodeGridSpacePos(nodeId, gridPos);
 		}
 
-		public static void GetNodeScreenSpacePos(out Vector2 pOut, int nodeId)
-		{
-			fixed (Vector2* nativePOut = &pOut)
-			{
-				ImnodesNative.GetNodeScreenSpacePos(nativePOut, nodeId);
-			}
-		}
-
-		public static void GetNodeEditorSpacePos(out Vector2 pOut, int nodeId)
+		public static void ImNodesGetNodeScreenSpacePos(out Vector2 pOut, int nodeId)
 		{
 			fixed (Vector2* nativePOut = &pOut)
 			{
-				ImnodesNative.GetNodeEditorSpacePos(nativePOut, nodeId);
+				ImNodesNative.ImNodesGetNodeScreenSpacePos(nativePOut, nodeId);
 			}
 		}
 
-		public static void GetNodeGridSpacePos(out Vector2 pOut, int nodeId)
+		public static void ImNodesGetNodeEditorSpacePos(out Vector2 pOut, int nodeId)
 		{
 			fixed (Vector2* nativePOut = &pOut)
 			{
-				ImnodesNative.GetNodeGridSpacePos(nativePOut, nodeId);
+				ImNodesNative.ImNodesGetNodeEditorSpacePos(nativePOut, nodeId);
 			}
 		}
 
-		public static void SnapNodeToGrid(int nodeId)
+		public static void ImNodesGetNodeGridSpacePos(out Vector2 pOut, int nodeId)
 		{
-			ImnodesNative.SnapNodeToGrid(nodeId);
+			fixed (Vector2* nativePOut = &pOut)
+			{
+				ImNodesNative.ImNodesGetNodeGridSpacePos(nativePOut, nodeId);
+			}
 		}
 
-		public static bool IsEditorHovered()
+		public static void ImNodesSnapNodeToGrid(int nodeId)
 		{
-			var result = ImnodesNative.IsEditorHovered();
+			ImNodesNative.ImNodesSnapNodeToGrid(nodeId);
+		}
+
+		public static bool ImNodesIsEditorHovered()
+		{
+			var result = ImNodesNative.ImNodesIsEditorHovered();
 			return result != 0;
 		}
 
-		public static bool IsNodeHovered(ref int nodeId)
+		public static bool ImNodesIsNodeHovered(ref int nodeId)
 		{
 			fixed (int* nativeNodeId = &nodeId)
 			{
-				var result = ImnodesNative.IsNodeHovered(nativeNodeId);
+				var result = ImNodesNative.ImNodesIsNodeHovered(nativeNodeId);
 				return result != 0;
 			}
 		}
 
-		public static bool IsLinkHovered(ref int linkId)
+		public static bool ImNodesIsLinkHovered(ref int linkId)
 		{
 			fixed (int* nativeLinkId = &linkId)
 			{
-				var result = ImnodesNative.IsLinkHovered(nativeLinkId);
+				var result = ImNodesNative.ImNodesIsLinkHovered(nativeLinkId);
 				return result != 0;
 			}
 		}
 
-		public static bool IsPinHovered(ref int attributeId)
+		public static bool ImNodesIsPinHovered(ref int attributeId)
 		{
 			fixed (int* nativeAttributeId = &attributeId)
 			{
-				var result = ImnodesNative.IsPinHovered(nativeAttributeId);
+				var result = ImNodesNative.ImNodesIsPinHovered(nativeAttributeId);
 				return result != 0;
 			}
 		}
 
-		public static int NumSelectedNodes()
+		public static int ImNodesNumSelectedNodes()
 		{
-			return ImnodesNative.NumSelectedNodes();
+			return ImNodesNative.ImNodesNumSelectedNodes();
 		}
 
-		public static int NumSelectedLinks()
+		public static int ImNodesNumSelectedLinks()
 		{
-			return ImnodesNative.NumSelectedLinks();
+			return ImNodesNative.ImNodesNumSelectedLinks();
 		}
 
-		public static void GetSelectedNodes(ref int nodeIds)
+		public static void ImNodesGetSelectedNodes(ref int nodeIds)
 		{
 			fixed (int* nativeNodeIds = &nodeIds)
 			{
-				ImnodesNative.GetSelectedNodes(nativeNodeIds);
+				ImNodesNative.ImNodesGetSelectedNodes(nativeNodeIds);
 			}
 		}
 
-		public static void GetSelectedLinks(ref int linkIds)
+		public static void ImNodesGetSelectedLinks(ref int linkIds)
 		{
 			fixed (int* nativeLinkIds = &linkIds)
 			{
-				ImnodesNative.GetSelectedLinks(nativeLinkIds);
+				ImNodesNative.ImNodesGetSelectedLinks(nativeLinkIds);
 			}
 		}
 
-		public static void ClearNodeSelection()
+		public static void ImNodesClearNodeSelection()
 		{
-			ImnodesNative.ClearNodeSelection();
+			ImNodesNative.ImNodesClearNodeSelection();
 		}
 
-		public static void ClearLinkSelection()
+		public static void ImNodesClearLinkSelection()
 		{
-			ImnodesNative.ClearLinkSelection();
+			ImNodesNative.ImNodesClearLinkSelection();
 		}
 
-		public static void SelectNode(int nodeId)
+		public static void ImNodesSelectNode(int nodeId)
 		{
-			ImnodesNative.SelectNode(nodeId);
+			ImNodesNative.ImNodesSelectNode(nodeId);
 		}
 
-		public static void ClearNodeSelection(int nodeId)
+		public static void ImNodesClearNodeSelection(int nodeId)
 		{
-			ImnodesNative.ClearNodeSelection(nodeId);
+			ImNodesNative.ImNodesClearNodeSelection(nodeId);
 		}
 
-		public static bool IsNodeSelected(int nodeId)
+		public static bool ImNodesIsNodeSelected(int nodeId)
 		{
-			var result = ImnodesNative.IsNodeSelected(nodeId);
+			var result = ImNodesNative.ImNodesIsNodeSelected(nodeId);
 			return result != 0;
 		}
 
-		public static void SelectLink(int linkId)
+		public static void ImNodesSelectLink(int linkId)
 		{
-			ImnodesNative.SelectLink(linkId);
+			ImNodesNative.ImNodesSelectLink(linkId);
 		}
 
-		public static void ClearLinkSelection(int linkId)
+		public static void ImNodesClearLinkSelection(int linkId)
 		{
-			ImnodesNative.ClearLinkSelection(linkId);
+			ImNodesNative.ImNodesClearLinkSelection(linkId);
 		}
 
-		public static bool IsLinkSelected(int linkId)
+		public static bool ImNodesIsLinkSelected(int linkId)
 		{
-			var result = ImnodesNative.IsLinkSelected(linkId);
+			var result = ImNodesNative.ImNodesIsLinkSelected(linkId);
 			return result != 0;
 		}
 
-		public static bool IsAttributeActive()
+		public static bool ImNodesIsAttributeActive()
 		{
-			var result = ImnodesNative.IsAttributeActive();
+			var result = ImNodesNative.ImNodesIsAttributeActive();
 			return result != 0;
 		}
 
-		public static bool IsAnyAttributeActive(ref int attributeId)
+		public static bool ImNodesIsAnyAttributeActive(ref int attributeId)
 		{
 			fixed (int* nativeAttributeId = &attributeId)
 			{
-				var result = ImnodesNative.IsAnyAttributeActive(nativeAttributeId);
+				var result = ImNodesNative.ImNodesIsAnyAttributeActive(nativeAttributeId);
 				return result != 0;
 			}
 		}
 
-		public static bool IsAnyAttributeActive()
+		public static bool ImNodesIsAnyAttributeActive()
 		{
 			// defining omitted parameters
 			int* attributeId = null;
-			var result = ImnodesNative.IsAnyAttributeActive(attributeId);
+			var result = ImNodesNative.ImNodesIsAnyAttributeActive(attributeId);
 			return result != 0;
 		}
 
-		public static bool IsLinkStarted(ref int startedAtAttributeId)
+		public static bool ImNodesIsLinkStarted(ref int startedAtAttributeId)
 		{
 			fixed (int* nativeStartedAtAttributeId = &startedAtAttributeId)
 			{
-				var result = ImnodesNative.IsLinkStarted(nativeStartedAtAttributeId);
+				var result = ImNodesNative.ImNodesIsLinkStarted(nativeStartedAtAttributeId);
 				return result != 0;
 			}
 		}
 
-		public static bool IsLinkDropped(ref int startedAtAttributeId, bool includingDetachedLinks)
+		public static bool ImNodesIsLinkDropped(ref int startedAtAttributeId, bool includingDetachedLinks)
 		{
 			var native_includingDetachedLinks = includingDetachedLinks ? (byte)1 : (byte)0;
 			fixed (int* nativeStartedAtAttributeId = &startedAtAttributeId)
 			{
-				var result = ImnodesNative.IsLinkDropped(nativeStartedAtAttributeId, native_includingDetachedLinks);
+				var result = ImNodesNative.ImNodesIsLinkDropped(nativeStartedAtAttributeId, native_includingDetachedLinks);
 				return result != 0;
 			}
 		}
 
-		public static bool IsLinkDropped(ref int startedAtAttributeId)
+		public static bool ImNodesIsLinkDropped(ref int startedAtAttributeId)
 		{
 			// defining omitted parameters
 			byte includingDetachedLinks = 1;
 			fixed (int* nativeStartedAtAttributeId = &startedAtAttributeId)
 			{
-				var result = ImnodesNative.IsLinkDropped(nativeStartedAtAttributeId, includingDetachedLinks);
+				var result = ImNodesNative.ImNodesIsLinkDropped(nativeStartedAtAttributeId, includingDetachedLinks);
 				return result != 0;
 			}
 		}
 
-		public static bool IsLinkDropped()
+		public static bool ImNodesIsLinkDropped()
 		{
 			// defining omitted parameters
 			byte includingDetachedLinks = 1;
 			int* startedAtAttributeId = null;
-			var result = ImnodesNative.IsLinkDropped(startedAtAttributeId, includingDetachedLinks);
+			var result = ImNodesNative.ImNodesIsLinkDropped(startedAtAttributeId, includingDetachedLinks);
 			return result != 0;
 		}
 
-		public static bool IsLinkCreated(ref int startedAtAttributeId, ref int endedAtAttributeId, ref bool createdFromSnap)
+		public static bool ImNodesIsLinkCreated(ref int startedAtAttributeId, ref int endedAtAttributeId, ref bool createdFromSnap)
 		{
 			var nativeCreatedFromSnapVal = createdFromSnap ? (byte)1 : (byte)0;
 			var nativeCreatedFromSnap = &nativeCreatedFromSnapVal;
 			fixed (int* nativeStartedAtAttributeId = &startedAtAttributeId)
 			fixed (int* nativeEndedAtAttributeId = &endedAtAttributeId)
 			{
-				var result = ImnodesNative.IsLinkCreated(nativeStartedAtAttributeId, nativeEndedAtAttributeId, nativeCreatedFromSnap);
+				var result = ImNodesNative.ImNodesIsLinkCreated(nativeStartedAtAttributeId, nativeEndedAtAttributeId, nativeCreatedFromSnap);
 				createdFromSnap = nativeCreatedFromSnapVal != 0;
 				return result != 0;
 			}
 		}
 
-		public static bool IsLinkCreated(ref int startedAtNodeId, ref int startedAtAttributeId, ref int endedAtNodeId, ref int endedAtAttributeId, ref bool createdFromSnap)
+		public static bool ImNodesIsLinkCreated(ref int startedAtNodeId, ref int startedAtAttributeId, ref int endedAtNodeId, ref int endedAtAttributeId, ref bool createdFromSnap)
 		{
 			var nativeCreatedFromSnapVal = createdFromSnap ? (byte)1 : (byte)0;
 			var nativeCreatedFromSnap = &nativeCreatedFromSnapVal;
@@ -523,64 +523,64 @@ namespace SharpImNodes
 			fixed (int* nativeEndedAtNodeId = &endedAtNodeId)
 			fixed (int* nativeEndedAtAttributeId = &endedAtAttributeId)
 			{
-				var result = ImnodesNative.IsLinkCreated(nativeStartedAtNodeId, nativeStartedAtAttributeId, nativeEndedAtNodeId, nativeEndedAtAttributeId, nativeCreatedFromSnap);
+				var result = ImNodesNative.ImNodesIsLinkCreated(nativeStartedAtNodeId, nativeStartedAtAttributeId, nativeEndedAtNodeId, nativeEndedAtAttributeId, nativeCreatedFromSnap);
 				createdFromSnap = nativeCreatedFromSnapVal != 0;
 				return result != 0;
 			}
 		}
 
-		public static bool IsLinkDestroyed(ref int linkId)
+		public static bool ImNodesIsLinkDestroyed(ref int linkId)
 		{
 			fixed (int* nativeLinkId = &linkId)
 			{
-				var result = ImnodesNative.IsLinkDestroyed(nativeLinkId);
+				var result = ImNodesNative.ImNodesIsLinkDestroyed(nativeLinkId);
 				return result != 0;
 			}
 		}
 
-		public static ref byte SaveCurrentEditorStateToIniString(ref uint dataSize)
+		public static ref byte ImNodesSaveCurrentEditorStateToIniString(ref uint dataSize)
 		{
 			fixed (uint* nativeDataSize = &dataSize)
 			{
-				var nativeResult = ImnodesNative.SaveCurrentEditorStateToIniString(nativeDataSize);
+				var nativeResult = ImNodesNative.ImNodesSaveCurrentEditorStateToIniString(nativeDataSize);
 				return ref *(byte*)&nativeResult;
 			}
 		}
 
-		public static ref byte SaveCurrentEditorStateToIniString()
+		public static string ImNodesSaveCurrentEditorStateToIniString()
 		{
 			// defining omitted parameters
 			uint* dataSize = null;
-			var nativeResult = ImnodesNative.SaveCurrentEditorStateToIniString(dataSize);
-			return ref *(byte*)&nativeResult;
+			var result = ImNodesNative.ImNodesSaveCurrentEditorStateToIniString(dataSize);
+			return Utils.DecodeStringUTF8(result);
 		}
 
-		public static ref byte SaveEditorStateToIniString(ImNodesEditorContextPtr editor, ref uint dataSize)
+		public static ref byte ImNodesSaveEditorStateToIniString(ImNodesEditorContextPtr editor, ref uint dataSize)
 		{
 			fixed (uint* nativeDataSize = &dataSize)
 			{
-				var nativeResult = ImnodesNative.SaveEditorStateToIniString(editor, nativeDataSize);
+				var nativeResult = ImNodesNative.ImNodesSaveEditorStateToIniString(editor, nativeDataSize);
 				return ref *(byte*)&nativeResult;
 			}
 		}
 
-		public static ref byte SaveEditorStateToIniString(ImNodesEditorContextPtr editor)
+		public static string ImNodesSaveEditorStateToIniString(ImNodesEditorContextPtr editor)
 		{
 			// defining omitted parameters
 			uint* dataSize = null;
-			var nativeResult = ImnodesNative.SaveEditorStateToIniString(editor, dataSize);
-			return ref *(byte*)&nativeResult;
+			var result = ImNodesNative.ImNodesSaveEditorStateToIniString(editor, dataSize);
+			return Utils.DecodeStringUTF8(result);
 		}
 
-		public static void LoadCurrentEditorStateFromIniString(ReadOnlySpan<byte> data, uint dataSize)
+		public static void ImNodesLoadCurrentEditorStateFromIniString(ReadOnlySpan<byte> data, uint dataSize)
 		{
 			fixed (byte* nativeData = data)
 			{
-				ImnodesNative.LoadCurrentEditorStateFromIniString(nativeData, dataSize);
+				ImNodesNative.ImNodesLoadCurrentEditorStateFromIniString(nativeData, dataSize);
 			}
 		}
 
-		public static void LoadCurrentEditorStateFromIniString(ReadOnlySpan<char> data, uint dataSize)
+		public static void ImNodesLoadCurrentEditorStateFromIniString(ReadOnlySpan<char> data, uint dataSize)
 		{
 			// Marshaling data to native string
 			byte* nativeData;
@@ -602,21 +602,21 @@ namespace SharpImNodes
 			}
 			else nativeData = null;
 
-			ImnodesNative.LoadCurrentEditorStateFromIniString(nativeData, dataSize);
+			ImNodesNative.ImNodesLoadCurrentEditorStateFromIniString(nativeData, dataSize);
 			// Freeing data native string
 			if (byteCountData > Utils.MaxStackallocSize)
 				Utils.Free(nativeData);
 		}
 
-		public static void LoadEditorStateFromIniString(ImNodesEditorContextPtr editor, ReadOnlySpan<byte> data, uint dataSize)
+		public static void ImNodesLoadEditorStateFromIniString(ImNodesEditorContextPtr editor, ReadOnlySpan<byte> data, uint dataSize)
 		{
 			fixed (byte* nativeData = data)
 			{
-				ImnodesNative.LoadEditorStateFromIniString(editor, nativeData, dataSize);
+				ImNodesNative.ImNodesLoadEditorStateFromIniString(editor, nativeData, dataSize);
 			}
 		}
 
-		public static void LoadEditorStateFromIniString(ImNodesEditorContextPtr editor, ReadOnlySpan<char> data, uint dataSize)
+		public static void ImNodesLoadEditorStateFromIniString(ImNodesEditorContextPtr editor, ReadOnlySpan<char> data, uint dataSize)
 		{
 			// Marshaling data to native string
 			byte* nativeData;
@@ -638,21 +638,21 @@ namespace SharpImNodes
 			}
 			else nativeData = null;
 
-			ImnodesNative.LoadEditorStateFromIniString(editor, nativeData, dataSize);
+			ImNodesNative.ImNodesLoadEditorStateFromIniString(editor, nativeData, dataSize);
 			// Freeing data native string
 			if (byteCountData > Utils.MaxStackallocSize)
 				Utils.Free(nativeData);
 		}
 
-		public static void SaveCurrentEditorStateToIniFile(ReadOnlySpan<byte> fileName)
+		public static void ImNodesSaveCurrentEditorStateToIniFile(ReadOnlySpan<byte> fileName)
 		{
 			fixed (byte* nativeFileName = fileName)
 			{
-				ImnodesNative.SaveCurrentEditorStateToIniFile(nativeFileName);
+				ImNodesNative.ImNodesSaveCurrentEditorStateToIniFile(nativeFileName);
 			}
 		}
 
-		public static void SaveCurrentEditorStateToIniFile(ReadOnlySpan<char> fileName)
+		public static void ImNodesSaveCurrentEditorStateToIniFile(ReadOnlySpan<char> fileName)
 		{
 			// Marshaling fileName to native string
 			byte* nativeFileName;
@@ -674,21 +674,21 @@ namespace SharpImNodes
 			}
 			else nativeFileName = null;
 
-			ImnodesNative.SaveCurrentEditorStateToIniFile(nativeFileName);
+			ImNodesNative.ImNodesSaveCurrentEditorStateToIniFile(nativeFileName);
 			// Freeing fileName native string
 			if (byteCountFileName > Utils.MaxStackallocSize)
 				Utils.Free(nativeFileName);
 		}
 
-		public static void SaveEditorStateToIniFile(ImNodesEditorContextPtr editor, ReadOnlySpan<byte> fileName)
+		public static void ImNodesSaveEditorStateToIniFile(ImNodesEditorContextPtr editor, ReadOnlySpan<byte> fileName)
 		{
 			fixed (byte* nativeFileName = fileName)
 			{
-				ImnodesNative.SaveEditorStateToIniFile(editor, nativeFileName);
+				ImNodesNative.ImNodesSaveEditorStateToIniFile(editor, nativeFileName);
 			}
 		}
 
-		public static void SaveEditorStateToIniFile(ImNodesEditorContextPtr editor, ReadOnlySpan<char> fileName)
+		public static void ImNodesSaveEditorStateToIniFile(ImNodesEditorContextPtr editor, ReadOnlySpan<char> fileName)
 		{
 			// Marshaling fileName to native string
 			byte* nativeFileName;
@@ -710,21 +710,21 @@ namespace SharpImNodes
 			}
 			else nativeFileName = null;
 
-			ImnodesNative.SaveEditorStateToIniFile(editor, nativeFileName);
+			ImNodesNative.ImNodesSaveEditorStateToIniFile(editor, nativeFileName);
 			// Freeing fileName native string
 			if (byteCountFileName > Utils.MaxStackallocSize)
 				Utils.Free(nativeFileName);
 		}
 
-		public static void LoadCurrentEditorStateFromIniFile(ReadOnlySpan<byte> fileName)
+		public static void ImNodesLoadCurrentEditorStateFromIniFile(ReadOnlySpan<byte> fileName)
 		{
 			fixed (byte* nativeFileName = fileName)
 			{
-				ImnodesNative.LoadCurrentEditorStateFromIniFile(nativeFileName);
+				ImNodesNative.ImNodesLoadCurrentEditorStateFromIniFile(nativeFileName);
 			}
 		}
 
-		public static void LoadCurrentEditorStateFromIniFile(ReadOnlySpan<char> fileName)
+		public static void ImNodesLoadCurrentEditorStateFromIniFile(ReadOnlySpan<char> fileName)
 		{
 			// Marshaling fileName to native string
 			byte* nativeFileName;
@@ -746,21 +746,21 @@ namespace SharpImNodes
 			}
 			else nativeFileName = null;
 
-			ImnodesNative.LoadCurrentEditorStateFromIniFile(nativeFileName);
+			ImNodesNative.ImNodesLoadCurrentEditorStateFromIniFile(nativeFileName);
 			// Freeing fileName native string
 			if (byteCountFileName > Utils.MaxStackallocSize)
 				Utils.Free(nativeFileName);
 		}
 
-		public static void LoadEditorStateFromIniFile(ImNodesEditorContextPtr editor, ReadOnlySpan<byte> fileName)
+		public static void ImNodesLoadEditorStateFromIniFile(ImNodesEditorContextPtr editor, ReadOnlySpan<byte> fileName)
 		{
 			fixed (byte* nativeFileName = fileName)
 			{
-				ImnodesNative.LoadEditorStateFromIniFile(editor, nativeFileName);
+				ImNodesNative.ImNodesLoadEditorStateFromIniFile(editor, nativeFileName);
 			}
 		}
 
-		public static void LoadEditorStateFromIniFile(ImNodesEditorContextPtr editor, ReadOnlySpan<char> fileName)
+		public static void ImNodesLoadEditorStateFromIniFile(ImNodesEditorContextPtr editor, ReadOnlySpan<char> fileName)
 		{
 			// Marshaling fileName to native string
 			byte* nativeFileName;
@@ -782,7 +782,7 @@ namespace SharpImNodes
 			}
 			else nativeFileName = null;
 
-			ImnodesNative.LoadEditorStateFromIniFile(editor, nativeFileName);
+			ImNodesNative.ImNodesLoadEditorStateFromIniFile(editor, nativeFileName);
 			// Freeing fileName native string
 			if (byteCountFileName > Utils.MaxStackallocSize)
 				Utils.Free(nativeFileName);
@@ -790,7 +790,7 @@ namespace SharpImNodes
 
 		public static ref byte GetIoKeyCtrlPtr()
 		{
-			var nativeResult = ImnodesNative.GetIoKeyCtrlPtr();
+			var nativeResult = ImNodesNative.GetIoKeyCtrlPtr();
 			return ref *(byte*)&nativeResult;
 		}
 

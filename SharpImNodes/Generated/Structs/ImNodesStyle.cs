@@ -86,12 +86,12 @@ namespace SharpImNodes
 		public static implicit operator ImNodesStyle*(ImNodesStylePtr nativePtr) => nativePtr.NativePtr;
 		public void Destroy()
 		{
-			ImnodesNative.ImNodesStyleDestroy(NativePtr);
+			ImNodesNative.ImNodesStyleDestroy(NativePtr);
 		}
 
 		public ImNodesStylePtr ImNodesStyle()
 		{
-			return ImnodesNative.ImNodesStyleImNodesStyle();
+			return ImNodesNative.ImNodesStyleImNodesStyle();
 		}
 
 	}

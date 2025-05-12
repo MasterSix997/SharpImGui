@@ -137,14 +137,14 @@ namespace SharpImGui
 		/// <summary>
 		/// Find the optional ## from which we stop displaying text.<br/>
 		/// </summary>
-		public static ref byte FindRenderedTextEnd(ReadOnlySpan<byte> text)
+		public static string FindRenderedTextEnd(ReadOnlySpan<byte> text)
 		{
 			// defining omitted parameters
 			byte* textEnd = null;
 			fixed (byte* nativeText = text)
 			{
-				var nativeResult = ImGuiNative.FindRenderedTextEnd(nativeText, textEnd);
-				return ref *(byte*)&nativeResult;
+				var result = ImGuiNative.FindRenderedTextEnd(nativeText, textEnd);
+				return Utils.DecodeStringUTF8(result);
 			}
 		}
 
@@ -251,11 +251,11 @@ namespace SharpImGui
 			return result != 0;
 		}
 
-		public static void LogRenderedText(ref Vector2 refPos, ReadOnlySpan<byte> text)
+		public static void LogRenderedText(Vector2[] refPos, ReadOnlySpan<byte> text)
 		{
 			// defining omitted parameters
 			byte* textEnd = null;
-			fixed (Vector2* nativeRefPos = &refPos)
+			fixed (Vector2* nativeRefPos = refPos)
 			fixed (byte* nativeText = text)
 			{
 				ImGuiNative.LogRenderedText(nativeRefPos, nativeText, textEnd);
@@ -343,25 +343,25 @@ namespace SharpImGui
 			}
 		}
 
-		public static void RenderTextClipped(Vector2 posMin, Vector2 posMax, ReadOnlySpan<byte> text, ReadOnlySpan<byte> textEnd, ref Vector2 textSizeIfKnown, Vector2 align)
+		public static void RenderTextClipped(Vector2 posMin, Vector2 posMax, ReadOnlySpan<byte> text, ReadOnlySpan<byte> textEnd, Vector2[] textSizeIfKnown, Vector2 align)
 		{
 			// defining omitted parameters
 			ImRect* clipRect = null;
 			fixed (byte* nativeText = text)
 			fixed (byte* nativeTextEnd = textEnd)
-			fixed (Vector2* nativeTextSizeIfKnown = &textSizeIfKnown)
+			fixed (Vector2* nativeTextSizeIfKnown = textSizeIfKnown)
 			{
 				ImGuiNative.RenderTextClipped(posMin, posMax, nativeText, nativeTextEnd, nativeTextSizeIfKnown, align, clipRect);
 			}
 		}
 
-		public static void RenderTextClippedEx(ImDrawListPtr drawList, Vector2 posMin, Vector2 posMax, ReadOnlySpan<byte> text, ReadOnlySpan<byte> textEnd, ref Vector2 textSizeIfKnown, Vector2 align)
+		public static void RenderTextClippedEx(ImDrawListPtr drawList, Vector2 posMin, Vector2 posMax, ReadOnlySpan<byte> text, ReadOnlySpan<byte> textEnd, Vector2[] textSizeIfKnown, Vector2 align)
 		{
 			// defining omitted parameters
 			ImRect* clipRect = null;
 			fixed (byte* nativeText = text)
 			fixed (byte* nativeTextEnd = textEnd)
-			fixed (Vector2* nativeTextSizeIfKnown = &textSizeIfKnown)
+			fixed (Vector2* nativeTextSizeIfKnown = textSizeIfKnown)
 			{
 				ImGuiNative.RenderTextClippedEx(drawList, posMin, posMax, nativeText, nativeTextEnd, nativeTextSizeIfKnown, align, clipRect);
 			}

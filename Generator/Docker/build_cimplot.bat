@@ -27,6 +27,3 @@ if not exist "%folder%" (
 docker run --rm -i -v "%scriptPath%cimplot:/cimgui_build" build_cimplot:cimplot
 
 echo --- RAN ---
-
-echo Press any key to exit...
-pause >nul

@@ -27,6 +27,3 @@ if not exist "%folder%" (
 docker run --rm -i -v "%scriptPath%cimnodes:/cimgui_build" build_cimnodes:cimnodes
 
 echo --- RAN ---
-
-echo Press any key to exit...
-pause >nul

@@ -533,25 +533,25 @@ namespace SharpImGui
 			ImGuiNative.ImDrawListAddImage(NativePtr, userTextureId, pMin, pMax, uvMin, uvMax, col);
 		}
 
-		public void AddConcavePolyFilled(ref Vector2 points, int numPoints, uint col)
+		public void AddConcavePolyFilled(Vector2[] points, int numPoints, uint col)
 		{
-			fixed (Vector2* nativePoints = &points)
+			fixed (Vector2* nativePoints = points)
 			{
 				ImGuiNative.ImDrawListAddConcavePolyFilled(NativePtr, nativePoints, numPoints, col);
 			}
 		}
 
-		public void AddConvexPolyFilled(ref Vector2 points, int numPoints, uint col)
+		public void AddConvexPolyFilled(Vector2[] points, int numPoints, uint col)
 		{
-			fixed (Vector2* nativePoints = &points)
+			fixed (Vector2* nativePoints = points)
 			{
 				ImGuiNative.ImDrawListAddConvexPolyFilled(NativePtr, nativePoints, numPoints, col);
 			}
 		}
 
-		public void AddPolyline(ref Vector2 points, int numPoints, uint col, ImDrawFlags flags, float thickness)
+		public void AddPolyline(Vector2[] points, int numPoints, uint col, ImDrawFlags flags, float thickness)
 		{
-			fixed (Vector2* nativePoints = &points)
+			fixed (Vector2* nativePoints = points)
 			{
 				ImGuiNative.ImDrawListAddPolyline(NativePtr, nativePoints, numPoints, col, flags, thickness);
 			}
@@ -593,17 +593,17 @@ namespace SharpImGui
 			ImGuiNative.ImDrawListAddBezierCubic(NativePtr, p1, p2, p3, p4, col, thickness, numSegments);
 		}
 
-		public void AddText(ImFontPtr font, float fontSize, Vector2 pos, uint col, ReadOnlySpan<byte> textBegin, ReadOnlySpan<byte> textEnd, float wrapWidth, ref Vector4 cpuFineClipRect)
+		public void AddText(ImFontPtr font, float fontSize, Vector2 pos, uint col, ReadOnlySpan<byte> textBegin, ReadOnlySpan<byte> textEnd, float wrapWidth, Vector4[] cpuFineClipRect)
 		{
 			fixed (byte* nativeTextBegin = textBegin)
 			fixed (byte* nativeTextEnd = textEnd)
-			fixed (Vector4* nativeCpuFineClipRect = &cpuFineClipRect)
+			fixed (Vector4* nativeCpuFineClipRect = cpuFineClipRect)
 			{
 				ImGuiNative.ImDrawListAddText(NativePtr, font, fontSize, pos, col, nativeTextBegin, nativeTextEnd, wrapWidth, nativeCpuFineClipRect);
 			}
 		}
 
-		public void AddText(ImFontPtr font, float fontSize, Vector2 pos, uint col, ReadOnlySpan<char> textBegin, ReadOnlySpan<char> textEnd, float wrapWidth, ref Vector4 cpuFineClipRect)
+		public void AddText(ImFontPtr font, float fontSize, Vector2 pos, uint col, ReadOnlySpan<char> textBegin, ReadOnlySpan<char> textEnd, float wrapWidth, Vector4[] cpuFineClipRect)
 		{
 			// Marshaling textBegin to native string
 			byte* nativeTextBegin;
@@ -645,7 +645,7 @@ namespace SharpImGui
 			}
 			else nativeTextEnd = null;
 
-			fixed (Vector4* nativeCpuFineClipRect = &cpuFineClipRect)
+			fixed (Vector4* nativeCpuFineClipRect = cpuFineClipRect)
 			{
 				ImGuiNative.ImDrawListAddText(NativePtr, font, fontSize, pos, col, nativeTextBegin, nativeTextEnd, wrapWidth, nativeCpuFineClipRect);
 				// Freeing textBegin native string

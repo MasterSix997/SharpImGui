@@ -6,6 +6,7 @@ namespace Generator;
 
 class Program
 {
+    private const string NUMERICS_USING = "System.Numerics";
     static void Main(string[] args)
     {
         GenerateImGui();
@@ -26,7 +27,7 @@ class Program
             },
             FunctionsPrefix = "ig",
             MergeOverloads = true,
-            Usings = { "System", "System.Numerics", "System.Runtime.InteropServices", "System.Runtime.CompilerServices", "System.Text" }
+            Usings = { "System", NUMERICS_USING, "System.Runtime.InteropServices", "System.Runtime.CompilerServices", "System.Text" }
         });
         AddAllPostProcessors(generator);
         
@@ -53,7 +54,7 @@ class Program
             },
             Usings =
             {
-                "SharpImGui", "System", "System.Numerics", "System.Runtime.InteropServices", "System.Runtime.CompilerServices", "System.Text"
+                "SharpImGui", "System", NUMERICS_USING, "System.Runtime.InteropServices", "System.Runtime.CompilerServices", "System.Text"
             },
             FunctionsPrefix = "ImPlot"
         };
@@ -83,7 +84,7 @@ class Program
             },
             Usings =
             {
-                "SharpImGui", "System", "System.Numerics", "System.Runtime.InteropServices", "System.Runtime.CompilerServices", "System.Text"
+                "SharpImGui", "System", NUMERICS_USING, "System.Runtime.InteropServices", "System.Runtime.CompilerServices", "System.Text"
             },
             FunctionsPrefix = "ImPlot3D"
         };
@@ -103,7 +104,7 @@ class Program
             },
             Usings =
             {
-                "SharpImGui", "System", "System.Numerics", "System.Runtime.InteropServices", "System.Runtime.CompilerServices", "System.Text"
+                "SharpImGui", "System", NUMERICS_USING, "System.Runtime.InteropServices", "System.Runtime.CompilerServices", "System.Text"
             },
             FunctionsPrefix = "ImGuizmo"
         };
@@ -115,7 +116,7 @@ class Program
     
     private static void GenerateImNodes()
     {
-        var generatorSettings = new GeneratorSettings("Imnodes", "SharpImNodes", "SharpImNodes")
+        var generatorSettings = new GeneratorSettings("ImNodes", "SharpImNodes", "SharpImNodes")
         {
             CppParserOptions =
             {
@@ -123,7 +124,7 @@ class Program
             },
             Usings =
             {
-                "SharpImGui", "System", "System.Numerics", "System.Runtime.InteropServices", "System.Runtime.CompilerServices", "System.Text"
+                "SharpImGui", "System", NUMERICS_USING, "System.Runtime.InteropServices", "System.Runtime.CompilerServices", "System.Text"
             },
             FunctionsPrefix = "imnodes",
             MergeOverloads = true,

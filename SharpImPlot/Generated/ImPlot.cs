@@ -501,10 +501,10 @@ namespace SharpImPlot
 			ImPlotNative.SetupAxisFormatPlotFormatter(axis, formatter, (void*)data);
 		}
 
-		public static void SetupAxisTicksDoublePtr(ImAxis axis, ref double values, int nTicks, ref byte* labels, bool keepDefault)
+		public static void SetupAxisTicksDoublePtr(ImAxis axis, double[] values, int nTicks, ref byte* labels, bool keepDefault)
 		{
 			var native_keepDefault = keepDefault ? (byte)1 : (byte)0;
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			fixed (byte** nativeLabels = &labels)
 			{
 				ImPlotNative.SetupAxisTicksDoublePtr(axis, nativeValues, nTicks, nativeLabels, native_keepDefault);
@@ -814,16 +814,16 @@ namespace SharpImPlot
 			ImPlotNative.SetNextAxesToFit();
 		}
 
-		public static void PlotLineFloatPtrInt(ReadOnlySpan<byte> labelId, ref float values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineFloatPtrInt(ReadOnlySpan<byte> labelId, float[] values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			{
 				ImPlotNative.PlotLineFloatPtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotLineFloatPtrInt(ReadOnlySpan<char> labelId, ref float values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineFloatPtrInt(ReadOnlySpan<char> labelId, float[] values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -845,7 +845,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			{
 				ImPlotNative.PlotLineFloatPtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -854,16 +854,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotLineDoublePtrInt(ReadOnlySpan<byte> labelId, ref double values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineDoublePtrInt(ReadOnlySpan<byte> labelId, double[] values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			{
 				ImPlotNative.PlotLineDoublePtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotLineDoublePtrInt(ReadOnlySpan<char> labelId, ref double values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineDoublePtrInt(ReadOnlySpan<char> labelId, double[] values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -885,7 +885,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			{
 				ImPlotNative.PlotLineDoublePtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -894,16 +894,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotLineS8PtrInt(ReadOnlySpan<byte> labelId, ref sbyte values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineS8PtrInt(ReadOnlySpan<byte> labelId, sbyte[] values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			{
 				ImPlotNative.PlotLineS8PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotLineS8PtrInt(ReadOnlySpan<char> labelId, ref sbyte values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineS8PtrInt(ReadOnlySpan<char> labelId, sbyte[] values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -925,7 +925,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			{
 				ImPlotNative.PlotLineS8PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -934,16 +934,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotLineU8PtrInt(ReadOnlySpan<byte> labelId, ref byte values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineU8PtrInt(ReadOnlySpan<byte> labelId, byte[] values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			{
 				ImPlotNative.PlotLineU8PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotLineU8PtrInt(ReadOnlySpan<char> labelId, ref byte values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineU8PtrInt(ReadOnlySpan<char> labelId, byte[] values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -965,7 +965,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			{
 				ImPlotNative.PlotLineU8PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -974,16 +974,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotLineS16PtrInt(ReadOnlySpan<byte> labelId, ref short values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineS16PtrInt(ReadOnlySpan<byte> labelId, short[] values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			{
 				ImPlotNative.PlotLineS16PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotLineS16PtrInt(ReadOnlySpan<char> labelId, ref short values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineS16PtrInt(ReadOnlySpan<char> labelId, short[] values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -1005,7 +1005,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			{
 				ImPlotNative.PlotLineS16PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -1014,16 +1014,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotLineU16PtrInt(ReadOnlySpan<byte> labelId, ref ushort values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineU16PtrInt(ReadOnlySpan<byte> labelId, ushort[] values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			{
 				ImPlotNative.PlotLineU16PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotLineU16PtrInt(ReadOnlySpan<char> labelId, ref ushort values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineU16PtrInt(ReadOnlySpan<char> labelId, ushort[] values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -1045,7 +1045,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			{
 				ImPlotNative.PlotLineU16PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -1054,16 +1054,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotLineS32PtrInt(ReadOnlySpan<byte> labelId, ref int values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineS32PtrInt(ReadOnlySpan<byte> labelId, int[] values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			{
 				ImPlotNative.PlotLineS32PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotLineS32PtrInt(ReadOnlySpan<char> labelId, ref int values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineS32PtrInt(ReadOnlySpan<char> labelId, int[] values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -1085,7 +1085,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			{
 				ImPlotNative.PlotLineS32PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -1094,16 +1094,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotLineU32PtrInt(ReadOnlySpan<byte> labelId, ref uint values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineU32PtrInt(ReadOnlySpan<byte> labelId, uint[] values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			{
 				ImPlotNative.PlotLineU32PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotLineU32PtrInt(ReadOnlySpan<char> labelId, ref uint values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineU32PtrInt(ReadOnlySpan<char> labelId, uint[] values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -1125,7 +1125,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			{
 				ImPlotNative.PlotLineU32PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -1134,16 +1134,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotLineS64PtrInt(ReadOnlySpan<byte> labelId, ref long values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineS64PtrInt(ReadOnlySpan<byte> labelId, long[] values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			{
 				ImPlotNative.PlotLineS64PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotLineS64PtrInt(ReadOnlySpan<char> labelId, ref long values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineS64PtrInt(ReadOnlySpan<char> labelId, long[] values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -1165,7 +1165,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			{
 				ImPlotNative.PlotLineS64PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -1174,16 +1174,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotLineU64PtrInt(ReadOnlySpan<byte> labelId, ref ulong values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineU64PtrInt(ReadOnlySpan<byte> labelId, ulong[] values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			{
 				ImPlotNative.PlotLineU64PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotLineU64PtrInt(ReadOnlySpan<char> labelId, ref ulong values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineU64PtrInt(ReadOnlySpan<char> labelId, ulong[] values, int count, double xscale, double xstart, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -1205,7 +1205,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			{
 				ImPlotNative.PlotLineU64PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -1214,17 +1214,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotLineFloatPtrFloatPtr(ReadOnlySpan<byte> labelId, ref float xs, ref float ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineFloatPtrFloatPtr(ReadOnlySpan<byte> labelId, float[] xs, float[] ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (float* nativeXs = &xs)
-			fixed (float* nativeYs = &ys)
+			fixed (float* nativeXs = xs)
+			fixed (float* nativeYs = ys)
 			{
 				ImPlotNative.PlotLineFloatPtrFloatPtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotLineFloatPtrFloatPtr(ReadOnlySpan<char> labelId, ref float xs, ref float ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineFloatPtrFloatPtr(ReadOnlySpan<char> labelId, float[] xs, float[] ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -1246,8 +1246,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (float* nativeXs = &xs)
-			fixed (float* nativeYs = &ys)
+			fixed (float* nativeXs = xs)
+			fixed (float* nativeYs = ys)
 			{
 				ImPlotNative.PlotLineFloatPtrFloatPtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -1256,17 +1256,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotLineDoublePtrdoublePtr(ReadOnlySpan<byte> labelId, ref double xs, ref double ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineDoublePtrdoublePtr(ReadOnlySpan<byte> labelId, double[] xs, double[] ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (double* nativeXs = &xs)
-			fixed (double* nativeYs = &ys)
+			fixed (double* nativeXs = xs)
+			fixed (double* nativeYs = ys)
 			{
 				ImPlotNative.PlotLineDoublePtrdoublePtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotLineDoublePtrdoublePtr(ReadOnlySpan<char> labelId, ref double xs, ref double ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineDoublePtrdoublePtr(ReadOnlySpan<char> labelId, double[] xs, double[] ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -1288,8 +1288,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (double* nativeXs = &xs)
-			fixed (double* nativeYs = &ys)
+			fixed (double* nativeXs = xs)
+			fixed (double* nativeYs = ys)
 			{
 				ImPlotNative.PlotLineDoublePtrdoublePtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -1298,17 +1298,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotLineS8PtrS8Ptr(ReadOnlySpan<byte> labelId, ref sbyte xs, ref sbyte ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineS8PtrS8Ptr(ReadOnlySpan<byte> labelId, sbyte[] xs, sbyte[] ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (sbyte* nativeXs = &xs)
-			fixed (sbyte* nativeYs = &ys)
+			fixed (sbyte* nativeXs = xs)
+			fixed (sbyte* nativeYs = ys)
 			{
 				ImPlotNative.PlotLineS8PtrS8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotLineS8PtrS8Ptr(ReadOnlySpan<char> labelId, ref sbyte xs, ref sbyte ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineS8PtrS8Ptr(ReadOnlySpan<char> labelId, sbyte[] xs, sbyte[] ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -1330,8 +1330,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (sbyte* nativeXs = &xs)
-			fixed (sbyte* nativeYs = &ys)
+			fixed (sbyte* nativeXs = xs)
+			fixed (sbyte* nativeYs = ys)
 			{
 				ImPlotNative.PlotLineS8PtrS8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -1340,17 +1340,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotLineU8PtrU8Ptr(ReadOnlySpan<byte> labelId, ref byte xs, ref byte ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineU8PtrU8Ptr(ReadOnlySpan<byte> labelId, byte[] xs, byte[] ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (byte* nativeXs = &xs)
-			fixed (byte* nativeYs = &ys)
+			fixed (byte* nativeXs = xs)
+			fixed (byte* nativeYs = ys)
 			{
 				ImPlotNative.PlotLineU8PtrU8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotLineU8PtrU8Ptr(ReadOnlySpan<char> labelId, ref byte xs, ref byte ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineU8PtrU8Ptr(ReadOnlySpan<char> labelId, byte[] xs, byte[] ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -1372,8 +1372,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (byte* nativeXs = &xs)
-			fixed (byte* nativeYs = &ys)
+			fixed (byte* nativeXs = xs)
+			fixed (byte* nativeYs = ys)
 			{
 				ImPlotNative.PlotLineU8PtrU8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -1382,17 +1382,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotLineS16PtrS16Ptr(ReadOnlySpan<byte> labelId, ref short xs, ref short ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineS16PtrS16Ptr(ReadOnlySpan<byte> labelId, short[] xs, short[] ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (short* nativeXs = &xs)
-			fixed (short* nativeYs = &ys)
+			fixed (short* nativeXs = xs)
+			fixed (short* nativeYs = ys)
 			{
 				ImPlotNative.PlotLineS16PtrS16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotLineS16PtrS16Ptr(ReadOnlySpan<char> labelId, ref short xs, ref short ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineS16PtrS16Ptr(ReadOnlySpan<char> labelId, short[] xs, short[] ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -1414,8 +1414,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (short* nativeXs = &xs)
-			fixed (short* nativeYs = &ys)
+			fixed (short* nativeXs = xs)
+			fixed (short* nativeYs = ys)
 			{
 				ImPlotNative.PlotLineS16PtrS16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -1424,17 +1424,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotLineU16PtrU16Ptr(ReadOnlySpan<byte> labelId, ref ushort xs, ref ushort ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineU16PtrU16Ptr(ReadOnlySpan<byte> labelId, ushort[] xs, ushort[] ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ushort* nativeXs = &xs)
-			fixed (ushort* nativeYs = &ys)
+			fixed (ushort* nativeXs = xs)
+			fixed (ushort* nativeYs = ys)
 			{
 				ImPlotNative.PlotLineU16PtrU16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotLineU16PtrU16Ptr(ReadOnlySpan<char> labelId, ref ushort xs, ref ushort ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineU16PtrU16Ptr(ReadOnlySpan<char> labelId, ushort[] xs, ushort[] ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -1456,8 +1456,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ushort* nativeXs = &xs)
-			fixed (ushort* nativeYs = &ys)
+			fixed (ushort* nativeXs = xs)
+			fixed (ushort* nativeYs = ys)
 			{
 				ImPlotNative.PlotLineU16PtrU16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -1466,17 +1466,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotLineS32PtrS32Ptr(ReadOnlySpan<byte> labelId, ref int xs, ref int ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineS32PtrS32Ptr(ReadOnlySpan<byte> labelId, int[] xs, int[] ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (int* nativeXs = &xs)
-			fixed (int* nativeYs = &ys)
+			fixed (int* nativeXs = xs)
+			fixed (int* nativeYs = ys)
 			{
 				ImPlotNative.PlotLineS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotLineS32PtrS32Ptr(ReadOnlySpan<char> labelId, ref int xs, ref int ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineS32PtrS32Ptr(ReadOnlySpan<char> labelId, int[] xs, int[] ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -1498,8 +1498,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (int* nativeXs = &xs)
-			fixed (int* nativeYs = &ys)
+			fixed (int* nativeXs = xs)
+			fixed (int* nativeYs = ys)
 			{
 				ImPlotNative.PlotLineS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -1508,17 +1508,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotLineU32PtrU32Ptr(ReadOnlySpan<byte> labelId, ref uint xs, ref uint ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineU32PtrU32Ptr(ReadOnlySpan<byte> labelId, uint[] xs, uint[] ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (uint* nativeXs = &xs)
-			fixed (uint* nativeYs = &ys)
+			fixed (uint* nativeXs = xs)
+			fixed (uint* nativeYs = ys)
 			{
 				ImPlotNative.PlotLineU32PtrU32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotLineU32PtrU32Ptr(ReadOnlySpan<char> labelId, ref uint xs, ref uint ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineU32PtrU32Ptr(ReadOnlySpan<char> labelId, uint[] xs, uint[] ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -1540,8 +1540,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (uint* nativeXs = &xs)
-			fixed (uint* nativeYs = &ys)
+			fixed (uint* nativeXs = xs)
+			fixed (uint* nativeYs = ys)
 			{
 				ImPlotNative.PlotLineU32PtrU32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -1550,17 +1550,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotLineS64PtrS64Ptr(ReadOnlySpan<byte> labelId, ref long xs, ref long ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineS64PtrS64Ptr(ReadOnlySpan<byte> labelId, long[] xs, long[] ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (long* nativeXs = &xs)
-			fixed (long* nativeYs = &ys)
+			fixed (long* nativeXs = xs)
+			fixed (long* nativeYs = ys)
 			{
 				ImPlotNative.PlotLineS64PtrS64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotLineS64PtrS64Ptr(ReadOnlySpan<char> labelId, ref long xs, ref long ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineS64PtrS64Ptr(ReadOnlySpan<char> labelId, long[] xs, long[] ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -1582,8 +1582,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (long* nativeXs = &xs)
-			fixed (long* nativeYs = &ys)
+			fixed (long* nativeXs = xs)
+			fixed (long* nativeYs = ys)
 			{
 				ImPlotNative.PlotLineS64PtrS64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -1592,17 +1592,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotLineU64PtrU64Ptr(ReadOnlySpan<byte> labelId, ref ulong xs, ref ulong ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineU64PtrU64Ptr(ReadOnlySpan<byte> labelId, ulong[] xs, ulong[] ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ulong* nativeXs = &xs)
-			fixed (ulong* nativeYs = &ys)
+			fixed (ulong* nativeXs = xs)
+			fixed (ulong* nativeYs = ys)
 			{
 				ImPlotNative.PlotLineU64PtrU64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotLineU64PtrU64Ptr(ReadOnlySpan<char> labelId, ref ulong xs, ref ulong ys, int count, ImPlotLineFlags flags, int offset, int stride)
+		public static void PlotLineU64PtrU64Ptr(ReadOnlySpan<char> labelId, ulong[] xs, ulong[] ys, int count, ImPlotLineFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -1624,8 +1624,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ulong* nativeXs = &xs)
-			fixed (ulong* nativeYs = &ys)
+			fixed (ulong* nativeXs = xs)
+			fixed (ulong* nativeYs = ys)
 			{
 				ImPlotNative.PlotLineU64PtrU64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -1710,16 +1710,16 @@ namespace SharpImPlot
 				Utils.Free(nativeLabelId);
 		}
 
-		public static void PlotScatterFloatPtrInt(ReadOnlySpan<byte> labelId, ref float values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterFloatPtrInt(ReadOnlySpan<byte> labelId, float[] values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			{
 				ImPlotNative.PlotScatterFloatPtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotScatterFloatPtrInt(ReadOnlySpan<char> labelId, ref float values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterFloatPtrInt(ReadOnlySpan<char> labelId, float[] values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -1741,7 +1741,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			{
 				ImPlotNative.PlotScatterFloatPtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -1750,16 +1750,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotScatterDoublePtrInt(ReadOnlySpan<byte> labelId, ref double values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterDoublePtrInt(ReadOnlySpan<byte> labelId, double[] values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			{
 				ImPlotNative.PlotScatterDoublePtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotScatterDoublePtrInt(ReadOnlySpan<char> labelId, ref double values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterDoublePtrInt(ReadOnlySpan<char> labelId, double[] values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -1781,7 +1781,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			{
 				ImPlotNative.PlotScatterDoublePtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -1790,16 +1790,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotScatterS8PtrInt(ReadOnlySpan<byte> labelId, ref sbyte values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterS8PtrInt(ReadOnlySpan<byte> labelId, sbyte[] values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			{
 				ImPlotNative.PlotScatterS8PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotScatterS8PtrInt(ReadOnlySpan<char> labelId, ref sbyte values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterS8PtrInt(ReadOnlySpan<char> labelId, sbyte[] values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -1821,7 +1821,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			{
 				ImPlotNative.PlotScatterS8PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -1830,16 +1830,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotScatterU8PtrInt(ReadOnlySpan<byte> labelId, ref byte values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterU8PtrInt(ReadOnlySpan<byte> labelId, byte[] values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			{
 				ImPlotNative.PlotScatterU8PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotScatterU8PtrInt(ReadOnlySpan<char> labelId, ref byte values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterU8PtrInt(ReadOnlySpan<char> labelId, byte[] values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -1861,7 +1861,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			{
 				ImPlotNative.PlotScatterU8PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -1870,16 +1870,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotScatterS16PtrInt(ReadOnlySpan<byte> labelId, ref short values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterS16PtrInt(ReadOnlySpan<byte> labelId, short[] values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			{
 				ImPlotNative.PlotScatterS16PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotScatterS16PtrInt(ReadOnlySpan<char> labelId, ref short values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterS16PtrInt(ReadOnlySpan<char> labelId, short[] values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -1901,7 +1901,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			{
 				ImPlotNative.PlotScatterS16PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -1910,16 +1910,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotScatterU16PtrInt(ReadOnlySpan<byte> labelId, ref ushort values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterU16PtrInt(ReadOnlySpan<byte> labelId, ushort[] values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			{
 				ImPlotNative.PlotScatterU16PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotScatterU16PtrInt(ReadOnlySpan<char> labelId, ref ushort values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterU16PtrInt(ReadOnlySpan<char> labelId, ushort[] values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -1941,7 +1941,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			{
 				ImPlotNative.PlotScatterU16PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -1950,16 +1950,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotScatterS32PtrInt(ReadOnlySpan<byte> labelId, ref int values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterS32PtrInt(ReadOnlySpan<byte> labelId, int[] values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			{
 				ImPlotNative.PlotScatterS32PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotScatterS32PtrInt(ReadOnlySpan<char> labelId, ref int values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterS32PtrInt(ReadOnlySpan<char> labelId, int[] values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -1981,7 +1981,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			{
 				ImPlotNative.PlotScatterS32PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -1990,16 +1990,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotScatterU32PtrInt(ReadOnlySpan<byte> labelId, ref uint values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterU32PtrInt(ReadOnlySpan<byte> labelId, uint[] values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			{
 				ImPlotNative.PlotScatterU32PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotScatterU32PtrInt(ReadOnlySpan<char> labelId, ref uint values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterU32PtrInt(ReadOnlySpan<char> labelId, uint[] values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -2021,7 +2021,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			{
 				ImPlotNative.PlotScatterU32PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -2030,16 +2030,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotScatterS64PtrInt(ReadOnlySpan<byte> labelId, ref long values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterS64PtrInt(ReadOnlySpan<byte> labelId, long[] values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			{
 				ImPlotNative.PlotScatterS64PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotScatterS64PtrInt(ReadOnlySpan<char> labelId, ref long values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterS64PtrInt(ReadOnlySpan<char> labelId, long[] values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -2061,7 +2061,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			{
 				ImPlotNative.PlotScatterS64PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -2070,16 +2070,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotScatterU64PtrInt(ReadOnlySpan<byte> labelId, ref ulong values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterU64PtrInt(ReadOnlySpan<byte> labelId, ulong[] values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			{
 				ImPlotNative.PlotScatterU64PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotScatterU64PtrInt(ReadOnlySpan<char> labelId, ref ulong values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterU64PtrInt(ReadOnlySpan<char> labelId, ulong[] values, int count, double xscale, double xstart, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -2101,7 +2101,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			{
 				ImPlotNative.PlotScatterU64PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -2110,17 +2110,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotScatterFloatPtrFloatPtr(ReadOnlySpan<byte> labelId, ref float xs, ref float ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterFloatPtrFloatPtr(ReadOnlySpan<byte> labelId, float[] xs, float[] ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (float* nativeXs = &xs)
-			fixed (float* nativeYs = &ys)
+			fixed (float* nativeXs = xs)
+			fixed (float* nativeYs = ys)
 			{
 				ImPlotNative.PlotScatterFloatPtrFloatPtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotScatterFloatPtrFloatPtr(ReadOnlySpan<char> labelId, ref float xs, ref float ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterFloatPtrFloatPtr(ReadOnlySpan<char> labelId, float[] xs, float[] ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -2142,8 +2142,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (float* nativeXs = &xs)
-			fixed (float* nativeYs = &ys)
+			fixed (float* nativeXs = xs)
+			fixed (float* nativeYs = ys)
 			{
 				ImPlotNative.PlotScatterFloatPtrFloatPtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -2152,17 +2152,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotScatterDoublePtrdoublePtr(ReadOnlySpan<byte> labelId, ref double xs, ref double ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterDoublePtrdoublePtr(ReadOnlySpan<byte> labelId, double[] xs, double[] ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (double* nativeXs = &xs)
-			fixed (double* nativeYs = &ys)
+			fixed (double* nativeXs = xs)
+			fixed (double* nativeYs = ys)
 			{
 				ImPlotNative.PlotScatterDoublePtrdoublePtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotScatterDoublePtrdoublePtr(ReadOnlySpan<char> labelId, ref double xs, ref double ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterDoublePtrdoublePtr(ReadOnlySpan<char> labelId, double[] xs, double[] ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -2184,8 +2184,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (double* nativeXs = &xs)
-			fixed (double* nativeYs = &ys)
+			fixed (double* nativeXs = xs)
+			fixed (double* nativeYs = ys)
 			{
 				ImPlotNative.PlotScatterDoublePtrdoublePtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -2194,17 +2194,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotScatterS8PtrS8Ptr(ReadOnlySpan<byte> labelId, ref sbyte xs, ref sbyte ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterS8PtrS8Ptr(ReadOnlySpan<byte> labelId, sbyte[] xs, sbyte[] ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (sbyte* nativeXs = &xs)
-			fixed (sbyte* nativeYs = &ys)
+			fixed (sbyte* nativeXs = xs)
+			fixed (sbyte* nativeYs = ys)
 			{
 				ImPlotNative.PlotScatterS8PtrS8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotScatterS8PtrS8Ptr(ReadOnlySpan<char> labelId, ref sbyte xs, ref sbyte ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterS8PtrS8Ptr(ReadOnlySpan<char> labelId, sbyte[] xs, sbyte[] ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -2226,8 +2226,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (sbyte* nativeXs = &xs)
-			fixed (sbyte* nativeYs = &ys)
+			fixed (sbyte* nativeXs = xs)
+			fixed (sbyte* nativeYs = ys)
 			{
 				ImPlotNative.PlotScatterS8PtrS8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -2236,17 +2236,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotScatterU8PtrU8Ptr(ReadOnlySpan<byte> labelId, ref byte xs, ref byte ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterU8PtrU8Ptr(ReadOnlySpan<byte> labelId, byte[] xs, byte[] ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (byte* nativeXs = &xs)
-			fixed (byte* nativeYs = &ys)
+			fixed (byte* nativeXs = xs)
+			fixed (byte* nativeYs = ys)
 			{
 				ImPlotNative.PlotScatterU8PtrU8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotScatterU8PtrU8Ptr(ReadOnlySpan<char> labelId, ref byte xs, ref byte ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterU8PtrU8Ptr(ReadOnlySpan<char> labelId, byte[] xs, byte[] ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -2268,8 +2268,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (byte* nativeXs = &xs)
-			fixed (byte* nativeYs = &ys)
+			fixed (byte* nativeXs = xs)
+			fixed (byte* nativeYs = ys)
 			{
 				ImPlotNative.PlotScatterU8PtrU8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -2278,17 +2278,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotScatterS16PtrS16Ptr(ReadOnlySpan<byte> labelId, ref short xs, ref short ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterS16PtrS16Ptr(ReadOnlySpan<byte> labelId, short[] xs, short[] ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (short* nativeXs = &xs)
-			fixed (short* nativeYs = &ys)
+			fixed (short* nativeXs = xs)
+			fixed (short* nativeYs = ys)
 			{
 				ImPlotNative.PlotScatterS16PtrS16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotScatterS16PtrS16Ptr(ReadOnlySpan<char> labelId, ref short xs, ref short ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterS16PtrS16Ptr(ReadOnlySpan<char> labelId, short[] xs, short[] ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -2310,8 +2310,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (short* nativeXs = &xs)
-			fixed (short* nativeYs = &ys)
+			fixed (short* nativeXs = xs)
+			fixed (short* nativeYs = ys)
 			{
 				ImPlotNative.PlotScatterS16PtrS16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -2320,17 +2320,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotScatterU16PtrU16Ptr(ReadOnlySpan<byte> labelId, ref ushort xs, ref ushort ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterU16PtrU16Ptr(ReadOnlySpan<byte> labelId, ushort[] xs, ushort[] ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ushort* nativeXs = &xs)
-			fixed (ushort* nativeYs = &ys)
+			fixed (ushort* nativeXs = xs)
+			fixed (ushort* nativeYs = ys)
 			{
 				ImPlotNative.PlotScatterU16PtrU16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotScatterU16PtrU16Ptr(ReadOnlySpan<char> labelId, ref ushort xs, ref ushort ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterU16PtrU16Ptr(ReadOnlySpan<char> labelId, ushort[] xs, ushort[] ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -2352,8 +2352,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ushort* nativeXs = &xs)
-			fixed (ushort* nativeYs = &ys)
+			fixed (ushort* nativeXs = xs)
+			fixed (ushort* nativeYs = ys)
 			{
 				ImPlotNative.PlotScatterU16PtrU16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -2362,17 +2362,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotScatterS32PtrS32Ptr(ReadOnlySpan<byte> labelId, ref int xs, ref int ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterS32PtrS32Ptr(ReadOnlySpan<byte> labelId, int[] xs, int[] ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (int* nativeXs = &xs)
-			fixed (int* nativeYs = &ys)
+			fixed (int* nativeXs = xs)
+			fixed (int* nativeYs = ys)
 			{
 				ImPlotNative.PlotScatterS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotScatterS32PtrS32Ptr(ReadOnlySpan<char> labelId, ref int xs, ref int ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterS32PtrS32Ptr(ReadOnlySpan<char> labelId, int[] xs, int[] ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -2394,8 +2394,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (int* nativeXs = &xs)
-			fixed (int* nativeYs = &ys)
+			fixed (int* nativeXs = xs)
+			fixed (int* nativeYs = ys)
 			{
 				ImPlotNative.PlotScatterS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -2404,17 +2404,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotScatterU32PtrU32Ptr(ReadOnlySpan<byte> labelId, ref uint xs, ref uint ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterU32PtrU32Ptr(ReadOnlySpan<byte> labelId, uint[] xs, uint[] ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (uint* nativeXs = &xs)
-			fixed (uint* nativeYs = &ys)
+			fixed (uint* nativeXs = xs)
+			fixed (uint* nativeYs = ys)
 			{
 				ImPlotNative.PlotScatterU32PtrU32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotScatterU32PtrU32Ptr(ReadOnlySpan<char> labelId, ref uint xs, ref uint ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterU32PtrU32Ptr(ReadOnlySpan<char> labelId, uint[] xs, uint[] ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -2436,8 +2436,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (uint* nativeXs = &xs)
-			fixed (uint* nativeYs = &ys)
+			fixed (uint* nativeXs = xs)
+			fixed (uint* nativeYs = ys)
 			{
 				ImPlotNative.PlotScatterU32PtrU32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -2446,17 +2446,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotScatterS64PtrS64Ptr(ReadOnlySpan<byte> labelId, ref long xs, ref long ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterS64PtrS64Ptr(ReadOnlySpan<byte> labelId, long[] xs, long[] ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (long* nativeXs = &xs)
-			fixed (long* nativeYs = &ys)
+			fixed (long* nativeXs = xs)
+			fixed (long* nativeYs = ys)
 			{
 				ImPlotNative.PlotScatterS64PtrS64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotScatterS64PtrS64Ptr(ReadOnlySpan<char> labelId, ref long xs, ref long ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterS64PtrS64Ptr(ReadOnlySpan<char> labelId, long[] xs, long[] ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -2478,8 +2478,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (long* nativeXs = &xs)
-			fixed (long* nativeYs = &ys)
+			fixed (long* nativeXs = xs)
+			fixed (long* nativeYs = ys)
 			{
 				ImPlotNative.PlotScatterS64PtrS64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -2488,17 +2488,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotScatterU64PtrU64Ptr(ReadOnlySpan<byte> labelId, ref ulong xs, ref ulong ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterU64PtrU64Ptr(ReadOnlySpan<byte> labelId, ulong[] xs, ulong[] ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ulong* nativeXs = &xs)
-			fixed (ulong* nativeYs = &ys)
+			fixed (ulong* nativeXs = xs)
+			fixed (ulong* nativeYs = ys)
 			{
 				ImPlotNative.PlotScatterU64PtrU64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotScatterU64PtrU64Ptr(ReadOnlySpan<char> labelId, ref ulong xs, ref ulong ys, int count, ImPlotScatterFlags flags, int offset, int stride)
+		public static void PlotScatterU64PtrU64Ptr(ReadOnlySpan<char> labelId, ulong[] xs, ulong[] ys, int count, ImPlotScatterFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -2520,8 +2520,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ulong* nativeXs = &xs)
-			fixed (ulong* nativeYs = &ys)
+			fixed (ulong* nativeXs = xs)
+			fixed (ulong* nativeYs = ys)
 			{
 				ImPlotNative.PlotScatterU64PtrU64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -2606,16 +2606,16 @@ namespace SharpImPlot
 				Utils.Free(nativeLabelId);
 		}
 
-		public static void PlotStairsFloatPtrInt(ReadOnlySpan<byte> labelId, ref float values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsFloatPtrInt(ReadOnlySpan<byte> labelId, float[] values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			{
 				ImPlotNative.PlotStairsFloatPtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStairsFloatPtrInt(ReadOnlySpan<char> labelId, ref float values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsFloatPtrInt(ReadOnlySpan<char> labelId, float[] values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -2637,7 +2637,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			{
 				ImPlotNative.PlotStairsFloatPtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -2646,16 +2646,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStairsDoublePtrInt(ReadOnlySpan<byte> labelId, ref double values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsDoublePtrInt(ReadOnlySpan<byte> labelId, double[] values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			{
 				ImPlotNative.PlotStairsDoublePtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStairsDoublePtrInt(ReadOnlySpan<char> labelId, ref double values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsDoublePtrInt(ReadOnlySpan<char> labelId, double[] values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -2677,7 +2677,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			{
 				ImPlotNative.PlotStairsDoublePtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -2686,16 +2686,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStairsS8PtrInt(ReadOnlySpan<byte> labelId, ref sbyte values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsS8PtrInt(ReadOnlySpan<byte> labelId, sbyte[] values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			{
 				ImPlotNative.PlotStairsS8PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStairsS8PtrInt(ReadOnlySpan<char> labelId, ref sbyte values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsS8PtrInt(ReadOnlySpan<char> labelId, sbyte[] values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -2717,7 +2717,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			{
 				ImPlotNative.PlotStairsS8PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -2726,16 +2726,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStairsU8PtrInt(ReadOnlySpan<byte> labelId, ref byte values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsU8PtrInt(ReadOnlySpan<byte> labelId, byte[] values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			{
 				ImPlotNative.PlotStairsU8PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStairsU8PtrInt(ReadOnlySpan<char> labelId, ref byte values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsU8PtrInt(ReadOnlySpan<char> labelId, byte[] values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -2757,7 +2757,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			{
 				ImPlotNative.PlotStairsU8PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -2766,16 +2766,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStairsS16PtrInt(ReadOnlySpan<byte> labelId, ref short values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsS16PtrInt(ReadOnlySpan<byte> labelId, short[] values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			{
 				ImPlotNative.PlotStairsS16PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStairsS16PtrInt(ReadOnlySpan<char> labelId, ref short values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsS16PtrInt(ReadOnlySpan<char> labelId, short[] values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -2797,7 +2797,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			{
 				ImPlotNative.PlotStairsS16PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -2806,16 +2806,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStairsU16PtrInt(ReadOnlySpan<byte> labelId, ref ushort values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsU16PtrInt(ReadOnlySpan<byte> labelId, ushort[] values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			{
 				ImPlotNative.PlotStairsU16PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStairsU16PtrInt(ReadOnlySpan<char> labelId, ref ushort values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsU16PtrInt(ReadOnlySpan<char> labelId, ushort[] values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -2837,7 +2837,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			{
 				ImPlotNative.PlotStairsU16PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -2846,16 +2846,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStairsS32PtrInt(ReadOnlySpan<byte> labelId, ref int values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsS32PtrInt(ReadOnlySpan<byte> labelId, int[] values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			{
 				ImPlotNative.PlotStairsS32PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStairsS32PtrInt(ReadOnlySpan<char> labelId, ref int values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsS32PtrInt(ReadOnlySpan<char> labelId, int[] values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -2877,7 +2877,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			{
 				ImPlotNative.PlotStairsS32PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -2886,16 +2886,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStairsU32PtrInt(ReadOnlySpan<byte> labelId, ref uint values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsU32PtrInt(ReadOnlySpan<byte> labelId, uint[] values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			{
 				ImPlotNative.PlotStairsU32PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStairsU32PtrInt(ReadOnlySpan<char> labelId, ref uint values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsU32PtrInt(ReadOnlySpan<char> labelId, uint[] values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -2917,7 +2917,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			{
 				ImPlotNative.PlotStairsU32PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -2926,16 +2926,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStairsS64PtrInt(ReadOnlySpan<byte> labelId, ref long values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsS64PtrInt(ReadOnlySpan<byte> labelId, long[] values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			{
 				ImPlotNative.PlotStairsS64PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStairsS64PtrInt(ReadOnlySpan<char> labelId, ref long values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsS64PtrInt(ReadOnlySpan<char> labelId, long[] values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -2957,7 +2957,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			{
 				ImPlotNative.PlotStairsS64PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -2966,16 +2966,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStairsU64PtrInt(ReadOnlySpan<byte> labelId, ref ulong values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsU64PtrInt(ReadOnlySpan<byte> labelId, ulong[] values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			{
 				ImPlotNative.PlotStairsU64PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStairsU64PtrInt(ReadOnlySpan<char> labelId, ref ulong values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsU64PtrInt(ReadOnlySpan<char> labelId, ulong[] values, int count, double xscale, double xstart, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -2997,7 +2997,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			{
 				ImPlotNative.PlotStairsU64PtrInt(nativeLabelId, nativeValues, count, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -3006,17 +3006,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStairsFloatPtrFloatPtr(ReadOnlySpan<byte> labelId, ref float xs, ref float ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsFloatPtrFloatPtr(ReadOnlySpan<byte> labelId, float[] xs, float[] ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (float* nativeXs = &xs)
-			fixed (float* nativeYs = &ys)
+			fixed (float* nativeXs = xs)
+			fixed (float* nativeYs = ys)
 			{
 				ImPlotNative.PlotStairsFloatPtrFloatPtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStairsFloatPtrFloatPtr(ReadOnlySpan<char> labelId, ref float xs, ref float ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsFloatPtrFloatPtr(ReadOnlySpan<char> labelId, float[] xs, float[] ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -3038,8 +3038,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (float* nativeXs = &xs)
-			fixed (float* nativeYs = &ys)
+			fixed (float* nativeXs = xs)
+			fixed (float* nativeYs = ys)
 			{
 				ImPlotNative.PlotStairsFloatPtrFloatPtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -3048,17 +3048,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStairsDoublePtrdoublePtr(ReadOnlySpan<byte> labelId, ref double xs, ref double ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsDoublePtrdoublePtr(ReadOnlySpan<byte> labelId, double[] xs, double[] ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (double* nativeXs = &xs)
-			fixed (double* nativeYs = &ys)
+			fixed (double* nativeXs = xs)
+			fixed (double* nativeYs = ys)
 			{
 				ImPlotNative.PlotStairsDoublePtrdoublePtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStairsDoublePtrdoublePtr(ReadOnlySpan<char> labelId, ref double xs, ref double ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsDoublePtrdoublePtr(ReadOnlySpan<char> labelId, double[] xs, double[] ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -3080,8 +3080,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (double* nativeXs = &xs)
-			fixed (double* nativeYs = &ys)
+			fixed (double* nativeXs = xs)
+			fixed (double* nativeYs = ys)
 			{
 				ImPlotNative.PlotStairsDoublePtrdoublePtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -3090,17 +3090,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStairsS8PtrS8Ptr(ReadOnlySpan<byte> labelId, ref sbyte xs, ref sbyte ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsS8PtrS8Ptr(ReadOnlySpan<byte> labelId, sbyte[] xs, sbyte[] ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (sbyte* nativeXs = &xs)
-			fixed (sbyte* nativeYs = &ys)
+			fixed (sbyte* nativeXs = xs)
+			fixed (sbyte* nativeYs = ys)
 			{
 				ImPlotNative.PlotStairsS8PtrS8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStairsS8PtrS8Ptr(ReadOnlySpan<char> labelId, ref sbyte xs, ref sbyte ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsS8PtrS8Ptr(ReadOnlySpan<char> labelId, sbyte[] xs, sbyte[] ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -3122,8 +3122,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (sbyte* nativeXs = &xs)
-			fixed (sbyte* nativeYs = &ys)
+			fixed (sbyte* nativeXs = xs)
+			fixed (sbyte* nativeYs = ys)
 			{
 				ImPlotNative.PlotStairsS8PtrS8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -3132,17 +3132,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStairsU8PtrU8Ptr(ReadOnlySpan<byte> labelId, ref byte xs, ref byte ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsU8PtrU8Ptr(ReadOnlySpan<byte> labelId, byte[] xs, byte[] ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (byte* nativeXs = &xs)
-			fixed (byte* nativeYs = &ys)
+			fixed (byte* nativeXs = xs)
+			fixed (byte* nativeYs = ys)
 			{
 				ImPlotNative.PlotStairsU8PtrU8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStairsU8PtrU8Ptr(ReadOnlySpan<char> labelId, ref byte xs, ref byte ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsU8PtrU8Ptr(ReadOnlySpan<char> labelId, byte[] xs, byte[] ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -3164,8 +3164,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (byte* nativeXs = &xs)
-			fixed (byte* nativeYs = &ys)
+			fixed (byte* nativeXs = xs)
+			fixed (byte* nativeYs = ys)
 			{
 				ImPlotNative.PlotStairsU8PtrU8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -3174,17 +3174,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStairsS16PtrS16Ptr(ReadOnlySpan<byte> labelId, ref short xs, ref short ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsS16PtrS16Ptr(ReadOnlySpan<byte> labelId, short[] xs, short[] ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (short* nativeXs = &xs)
-			fixed (short* nativeYs = &ys)
+			fixed (short* nativeXs = xs)
+			fixed (short* nativeYs = ys)
 			{
 				ImPlotNative.PlotStairsS16PtrS16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStairsS16PtrS16Ptr(ReadOnlySpan<char> labelId, ref short xs, ref short ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsS16PtrS16Ptr(ReadOnlySpan<char> labelId, short[] xs, short[] ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -3206,8 +3206,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (short* nativeXs = &xs)
-			fixed (short* nativeYs = &ys)
+			fixed (short* nativeXs = xs)
+			fixed (short* nativeYs = ys)
 			{
 				ImPlotNative.PlotStairsS16PtrS16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -3216,17 +3216,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStairsU16PtrU16Ptr(ReadOnlySpan<byte> labelId, ref ushort xs, ref ushort ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsU16PtrU16Ptr(ReadOnlySpan<byte> labelId, ushort[] xs, ushort[] ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ushort* nativeXs = &xs)
-			fixed (ushort* nativeYs = &ys)
+			fixed (ushort* nativeXs = xs)
+			fixed (ushort* nativeYs = ys)
 			{
 				ImPlotNative.PlotStairsU16PtrU16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStairsU16PtrU16Ptr(ReadOnlySpan<char> labelId, ref ushort xs, ref ushort ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsU16PtrU16Ptr(ReadOnlySpan<char> labelId, ushort[] xs, ushort[] ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -3248,8 +3248,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ushort* nativeXs = &xs)
-			fixed (ushort* nativeYs = &ys)
+			fixed (ushort* nativeXs = xs)
+			fixed (ushort* nativeYs = ys)
 			{
 				ImPlotNative.PlotStairsU16PtrU16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -3258,17 +3258,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStairsS32PtrS32Ptr(ReadOnlySpan<byte> labelId, ref int xs, ref int ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsS32PtrS32Ptr(ReadOnlySpan<byte> labelId, int[] xs, int[] ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (int* nativeXs = &xs)
-			fixed (int* nativeYs = &ys)
+			fixed (int* nativeXs = xs)
+			fixed (int* nativeYs = ys)
 			{
 				ImPlotNative.PlotStairsS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStairsS32PtrS32Ptr(ReadOnlySpan<char> labelId, ref int xs, ref int ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsS32PtrS32Ptr(ReadOnlySpan<char> labelId, int[] xs, int[] ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -3290,8 +3290,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (int* nativeXs = &xs)
-			fixed (int* nativeYs = &ys)
+			fixed (int* nativeXs = xs)
+			fixed (int* nativeYs = ys)
 			{
 				ImPlotNative.PlotStairsS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -3300,17 +3300,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStairsU32PtrU32Ptr(ReadOnlySpan<byte> labelId, ref uint xs, ref uint ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsU32PtrU32Ptr(ReadOnlySpan<byte> labelId, uint[] xs, uint[] ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (uint* nativeXs = &xs)
-			fixed (uint* nativeYs = &ys)
+			fixed (uint* nativeXs = xs)
+			fixed (uint* nativeYs = ys)
 			{
 				ImPlotNative.PlotStairsU32PtrU32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStairsU32PtrU32Ptr(ReadOnlySpan<char> labelId, ref uint xs, ref uint ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsU32PtrU32Ptr(ReadOnlySpan<char> labelId, uint[] xs, uint[] ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -3332,8 +3332,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (uint* nativeXs = &xs)
-			fixed (uint* nativeYs = &ys)
+			fixed (uint* nativeXs = xs)
+			fixed (uint* nativeYs = ys)
 			{
 				ImPlotNative.PlotStairsU32PtrU32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -3342,17 +3342,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStairsS64PtrS64Ptr(ReadOnlySpan<byte> labelId, ref long xs, ref long ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsS64PtrS64Ptr(ReadOnlySpan<byte> labelId, long[] xs, long[] ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (long* nativeXs = &xs)
-			fixed (long* nativeYs = &ys)
+			fixed (long* nativeXs = xs)
+			fixed (long* nativeYs = ys)
 			{
 				ImPlotNative.PlotStairsS64PtrS64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStairsS64PtrS64Ptr(ReadOnlySpan<char> labelId, ref long xs, ref long ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsS64PtrS64Ptr(ReadOnlySpan<char> labelId, long[] xs, long[] ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -3374,8 +3374,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (long* nativeXs = &xs)
-			fixed (long* nativeYs = &ys)
+			fixed (long* nativeXs = xs)
+			fixed (long* nativeYs = ys)
 			{
 				ImPlotNative.PlotStairsS64PtrS64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -3384,17 +3384,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStairsU64PtrU64Ptr(ReadOnlySpan<byte> labelId, ref ulong xs, ref ulong ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsU64PtrU64Ptr(ReadOnlySpan<byte> labelId, ulong[] xs, ulong[] ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ulong* nativeXs = &xs)
-			fixed (ulong* nativeYs = &ys)
+			fixed (ulong* nativeXs = xs)
+			fixed (ulong* nativeYs = ys)
 			{
 				ImPlotNative.PlotStairsU64PtrU64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStairsU64PtrU64Ptr(ReadOnlySpan<char> labelId, ref ulong xs, ref ulong ys, int count, ImPlotStairsFlags flags, int offset, int stride)
+		public static void PlotStairsU64PtrU64Ptr(ReadOnlySpan<char> labelId, ulong[] xs, ulong[] ys, int count, ImPlotStairsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -3416,8 +3416,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ulong* nativeXs = &xs)
-			fixed (ulong* nativeYs = &ys)
+			fixed (ulong* nativeXs = xs)
+			fixed (ulong* nativeYs = ys)
 			{
 				ImPlotNative.PlotStairsU64PtrU64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -3502,16 +3502,16 @@ namespace SharpImPlot
 				Utils.Free(nativeLabelId);
 		}
 
-		public static void PlotShadedFloatPtrInt(ReadOnlySpan<byte> labelId, ref float values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedFloatPtrInt(ReadOnlySpan<byte> labelId, float[] values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			{
 				ImPlotNative.PlotShadedFloatPtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedFloatPtrInt(ReadOnlySpan<char> labelId, ref float values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedFloatPtrInt(ReadOnlySpan<char> labelId, float[] values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -3533,7 +3533,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			{
 				ImPlotNative.PlotShadedFloatPtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -3542,16 +3542,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedDoublePtrInt(ReadOnlySpan<byte> labelId, ref double values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedDoublePtrInt(ReadOnlySpan<byte> labelId, double[] values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			{
 				ImPlotNative.PlotShadedDoublePtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedDoublePtrInt(ReadOnlySpan<char> labelId, ref double values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedDoublePtrInt(ReadOnlySpan<char> labelId, double[] values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -3573,7 +3573,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			{
 				ImPlotNative.PlotShadedDoublePtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -3582,16 +3582,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedS8PtrInt(ReadOnlySpan<byte> labelId, ref sbyte values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedS8PtrInt(ReadOnlySpan<byte> labelId, sbyte[] values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			{
 				ImPlotNative.PlotShadedS8PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedS8PtrInt(ReadOnlySpan<char> labelId, ref sbyte values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedS8PtrInt(ReadOnlySpan<char> labelId, sbyte[] values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -3613,7 +3613,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			{
 				ImPlotNative.PlotShadedS8PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -3622,16 +3622,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedU8PtrInt(ReadOnlySpan<byte> labelId, ref byte values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedU8PtrInt(ReadOnlySpan<byte> labelId, byte[] values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			{
 				ImPlotNative.PlotShadedU8PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedU8PtrInt(ReadOnlySpan<char> labelId, ref byte values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedU8PtrInt(ReadOnlySpan<char> labelId, byte[] values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -3653,7 +3653,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			{
 				ImPlotNative.PlotShadedU8PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -3662,16 +3662,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedS16PtrInt(ReadOnlySpan<byte> labelId, ref short values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedS16PtrInt(ReadOnlySpan<byte> labelId, short[] values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			{
 				ImPlotNative.PlotShadedS16PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedS16PtrInt(ReadOnlySpan<char> labelId, ref short values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedS16PtrInt(ReadOnlySpan<char> labelId, short[] values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -3693,7 +3693,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			{
 				ImPlotNative.PlotShadedS16PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -3702,16 +3702,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedU16PtrInt(ReadOnlySpan<byte> labelId, ref ushort values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedU16PtrInt(ReadOnlySpan<byte> labelId, ushort[] values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			{
 				ImPlotNative.PlotShadedU16PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedU16PtrInt(ReadOnlySpan<char> labelId, ref ushort values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedU16PtrInt(ReadOnlySpan<char> labelId, ushort[] values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -3733,7 +3733,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			{
 				ImPlotNative.PlotShadedU16PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -3742,16 +3742,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedS32PtrInt(ReadOnlySpan<byte> labelId, ref int values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedS32PtrInt(ReadOnlySpan<byte> labelId, int[] values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			{
 				ImPlotNative.PlotShadedS32PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedS32PtrInt(ReadOnlySpan<char> labelId, ref int values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedS32PtrInt(ReadOnlySpan<char> labelId, int[] values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -3773,7 +3773,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			{
 				ImPlotNative.PlotShadedS32PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -3782,16 +3782,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedU32PtrInt(ReadOnlySpan<byte> labelId, ref uint values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedU32PtrInt(ReadOnlySpan<byte> labelId, uint[] values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			{
 				ImPlotNative.PlotShadedU32PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedU32PtrInt(ReadOnlySpan<char> labelId, ref uint values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedU32PtrInt(ReadOnlySpan<char> labelId, uint[] values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -3813,7 +3813,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			{
 				ImPlotNative.PlotShadedU32PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -3822,16 +3822,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedS64PtrInt(ReadOnlySpan<byte> labelId, ref long values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedS64PtrInt(ReadOnlySpan<byte> labelId, long[] values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			{
 				ImPlotNative.PlotShadedS64PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedS64PtrInt(ReadOnlySpan<char> labelId, ref long values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedS64PtrInt(ReadOnlySpan<char> labelId, long[] values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -3853,7 +3853,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			{
 				ImPlotNative.PlotShadedS64PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -3862,16 +3862,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedU64PtrInt(ReadOnlySpan<byte> labelId, ref ulong values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedU64PtrInt(ReadOnlySpan<byte> labelId, ulong[] values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			{
 				ImPlotNative.PlotShadedU64PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedU64PtrInt(ReadOnlySpan<char> labelId, ref ulong values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedU64PtrInt(ReadOnlySpan<char> labelId, ulong[] values, int count, double yref, double xscale, double xstart, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -3893,7 +3893,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			{
 				ImPlotNative.PlotShadedU64PtrInt(nativeLabelId, nativeValues, count, yref, xscale, xstart, flags, offset, stride);
 				// Freeing labelId native string
@@ -3902,17 +3902,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedFloatPtrFloatPtrInt(ReadOnlySpan<byte> labelId, ref float xs, ref float ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedFloatPtrFloatPtrInt(ReadOnlySpan<byte> labelId, float[] xs, float[] ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (float* nativeXs = &xs)
-			fixed (float* nativeYs = &ys)
+			fixed (float* nativeXs = xs)
+			fixed (float* nativeYs = ys)
 			{
 				ImPlotNative.PlotShadedFloatPtrFloatPtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedFloatPtrFloatPtrInt(ReadOnlySpan<char> labelId, ref float xs, ref float ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedFloatPtrFloatPtrInt(ReadOnlySpan<char> labelId, float[] xs, float[] ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -3934,8 +3934,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (float* nativeXs = &xs)
-			fixed (float* nativeYs = &ys)
+			fixed (float* nativeXs = xs)
+			fixed (float* nativeYs = ys)
 			{
 				ImPlotNative.PlotShadedFloatPtrFloatPtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 				// Freeing labelId native string
@@ -3944,17 +3944,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedDoublePtrdoublePtrInt(ReadOnlySpan<byte> labelId, ref double xs, ref double ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedDoublePtrdoublePtrInt(ReadOnlySpan<byte> labelId, double[] xs, double[] ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (double* nativeXs = &xs)
-			fixed (double* nativeYs = &ys)
+			fixed (double* nativeXs = xs)
+			fixed (double* nativeYs = ys)
 			{
 				ImPlotNative.PlotShadedDoublePtrdoublePtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedDoublePtrdoublePtrInt(ReadOnlySpan<char> labelId, ref double xs, ref double ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedDoublePtrdoublePtrInt(ReadOnlySpan<char> labelId, double[] xs, double[] ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -3976,8 +3976,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (double* nativeXs = &xs)
-			fixed (double* nativeYs = &ys)
+			fixed (double* nativeXs = xs)
+			fixed (double* nativeYs = ys)
 			{
 				ImPlotNative.PlotShadedDoublePtrdoublePtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 				// Freeing labelId native string
@@ -3986,17 +3986,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedS8PtrS8PtrInt(ReadOnlySpan<byte> labelId, ref sbyte xs, ref sbyte ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedS8PtrS8PtrInt(ReadOnlySpan<byte> labelId, sbyte[] xs, sbyte[] ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (sbyte* nativeXs = &xs)
-			fixed (sbyte* nativeYs = &ys)
+			fixed (sbyte* nativeXs = xs)
+			fixed (sbyte* nativeYs = ys)
 			{
 				ImPlotNative.PlotShadedS8PtrS8PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedS8PtrS8PtrInt(ReadOnlySpan<char> labelId, ref sbyte xs, ref sbyte ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedS8PtrS8PtrInt(ReadOnlySpan<char> labelId, sbyte[] xs, sbyte[] ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -4018,8 +4018,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (sbyte* nativeXs = &xs)
-			fixed (sbyte* nativeYs = &ys)
+			fixed (sbyte* nativeXs = xs)
+			fixed (sbyte* nativeYs = ys)
 			{
 				ImPlotNative.PlotShadedS8PtrS8PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 				// Freeing labelId native string
@@ -4028,17 +4028,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedU8PtrU8PtrInt(ReadOnlySpan<byte> labelId, ref byte xs, ref byte ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedU8PtrU8PtrInt(ReadOnlySpan<byte> labelId, byte[] xs, byte[] ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (byte* nativeXs = &xs)
-			fixed (byte* nativeYs = &ys)
+			fixed (byte* nativeXs = xs)
+			fixed (byte* nativeYs = ys)
 			{
 				ImPlotNative.PlotShadedU8PtrU8PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedU8PtrU8PtrInt(ReadOnlySpan<char> labelId, ref byte xs, ref byte ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedU8PtrU8PtrInt(ReadOnlySpan<char> labelId, byte[] xs, byte[] ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -4060,8 +4060,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (byte* nativeXs = &xs)
-			fixed (byte* nativeYs = &ys)
+			fixed (byte* nativeXs = xs)
+			fixed (byte* nativeYs = ys)
 			{
 				ImPlotNative.PlotShadedU8PtrU8PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 				// Freeing labelId native string
@@ -4070,17 +4070,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedS16PtrS16PtrInt(ReadOnlySpan<byte> labelId, ref short xs, ref short ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedS16PtrS16PtrInt(ReadOnlySpan<byte> labelId, short[] xs, short[] ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (short* nativeXs = &xs)
-			fixed (short* nativeYs = &ys)
+			fixed (short* nativeXs = xs)
+			fixed (short* nativeYs = ys)
 			{
 				ImPlotNative.PlotShadedS16PtrS16PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedS16PtrS16PtrInt(ReadOnlySpan<char> labelId, ref short xs, ref short ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedS16PtrS16PtrInt(ReadOnlySpan<char> labelId, short[] xs, short[] ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -4102,8 +4102,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (short* nativeXs = &xs)
-			fixed (short* nativeYs = &ys)
+			fixed (short* nativeXs = xs)
+			fixed (short* nativeYs = ys)
 			{
 				ImPlotNative.PlotShadedS16PtrS16PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 				// Freeing labelId native string
@@ -4112,17 +4112,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedU16PtrU16PtrInt(ReadOnlySpan<byte> labelId, ref ushort xs, ref ushort ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedU16PtrU16PtrInt(ReadOnlySpan<byte> labelId, ushort[] xs, ushort[] ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ushort* nativeXs = &xs)
-			fixed (ushort* nativeYs = &ys)
+			fixed (ushort* nativeXs = xs)
+			fixed (ushort* nativeYs = ys)
 			{
 				ImPlotNative.PlotShadedU16PtrU16PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedU16PtrU16PtrInt(ReadOnlySpan<char> labelId, ref ushort xs, ref ushort ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedU16PtrU16PtrInt(ReadOnlySpan<char> labelId, ushort[] xs, ushort[] ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -4144,8 +4144,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ushort* nativeXs = &xs)
-			fixed (ushort* nativeYs = &ys)
+			fixed (ushort* nativeXs = xs)
+			fixed (ushort* nativeYs = ys)
 			{
 				ImPlotNative.PlotShadedU16PtrU16PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 				// Freeing labelId native string
@@ -4154,17 +4154,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedS32PtrS32PtrInt(ReadOnlySpan<byte> labelId, ref int xs, ref int ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedS32PtrS32PtrInt(ReadOnlySpan<byte> labelId, int[] xs, int[] ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (int* nativeXs = &xs)
-			fixed (int* nativeYs = &ys)
+			fixed (int* nativeXs = xs)
+			fixed (int* nativeYs = ys)
 			{
 				ImPlotNative.PlotShadedS32PtrS32PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedS32PtrS32PtrInt(ReadOnlySpan<char> labelId, ref int xs, ref int ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedS32PtrS32PtrInt(ReadOnlySpan<char> labelId, int[] xs, int[] ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -4186,8 +4186,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (int* nativeXs = &xs)
-			fixed (int* nativeYs = &ys)
+			fixed (int* nativeXs = xs)
+			fixed (int* nativeYs = ys)
 			{
 				ImPlotNative.PlotShadedS32PtrS32PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 				// Freeing labelId native string
@@ -4196,17 +4196,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedU32PtrU32PtrInt(ReadOnlySpan<byte> labelId, ref uint xs, ref uint ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedU32PtrU32PtrInt(ReadOnlySpan<byte> labelId, uint[] xs, uint[] ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (uint* nativeXs = &xs)
-			fixed (uint* nativeYs = &ys)
+			fixed (uint* nativeXs = xs)
+			fixed (uint* nativeYs = ys)
 			{
 				ImPlotNative.PlotShadedU32PtrU32PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedU32PtrU32PtrInt(ReadOnlySpan<char> labelId, ref uint xs, ref uint ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedU32PtrU32PtrInt(ReadOnlySpan<char> labelId, uint[] xs, uint[] ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -4228,8 +4228,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (uint* nativeXs = &xs)
-			fixed (uint* nativeYs = &ys)
+			fixed (uint* nativeXs = xs)
+			fixed (uint* nativeYs = ys)
 			{
 				ImPlotNative.PlotShadedU32PtrU32PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 				// Freeing labelId native string
@@ -4238,17 +4238,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedS64PtrS64PtrInt(ReadOnlySpan<byte> labelId, ref long xs, ref long ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedS64PtrS64PtrInt(ReadOnlySpan<byte> labelId, long[] xs, long[] ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (long* nativeXs = &xs)
-			fixed (long* nativeYs = &ys)
+			fixed (long* nativeXs = xs)
+			fixed (long* nativeYs = ys)
 			{
 				ImPlotNative.PlotShadedS64PtrS64PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedS64PtrS64PtrInt(ReadOnlySpan<char> labelId, ref long xs, ref long ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedS64PtrS64PtrInt(ReadOnlySpan<char> labelId, long[] xs, long[] ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -4270,8 +4270,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (long* nativeXs = &xs)
-			fixed (long* nativeYs = &ys)
+			fixed (long* nativeXs = xs)
+			fixed (long* nativeYs = ys)
 			{
 				ImPlotNative.PlotShadedS64PtrS64PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 				// Freeing labelId native string
@@ -4280,17 +4280,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedU64PtrU64PtrInt(ReadOnlySpan<byte> labelId, ref ulong xs, ref ulong ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedU64PtrU64PtrInt(ReadOnlySpan<byte> labelId, ulong[] xs, ulong[] ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ulong* nativeXs = &xs)
-			fixed (ulong* nativeYs = &ys)
+			fixed (ulong* nativeXs = xs)
+			fixed (ulong* nativeYs = ys)
 			{
 				ImPlotNative.PlotShadedU64PtrU64PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedU64PtrU64PtrInt(ReadOnlySpan<char> labelId, ref ulong xs, ref ulong ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedU64PtrU64PtrInt(ReadOnlySpan<char> labelId, ulong[] xs, ulong[] ys, int count, double yref, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -4312,8 +4312,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ulong* nativeXs = &xs)
-			fixed (ulong* nativeYs = &ys)
+			fixed (ulong* nativeXs = xs)
+			fixed (ulong* nativeYs = ys)
 			{
 				ImPlotNative.PlotShadedU64PtrU64PtrInt(nativeLabelId, nativeXs, nativeYs, count, yref, flags, offset, stride);
 				// Freeing labelId native string
@@ -4322,18 +4322,18 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedFloatPtrFloatPtrFloatPtr(ReadOnlySpan<byte> labelId, ref float xs, ref float ys1, ref float ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedFloatPtrFloatPtrFloatPtr(ReadOnlySpan<byte> labelId, float[] xs, float[] ys1, float[] ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (float* nativeXs = &xs)
-			fixed (float* nativeYs1 = &ys1)
-			fixed (float* nativeYs2 = &ys2)
+			fixed (float* nativeXs = xs)
+			fixed (float* nativeYs1 = ys1)
+			fixed (float* nativeYs2 = ys2)
 			{
 				ImPlotNative.PlotShadedFloatPtrFloatPtrFloatPtr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedFloatPtrFloatPtrFloatPtr(ReadOnlySpan<char> labelId, ref float xs, ref float ys1, ref float ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedFloatPtrFloatPtrFloatPtr(ReadOnlySpan<char> labelId, float[] xs, float[] ys1, float[] ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -4355,9 +4355,9 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (float* nativeXs = &xs)
-			fixed (float* nativeYs1 = &ys1)
-			fixed (float* nativeYs2 = &ys2)
+			fixed (float* nativeXs = xs)
+			fixed (float* nativeYs1 = ys1)
+			fixed (float* nativeYs2 = ys2)
 			{
 				ImPlotNative.PlotShadedFloatPtrFloatPtrFloatPtr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -4366,18 +4366,18 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedDoublePtrdoublePtrdoublePtr(ReadOnlySpan<byte> labelId, ref double xs, ref double ys1, ref double ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedDoublePtrdoublePtrdoublePtr(ReadOnlySpan<byte> labelId, double[] xs, double[] ys1, double[] ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (double* nativeXs = &xs)
-			fixed (double* nativeYs1 = &ys1)
-			fixed (double* nativeYs2 = &ys2)
+			fixed (double* nativeXs = xs)
+			fixed (double* nativeYs1 = ys1)
+			fixed (double* nativeYs2 = ys2)
 			{
 				ImPlotNative.PlotShadedDoublePtrdoublePtrdoublePtr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedDoublePtrdoublePtrdoublePtr(ReadOnlySpan<char> labelId, ref double xs, ref double ys1, ref double ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedDoublePtrdoublePtrdoublePtr(ReadOnlySpan<char> labelId, double[] xs, double[] ys1, double[] ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -4399,9 +4399,9 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (double* nativeXs = &xs)
-			fixed (double* nativeYs1 = &ys1)
-			fixed (double* nativeYs2 = &ys2)
+			fixed (double* nativeXs = xs)
+			fixed (double* nativeYs1 = ys1)
+			fixed (double* nativeYs2 = ys2)
 			{
 				ImPlotNative.PlotShadedDoublePtrdoublePtrdoublePtr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -4410,18 +4410,18 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedS8PtrS8PtrS8Ptr(ReadOnlySpan<byte> labelId, ref sbyte xs, ref sbyte ys1, ref sbyte ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedS8PtrS8PtrS8Ptr(ReadOnlySpan<byte> labelId, sbyte[] xs, sbyte[] ys1, sbyte[] ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (sbyte* nativeXs = &xs)
-			fixed (sbyte* nativeYs1 = &ys1)
-			fixed (sbyte* nativeYs2 = &ys2)
+			fixed (sbyte* nativeXs = xs)
+			fixed (sbyte* nativeYs1 = ys1)
+			fixed (sbyte* nativeYs2 = ys2)
 			{
 				ImPlotNative.PlotShadedS8PtrS8PtrS8Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedS8PtrS8PtrS8Ptr(ReadOnlySpan<char> labelId, ref sbyte xs, ref sbyte ys1, ref sbyte ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedS8PtrS8PtrS8Ptr(ReadOnlySpan<char> labelId, sbyte[] xs, sbyte[] ys1, sbyte[] ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -4443,9 +4443,9 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (sbyte* nativeXs = &xs)
-			fixed (sbyte* nativeYs1 = &ys1)
-			fixed (sbyte* nativeYs2 = &ys2)
+			fixed (sbyte* nativeXs = xs)
+			fixed (sbyte* nativeYs1 = ys1)
+			fixed (sbyte* nativeYs2 = ys2)
 			{
 				ImPlotNative.PlotShadedS8PtrS8PtrS8Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -4454,18 +4454,18 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedU8PtrU8PtrU8Ptr(ReadOnlySpan<byte> labelId, ref byte xs, ref byte ys1, ref byte ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedU8PtrU8PtrU8Ptr(ReadOnlySpan<byte> labelId, byte[] xs, byte[] ys1, byte[] ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (byte* nativeXs = &xs)
-			fixed (byte* nativeYs1 = &ys1)
-			fixed (byte* nativeYs2 = &ys2)
+			fixed (byte* nativeXs = xs)
+			fixed (byte* nativeYs1 = ys1)
+			fixed (byte* nativeYs2 = ys2)
 			{
 				ImPlotNative.PlotShadedU8PtrU8PtrU8Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedU8PtrU8PtrU8Ptr(ReadOnlySpan<char> labelId, ref byte xs, ref byte ys1, ref byte ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedU8PtrU8PtrU8Ptr(ReadOnlySpan<char> labelId, byte[] xs, byte[] ys1, byte[] ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -4487,9 +4487,9 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (byte* nativeXs = &xs)
-			fixed (byte* nativeYs1 = &ys1)
-			fixed (byte* nativeYs2 = &ys2)
+			fixed (byte* nativeXs = xs)
+			fixed (byte* nativeYs1 = ys1)
+			fixed (byte* nativeYs2 = ys2)
 			{
 				ImPlotNative.PlotShadedU8PtrU8PtrU8Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -4498,18 +4498,18 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedS16PtrS16PtrS16Ptr(ReadOnlySpan<byte> labelId, ref short xs, ref short ys1, ref short ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedS16PtrS16PtrS16Ptr(ReadOnlySpan<byte> labelId, short[] xs, short[] ys1, short[] ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (short* nativeXs = &xs)
-			fixed (short* nativeYs1 = &ys1)
-			fixed (short* nativeYs2 = &ys2)
+			fixed (short* nativeXs = xs)
+			fixed (short* nativeYs1 = ys1)
+			fixed (short* nativeYs2 = ys2)
 			{
 				ImPlotNative.PlotShadedS16PtrS16PtrS16Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedS16PtrS16PtrS16Ptr(ReadOnlySpan<char> labelId, ref short xs, ref short ys1, ref short ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedS16PtrS16PtrS16Ptr(ReadOnlySpan<char> labelId, short[] xs, short[] ys1, short[] ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -4531,9 +4531,9 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (short* nativeXs = &xs)
-			fixed (short* nativeYs1 = &ys1)
-			fixed (short* nativeYs2 = &ys2)
+			fixed (short* nativeXs = xs)
+			fixed (short* nativeYs1 = ys1)
+			fixed (short* nativeYs2 = ys2)
 			{
 				ImPlotNative.PlotShadedS16PtrS16PtrS16Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -4542,18 +4542,18 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedU16PtrU16PtrU16Ptr(ReadOnlySpan<byte> labelId, ref ushort xs, ref ushort ys1, ref ushort ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedU16PtrU16PtrU16Ptr(ReadOnlySpan<byte> labelId, ushort[] xs, ushort[] ys1, ushort[] ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ushort* nativeXs = &xs)
-			fixed (ushort* nativeYs1 = &ys1)
-			fixed (ushort* nativeYs2 = &ys2)
+			fixed (ushort* nativeXs = xs)
+			fixed (ushort* nativeYs1 = ys1)
+			fixed (ushort* nativeYs2 = ys2)
 			{
 				ImPlotNative.PlotShadedU16PtrU16PtrU16Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedU16PtrU16PtrU16Ptr(ReadOnlySpan<char> labelId, ref ushort xs, ref ushort ys1, ref ushort ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedU16PtrU16PtrU16Ptr(ReadOnlySpan<char> labelId, ushort[] xs, ushort[] ys1, ushort[] ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -4575,9 +4575,9 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ushort* nativeXs = &xs)
-			fixed (ushort* nativeYs1 = &ys1)
-			fixed (ushort* nativeYs2 = &ys2)
+			fixed (ushort* nativeXs = xs)
+			fixed (ushort* nativeYs1 = ys1)
+			fixed (ushort* nativeYs2 = ys2)
 			{
 				ImPlotNative.PlotShadedU16PtrU16PtrU16Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -4586,18 +4586,18 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedS32PtrS32PtrS32Ptr(ReadOnlySpan<byte> labelId, ref int xs, ref int ys1, ref int ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedS32PtrS32PtrS32Ptr(ReadOnlySpan<byte> labelId, int[] xs, int[] ys1, int[] ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (int* nativeXs = &xs)
-			fixed (int* nativeYs1 = &ys1)
-			fixed (int* nativeYs2 = &ys2)
+			fixed (int* nativeXs = xs)
+			fixed (int* nativeYs1 = ys1)
+			fixed (int* nativeYs2 = ys2)
 			{
 				ImPlotNative.PlotShadedS32PtrS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedS32PtrS32PtrS32Ptr(ReadOnlySpan<char> labelId, ref int xs, ref int ys1, ref int ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedS32PtrS32PtrS32Ptr(ReadOnlySpan<char> labelId, int[] xs, int[] ys1, int[] ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -4619,9 +4619,9 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (int* nativeXs = &xs)
-			fixed (int* nativeYs1 = &ys1)
-			fixed (int* nativeYs2 = &ys2)
+			fixed (int* nativeXs = xs)
+			fixed (int* nativeYs1 = ys1)
+			fixed (int* nativeYs2 = ys2)
 			{
 				ImPlotNative.PlotShadedS32PtrS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -4630,18 +4630,18 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedU32PtrU32PtrU32Ptr(ReadOnlySpan<byte> labelId, ref uint xs, ref uint ys1, ref uint ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedU32PtrU32PtrU32Ptr(ReadOnlySpan<byte> labelId, uint[] xs, uint[] ys1, uint[] ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (uint* nativeXs = &xs)
-			fixed (uint* nativeYs1 = &ys1)
-			fixed (uint* nativeYs2 = &ys2)
+			fixed (uint* nativeXs = xs)
+			fixed (uint* nativeYs1 = ys1)
+			fixed (uint* nativeYs2 = ys2)
 			{
 				ImPlotNative.PlotShadedU32PtrU32PtrU32Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedU32PtrU32PtrU32Ptr(ReadOnlySpan<char> labelId, ref uint xs, ref uint ys1, ref uint ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedU32PtrU32PtrU32Ptr(ReadOnlySpan<char> labelId, uint[] xs, uint[] ys1, uint[] ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -4663,9 +4663,9 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (uint* nativeXs = &xs)
-			fixed (uint* nativeYs1 = &ys1)
-			fixed (uint* nativeYs2 = &ys2)
+			fixed (uint* nativeXs = xs)
+			fixed (uint* nativeYs1 = ys1)
+			fixed (uint* nativeYs2 = ys2)
 			{
 				ImPlotNative.PlotShadedU32PtrU32PtrU32Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -4674,18 +4674,18 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedS64PtrS64PtrS64Ptr(ReadOnlySpan<byte> labelId, ref long xs, ref long ys1, ref long ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedS64PtrS64PtrS64Ptr(ReadOnlySpan<byte> labelId, long[] xs, long[] ys1, long[] ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (long* nativeXs = &xs)
-			fixed (long* nativeYs1 = &ys1)
-			fixed (long* nativeYs2 = &ys2)
+			fixed (long* nativeXs = xs)
+			fixed (long* nativeYs1 = ys1)
+			fixed (long* nativeYs2 = ys2)
 			{
 				ImPlotNative.PlotShadedS64PtrS64PtrS64Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedS64PtrS64PtrS64Ptr(ReadOnlySpan<char> labelId, ref long xs, ref long ys1, ref long ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedS64PtrS64PtrS64Ptr(ReadOnlySpan<char> labelId, long[] xs, long[] ys1, long[] ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -4707,9 +4707,9 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (long* nativeXs = &xs)
-			fixed (long* nativeYs1 = &ys1)
-			fixed (long* nativeYs2 = &ys2)
+			fixed (long* nativeXs = xs)
+			fixed (long* nativeYs1 = ys1)
+			fixed (long* nativeYs2 = ys2)
 			{
 				ImPlotNative.PlotShadedS64PtrS64PtrS64Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -4718,18 +4718,18 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotShadedU64PtrU64PtrU64Ptr(ReadOnlySpan<byte> labelId, ref ulong xs, ref ulong ys1, ref ulong ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedU64PtrU64PtrU64Ptr(ReadOnlySpan<byte> labelId, ulong[] xs, ulong[] ys1, ulong[] ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ulong* nativeXs = &xs)
-			fixed (ulong* nativeYs1 = &ys1)
-			fixed (ulong* nativeYs2 = &ys2)
+			fixed (ulong* nativeXs = xs)
+			fixed (ulong* nativeYs1 = ys1)
+			fixed (ulong* nativeYs2 = ys2)
 			{
 				ImPlotNative.PlotShadedU64PtrU64PtrU64Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotShadedU64PtrU64PtrU64Ptr(ReadOnlySpan<char> labelId, ref ulong xs, ref ulong ys1, ref ulong ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
+		public static void PlotShadedU64PtrU64PtrU64Ptr(ReadOnlySpan<char> labelId, ulong[] xs, ulong[] ys1, ulong[] ys2, int count, ImPlotShadedFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -4751,9 +4751,9 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ulong* nativeXs = &xs)
-			fixed (ulong* nativeYs1 = &ys1)
-			fixed (ulong* nativeYs2 = &ys2)
+			fixed (ulong* nativeXs = xs)
+			fixed (ulong* nativeYs1 = ys1)
+			fixed (ulong* nativeYs2 = ys2)
 			{
 				ImPlotNative.PlotShadedU64PtrU64PtrU64Ptr(nativeLabelId, nativeXs, nativeYs1, nativeYs2, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -4838,16 +4838,16 @@ namespace SharpImPlot
 				Utils.Free(nativeLabelId);
 		}
 
-		public static void PlotBarsFloatPtrInt(ReadOnlySpan<byte> labelId, ref float values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsFloatPtrInt(ReadOnlySpan<byte> labelId, float[] values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			{
 				ImPlotNative.PlotBarsFloatPtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 			}
 		}
 
-		public static void PlotBarsFloatPtrInt(ReadOnlySpan<char> labelId, ref float values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsFloatPtrInt(ReadOnlySpan<char> labelId, float[] values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -4869,7 +4869,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			{
 				ImPlotNative.PlotBarsFloatPtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 				// Freeing labelId native string
@@ -4878,16 +4878,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotBarsDoublePtrInt(ReadOnlySpan<byte> labelId, ref double values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsDoublePtrInt(ReadOnlySpan<byte> labelId, double[] values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			{
 				ImPlotNative.PlotBarsDoublePtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 			}
 		}
 
-		public static void PlotBarsDoublePtrInt(ReadOnlySpan<char> labelId, ref double values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsDoublePtrInt(ReadOnlySpan<char> labelId, double[] values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -4909,7 +4909,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			{
 				ImPlotNative.PlotBarsDoublePtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 				// Freeing labelId native string
@@ -4918,16 +4918,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotBarsS8PtrInt(ReadOnlySpan<byte> labelId, ref sbyte values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsS8PtrInt(ReadOnlySpan<byte> labelId, sbyte[] values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			{
 				ImPlotNative.PlotBarsS8PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 			}
 		}
 
-		public static void PlotBarsS8PtrInt(ReadOnlySpan<char> labelId, ref sbyte values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsS8PtrInt(ReadOnlySpan<char> labelId, sbyte[] values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -4949,7 +4949,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			{
 				ImPlotNative.PlotBarsS8PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 				// Freeing labelId native string
@@ -4958,16 +4958,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotBarsU8PtrInt(ReadOnlySpan<byte> labelId, ref byte values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsU8PtrInt(ReadOnlySpan<byte> labelId, byte[] values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			{
 				ImPlotNative.PlotBarsU8PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 			}
 		}
 
-		public static void PlotBarsU8PtrInt(ReadOnlySpan<char> labelId, ref byte values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsU8PtrInt(ReadOnlySpan<char> labelId, byte[] values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -4989,7 +4989,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			{
 				ImPlotNative.PlotBarsU8PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 				// Freeing labelId native string
@@ -4998,16 +4998,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotBarsS16PtrInt(ReadOnlySpan<byte> labelId, ref short values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsS16PtrInt(ReadOnlySpan<byte> labelId, short[] values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			{
 				ImPlotNative.PlotBarsS16PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 			}
 		}
 
-		public static void PlotBarsS16PtrInt(ReadOnlySpan<char> labelId, ref short values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsS16PtrInt(ReadOnlySpan<char> labelId, short[] values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -5029,7 +5029,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			{
 				ImPlotNative.PlotBarsS16PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 				// Freeing labelId native string
@@ -5038,16 +5038,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotBarsU16PtrInt(ReadOnlySpan<byte> labelId, ref ushort values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsU16PtrInt(ReadOnlySpan<byte> labelId, ushort[] values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			{
 				ImPlotNative.PlotBarsU16PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 			}
 		}
 
-		public static void PlotBarsU16PtrInt(ReadOnlySpan<char> labelId, ref ushort values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsU16PtrInt(ReadOnlySpan<char> labelId, ushort[] values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -5069,7 +5069,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			{
 				ImPlotNative.PlotBarsU16PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 				// Freeing labelId native string
@@ -5078,16 +5078,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotBarsS32PtrInt(ReadOnlySpan<byte> labelId, ref int values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsS32PtrInt(ReadOnlySpan<byte> labelId, int[] values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			{
 				ImPlotNative.PlotBarsS32PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 			}
 		}
 
-		public static void PlotBarsS32PtrInt(ReadOnlySpan<char> labelId, ref int values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsS32PtrInt(ReadOnlySpan<char> labelId, int[] values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -5109,7 +5109,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			{
 				ImPlotNative.PlotBarsS32PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 				// Freeing labelId native string
@@ -5118,16 +5118,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotBarsU32PtrInt(ReadOnlySpan<byte> labelId, ref uint values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsU32PtrInt(ReadOnlySpan<byte> labelId, uint[] values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			{
 				ImPlotNative.PlotBarsU32PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 			}
 		}
 
-		public static void PlotBarsU32PtrInt(ReadOnlySpan<char> labelId, ref uint values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsU32PtrInt(ReadOnlySpan<char> labelId, uint[] values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -5149,7 +5149,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			{
 				ImPlotNative.PlotBarsU32PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 				// Freeing labelId native string
@@ -5158,16 +5158,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotBarsS64PtrInt(ReadOnlySpan<byte> labelId, ref long values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsS64PtrInt(ReadOnlySpan<byte> labelId, long[] values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			{
 				ImPlotNative.PlotBarsS64PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 			}
 		}
 
-		public static void PlotBarsS64PtrInt(ReadOnlySpan<char> labelId, ref long values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsS64PtrInt(ReadOnlySpan<char> labelId, long[] values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -5189,7 +5189,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			{
 				ImPlotNative.PlotBarsS64PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 				// Freeing labelId native string
@@ -5198,16 +5198,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotBarsU64PtrInt(ReadOnlySpan<byte> labelId, ref ulong values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsU64PtrInt(ReadOnlySpan<byte> labelId, ulong[] values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			{
 				ImPlotNative.PlotBarsU64PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 			}
 		}
 
-		public static void PlotBarsU64PtrInt(ReadOnlySpan<char> labelId, ref ulong values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsU64PtrInt(ReadOnlySpan<char> labelId, ulong[] values, int count, double barSize, double shift, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -5229,7 +5229,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			{
 				ImPlotNative.PlotBarsU64PtrInt(nativeLabelId, nativeValues, count, barSize, shift, flags, offset, stride);
 				// Freeing labelId native string
@@ -5238,17 +5238,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotBarsFloatPtrFloatPtr(ReadOnlySpan<byte> labelId, ref float xs, ref float ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsFloatPtrFloatPtr(ReadOnlySpan<byte> labelId, float[] xs, float[] ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (float* nativeXs = &xs)
-			fixed (float* nativeYs = &ys)
+			fixed (float* nativeXs = xs)
+			fixed (float* nativeYs = ys)
 			{
 				ImPlotNative.PlotBarsFloatPtrFloatPtr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 			}
 		}
 
-		public static void PlotBarsFloatPtrFloatPtr(ReadOnlySpan<char> labelId, ref float xs, ref float ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsFloatPtrFloatPtr(ReadOnlySpan<char> labelId, float[] xs, float[] ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -5270,8 +5270,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (float* nativeXs = &xs)
-			fixed (float* nativeYs = &ys)
+			fixed (float* nativeXs = xs)
+			fixed (float* nativeYs = ys)
 			{
 				ImPlotNative.PlotBarsFloatPtrFloatPtr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 				// Freeing labelId native string
@@ -5280,17 +5280,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotBarsDoublePtrdoublePtr(ReadOnlySpan<byte> labelId, ref double xs, ref double ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsDoublePtrdoublePtr(ReadOnlySpan<byte> labelId, double[] xs, double[] ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (double* nativeXs = &xs)
-			fixed (double* nativeYs = &ys)
+			fixed (double* nativeXs = xs)
+			fixed (double* nativeYs = ys)
 			{
 				ImPlotNative.PlotBarsDoublePtrdoublePtr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 			}
 		}
 
-		public static void PlotBarsDoublePtrdoublePtr(ReadOnlySpan<char> labelId, ref double xs, ref double ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsDoublePtrdoublePtr(ReadOnlySpan<char> labelId, double[] xs, double[] ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -5312,8 +5312,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (double* nativeXs = &xs)
-			fixed (double* nativeYs = &ys)
+			fixed (double* nativeXs = xs)
+			fixed (double* nativeYs = ys)
 			{
 				ImPlotNative.PlotBarsDoublePtrdoublePtr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 				// Freeing labelId native string
@@ -5322,17 +5322,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotBarsS8PtrS8Ptr(ReadOnlySpan<byte> labelId, ref sbyte xs, ref sbyte ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsS8PtrS8Ptr(ReadOnlySpan<byte> labelId, sbyte[] xs, sbyte[] ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (sbyte* nativeXs = &xs)
-			fixed (sbyte* nativeYs = &ys)
+			fixed (sbyte* nativeXs = xs)
+			fixed (sbyte* nativeYs = ys)
 			{
 				ImPlotNative.PlotBarsS8PtrS8Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 			}
 		}
 
-		public static void PlotBarsS8PtrS8Ptr(ReadOnlySpan<char> labelId, ref sbyte xs, ref sbyte ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsS8PtrS8Ptr(ReadOnlySpan<char> labelId, sbyte[] xs, sbyte[] ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -5354,8 +5354,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (sbyte* nativeXs = &xs)
-			fixed (sbyte* nativeYs = &ys)
+			fixed (sbyte* nativeXs = xs)
+			fixed (sbyte* nativeYs = ys)
 			{
 				ImPlotNative.PlotBarsS8PtrS8Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 				// Freeing labelId native string
@@ -5364,17 +5364,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotBarsU8PtrU8Ptr(ReadOnlySpan<byte> labelId, ref byte xs, ref byte ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsU8PtrU8Ptr(ReadOnlySpan<byte> labelId, byte[] xs, byte[] ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (byte* nativeXs = &xs)
-			fixed (byte* nativeYs = &ys)
+			fixed (byte* nativeXs = xs)
+			fixed (byte* nativeYs = ys)
 			{
 				ImPlotNative.PlotBarsU8PtrU8Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 			}
 		}
 
-		public static void PlotBarsU8PtrU8Ptr(ReadOnlySpan<char> labelId, ref byte xs, ref byte ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsU8PtrU8Ptr(ReadOnlySpan<char> labelId, byte[] xs, byte[] ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -5396,8 +5396,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (byte* nativeXs = &xs)
-			fixed (byte* nativeYs = &ys)
+			fixed (byte* nativeXs = xs)
+			fixed (byte* nativeYs = ys)
 			{
 				ImPlotNative.PlotBarsU8PtrU8Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 				// Freeing labelId native string
@@ -5406,17 +5406,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotBarsS16PtrS16Ptr(ReadOnlySpan<byte> labelId, ref short xs, ref short ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsS16PtrS16Ptr(ReadOnlySpan<byte> labelId, short[] xs, short[] ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (short* nativeXs = &xs)
-			fixed (short* nativeYs = &ys)
+			fixed (short* nativeXs = xs)
+			fixed (short* nativeYs = ys)
 			{
 				ImPlotNative.PlotBarsS16PtrS16Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 			}
 		}
 
-		public static void PlotBarsS16PtrS16Ptr(ReadOnlySpan<char> labelId, ref short xs, ref short ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsS16PtrS16Ptr(ReadOnlySpan<char> labelId, short[] xs, short[] ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -5438,8 +5438,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (short* nativeXs = &xs)
-			fixed (short* nativeYs = &ys)
+			fixed (short* nativeXs = xs)
+			fixed (short* nativeYs = ys)
 			{
 				ImPlotNative.PlotBarsS16PtrS16Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 				// Freeing labelId native string
@@ -5448,17 +5448,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotBarsU16PtrU16Ptr(ReadOnlySpan<byte> labelId, ref ushort xs, ref ushort ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsU16PtrU16Ptr(ReadOnlySpan<byte> labelId, ushort[] xs, ushort[] ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ushort* nativeXs = &xs)
-			fixed (ushort* nativeYs = &ys)
+			fixed (ushort* nativeXs = xs)
+			fixed (ushort* nativeYs = ys)
 			{
 				ImPlotNative.PlotBarsU16PtrU16Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 			}
 		}
 
-		public static void PlotBarsU16PtrU16Ptr(ReadOnlySpan<char> labelId, ref ushort xs, ref ushort ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsU16PtrU16Ptr(ReadOnlySpan<char> labelId, ushort[] xs, ushort[] ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -5480,8 +5480,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ushort* nativeXs = &xs)
-			fixed (ushort* nativeYs = &ys)
+			fixed (ushort* nativeXs = xs)
+			fixed (ushort* nativeYs = ys)
 			{
 				ImPlotNative.PlotBarsU16PtrU16Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 				// Freeing labelId native string
@@ -5490,17 +5490,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotBarsS32PtrS32Ptr(ReadOnlySpan<byte> labelId, ref int xs, ref int ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsS32PtrS32Ptr(ReadOnlySpan<byte> labelId, int[] xs, int[] ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (int* nativeXs = &xs)
-			fixed (int* nativeYs = &ys)
+			fixed (int* nativeXs = xs)
+			fixed (int* nativeYs = ys)
 			{
 				ImPlotNative.PlotBarsS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 			}
 		}
 
-		public static void PlotBarsS32PtrS32Ptr(ReadOnlySpan<char> labelId, ref int xs, ref int ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsS32PtrS32Ptr(ReadOnlySpan<char> labelId, int[] xs, int[] ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -5522,8 +5522,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (int* nativeXs = &xs)
-			fixed (int* nativeYs = &ys)
+			fixed (int* nativeXs = xs)
+			fixed (int* nativeYs = ys)
 			{
 				ImPlotNative.PlotBarsS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 				// Freeing labelId native string
@@ -5532,17 +5532,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotBarsU32PtrU32Ptr(ReadOnlySpan<byte> labelId, ref uint xs, ref uint ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsU32PtrU32Ptr(ReadOnlySpan<byte> labelId, uint[] xs, uint[] ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (uint* nativeXs = &xs)
-			fixed (uint* nativeYs = &ys)
+			fixed (uint* nativeXs = xs)
+			fixed (uint* nativeYs = ys)
 			{
 				ImPlotNative.PlotBarsU32PtrU32Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 			}
 		}
 
-		public static void PlotBarsU32PtrU32Ptr(ReadOnlySpan<char> labelId, ref uint xs, ref uint ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsU32PtrU32Ptr(ReadOnlySpan<char> labelId, uint[] xs, uint[] ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -5564,8 +5564,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (uint* nativeXs = &xs)
-			fixed (uint* nativeYs = &ys)
+			fixed (uint* nativeXs = xs)
+			fixed (uint* nativeYs = ys)
 			{
 				ImPlotNative.PlotBarsU32PtrU32Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 				// Freeing labelId native string
@@ -5574,17 +5574,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotBarsS64PtrS64Ptr(ReadOnlySpan<byte> labelId, ref long xs, ref long ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsS64PtrS64Ptr(ReadOnlySpan<byte> labelId, long[] xs, long[] ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (long* nativeXs = &xs)
-			fixed (long* nativeYs = &ys)
+			fixed (long* nativeXs = xs)
+			fixed (long* nativeYs = ys)
 			{
 				ImPlotNative.PlotBarsS64PtrS64Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 			}
 		}
 
-		public static void PlotBarsS64PtrS64Ptr(ReadOnlySpan<char> labelId, ref long xs, ref long ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsS64PtrS64Ptr(ReadOnlySpan<char> labelId, long[] xs, long[] ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -5606,8 +5606,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (long* nativeXs = &xs)
-			fixed (long* nativeYs = &ys)
+			fixed (long* nativeXs = xs)
+			fixed (long* nativeYs = ys)
 			{
 				ImPlotNative.PlotBarsS64PtrS64Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 				// Freeing labelId native string
@@ -5616,17 +5616,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotBarsU64PtrU64Ptr(ReadOnlySpan<byte> labelId, ref ulong xs, ref ulong ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsU64PtrU64Ptr(ReadOnlySpan<byte> labelId, ulong[] xs, ulong[] ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ulong* nativeXs = &xs)
-			fixed (ulong* nativeYs = &ys)
+			fixed (ulong* nativeXs = xs)
+			fixed (ulong* nativeYs = ys)
 			{
 				ImPlotNative.PlotBarsU64PtrU64Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 			}
 		}
 
-		public static void PlotBarsU64PtrU64Ptr(ReadOnlySpan<char> labelId, ref ulong xs, ref ulong ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
+		public static void PlotBarsU64PtrU64Ptr(ReadOnlySpan<char> labelId, ulong[] xs, ulong[] ys, int count, double barSize, ImPlotBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -5648,8 +5648,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ulong* nativeXs = &xs)
-			fixed (ulong* nativeYs = &ys)
+			fixed (ulong* nativeXs = xs)
+			fixed (ulong* nativeYs = ys)
 			{
 				ImPlotNative.PlotBarsU64PtrU64Ptr(nativeLabelId, nativeXs, nativeYs, count, barSize, flags, offset, stride);
 				// Freeing labelId native string
@@ -5734,108 +5734,108 @@ namespace SharpImPlot
 				Utils.Free(nativeLabelId);
 		}
 
-		public static void PlotBarGroupsFloatPtr(ref byte* labelIds, ref float values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
+		public static void PlotBarGroupsFloatPtr(ref byte* labelIds, float[] values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			{
 				ImPlotNative.PlotBarGroupsFloatPtr(nativeLabelIds, nativeValues, itemCount, groupCount, groupSize, shift, flags);
 			}
 		}
 
-		public static void PlotBarGroupsDoublePtr(ref byte* labelIds, ref double values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
+		public static void PlotBarGroupsDoublePtr(ref byte* labelIds, double[] values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			{
 				ImPlotNative.PlotBarGroupsDoublePtr(nativeLabelIds, nativeValues, itemCount, groupCount, groupSize, shift, flags);
 			}
 		}
 
-		public static void PlotBarGroupsS8Ptr(ref byte* labelIds, ref sbyte values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
+		public static void PlotBarGroupsS8Ptr(ref byte* labelIds, sbyte[] values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			{
 				ImPlotNative.PlotBarGroupsS8Ptr(nativeLabelIds, nativeValues, itemCount, groupCount, groupSize, shift, flags);
 			}
 		}
 
-		public static void PlotBarGroupsU8Ptr(ref byte* labelIds, ref byte values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
+		public static void PlotBarGroupsU8Ptr(ref byte* labelIds, byte[] values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			{
 				ImPlotNative.PlotBarGroupsU8Ptr(nativeLabelIds, nativeValues, itemCount, groupCount, groupSize, shift, flags);
 			}
 		}
 
-		public static void PlotBarGroupsS16Ptr(ref byte* labelIds, ref short values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
+		public static void PlotBarGroupsS16Ptr(ref byte* labelIds, short[] values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			{
 				ImPlotNative.PlotBarGroupsS16Ptr(nativeLabelIds, nativeValues, itemCount, groupCount, groupSize, shift, flags);
 			}
 		}
 
-		public static void PlotBarGroupsU16Ptr(ref byte* labelIds, ref ushort values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
+		public static void PlotBarGroupsU16Ptr(ref byte* labelIds, ushort[] values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			{
 				ImPlotNative.PlotBarGroupsU16Ptr(nativeLabelIds, nativeValues, itemCount, groupCount, groupSize, shift, flags);
 			}
 		}
 
-		public static void PlotBarGroupsS32Ptr(ref byte* labelIds, ref int values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
+		public static void PlotBarGroupsS32Ptr(ref byte* labelIds, int[] values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			{
 				ImPlotNative.PlotBarGroupsS32Ptr(nativeLabelIds, nativeValues, itemCount, groupCount, groupSize, shift, flags);
 			}
 		}
 
-		public static void PlotBarGroupsU32Ptr(ref byte* labelIds, ref uint values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
+		public static void PlotBarGroupsU32Ptr(ref byte* labelIds, uint[] values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			{
 				ImPlotNative.PlotBarGroupsU32Ptr(nativeLabelIds, nativeValues, itemCount, groupCount, groupSize, shift, flags);
 			}
 		}
 
-		public static void PlotBarGroupsS64Ptr(ref byte* labelIds, ref long values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
+		public static void PlotBarGroupsS64Ptr(ref byte* labelIds, long[] values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			{
 				ImPlotNative.PlotBarGroupsS64Ptr(nativeLabelIds, nativeValues, itemCount, groupCount, groupSize, shift, flags);
 			}
 		}
 
-		public static void PlotBarGroupsU64Ptr(ref byte* labelIds, ref ulong values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
+		public static void PlotBarGroupsU64Ptr(ref byte* labelIds, ulong[] values, int itemCount, int groupCount, double groupSize, double shift, ImPlotBarGroupsFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			{
 				ImPlotNative.PlotBarGroupsU64Ptr(nativeLabelIds, nativeValues, itemCount, groupCount, groupSize, shift, flags);
 			}
 		}
 
-		public static void PlotErrorBarsFloatPtrFloatPtrFloatPtrInt(ReadOnlySpan<byte> labelId, ref float xs, ref float ys, ref float err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsFloatPtrFloatPtrFloatPtrInt(ReadOnlySpan<byte> labelId, float[] xs, float[] ys, float[] err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (float* nativeXs = &xs)
-			fixed (float* nativeYs = &ys)
-			fixed (float* nativeErr = &err)
+			fixed (float* nativeXs = xs)
+			fixed (float* nativeYs = ys)
+			fixed (float* nativeErr = err)
 			{
 				ImPlotNative.PlotErrorBarsFloatPtrFloatPtrFloatPtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotErrorBarsFloatPtrFloatPtrFloatPtrInt(ReadOnlySpan<char> labelId, ref float xs, ref float ys, ref float err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsFloatPtrFloatPtrFloatPtrInt(ReadOnlySpan<char> labelId, float[] xs, float[] ys, float[] err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -5857,9 +5857,9 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (float* nativeXs = &xs)
-			fixed (float* nativeYs = &ys)
-			fixed (float* nativeErr = &err)
+			fixed (float* nativeXs = xs)
+			fixed (float* nativeYs = ys)
+			fixed (float* nativeErr = err)
 			{
 				ImPlotNative.PlotErrorBarsFloatPtrFloatPtrFloatPtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -5868,18 +5868,18 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotErrorBarsDoublePtrdoublePtrdoublePtrInt(ReadOnlySpan<byte> labelId, ref double xs, ref double ys, ref double err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsDoublePtrdoublePtrdoublePtrInt(ReadOnlySpan<byte> labelId, double[] xs, double[] ys, double[] err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (double* nativeXs = &xs)
-			fixed (double* nativeYs = &ys)
-			fixed (double* nativeErr = &err)
+			fixed (double* nativeXs = xs)
+			fixed (double* nativeYs = ys)
+			fixed (double* nativeErr = err)
 			{
 				ImPlotNative.PlotErrorBarsDoublePtrdoublePtrdoublePtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotErrorBarsDoublePtrdoublePtrdoublePtrInt(ReadOnlySpan<char> labelId, ref double xs, ref double ys, ref double err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsDoublePtrdoublePtrdoublePtrInt(ReadOnlySpan<char> labelId, double[] xs, double[] ys, double[] err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -5901,9 +5901,9 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (double* nativeXs = &xs)
-			fixed (double* nativeYs = &ys)
-			fixed (double* nativeErr = &err)
+			fixed (double* nativeXs = xs)
+			fixed (double* nativeYs = ys)
+			fixed (double* nativeErr = err)
 			{
 				ImPlotNative.PlotErrorBarsDoublePtrdoublePtrdoublePtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -5912,18 +5912,18 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotErrorBarsS8PtrS8PtrS8PtrInt(ReadOnlySpan<byte> labelId, ref sbyte xs, ref sbyte ys, ref sbyte err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsS8PtrS8PtrS8PtrInt(ReadOnlySpan<byte> labelId, sbyte[] xs, sbyte[] ys, sbyte[] err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (sbyte* nativeXs = &xs)
-			fixed (sbyte* nativeYs = &ys)
-			fixed (sbyte* nativeErr = &err)
+			fixed (sbyte* nativeXs = xs)
+			fixed (sbyte* nativeYs = ys)
+			fixed (sbyte* nativeErr = err)
 			{
 				ImPlotNative.PlotErrorBarsS8PtrS8PtrS8PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotErrorBarsS8PtrS8PtrS8PtrInt(ReadOnlySpan<char> labelId, ref sbyte xs, ref sbyte ys, ref sbyte err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsS8PtrS8PtrS8PtrInt(ReadOnlySpan<char> labelId, sbyte[] xs, sbyte[] ys, sbyte[] err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -5945,9 +5945,9 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (sbyte* nativeXs = &xs)
-			fixed (sbyte* nativeYs = &ys)
-			fixed (sbyte* nativeErr = &err)
+			fixed (sbyte* nativeXs = xs)
+			fixed (sbyte* nativeYs = ys)
+			fixed (sbyte* nativeErr = err)
 			{
 				ImPlotNative.PlotErrorBarsS8PtrS8PtrS8PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -5956,18 +5956,18 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotErrorBarsU8PtrU8PtrU8PtrInt(ReadOnlySpan<byte> labelId, ref byte xs, ref byte ys, ref byte err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsU8PtrU8PtrU8PtrInt(ReadOnlySpan<byte> labelId, byte[] xs, byte[] ys, byte[] err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (byte* nativeXs = &xs)
-			fixed (byte* nativeYs = &ys)
-			fixed (byte* nativeErr = &err)
+			fixed (byte* nativeXs = xs)
+			fixed (byte* nativeYs = ys)
+			fixed (byte* nativeErr = err)
 			{
 				ImPlotNative.PlotErrorBarsU8PtrU8PtrU8PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotErrorBarsU8PtrU8PtrU8PtrInt(ReadOnlySpan<char> labelId, ref byte xs, ref byte ys, ref byte err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsU8PtrU8PtrU8PtrInt(ReadOnlySpan<char> labelId, byte[] xs, byte[] ys, byte[] err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -5989,9 +5989,9 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (byte* nativeXs = &xs)
-			fixed (byte* nativeYs = &ys)
-			fixed (byte* nativeErr = &err)
+			fixed (byte* nativeXs = xs)
+			fixed (byte* nativeYs = ys)
+			fixed (byte* nativeErr = err)
 			{
 				ImPlotNative.PlotErrorBarsU8PtrU8PtrU8PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -6000,18 +6000,18 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotErrorBarsS16PtrS16PtrS16PtrInt(ReadOnlySpan<byte> labelId, ref short xs, ref short ys, ref short err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsS16PtrS16PtrS16PtrInt(ReadOnlySpan<byte> labelId, short[] xs, short[] ys, short[] err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (short* nativeXs = &xs)
-			fixed (short* nativeYs = &ys)
-			fixed (short* nativeErr = &err)
+			fixed (short* nativeXs = xs)
+			fixed (short* nativeYs = ys)
+			fixed (short* nativeErr = err)
 			{
 				ImPlotNative.PlotErrorBarsS16PtrS16PtrS16PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotErrorBarsS16PtrS16PtrS16PtrInt(ReadOnlySpan<char> labelId, ref short xs, ref short ys, ref short err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsS16PtrS16PtrS16PtrInt(ReadOnlySpan<char> labelId, short[] xs, short[] ys, short[] err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -6033,9 +6033,9 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (short* nativeXs = &xs)
-			fixed (short* nativeYs = &ys)
-			fixed (short* nativeErr = &err)
+			fixed (short* nativeXs = xs)
+			fixed (short* nativeYs = ys)
+			fixed (short* nativeErr = err)
 			{
 				ImPlotNative.PlotErrorBarsS16PtrS16PtrS16PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -6044,18 +6044,18 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotErrorBarsU16PtrU16PtrU16PtrInt(ReadOnlySpan<byte> labelId, ref ushort xs, ref ushort ys, ref ushort err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsU16PtrU16PtrU16PtrInt(ReadOnlySpan<byte> labelId, ushort[] xs, ushort[] ys, ushort[] err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ushort* nativeXs = &xs)
-			fixed (ushort* nativeYs = &ys)
-			fixed (ushort* nativeErr = &err)
+			fixed (ushort* nativeXs = xs)
+			fixed (ushort* nativeYs = ys)
+			fixed (ushort* nativeErr = err)
 			{
 				ImPlotNative.PlotErrorBarsU16PtrU16PtrU16PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotErrorBarsU16PtrU16PtrU16PtrInt(ReadOnlySpan<char> labelId, ref ushort xs, ref ushort ys, ref ushort err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsU16PtrU16PtrU16PtrInt(ReadOnlySpan<char> labelId, ushort[] xs, ushort[] ys, ushort[] err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -6077,9 +6077,9 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ushort* nativeXs = &xs)
-			fixed (ushort* nativeYs = &ys)
-			fixed (ushort* nativeErr = &err)
+			fixed (ushort* nativeXs = xs)
+			fixed (ushort* nativeYs = ys)
+			fixed (ushort* nativeErr = err)
 			{
 				ImPlotNative.PlotErrorBarsU16PtrU16PtrU16PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -6088,18 +6088,18 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotErrorBarsS32PtrS32PtrS32PtrInt(ReadOnlySpan<byte> labelId, ref int xs, ref int ys, ref int err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsS32PtrS32PtrS32PtrInt(ReadOnlySpan<byte> labelId, int[] xs, int[] ys, int[] err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (int* nativeXs = &xs)
-			fixed (int* nativeYs = &ys)
-			fixed (int* nativeErr = &err)
+			fixed (int* nativeXs = xs)
+			fixed (int* nativeYs = ys)
+			fixed (int* nativeErr = err)
 			{
 				ImPlotNative.PlotErrorBarsS32PtrS32PtrS32PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotErrorBarsS32PtrS32PtrS32PtrInt(ReadOnlySpan<char> labelId, ref int xs, ref int ys, ref int err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsS32PtrS32PtrS32PtrInt(ReadOnlySpan<char> labelId, int[] xs, int[] ys, int[] err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -6121,9 +6121,9 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (int* nativeXs = &xs)
-			fixed (int* nativeYs = &ys)
-			fixed (int* nativeErr = &err)
+			fixed (int* nativeXs = xs)
+			fixed (int* nativeYs = ys)
+			fixed (int* nativeErr = err)
 			{
 				ImPlotNative.PlotErrorBarsS32PtrS32PtrS32PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -6132,18 +6132,18 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotErrorBarsU32PtrU32PtrU32PtrInt(ReadOnlySpan<byte> labelId, ref uint xs, ref uint ys, ref uint err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsU32PtrU32PtrU32PtrInt(ReadOnlySpan<byte> labelId, uint[] xs, uint[] ys, uint[] err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (uint* nativeXs = &xs)
-			fixed (uint* nativeYs = &ys)
-			fixed (uint* nativeErr = &err)
+			fixed (uint* nativeXs = xs)
+			fixed (uint* nativeYs = ys)
+			fixed (uint* nativeErr = err)
 			{
 				ImPlotNative.PlotErrorBarsU32PtrU32PtrU32PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotErrorBarsU32PtrU32PtrU32PtrInt(ReadOnlySpan<char> labelId, ref uint xs, ref uint ys, ref uint err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsU32PtrU32PtrU32PtrInt(ReadOnlySpan<char> labelId, uint[] xs, uint[] ys, uint[] err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -6165,9 +6165,9 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (uint* nativeXs = &xs)
-			fixed (uint* nativeYs = &ys)
-			fixed (uint* nativeErr = &err)
+			fixed (uint* nativeXs = xs)
+			fixed (uint* nativeYs = ys)
+			fixed (uint* nativeErr = err)
 			{
 				ImPlotNative.PlotErrorBarsU32PtrU32PtrU32PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -6176,18 +6176,18 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotErrorBarsS64PtrS64PtrS64PtrInt(ReadOnlySpan<byte> labelId, ref long xs, ref long ys, ref long err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsS64PtrS64PtrS64PtrInt(ReadOnlySpan<byte> labelId, long[] xs, long[] ys, long[] err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (long* nativeXs = &xs)
-			fixed (long* nativeYs = &ys)
-			fixed (long* nativeErr = &err)
+			fixed (long* nativeXs = xs)
+			fixed (long* nativeYs = ys)
+			fixed (long* nativeErr = err)
 			{
 				ImPlotNative.PlotErrorBarsS64PtrS64PtrS64PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotErrorBarsS64PtrS64PtrS64PtrInt(ReadOnlySpan<char> labelId, ref long xs, ref long ys, ref long err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsS64PtrS64PtrS64PtrInt(ReadOnlySpan<char> labelId, long[] xs, long[] ys, long[] err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -6209,9 +6209,9 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (long* nativeXs = &xs)
-			fixed (long* nativeYs = &ys)
-			fixed (long* nativeErr = &err)
+			fixed (long* nativeXs = xs)
+			fixed (long* nativeYs = ys)
+			fixed (long* nativeErr = err)
 			{
 				ImPlotNative.PlotErrorBarsS64PtrS64PtrS64PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -6220,18 +6220,18 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotErrorBarsU64PtrU64PtrU64PtrInt(ReadOnlySpan<byte> labelId, ref ulong xs, ref ulong ys, ref ulong err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsU64PtrU64PtrU64PtrInt(ReadOnlySpan<byte> labelId, ulong[] xs, ulong[] ys, ulong[] err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ulong* nativeXs = &xs)
-			fixed (ulong* nativeYs = &ys)
-			fixed (ulong* nativeErr = &err)
+			fixed (ulong* nativeXs = xs)
+			fixed (ulong* nativeYs = ys)
+			fixed (ulong* nativeErr = err)
 			{
 				ImPlotNative.PlotErrorBarsU64PtrU64PtrU64PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotErrorBarsU64PtrU64PtrU64PtrInt(ReadOnlySpan<char> labelId, ref ulong xs, ref ulong ys, ref ulong err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsU64PtrU64PtrU64PtrInt(ReadOnlySpan<char> labelId, ulong[] xs, ulong[] ys, ulong[] err, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -6253,9 +6253,9 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ulong* nativeXs = &xs)
-			fixed (ulong* nativeYs = &ys)
-			fixed (ulong* nativeErr = &err)
+			fixed (ulong* nativeXs = xs)
+			fixed (ulong* nativeYs = ys)
+			fixed (ulong* nativeErr = err)
 			{
 				ImPlotNative.PlotErrorBarsU64PtrU64PtrU64PtrInt(nativeLabelId, nativeXs, nativeYs, nativeErr, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -6264,19 +6264,19 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotErrorBarsFloatPtrFloatPtrFloatPtrFloatPtr(ReadOnlySpan<byte> labelId, ref float xs, ref float ys, ref float neg, ref float pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsFloatPtrFloatPtrFloatPtrFloatPtr(ReadOnlySpan<byte> labelId, float[] xs, float[] ys, float[] neg, float[] pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (float* nativeXs = &xs)
-			fixed (float* nativeYs = &ys)
-			fixed (float* nativeNeg = &neg)
-			fixed (float* nativePos = &pos)
+			fixed (float* nativeXs = xs)
+			fixed (float* nativeYs = ys)
+			fixed (float* nativeNeg = neg)
+			fixed (float* nativePos = pos)
 			{
 				ImPlotNative.PlotErrorBarsFloatPtrFloatPtrFloatPtrFloatPtr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotErrorBarsFloatPtrFloatPtrFloatPtrFloatPtr(ReadOnlySpan<char> labelId, ref float xs, ref float ys, ref float neg, ref float pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsFloatPtrFloatPtrFloatPtrFloatPtr(ReadOnlySpan<char> labelId, float[] xs, float[] ys, float[] neg, float[] pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -6298,10 +6298,10 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (float* nativeXs = &xs)
-			fixed (float* nativeYs = &ys)
-			fixed (float* nativeNeg = &neg)
-			fixed (float* nativePos = &pos)
+			fixed (float* nativeXs = xs)
+			fixed (float* nativeYs = ys)
+			fixed (float* nativeNeg = neg)
+			fixed (float* nativePos = pos)
 			{
 				ImPlotNative.PlotErrorBarsFloatPtrFloatPtrFloatPtrFloatPtr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -6310,19 +6310,19 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotErrorBarsDoublePtrdoublePtrdoublePtrdoublePtr(ReadOnlySpan<byte> labelId, ref double xs, ref double ys, ref double neg, ref double pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsDoublePtrdoublePtrdoublePtrdoublePtr(ReadOnlySpan<byte> labelId, double[] xs, double[] ys, double[] neg, double[] pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (double* nativeXs = &xs)
-			fixed (double* nativeYs = &ys)
-			fixed (double* nativeNeg = &neg)
-			fixed (double* nativePos = &pos)
+			fixed (double* nativeXs = xs)
+			fixed (double* nativeYs = ys)
+			fixed (double* nativeNeg = neg)
+			fixed (double* nativePos = pos)
 			{
 				ImPlotNative.PlotErrorBarsDoublePtrdoublePtrdoublePtrdoublePtr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotErrorBarsDoublePtrdoublePtrdoublePtrdoublePtr(ReadOnlySpan<char> labelId, ref double xs, ref double ys, ref double neg, ref double pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsDoublePtrdoublePtrdoublePtrdoublePtr(ReadOnlySpan<char> labelId, double[] xs, double[] ys, double[] neg, double[] pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -6344,10 +6344,10 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (double* nativeXs = &xs)
-			fixed (double* nativeYs = &ys)
-			fixed (double* nativeNeg = &neg)
-			fixed (double* nativePos = &pos)
+			fixed (double* nativeXs = xs)
+			fixed (double* nativeYs = ys)
+			fixed (double* nativeNeg = neg)
+			fixed (double* nativePos = pos)
 			{
 				ImPlotNative.PlotErrorBarsDoublePtrdoublePtrdoublePtrdoublePtr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -6356,19 +6356,19 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotErrorBarsS8PtrS8PtrS8PtrS8Ptr(ReadOnlySpan<byte> labelId, ref sbyte xs, ref sbyte ys, ref sbyte neg, ref sbyte pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsS8PtrS8PtrS8PtrS8Ptr(ReadOnlySpan<byte> labelId, sbyte[] xs, sbyte[] ys, sbyte[] neg, sbyte[] pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (sbyte* nativeXs = &xs)
-			fixed (sbyte* nativeYs = &ys)
-			fixed (sbyte* nativeNeg = &neg)
-			fixed (sbyte* nativePos = &pos)
+			fixed (sbyte* nativeXs = xs)
+			fixed (sbyte* nativeYs = ys)
+			fixed (sbyte* nativeNeg = neg)
+			fixed (sbyte* nativePos = pos)
 			{
 				ImPlotNative.PlotErrorBarsS8PtrS8PtrS8PtrS8Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotErrorBarsS8PtrS8PtrS8PtrS8Ptr(ReadOnlySpan<char> labelId, ref sbyte xs, ref sbyte ys, ref sbyte neg, ref sbyte pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsS8PtrS8PtrS8PtrS8Ptr(ReadOnlySpan<char> labelId, sbyte[] xs, sbyte[] ys, sbyte[] neg, sbyte[] pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -6390,10 +6390,10 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (sbyte* nativeXs = &xs)
-			fixed (sbyte* nativeYs = &ys)
-			fixed (sbyte* nativeNeg = &neg)
-			fixed (sbyte* nativePos = &pos)
+			fixed (sbyte* nativeXs = xs)
+			fixed (sbyte* nativeYs = ys)
+			fixed (sbyte* nativeNeg = neg)
+			fixed (sbyte* nativePos = pos)
 			{
 				ImPlotNative.PlotErrorBarsS8PtrS8PtrS8PtrS8Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -6402,19 +6402,19 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotErrorBarsU8PtrU8PtrU8PtrU8Ptr(ReadOnlySpan<byte> labelId, ref byte xs, ref byte ys, ref byte neg, ref byte pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsU8PtrU8PtrU8PtrU8Ptr(ReadOnlySpan<byte> labelId, byte[] xs, byte[] ys, byte[] neg, byte[] pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (byte* nativeXs = &xs)
-			fixed (byte* nativeYs = &ys)
-			fixed (byte* nativeNeg = &neg)
-			fixed (byte* nativePos = &pos)
+			fixed (byte* nativeXs = xs)
+			fixed (byte* nativeYs = ys)
+			fixed (byte* nativeNeg = neg)
+			fixed (byte* nativePos = pos)
 			{
 				ImPlotNative.PlotErrorBarsU8PtrU8PtrU8PtrU8Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotErrorBarsU8PtrU8PtrU8PtrU8Ptr(ReadOnlySpan<char> labelId, ref byte xs, ref byte ys, ref byte neg, ref byte pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsU8PtrU8PtrU8PtrU8Ptr(ReadOnlySpan<char> labelId, byte[] xs, byte[] ys, byte[] neg, byte[] pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -6436,10 +6436,10 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (byte* nativeXs = &xs)
-			fixed (byte* nativeYs = &ys)
-			fixed (byte* nativeNeg = &neg)
-			fixed (byte* nativePos = &pos)
+			fixed (byte* nativeXs = xs)
+			fixed (byte* nativeYs = ys)
+			fixed (byte* nativeNeg = neg)
+			fixed (byte* nativePos = pos)
 			{
 				ImPlotNative.PlotErrorBarsU8PtrU8PtrU8PtrU8Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -6448,19 +6448,19 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotErrorBarsS16PtrS16PtrS16PtrS16Ptr(ReadOnlySpan<byte> labelId, ref short xs, ref short ys, ref short neg, ref short pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsS16PtrS16PtrS16PtrS16Ptr(ReadOnlySpan<byte> labelId, short[] xs, short[] ys, short[] neg, short[] pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (short* nativeXs = &xs)
-			fixed (short* nativeYs = &ys)
-			fixed (short* nativeNeg = &neg)
-			fixed (short* nativePos = &pos)
+			fixed (short* nativeXs = xs)
+			fixed (short* nativeYs = ys)
+			fixed (short* nativeNeg = neg)
+			fixed (short* nativePos = pos)
 			{
 				ImPlotNative.PlotErrorBarsS16PtrS16PtrS16PtrS16Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotErrorBarsS16PtrS16PtrS16PtrS16Ptr(ReadOnlySpan<char> labelId, ref short xs, ref short ys, ref short neg, ref short pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsS16PtrS16PtrS16PtrS16Ptr(ReadOnlySpan<char> labelId, short[] xs, short[] ys, short[] neg, short[] pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -6482,10 +6482,10 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (short* nativeXs = &xs)
-			fixed (short* nativeYs = &ys)
-			fixed (short* nativeNeg = &neg)
-			fixed (short* nativePos = &pos)
+			fixed (short* nativeXs = xs)
+			fixed (short* nativeYs = ys)
+			fixed (short* nativeNeg = neg)
+			fixed (short* nativePos = pos)
 			{
 				ImPlotNative.PlotErrorBarsS16PtrS16PtrS16PtrS16Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -6494,19 +6494,19 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotErrorBarsU16PtrU16PtrU16PtrU16Ptr(ReadOnlySpan<byte> labelId, ref ushort xs, ref ushort ys, ref ushort neg, ref ushort pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsU16PtrU16PtrU16PtrU16Ptr(ReadOnlySpan<byte> labelId, ushort[] xs, ushort[] ys, ushort[] neg, ushort[] pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ushort* nativeXs = &xs)
-			fixed (ushort* nativeYs = &ys)
-			fixed (ushort* nativeNeg = &neg)
-			fixed (ushort* nativePos = &pos)
+			fixed (ushort* nativeXs = xs)
+			fixed (ushort* nativeYs = ys)
+			fixed (ushort* nativeNeg = neg)
+			fixed (ushort* nativePos = pos)
 			{
 				ImPlotNative.PlotErrorBarsU16PtrU16PtrU16PtrU16Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotErrorBarsU16PtrU16PtrU16PtrU16Ptr(ReadOnlySpan<char> labelId, ref ushort xs, ref ushort ys, ref ushort neg, ref ushort pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsU16PtrU16PtrU16PtrU16Ptr(ReadOnlySpan<char> labelId, ushort[] xs, ushort[] ys, ushort[] neg, ushort[] pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -6528,10 +6528,10 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ushort* nativeXs = &xs)
-			fixed (ushort* nativeYs = &ys)
-			fixed (ushort* nativeNeg = &neg)
-			fixed (ushort* nativePos = &pos)
+			fixed (ushort* nativeXs = xs)
+			fixed (ushort* nativeYs = ys)
+			fixed (ushort* nativeNeg = neg)
+			fixed (ushort* nativePos = pos)
 			{
 				ImPlotNative.PlotErrorBarsU16PtrU16PtrU16PtrU16Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -6540,19 +6540,19 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotErrorBarsS32PtrS32PtrS32PtrS32Ptr(ReadOnlySpan<byte> labelId, ref int xs, ref int ys, ref int neg, ref int pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsS32PtrS32PtrS32PtrS32Ptr(ReadOnlySpan<byte> labelId, int[] xs, int[] ys, int[] neg, int[] pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (int* nativeXs = &xs)
-			fixed (int* nativeYs = &ys)
-			fixed (int* nativeNeg = &neg)
-			fixed (int* nativePos = &pos)
+			fixed (int* nativeXs = xs)
+			fixed (int* nativeYs = ys)
+			fixed (int* nativeNeg = neg)
+			fixed (int* nativePos = pos)
 			{
 				ImPlotNative.PlotErrorBarsS32PtrS32PtrS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotErrorBarsS32PtrS32PtrS32PtrS32Ptr(ReadOnlySpan<char> labelId, ref int xs, ref int ys, ref int neg, ref int pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsS32PtrS32PtrS32PtrS32Ptr(ReadOnlySpan<char> labelId, int[] xs, int[] ys, int[] neg, int[] pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -6574,10 +6574,10 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (int* nativeXs = &xs)
-			fixed (int* nativeYs = &ys)
-			fixed (int* nativeNeg = &neg)
-			fixed (int* nativePos = &pos)
+			fixed (int* nativeXs = xs)
+			fixed (int* nativeYs = ys)
+			fixed (int* nativeNeg = neg)
+			fixed (int* nativePos = pos)
 			{
 				ImPlotNative.PlotErrorBarsS32PtrS32PtrS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -6586,19 +6586,19 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotErrorBarsU32PtrU32PtrU32PtrU32Ptr(ReadOnlySpan<byte> labelId, ref uint xs, ref uint ys, ref uint neg, ref uint pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsU32PtrU32PtrU32PtrU32Ptr(ReadOnlySpan<byte> labelId, uint[] xs, uint[] ys, uint[] neg, uint[] pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (uint* nativeXs = &xs)
-			fixed (uint* nativeYs = &ys)
-			fixed (uint* nativeNeg = &neg)
-			fixed (uint* nativePos = &pos)
+			fixed (uint* nativeXs = xs)
+			fixed (uint* nativeYs = ys)
+			fixed (uint* nativeNeg = neg)
+			fixed (uint* nativePos = pos)
 			{
 				ImPlotNative.PlotErrorBarsU32PtrU32PtrU32PtrU32Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotErrorBarsU32PtrU32PtrU32PtrU32Ptr(ReadOnlySpan<char> labelId, ref uint xs, ref uint ys, ref uint neg, ref uint pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsU32PtrU32PtrU32PtrU32Ptr(ReadOnlySpan<char> labelId, uint[] xs, uint[] ys, uint[] neg, uint[] pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -6620,10 +6620,10 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (uint* nativeXs = &xs)
-			fixed (uint* nativeYs = &ys)
-			fixed (uint* nativeNeg = &neg)
-			fixed (uint* nativePos = &pos)
+			fixed (uint* nativeXs = xs)
+			fixed (uint* nativeYs = ys)
+			fixed (uint* nativeNeg = neg)
+			fixed (uint* nativePos = pos)
 			{
 				ImPlotNative.PlotErrorBarsU32PtrU32PtrU32PtrU32Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -6632,19 +6632,19 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotErrorBarsS64PtrS64PtrS64PtrS64Ptr(ReadOnlySpan<byte> labelId, ref long xs, ref long ys, ref long neg, ref long pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsS64PtrS64PtrS64PtrS64Ptr(ReadOnlySpan<byte> labelId, long[] xs, long[] ys, long[] neg, long[] pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (long* nativeXs = &xs)
-			fixed (long* nativeYs = &ys)
-			fixed (long* nativeNeg = &neg)
-			fixed (long* nativePos = &pos)
+			fixed (long* nativeXs = xs)
+			fixed (long* nativeYs = ys)
+			fixed (long* nativeNeg = neg)
+			fixed (long* nativePos = pos)
 			{
 				ImPlotNative.PlotErrorBarsS64PtrS64PtrS64PtrS64Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotErrorBarsS64PtrS64PtrS64PtrS64Ptr(ReadOnlySpan<char> labelId, ref long xs, ref long ys, ref long neg, ref long pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsS64PtrS64PtrS64PtrS64Ptr(ReadOnlySpan<char> labelId, long[] xs, long[] ys, long[] neg, long[] pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -6666,10 +6666,10 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (long* nativeXs = &xs)
-			fixed (long* nativeYs = &ys)
-			fixed (long* nativeNeg = &neg)
-			fixed (long* nativePos = &pos)
+			fixed (long* nativeXs = xs)
+			fixed (long* nativeYs = ys)
+			fixed (long* nativeNeg = neg)
+			fixed (long* nativePos = pos)
 			{
 				ImPlotNative.PlotErrorBarsS64PtrS64PtrS64PtrS64Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -6678,19 +6678,19 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotErrorBarsU64PtrU64PtrU64PtrU64Ptr(ReadOnlySpan<byte> labelId, ref ulong xs, ref ulong ys, ref ulong neg, ref ulong pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsU64PtrU64PtrU64PtrU64Ptr(ReadOnlySpan<byte> labelId, ulong[] xs, ulong[] ys, ulong[] neg, ulong[] pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ulong* nativeXs = &xs)
-			fixed (ulong* nativeYs = &ys)
-			fixed (ulong* nativeNeg = &neg)
-			fixed (ulong* nativePos = &pos)
+			fixed (ulong* nativeXs = xs)
+			fixed (ulong* nativeYs = ys)
+			fixed (ulong* nativeNeg = neg)
+			fixed (ulong* nativePos = pos)
 			{
 				ImPlotNative.PlotErrorBarsU64PtrU64PtrU64PtrU64Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotErrorBarsU64PtrU64PtrU64PtrU64Ptr(ReadOnlySpan<char> labelId, ref ulong xs, ref ulong ys, ref ulong neg, ref ulong pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
+		public static void PlotErrorBarsU64PtrU64PtrU64PtrU64Ptr(ReadOnlySpan<char> labelId, ulong[] xs, ulong[] ys, ulong[] neg, ulong[] pos, int count, ImPlotErrorBarsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -6712,10 +6712,10 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ulong* nativeXs = &xs)
-			fixed (ulong* nativeYs = &ys)
-			fixed (ulong* nativeNeg = &neg)
-			fixed (ulong* nativePos = &pos)
+			fixed (ulong* nativeXs = xs)
+			fixed (ulong* nativeYs = ys)
+			fixed (ulong* nativeNeg = neg)
+			fixed (ulong* nativePos = pos)
 			{
 				ImPlotNative.PlotErrorBarsU64PtrU64PtrU64PtrU64Ptr(nativeLabelId, nativeXs, nativeYs, nativeNeg, nativePos, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -6724,16 +6724,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStemsFloatPtrInt(ReadOnlySpan<byte> labelId, ref float values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsFloatPtrInt(ReadOnlySpan<byte> labelId, float[] values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			{
 				ImPlotNative.PlotStemsFloatPtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStemsFloatPtrInt(ReadOnlySpan<char> labelId, ref float values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsFloatPtrInt(ReadOnlySpan<char> labelId, float[] values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -6755,7 +6755,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			{
 				ImPlotNative.PlotStemsFloatPtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 				// Freeing labelId native string
@@ -6764,16 +6764,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStemsDoublePtrInt(ReadOnlySpan<byte> labelId, ref double values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsDoublePtrInt(ReadOnlySpan<byte> labelId, double[] values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			{
 				ImPlotNative.PlotStemsDoublePtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStemsDoublePtrInt(ReadOnlySpan<char> labelId, ref double values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsDoublePtrInt(ReadOnlySpan<char> labelId, double[] values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -6795,7 +6795,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			{
 				ImPlotNative.PlotStemsDoublePtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 				// Freeing labelId native string
@@ -6804,16 +6804,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStemsS8PtrInt(ReadOnlySpan<byte> labelId, ref sbyte values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsS8PtrInt(ReadOnlySpan<byte> labelId, sbyte[] values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			{
 				ImPlotNative.PlotStemsS8PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStemsS8PtrInt(ReadOnlySpan<char> labelId, ref sbyte values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsS8PtrInt(ReadOnlySpan<char> labelId, sbyte[] values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -6835,7 +6835,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			{
 				ImPlotNative.PlotStemsS8PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 				// Freeing labelId native string
@@ -6844,16 +6844,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStemsU8PtrInt(ReadOnlySpan<byte> labelId, ref byte values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsU8PtrInt(ReadOnlySpan<byte> labelId, byte[] values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			{
 				ImPlotNative.PlotStemsU8PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStemsU8PtrInt(ReadOnlySpan<char> labelId, ref byte values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsU8PtrInt(ReadOnlySpan<char> labelId, byte[] values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -6875,7 +6875,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			{
 				ImPlotNative.PlotStemsU8PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 				// Freeing labelId native string
@@ -6884,16 +6884,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStemsS16PtrInt(ReadOnlySpan<byte> labelId, ref short values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsS16PtrInt(ReadOnlySpan<byte> labelId, short[] values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			{
 				ImPlotNative.PlotStemsS16PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStemsS16PtrInt(ReadOnlySpan<char> labelId, ref short values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsS16PtrInt(ReadOnlySpan<char> labelId, short[] values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -6915,7 +6915,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			{
 				ImPlotNative.PlotStemsS16PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 				// Freeing labelId native string
@@ -6924,16 +6924,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStemsU16PtrInt(ReadOnlySpan<byte> labelId, ref ushort values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsU16PtrInt(ReadOnlySpan<byte> labelId, ushort[] values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			{
 				ImPlotNative.PlotStemsU16PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStemsU16PtrInt(ReadOnlySpan<char> labelId, ref ushort values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsU16PtrInt(ReadOnlySpan<char> labelId, ushort[] values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -6955,7 +6955,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			{
 				ImPlotNative.PlotStemsU16PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 				// Freeing labelId native string
@@ -6964,16 +6964,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStemsS32PtrInt(ReadOnlySpan<byte> labelId, ref int values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsS32PtrInt(ReadOnlySpan<byte> labelId, int[] values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			{
 				ImPlotNative.PlotStemsS32PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStemsS32PtrInt(ReadOnlySpan<char> labelId, ref int values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsS32PtrInt(ReadOnlySpan<char> labelId, int[] values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -6995,7 +6995,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			{
 				ImPlotNative.PlotStemsS32PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 				// Freeing labelId native string
@@ -7004,16 +7004,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStemsU32PtrInt(ReadOnlySpan<byte> labelId, ref uint values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsU32PtrInt(ReadOnlySpan<byte> labelId, uint[] values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			{
 				ImPlotNative.PlotStemsU32PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStemsU32PtrInt(ReadOnlySpan<char> labelId, ref uint values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsU32PtrInt(ReadOnlySpan<char> labelId, uint[] values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -7035,7 +7035,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			{
 				ImPlotNative.PlotStemsU32PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 				// Freeing labelId native string
@@ -7044,16 +7044,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStemsS64PtrInt(ReadOnlySpan<byte> labelId, ref long values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsS64PtrInt(ReadOnlySpan<byte> labelId, long[] values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			{
 				ImPlotNative.PlotStemsS64PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStemsS64PtrInt(ReadOnlySpan<char> labelId, ref long values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsS64PtrInt(ReadOnlySpan<char> labelId, long[] values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -7075,7 +7075,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			{
 				ImPlotNative.PlotStemsS64PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 				// Freeing labelId native string
@@ -7084,16 +7084,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStemsU64PtrInt(ReadOnlySpan<byte> labelId, ref ulong values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsU64PtrInt(ReadOnlySpan<byte> labelId, ulong[] values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			{
 				ImPlotNative.PlotStemsU64PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStemsU64PtrInt(ReadOnlySpan<char> labelId, ref ulong values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsU64PtrInt(ReadOnlySpan<char> labelId, ulong[] values, int count, double _ref, double scale, double start, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -7115,7 +7115,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			{
 				ImPlotNative.PlotStemsU64PtrInt(nativeLabelId, nativeValues, count, _ref, scale, start, flags, offset, stride);
 				// Freeing labelId native string
@@ -7124,17 +7124,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStemsFloatPtrFloatPtr(ReadOnlySpan<byte> labelId, ref float xs, ref float ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsFloatPtrFloatPtr(ReadOnlySpan<byte> labelId, float[] xs, float[] ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (float* nativeXs = &xs)
-			fixed (float* nativeYs = &ys)
+			fixed (float* nativeXs = xs)
+			fixed (float* nativeYs = ys)
 			{
 				ImPlotNative.PlotStemsFloatPtrFloatPtr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStemsFloatPtrFloatPtr(ReadOnlySpan<char> labelId, ref float xs, ref float ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsFloatPtrFloatPtr(ReadOnlySpan<char> labelId, float[] xs, float[] ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -7156,8 +7156,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (float* nativeXs = &xs)
-			fixed (float* nativeYs = &ys)
+			fixed (float* nativeXs = xs)
+			fixed (float* nativeYs = ys)
 			{
 				ImPlotNative.PlotStemsFloatPtrFloatPtr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 				// Freeing labelId native string
@@ -7166,17 +7166,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStemsDoublePtrdoublePtr(ReadOnlySpan<byte> labelId, ref double xs, ref double ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsDoublePtrdoublePtr(ReadOnlySpan<byte> labelId, double[] xs, double[] ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (double* nativeXs = &xs)
-			fixed (double* nativeYs = &ys)
+			fixed (double* nativeXs = xs)
+			fixed (double* nativeYs = ys)
 			{
 				ImPlotNative.PlotStemsDoublePtrdoublePtr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStemsDoublePtrdoublePtr(ReadOnlySpan<char> labelId, ref double xs, ref double ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsDoublePtrdoublePtr(ReadOnlySpan<char> labelId, double[] xs, double[] ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -7198,8 +7198,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (double* nativeXs = &xs)
-			fixed (double* nativeYs = &ys)
+			fixed (double* nativeXs = xs)
+			fixed (double* nativeYs = ys)
 			{
 				ImPlotNative.PlotStemsDoublePtrdoublePtr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 				// Freeing labelId native string
@@ -7208,17 +7208,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStemsS8PtrS8Ptr(ReadOnlySpan<byte> labelId, ref sbyte xs, ref sbyte ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsS8PtrS8Ptr(ReadOnlySpan<byte> labelId, sbyte[] xs, sbyte[] ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (sbyte* nativeXs = &xs)
-			fixed (sbyte* nativeYs = &ys)
+			fixed (sbyte* nativeXs = xs)
+			fixed (sbyte* nativeYs = ys)
 			{
 				ImPlotNative.PlotStemsS8PtrS8Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStemsS8PtrS8Ptr(ReadOnlySpan<char> labelId, ref sbyte xs, ref sbyte ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsS8PtrS8Ptr(ReadOnlySpan<char> labelId, sbyte[] xs, sbyte[] ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -7240,8 +7240,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (sbyte* nativeXs = &xs)
-			fixed (sbyte* nativeYs = &ys)
+			fixed (sbyte* nativeXs = xs)
+			fixed (sbyte* nativeYs = ys)
 			{
 				ImPlotNative.PlotStemsS8PtrS8Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 				// Freeing labelId native string
@@ -7250,17 +7250,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStemsU8PtrU8Ptr(ReadOnlySpan<byte> labelId, ref byte xs, ref byte ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsU8PtrU8Ptr(ReadOnlySpan<byte> labelId, byte[] xs, byte[] ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (byte* nativeXs = &xs)
-			fixed (byte* nativeYs = &ys)
+			fixed (byte* nativeXs = xs)
+			fixed (byte* nativeYs = ys)
 			{
 				ImPlotNative.PlotStemsU8PtrU8Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStemsU8PtrU8Ptr(ReadOnlySpan<char> labelId, ref byte xs, ref byte ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsU8PtrU8Ptr(ReadOnlySpan<char> labelId, byte[] xs, byte[] ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -7282,8 +7282,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (byte* nativeXs = &xs)
-			fixed (byte* nativeYs = &ys)
+			fixed (byte* nativeXs = xs)
+			fixed (byte* nativeYs = ys)
 			{
 				ImPlotNative.PlotStemsU8PtrU8Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 				// Freeing labelId native string
@@ -7292,17 +7292,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStemsS16PtrS16Ptr(ReadOnlySpan<byte> labelId, ref short xs, ref short ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsS16PtrS16Ptr(ReadOnlySpan<byte> labelId, short[] xs, short[] ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (short* nativeXs = &xs)
-			fixed (short* nativeYs = &ys)
+			fixed (short* nativeXs = xs)
+			fixed (short* nativeYs = ys)
 			{
 				ImPlotNative.PlotStemsS16PtrS16Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStemsS16PtrS16Ptr(ReadOnlySpan<char> labelId, ref short xs, ref short ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsS16PtrS16Ptr(ReadOnlySpan<char> labelId, short[] xs, short[] ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -7324,8 +7324,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (short* nativeXs = &xs)
-			fixed (short* nativeYs = &ys)
+			fixed (short* nativeXs = xs)
+			fixed (short* nativeYs = ys)
 			{
 				ImPlotNative.PlotStemsS16PtrS16Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 				// Freeing labelId native string
@@ -7334,17 +7334,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStemsU16PtrU16Ptr(ReadOnlySpan<byte> labelId, ref ushort xs, ref ushort ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsU16PtrU16Ptr(ReadOnlySpan<byte> labelId, ushort[] xs, ushort[] ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ushort* nativeXs = &xs)
-			fixed (ushort* nativeYs = &ys)
+			fixed (ushort* nativeXs = xs)
+			fixed (ushort* nativeYs = ys)
 			{
 				ImPlotNative.PlotStemsU16PtrU16Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStemsU16PtrU16Ptr(ReadOnlySpan<char> labelId, ref ushort xs, ref ushort ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsU16PtrU16Ptr(ReadOnlySpan<char> labelId, ushort[] xs, ushort[] ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -7366,8 +7366,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ushort* nativeXs = &xs)
-			fixed (ushort* nativeYs = &ys)
+			fixed (ushort* nativeXs = xs)
+			fixed (ushort* nativeYs = ys)
 			{
 				ImPlotNative.PlotStemsU16PtrU16Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 				// Freeing labelId native string
@@ -7376,17 +7376,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStemsS32PtrS32Ptr(ReadOnlySpan<byte> labelId, ref int xs, ref int ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsS32PtrS32Ptr(ReadOnlySpan<byte> labelId, int[] xs, int[] ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (int* nativeXs = &xs)
-			fixed (int* nativeYs = &ys)
+			fixed (int* nativeXs = xs)
+			fixed (int* nativeYs = ys)
 			{
 				ImPlotNative.PlotStemsS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStemsS32PtrS32Ptr(ReadOnlySpan<char> labelId, ref int xs, ref int ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsS32PtrS32Ptr(ReadOnlySpan<char> labelId, int[] xs, int[] ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -7408,8 +7408,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (int* nativeXs = &xs)
-			fixed (int* nativeYs = &ys)
+			fixed (int* nativeXs = xs)
+			fixed (int* nativeYs = ys)
 			{
 				ImPlotNative.PlotStemsS32PtrS32Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 				// Freeing labelId native string
@@ -7418,17 +7418,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStemsU32PtrU32Ptr(ReadOnlySpan<byte> labelId, ref uint xs, ref uint ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsU32PtrU32Ptr(ReadOnlySpan<byte> labelId, uint[] xs, uint[] ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (uint* nativeXs = &xs)
-			fixed (uint* nativeYs = &ys)
+			fixed (uint* nativeXs = xs)
+			fixed (uint* nativeYs = ys)
 			{
 				ImPlotNative.PlotStemsU32PtrU32Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStemsU32PtrU32Ptr(ReadOnlySpan<char> labelId, ref uint xs, ref uint ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsU32PtrU32Ptr(ReadOnlySpan<char> labelId, uint[] xs, uint[] ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -7450,8 +7450,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (uint* nativeXs = &xs)
-			fixed (uint* nativeYs = &ys)
+			fixed (uint* nativeXs = xs)
+			fixed (uint* nativeYs = ys)
 			{
 				ImPlotNative.PlotStemsU32PtrU32Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 				// Freeing labelId native string
@@ -7460,17 +7460,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStemsS64PtrS64Ptr(ReadOnlySpan<byte> labelId, ref long xs, ref long ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsS64PtrS64Ptr(ReadOnlySpan<byte> labelId, long[] xs, long[] ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (long* nativeXs = &xs)
-			fixed (long* nativeYs = &ys)
+			fixed (long* nativeXs = xs)
+			fixed (long* nativeYs = ys)
 			{
 				ImPlotNative.PlotStemsS64PtrS64Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStemsS64PtrS64Ptr(ReadOnlySpan<char> labelId, ref long xs, ref long ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsS64PtrS64Ptr(ReadOnlySpan<char> labelId, long[] xs, long[] ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -7492,8 +7492,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (long* nativeXs = &xs)
-			fixed (long* nativeYs = &ys)
+			fixed (long* nativeXs = xs)
+			fixed (long* nativeYs = ys)
 			{
 				ImPlotNative.PlotStemsS64PtrS64Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 				// Freeing labelId native string
@@ -7502,17 +7502,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotStemsU64PtrU64Ptr(ReadOnlySpan<byte> labelId, ref ulong xs, ref ulong ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsU64PtrU64Ptr(ReadOnlySpan<byte> labelId, ulong[] xs, ulong[] ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ulong* nativeXs = &xs)
-			fixed (ulong* nativeYs = &ys)
+			fixed (ulong* nativeXs = xs)
+			fixed (ulong* nativeYs = ys)
 			{
 				ImPlotNative.PlotStemsU64PtrU64Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 			}
 		}
 
-		public static void PlotStemsU64PtrU64Ptr(ReadOnlySpan<char> labelId, ref ulong xs, ref ulong ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
+		public static void PlotStemsU64PtrU64Ptr(ReadOnlySpan<char> labelId, ulong[] xs, ulong[] ys, int count, double _ref, ImPlotStemsFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -7534,8 +7534,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ulong* nativeXs = &xs)
-			fixed (ulong* nativeYs = &ys)
+			fixed (ulong* nativeXs = xs)
+			fixed (ulong* nativeYs = ys)
 			{
 				ImPlotNative.PlotStemsU64PtrU64Ptr(nativeLabelId, nativeXs, nativeYs, count, _ref, flags, offset, stride);
 				// Freeing labelId native string
@@ -7544,16 +7544,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotInfLinesFloatPtr(ReadOnlySpan<byte> labelId, ref float values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		public static void PlotInfLinesFloatPtr(ReadOnlySpan<byte> labelId, float[] values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			{
 				ImPlotNative.PlotInfLinesFloatPtr(nativeLabelId, nativeValues, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotInfLinesFloatPtr(ReadOnlySpan<char> labelId, ref float values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		public static void PlotInfLinesFloatPtr(ReadOnlySpan<char> labelId, float[] values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -7575,7 +7575,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			{
 				ImPlotNative.PlotInfLinesFloatPtr(nativeLabelId, nativeValues, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -7584,16 +7584,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotInfLinesDoublePtr(ReadOnlySpan<byte> labelId, ref double values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		public static void PlotInfLinesDoublePtr(ReadOnlySpan<byte> labelId, double[] values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			{
 				ImPlotNative.PlotInfLinesDoublePtr(nativeLabelId, nativeValues, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotInfLinesDoublePtr(ReadOnlySpan<char> labelId, ref double values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		public static void PlotInfLinesDoublePtr(ReadOnlySpan<char> labelId, double[] values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -7615,7 +7615,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			{
 				ImPlotNative.PlotInfLinesDoublePtr(nativeLabelId, nativeValues, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -7624,16 +7624,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotInfLinesS8Ptr(ReadOnlySpan<byte> labelId, ref sbyte values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		public static void PlotInfLinesS8Ptr(ReadOnlySpan<byte> labelId, sbyte[] values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			{
 				ImPlotNative.PlotInfLinesS8Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotInfLinesS8Ptr(ReadOnlySpan<char> labelId, ref sbyte values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		public static void PlotInfLinesS8Ptr(ReadOnlySpan<char> labelId, sbyte[] values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -7655,7 +7655,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			{
 				ImPlotNative.PlotInfLinesS8Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -7664,16 +7664,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotInfLinesU8Ptr(ReadOnlySpan<byte> labelId, ref byte values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		public static void PlotInfLinesU8Ptr(ReadOnlySpan<byte> labelId, byte[] values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			{
 				ImPlotNative.PlotInfLinesU8Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotInfLinesU8Ptr(ReadOnlySpan<char> labelId, ref byte values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		public static void PlotInfLinesU8Ptr(ReadOnlySpan<char> labelId, byte[] values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -7695,7 +7695,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			{
 				ImPlotNative.PlotInfLinesU8Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -7704,16 +7704,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotInfLinesS16Ptr(ReadOnlySpan<byte> labelId, ref short values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		public static void PlotInfLinesS16Ptr(ReadOnlySpan<byte> labelId, short[] values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			{
 				ImPlotNative.PlotInfLinesS16Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotInfLinesS16Ptr(ReadOnlySpan<char> labelId, ref short values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		public static void PlotInfLinesS16Ptr(ReadOnlySpan<char> labelId, short[] values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -7735,7 +7735,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			{
 				ImPlotNative.PlotInfLinesS16Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -7744,16 +7744,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotInfLinesU16Ptr(ReadOnlySpan<byte> labelId, ref ushort values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		public static void PlotInfLinesU16Ptr(ReadOnlySpan<byte> labelId, ushort[] values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			{
 				ImPlotNative.PlotInfLinesU16Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotInfLinesU16Ptr(ReadOnlySpan<char> labelId, ref ushort values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		public static void PlotInfLinesU16Ptr(ReadOnlySpan<char> labelId, ushort[] values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -7775,7 +7775,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			{
 				ImPlotNative.PlotInfLinesU16Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -7784,16 +7784,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotInfLinesS32Ptr(ReadOnlySpan<byte> labelId, ref int values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		public static void PlotInfLinesS32Ptr(ReadOnlySpan<byte> labelId, int[] values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			{
 				ImPlotNative.PlotInfLinesS32Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotInfLinesS32Ptr(ReadOnlySpan<char> labelId, ref int values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		public static void PlotInfLinesS32Ptr(ReadOnlySpan<char> labelId, int[] values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -7815,7 +7815,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			{
 				ImPlotNative.PlotInfLinesS32Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -7824,16 +7824,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotInfLinesU32Ptr(ReadOnlySpan<byte> labelId, ref uint values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		public static void PlotInfLinesU32Ptr(ReadOnlySpan<byte> labelId, uint[] values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			{
 				ImPlotNative.PlotInfLinesU32Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotInfLinesU32Ptr(ReadOnlySpan<char> labelId, ref uint values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		public static void PlotInfLinesU32Ptr(ReadOnlySpan<char> labelId, uint[] values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -7855,7 +7855,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			{
 				ImPlotNative.PlotInfLinesU32Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -7864,16 +7864,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotInfLinesS64Ptr(ReadOnlySpan<byte> labelId, ref long values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		public static void PlotInfLinesS64Ptr(ReadOnlySpan<byte> labelId, long[] values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			{
 				ImPlotNative.PlotInfLinesS64Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotInfLinesS64Ptr(ReadOnlySpan<char> labelId, ref long values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		public static void PlotInfLinesS64Ptr(ReadOnlySpan<char> labelId, long[] values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -7895,7 +7895,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			{
 				ImPlotNative.PlotInfLinesS64Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -7904,16 +7904,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotInfLinesU64Ptr(ReadOnlySpan<byte> labelId, ref ulong values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		public static void PlotInfLinesU64Ptr(ReadOnlySpan<byte> labelId, ulong[] values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			{
 				ImPlotNative.PlotInfLinesU64Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotInfLinesU64Ptr(ReadOnlySpan<char> labelId, ref ulong values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
+		public static void PlotInfLinesU64Ptr(ReadOnlySpan<char> labelId, ulong[] values, int count, ImPlotInfLinesFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -7935,7 +7935,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			{
 				ImPlotNative.PlotInfLinesU64Ptr(nativeLabelId, nativeValues, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -7944,107 +7944,107 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotPieChartFloatPtrPlotFormatter(ref byte* labelIds, ref float values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartFloatPtrPlotFormatter(ref byte* labelIds, float[] values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			{
 				ImPlotNative.PlotPieChartFloatPtrPlotFormatter(nativeLabelIds, nativeValues, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
 			}
 		}
 
-		public static void PlotPieChartDoublePtrPlotFormatter(ref byte* labelIds, ref double values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartDoublePtrPlotFormatter(ref byte* labelIds, double[] values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			{
 				ImPlotNative.PlotPieChartDoublePtrPlotFormatter(nativeLabelIds, nativeValues, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
 			}
 		}
 
-		public static void PlotPieChartS8PtrPlotFormatter(ref byte* labelIds, ref sbyte values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartS8PtrPlotFormatter(ref byte* labelIds, sbyte[] values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			{
 				ImPlotNative.PlotPieChartS8PtrPlotFormatter(nativeLabelIds, nativeValues, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
 			}
 		}
 
-		public static void PlotPieChartU8PtrPlotFormatter(ref byte* labelIds, ref byte values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartU8PtrPlotFormatter(ref byte* labelIds, byte[] values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			{
 				ImPlotNative.PlotPieChartU8PtrPlotFormatter(nativeLabelIds, nativeValues, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
 			}
 		}
 
-		public static void PlotPieChartS16PtrPlotFormatter(ref byte* labelIds, ref short values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartS16PtrPlotFormatter(ref byte* labelIds, short[] values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			{
 				ImPlotNative.PlotPieChartS16PtrPlotFormatter(nativeLabelIds, nativeValues, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
 			}
 		}
 
-		public static void PlotPieChartU16PtrPlotFormatter(ref byte* labelIds, ref ushort values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartU16PtrPlotFormatter(ref byte* labelIds, ushort[] values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			{
 				ImPlotNative.PlotPieChartU16PtrPlotFormatter(nativeLabelIds, nativeValues, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
 			}
 		}
 
-		public static void PlotPieChartS32PtrPlotFormatter(ref byte* labelIds, ref int values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartS32PtrPlotFormatter(ref byte* labelIds, int[] values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			{
 				ImPlotNative.PlotPieChartS32PtrPlotFormatter(nativeLabelIds, nativeValues, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
 			}
 		}
 
-		public static void PlotPieChartU32PtrPlotFormatter(ref byte* labelIds, ref uint values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartU32PtrPlotFormatter(ref byte* labelIds, uint[] values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			{
 				ImPlotNative.PlotPieChartU32PtrPlotFormatter(nativeLabelIds, nativeValues, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
 			}
 		}
 
-		public static void PlotPieChartS64PtrPlotFormatter(ref byte* labelIds, ref long values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartS64PtrPlotFormatter(ref byte* labelIds, long[] values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			{
 				ImPlotNative.PlotPieChartS64PtrPlotFormatter(nativeLabelIds, nativeValues, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
 			}
 		}
 
-		public static void PlotPieChartU64PtrPlotFormatter(ref byte* labelIds, ref ulong values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartU64PtrPlotFormatter(ref byte* labelIds, ulong[] values, int count, double x, double y, double radius, ImPlotFormatter fmt, IntPtr fmtData, double angle0, ImPlotPieChartFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			{
 				ImPlotNative.PlotPieChartU64PtrPlotFormatter(nativeLabelIds, nativeValues, count, x, y, radius, fmt, (void*)fmtData, angle0, flags);
 			}
 		}
 
-		public static void PlotPieChartFloatPtrStr(ref byte* labelIds, ref float values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartFloatPtrStr(ref byte* labelIds, float[] values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			fixed (byte* nativeLabelFmt = labelFmt)
 			{
 				ImPlotNative.PlotPieChartFloatPtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 			}
 		}
 
-		public static void PlotPieChartFloatPtrStr(ref byte* labelIds, ref float values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartFloatPtrStr(ref byte* labelIds, float[] values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
@@ -8067,7 +8067,7 @@ namespace SharpImPlot
 			else nativeLabelFmt = null;
 
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			{
 				ImPlotNative.PlotPieChartFloatPtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 				// Freeing labelFmt native string
@@ -8076,17 +8076,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotPieChartDoublePtrStr(ref byte* labelIds, ref double values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartDoublePtrStr(ref byte* labelIds, double[] values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			fixed (byte* nativeLabelFmt = labelFmt)
 			{
 				ImPlotNative.PlotPieChartDoublePtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 			}
 		}
 
-		public static void PlotPieChartDoublePtrStr(ref byte* labelIds, ref double values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartDoublePtrStr(ref byte* labelIds, double[] values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
@@ -8109,7 +8109,7 @@ namespace SharpImPlot
 			else nativeLabelFmt = null;
 
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			{
 				ImPlotNative.PlotPieChartDoublePtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 				// Freeing labelFmt native string
@@ -8118,17 +8118,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotPieChartS8PtrStr(ref byte* labelIds, ref sbyte values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartS8PtrStr(ref byte* labelIds, sbyte[] values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			fixed (byte* nativeLabelFmt = labelFmt)
 			{
 				ImPlotNative.PlotPieChartS8PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 			}
 		}
 
-		public static void PlotPieChartS8PtrStr(ref byte* labelIds, ref sbyte values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartS8PtrStr(ref byte* labelIds, sbyte[] values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
@@ -8151,7 +8151,7 @@ namespace SharpImPlot
 			else nativeLabelFmt = null;
 
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			{
 				ImPlotNative.PlotPieChartS8PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 				// Freeing labelFmt native string
@@ -8160,17 +8160,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotPieChartU8PtrStr(ref byte* labelIds, ref byte values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartU8PtrStr(ref byte* labelIds, byte[] values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			fixed (byte* nativeLabelFmt = labelFmt)
 			{
 				ImPlotNative.PlotPieChartU8PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 			}
 		}
 
-		public static void PlotPieChartU8PtrStr(ref byte* labelIds, ref byte values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartU8PtrStr(ref byte* labelIds, byte[] values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
@@ -8193,7 +8193,7 @@ namespace SharpImPlot
 			else nativeLabelFmt = null;
 
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			{
 				ImPlotNative.PlotPieChartU8PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 				// Freeing labelFmt native string
@@ -8202,17 +8202,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotPieChartS16PtrStr(ref byte* labelIds, ref short values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartS16PtrStr(ref byte* labelIds, short[] values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			fixed (byte* nativeLabelFmt = labelFmt)
 			{
 				ImPlotNative.PlotPieChartS16PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 			}
 		}
 
-		public static void PlotPieChartS16PtrStr(ref byte* labelIds, ref short values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartS16PtrStr(ref byte* labelIds, short[] values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
@@ -8235,7 +8235,7 @@ namespace SharpImPlot
 			else nativeLabelFmt = null;
 
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			{
 				ImPlotNative.PlotPieChartS16PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 				// Freeing labelFmt native string
@@ -8244,17 +8244,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotPieChartU16PtrStr(ref byte* labelIds, ref ushort values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartU16PtrStr(ref byte* labelIds, ushort[] values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			fixed (byte* nativeLabelFmt = labelFmt)
 			{
 				ImPlotNative.PlotPieChartU16PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 			}
 		}
 
-		public static void PlotPieChartU16PtrStr(ref byte* labelIds, ref ushort values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartU16PtrStr(ref byte* labelIds, ushort[] values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
@@ -8277,7 +8277,7 @@ namespace SharpImPlot
 			else nativeLabelFmt = null;
 
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			{
 				ImPlotNative.PlotPieChartU16PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 				// Freeing labelFmt native string
@@ -8286,17 +8286,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotPieChartS32PtrStr(ref byte* labelIds, ref int values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartS32PtrStr(ref byte* labelIds, int[] values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			fixed (byte* nativeLabelFmt = labelFmt)
 			{
 				ImPlotNative.PlotPieChartS32PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 			}
 		}
 
-		public static void PlotPieChartS32PtrStr(ref byte* labelIds, ref int values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartS32PtrStr(ref byte* labelIds, int[] values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
@@ -8319,7 +8319,7 @@ namespace SharpImPlot
 			else nativeLabelFmt = null;
 
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			{
 				ImPlotNative.PlotPieChartS32PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 				// Freeing labelFmt native string
@@ -8328,17 +8328,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotPieChartU32PtrStr(ref byte* labelIds, ref uint values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartU32PtrStr(ref byte* labelIds, uint[] values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			fixed (byte* nativeLabelFmt = labelFmt)
 			{
 				ImPlotNative.PlotPieChartU32PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 			}
 		}
 
-		public static void PlotPieChartU32PtrStr(ref byte* labelIds, ref uint values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartU32PtrStr(ref byte* labelIds, uint[] values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
@@ -8361,7 +8361,7 @@ namespace SharpImPlot
 			else nativeLabelFmt = null;
 
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			{
 				ImPlotNative.PlotPieChartU32PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 				// Freeing labelFmt native string
@@ -8370,17 +8370,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotPieChartS64PtrStr(ref byte* labelIds, ref long values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartS64PtrStr(ref byte* labelIds, long[] values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			fixed (byte* nativeLabelFmt = labelFmt)
 			{
 				ImPlotNative.PlotPieChartS64PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 			}
 		}
 
-		public static void PlotPieChartS64PtrStr(ref byte* labelIds, ref long values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartS64PtrStr(ref byte* labelIds, long[] values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
@@ -8403,7 +8403,7 @@ namespace SharpImPlot
 			else nativeLabelFmt = null;
 
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			{
 				ImPlotNative.PlotPieChartS64PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 				// Freeing labelFmt native string
@@ -8412,17 +8412,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotPieChartU64PtrStr(ref byte* labelIds, ref ulong values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartU64PtrStr(ref byte* labelIds, ulong[] values, int count, double x, double y, double radius, ReadOnlySpan<byte> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			fixed (byte* nativeLabelFmt = labelFmt)
 			{
 				ImPlotNative.PlotPieChartU64PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 			}
 		}
 
-		public static void PlotPieChartU64PtrStr(ref byte* labelIds, ref ulong values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
+		public static void PlotPieChartU64PtrStr(ref byte* labelIds, ulong[] values, int count, double x, double y, double radius, ReadOnlySpan<char> labelFmt, double angle0, ImPlotPieChartFlags flags)
 		{
 			// Marshaling labelFmt to native string
 			byte* nativeLabelFmt;
@@ -8445,7 +8445,7 @@ namespace SharpImPlot
 			else nativeLabelFmt = null;
 
 			fixed (byte** nativeLabelIds = &labelIds)
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			{
 				ImPlotNative.PlotPieChartU64PtrStr(nativeLabelIds, nativeValues, count, x, y, radius, nativeLabelFmt, angle0, flags);
 				// Freeing labelFmt native string
@@ -8454,17 +8454,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotHeatmapFloatPtr(ReadOnlySpan<byte> labelId, ref float values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		public static void PlotHeatmapFloatPtr(ReadOnlySpan<byte> labelId, float[] values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			fixed (byte* nativeLabelFmt = labelFmt)
 			{
 				ImPlotNative.PlotHeatmapFloatPtr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 			}
 		}
 
-		public static void PlotHeatmapFloatPtr(ReadOnlySpan<char> labelId, ref float values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		public static void PlotHeatmapFloatPtr(ReadOnlySpan<char> labelId, float[] values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -8506,7 +8506,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelFmt = null;
 
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			{
 				ImPlotNative.PlotHeatmapFloatPtr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 				// Freeing labelId native string
@@ -8518,17 +8518,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotHeatmapDoublePtr(ReadOnlySpan<byte> labelId, ref double values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		public static void PlotHeatmapDoublePtr(ReadOnlySpan<byte> labelId, double[] values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			fixed (byte* nativeLabelFmt = labelFmt)
 			{
 				ImPlotNative.PlotHeatmapDoublePtr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 			}
 		}
 
-		public static void PlotHeatmapDoublePtr(ReadOnlySpan<char> labelId, ref double values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		public static void PlotHeatmapDoublePtr(ReadOnlySpan<char> labelId, double[] values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -8570,7 +8570,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelFmt = null;
 
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			{
 				ImPlotNative.PlotHeatmapDoublePtr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 				// Freeing labelId native string
@@ -8582,17 +8582,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotHeatmapS8Ptr(ReadOnlySpan<byte> labelId, ref sbyte values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		public static void PlotHeatmapS8Ptr(ReadOnlySpan<byte> labelId, sbyte[] values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			fixed (byte* nativeLabelFmt = labelFmt)
 			{
 				ImPlotNative.PlotHeatmapS8Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 			}
 		}
 
-		public static void PlotHeatmapS8Ptr(ReadOnlySpan<char> labelId, ref sbyte values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		public static void PlotHeatmapS8Ptr(ReadOnlySpan<char> labelId, sbyte[] values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -8634,7 +8634,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelFmt = null;
 
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			{
 				ImPlotNative.PlotHeatmapS8Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 				// Freeing labelId native string
@@ -8646,17 +8646,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotHeatmapU8Ptr(ReadOnlySpan<byte> labelId, ref byte values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		public static void PlotHeatmapU8Ptr(ReadOnlySpan<byte> labelId, byte[] values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			fixed (byte* nativeLabelFmt = labelFmt)
 			{
 				ImPlotNative.PlotHeatmapU8Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 			}
 		}
 
-		public static void PlotHeatmapU8Ptr(ReadOnlySpan<char> labelId, ref byte values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		public static void PlotHeatmapU8Ptr(ReadOnlySpan<char> labelId, byte[] values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -8698,7 +8698,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelFmt = null;
 
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			{
 				ImPlotNative.PlotHeatmapU8Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 				// Freeing labelId native string
@@ -8710,17 +8710,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotHeatmapS16Ptr(ReadOnlySpan<byte> labelId, ref short values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		public static void PlotHeatmapS16Ptr(ReadOnlySpan<byte> labelId, short[] values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			fixed (byte* nativeLabelFmt = labelFmt)
 			{
 				ImPlotNative.PlotHeatmapS16Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 			}
 		}
 
-		public static void PlotHeatmapS16Ptr(ReadOnlySpan<char> labelId, ref short values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		public static void PlotHeatmapS16Ptr(ReadOnlySpan<char> labelId, short[] values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -8762,7 +8762,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelFmt = null;
 
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			{
 				ImPlotNative.PlotHeatmapS16Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 				// Freeing labelId native string
@@ -8774,17 +8774,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotHeatmapU16Ptr(ReadOnlySpan<byte> labelId, ref ushort values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		public static void PlotHeatmapU16Ptr(ReadOnlySpan<byte> labelId, ushort[] values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			fixed (byte* nativeLabelFmt = labelFmt)
 			{
 				ImPlotNative.PlotHeatmapU16Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 			}
 		}
 
-		public static void PlotHeatmapU16Ptr(ReadOnlySpan<char> labelId, ref ushort values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		public static void PlotHeatmapU16Ptr(ReadOnlySpan<char> labelId, ushort[] values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -8826,7 +8826,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelFmt = null;
 
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			{
 				ImPlotNative.PlotHeatmapU16Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 				// Freeing labelId native string
@@ -8838,17 +8838,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotHeatmapS32Ptr(ReadOnlySpan<byte> labelId, ref int values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		public static void PlotHeatmapS32Ptr(ReadOnlySpan<byte> labelId, int[] values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			fixed (byte* nativeLabelFmt = labelFmt)
 			{
 				ImPlotNative.PlotHeatmapS32Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 			}
 		}
 
-		public static void PlotHeatmapS32Ptr(ReadOnlySpan<char> labelId, ref int values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		public static void PlotHeatmapS32Ptr(ReadOnlySpan<char> labelId, int[] values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -8890,7 +8890,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelFmt = null;
 
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			{
 				ImPlotNative.PlotHeatmapS32Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 				// Freeing labelId native string
@@ -8902,17 +8902,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotHeatmapU32Ptr(ReadOnlySpan<byte> labelId, ref uint values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		public static void PlotHeatmapU32Ptr(ReadOnlySpan<byte> labelId, uint[] values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			fixed (byte* nativeLabelFmt = labelFmt)
 			{
 				ImPlotNative.PlotHeatmapU32Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 			}
 		}
 
-		public static void PlotHeatmapU32Ptr(ReadOnlySpan<char> labelId, ref uint values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		public static void PlotHeatmapU32Ptr(ReadOnlySpan<char> labelId, uint[] values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -8954,7 +8954,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelFmt = null;
 
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			{
 				ImPlotNative.PlotHeatmapU32Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 				// Freeing labelId native string
@@ -8966,17 +8966,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotHeatmapS64Ptr(ReadOnlySpan<byte> labelId, ref long values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		public static void PlotHeatmapS64Ptr(ReadOnlySpan<byte> labelId, long[] values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			fixed (byte* nativeLabelFmt = labelFmt)
 			{
 				ImPlotNative.PlotHeatmapS64Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 			}
 		}
 
-		public static void PlotHeatmapS64Ptr(ReadOnlySpan<char> labelId, ref long values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		public static void PlotHeatmapS64Ptr(ReadOnlySpan<char> labelId, long[] values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -9018,7 +9018,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelFmt = null;
 
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			{
 				ImPlotNative.PlotHeatmapS64Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 				// Freeing labelId native string
@@ -9030,17 +9030,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotHeatmapU64Ptr(ReadOnlySpan<byte> labelId, ref ulong values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		public static void PlotHeatmapU64Ptr(ReadOnlySpan<byte> labelId, ulong[] values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<byte> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			fixed (byte* nativeLabelFmt = labelFmt)
 			{
 				ImPlotNative.PlotHeatmapU64Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 			}
 		}
 
-		public static void PlotHeatmapU64Ptr(ReadOnlySpan<char> labelId, ref ulong values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
+		public static void PlotHeatmapU64Ptr(ReadOnlySpan<char> labelId, ulong[] values, int rows, int cols, double scaleMin, double scaleMax, ReadOnlySpan<char> labelFmt, ImPlotPoint boundsMin, ImPlotPoint boundsMax, ImPlotHeatmapFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -9082,7 +9082,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelFmt = null;
 
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			{
 				ImPlotNative.PlotHeatmapU64Ptr(nativeLabelId, nativeValues, rows, cols, scaleMin, scaleMax, nativeLabelFmt, boundsMin, boundsMax, flags);
 				// Freeing labelId native string
@@ -9094,16 +9094,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static double PlotHistogramFloatPtr(ReadOnlySpan<byte> labelId, ref float values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		public static double PlotHistogramFloatPtr(ReadOnlySpan<byte> labelId, float[] values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			{
 				return ImPlotNative.PlotHistogramFloatPtr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 			}
 		}
 
-		public static double PlotHistogramFloatPtr(ReadOnlySpan<char> labelId, ref float values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		public static double PlotHistogramFloatPtr(ReadOnlySpan<char> labelId, float[] values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -9125,7 +9125,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			{
 				var result = ImPlotNative.PlotHistogramFloatPtr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 				// Freeing labelId native string
@@ -9135,16 +9135,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static double PlotHistogramDoublePtr(ReadOnlySpan<byte> labelId, ref double values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		public static double PlotHistogramDoublePtr(ReadOnlySpan<byte> labelId, double[] values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			{
 				return ImPlotNative.PlotHistogramDoublePtr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 			}
 		}
 
-		public static double PlotHistogramDoublePtr(ReadOnlySpan<char> labelId, ref double values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		public static double PlotHistogramDoublePtr(ReadOnlySpan<char> labelId, double[] values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -9166,7 +9166,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			{
 				var result = ImPlotNative.PlotHistogramDoublePtr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 				// Freeing labelId native string
@@ -9176,16 +9176,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static double PlotHistogramS8Ptr(ReadOnlySpan<byte> labelId, ref sbyte values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		public static double PlotHistogramS8Ptr(ReadOnlySpan<byte> labelId, sbyte[] values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			{
 				return ImPlotNative.PlotHistogramS8Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 			}
 		}
 
-		public static double PlotHistogramS8Ptr(ReadOnlySpan<char> labelId, ref sbyte values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		public static double PlotHistogramS8Ptr(ReadOnlySpan<char> labelId, sbyte[] values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -9207,7 +9207,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			{
 				var result = ImPlotNative.PlotHistogramS8Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 				// Freeing labelId native string
@@ -9217,16 +9217,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static double PlotHistogramU8Ptr(ReadOnlySpan<byte> labelId, ref byte values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		public static double PlotHistogramU8Ptr(ReadOnlySpan<byte> labelId, byte[] values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			{
 				return ImPlotNative.PlotHistogramU8Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 			}
 		}
 
-		public static double PlotHistogramU8Ptr(ReadOnlySpan<char> labelId, ref byte values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		public static double PlotHistogramU8Ptr(ReadOnlySpan<char> labelId, byte[] values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -9248,7 +9248,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			{
 				var result = ImPlotNative.PlotHistogramU8Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 				// Freeing labelId native string
@@ -9258,16 +9258,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static double PlotHistogramS16Ptr(ReadOnlySpan<byte> labelId, ref short values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		public static double PlotHistogramS16Ptr(ReadOnlySpan<byte> labelId, short[] values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			{
 				return ImPlotNative.PlotHistogramS16Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 			}
 		}
 
-		public static double PlotHistogramS16Ptr(ReadOnlySpan<char> labelId, ref short values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		public static double PlotHistogramS16Ptr(ReadOnlySpan<char> labelId, short[] values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -9289,7 +9289,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			{
 				var result = ImPlotNative.PlotHistogramS16Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 				// Freeing labelId native string
@@ -9299,16 +9299,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static double PlotHistogramU16Ptr(ReadOnlySpan<byte> labelId, ref ushort values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		public static double PlotHistogramU16Ptr(ReadOnlySpan<byte> labelId, ushort[] values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			{
 				return ImPlotNative.PlotHistogramU16Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 			}
 		}
 
-		public static double PlotHistogramU16Ptr(ReadOnlySpan<char> labelId, ref ushort values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		public static double PlotHistogramU16Ptr(ReadOnlySpan<char> labelId, ushort[] values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -9330,7 +9330,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			{
 				var result = ImPlotNative.PlotHistogramU16Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 				// Freeing labelId native string
@@ -9340,16 +9340,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static double PlotHistogramS32Ptr(ReadOnlySpan<byte> labelId, ref int values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		public static double PlotHistogramS32Ptr(ReadOnlySpan<byte> labelId, int[] values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			{
 				return ImPlotNative.PlotHistogramS32Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 			}
 		}
 
-		public static double PlotHistogramS32Ptr(ReadOnlySpan<char> labelId, ref int values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		public static double PlotHistogramS32Ptr(ReadOnlySpan<char> labelId, int[] values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -9371,7 +9371,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			{
 				var result = ImPlotNative.PlotHistogramS32Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 				// Freeing labelId native string
@@ -9381,16 +9381,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static double PlotHistogramU32Ptr(ReadOnlySpan<byte> labelId, ref uint values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		public static double PlotHistogramU32Ptr(ReadOnlySpan<byte> labelId, uint[] values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			{
 				return ImPlotNative.PlotHistogramU32Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 			}
 		}
 
-		public static double PlotHistogramU32Ptr(ReadOnlySpan<char> labelId, ref uint values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		public static double PlotHistogramU32Ptr(ReadOnlySpan<char> labelId, uint[] values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -9412,7 +9412,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			{
 				var result = ImPlotNative.PlotHistogramU32Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 				// Freeing labelId native string
@@ -9422,16 +9422,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static double PlotHistogramS64Ptr(ReadOnlySpan<byte> labelId, ref long values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		public static double PlotHistogramS64Ptr(ReadOnlySpan<byte> labelId, long[] values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			{
 				return ImPlotNative.PlotHistogramS64Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 			}
 		}
 
-		public static double PlotHistogramS64Ptr(ReadOnlySpan<char> labelId, ref long values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		public static double PlotHistogramS64Ptr(ReadOnlySpan<char> labelId, long[] values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -9453,7 +9453,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			{
 				var result = ImPlotNative.PlotHistogramS64Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 				// Freeing labelId native string
@@ -9463,16 +9463,16 @@ namespace SharpImPlot
 			}
 		}
 
-		public static double PlotHistogramU64Ptr(ReadOnlySpan<byte> labelId, ref ulong values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		public static double PlotHistogramU64Ptr(ReadOnlySpan<byte> labelId, ulong[] values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			{
 				return ImPlotNative.PlotHistogramU64Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 			}
 		}
 
-		public static double PlotHistogramU64Ptr(ReadOnlySpan<char> labelId, ref ulong values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
+		public static double PlotHistogramU64Ptr(ReadOnlySpan<char> labelId, ulong[] values, int count, int bins, double barScale, ImPlotRange range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -9494,7 +9494,7 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			{
 				var result = ImPlotNative.PlotHistogramU64Ptr(nativeLabelId, nativeValues, count, bins, barScale, range, flags);
 				// Freeing labelId native string
@@ -9504,17 +9504,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static double PlotHistogram2DFloatPtr(ReadOnlySpan<byte> labelId, ref float xs, ref float ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		public static double PlotHistogram2DFloatPtr(ReadOnlySpan<byte> labelId, float[] xs, float[] ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (float* nativeXs = &xs)
-			fixed (float* nativeYs = &ys)
+			fixed (float* nativeXs = xs)
+			fixed (float* nativeYs = ys)
 			{
 				return ImPlotNative.PlotHistogram2DFloatPtr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 			}
 		}
 
-		public static double PlotHistogram2DFloatPtr(ReadOnlySpan<char> labelId, ref float xs, ref float ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		public static double PlotHistogram2DFloatPtr(ReadOnlySpan<char> labelId, float[] xs, float[] ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -9536,8 +9536,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (float* nativeXs = &xs)
-			fixed (float* nativeYs = &ys)
+			fixed (float* nativeXs = xs)
+			fixed (float* nativeYs = ys)
 			{
 				var result = ImPlotNative.PlotHistogram2DFloatPtr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 				// Freeing labelId native string
@@ -9547,17 +9547,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static double PlotHistogram2DDoublePtr(ReadOnlySpan<byte> labelId, ref double xs, ref double ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		public static double PlotHistogram2DDoublePtr(ReadOnlySpan<byte> labelId, double[] xs, double[] ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (double* nativeXs = &xs)
-			fixed (double* nativeYs = &ys)
+			fixed (double* nativeXs = xs)
+			fixed (double* nativeYs = ys)
 			{
 				return ImPlotNative.PlotHistogram2DDoublePtr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 			}
 		}
 
-		public static double PlotHistogram2DDoublePtr(ReadOnlySpan<char> labelId, ref double xs, ref double ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		public static double PlotHistogram2DDoublePtr(ReadOnlySpan<char> labelId, double[] xs, double[] ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -9579,8 +9579,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (double* nativeXs = &xs)
-			fixed (double* nativeYs = &ys)
+			fixed (double* nativeXs = xs)
+			fixed (double* nativeYs = ys)
 			{
 				var result = ImPlotNative.PlotHistogram2DDoublePtr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 				// Freeing labelId native string
@@ -9590,17 +9590,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static double PlotHistogram2DS8Ptr(ReadOnlySpan<byte> labelId, ref sbyte xs, ref sbyte ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		public static double PlotHistogram2DS8Ptr(ReadOnlySpan<byte> labelId, sbyte[] xs, sbyte[] ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (sbyte* nativeXs = &xs)
-			fixed (sbyte* nativeYs = &ys)
+			fixed (sbyte* nativeXs = xs)
+			fixed (sbyte* nativeYs = ys)
 			{
 				return ImPlotNative.PlotHistogram2DS8Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 			}
 		}
 
-		public static double PlotHistogram2DS8Ptr(ReadOnlySpan<char> labelId, ref sbyte xs, ref sbyte ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		public static double PlotHistogram2DS8Ptr(ReadOnlySpan<char> labelId, sbyte[] xs, sbyte[] ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -9622,8 +9622,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (sbyte* nativeXs = &xs)
-			fixed (sbyte* nativeYs = &ys)
+			fixed (sbyte* nativeXs = xs)
+			fixed (sbyte* nativeYs = ys)
 			{
 				var result = ImPlotNative.PlotHistogram2DS8Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 				// Freeing labelId native string
@@ -9633,17 +9633,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static double PlotHistogram2DU8Ptr(ReadOnlySpan<byte> labelId, ref byte xs, ref byte ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		public static double PlotHistogram2DU8Ptr(ReadOnlySpan<byte> labelId, byte[] xs, byte[] ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (byte* nativeXs = &xs)
-			fixed (byte* nativeYs = &ys)
+			fixed (byte* nativeXs = xs)
+			fixed (byte* nativeYs = ys)
 			{
 				return ImPlotNative.PlotHistogram2DU8Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 			}
 		}
 
-		public static double PlotHistogram2DU8Ptr(ReadOnlySpan<char> labelId, ref byte xs, ref byte ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		public static double PlotHistogram2DU8Ptr(ReadOnlySpan<char> labelId, byte[] xs, byte[] ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -9665,8 +9665,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (byte* nativeXs = &xs)
-			fixed (byte* nativeYs = &ys)
+			fixed (byte* nativeXs = xs)
+			fixed (byte* nativeYs = ys)
 			{
 				var result = ImPlotNative.PlotHistogram2DU8Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 				// Freeing labelId native string
@@ -9676,17 +9676,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static double PlotHistogram2DS16Ptr(ReadOnlySpan<byte> labelId, ref short xs, ref short ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		public static double PlotHistogram2DS16Ptr(ReadOnlySpan<byte> labelId, short[] xs, short[] ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (short* nativeXs = &xs)
-			fixed (short* nativeYs = &ys)
+			fixed (short* nativeXs = xs)
+			fixed (short* nativeYs = ys)
 			{
 				return ImPlotNative.PlotHistogram2DS16Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 			}
 		}
 
-		public static double PlotHistogram2DS16Ptr(ReadOnlySpan<char> labelId, ref short xs, ref short ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		public static double PlotHistogram2DS16Ptr(ReadOnlySpan<char> labelId, short[] xs, short[] ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -9708,8 +9708,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (short* nativeXs = &xs)
-			fixed (short* nativeYs = &ys)
+			fixed (short* nativeXs = xs)
+			fixed (short* nativeYs = ys)
 			{
 				var result = ImPlotNative.PlotHistogram2DS16Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 				// Freeing labelId native string
@@ -9719,17 +9719,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static double PlotHistogram2DU16Ptr(ReadOnlySpan<byte> labelId, ref ushort xs, ref ushort ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		public static double PlotHistogram2DU16Ptr(ReadOnlySpan<byte> labelId, ushort[] xs, ushort[] ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ushort* nativeXs = &xs)
-			fixed (ushort* nativeYs = &ys)
+			fixed (ushort* nativeXs = xs)
+			fixed (ushort* nativeYs = ys)
 			{
 				return ImPlotNative.PlotHistogram2DU16Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 			}
 		}
 
-		public static double PlotHistogram2DU16Ptr(ReadOnlySpan<char> labelId, ref ushort xs, ref ushort ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		public static double PlotHistogram2DU16Ptr(ReadOnlySpan<char> labelId, ushort[] xs, ushort[] ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -9751,8 +9751,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ushort* nativeXs = &xs)
-			fixed (ushort* nativeYs = &ys)
+			fixed (ushort* nativeXs = xs)
+			fixed (ushort* nativeYs = ys)
 			{
 				var result = ImPlotNative.PlotHistogram2DU16Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 				// Freeing labelId native string
@@ -9762,17 +9762,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static double PlotHistogram2DS32Ptr(ReadOnlySpan<byte> labelId, ref int xs, ref int ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		public static double PlotHistogram2DS32Ptr(ReadOnlySpan<byte> labelId, int[] xs, int[] ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (int* nativeXs = &xs)
-			fixed (int* nativeYs = &ys)
+			fixed (int* nativeXs = xs)
+			fixed (int* nativeYs = ys)
 			{
 				return ImPlotNative.PlotHistogram2DS32Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 			}
 		}
 
-		public static double PlotHistogram2DS32Ptr(ReadOnlySpan<char> labelId, ref int xs, ref int ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		public static double PlotHistogram2DS32Ptr(ReadOnlySpan<char> labelId, int[] xs, int[] ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -9794,8 +9794,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (int* nativeXs = &xs)
-			fixed (int* nativeYs = &ys)
+			fixed (int* nativeXs = xs)
+			fixed (int* nativeYs = ys)
 			{
 				var result = ImPlotNative.PlotHistogram2DS32Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 				// Freeing labelId native string
@@ -9805,17 +9805,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static double PlotHistogram2DU32Ptr(ReadOnlySpan<byte> labelId, ref uint xs, ref uint ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		public static double PlotHistogram2DU32Ptr(ReadOnlySpan<byte> labelId, uint[] xs, uint[] ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (uint* nativeXs = &xs)
-			fixed (uint* nativeYs = &ys)
+			fixed (uint* nativeXs = xs)
+			fixed (uint* nativeYs = ys)
 			{
 				return ImPlotNative.PlotHistogram2DU32Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 			}
 		}
 
-		public static double PlotHistogram2DU32Ptr(ReadOnlySpan<char> labelId, ref uint xs, ref uint ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		public static double PlotHistogram2DU32Ptr(ReadOnlySpan<char> labelId, uint[] xs, uint[] ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -9837,8 +9837,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (uint* nativeXs = &xs)
-			fixed (uint* nativeYs = &ys)
+			fixed (uint* nativeXs = xs)
+			fixed (uint* nativeYs = ys)
 			{
 				var result = ImPlotNative.PlotHistogram2DU32Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 				// Freeing labelId native string
@@ -9848,17 +9848,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static double PlotHistogram2DS64Ptr(ReadOnlySpan<byte> labelId, ref long xs, ref long ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		public static double PlotHistogram2DS64Ptr(ReadOnlySpan<byte> labelId, long[] xs, long[] ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (long* nativeXs = &xs)
-			fixed (long* nativeYs = &ys)
+			fixed (long* nativeXs = xs)
+			fixed (long* nativeYs = ys)
 			{
 				return ImPlotNative.PlotHistogram2DS64Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 			}
 		}
 
-		public static double PlotHistogram2DS64Ptr(ReadOnlySpan<char> labelId, ref long xs, ref long ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		public static double PlotHistogram2DS64Ptr(ReadOnlySpan<char> labelId, long[] xs, long[] ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -9880,8 +9880,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (long* nativeXs = &xs)
-			fixed (long* nativeYs = &ys)
+			fixed (long* nativeXs = xs)
+			fixed (long* nativeYs = ys)
 			{
 				var result = ImPlotNative.PlotHistogram2DS64Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 				// Freeing labelId native string
@@ -9891,17 +9891,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static double PlotHistogram2DU64Ptr(ReadOnlySpan<byte> labelId, ref ulong xs, ref ulong ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		public static double PlotHistogram2DU64Ptr(ReadOnlySpan<byte> labelId, ulong[] xs, ulong[] ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ulong* nativeXs = &xs)
-			fixed (ulong* nativeYs = &ys)
+			fixed (ulong* nativeXs = xs)
+			fixed (ulong* nativeYs = ys)
 			{
 				return ImPlotNative.PlotHistogram2DU64Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 			}
 		}
 
-		public static double PlotHistogram2DU64Ptr(ReadOnlySpan<char> labelId, ref ulong xs, ref ulong ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
+		public static double PlotHistogram2DU64Ptr(ReadOnlySpan<char> labelId, ulong[] xs, ulong[] ys, int count, int xBins, int yBins, ImPlotRect range, ImPlotHistogramFlags flags)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -9923,8 +9923,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ulong* nativeXs = &xs)
-			fixed (ulong* nativeYs = &ys)
+			fixed (ulong* nativeXs = xs)
+			fixed (ulong* nativeYs = ys)
 			{
 				var result = ImPlotNative.PlotHistogram2DU64Ptr(nativeLabelId, nativeXs, nativeYs, count, xBins, yBins, range, flags);
 				// Freeing labelId native string
@@ -9934,17 +9934,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotDigitalFloatPtr(ReadOnlySpan<byte> labelId, ref float xs, ref float ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		public static void PlotDigitalFloatPtr(ReadOnlySpan<byte> labelId, float[] xs, float[] ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (float* nativeXs = &xs)
-			fixed (float* nativeYs = &ys)
+			fixed (float* nativeXs = xs)
+			fixed (float* nativeYs = ys)
 			{
 				ImPlotNative.PlotDigitalFloatPtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotDigitalFloatPtr(ReadOnlySpan<char> labelId, ref float xs, ref float ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		public static void PlotDigitalFloatPtr(ReadOnlySpan<char> labelId, float[] xs, float[] ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -9966,8 +9966,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (float* nativeXs = &xs)
-			fixed (float* nativeYs = &ys)
+			fixed (float* nativeXs = xs)
+			fixed (float* nativeYs = ys)
 			{
 				ImPlotNative.PlotDigitalFloatPtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -9976,17 +9976,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotDigitalDoublePtr(ReadOnlySpan<byte> labelId, ref double xs, ref double ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		public static void PlotDigitalDoublePtr(ReadOnlySpan<byte> labelId, double[] xs, double[] ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (double* nativeXs = &xs)
-			fixed (double* nativeYs = &ys)
+			fixed (double* nativeXs = xs)
+			fixed (double* nativeYs = ys)
 			{
 				ImPlotNative.PlotDigitalDoublePtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotDigitalDoublePtr(ReadOnlySpan<char> labelId, ref double xs, ref double ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		public static void PlotDigitalDoublePtr(ReadOnlySpan<char> labelId, double[] xs, double[] ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -10008,8 +10008,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (double* nativeXs = &xs)
-			fixed (double* nativeYs = &ys)
+			fixed (double* nativeXs = xs)
+			fixed (double* nativeYs = ys)
 			{
 				ImPlotNative.PlotDigitalDoublePtr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -10018,17 +10018,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotDigitalS8Ptr(ReadOnlySpan<byte> labelId, ref sbyte xs, ref sbyte ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		public static void PlotDigitalS8Ptr(ReadOnlySpan<byte> labelId, sbyte[] xs, sbyte[] ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (sbyte* nativeXs = &xs)
-			fixed (sbyte* nativeYs = &ys)
+			fixed (sbyte* nativeXs = xs)
+			fixed (sbyte* nativeYs = ys)
 			{
 				ImPlotNative.PlotDigitalS8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotDigitalS8Ptr(ReadOnlySpan<char> labelId, ref sbyte xs, ref sbyte ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		public static void PlotDigitalS8Ptr(ReadOnlySpan<char> labelId, sbyte[] xs, sbyte[] ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -10050,8 +10050,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (sbyte* nativeXs = &xs)
-			fixed (sbyte* nativeYs = &ys)
+			fixed (sbyte* nativeXs = xs)
+			fixed (sbyte* nativeYs = ys)
 			{
 				ImPlotNative.PlotDigitalS8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -10060,17 +10060,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotDigitalU8Ptr(ReadOnlySpan<byte> labelId, ref byte xs, ref byte ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		public static void PlotDigitalU8Ptr(ReadOnlySpan<byte> labelId, byte[] xs, byte[] ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (byte* nativeXs = &xs)
-			fixed (byte* nativeYs = &ys)
+			fixed (byte* nativeXs = xs)
+			fixed (byte* nativeYs = ys)
 			{
 				ImPlotNative.PlotDigitalU8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotDigitalU8Ptr(ReadOnlySpan<char> labelId, ref byte xs, ref byte ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		public static void PlotDigitalU8Ptr(ReadOnlySpan<char> labelId, byte[] xs, byte[] ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -10092,8 +10092,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (byte* nativeXs = &xs)
-			fixed (byte* nativeYs = &ys)
+			fixed (byte* nativeXs = xs)
+			fixed (byte* nativeYs = ys)
 			{
 				ImPlotNative.PlotDigitalU8Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -10102,17 +10102,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotDigitalS16Ptr(ReadOnlySpan<byte> labelId, ref short xs, ref short ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		public static void PlotDigitalS16Ptr(ReadOnlySpan<byte> labelId, short[] xs, short[] ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (short* nativeXs = &xs)
-			fixed (short* nativeYs = &ys)
+			fixed (short* nativeXs = xs)
+			fixed (short* nativeYs = ys)
 			{
 				ImPlotNative.PlotDigitalS16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotDigitalS16Ptr(ReadOnlySpan<char> labelId, ref short xs, ref short ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		public static void PlotDigitalS16Ptr(ReadOnlySpan<char> labelId, short[] xs, short[] ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -10134,8 +10134,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (short* nativeXs = &xs)
-			fixed (short* nativeYs = &ys)
+			fixed (short* nativeXs = xs)
+			fixed (short* nativeYs = ys)
 			{
 				ImPlotNative.PlotDigitalS16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -10144,17 +10144,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotDigitalU16Ptr(ReadOnlySpan<byte> labelId, ref ushort xs, ref ushort ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		public static void PlotDigitalU16Ptr(ReadOnlySpan<byte> labelId, ushort[] xs, ushort[] ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ushort* nativeXs = &xs)
-			fixed (ushort* nativeYs = &ys)
+			fixed (ushort* nativeXs = xs)
+			fixed (ushort* nativeYs = ys)
 			{
 				ImPlotNative.PlotDigitalU16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotDigitalU16Ptr(ReadOnlySpan<char> labelId, ref ushort xs, ref ushort ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		public static void PlotDigitalU16Ptr(ReadOnlySpan<char> labelId, ushort[] xs, ushort[] ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -10176,8 +10176,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ushort* nativeXs = &xs)
-			fixed (ushort* nativeYs = &ys)
+			fixed (ushort* nativeXs = xs)
+			fixed (ushort* nativeYs = ys)
 			{
 				ImPlotNative.PlotDigitalU16Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -10186,17 +10186,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotDigitalS32Ptr(ReadOnlySpan<byte> labelId, ref int xs, ref int ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		public static void PlotDigitalS32Ptr(ReadOnlySpan<byte> labelId, int[] xs, int[] ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (int* nativeXs = &xs)
-			fixed (int* nativeYs = &ys)
+			fixed (int* nativeXs = xs)
+			fixed (int* nativeYs = ys)
 			{
 				ImPlotNative.PlotDigitalS32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotDigitalS32Ptr(ReadOnlySpan<char> labelId, ref int xs, ref int ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		public static void PlotDigitalS32Ptr(ReadOnlySpan<char> labelId, int[] xs, int[] ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -10218,8 +10218,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (int* nativeXs = &xs)
-			fixed (int* nativeYs = &ys)
+			fixed (int* nativeXs = xs)
+			fixed (int* nativeYs = ys)
 			{
 				ImPlotNative.PlotDigitalS32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -10228,17 +10228,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotDigitalU32Ptr(ReadOnlySpan<byte> labelId, ref uint xs, ref uint ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		public static void PlotDigitalU32Ptr(ReadOnlySpan<byte> labelId, uint[] xs, uint[] ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (uint* nativeXs = &xs)
-			fixed (uint* nativeYs = &ys)
+			fixed (uint* nativeXs = xs)
+			fixed (uint* nativeYs = ys)
 			{
 				ImPlotNative.PlotDigitalU32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotDigitalU32Ptr(ReadOnlySpan<char> labelId, ref uint xs, ref uint ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		public static void PlotDigitalU32Ptr(ReadOnlySpan<char> labelId, uint[] xs, uint[] ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -10260,8 +10260,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (uint* nativeXs = &xs)
-			fixed (uint* nativeYs = &ys)
+			fixed (uint* nativeXs = xs)
+			fixed (uint* nativeYs = ys)
 			{
 				ImPlotNative.PlotDigitalU32Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -10270,17 +10270,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotDigitalS64Ptr(ReadOnlySpan<byte> labelId, ref long xs, ref long ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		public static void PlotDigitalS64Ptr(ReadOnlySpan<byte> labelId, long[] xs, long[] ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (long* nativeXs = &xs)
-			fixed (long* nativeYs = &ys)
+			fixed (long* nativeXs = xs)
+			fixed (long* nativeYs = ys)
 			{
 				ImPlotNative.PlotDigitalS64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotDigitalS64Ptr(ReadOnlySpan<char> labelId, ref long xs, ref long ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		public static void PlotDigitalS64Ptr(ReadOnlySpan<char> labelId, long[] xs, long[] ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -10302,8 +10302,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (long* nativeXs = &xs)
-			fixed (long* nativeYs = &ys)
+			fixed (long* nativeXs = xs)
+			fixed (long* nativeYs = ys)
 			{
 				ImPlotNative.PlotDigitalS64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -10312,17 +10312,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void PlotDigitalU64Ptr(ReadOnlySpan<byte> labelId, ref ulong xs, ref ulong ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		public static void PlotDigitalU64Ptr(ReadOnlySpan<byte> labelId, ulong[] xs, ulong[] ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			fixed (byte* nativeLabelId = labelId)
-			fixed (ulong* nativeXs = &xs)
-			fixed (ulong* nativeYs = &ys)
+			fixed (ulong* nativeXs = xs)
+			fixed (ulong* nativeYs = ys)
 			{
 				ImPlotNative.PlotDigitalU64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 			}
 		}
 
-		public static void PlotDigitalU64Ptr(ReadOnlySpan<char> labelId, ref ulong xs, ref ulong ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
+		public static void PlotDigitalU64Ptr(ReadOnlySpan<char> labelId, ulong[] xs, ulong[] ys, int count, ImPlotDigitalFlags flags, int offset, int stride)
 		{
 			// Marshaling labelId to native string
 			byte* nativeLabelId;
@@ -10344,8 +10344,8 @@ namespace SharpImPlot
 			}
 			else nativeLabelId = null;
 
-			fixed (ulong* nativeXs = &xs)
-			fixed (ulong* nativeYs = &ys)
+			fixed (ulong* nativeXs = xs)
+			fixed (ulong* nativeYs = ys)
 			{
 				ImPlotNative.PlotDigitalU64Ptr(nativeLabelId, nativeXs, nativeYs, count, flags, offset, stride);
 				// Freeing labelId native string
@@ -12085,17 +12085,17 @@ namespace SharpImPlot
 			return ref *(byte*)&nativeResult;
 		}
 
-		public static ImPlotColormap AddColormapVec4Ptr(ReadOnlySpan<byte> name, ref Vector4 cols, int size, bool qual)
+		public static ImPlotColormap AddColormapVec4Ptr(ReadOnlySpan<byte> name, Vector4[] cols, int size, bool qual)
 		{
 			var native_qual = qual ? (byte)1 : (byte)0;
 			fixed (byte* nativeName = name)
-			fixed (Vector4* nativeCols = &cols)
+			fixed (Vector4* nativeCols = cols)
 			{
 				return ImPlotNative.AddColormapVec4Ptr(nativeName, nativeCols, size, native_qual);
 			}
 		}
 
-		public static ImPlotColormap AddColormapVec4Ptr(ReadOnlySpan<char> name, ref Vector4 cols, int size, bool qual)
+		public static ImPlotColormap AddColormapVec4Ptr(ReadOnlySpan<char> name, Vector4[] cols, int size, bool qual)
 		{
 			// Marshaling name to native string
 			byte* nativeName;
@@ -12118,7 +12118,7 @@ namespace SharpImPlot
 			else nativeName = null;
 
 			var native_qual = qual ? (byte)1 : (byte)0;
-			fixed (Vector4* nativeCols = &cols)
+			fixed (Vector4* nativeCols = cols)
 			{
 				var result = ImPlotNative.AddColormapVec4Ptr(nativeName, nativeCols, size, native_qual);
 				// Freeing name native string
@@ -12128,17 +12128,17 @@ namespace SharpImPlot
 			}
 		}
 
-		public static ImPlotColormap AddColormapU32Ptr(ReadOnlySpan<byte> name, ref uint cols, int size, bool qual)
+		public static ImPlotColormap AddColormapU32Ptr(ReadOnlySpan<byte> name, uint[] cols, int size, bool qual)
 		{
 			var native_qual = qual ? (byte)1 : (byte)0;
 			fixed (byte* nativeName = name)
-			fixed (uint* nativeCols = &cols)
+			fixed (uint* nativeCols = cols)
 			{
 				return ImPlotNative.AddColormapU32Ptr(nativeName, nativeCols, size, native_qual);
 			}
 		}
 
-		public static ImPlotColormap AddColormapU32Ptr(ReadOnlySpan<char> name, ref uint cols, int size, bool qual)
+		public static ImPlotColormap AddColormapU32Ptr(ReadOnlySpan<char> name, uint[] cols, int size, bool qual)
 		{
 			// Marshaling name to native string
 			byte* nativeName;
@@ -12161,7 +12161,7 @@ namespace SharpImPlot
 			else nativeName = null;
 
 			var native_qual = qual ? (byte)1 : (byte)0;
-			fixed (uint* nativeCols = &cols)
+			fixed (uint* nativeCols = cols)
 			{
 				var result = ImPlotNative.AddColormapU32Ptr(nativeName, nativeCols, size, native_qual);
 				// Freeing name native string
@@ -13537,171 +13537,171 @@ namespace SharpImPlot
 			return result != 0;
 		}
 
-		public static float ImMinArrayFloatPtr(ref float values, int count)
+		public static float ImMinArrayFloatPtr(float[] values, int count)
 		{
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			{
 				return ImPlotNative.ImMinArrayFloatPtr(nativeValues, count);
 			}
 		}
 
-		public static double ImMinArrayDoublePtr(ref double values, int count)
+		public static double ImMinArrayDoublePtr(double[] values, int count)
 		{
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			{
 				return ImPlotNative.ImMinArrayDoublePtr(nativeValues, count);
 			}
 		}
 
-		public static sbyte ImMinArrayS8Ptr(ref sbyte values, int count)
+		public static sbyte ImMinArrayS8Ptr(sbyte[] values, int count)
 		{
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			{
 				return ImPlotNative.ImMinArrayS8Ptr(nativeValues, count);
 			}
 		}
 
-		public static bool ImMinArrayU8Ptr(ref byte values, int count)
+		public static bool ImMinArrayU8Ptr(byte[] values, int count)
 		{
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			{
 				var result = ImPlotNative.ImMinArrayU8Ptr(nativeValues, count);
 				return result != 0;
 			}
 		}
 
-		public static short ImMinArrayS16Ptr(ref short values, int count)
+		public static short ImMinArrayS16Ptr(short[] values, int count)
 		{
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			{
 				return ImPlotNative.ImMinArrayS16Ptr(nativeValues, count);
 			}
 		}
 
-		public static ushort ImMinArrayU16Ptr(ref ushort values, int count)
+		public static ushort ImMinArrayU16Ptr(ushort[] values, int count)
 		{
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			{
 				return ImPlotNative.ImMinArrayU16Ptr(nativeValues, count);
 			}
 		}
 
-		public static int ImMinArrayS32Ptr(ref int values, int count)
+		public static int ImMinArrayS32Ptr(int[] values, int count)
 		{
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			{
 				return ImPlotNative.ImMinArrayS32Ptr(nativeValues, count);
 			}
 		}
 
-		public static uint ImMinArrayU32Ptr(ref uint values, int count)
+		public static uint ImMinArrayU32Ptr(uint[] values, int count)
 		{
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			{
 				return ImPlotNative.ImMinArrayU32Ptr(nativeValues, count);
 			}
 		}
 
-		public static long ImMinArrayS64Ptr(ref long values, int count)
+		public static long ImMinArrayS64Ptr(long[] values, int count)
 		{
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			{
 				return ImPlotNative.ImMinArrayS64Ptr(nativeValues, count);
 			}
 		}
 
-		public static ulong ImMinArrayU64Ptr(ref ulong values, int count)
+		public static ulong ImMinArrayU64Ptr(ulong[] values, int count)
 		{
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			{
 				return ImPlotNative.ImMinArrayU64Ptr(nativeValues, count);
 			}
 		}
 
-		public static float ImMaxArrayFloatPtr(ref float values, int count)
+		public static float ImMaxArrayFloatPtr(float[] values, int count)
 		{
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			{
 				return ImPlotNative.ImMaxArrayFloatPtr(nativeValues, count);
 			}
 		}
 
-		public static double ImMaxArrayDoublePtr(ref double values, int count)
+		public static double ImMaxArrayDoublePtr(double[] values, int count)
 		{
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			{
 				return ImPlotNative.ImMaxArrayDoublePtr(nativeValues, count);
 			}
 		}
 
-		public static sbyte ImMaxArrayS8Ptr(ref sbyte values, int count)
+		public static sbyte ImMaxArrayS8Ptr(sbyte[] values, int count)
 		{
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			{
 				return ImPlotNative.ImMaxArrayS8Ptr(nativeValues, count);
 			}
 		}
 
-		public static bool ImMaxArrayU8Ptr(ref byte values, int count)
+		public static bool ImMaxArrayU8Ptr(byte[] values, int count)
 		{
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			{
 				var result = ImPlotNative.ImMaxArrayU8Ptr(nativeValues, count);
 				return result != 0;
 			}
 		}
 
-		public static short ImMaxArrayS16Ptr(ref short values, int count)
+		public static short ImMaxArrayS16Ptr(short[] values, int count)
 		{
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			{
 				return ImPlotNative.ImMaxArrayS16Ptr(nativeValues, count);
 			}
 		}
 
-		public static ushort ImMaxArrayU16Ptr(ref ushort values, int count)
+		public static ushort ImMaxArrayU16Ptr(ushort[] values, int count)
 		{
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			{
 				return ImPlotNative.ImMaxArrayU16Ptr(nativeValues, count);
 			}
 		}
 
-		public static int ImMaxArrayS32Ptr(ref int values, int count)
+		public static int ImMaxArrayS32Ptr(int[] values, int count)
 		{
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			{
 				return ImPlotNative.ImMaxArrayS32Ptr(nativeValues, count);
 			}
 		}
 
-		public static uint ImMaxArrayU32Ptr(ref uint values, int count)
+		public static uint ImMaxArrayU32Ptr(uint[] values, int count)
 		{
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			{
 				return ImPlotNative.ImMaxArrayU32Ptr(nativeValues, count);
 			}
 		}
 
-		public static long ImMaxArrayS64Ptr(ref long values, int count)
+		public static long ImMaxArrayS64Ptr(long[] values, int count)
 		{
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			{
 				return ImPlotNative.ImMaxArrayS64Ptr(nativeValues, count);
 			}
 		}
 
-		public static ulong ImMaxArrayU64Ptr(ref ulong values, int count)
+		public static ulong ImMaxArrayU64Ptr(ulong[] values, int count)
 		{
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			{
 				return ImPlotNative.ImMaxArrayU64Ptr(nativeValues, count);
 			}
 		}
 
-		public static void ImMinMaxArrayFloatPtr(ref float values, int count, out float minOut, out float maxOut)
+		public static void ImMinMaxArrayFloatPtr(float[] values, int count, out float minOut, out float maxOut)
 		{
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			fixed (float* nativeMinOut = &minOut)
 			fixed (float* nativeMaxOut = &maxOut)
 			{
@@ -13709,9 +13709,9 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void ImMinMaxArrayDoublePtr(ref double values, int count, out double minOut, out double maxOut)
+		public static void ImMinMaxArrayDoublePtr(double[] values, int count, out double minOut, out double maxOut)
 		{
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			fixed (double* nativeMinOut = &minOut)
 			fixed (double* nativeMaxOut = &maxOut)
 			{
@@ -13719,9 +13719,9 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void ImMinMaxArrayS8Ptr(ref sbyte values, int count, out sbyte minOut, out sbyte maxOut)
+		public static void ImMinMaxArrayS8Ptr(sbyte[] values, int count, out sbyte minOut, out sbyte maxOut)
 		{
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			fixed (sbyte* nativeMinOut = &minOut)
 			fixed (sbyte* nativeMaxOut = &maxOut)
 			{
@@ -13729,9 +13729,9 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void ImMinMaxArrayU8Ptr(ref byte values, int count, out byte minOut, out byte maxOut)
+		public static void ImMinMaxArrayU8Ptr(byte[] values, int count, out byte minOut, out byte maxOut)
 		{
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			fixed (byte* nativeMinOut = &minOut)
 			fixed (byte* nativeMaxOut = &maxOut)
 			{
@@ -13739,9 +13739,9 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void ImMinMaxArrayS16Ptr(ref short values, int count, out short minOut, out short maxOut)
+		public static void ImMinMaxArrayS16Ptr(short[] values, int count, out short minOut, out short maxOut)
 		{
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			fixed (short* nativeMinOut = &minOut)
 			fixed (short* nativeMaxOut = &maxOut)
 			{
@@ -13749,9 +13749,9 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void ImMinMaxArrayU16Ptr(ref ushort values, int count, out ushort minOut, out ushort maxOut)
+		public static void ImMinMaxArrayU16Ptr(ushort[] values, int count, out ushort minOut, out ushort maxOut)
 		{
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			fixed (ushort* nativeMinOut = &minOut)
 			fixed (ushort* nativeMaxOut = &maxOut)
 			{
@@ -13759,9 +13759,9 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void ImMinMaxArrayS32Ptr(ref int values, int count, out int minOut, out int maxOut)
+		public static void ImMinMaxArrayS32Ptr(int[] values, int count, out int minOut, out int maxOut)
 		{
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			fixed (int* nativeMinOut = &minOut)
 			fixed (int* nativeMaxOut = &maxOut)
 			{
@@ -13769,9 +13769,9 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void ImMinMaxArrayU32Ptr(ref uint values, int count, out uint minOut, out uint maxOut)
+		public static void ImMinMaxArrayU32Ptr(uint[] values, int count, out uint minOut, out uint maxOut)
 		{
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			fixed (uint* nativeMinOut = &minOut)
 			fixed (uint* nativeMaxOut = &maxOut)
 			{
@@ -13779,9 +13779,9 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void ImMinMaxArrayS64Ptr(ref long values, int count, out long minOut, out long maxOut)
+		public static void ImMinMaxArrayS64Ptr(long[] values, int count, out long minOut, out long maxOut)
 		{
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			fixed (long* nativeMinOut = &minOut)
 			fixed (long* nativeMaxOut = &maxOut)
 			{
@@ -13789,9 +13789,9 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void ImMinMaxArrayU64Ptr(ref ulong values, int count, out ulong minOut, out ulong maxOut)
+		public static void ImMinMaxArrayU64Ptr(ulong[] values, int count, out ulong minOut, out ulong maxOut)
 		{
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			fixed (ulong* nativeMinOut = &minOut)
 			fixed (ulong* nativeMaxOut = &maxOut)
 			{
@@ -13799,242 +13799,242 @@ namespace SharpImPlot
 			}
 		}
 
-		public static float ImSumFloatPtr(ref float values, int count)
+		public static float ImSumFloatPtr(float[] values, int count)
 		{
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			{
 				return ImPlotNative.ImSumFloatPtr(nativeValues, count);
 			}
 		}
 
-		public static double ImSumDoublePtr(ref double values, int count)
+		public static double ImSumDoublePtr(double[] values, int count)
 		{
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			{
 				return ImPlotNative.ImSumDoublePtr(nativeValues, count);
 			}
 		}
 
-		public static sbyte ImSumS8Ptr(ref sbyte values, int count)
+		public static sbyte ImSumS8Ptr(sbyte[] values, int count)
 		{
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			{
 				return ImPlotNative.ImSumS8Ptr(nativeValues, count);
 			}
 		}
 
-		public static bool ImSumU8Ptr(ref byte values, int count)
+		public static bool ImSumU8Ptr(byte[] values, int count)
 		{
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			{
 				var result = ImPlotNative.ImSumU8Ptr(nativeValues, count);
 				return result != 0;
 			}
 		}
 
-		public static short ImSumS16Ptr(ref short values, int count)
+		public static short ImSumS16Ptr(short[] values, int count)
 		{
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			{
 				return ImPlotNative.ImSumS16Ptr(nativeValues, count);
 			}
 		}
 
-		public static ushort ImSumU16Ptr(ref ushort values, int count)
+		public static ushort ImSumU16Ptr(ushort[] values, int count)
 		{
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			{
 				return ImPlotNative.ImSumU16Ptr(nativeValues, count);
 			}
 		}
 
-		public static int ImSumS32Ptr(ref int values, int count)
+		public static int ImSumS32Ptr(int[] values, int count)
 		{
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			{
 				return ImPlotNative.ImSumS32Ptr(nativeValues, count);
 			}
 		}
 
-		public static uint ImSumU32Ptr(ref uint values, int count)
+		public static uint ImSumU32Ptr(uint[] values, int count)
 		{
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			{
 				return ImPlotNative.ImSumU32Ptr(nativeValues, count);
 			}
 		}
 
-		public static long ImSumS64Ptr(ref long values, int count)
+		public static long ImSumS64Ptr(long[] values, int count)
 		{
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			{
 				return ImPlotNative.ImSumS64Ptr(nativeValues, count);
 			}
 		}
 
-		public static ulong ImSumU64Ptr(ref ulong values, int count)
+		public static ulong ImSumU64Ptr(ulong[] values, int count)
 		{
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			{
 				return ImPlotNative.ImSumU64Ptr(nativeValues, count);
 			}
 		}
 
-		public static double ImMeanFloatPtr(ref float values, int count)
+		public static double ImMeanFloatPtr(float[] values, int count)
 		{
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			{
 				return ImPlotNative.ImMeanFloatPtr(nativeValues, count);
 			}
 		}
 
-		public static double ImMeanDoublePtr(ref double values, int count)
+		public static double ImMeanDoublePtr(double[] values, int count)
 		{
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			{
 				return ImPlotNative.ImMeanDoublePtr(nativeValues, count);
 			}
 		}
 
-		public static double ImMeanS8Ptr(ref sbyte values, int count)
+		public static double ImMeanS8Ptr(sbyte[] values, int count)
 		{
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			{
 				return ImPlotNative.ImMeanS8Ptr(nativeValues, count);
 			}
 		}
 
-		public static double ImMeanU8Ptr(ref byte values, int count)
+		public static double ImMeanU8Ptr(byte[] values, int count)
 		{
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			{
 				return ImPlotNative.ImMeanU8Ptr(nativeValues, count);
 			}
 		}
 
-		public static double ImMeanS16Ptr(ref short values, int count)
+		public static double ImMeanS16Ptr(short[] values, int count)
 		{
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			{
 				return ImPlotNative.ImMeanS16Ptr(nativeValues, count);
 			}
 		}
 
-		public static double ImMeanU16Ptr(ref ushort values, int count)
+		public static double ImMeanU16Ptr(ushort[] values, int count)
 		{
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			{
 				return ImPlotNative.ImMeanU16Ptr(nativeValues, count);
 			}
 		}
 
-		public static double ImMeanS32Ptr(ref int values, int count)
+		public static double ImMeanS32Ptr(int[] values, int count)
 		{
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			{
 				return ImPlotNative.ImMeanS32Ptr(nativeValues, count);
 			}
 		}
 
-		public static double ImMeanU32Ptr(ref uint values, int count)
+		public static double ImMeanU32Ptr(uint[] values, int count)
 		{
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			{
 				return ImPlotNative.ImMeanU32Ptr(nativeValues, count);
 			}
 		}
 
-		public static double ImMeanS64Ptr(ref long values, int count)
+		public static double ImMeanS64Ptr(long[] values, int count)
 		{
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			{
 				return ImPlotNative.ImMeanS64Ptr(nativeValues, count);
 			}
 		}
 
-		public static double ImMeanU64Ptr(ref ulong values, int count)
+		public static double ImMeanU64Ptr(ulong[] values, int count)
 		{
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			{
 				return ImPlotNative.ImMeanU64Ptr(nativeValues, count);
 			}
 		}
 
-		public static double ImStdDevFloatPtr(ref float values, int count)
+		public static double ImStdDevFloatPtr(float[] values, int count)
 		{
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			{
 				return ImPlotNative.ImStdDevFloatPtr(nativeValues, count);
 			}
 		}
 
-		public static double ImStdDevDoublePtr(ref double values, int count)
+		public static double ImStdDevDoublePtr(double[] values, int count)
 		{
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			{
 				return ImPlotNative.ImStdDevDoublePtr(nativeValues, count);
 			}
 		}
 
-		public static double ImStdDevS8Ptr(ref sbyte values, int count)
+		public static double ImStdDevS8Ptr(sbyte[] values, int count)
 		{
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			{
 				return ImPlotNative.ImStdDevS8Ptr(nativeValues, count);
 			}
 		}
 
-		public static double ImStdDevU8Ptr(ref byte values, int count)
+		public static double ImStdDevU8Ptr(byte[] values, int count)
 		{
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			{
 				return ImPlotNative.ImStdDevU8Ptr(nativeValues, count);
 			}
 		}
 
-		public static double ImStdDevS16Ptr(ref short values, int count)
+		public static double ImStdDevS16Ptr(short[] values, int count)
 		{
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			{
 				return ImPlotNative.ImStdDevS16Ptr(nativeValues, count);
 			}
 		}
 
-		public static double ImStdDevU16Ptr(ref ushort values, int count)
+		public static double ImStdDevU16Ptr(ushort[] values, int count)
 		{
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			{
 				return ImPlotNative.ImStdDevU16Ptr(nativeValues, count);
 			}
 		}
 
-		public static double ImStdDevS32Ptr(ref int values, int count)
+		public static double ImStdDevS32Ptr(int[] values, int count)
 		{
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			{
 				return ImPlotNative.ImStdDevS32Ptr(nativeValues, count);
 			}
 		}
 
-		public static double ImStdDevU32Ptr(ref uint values, int count)
+		public static double ImStdDevU32Ptr(uint[] values, int count)
 		{
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			{
 				return ImPlotNative.ImStdDevU32Ptr(nativeValues, count);
 			}
 		}
 
-		public static double ImStdDevS64Ptr(ref long values, int count)
+		public static double ImStdDevS64Ptr(long[] values, int count)
 		{
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			{
 				return ImPlotNative.ImStdDevS64Ptr(nativeValues, count);
 			}
 		}
 
-		public static double ImStdDevU64Ptr(ref ulong values, int count)
+		public static double ImStdDevU64Ptr(ulong[] values, int count)
 		{
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			{
 				return ImPlotNative.ImStdDevU64Ptr(nativeValues, count);
 			}
@@ -14045,9 +14045,9 @@ namespace SharpImPlot
 			return ImPlotNative.ImMixU32(a, b, s);
 		}
 
-		public static uint ImLerpU32(ref uint colors, int size, float t)
+		public static uint ImLerpU32(uint[] colors, int size, float t)
 		{
-			fixed (uint* nativeColors = &colors)
+			fixed (uint* nativeColors = colors)
 			{
 				return ImPlotNative.ImLerpU32(nativeColors, size, t);
 			}
@@ -15008,12 +15008,12 @@ namespace SharpImPlot
 			return ImPlotNative.SampleColormapU32(t, cmap);
 		}
 
-		public static void RenderColorBar(ref uint colors, int size, ImDrawListPtr drawList, ImRect bounds, bool vert, bool reversed, bool continuous)
+		public static void RenderColorBar(uint[] colors, int size, ImDrawListPtr drawList, ImRect bounds, bool vert, bool reversed, bool continuous)
 		{
 			var native_vert = vert ? (byte)1 : (byte)0;
 			var native_reversed = reversed ? (byte)1 : (byte)0;
 			var native_continuous = continuous ? (byte)1 : (byte)0;
-			fixed (uint* nativeColors = &colors)
+			fixed (uint* nativeColors = colors)
 			{
 				ImPlotNative.RenderColorBar(nativeColors, size, drawList, bounds, native_vert, native_reversed, native_continuous);
 			}
@@ -15135,9 +15135,9 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void CalculateBinsFloatPtr(ref float values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
+		public static void CalculateBinsFloatPtr(float[] values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
 		{
-			fixed (float* nativeValues = &values)
+			fixed (float* nativeValues = values)
 			fixed (int* nativeBinsOut = &binsOut)
 			fixed (double* nativeWidthOut = &widthOut)
 			{
@@ -15145,9 +15145,9 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void CalculateBinsDoublePtr(ref double values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
+		public static void CalculateBinsDoublePtr(double[] values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
 		{
-			fixed (double* nativeValues = &values)
+			fixed (double* nativeValues = values)
 			fixed (int* nativeBinsOut = &binsOut)
 			fixed (double* nativeWidthOut = &widthOut)
 			{
@@ -15155,9 +15155,9 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void CalculateBinsS8Ptr(ref sbyte values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
+		public static void CalculateBinsS8Ptr(sbyte[] values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
 		{
-			fixed (sbyte* nativeValues = &values)
+			fixed (sbyte* nativeValues = values)
 			fixed (int* nativeBinsOut = &binsOut)
 			fixed (double* nativeWidthOut = &widthOut)
 			{
@@ -15165,9 +15165,9 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void CalculateBinsU8Ptr(ref byte values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
+		public static void CalculateBinsU8Ptr(byte[] values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
 		{
-			fixed (byte* nativeValues = &values)
+			fixed (byte* nativeValues = values)
 			fixed (int* nativeBinsOut = &binsOut)
 			fixed (double* nativeWidthOut = &widthOut)
 			{
@@ -15175,9 +15175,9 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void CalculateBinsS16Ptr(ref short values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
+		public static void CalculateBinsS16Ptr(short[] values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
 		{
-			fixed (short* nativeValues = &values)
+			fixed (short* nativeValues = values)
 			fixed (int* nativeBinsOut = &binsOut)
 			fixed (double* nativeWidthOut = &widthOut)
 			{
@@ -15185,9 +15185,9 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void CalculateBinsU16Ptr(ref ushort values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
+		public static void CalculateBinsU16Ptr(ushort[] values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
 		{
-			fixed (ushort* nativeValues = &values)
+			fixed (ushort* nativeValues = values)
 			fixed (int* nativeBinsOut = &binsOut)
 			fixed (double* nativeWidthOut = &widthOut)
 			{
@@ -15195,9 +15195,9 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void CalculateBinsS32Ptr(ref int values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
+		public static void CalculateBinsS32Ptr(int[] values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
 		{
-			fixed (int* nativeValues = &values)
+			fixed (int* nativeValues = values)
 			fixed (int* nativeBinsOut = &binsOut)
 			fixed (double* nativeWidthOut = &widthOut)
 			{
@@ -15205,9 +15205,9 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void CalculateBinsU32Ptr(ref uint values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
+		public static void CalculateBinsU32Ptr(uint[] values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
 		{
-			fixed (uint* nativeValues = &values)
+			fixed (uint* nativeValues = values)
 			fixed (int* nativeBinsOut = &binsOut)
 			fixed (double* nativeWidthOut = &widthOut)
 			{
@@ -15215,9 +15215,9 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void CalculateBinsS64Ptr(ref long values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
+		public static void CalculateBinsS64Ptr(long[] values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
 		{
-			fixed (long* nativeValues = &values)
+			fixed (long* nativeValues = values)
 			fixed (int* nativeBinsOut = &binsOut)
 			fixed (double* nativeWidthOut = &widthOut)
 			{
@@ -15225,9 +15225,9 @@ namespace SharpImPlot
 			}
 		}
 
-		public static void CalculateBinsU64Ptr(ref ulong values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
+		public static void CalculateBinsU64Ptr(ulong[] values, int count, ImPlotBin meth, ImPlotRange range, out int binsOut, out double widthOut)
 		{
-			fixed (ulong* nativeValues = &values)
+			fixed (ulong* nativeValues = values)
 			fixed (int* nativeBinsOut = &binsOut)
 			fixed (double* nativeWidthOut = &widthOut)
 			{

@@ -201,6 +201,12 @@ namespace SharpImGui
         {
             return new string(data);
         }
+        
+        // [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        // public static ReadOnlySpan<char> DecodeStringUTF8(ReadOnlySpan<byte> data)
+        // {
+        //     return DecodeStringUTF8(data);
+        // }
 
         public static int CStringLength(ReadOnlySpan<char> span)
         {

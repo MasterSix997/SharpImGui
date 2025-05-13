@@ -249,6 +249,22 @@ public struct VoidPtrMarshal : ICSharpMarshalling
         info = default;
         if (parameter.Type is not CsPointerType { OriginalType: CsPrimitiveType { Kind: CsPrimitiveKind.Void } })
             return false;
+
+        if (parameter.Metadata is CppParameter { Type: CppPointerType { ElementType: CppTypedef typedef}})
+        {
+            parameter.Type = new CsKeywordType(new CsUnresolvedType(typedef.Name), CsKeywordType.CsKeyword.Out);
+            var nativeParameter = CleanupNamesProcessor.ToCamelCase($"native_{parameter.Name}");
+            info.BeforeCallWriter = writer =>
+            {
+                writer.WriteLine($"void* {nativeParameter};");
+            };
+            info.AfterCallWriter = writer =>
+            {
+                writer.WriteLine($"{parameter.Name} = Marshal.GetDelegateForFunctionPointer<{typedef.Name}>((IntPtr){nativeParameter});");
+            };
+            info.OverrideCallName = $"&{nativeParameter}";
+            return true;
+        }
         
         parameter.Type = generated.GetCsType("IntPtr")!;
         info.BeforeParameter = "(void*)";

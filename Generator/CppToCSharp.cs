@@ -688,6 +688,12 @@ public class CppToCSharp
             unresolvedType.Name = string.Concat(unresolvedType, "_UNRESOLVED");
             return;
         }
+        // else if (csArg.Metadata is CppParameter { Type: CppPointerType { ElementType: CppFunctionType } })
+        else if (argType is CsPointerType { OriginalType: CsDelegate } )
+        {
+            csArg.Type = CSharpGenerated.GetCsType("void*");
+            return;
+        }
         csArg.Type = argType;
     }
 

@@ -1,5 +1,5 @@
 using System;
-using UnityEngine;
+using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -20857,13 +20857,15 @@ namespace SharpImGui
 			ImGuiNative.SetAllocatorFunctions(allocFunc, freeFunc, userData);
 		}
 
-		public static void GetAllocatorFunctions(ref ImGuiMemAllocFunc pAllocFunc, ref ImGuiMemFreeFunc pFreeFunc, ref void* pUserData)
+		public static void GetAllocatorFunctions(out ImGuiMemAllocFunc pAllocFunc, out ImGuiMemFreeFunc pFreeFunc, ref void* pUserData)
 		{
-			fixed (ImGuiMemAllocFunc* nativePAllocFunc = &pAllocFunc)
-			fixed (ImGuiMemFreeFunc* nativePFreeFunc = &pFreeFunc)
+			void* nativePAllocFunc;
+			void* nativePFreeFunc;
 			fixed (void** nativePUserData = &pUserData)
 			{
-				ImGuiNative.GetAllocatorFunctions(nativePAllocFunc, nativePFreeFunc, nativePUserData);
+				ImGuiNative.GetAllocatorFunctions(&nativePAllocFunc, &nativePFreeFunc, nativePUserData);
+				pAllocFunc = Marshal.GetDelegateForFunctionPointer<ImGuiMemAllocFunc>((IntPtr)nativePAllocFunc);
+				pFreeFunc = Marshal.GetDelegateForFunctionPointer<ImGuiMemFreeFunc>((IntPtr)nativePFreeFunc);
 			}
 		}
 

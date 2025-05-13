@@ -1,5 +1,5 @@
 using System;
-using UnityEngine;
+using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -3121,7 +3121,7 @@ namespace SharpImGui
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static void GetAllocatorFunctions(ImGuiMemAllocFunc* pAllocFunc, ImGuiMemFreeFunc* pFreeFunc, void** pUserData)
+		public static void GetAllocatorFunctions(void* pAllocFunc, void* pFreeFunc, void** pUserData)
 		{
 			((delegate* unmanaged[Cdecl]<IntPtr, IntPtr, IntPtr, void>)FuncTable[399])((IntPtr)pAllocFunc, (IntPtr)pFreeFunc, (IntPtr)pUserData);
 		}

@@ -6,7 +6,7 @@ namespace Generator;
 
 class Program
 {
-    private const string NUMERICS_USING = "System.Numerics";//"UnityEngine";
+    private const string NUMERICS_USING = "UnityEngine";
     static void Main(string[] args)
     {
         GenerateImGui();

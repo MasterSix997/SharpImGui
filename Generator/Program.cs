@@ -7,13 +7,14 @@ namespace Generator;
 class Program
 {
     private const string NUMERICS_USING = "UnityEngine";
+    // private const string NUMERICS_USING = "System.Numerics";
     static void Main(string[] args)
     {
         GenerateImGui();
-        GenerateImPlot();
-        GenerateImPlot3D();
-        GenerateImGuizmo();
-        GenerateImNodes();
+        // GenerateImPlot();
+        // GenerateImPlot3D();
+        // GenerateImGuizmo();
+        // GenerateImNodes();
     }
 
 
@@ -151,7 +152,8 @@ class Program
         yield return new NativeDefinitionsProcessor();
         yield return new CommentsProcessor();
         yield return new EnumsProcessor();
-        yield return new StaticVTableProcessor();
+        // yield return new StaticVTableProcessor();
+        yield return new DllImportProcessor();
         yield return new FileSeparatorProcessor();
         yield return new CleanupNamesProcessor();
         yield return new StructPtrProcessor();

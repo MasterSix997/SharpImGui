@@ -9,7 +9,7 @@ public class CsValue : CsElement
     /// A default C# value.
     /// </summary>
     /// <param name="value"></param>
-    public CsValue(object value)
+    public CsValue(string value)
     {
         Value = value ?? throw new ArgumentNullException(nameof(value));
     }
@@ -17,8 +17,8 @@ public class CsValue : CsElement
     /// <summary>
     /// Gets the default value.
     /// </summary>
-    public object Value { get; set; }
+    public string Value { get; set; }
 
     /// <inheritdoc />
-    public override string ToString() => Value.ToString();
+    public override string ToString() => Value;
 }

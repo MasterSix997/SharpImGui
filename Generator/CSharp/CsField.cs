@@ -90,6 +90,7 @@
         /// </summary>
         public bool IsBitField { get; set; }
         public bool IsStatic { get; set; }
+        public bool IsConst { get; set; }
 
         /// <summary>
         /// Gets or sets the width of the bit field in bits. Valid only if <see cref="IsBitField"/> is <c>true</c>.
@@ -125,6 +126,9 @@
             if (Visibility != CsVisibility.Default)
                 writer.Write(Visibility.ToString().ToLowerInvariant()).Write(' ');
 
+            if (IsConst)
+                writer.Write("const ");
+            
             if (IsStatic)
                 writer.Write("static ");
             

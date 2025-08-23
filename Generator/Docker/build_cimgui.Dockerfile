@@ -1,7 +1,7 @@
 FROM alpine AS sources
 WORKDIR /cimgui
 RUN apk update && apk add --no-cache git build-base
-RUN git clone --depth 1 --recursive https://github.com/cimgui/cimgui.git .
+RUN git clone --branch 1.91.9dock --depth 1 --recursive https://github.com/cimgui/cimgui.git .
 RUN git submodule update --init --recursive
 
 FROM alpine AS generator
